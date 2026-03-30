@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropIQ — Ads v2</title>
+<title>PropIQ — Ads v2 (Light)</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -15,39 +15,48 @@
   --red:#c0392b;--red-l:#fdf0f0;
   --teal:#0e7490;--teal-l:#e0f7fa;
   --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
-  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+  --bg:#f5f3ed;--surface:#faf8f3;--border:#e2dfd8;--border2:#d1cfc9;
 }
-body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body{
+  font-family:'Epilogue',sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,#f5f3ed 0%,#efeae0 50%,#f5f3ed 100%);
+  position:relative;font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden
+}
+body::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0
+}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* TOP BAR */
-.tb{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0;position:relative;z-index:1}
 .tb-logo{font-family:'Playfair Display',serif;font-size:1.1rem;padding:0 .9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0}
 .tb-logo span{color:var(--green)}
 .tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%;padding:0 .5rem}
 .tb-mods::-webkit-scrollbar{display:none}
 .tbt{display:flex;align-items:center;padding:0 .65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
-.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt:hover{color:var(--ink);background:rgba(0,0,0,.02)}
 .tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
 .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 .tb-r{display:flex;align-items:center;gap:8px;padding:0 .85rem;border-left:1px solid var(--border);flex-shrink:0}
 .tb-ava{width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer}
 
 /* APP */
-.app{display:flex;flex:1;overflow:hidden}
+.app{display:flex;flex:1;overflow:hidden;position:relative;z-index:1}
 
 /* SIDEBAR */
-.sb{width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb{width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:var(--border2)}
 .sb-hd{padding:.85rem 1rem .3rem;font-size:11.5px;font-weight:500;display:flex;align-items:center;justify-content:space-between}
 .sb-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500}
 .sb-sec{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);padding:.65rem 1rem .3rem;font-weight:500}
 .ni{display:flex;align-items:center;gap:8px;padding:.4rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all .1s;position:relative;border-left:2.5px solid transparent}
-.ni:hover{background:var(--bg);color:var(--ink)}
+.ni:hover{background:rgba(0,0,0,.02);color:var(--ink)}
 .ni.on{background:var(--green-l);color:var(--green);font-weight:500;border-left-color:var(--green)}
 .ni-ico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
 .ni-b{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
-.nb-g{background:var(--green-l);color:var(--green)}.nb-r{background:var(--red-l);color:var(--red)}.nb-a{background:var(--amber-l);color:var(--amber)}.nb-gy{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.nb-g{background:var(--green-l);color:var(--green)}.nb-r{background:var(--red-l);color:var(--red)}.nb-a{background:var(--amber-l);color:var(--amber)}.nb-gy{background:rgba(0,0,0,.04);color:var(--faint);border:1px solid var(--border)}
 .sb-foot{margin-top:auto;padding:.75rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
 .sf-ava{width:26px;height:26px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
 
@@ -55,7 +64,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
 
 /* SUB BAR */
-.sub{display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;height:38px}
+.sub{display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;height:38px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .st{display:flex;align-items:center;gap:5px;padding:0 .65rem;font-size:12px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
 .st:hover{color:var(--ink)}.st.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
 .sub-r{margin-left:auto;display:flex;align-items:center;gap:8px}
@@ -75,7 +84,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .tlb{padding:.65rem 1.25rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pg-title{font-family:'Playfair Display',serif;font-size:1.2rem}
 .btn{padding:5px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all .12s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
-.btn:hover{background:var(--bg);color:var(--ink)}
+.btn:hover{background:rgba(0,0,0,.04);color:var(--ink)}
 .btn-g{background:var(--green);color:#fff;border-color:var(--green)}.btn-g:hover{background:#156445}
 .btn-b{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
 .btn-r{background:var(--red-l);color:var(--red);border-color:var(--red-l)}
@@ -93,24 +102,24 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .g{color:var(--green)}.a{color:var(--amber)}.r{color:var(--red)}.neu{color:var(--faint)}
 
 /* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem;box-shadow:0 2px 6px rgba(0,0,0,.06)}
 .ch{padding:.7rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .ch-title{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--faint);font-weight:500}
 .ch-link{font-size:11.5px;color:var(--green);cursor:pointer}
 
 /* TABLE */
 .t{width:100%;border-collapse:collapse}
-.t th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);padding:.42rem .75rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg);text-align:left;white-space:nowrap}
+.t th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);padding:.42rem .75rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:rgba(0,0,0,.02);text-align:left;white-space:nowrap}
 .t th:last-child{border-right:none}
 .t td{padding:.5rem .75rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:12px;vertical-align:middle}
 .t td:last-child{border-right:none}
-.t tr:hover td{background:var(--bg);cursor:pointer}
+.t tr:hover td{background:rgba(0,0,0,.01);cursor:pointer}
 
 /* STATUS / SCALE */
 .cs{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
-.cs-on{background:var(--green-l);color:var(--green)}.cs-off{background:var(--bg);color:var(--faint);border:1px solid var(--border)}.cs-low{background:var(--red-l);color:var(--red)}
+.cs-on{background:var(--green-l);color:var(--green)}.cs-off{background:rgba(0,0,0,.04);color:var(--faint);border:1px solid var(--border)}.cs-low{background:var(--red-l);color:var(--red)}
 .sb-up{background:var(--green-l);color:var(--green);font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
-.sb-hold{background:var(--bg);color:var(--faint);border:1px solid var(--border);font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
+.sb-hold{background:rgba(0,0,0,.04);color:var(--faint);border:1px solid var(--border);font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
 .sb-dn{background:var(--red-l);color:var(--red);font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
 
 /* PLATFORM BADGES */
@@ -118,7 +127,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .pg-g{background:#EA4335;color:#fff}.pg-m{background:#1877F2;color:#fff}.pg-ig{background:linear-gradient(135deg,#833ab4,#e1306c);color:#fff}.pg-yt{background:#FF0000;color:#fff}
 
 /* DETAIL ROW */
-.det-row{display:none;background:var(--bg)}
+.det-row{display:none;background:rgba(0,0,0,.01)}
 .det-row.on{display:table-row}
 .det-inner{padding:1rem;border-top:1px solid var(--border)}
 .det-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:.75rem}
@@ -130,7 +139,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .plain-box strong{color:var(--ink);font-weight:500}
 .det-acts{display:flex;gap:5px;flex-wrap:wrap}
 .da{padding:5px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--border2);background:var(--surface);color:var(--muted);transition:all .12s}
-.da:hover{background:var(--bg);color:var(--ink)}
+.da:hover{background:rgba(0,0,0,.04);color:var(--ink)}
 .da-g{background:var(--green);color:#fff;border-color:var(--green)}
 .da-b{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
 .da-r{background:var(--red-l);color:var(--red);border-color:var(--red-l)}
@@ -175,10 +184,10 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .rp-fill{height:100%;border-radius:3px}
 
 /* TEMPLATE CARD */
-.tmpl-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .15s}
-.tmpl-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.tmpl-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .15s;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+.tmpl-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
 .tmpl-card.sel{border-color:var(--green);box-shadow:0 0 0 2px var(--green-l)}
-.tc-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;background:var(--bg)}
+.tc-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;background:rgba(0,0,0,.02)}
 .tc-fmt{position:absolute;top:7px;left:7px;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;color:#fff}
 .tc-plats{position:absolute;top:7px;right:7px;display:flex;gap:3px}
 .tc-body{padding:.65rem}
@@ -202,6 +211,76 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .call-row{display:flex;align-items:center;gap:10px;padding:.6rem 1rem;border-bottom:1px solid var(--border);font-size:12px}
 .call-row:last-child{border-bottom:none}
 .call-num{font-weight:500;font-family:'Playfair Display',serif;font-size:1.05rem}
+
+/* NEW: BUDGET MONITOR */
+.bm-header{padding:.7rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.bm-header-title{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--faint);font-weight:500}
+.bm-body{padding:1rem}
+.bm-section{margin-bottom:1.2rem}
+.bm-section:last-child{margin-bottom:0}
+.bm-label{font-size:11px;color:var(--muted);margin-bottom:.4rem}
+.bm-values{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem}
+.bm-primary{font-size:1.1rem;font-weight:600;font-family:'Playfair Display',serif;color:var(--ink)}
+.bm-secondary{font-size:10.5px;color:var(--faint)}
+.bm-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:.35rem}
+.bm-bar.danger .bm-fill{background:#c0392b}
+.bm-bar.warning .bm-fill{background:var(--amber)}
+.bm-bar.healthy .bm-fill{background:var(--green)}
+.bm-fill{height:100%;border-radius:3px;transition:width .3s ease}
+.bm-pct{font-size:10px;color:var(--faint);margin-bottom:.8rem}
+.bm-toggle{display:flex;align-items:center;gap:8px;padding:.5rem;background:rgba(0,0,0,.02);border-radius:5px;border:1px solid var(--border)}
+.bm-toggle-label{font-size:11px;color:var(--muted);flex:1}
+.toggle-switch{width:32px;height:18px;border-radius:9px;background:var(--border2);position:relative;cursor:pointer;transition:background .2s}
+.toggle-switch.on{background:var(--green)}
+.toggle-switch::after{content:'';position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.toggle-switch.on::after{left:17px}
+
+/* NEW: ALERT LIST */
+.alert-list{display:flex;flex-direction:column;gap:.5rem}
+.alert-item{display:flex;gap:8px;padding:.6rem;background:rgba(0,0,0,.02);border-radius:5px;border-left:3px solid var(--amber)}
+.alert-item.success{border-left-color:var(--green);background:rgba(26,122,86,.04)}
+.alert-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.alert-text{font-size:11px;color:var(--ink);line-height:1.4}
+
+/* NEW: CREATIVE PERFORMANCE */
+.cp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:.85rem}
+.cp-card{background:var(--surface);border:2px solid var(--border);border-radius:8px;overflow:hidden;transition:all .2s;position:relative}
+.cp-card.best{border-color:var(--green);box-shadow:0 0 0 1px var(--green),0 4px 12px rgba(26,122,86,.15)}
+.cp-thumb{height:80px;background:linear-gradient(135deg,#e8f5ef,#d4e9d8);display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative}
+.cp-best-badge{position:absolute;top:4px;right:4px;background:var(--green);color:#fff;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600}
+.cp-body{padding:.65rem}
+.cp-name{font-size:11px;font-weight:500;margin-bottom:.4rem}
+.cp-metric{display:flex;justify-content:space-between;font-size:10px;color:var(--faint);margin-bottom:3px}
+.cp-metric-val{font-weight:500;color:var(--ink)}
+.cp-actions{display:flex;gap:4px;margin-top:.5rem}
+.cp-btn{flex:1;padding:4px 6px;font-size:9px;border-radius:3px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .1s}
+.cp-btn:hover{background:rgba(0,0,0,.04);color:var(--ink)}
+
+/* NEW: FUNNEL SECTION */
+.funnel-wrap{display:flex;flex-direction:column;gap:.85rem;margin-bottom:.85rem}
+.funnel-stages{display:flex;align-items:stretch;gap:0;height:120px;margin-bottom:.85rem}
+.fs-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem .5rem;position:relative;flex:1;background:linear-gradient(135deg,rgba(26,122,86,.08),rgba(26,122,86,.04));border-right:1px solid var(--border);font-size:11px;text-align:center}
+.fs-stage:last-child{border-right:none;background:linear-gradient(135deg,rgba(26,122,86,.12),rgba(26,122,86,.08))}
+.fs-num{font-size:1rem;font-weight:600;font-family:'Playfair Display',serif;color:var(--ink);margin-bottom:.25rem}
+.fs-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.fs-arrow{position:absolute;right:-5px;top:50%;transform:translateY(-50%);color:var(--border);font-size:12px}
+.fs-stage:last-child .fs-arrow{display:none}
+.fs-rate{font-size:9px;color:var(--amber);font-weight:500;margin-top:.35rem;position:absolute;bottom:4px}
+
+/* NEW: CREATIVE FATIGUE */
+.cf-item{display:flex;flex-direction:column;gap:.4rem;padding:.75rem;background:rgba(0,0,0,.02);border-radius:5px;border-left:3px solid var(--amber);margin-bottom:.5rem}
+.cf-item.healthy{border-left-color:var(--green);background:rgba(26,122,86,.04)}
+.cf-name{font-size:11.5px;font-weight:500;color:var(--ink)}
+.cf-stat{font-size:10px;color:var(--faint);line-height:1.3}
+.cf-status{font-size:9px;padding:2px 6px;border-radius:3px;background:var(--amber-l);color:var(--amber);font-weight:500;display:inline-block;margin-top:.3rem}
+.cf-status.healthy{background:var(--green-l);color:var(--green)}
+
+/* NEW: SEASONAL INSIGHT */
+.seasonal-card{background:linear-gradient(135deg,#faeeda 0%,#faf8f3 100%);border:1px solid var(--amber-l);border-radius:8px;padding:.85rem;margin-bottom:.85rem;position:relative}
+.seasonal-icon{font-size:2rem;position:absolute;top:.5rem;right:.85rem;opacity:.3}
+.seasonal-title{font-size:11px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem}
+.seasonal-text{font-size:11.5px;color:var(--ink);line-height:1.5;margin-bottom:.5rem}
+.seasonal-btn{padding:5px 10px;background:var(--amber);color:#fff;border:none;border-radius:4px;font-size:10px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500}
 </style>
 </head>
 <body>
@@ -298,102 +377,310 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
       <div class="sc"><div class="sc-l">Active campaigns</div><div class="sc-v">5</div><div class="sc-s neu">3 scaling rec.</div></div>
     </div>
     <div class="ss simple-only" style="display:none;grid-template-columns:repeat(4,1fr)">
-      <div class="sc"><div class="sc-l">Money spent this month</div><div class="sc-v">$2,840</div></div>
-      <div class="sc"><div class="sc-l">Leads from ads</div><div class="sc-v">18</div><div class="sc-s g">6 more than last month</div></div>
-      <div class="sc"><div class="sc-l">What each lead cost</div><div class="sc-v">$157</div><div class="sc-s g">↓ Improving</div></div>
-      <div class="sc"><div class="sc-l">Best ad</div><div class="sc-v" style="font-size:.95rem">Is EPA Safe?</div><div class="sc-s g">$97/lead</div></div>
+      <div class="sc"><div class="sc-l">Spend</div><div class="sc-v">$2,840</div><div class="sc-s">This month</div></div>
+      <div class="sc"><div class="sc-l">Leads</div><div class="sc-v">18</div><div class="sc-s g">↑ 6 new</div></div>
+      <div class="sc"><div class="sc-l">Cost/Lead</div><div class="sc-v">$157</div><div class="sc-s g">↓ Better</div></div>
+      <div class="sc"><div class="sc-l">Active</div><div class="sc-v">5</div><div class="sc-s neu">Campaigns</div></div>
     </div>
     <div class="ca">
-      <!-- PLATFORM CONNECTIONS -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:1rem">
-        <div style="background:var(--surface);border:1px solid var(--green);border-radius:7px;padding:.65rem 1rem;display:flex;align-items:center;gap:8px">
-          <div style="width:30px;height:30px;border-radius:6px;background:#EA4335;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:16px;flex-shrink:0">G</div>
-          <div style="flex:1"><div style="font-size:12px;font-weight:500">Google Ads</div><div style="font-size:10.5px;color:var(--green)">● Connected</div></div>
-          <button class="btn" style="font-size:10px;padding:2px 7px">Open ↗</button>
-        </div>
-        <div style="background:var(--surface);border:1px solid var(--green);border-radius:7px;padding:.65rem 1rem;display:flex;align-items:center;gap:8px">
-          <div style="width:30px;height:30px;border-radius:6px;background:#1877F2;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:18px;flex-shrink:0">f</div>
-          <div style="flex:1"><div style="font-size:12px;font-weight:500">Meta / Facebook</div><div style="font-size:10.5px;color:var(--green)">● Connected</div></div>
-          <button class="btn" style="font-size:10px;padding:2px 7px">Open ↗</button>
-        </div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.65rem 1rem;display:flex;align-items:center;gap:8px">
-          <div style="width:30px;height:30px;border-radius:6px;background:linear-gradient(135deg,#833ab4,#e1306c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0">📷</div>
-          <div style="flex:1"><div style="font-size:12px;font-weight:500">Instagram</div><div style="font-size:10.5px;color:var(--amber)">⚠ Ad pending</div></div>
-          <button class="btn" style="font-size:10px;padding:2px 7px">Open ↗</button>
-        </div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.65rem 1rem;display:flex;align-items:center;gap:8px;cursor:pointer">
-          <div style="width:30px;height:30px;border-radius:6px;background:#FF0000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0">▶</div>
-          <div style="flex:1"><div style="font-size:12px;font-weight:500">YouTube Ads</div><div style="font-size:10.5px;color:var(--faint)">Not connected</div></div>
-          <button class="btn btn-g" style="font-size:10px;padding:2px 7px">Connect</button>
-        </div>
-      </div>
-
-      <!-- AI BANNER -->
-      <div style="background:var(--green-l);border:1px solid var(--green);border-radius:7px;padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:10px">
-        <div style="font-size:1rem;flex-shrink:0">💡</div>
-        <div style="flex:1;font-size:12px;line-height:1.6"><strong>3 AI recommendations this week:</strong> Scale "Is EPA Safe?" from $22→$40/day (best performer at $97/lead). Pause EPA Market Update (losing money at $280/lead). Launch "Is East Palo Alto Safe?" article as ad — creative is ready, est. 6–10 new buyer leads/month.</div>
-        <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
-          <button class="btn btn-g" style="font-size:11px;padding:4px 10px" onclick="alert('All 3 changes pushed to Google + Meta APIs')">Apply All 3 →</button>
-          <button class="btn" style="font-size:11px;padding:4px 10px">Review each</button>
-        </div>
-      </div>
-
-      <!-- CAMPAIGN TABLE -->
+      <!-- BUDGET MONITOR CARD -->
       <div class="card">
-        <div class="ch"><div class="ch-title">Active Campaigns — click row to expand</div><div class="ch-link" onclick="sv('campaigns')">View all 8 →</div></div>
+        <div class="bm-header">
+          <div class="bm-header-title">Budget Monitor</div>
+          <span style="font-size:9px;color:var(--green);font-weight:500">Healthy</span>
+        </div>
+        <div class="bm-body">
+          <div class="bm-section">
+            <div class="bm-label">Daily Budget</div>
+            <div class="bm-values">
+              <div><div class="bm-primary">$150</div><span style="font-size:9px;color:var(--faint)">/day</span></div>
+              <div><div class="bm-primary">$87</div><span style="font-size:9px;color:var(--faint)">spent today</span></div>
+            </div>
+            <div class="bm-bar healthy">
+              <div class="bm-fill" style="width:58%"></div>
+            </div>
+            <div class="bm-pct" style="text-align:right">58% of daily budget</div>
+          </div>
+          <div class="bm-section">
+            <div class="bm-label">Monthly Cap</div>
+            <div class="bm-values">
+              <div><div class="bm-primary">$4,500</div><span style="font-size:9px;color:var(--faint)">/month</span></div>
+              <div><div class="bm-primary">$2,890</div><span style="font-size:9px;color:var(--faint)">spent</span></div>
+            </div>
+            <div class="bm-bar warning">
+              <div class="bm-fill" style="width:64%"></div>
+            </div>
+            <div class="bm-pct" style="text-align:right">64% of monthly budget</div>
+          </div>
+          <div class="bm-section" style="border-top:1px solid var(--border);padding-top:1rem;margin-top:1rem">
+            <div class="bm-toggle">
+              <div class="bm-toggle-label">Alert me at 80% of daily budget</div>
+              <div class="toggle-switch on" onclick="toggleSwitch(this)"></div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:500;margin-bottom:.6rem">Active Alerts</div>
+            <div class="alert-list">
+              <div class="alert-item">
+                <div class="alert-icon">⚠</div>
+                <div class="alert-text"><strong>EPA Buyer</strong> campaign hit 90% of daily budget at 2:45 PM</div>
+              </div>
+              <div class="alert-item success">
+                <div class="alert-icon">✓</div>
+                <div class="alert-text"><strong>Redwood City</strong> campaign within budget — 52% spent</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUNNEL SECTION -->
+      <div class="card">
+        <div class="ch">
+          <div class="ch-title">Ad → Lead → Pipeline → Close</div>
+        </div>
+        <div style="padding:1rem 1.25rem">
+          <div class="funnel-stages">
+            <div class="fs-stage">
+              <div class="fs-num">45.2K</div>
+              <div class="fs-label">Impressions</div>
+              <div class="fs-arrow">→</div>
+            </div>
+            <div class="fs-stage">
+              <div class="fs-num">1,820</div>
+              <div class="fs-label">Clicks</div>
+              <div class="fs-rate">4.0%</div>
+              <div class="fs-arrow">→</div>
+            </div>
+            <div class="fs-stage">
+              <div class="fs-num">86</div>
+              <div class="fs-label">Leads</div>
+              <div class="fs-rate">4.7%</div>
+              <div class="fs-arrow">→</div>
+            </div>
+            <div class="fs-stage">
+              <div class="fs-num">34</div>
+              <div class="fs-label">Pipeline</div>
+              <div class="fs-rate">39.5%</div>
+              <div class="fs-arrow">→</div>
+            </div>
+            <div class="fs-stage">
+              <div class="fs-num">3</div>
+              <div class="fs-label">Under Contract</div>
+              <div class="fs-rate">8.8%</div>
+              <div class="fs-arrow">→</div>
+            </div>
+            <div class="fs-stage">
+              <div class="fs-num">1</div>
+              <div class="fs-label">Closed</div>
+              <div class="fs-rate">33.3%</div>
+            </div>
+          </div>
+          <div style="background:rgba(192,57,43,.05);border:1px solid var(--red-l);border-radius:5px;padding:.6rem;margin-top:.85rem">
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--red);font-weight:600;margin-bottom:.3rem">Biggest Opportunity</div>
+            <div style="font-size:11.5px;color:var(--ink);line-height:1.5"><strong>86 leads → 34 pipeline</strong> — Only 39.5% qualify. Improve lead quality with better targeting or lead scoring to boost pipeline velocity.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATIVE PERFORMANCE CARD -->
+      <div class="card">
+        <div class="ch">
+          <div class="ch-title">Creative Performance</div>
+          <div style="display:flex;gap:5px">
+            <span class="ch-link" onclick="refreshCreative()" style="font-size:10px;cursor:pointer">🔄 Refresh</span>
+          </div>
+        </div>
+        <div style="padding:1rem">
+          <div class="cp-grid">
+            <div class="cp-card">
+              <div class="cp-thumb">🏠</div>
+              <div class="cp-body">
+                <div class="cp-name">Creative A</div>
+                <div class="cp-metric">
+                  <span>CTR</span>
+                  <span class="cp-metric-val">3.8%</span>
+                </div>
+                <div class="cp-metric">
+                  <span>Leads</span>
+                  <span class="cp-metric-val">12</span>
+                </div>
+                <div class="cp-metric">
+                  <span>CPL</span>
+                  <span class="cp-metric-val">$18</span>
+                </div>
+                <div class="cp-actions">
+                  <button class="cp-btn" onclick="cloneCreative('A')">Clone</button>
+                </div>
+              </div>
+            </div>
+            <div class="cp-card">
+              <div class="cp-thumb">🍳</div>
+              <div class="cp-body">
+                <div class="cp-name">Creative B</div>
+                <div class="cp-metric">
+                  <span>CTR</span>
+                  <span class="cp-metric-val">2.1%</span>
+                </div>
+                <div class="cp-metric">
+                  <span>Leads</span>
+                  <span class="cp-metric-val">6</span>
+                </div>
+                <div class="cp-metric">
+                  <span>CPL</span>
+                  <span class="cp-metric-val">$31</span>
+                </div>
+                <div class="cp-actions">
+                  <button class="cp-btn" onclick="cloneCreative('B')">Clone</button>
+                </div>
+              </div>
+            </div>
+            <div class="cp-card best">
+              <div class="cp-thumb">🏘️<div class="cp-best-badge">Best</div></div>
+              <div class="cp-body">
+                <div class="cp-name">Creative C</div>
+                <div class="cp-metric">
+                  <span>CTR</span>
+                  <span class="cp-metric-val">4.2%</span>
+                </div>
+                <div class="cp-metric">
+                  <span>Leads</span>
+                  <span class="cp-metric-val">15</span>
+                </div>
+                <div class="cp-metric">
+                  <span>CPL</span>
+                  <span class="cp-metric-val">$14</span>
+                </div>
+                <div class="cp-actions">
+                  <button class="cp-btn" style="background:var(--green);color:#fff;border-color:var(--green)" onclick="cloneCreative('C')">Clone ⭐</button>
+                </div>
+              </div>
+            </div>
+            <div class="cp-card">
+              <div class="cp-thumb">👤</div>
+              <div class="cp-body">
+                <div class="cp-name">Creative D</div>
+                <div class="cp-metric">
+                  <span>CTR</span>
+                  <span class="cp-metric-val">1.5%</span>
+                </div>
+                <div class="cp-metric">
+                  <span>Leads</span>
+                  <span class="cp-metric-val">3</span>
+                </div>
+                <div class="cp-metric">
+                  <span>CPL</span>
+                  <span class="cp-metric-val">$42</span>
+                </div>
+                <div class="cp-actions">
+                  <button class="cp-btn" onclick="refreshCreative('D')">Refresh</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATIVE FATIGUE MONITOR -->
+      <div class="card">
+        <div class="ch">
+          <div class="ch-title">Creative Fatigue Monitor</div>
+        </div>
+        <div style="padding:1rem">
+          <div class="cf-item">
+            <div class="cf-name">EPA Safe Neighborhood Ad</div>
+            <div class="cf-stat">
+              Shown to 89% of audience · Frequency 4.2x average<br>
+              <strong>Status:</strong> High fatigue risk
+            </div>
+            <div class="cf-status">⚠ Refresh recommended</div>
+          </div>
+          <div class="cf-item healthy">
+            <div class="cf-name">Redwood City Buyer Ad</div>
+            <div class="cf-stat">
+              Shown to 62% of audience · Frequency 2.1x average<br>
+              <strong>Status:</strong> Healthy rotation
+            </div>
+            <div class="cf-status healthy">✓ Within healthy range</div>
+          </div>
+          <div class="cf-item">
+            <div class="cf-name">Menlo Park Luxury Homes</div>
+            <div class="cf-stat">
+              Shown to 76% of audience · Frequency 3.5x average<br>
+              <strong>Status:</strong> Moderate fatigue
+            </div>
+            <div class="cf-status">⚠ Monitor closely</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEASONAL INSIGHTS -->
+      <div class="seasonal-card">
+        <div class="seasonal-icon">🌱</div>
+        <div class="seasonal-title">Spring Market Insight</div>
+        <div class="seasonal-text">
+          Spring market heating up now. Historically, EPA buyer searches increase <strong>35%</strong> in April. Your current budget captures <strong>62%</strong> of peak season volume.
+        </div>
+        <button class="seasonal-btn" onclick="alert('Budget adjustment workflow would open')">Increase Budget by 20%</button>
+      </div>
+
+      <!-- CAMPAIGNS TABLE (EXISTING) -->
+      <div class="card">
+        <div class="ch"><div class="ch-title">Campaign Summary</div></div>
         <table class="t">
           <thead>
             <tr>
-              <th style="width:28%">Campaign</th>
-              <th>Platform</th>
-              <th>Spend</th>
-              <th class="pro-only">CTR</th>
-              <th>Leads</th>
-              <th>Per Lead</th>
-              <th class="pro-only">ROAS</th>
-              <th>Status</th>
-              <th>AI Rec</th>
-              <th></th>
+              <th>Campaign</th><th>Budget</th><th>Spent</th><th>Leads</th><th>CPL</th><th>Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr onclick="toggleDet('d1',this)"><td><div style="font-weight:500">Is EPA Safe? — Buyer</div><div style="font-size:10px;color:var(--faint)">Google Search · Linked to article</div></td><td><span class="pg pg-g">G</span></td><td>$680</td><td class="pro-only g">2.1%</td><td><strong class="g">7</strong></td><td class="g">$97</td><td class="pro-only g">4.2×</td><td><span class="cs cs-on">Active</span></td><td><span class="sb-up">⬆ Scale</span></td><td style="color:var(--faint);font-size:11px">▶</td></tr>
-            <tr class="det-row" id="d1"><td colspan="10" style="padding:0;border:none"><div class="det-inner">
-              <div class="det-grid"><div class="dc"><div class="dc-l">Daily budget</div><div class="dc-v">$22/day</div></div><div class="dc"><div class="dc-l pro-only">Avg position</div><div class="dc-v pro-only g">#1.8</div><div class="dc-l simple-only">Showing on</div><div class="dc-v simple-only g">Top of Google p.1</div></div><div class="dc"><div class="dc-l">Each click costs</div><div class="dc-v">$9.28</div></div><div class="dc"><div class="dc-l">Leads this month</div><div class="dc-v g">7 buyers</div></div><div class="dc"><div class="dc-l">Top keyword</div><div class="dc-v" style="font-size:11px">is epa safe 2026</div></div></div>
-              <div class="plain-box"><strong>Plain English — why scale up:</strong> Every $97 you spend gets you one interested buyer. Doubling the daily budget from $22 to $40 costs an extra $540/month and is projected to bring 4–6 more leads. One client from this campaign earns back hundreds of months of ad spend.</div>
-              <div class="det-acts"><button class="da da-g" onclick="alert('Budget pushed to Google Ads API — $40/day active')">⬆ Scale to $40/day → Push to Google</button><button class="da da-b" onclick="sv('generator')">Edit Creative</button><button class="da">View in Google ↗</button><button class="da da-r">Pause</button></div>
-            </div></td></tr>
-
-            <tr onclick="toggleDet('d2',this)"><td><div style="font-weight:500">When to Sell EPA — Seller</div><div style="font-size:10px;color:var(--faint)">Google Search · Seller intent</div></td><td><span class="pg pg-g">G</span></td><td>$520</td><td class="pro-only g">1.8%</td><td><strong class="g">5</strong></td><td class="g">$104</td><td class="pro-only g">3.8×</td><td><span class="cs cs-on">Active</span></td><td><span class="sb-up">⬆ Scale</span></td><td style="color:var(--faint);font-size:11px">▶</td></tr>
-            <tr class="det-row" id="d2"><td colspan="10" style="padding:0;border:none"><div class="det-inner">
-              <div class="plain-box"><strong>Your most valuable campaign:</strong> Seller leads are the highest value in real estate. You spent $520 and got 5 people actively thinking about selling. One listing at the average EPA price of $950K earns you approximately $28,500. That's a 5,400% return on a good month.</div>
-              <div class="det-acts"><button class="da da-g" onclick="alert('Budget pushed to Google Ads API')">⬆ Scale to $900/mo → Push to Google</button><button class="da da-b">Edit Creative</button><button class="da da-r">Pause</button></div>
-            </div></td></tr>
-
-            <tr onclick="toggleDet('d3',this)"><td><div style="font-weight:500">EPA Market Update — Awareness</div><div style="font-size:10px;color:var(--faint)">Facebook · Instagram · Social</div></td><td style="display:flex;gap:3px;padding:.5rem .75rem"><span class="pg pg-m">f</span><span class="pg pg-ig">ig</span></td><td>$280</td><td class="pro-only r">0.6%</td><td class="r">1</td><td class="r">$280</td><td class="pro-only r">0.9×</td><td><span class="cs cs-low">Low ROI</span></td><td><span class="sb-dn">⬇ Pause</span></td><td style="color:var(--faint);font-size:11px">▶</td></tr>
-            <tr class="det-row" id="d3"><td colspan="10" style="padding:0;border:none"><div class="det-inner">
-              <div class="plain-box" style="border-color:var(--red);background:var(--red-l)"><strong>This ad is losing money:</strong> You spent $280 and got 1 lead that cost $280. Your other ads get leads for $97–104. The smart move: pause this, move the $280/month to campaigns that work. That reallocation is projected to add 2–3 more leads at no extra cost.</div>
-              <div class="det-acts"><button class="da da-r" onclick="alert('Paused. Budget reallocated to Google campaigns.')">⬇ Pause & Reallocate → Push to Meta</button><button class="da">Redesign</button></div>
-            </div></td></tr>
+            <tr onclick="this.parentNode.nextElementSibling?.classList.toggle('on')">
+              <td><strong>EPA Buyer Ads</strong></td><td>$1,200</td><td>$1,050</td><td>12</td><td>$87</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr onclick="this.parentNode.nextElementSibling?.classList.toggle('on')">
+              <td><strong>Redwood City Homes</strong></td><td>$800</td><td>$680</td><td>4</td><td>$170</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr onclick="this.parentNode.nextElementSibling?.classList.toggle('on')">
+              <td><strong>Menlo Luxury</strong></td><td>$600</td><td>$420</td><td>2</td><td>$210</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr onclick="this.parentNode.nextElementSibling?.classList.toggle('on')">
+              <td><strong>Brand Awareness</strong></td><td>$240</td><td>$200</td><td>—</td><td>—</td><td><span class="cs cs-off">Paused</span></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div class="card">
-          <div class="ch"><div class="ch-title">Recent Ad Leads</div><div class="ch-link" onclick="sv('lifecycle')">Full lifecycle →</div></div>
-          <div>
-            <div style="display:flex;align-items:center;gap:10px;padding:.6rem 1rem;border-bottom:1px solid var(--border);cursor:pointer" onclick="sv('lifecycle')"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0">MR</div><div style="flex:1"><div style="font-weight:500;font-size:12px">Marcus Rivera</div><div style="font-size:10px;color:var(--faint)">Is EPA Safe? · Google · $9 cost</div></div><div style="font-size:9px;background:var(--blue-l);color:var(--blue);padding:2px 6px;border-radius:3px;font-weight:500">Under contract</div></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:.6rem 1rem;border-bottom:1px solid var(--border)"><div style="width:28px;height:28px;border-radius:50%;background:var(--amber-l);color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0">SL</div><div style="flex:1"><div style="font-weight:500;font-size:12px">Sandra Lee</div><div style="font-size:10px;color:var(--faint)">When to Sell · Google · $14 cost</div></div><div style="font-size:9px;background:var(--amber-l);color:var(--amber);padding:2px 6px;border-radius:3px;font-weight:500">Listing appt</div></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:.6rem 1rem"><div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0">JW</div><div style="flex:1"><div style="font-weight:500;font-size:12px">James Wu</div><div style="font-size:10px;color:var(--faint)">ADU Calculator · Google · $8 cost</div></div><div style="font-size:9px;background:var(--green-l);color:var(--green);padding:2px 6px;border-radius:3px;font-weight:500">✓ Closed $720K</div></div>
+      <!-- PLATFORM BREAKDOWN (EXISTING) -->
+      <div class="card">
+        <div class="ch"><div class="ch-title">Platform Breakdown</div></div>
+        <div style="padding:.85rem 1rem">
+          <div style="margin-bottom:.75rem">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="font-weight:500;display:flex;align-items:center;gap:4px"><span style="color:#EA4335;font-weight:700;font-size:14px">G</span>Google</span>
+              <span class="g">12 leads · $2,020</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:71%;height:100%;background:#EA4335;border-radius:3px"></div>
+            </div>
+            <div style="font-size:10px;color:var(--faint);margin-top:2px">$168/lead · Returns $3.10 per $1 spent</div>
           </div>
-        </div>
-        <div class="card">
-          <div class="ch"><div class="ch-title">Platform Breakdown</div></div>
-          <div style="padding:.85rem 1rem">
-            <div style="margin-bottom:.75rem"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500;display:flex;align-items:center;gap:4px"><span style="color:#EA4335;font-weight:700;font-size:14px">G</span>Google</span><span class="g">12 leads · $2,020</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:71%;height:100%;background:#EA4335;border-radius:3px"></div></div><div style="font-size:10px;color:var(--faint);margin-top:2px">$168/lead · Returns $3.10 per $1 spent</div></div>
-            <div style="margin-bottom:.75rem"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500;display:flex;align-items:center;gap:4px"><span style="color:#1877F2;font-weight:700;font-size:14px">f</span>Meta</span><span class="a">4 leads · $580</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:20%;height:100%;background:#1877F2;border-radius:3px"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">📷 Instagram</span><span class="a">2 leads · $240</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:9%;height:100%;background:linear-gradient(90deg,#833ab4,#e1306c);border-radius:3px"></div></div></div>
+          <div style="margin-bottom:.75rem">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="font-weight:500;display:flex;align-items:center;gap:4px"><span style="color:#1877F2;font-weight:700;font-size:14px">f</span>Meta</span>
+              <span class="a">4 leads · $580</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:20%;height:100%;background:#1877F2;border-radius:3px"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="font-weight:500">📷 Instagram</span>
+              <span class="a">2 leads · $240</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:9%;height:100%;background:linear-gradient(90deg,#833ab4,#e1306c);border-radius:3px"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -403,24 +690,54 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   <!-- ══ LEAD LIFECYCLE ══ -->
   <div class="view" id="view-lifecycle">
     <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Lead Lifecycle Tracker</div></div>
-    <div class="ss" style="grid-template-columns:repeat(5,1fr)">
-      <div class="sc"><div class="sc-l">Total ad leads</div><div class="sc-v">18</div></div>
-      <div class="sc"><div class="sc-l">In pipeline</div><div class="sc-v">7</div><div class="sc-s g">Active</div></div>
-      <div class="sc"><div class="sc-l">Closed from ads</div><div class="sc-v">2</div><div class="sc-s g">$1.77M volume</div></div>
-      <div class="sc"><div class="sc-l">Commission from ads</div><div class="sc-v">$44,250</div><div class="sc-s g">vs $2,840 spend</div></div>
-      <div class="sc"><div class="sc-l">Ad ROI</div><div class="sc-v g">15.6×</div><div class="sc-s g">$15.60 back per $1</div></div>
-    </div>
     <div class="ca">
       <div class="card">
-        <div class="ch"><div><div class="ch-title">Marcus Rivera — Full Journey from Ad Click to Deal</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Buyer · $9 total ad spend · Under contract $1.05M · Est. commission: $26,250</div></div><div style="background:var(--green-l);border:1px solid var(--green);border-radius:5px;padding:5px 12px;text-align:center"><div style="font-size:8.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--green)">Total Ad ROI</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--green)">2,916×</div></div></div>
-        <div style="padding:1rem">
-          <div class="lc-item"><div class="lc-dot" style="background:var(--blue-l);color:var(--blue)">🖱</div><div class="lc-body"><div class="lc-title">Clicked Google ad</div><div class="lc-sub">Search: "is east palo alto safe 2026" · Campaign: Is EPA Safe? · Cost: $9.28 · Device: iPhone · 7:42pm</div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 3</div></div>
-          <div class="lc-item"><div class="lc-dot" style="background:var(--purple-l);color:var(--purple)">📄</div><div class="lc-body"><div class="lc-title">Read article for 4 min 12 sec</div><div class="lc-sub">Scrolled to 94% · Read ADU section twice · Did not leave the page</div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 3</div></div>
-          <div class="lc-item"><div class="lc-dot" style="background:var(--green-l);color:var(--green)">📝</div><div class="lc-body"><div class="lc-title">Submitted contact form</div><div class="lc-sub">"Interested in EPA — looking for investment with ADU potential" · Contact auto-created in CRM</div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 3</div></div>
-          <div class="lc-item"><div class="lc-dot" style="background:var(--teal-l);color:var(--teal)">☎</div><div class="lc-body"><div class="lc-title">Called Twilio tracking number · 18 min call</div><div class="lc-sub">Called (650) 555-0900 — Google Buyer tracking number · Call recorded · Lead qualified</div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 5</div></div>
-          <div class="lc-item"><div class="lc-dot" style="background:var(--amber-l);color:var(--amber)">🏠</div><div class="lc-body"><div class="lc-title">Property showings</div><div class="lc-sub">Toured 2047 Runnymede St + 172 Portola Dr · Preferred Portola for lot size and layout</div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 12</div></div>
-          <div class="lc-item"><div class="lc-dot" style="background:var(--green-l);color:var(--green)">✍</div><div class="lc-body"><div class="lc-title">Offer submitted — $1.05M</div><div class="lc-sub">172 Portola Dr · 20% down · Inspection contingency · Written with PropIQ LOI tool</div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 24</div></div>
-          <div class="lc-item"><div class="lc-dot" style="background:var(--green);color:#fff">🎉</div><div class="lc-body"><div class="lc-title" style="color:var(--green)">Under contract — COE April 28</div><div class="lc-sub">$1.05M · Est. commission $26,250 · Total ad cost: $9.28 · <strong style="color:var(--green)">ROI: 2,916×</strong></div></div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">Mar 26</div></div>
+        <div style="padding:1.5rem">
+          <div style="margin-bottom:1.5rem">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:500;margin-bottom:1rem">EPA BUYER LEADS · PAST 30 DAYS</div>
+            <div class="lc-item">
+              <div class="lc-dot" style="background:var(--green-l);color:var(--green)">📲</div>
+              <div class="lc-body">
+                <div class="lc-title">Ad Click</div>
+                <div class="lc-sub">8,240 users clicked EPA buyer ads</div>
+              </div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-dot" style="background:var(--green-l);color:var(--green)">✉</div>
+              <div class="lc-body">
+                <div class="lc-title">Form Submitted</div>
+                <div class="lc-sub">340 users submitted contact form (4.1% conversion)</div>
+              </div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-dot" style="background:var(--blue-l);color:var(--blue)">📧</div>
+              <div class="lc-body">
+                <div class="lc-title">Email Sent</div>
+                <div class="lc-sub">340 welcome emails sent; 216 opened (63%)</div>
+              </div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-dot" style="background:var(--teal-l);color:var(--teal)">☎</div>
+              <div class="lc-body">
+                <div class="lc-title">Call Received</div>
+                <div class="lc-sub">18 qualified calls booked; 8 completed (44%)</div>
+              </div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-dot" style="background:var(--amber-l);color:var(--amber)">📋</div>
+              <div class="lc-body">
+                <div class="lc-title">Showing Scheduled</div>
+                <div class="lc-sub">5 property showings booked from phone calls</div>
+              </div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-dot" style="background:var(--green-l);color:var(--green)">✓</div>
+              <div class="lc-body">
+                <div class="lc-title">Entered Pipeline</div>
+                <div class="lc-sub">3 qualified leads in your CRM pipeline</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -428,363 +745,166 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 
   <!-- ══ CALL TRACKING ══ -->
   <div class="view" id="view-calls">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Call Tracking</div><div style="font-size:11.5px;color:var(--muted);flex:1">Built on Twilio — your own tracking numbers, no CallRail needed · ~$1/mo per number</div><button class="btn btn-g">+ Add Number</button></div>
-    <div class="ss" style="grid-template-columns:repeat(5,1fr)">
-      <div class="sc"><div class="sc-l">Active numbers</div><div class="sc-v">6</div><div class="sc-s neu">1 per campaign</div></div>
-      <div class="sc"><div class="sc-l">Calls this month</div><div class="sc-v">24</div><div class="sc-s g">↑ 8</div></div>
-      <div class="sc"><div class="sc-l">Avg duration</div><div class="sc-v">9m 42s</div><div class="sc-s g">Quality leads</div></div>
-      <div class="sc"><div class="sc-l">Calls → Leads</div><div class="sc-v">12</div><div class="sc-s g">50% conversion</div></div>
-      <div class="sc"><div class="sc-l">Cost per number</div><div class="sc-v">$1/mo</div><div class="sc-s g">Twilio built-in</div></div>
-    </div>
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Call Tracking</div></div>
     <div class="ca">
-      <div style="background:var(--blue-l);border:1px solid var(--blue);border-radius:7px;padding:.75rem 1rem;margin-bottom:1rem;font-size:12px;line-height:1.6">
-        <strong>How PropIQ call tracking works:</strong> Each campaign gets its own phone number. When someone calls, it routes to your real phone and PropIQ logs who called, which campaign they came from, duration, and auto-creates a CRM contact. No CallRail needed — built on Twilio which PropIQ already uses for messaging.
-      </div>
       <div class="card">
-        <div class="ch"><div class="ch-title">Tracking Numbers by Campaign</div></div>
-        <div class="call-row"><div style="min-width:160px"><div class="call-num">(650) 555-0900</div><div style="font-size:10px;color:var(--faint)">Twilio · Active</div></div><div style="flex:1;font-size:12px;color:var(--muted)">Is EPA Safe? — Google Buyer</div><div style="display:flex;gap:12px;font-size:11.5px;margin-right:10px"><div style="text-align:center"><div style="font-weight:600;color:var(--green)">8</div><div style="font-size:9px;color:var(--faint)">CALLS</div></div><div style="text-align:center"><div style="font-weight:600;color:var(--green)">5</div><div style="font-size:9px;color:var(--faint)">LEADS</div></div><div style="text-align:center"><div style="font-weight:600">11m</div><div style="font-size:9px;color:var(--faint)">AVG</div></div></div><button class="btn" style="font-size:10px;padding:2px 7px">View calls</button></div>
-        <div class="call-row"><div style="min-width:160px"><div class="call-num">(650) 555-0901</div><div style="font-size:10px;color:var(--faint)">Twilio · Active</div></div><div style="flex:1;font-size:12px;color:var(--muted)">When to Sell EPA — Google Seller</div><div style="display:flex;gap:12px;font-size:11.5px;margin-right:10px"><div style="text-align:center"><div style="font-weight:600;color:var(--green)">6</div><div style="font-size:9px;color:var(--faint)">CALLS</div></div><div style="text-align:center"><div style="font-weight:600;color:var(--green)">4</div><div style="font-size:9px;color:var(--faint)">LEADS</div></div><div style="text-align:center"><div style="font-weight:600">14m</div><div style="font-size:9px;color:var(--faint)">AVG</div></div></div><button class="btn" style="font-size:10px;padding:2px 7px">View calls</button></div>
-        <div class="call-row"><div style="min-width:160px"><div class="call-num">(650) 555-0902</div><div style="font-size:10px;color:var(--faint)">Twilio · Active</div></div><div style="flex:1;font-size:12px;color:var(--muted)">ADU Calculator — Google Investor</div><div style="display:flex;gap:12px;font-size:11.5px;margin-right:10px"><div style="text-align:center"><div style="font-weight:600;color:var(--green)">4</div><div style="font-size:9px;color:var(--faint)">CALLS</div></div><div style="text-align:center"><div style="font-weight:600;color:var(--green)">2</div><div style="font-size:9px;color:var(--faint)">LEADS</div></div><div style="text-align:center"><div style="font-weight:600">18m</div><div style="font-size:9px;color:var(--faint)">AVG</div></div></div><button class="btn" style="font-size:10px;padding:2px 7px">View calls</button></div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ch-title">Recent Calls</div></div>
         <table class="t">
-          <thead><tr><th>Caller</th><th>Tracking number</th><th>Campaign source</th><th>Duration</th><th>Date / Time</th><th>CRM outcome</th><th>Recording</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Call #</th><th>From</th><th>Duration</th><th>Date</th><th>Qualified</th><th>Notes</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td style="font-weight:500">(650) 555-0142</td><td>(650) 555-0900</td><td>Is EPA Safe? · Google</td><td>18m 2s</td><td>Mar 5 · 9:14am</td><td><span style="font-size:9px;background:var(--green-l);color:var(--green);padding:2px 6px;border-radius:3px">Lead created → Marcus Rivera</span></td><td><button class="btn" style="font-size:10px;padding:2px 7px">🎙 Play</button></td></tr>
-            <tr><td style="font-weight:500">(415) 555-0218</td><td>(650) 555-0901</td><td>When to Sell EPA · Google</td><td>22m 14s</td><td>Mar 7 · 6:04pm</td><td><span style="font-size:9px;background:var(--amber-l);color:var(--amber);padding:2px 6px;border-radius:3px">Listing appt set → Sandra Lee</span></td><td><button class="btn" style="font-size:10px;padding:2px 7px">🎙 Play</button></td></tr>
-            <tr><td style="font-weight:500">(650) 555-0309</td><td>(650) 555-0902</td><td>ADU Calculator · Google</td><td>31m 8s</td><td>Mar 9 · 7:21pm</td><td><span style="font-size:9px;background:var(--green-l);color:var(--green);padding:2px 6px;border-radius:3px">Lead created → James Wu</span></td><td><button class="btn" style="font-size:10px;padding:2px 7px">🎙 Play</button></td></tr>
-            <tr><td style="color:var(--faint)">Unknown</td><td>(650) 555-0900</td><td>Is EPA Safe? · Google</td><td>1m 42s</td><td>Mar 11 · 2:14pm</td><td><span style="font-size:9px;background:var(--bg);color:var(--faint);padding:2px 6px;border-radius:3px;border:1px solid var(--border)">No answer</span></td><td><button class="btn" style="font-size:10px;padding:2px 7px">🎙 Play</button></td></tr>
+            <tr>
+              <td class="call-num">+1 650 xxx-1234</td><td>EPA buyer</td><td>4:32</td><td>Today 2:15p</td><td><span class="cs cs-on">Yes</span></td><td>Wants 3BR in Woodland</td>
+            </tr>
+            <tr>
+              <td class="call-num">+1 650 xxx-5678</td><td>EPA investor</td><td>2:15</td><td>Today 1:45p</td><td><span class="cs cs-on">Yes</span></td><td>Multi-unit interest</td>
+            </tr>
+            <tr>
+              <td class="call-num">+1 650 xxx-9012</td><td>Redwood buyer</td><td>1:44</td><td>Yesterday</td><td><span class="cs cs-off">No</span></td><td>Wrong area code</td>
+            </tr>
+            <tr>
+              <td class="call-num">+1 650 xxx-3456</td><td>EPA buyer</td><td>5:22</td><td>2 days ago</td><td><span class="cs cs-on">Yes</span></td><td>Scheduled showing</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- ══ DAY-PART ANALYSIS ══ -->
-  <div class="view" id="view-daypart">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Day-Part Analysis</div><div style="flex:1;font-size:11.5px;color:var(--muted)">When your leads actually convert — not just when they click</div><button class="btn btn-g" onclick="alert('Day-parting schedule applied to all campaigns')">Apply Recommended Schedule</button></div>
+  <!-- ══ CAMPAIGNS ══ -->
+  <div class="view" id="view-campaigns">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">All Campaigns</div></div>
     <div class="ca">
-      <div style="background:var(--green-l);border:1px solid var(--green);border-radius:7px;padding:.75rem 1rem;margin-bottom:1rem;font-size:12px;line-height:1.6">
-        <strong>Plain English:</strong> Instead of running ads 24/7 (wasting money at 3am), PropIQ finds when your leads actually fill out forms or call. Then it schedules your ads to run only during those windows. Same budget, more leads.
-      </div>
       <div class="card">
-        <div class="ch"><div class="ch-title">Lead Conversion Heatmap — by Day and Hour (90 days)</div><div style="font-size:11px;color:var(--faint)">Darker = more leads converted</div></div>
-        <div style="padding:1rem">
-          <div class="dp-hours" id="dpHours"></div>
-          <div id="dpGrid"></div>
-          <div style="display:flex;align-items:center;gap:12px;margin-top:.75rem;font-size:11px;flex-wrap:wrap">
-            <span style="color:var(--faint)">Conversion rate:</span>
-            <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:2px;background:#e8f5ef;border:1px solid var(--border);display:inline-block"></span>Low</span>
-            <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:2px;background:#a7d9bf;display:inline-block"></span>Medium</span>
-            <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:2px;background:var(--green);display:inline-block"></span>High</span>
-            <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:2px;background:#0f4a34;display:inline-block"></span>Peak</span>
-          </div>
-        </div>
+        <table class="t">
+          <thead>
+            <tr>
+              <th>Campaign</th><th>Market</th><th>Budget</th><th>Spent</th><th>Leads</th><th>CPL</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>EPA Buyer Ads</strong></td><td>EPA</td><td>$1,200</td><td>$1,050</td><td>12</td><td>$87</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr>
+              <td><strong>Redwood City Homes</strong></td><td>Redwood</td><td>$800</td><td>$680</td><td>4</td><td>$170</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr>
+              <td><strong>Menlo Luxury</strong></td><td>Menlo</td><td>$600</td><td>$420</td><td>2</td><td>$210</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr>
+              <td><strong>Brand Awareness</strong></td><td>EPA</td><td>$240</td><td>$200</td><td>—</td><td>—</td><td><span class="cs cs-off">Paused</span></td>
+            </tr>
+            <tr>
+              <td><strong>Seasonal Spring</strong></td><td>Multi</td><td>$500</td><td>$310</td><td>8</td><td>$38</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr>
+              <td><strong>Retargeting</strong></td><td>All</td><td>$360</td><td>$120</td><td>2</td><td>$60</td><td><span class="cs cs-on">Active</span></td>
+            </tr>
+            <tr>
+              <td><strong>Test: Video Ads</strong></td><td>EPA</td><td>$200</td><td>$60</td><td>0</td><td>—</td><td><span class="cs cs-off">Testing</span></td>
+            </tr>
+            <tr>
+              <td><strong>Previous: Winter</strong></td><td>EPA</td><td>$800</td><td>$800</td><td>6</td><td>$133</td><td><span class="cs cs-off">Ended</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div class="card"><div class="ch"><div class="ch-title">AI Recommended Schedule</div></div><div style="padding:.85rem 1rem"><div style="background:var(--green-l);border-radius:6px;padding:.6rem .85rem;margin-bottom:.75rem"><div style="font-size:12px;font-weight:500;color:var(--green);margin-bottom:3px">✓ Run ads during these windows only</div><div style="font-size:11.5px;color:var(--muted)">Weekdays 7–9am, 12–1pm, 6–10pm<br>Weekends 9am–12pm, 7–10pm</div></div><div style="font-size:11.5px;color:var(--muted);line-height:1.65">Turning off ads the remaining 65% of the day saves an estimated <strong style="color:var(--ink)">$480/month</strong> while keeping 90%+ of your leads.</div></div></div>
-        <div class="card"><div class="ch"><div class="ch-title">Worst Performing Hours — Cut These</div></div><div style="padding:.85rem 1rem"><div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--muted)">12am – 5am (all days)</span><span class="r">0 leads in 90 days</span></div><div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--muted)">Saturdays 1pm – 4pm</span><span class="r">0 leads · $180 wasted</span></div><div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--muted)">Tuesdays 2pm – 5pm</span><span class="a">1 lead in 90 days</span></div><div style="display:flex;justify-content:space-between;padding:.4rem 0;font-size:12px"><span style="color:var(--muted)">Sundays 10am – 12pm</span><span class="a">Low quality</span></div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ RETARGETING POOLS ══ -->
-  <div class="view" id="view-retargeting">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Retargeting Pools</div><div style="flex:1;font-size:11.5px;color:var(--muted)">People who've engaged with your brand — 3–5× more likely to convert than cold audiences</div></div>
-    <div class="ca">
-      <div style="background:var(--blue-l);border:1px solid var(--blue);border-radius:7px;padding:.75rem 1rem;margin-bottom:1rem;font-size:12px;line-height:1.6"><strong>Plain English:</strong> Someone read your ADU article but didn't call. They're interested but not ready. Retargeting shows them a follow-up ad that says "Still thinking about it? Here's what you need to know." These ads are cheaper and convert at 3–5× the rate of cold ads.</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div>
-          <div class="rt-pool"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem"><div style="font-size:12.5px;font-weight:500">Article Readers — ADU Content</div><div style="font-size:11px;color:var(--green);font-weight:500">2,840 people</div></div><div class="rp-bar"><div class="rp-fill" style="width:85%;background:var(--green)"></div></div><div style="font-size:11px;color:var(--faint);margin-bottom:.5rem">Visited ADU financing, calculator, SB9 articles · Last 30 days</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.65rem"><span style="font-size:10px;padding:2px 7px;border-radius:3px;background:var(--bg);border:1px solid var(--border);color:var(--muted)">ADU Financing Guide</span><span style="font-size:10px;padding:2px 7px;border-radius:3px;background:var(--bg);border:1px solid var(--border);color:var(--muted)">ADU Cost Article</span></div><div style="display:flex;gap:5px"><button class="btn btn-g" style="font-size:11px;flex:1" onclick="alert('Retargeting campaign created')">Launch Retargeting Ad →</button><button class="btn btn-b" style="font-size:11px">View households</button></div></div>
-          <div class="rt-pool"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem"><div style="font-size:12.5px;font-weight:500">Seller Intent Readers</div><div style="font-size:11px;color:var(--amber);font-weight:500">1,420 people</div></div><div class="rp-bar"><div class="rp-fill" style="width:60%;background:var(--amber)"></div></div><div style="font-size:11px;color:var(--faint);margin-bottom:.65rem">Read "When to Sell EPA", pricing guide, staging content</div><div style="display:flex;gap:5px"><button class="btn btn-g" style="font-size:11px;flex:1">Launch Seller Retargeting →</button><button class="btn btn-b" style="font-size:11px">View</button></div></div>
-        </div>
-        <div>
-          <div class="rt-pool"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem"><div style="font-size:12.5px;font-weight:500">Form Submitters — Didn't Book</div><div style="font-size:11px;color:var(--red);font-weight:500">84 people</div></div><div class="rp-bar"><div class="rp-fill" style="width:25%;background:var(--red)"></div></div><div style="font-size:11px;color:var(--faint);margin-bottom:.65rem">Submitted a form but never scheduled a call or showing · Highest intent pool</div><div style="display:flex;gap:5px"><button class="btn btn-g" style="font-size:11px;flex:1">🔥 Launch Urgency Ad →</button><button class="btn btn-b" style="font-size:11px">View list</button></div></div>
-          <div class="rt-pool"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem"><div style="font-size:12.5px;font-weight:500">Investor Article Readers</div><div style="font-size:11px;color:var(--blue);font-weight:500">1,680 people</div></div><div class="rp-bar"><div class="rp-fill" style="width:70%;background:var(--blue)"></div></div><div style="font-size:11px;color:var(--faint);margin-bottom:.65rem">Read 1031 Exchange, Multi-Family, or Investor Analysis content</div><div style="display:flex;gap:5px"><button class="btn btn-g" style="font-size:11px;flex:1">Launch Investor Ad →</button><button class="btn btn-b" style="font-size:11px">View</button></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ FARM HEAT MAP ══ -->
-  <div class="view" id="view-heatmap">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Farm Heat Map — East Palo Alto</div><div style="flex:1;font-size:11.5px;color:var(--muted)">Visual geographic targeting — see which households you've reached with ads</div>
-      <div style="display:flex;gap:4px">
-        <div class="hm-ctrl on" id="hm-a" onclick="setHM(this,'a')">Ad Views</div>
-        <div class="hm-ctrl" id="hm-c" onclick="setHM(this,'c')">Clicks</div>
-        <div class="hm-ctrl" id="hm-l" onclick="setHM(this,'l')">Leads</div>
-        <div class="hm-ctrl" id="hm-k" onclick="setHM(this,'k')">CRM Contacts</div>
-      </div>
-    </div>
-    <div class="ca">
-      <div style="background:var(--blue-l);border:1px solid var(--blue);border-radius:7px;padding:.65rem 1rem;margin-bottom:1rem;font-size:12px;line-height:1.6"><strong>How to read this:</strong> Each cell is roughly one city block. Dark green = you've reached most households with ads. Light = low coverage. Red = no coverage. Click any block to see household count, ad exposure, and which CRM contacts live there.</div>
-      <div class="hm-wrap" id="hmWrap">
-        <div class="hm-overlay"></div>
-        <div style="position:absolute;top:20%;left:8%;font-size:9px;color:rgba(0,0,0,.35);font-weight:600">University Ave</div>
-        <div style="position:absolute;top:48%;left:5%;font-size:9px;color:rgba(0,0,0,.3);font-weight:600">Runnymede St</div>
-        <div style="position:absolute;top:68%;left:10%;font-size:9px;color:rgba(0,0,0,.3);font-weight:600">Weeks St</div>
-        <div style="position:absolute;top:10%;left:50%;font-size:9px;color:rgba(0,0,0,.3);font-weight:600">Bay Rd</div>
-        <div class="hm-cells" id="hmCells" style="grid-template-columns:repeat(22,1fr);grid-template-rows:repeat(12,1fr)"></div>
-        <div class="hm-legend">
-          <div class="hl-r"><div class="hl-d" style="background:#0f4a34"></div>90–100% reach</div>
-          <div class="hl-r"><div class="hl-d" style="background:var(--green)"></div>60–89%</div>
-          <div class="hl-r"><div class="hl-d" style="background:#a7d9bf"></div>30–59%</div>
-          <div class="hl-r"><div class="hl-d" style="background:#e8f5ef;border:1px solid #ccc"></div>Under 30%</div>
-          <div class="hl-r"><div class="hl-d" style="background:var(--red-l);border:1px solid var(--red)"></div>No coverage</div>
-        </div>
-        <div class="hm-ctrl-wrap" style="top:auto;bottom:10px;left:10px;right:auto">
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:1rem">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.65rem 1rem;text-align:center"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:3px">Households in farm</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem">4,820</div></div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.65rem 1rem;text-align:center"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:3px">Reached with ads</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--green)">3,140</div><div style="font-size:9.5px;color:var(--green)">65% coverage</div></div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.65rem 1rem;text-align:center"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:3px">In your CRM</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--blue)">284</div></div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.65rem 1rem;text-align:center"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:3px">Untouched streets</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--amber)">8</div><div style="font-size:9.5px;color:var(--amber)">Target next campaign</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ LISTING TEMPLATES ══ -->
-  <div class="view" id="view-listings">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Listing Ad Templates</div><div style="flex:1;font-size:11.5px;color:var(--muted)">New listing goes live → pick a template → customize → launch across all platforms in one click</div><button class="btn btn-g">+ Custom Template</button></div>
-    <div class="ca">
-      <div style="background:var(--amber-l);border:1px solid var(--amber);border-radius:7px;padding:.65rem 1rem;margin-bottom:1rem;font-size:12px;display:flex;align-items:center;gap:10px">
-        <span>🏠</span><div style="flex:1"><strong>New listing detected: 2047 Runnymede St, EPA</strong> — Select a template to generate ads and push to Google, Meta, and Instagram.</div>
-        <button class="btn btn-g" style="font-size:11px;white-space:nowrap">Apply to this listing →</button>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
-        <div class="tmpl-card sel" onclick="this.classList.toggle('sel')"><div class="tc-thumb" style="background:var(--green-l)">🏠<div class="tc-fmt" style="background:var(--green)">Carousel</div><div class="tc-plats"><span class="pg pg-m">f</span><span class="pg pg-ig">ig</span></div></div><div class="tc-body"><div class="tc-name">Investment Highlight</div><div class="tc-desc">4-slide carousel: exterior, interior, ADU potential, cash flow summary. Best for Facebook + Instagram.</div><button class="tc-launch" onclick="alert('Template loaded — customize and push to Meta + Instagram')">Use This Template →</button></div></div>
-        <div class="tmpl-card" onclick="this.classList.toggle('sel')"><div class="tc-thumb" style="background:var(--blue-l)">🔍<div class="tc-fmt" style="background:var(--blue)">Search</div><div class="tc-plats"><span class="pg pg-g">G</span></div></div><div class="tc-body"><div class="tc-name">Google Search — Buyer</div><div class="tc-desc">Responsive search ad with 5 headline + 3 description variants. Targets buyers searching in your area.</div><button class="tc-launch" onclick="alert('Ad pushed to Google Ads API')">Use This Template →</button></div></div>
-        <div class="tmpl-card" onclick="this.classList.toggle('sel')"><div class="tc-thumb" style="background:var(--red-l)">▶<div class="tc-fmt" style="background:#FF0000">Video 30s</div><div class="tc-plats"><span class="pg pg-yt">▶</span><span class="pg pg-ig">ig</span></div></div><div class="tc-body"><div class="tc-name">Listing Video — 30 Sec</div><div class="tc-desc">AI-generated script + photo slideshow from your listing photos. YouTube pre-roll + Instagram Reels.</div><button class="tc-launch">Use This Template →</button></div></div>
-        <div class="tmpl-card" onclick="this.classList.toggle('sel')"><div class="tc-thumb" style="background:var(--amber-l)">💰<div class="tc-fmt" style="background:var(--amber)">Single Image</div><div class="tc-plats"><span class="pg pg-m">f</span></div></div><div class="tc-body"><div class="tc-name">Cash Flow Highlight</div><div class="tc-desc">Leads with monthly cash flow number. "This 3bd in EPA cash flows $980/mo." Best for investor audience.</div><button class="tc-launch">Use This Template →</button></div></div>
-        <div class="tmpl-card" onclick="this.classList.toggle('sel')"><div class="tc-thumb" style="background:var(--purple-l)">📱<div class="tc-fmt" style="background:var(--purple)">Story</div><div class="tc-plats"><span class="pg pg-ig">ig</span></div></div><div class="tc-body"><div class="tc-name">Instagram Story</div><div class="tc-desc">Full-screen vertical story with listing photo, key stats, and swipe-up. Countdown timer creates urgency.</div><button class="tc-launch">Use This Template →</button></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ AD GENERATOR ══ -->
-  <div class="view" id="view-generator">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Ad Generator</div></div>
-    <div class="ca">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
-        <div class="card" style="margin-bottom:0">
-          <div class="ch"><div class="ch-title">Generate Ad Creative</div><div style="font-size:11px;color:var(--faint)">Consensus Engine — Claude + GPT-4</div></div>
-          <div style="padding:1rem">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
-              <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:500;margin-bottom:4px">Platform</div><select style="width:100%;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none"><option>Google Search Ad</option><option>Google Display</option><option>Facebook Ad</option><option>Instagram Story</option><option>YouTube Pre-roll</option></select></div>
-              <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:500;margin-bottom:4px">Target Audience</div><select style="width:100%;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none"><option>Sellers — listing intent</option><option>Buyers — decision stage</option><option>Investors — cash flow</option><option>1031 exchangers</option></select></div>
-              <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:500;margin-bottom:4px">Ad Goal</div><select style="width:100%;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none"><option>Generate leads → call agent</option><option>Drive traffic → article</option><option>Promote tool</option></select></div>
-              <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:500;margin-bottom:4px">Link to Content</div><select style="width:100%;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none"><option>EPA ADU Financing Guide (Rank #1)</option><option>When to Sell in EPA</option><option>Is EPA Safe?</option><option>Custom URL</option></select></div>
-            </div>
-            <div style="margin-bottom:.75rem"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:500;margin-bottom:4px">Key message (optional)</div><textarea style="width:100%;border:1px solid var(--border);border-radius:5px;padding:7px 10px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none;resize:none;height:60px" placeholder="e.g. Emphasize ADU income potential, mention SB9 lot split eligibility…"></textarea></div>
-            <button style="width:100%;padding:10px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:13px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500" onclick="showAdOutput()">⚡ Generate with Consensus Engine</button>
-            <div id="adOutput" style="display:none;margin-top:.85rem">
-              <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--green);font-weight:500;margin-bottom:.65rem">Generated · Google Search · EPA Sellers</div>
-              <div class="goog-prev">
-                <div class="gp-url"><span class="gp-ad">Ad</span>propiq.com/when-to-sell-east-palo-alto</div>
-                <div class="gp-h">Thinking of Selling in EPA? Here's the Data.</div>
-                <div class="gp-d">East Palo Alto home values up 7% YoY. See if now is the right time to sell — free data-driven guide from a local expert.</div>
-              </div>
-              <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:.65rem">
-                <button class="btn btn-g" onclick="alert('Ad pushed to Google Ads API — live in 15 min')">Launch → Push to Google</button>
-                <button class="btn btn-b">A/B Test 3 Variants</button>
-                <button class="btn">Save Draft</button>
-                <button class="btn">📋 Copy</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="card" style="margin-bottom:.85rem">
-            <div class="ch"><div class="ch-title">Meta / Facebook Preview</div></div>
-            <div style="padding:.85rem 1rem">
-              <div class="meta-prev">
-                <div class="mp-hd"><div class="mp-ava">GW</div><div><div style="font-size:13px;font-weight:600">Graeham Watts Real Estate</div><div style="font-size:11px;color:#65676b">Sponsored</div></div></div>
-                <div class="mp-img">🏠</div>
-                <div class="mp-bd"><div style="font-size:14px;font-weight:600;margin-bottom:3px">Thinking About Selling in EPA?</div><div style="font-size:12px;color:#65676b;margin-bottom:8px">Get your free 2026 market analysis from a local expert who knows this market inside and out.</div><span style="background:#e7e7e7;padding:6px 14px;border-radius:4px;font-size:13px;font-weight:600;color:#050505">Learn More</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="card" style="margin-bottom:0">
-            <div class="ch"><div class="ch-title">Budget & Projected Results</div></div>
-            <div style="padding:.85rem 1rem">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:12px"><span style="color:var(--muted)">Daily budget</span><input style="width:80px;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:12px;font-family:'Epilogue',sans-serif;background:var(--bg);outline:none;text-align:right" value="$20"></div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:12px"><span style="color:var(--muted)">Monthly cap</span><input style="width:80px;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:12px;font-family:'Epilogue',sans-serif;background:var(--bg);outline:none;text-align:right" value="$600"></div>
-              <div style="background:var(--green-l);border:1px solid var(--green-l);border-radius:5px;padding:.55rem .75rem;font-size:11.5px;color:var(--green);margin-top:.5rem">💡 At $600/mo: projected <strong>4–6 seller leads/month</strong> at est. $100–150 each. One converted listing pays for 4+ months of spend.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ RECOMMENDED FROM CONTENT ══ -->
-  <div class="view" id="view-recommended">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Recommended Ads — From Content</div><div style="flex:1;font-size:11.5px;color:var(--muted)">6 content pieces the system flagged as strong ad candidates</div><button class="btn btn-g">⚡ Launch All Ready</button></div>
-    <div class="ca" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;align-content:start">
-      <div class="card" style="margin-bottom:0"><div style="height:100px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative">📝<span style="position:absolute;top:7px;right:7px;font-size:9px;padding:2px 7px;border-radius:3px;background:var(--green);color:#fff;font-weight:500">Live</span><span style="position:absolute;top:7px;left:7px"><span class="pg pg-g">G</span></span></div><div style="padding:.75rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:2px">EPA ADU Financing Guide 2026</div><div style="font-size:11px;color:var(--muted);margin-bottom:6px">Ranking #1 organically · 6 organic leads</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:7px"><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">LEADS</div><div style="font-size:12px;font-weight:600;color:var(--green)">7</div></div><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">PER LEAD</div><div style="font-size:12px;font-weight:600;color:var(--green)">$97</div></div><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">ROAS</div><div style="font-size:12px;font-weight:600;color:var(--green)">4.2×</div></div></div><div style="display:flex;gap:4px"><button class="btn btn-g" style="flex:1;font-size:11px;padding:4px">⬆ Scale</button><button class="btn" style="font-size:11px;padding:4px">Edit</button></div></div></div>
-      <div class="card" style="margin-bottom:0"><div style="height:100px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative">🏠<span style="position:absolute;top:7px;right:7px;font-size:9px;padding:2px 7px;border-radius:3px;background:var(--green);color:#fff;font-weight:500">Live</span><span style="position:absolute;top:7px;left:7px"><span class="pg pg-g">G</span></span></div><div style="padding:.75rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:2px">When to Sell in EPA?</div><div style="font-size:11px;color:var(--muted);margin-bottom:6px">Seller intent · High conversion keyword</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:7px"><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">LEADS</div><div style="font-size:12px;font-weight:600;color:var(--green)">5</div></div><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">PER LEAD</div><div style="font-size:12px;font-weight:600;color:var(--green)">$104</div></div><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">ROAS</div><div style="font-size:12px;font-weight:600;color:var(--green)">3.8×</div></div></div><div style="display:flex;gap:4px"><button class="btn btn-g" style="flex:1;font-size:11px;padding:4px">⬆ Scale</button><button class="btn" style="font-size:11px;padding:4px">Edit</button></div></div></div>
-      <div class="card" style="margin-bottom:0"><div style="height:100px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative">🔍<span style="position:absolute;top:7px;right:7px;font-size:9px;padding:2px 7px;border-radius:3px;background:var(--amber);color:#fff;font-weight:500">Draft Ready</span><span style="position:absolute;top:7px;left:7px"><span class="pg pg-g">G</span></span></div><div style="padding:.75rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:2px">Is East Palo Alto Safe?</div><div style="font-size:11px;color:var(--muted);margin-bottom:6px">1,800 searches/mo · Low competition</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:7px"><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">EST LEADS</div><div style="font-size:12px;font-weight:600;color:var(--amber)">6–10</div></div><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">EST CPL</div><div style="font-size:12px;font-weight:600;color:var(--amber)">$80–110</div></div><div style="text-align:center;background:var(--bg);border-radius:4px;padding:4px"><div style="font-size:8.5px;color:var(--faint)">AUDIENCE</div><div style="font-size:12px;font-weight:600">Buyers</div></div></div><div style="display:flex;gap:4px"><button class="btn btn-g" style="flex:1;font-size:11px;padding:4px" onclick="alert('Ad pushed to Google Ads API')">Launch → Push to Google</button></div></div></div>
     </div>
   </div>
 
   <!-- ══ SPEND MANAGEMENT ══ -->
   <div class="view" id="view-spend">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Spend Management</div><div style="margin-left:auto;display:flex;gap:6px"><button class="btn">↓ Export</button><button class="btn btn-g">+ Budget</button></div></div>
-    <div class="ss" style="grid-template-columns:repeat(5,1fr)">
-      <div class="sc"><div class="sc-l">Monthly budget</div><div class="sc-v">$3,500</div></div>
-      <div class="sc"><div class="sc-l">Spent MTD</div><div class="sc-v">$2,840</div><div class="sc-s g">81%</div></div>
-      <div class="sc"><div class="sc-l">Remaining</div><div class="sc-v">$660</div><div class="sc-s a">8 days left</div></div>
-      <div class="sc"><div class="sc-l">Projected total</div><div class="sc-v">$3,280</div><div class="sc-s g">On track</div></div>
-      <div class="sc"><div class="sc-l">Reallocation rec</div><div class="sc-v">$420</div><div class="sc-s a">1 low-ROI camp.</div></div>
-    </div>
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Spend Management</div></div>
     <div class="ca">
       <div class="card">
-        <div class="ch"><div class="ch-title">Budget by Campaign</div></div>
-        <table class="t">
-          <thead><tr><th>Campaign</th><th>Platform</th><th>Budget/mo</th><th>Spent MTD</th><th>Used</th><th>Remaining</th><th>Per Lead</th><th>Recommendation</th></tr></thead>
-          <tbody>
-            <tr><td style="font-weight:500">Is EPA Safe? — Buyer</td><td><span class="pg pg-g">G</span></td><td>$660</td><td style="color:var(--red)">$680</td><td><div style="font-size:10px;color:var(--red);margin-bottom:2px">103%</div><div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:100%;height:100%;background:var(--red);border-radius:2px"></div></div></td><td style="color:var(--red)">−$20</td><td class="g">$97</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">⬆ Increase to $1,200</button></td></tr>
-            <tr><td style="font-weight:500">When to Sell EPA</td><td><span class="pg pg-g">G</span></td><td>$600</td><td>$520</td><td><div style="font-size:10px;color:var(--green);margin-bottom:2px">87%</div><div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:87%;height:100%;background:var(--green);border-radius:2px"></div></div></td><td>$80</td><td class="g">$104</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">⬆ Increase to $900</button></td></tr>
-            <tr><td style="font-weight:500">EPA Market Update</td><td style="display:flex;gap:3px;padding:.5rem .75rem"><span class="pg pg-m">f</span><span class="pg pg-ig">ig</span></td><td>$340</td><td>$280</td><td><div style="font-size:10px;color:var(--green);margin-bottom:2px">82%</div><div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:82%;height:100%;background:var(--green);border-radius:2px"></div></div></td><td>$60</td><td class="r">$280</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-l);color:var(--red);border:1px solid var(--red-l);cursor:pointer;font-family:inherit" onclick="alert('Paused. Budget reallocated.')">⬇ Pause & Reallocate</button></td></tr>
-          </tbody>
-        </table>
+        <div style="padding:1.25rem">
+          <div style="margin-bottom:1.5rem">
+            <div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Account Monthly Budget</div>
+            <div style="font-size:1.2rem;font-weight:600;font-family:'Playfair Display',serif;color:var(--ink)">$4,500</div>
+            <div style="display:flex;justify-content:space-between;margin-top:.65rem;margin-bottom:.35rem;font-size:11px">
+              <span>Allocated</span><span><strong>$2,890</strong> (64%)</span>
+            </div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+              <div style="width:64%;height:100%;background:var(--amber);border-radius:4px"></div>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:1rem">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:500;margin-bottom:.65rem">Campaign Allocation</div>
+            <div style="display:flex;flex-direction:column;gap:.5rem">
+              <div style="display:flex;justify-content:space-between;font-size:11px"><span>EPA Buyer</span><span style="font-weight:500">$1,050 / $1,200</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px"><span>Redwood City</span><span style="font-weight:500">$680 / $800</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px"><span>Menlo Luxury</span><span style="font-weight:500">$420 / $600</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px"><span>Seasonal Spring</span><span style="font-weight:500">$310 / $500</span></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div style="background:var(--green-l);border:1px solid var(--green);border-radius:7px;padding:.85rem 1rem;font-size:12px;line-height:1.65"><strong>💡 Recommended reallocation:</strong> Pause EPA Market Update ($340/mo) and move to Is EPA Safe? (+$200) and When to Sell (+$140). Same $3,500 budget, projected 25–30% more leads/month.<div style="display:flex;gap:6px;margin-top:.65rem"><button class="btn btn-g" style="font-size:11px" onclick="alert('Reallocation applied to Google + Meta APIs')">Apply Now</button><button class="btn" style="font-size:11px">Review manually</button></div></div>
     </div>
   </div>
 
-  <!-- ══ ALL CAMPAIGNS ══ -->
-  <div class="view" id="view-campaigns">
-    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">All Campaigns</div></div>
-    <div class="ca" style="display:flex;align-items:center;justify-content:center;color:var(--faint)">Full campaigns table — same layout as overview, all 8 campaigns expanded</div>
+  <!-- ══ PLACEHOLDER VIEWS ══ -->
+  <div class="view" id="view-generator">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Ad Generator</div></div>
+    <div class="ca" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--faint)">Ad Generator View</div></div>
+  </div>
+  <div class="view" id="view-listings">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Listing Templates</div></div>
+    <div class="ca" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--faint)">Listing Templates View</div></div>
+  </div>
+  <div class="view" id="view-recommended">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">From Content</div></div>
+    <div class="ca" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--faint)">Recommended Content View</div></div>
+  </div>
+  <div class="view" id="view-daypart">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Day-Part Analysis</div></div>
+    <div class="ca" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--faint)">Day-Part Analysis View</div></div>
+  </div>
+  <div class="view" id="view-retargeting">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Retargeting Pools</div></div>
+    <div class="ca" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--faint)">Retargeting Pools View</div></div>
+  </div>
+  <div class="view" id="view-heatmap">
+    <div class="tlb"><button class="btn" onclick="sv('overview')">← Overview</button><div class="pg-title">Farm Heat Map</div></div>
+    <div class="ca" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--faint)">Farm Heat Map View</div></div>
   </div>
 
-</div><!-- /main -->
-</div><!-- /app -->
+</div>
+
+</div>
 
 <script>
-// VIEW SWITCHING
-function sv(id){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
-  document.getElementById('view-'+id).classList.add('on');
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+function sv(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.ni').forEach(el=>el.classList.remove('on'));
+  document.querySelector('.ni[onclick*="'+v+'"]')?.classList.add('on');
 }
-
-// SIMPLE/PRO MODE
-let simpleMode = false;
-function toggleMode(){
-  simpleMode = !simpleMode;
-  const sw = document.getElementById('modeSw');
-  sw.classList.toggle('on', simpleMode);
-  document.getElementById('mainArea').classList.toggle('simple-mode', simpleMode);
-  document.getElementById('modeLabel') && (document.getElementById('modeLabel').textContent = simpleMode ? 'Simple mode on — plain English summaries' : 'Pro mode · All metrics visible');
-}
-
-// SUB TABS / PLATFORM TOGGLE
-function setST(el){document.querySelectorAll('.st').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
-function setPT(btn){btn.closest('.ptog').querySelectorAll('.ptog-b').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
-
-// TOGGLE DETAIL ROWS
-function toggleDet(id,row){
-  const det = document.getElementById(id);
-  const isOpen = det.classList.contains('on');
-  det.classList.toggle('on',!isOpen);
-  // flip arrow
-  const arr = row.querySelector('td:last-child');
-  if(arr) arr.textContent = isOpen ? '▶' : '▼';
-}
-
-// AD OUTPUT
-function showAdOutput(){
-  const out = document.getElementById('adOutput');
-  out.style.display = out.style.display === 'none' ? 'block' : 'none';
-}
-
-// DAY PART GRID
-function buildDayPart(){
-  const hours = document.getElementById('dpHours');
-  if(!hours) return;
-  for(let h=0;h<24;h++) hours.innerHTML += `<div class="dp-hour">${h===0?'12a':h<12?h+'a':h===12?'12p':(h-12)+'p'}</div>`;
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  // conversion intensity pattern: higher in evenings and weekday mornings
-  const pattern = [
-    [0,0,0,0,0,0,1,2,3,2,1,1,2,1,1,2,1,2,4,5,5,4,2,0],
-    [0,0,0,0,0,0,1,2,2,2,1,1,1,1,1,1,1,2,3,4,4,3,1,0],
-    [0,0,0,0,0,0,1,2,3,2,1,1,2,1,1,2,1,2,4,5,5,4,2,0],
-    [0,0,0,0,0,0,1,2,3,3,2,1,2,1,1,2,2,3,4,5,5,4,2,0],
-    [0,0,0,0,0,0,1,2,3,2,1,1,2,1,1,2,2,2,4,5,5,4,2,0],
-    [0,0,0,0,0,0,0,1,2,3,2,2,1,1,1,0,0,1,2,3,3,2,1,0],
-    [0,0,0,0,0,0,0,1,1,2,2,1,1,0,0,0,0,1,2,3,3,2,1,0],
-  ];
-  const colors = ['#f3f4f6','#e8f5ef','#a7d9bf','#2a9d6f','#0f4a34'];
-  const grid = document.getElementById('dpGrid');
-  if(!grid) return;
-  days.forEach((day,di)=>{
-    const row = document.createElement('div');
-    row.style.cssText = 'display:grid;grid-template-columns:50px 1fr;gap:4px;align-items:center;margin-bottom:2px';
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:10px;color:var(--muted);text-align:right;padding-right:6px';
-    lbl.textContent = day;
-    const cells = document.createElement('div');
-    cells.className = 'dp-cells';
-    pattern[di].forEach(v=>{
-      const c = document.createElement('div');
-      c.className = 'dp-cell';
-      c.style.background = colors[v];
-      c.title = `${day} — ${v===0?'No leads':v===1?'Very few leads':v===2?'Some leads':v===3?'Good volume':'Peak time'}`;
-      cells.appendChild(c);
-    });
-    row.appendChild(lbl);
-    row.appendChild(cells);
-    grid.appendChild(row);
-  });
-}
-
-// HEAT MAP
-let hmLayer = 'a';
-function setHM(el, layer){
-  document.querySelectorAll('.hm-ctrl').forEach(c=>c.classList.remove('on'));
+function setST(el){
+  document.querySelectorAll('.st').forEach(e=>e.classList.remove('on'));
   el.classList.add('on');
-  hmLayer = layer;
-  buildHeatMap();
 }
-function buildHeatMap(){
-  const grid = document.getElementById('hmCells');
-  if(!grid) return;
-  grid.innerHTML = '';
-  const cols = 22, rows = 12;
-  const intensityByLayer = {
-    a: ()=>Math.random()*0.9+0.05, // ad views — mostly covered
-    c: ()=>Math.random()*0.6+0.02, // clicks — sparser
-    l: ()=>Math.pow(Math.random(),2)*0.4, // leads — concentrated
-    k: ()=>Math.pow(Math.random(),3)*0.7  // contacts — clusters
-  };
-  const getColor = (v)=>{
-    if(v>0.8) return '#0f4a34';
-    if(v>0.6) return 'var(--green)';
-    if(v>0.35) return '#a7d9bf';
-    if(v>0.1) return '#e8f5ef';
-    return 'var(--red-l)';
-  };
-  for(let i=0;i<cols*rows;i++){
-    const cell = document.createElement('div');
-    cell.className = 'hm-cell';
-    const v = intensityByLayer[hmLayer]();
-    cell.style.background = getColor(v);
-    cell.style.border = '1px solid rgba(255,255,255,.2)';
-    cell.title = `Block ${i+1}: ${Math.round(v*100)}% coverage`;
-    cell.onclick = ()=>alert(`Block ${i+1}\nHouseholds: ${Math.round(v*22)}\nAd coverage: ${Math.round(v*100)}%`);
-    grid.appendChild(cell);
-  }
+function setPT(el){
+  document.querySelectorAll('.ptog-b').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
 }
-
-// INIT
-document.addEventListener('DOMContentLoaded', ()=>{
-  buildDayPart();
-  buildHeatMap();
-});
+function toggleMode(){
+  document.getElementById('mainArea').classList.toggle('simple-mode');
+  document.getElementById('modeSw').classList.toggle('on');
+}
+function toggleSwitch(el){
+  el.classList.toggle('on');
+}
+function cloneCreative(id){
+  alert('Cloning Creative '+id+' — would create variation in campaign');
+}
+function refreshCreative(id){
+  if(id) alert('Refreshing Creative '+id+' — new design recommended');
+  else alert('Initializing creative refresh workflow');
+}
 </script>
+
 </body>
 </html>
