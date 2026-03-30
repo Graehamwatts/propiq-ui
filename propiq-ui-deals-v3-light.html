@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Deals v2 (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a56;--green-l:#e8f5ef;--green-m:#2a9d6f;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* TOP BAR */
+.topbar{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
+.topbar-left{display:flex;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.top-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--faint);width:210px}
+.av-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.av-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.notif{position:relative;cursor:pointer;font-size:15px;color:var(--muted);padding:4px}
+.notif-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)}
+.top-avatar{width:30px;height:30px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer}
+
+/* MODULE NAV */
+.modnav{height:44px;display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+
+/* APP BODY */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:216px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb-module{padding:0.9rem 1rem 0.3rem;font-size:11.5px;font-weight:500;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.sb-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500;text-transform:uppercase}
+.nav-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--faint);padding:0.7rem 1rem 0.3rem;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all 0.1s;position:relative}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--green-l);color:var(--green);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green);border-radius:0 2px 2px 0}
+.nav-ico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nb-red{background:var(--red-l);color:var(--red)}
+.nb-green{background:var(--green-l);color:var(--green)}
+.nb-gray{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.nb-amber{background:var(--amber-l);color:var(--amber)}
+.sb-divider{height:1px;background:var(--border);margin:0.4rem 0}
+.sb-other{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--faint);font-size:12px}
+.sb-other:hover{background:var(--bg);color:var(--muted)}
+.sidebar-footer{margin-top:auto;padding:0.85rem 1rem;border-top:1px solid var(--border)}
+.sf-row{display:flex;align-items:center;gap:8px}
+.sf-ava{width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.sf-name{font-size:12px;font-weight:500;line-height:1.2}
+.sf-role{font-size:10px;color:var(--faint)}
+.sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* TOOLBAR */
+.deals-toolbar{padding:0.85rem 1.25rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.toolbar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.65rem}
+.page-title{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-0.01em}
+.toolbar-right{display:flex;align-items:center;gap:7px}
+.btn-sm{padding:0.38rem 0.8rem;border-radius:5px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;transition:all 0.15s;border:1px solid var(--border2);background:var(--surface);color:var(--ink);display:flex;align-items:center;gap:5px}
+.btn-sm:hover{background:var(--bg)}
+.btn-p{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-p:hover{background:#156445}
+.view-toggle{display:flex;border:1px solid var(--border2);border-radius:5px;overflow:hidden}
+.vt-btn{padding:0.38rem 0.7rem;font-size:11.5px;cursor:pointer;color:var(--muted);background:var(--surface);border:none;font-family:'Epilogue',sans-serif;transition:all 0.12s;display:flex;align-items:center;gap:4px}
+.vt-btn.active{background:var(--ink);color:#fff}
+.toolbar-bottom{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.filter-pill{padding:3px 9px;border-radius:5px;font-size:11.5px;cursor:pointer;color:var(--muted);border:1px solid transparent;transition:all 0.12s}
+.filter-pill:hover{background:var(--bg)}
+.filter-pill.on{background:var(--surface);border-color:var(--border2);color:var(--ink);font-weight:500}
+
+/* DEALS BODY */
+.deals-body{display:flex;flex:1;overflow:hidden}
+
+/* DEAL LIST */
+.deal-list{width:295px;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;background:var(--surface)}
+.dl-header{padding:0.7rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.dl-title{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);font-weight:500}
+.dl-count{font-size:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1px 6px;color:var(--faint)}
+.deal-items{overflow-y:auto;flex:1}
+
+/* DEAL ITEM */
+.deal-item{border-bottom:1px solid var(--border);cursor:pointer;position:relative;transition:background 0.1s}
+.deal-item:hover{background:var(--bg)}
+.deal-item.selected{background:var(--green-l)}
+.deal-item.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green)}
+.di-main{padding:0.75rem 1rem 0.6rem}
+.di-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:3px}
+.di-addr{font-weight:500;font-size:12.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.di-expand{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--faint);cursor:pointer;flex-shrink:0;margin-left:4px;transition:all 0.12s;border:1px solid transparent}
+.di-expand:hover{background:var(--surface);border-color:var(--border);color:var(--ink)}
+.di-status{font-size:8.5px;padding:2px 6px;border-radius:3px;font-weight:500;text-transform:uppercase;white-space:nowrap;flex-shrink:0;margin-left:4px}
+.ds-active{background:var(--amber-l);color:var(--amber)}
+.ds-contract{background:#d1fae5;color:#047857}
+.ds-closing{background:var(--green-l);color:var(--green)}
+.di-contact{font-size:11px;color:var(--muted);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.di-role-pill{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:500;text-transform:uppercase}
+.di-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.di-price{font-size:11.5px;color:var(--green);font-weight:500}
+.di-coe{font-size:10px;color:var(--faint)}
+.di-coe.soon{color:var(--red);font-weight:500}
+
+/* MILESTONE PROGRESS BAR — on deal list item */
+.di-milestone-bar{position:relative;height:14px;margin:0 0 4px}
+.di-bar-track{position:absolute;top:6px;left:0;right:0;height:3px;background:var(--border);border-radius:2px;overflow:visible}
+.di-bar-fill{height:100%;border-radius:2px;background:var(--green);transition:width 0.3s}
+.di-bar-markers{position:absolute;top:0;left:0;right:0;height:14px}
+.di-marker{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.di-marker-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--surface);margin-top:1.5px;flex-shrink:0}
+.dm-done{background:var(--green)}
+.dm-active{background:var(--amber)}
+.dm-pending{background:var(--border2)}
+.dm-overdue{background:var(--red)}
+.di-marker-label{font-size:7px;color:var(--faint);white-space:nowrap;margin-top:1px;max-width:40px;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.di-alert{display:flex;align-items:center;gap:3px;font-size:9.5px;color:var(--red);background:var(--red-l);border-radius:3px;padding:2px 5px;width:fit-content;margin-top:2px}
+
+/* EXPANDED MILESTONES IN LIST */
+.di-expanded{background:var(--bg);border-top:1px solid var(--border);padding:0.5rem 1rem;display:none}
+.di-expanded.open{display:block}
+.di-exp-milestone{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px}
+.di-exp-check{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:7px;flex-shrink:0}
+.di-exp-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.di-exp-check.warn{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.di-exp-name{flex:1;color:var(--muted)}
+.di-exp-name.done{color:var(--faint);text-decoration:line-through}
+.di-exp-date{font-size:9.5px;color:var(--faint);white-space:nowrap}
+.di-exp-date.late{color:var(--red);font-weight:500}
+.di-exp-date.soon{color:var(--amber);font-weight:500}
+.di-exp-date.ok{color:var(--green)}
+
+/* TC BOARD */
+.tc-board{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* TC HEADER */
+.tc-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0.8rem 1.25rem;flex-shrink:0}
+.tc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.65rem}
+.tc-prop-row{display:flex;align-items:flex-start;gap:10px}
+.tc-prop-icon{width:38px;height:38px;border-radius:8px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.tc-addr{font-family:'Playfair Display',serif;font-size:1.15rem;letter-spacing:-0.01em;margin-bottom:2px}
+.tc-sub{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tc-pill{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
+.tc-actions{display:flex;gap:5px;flex-shrink:0}
+.tc-btn{padding:4px 9px;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s;display:flex;align-items:center;gap:3px;white-space:nowrap}
+.tc-btn:hover{background:var(--bg);color:var(--ink)}
+.tc-btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* STAKEHOLDERS */
+.stakeholders{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sh-item{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:3px 7px;cursor:pointer;transition:all 0.12s}
+.sh-item:hover{border-color:var(--green);background:var(--green-l)}
+.sh-ava{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:600;flex-shrink:0}
+.sh-label{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em}
+.sh-name{font-size:11.5px}
+.sh-msg-btn{width:16px;height:16px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:8px;margin-left:2px;border:none;cursor:pointer;transition:all 0.12s}
+.sh-msg-btn:hover{background:var(--green);color:#fff}
+.sh-divider{width:1px;height:14px;background:var(--border)}
+
+/* MILESTONE TIMELINE BAR */
+.timeline-bar-wrap{margin:0.75rem 0 0.5rem}
+.tl-bar-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.tl-bar-title{font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:0.07em}
+.tl-bar-pct{font-size:10px;color:var(--green);font-weight:500}
+.tl-bar-outer{position:relative;height:28px}
+.tl-bar-track{position:absolute;top:11px;left:0;right:0;height:5px;background:var(--border);border-radius:3px;overflow:visible}
+.tl-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--green-m));border-radius:3px}
+.tl-markers{position:absolute;top:0;left:0;right:0;height:28px;pointer-events:none}
+.tl-m{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:all;cursor:pointer}
+.tl-m-dot{width:9px;height:9px;border-radius:50%;border:2px solid var(--surface);margin-top:8px;flex-shrink:0;transition:transform 0.12s}
+.tl-m:hover .tl-m-dot{transform:scale(1.4)}
+.tl-m-label{font-size:7.5px;color:var(--faint);white-space:nowrap;margin-top:2px;max-width:55px;overflow:hidden;text-overflow:ellipsis;text-align:center;line-height:1.2}
+.tl-m-date{font-size:7px;color:var(--faint);opacity:0.7;text-align:center}
+.tm-done{background:var(--green)}
+.tm-current{background:var(--amber)}
+.tm-overdue{background:var(--red)}
+.tm-pending{background:var(--border2)}
+
+/* TC CONTENT */
+.tc-content{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+
+/* SUMMARY STRIP */
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:1rem}
+.sum-box{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.65rem 0.8rem}
+.sum-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:0.3rem}
+.sum-val{font-family:'Playfair Display',serif;font-size:1.2rem;line-height:1;color:var(--ink)}
+.sum-sub{font-size:9.5px;margin-top:3px}
+.good{color:var(--green)}.warn{color:var(--amber)}.bad{color:var(--red)}.neu{color:var(--faint)}
+
+/* CONTINGENCY ALERT */
+.contingency-alert{background:var(--red-l);border:1px solid var(--red);border-radius:7px;padding:0.6rem 0.9rem;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.ca-ico{font-size:1rem;flex-shrink:0}
+.ca-text{flex:1}
+.ca-title{font-size:12px;font-weight:500;color:var(--red);margin-bottom:1px}
+.ca-sub{font-size:10.5px;color:var(--red);opacity:0.8}
+.ca-btn{padding:4px 10px;border-radius:4px;border:1px solid var(--red);background:transparent;color:var(--red);font-size:11px;cursor:pointer;font-family:'Epilogue',sans-serif;white-space:nowrap;transition:all 0.12s}
+.ca-btn:hover{background:var(--red);color:#fff}
+
+/* MILESTONE SECTIONS */
+.ms-section{margin-bottom:1rem}
+.ms-section-header{display:flex;align-items:center;gap:8px;padding:0.5rem 0.6rem;border-radius:6px;cursor:pointer;transition:background 0.12s;user-select:none}
+.ms-section-header:hover{background:var(--bg)}
+.ms-section-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.ms-section-title{font-size:12px;font-weight:500;flex:1}
+.ms-section-count{font-size:10px;color:var(--faint)}
+.ms-section-toggle{font-size:10px;color:var(--faint);transition:transform 0.2s;margin-left:4px}
+.ms-section-toggle.open{transform:rotate(0deg)}
+.ms-section-toggle.closed{transform:rotate(-90deg)}
+.ms-items{overflow:hidden}
+
+/* MILESTONE ITEM */
+.milestone{background:var(--surface);border:1px solid var(--border);border-radius:7px;margin-bottom:4px;overflow:hidden;transition:border-color 0.12s}
+.milestone:hover{border-color:var(--border2)}
+.milestone.ms-done{background:var(--bg);opacity:0.85}
+.milestone.ms-overdue{border-color:var(--red);border-left:3px solid var(--red)}
+.milestone.ms-upcoming{border-left:3px solid var(--amber)}
+.milestone.ms-complete{border-left:3px solid var(--green)}
+.milestone.ms-future{border-left:3px solid var(--border2)}
+.ms-row{display:flex;gap:9px;padding:0.55rem 0.75rem;align-items:flex-start;cursor:pointer}
+.ms-check{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;margin-top:1px;transition:all 0.15s}
+.ms-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.ms-check.overdue{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.ms-body{flex:1;min-width:0}
+.ms-name{font-size:12px;font-weight:500;margin-bottom:1px;display:flex;align-items:center;gap:5px}
+.ms-name.done-text{color:var(--faint);text-decoration:line-through;font-weight:400}
+.ms-preview{font-size:10.5px;color:var(--faint)}
+.ms-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.ms-date{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.ms-date.done{color:var(--green)}
+.ms-date.soon{color:var(--amber);font-weight:500}
+.ms-date.late{color:var(--red);font-weight:500}
+.ms-expand-btn{font-size:9px;color:var(--faint);padding:2px 6px;border-radius:3px;border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:all 0.12s;font-family:'Epilogue',sans-serif;white-space:nowrap}
+.ms-expand-btn:hover{background:var(--bg);color:var(--ink)}
+
+/* EXPANDED MILESTONE DETAIL */
+.ms-detail-panel{background:var(--bg);border-top:1px solid var(--border);padding:0.75rem;display:none}
+.ms-detail-panel.open{display:block}
+.ms-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.65rem}
+.ms-detail-item{font-size:11.5px}
+.ms-detail-label{font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px}
+.ms-detail-val{color:var(--ink)}
+.ms-note-box{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0.5rem 0.65rem;font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:0.65rem}
+.ms-dispatch-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0.5rem}
+.dispatch-btn{display:flex;align-items:center;gap:3px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:var(--surface);font-size:10.5px;cursor:pointer;color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.dispatch-btn:hover{background:var(--green-l);color:var(--green);border-color:var(--green-l)}
+.dispatch-btn.sent{background:var(--green-l);color:var(--green);border-color:var(--green-l)}
+.ms-detail-actions{display:flex;gap:5px}
+.ms-action-btn{padding:4px 9px;border-radius:4px;font-size:11px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--border2);background:var(--surface);color:var(--muted);transition:all 0.12s}
+.ms-action-btn:hover{background:var(--bg);color:var(--ink)}
+.ms-action-btn.done-btn{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* ADD MILESTONE */
+.add-milestone{display:flex;align-items:center;gap:5px;padding:0.45rem 0.6rem;border:1.5px dashed var(--border2);border-radius:7px;cursor:pointer;color:var(--faint);font-size:11.5px;transition:all 0.12s}
+.add-milestone:hover{border-color:var(--green);color:var(--green);background:var(--green-l)}
+
+/* CALENDAR VIEW */
+.calendar-view{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:none}
+.calendar-view.active{display:block}
+.cal-month{margin-bottom:1.5rem}
+.cal-month-title{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+.cal-month-count{font-size:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1px 7px;color:var(--faint);font-family:'Epilogue',sans-serif}
+.cal-day{display:flex;align-items:flex-start;gap:12px;padding:0.5rem 0;border-bottom:1px solid var(--border)}
+.cal-day:last-child{border-bottom:none}
+.cal-day-label{width:52px;flex-shrink:0;padding-top:2px}
+.cal-day-date{font-weight:500;font-size:13px}
+.cal-day-weekday{font-size:10px;color:var(--faint)}
+.cal-day-events{flex:1;display:flex;flex-direction:column;gap:4px}
+.cal-event{display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:6px;border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:all 0.12s}
+.cal-event:hover{border-color:var(--border2);background:var(--bg)}
+.cal-event.overdue{border-color:var(--red);background:var(--red-l)}
+.cal-event.urgent{border-color:var(--amber);background:var(--amber-l)}
+.cal-event.done{opacity:0.6}
+.cal-event-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cal-event-name{font-size:12px;flex:1}
+.cal-event-deal{font-size:10.5px;color:var(--faint)}
+.cal-event-status{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:500}
+
+/* CONTACT SLIDE PANEL */
+.contact-slide{position:fixed;right:-340px;top:0;bottom:0;width:320px;background:var(--surface);border-left:1px solid var(--border);z-index:200;transition:right 0.22s ease;box-shadow:-4px 0 20px rgba(0,0,0,0.08);display:flex;flex-direction:column;overflow:hidden}
+.contact-slide.open{right:0}
+.cs-header{padding:1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cs-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer;padding:2px 6px}
+.cs-body{overflow-y:auto;flex:1;padding:1rem}
+.cs-ava{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;margin:0 auto 0.65rem}
+.cs-name{font-weight:500;font-size:14px;text-align:center;margin-bottom:2px}
+.cs-sub{font-size:11.5px;color:var(--faint);text-align:center;margin-bottom:0.75rem}
+.cs-tags{display:flex;gap:4px;justify-content:center;margin-bottom:0.75rem;flex-wrap:wrap}
+.cs-quick{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:0.85rem}
+.cs-q-btn{padding:6px 0;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);text-align:center;font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.cs-q-btn:hover{background:var(--bg);color:var(--ink)}
+.cs-q-btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.cs-divider{height:1px;background:var(--border);margin:0.5rem 0}
+.cs-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);margin-bottom:0.35rem;font-weight:500}
+.cs-row{display:flex;gap:6px;padding:0.3rem 0;font-size:12px;border-bottom:1px solid var(--border)}
+.cs-row:last-child{border-bottom:none}
+.cs-label{color:var(--faint);width:80px;flex-shrink:0;font-size:11px;line-height:1.4}
+.cs-val{color:var(--ink);flex:1;line-height:1.4}
+.cs-val.link{color:var(--blue);cursor:pointer}
+.cs-val.good{color:var(--green);font-weight:500}
+
+/* QUICK MESSAGE MODAL */
+.msg-modal{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:300;display:none;align-items:center;justify-content:center}
+.msg-modal.visible{display:flex}
+.msg-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;width:460px;box-shadow:0 12px 32px rgba(0,0,0,0.12);overflow:hidden}
+.mb-header{padding:0.85rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mb-title{font-size:13.5px;font-weight:500}
+.mb-close{background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer;padding:2px 6px}
+.mb-channel-row{display:flex;gap:5px;padding:0.65rem 1rem;border-bottom:1px solid var(--border)}
+.mb-ch{padding:3px 9px;border-radius:10px;font-size:11px;cursor:pointer;font-weight:500;border:1.5px solid;transition:all 0.12s}
+.mb-ch:hover{opacity:0.85}
+.mb-rcs{background:#dcfce7;color:#166534;border-color:#86efac}
+.mb-email{background:var(--blue-l);color:var(--blue);border-color:var(--blue)}
+.mb-sms{background:#eef2ff;color:#4338ca;border-color:#a5b4fc}
+.mb-body{padding:1rem}
+.mb-textarea{width:100%;border:1px solid var(--border);border-radius:7px;padding:0.65rem 0.85rem;font-size:12.5px;font-family:'Epilogue',sans-serif;color:var(--ink);resize:none;height:90px;outline:none;background:var(--bg);line-height:1.5}
+.mb-textarea:focus{border-color:var(--green);background:var(--surface)}
+.mb-textarea::placeholder{color:var(--faint)}
+.mb-footer{padding:0.65rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mb-ai{font-size:11.5px;color:var(--green);cursor:pointer;display:flex;align-items:center;gap:4px}
+.mb-actions{display:flex;gap:6px}
+.mb-cancel{padding:6px 12px;border-radius:5px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px}
+.mb-send{padding:6px 14px;border-radius:5px;background:var(--green);color:#fff;border:none;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px;font-weight:500}
+
+/* OVERLAY */
+.overlay{position:fixed;inset:0;z-index:190;display:none}
+.overlay.visible{display:block}
+.tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500;text-transform:uppercase}
+.t-b{background:var(--blue-l);color:var(--blue)}
+.t-s{background:var(--amber-l);color:var(--amber)}
+.t-i{background:var(--green-l);color:var(--green)}
+.t-l{background:var(--purple-l);color:var(--purple)}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
+.tb-logo-u span{color:var(--green)}
+.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
+.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
+.tb-mods::-webkit-scrollbar{display:none}
+.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<!-- UNIFIED TOP BAR -->
+<div class="tbunified">
+  <div class="tb-logo-u">Prop<span>IQ</span></div>
+  <div class="tb-srch">🔍 Search anything…</div>
+  <div class="tb-mods">
+    <div class="tbt">⬡ Dashboard</div>
+    <div class="tbt">◎ Contacts</div>
+    <div class="tbt on">◈ Deals</div>
+    <div class="tbt">✦ Content<span class="tbdg">2</span></div>
+    <div class="tbt">⊕ Search</div>
+    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">$ Ads</div>
+    <div class="tbt">↗ SEO</div>
+    <div class="tbt">📊 Reports</div>
+  </div>
+  <div class="tb-r">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
+  </div>
+</div>
+
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- CONTACT SLIDE PANEL -->
+<div class="contact-slide" id="contactSlide">
+  <div class="cs-header">
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint)" id="cs-role-label">Seller</div>
+    <button class="cs-close" onclick="closeContact()">✕</button>
+  </div>
+  <div class="cs-body" id="cs-body">
+    <!-- populated by JS -->
+  </div>
+</div>
+
+<!-- QUICK MESSAGE MODAL -->
+<div class="msg-modal" id="msgModal">
+  <div class="msg-box">
+    <div class="mb-header">
+      <div class="mb-title" id="msg-title">Send message to Theresa Chen</div>
+      <button class="mb-close" onclick="closeMsg()">✕</button>
+    </div>
+    <div class="mb-channel-row">
+      <div class="mb-ch mb-rcs">◉ RCS/Text</div>
+      <div class="mb-ch mb-email">@ Email</div>
+      <div class="mb-ch mb-sms">S SMS</div>
+    </div>
+    <div class="mb-body">
+      <textarea class="mb-textarea" id="msg-textarea" placeholder="Type your message…"></textarea>
+    </div>
+    <div class="mb-footer">
+      <div class="mb-ai">⚡ AI Write</div>
+      <div class="mb-actions">
+        <button class="mb-cancel" onclick="closeMsg()">Cancel</button>
+        <button class="mb-send" onclick="closeMsg()">Send ↑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="top-search">🔍 Search deals, properties…</div>
+  </div>
+  <div class="topbar-right">
+    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
+    <div class="notif">🔔<div class="notif-badge">3</div></div>
+    <div class="top-avatar">GW</div>
+  </div>
+</div>
+
+  <div class="mod-tab"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab active"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-module">Deals <span class="sb-tag">Active</span></div>
+    <div class="nav-sec">Overview</div>
+    <div class="nav-item active"><span class="nav-ico">◈</span>All Active Deals<span class="nav-badge nb-gray">6</span></div>
+    <div class="nav-item"><span class="nav-ico">+</span>New Deal</div>
+    <div class="nav-sec">Transaction Boards</div>
+    <div class="nav-item"><span class="nav-ico">◻</span>TC Boards<span class="nav-badge nb-green">2</span></div>
+    <div class="nav-item"><span class="nav-ico">📅</span>Closing Calendar</div>
+    <div class="nav-item"><span class="nav-ico">⚠</span>Contingency Tracker<span class="nav-badge nb-red">1</span></div>
+    <div class="nav-item" onclick="openDoc()"><span class="nav-ico">📋</span>Document Checklist<span class="nav-badge nb-red">5</span></div>
+    <div class="nav-sec">By Status</div>
+    <div class="nav-item"><span class="nav-ico">👀</span>Prospects<span class="nav-badge nb-gray">4</span></div>
+    <div class="nav-item"><span class="nav-ico">⚡</span>Active<span class="nav-badge nb-gray">3</span></div>
+    <div class="nav-item"><span class="nav-ico">✍</span>Under Contract<span class="nav-badge nb-amber">2</span></div>
+    <div class="nav-item"><span class="nav-ico">🎉</span>Closing Soon<span class="nav-badge nb-green">2</span></div>
+    <div class="nav-item"><span class="nav-ico">✓</span>Closed This Year</div>
+    <div class="nav-sec">Tools</div>
+    <div class="nav-item"><span class="nav-ico">✉</span>One-Click Dispatch</div>
+    <div class="nav-item"><span class="nav-ico">👤</span>Stakeholder Portal</div>
+    <div class="nav-item"><span class="nav-ico">📄</span>Legal Templates</div>
+    <div class="nav-item" onclick="openComm()"><span class="nav-ico">$</span>Commission Calculator</div>
+    <div class="nav-item" onclick="openNS()"><span class="nav-ico">⊕</span>Net Sheet Generator</div>
+    <div class="sb-divider"></div>
+    <div style="padding:0.4rem 1rem 0.2rem;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint)">Other Modules</div>
+    <div class="sb-other"><span>⬡</span> Dashboard</div>
+    <div class="sb-other"><span>◎</span> Contacts</div>
+    <div class="sb-other"><span>✦</span> Content</div>
+    <div class="sb-other"><span>⊕</span> Search</div>
+    <div class="sb-other"><span>☎</span> Messages</div>
+    <div class="sb-other"><span>↗</span> Reports</div>
+    <div class="nav-sec">Account</div>
+    <div class="nav-item"><span class="nav-ico">⚙</span>Settings</div>
+    <div class="sidebar-footer">
+      <div class="sf-row">
+        <div class="sf-ava">GW</div>
+        <div><div class="sf-name">Graeham Watts</div><div class="sf-role">Intero Real Estate</div></div>
+        <div class="sf-plan">Pro</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOOLBAR -->
+    <div class="deals-toolbar">
+      <div class="toolbar-top">
+        <div class="page-title">Deals & TC Boards</div>
+        <div class="toolbar-right">
+          <div class="view-toggle">
+            <button class="vt-btn active" onclick="showView('tc')">◻ TC Board</button>
+            <button class="vt-btn" onclick="showView('cal')">📅 Dates</button>
+            <button class="vt-btn" onclick="showView('pipeline')">▦ Pipeline</button>
+          </div>
+          <button class="btn-sm">↓ Export</button>
+          <button class="btn-sm btn-p">+ New Deal</button>
+        </div>
+      </div>
+      <div class="toolbar-bottom">
+        <div class="filter-pill on" onclick="setPill(this)">All Deals</div>
+        <div class="filter-pill" onclick="setPill(this)">Under Contract</div>
+        <div class="filter-pill" onclick="setPill(this)">Closing This Month</div>
+        <div class="filter-pill" onclick="setPill(this)">Contingencies Due</div>
+        <div class="filter-pill" onclick="setPill(this)">Buyer Side</div>
+        <div class="filter-pill" onclick="setPill(this)">Seller Side</div>
+      </div>
+    </div>
+
+    <!-- TC BOARD VIEW -->
+    <div class="deals-body" id="view-tc" style="display:flex">
+
+      <!-- DEAL LIST -->
+      <div class="deal-list">
+        <div class="dl-header">
+          <div class="dl-title">Active Deals</div>
+          <div class="dl-count">6 total</div>
+        </div>
+        <div class="deal-items">
+
+          <!-- DEAL 1 — SELECTED -->
+          <div class="deal-item selected">
+            <div class="di-main">
+              <div class="di-top">
+                <div class="di-addr">2895 Fordham St</div>
+                <div class="di-expand" onclick="toggleDeal(event,'d1')" title="Expand milestones">▾</div>
+                <div class="di-status ds-contract">Contract</div>
+              </div>
+              <div class="di-contact">
+                <div style="width:14px;height:14px;border-radius:50%;background:var(--purple-l);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:600;flex-shrink:0">TC</div>
+                Theresa Chen <span class="di-role-pill" style="background:var(--amber-l);color:var(--amber)">Seller</span>
+              </div>
+              <div class="di-meta">
+                <div class="di-price">$1.38M</div>
+                <div class="di-coe soon">COE Apr 15 · 17d</div>
+              </div>
+              <!-- MILESTONE BAR -->
+              <div class="di-milestone-bar">
+                <div class="di-bar-track">
+                  <div class="di-bar-fill" style="width:72%"></div>
+                  <div class="di-bar-markers">
+                    <div class="di-marker" style="left:9%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">Offer</div></div>
+                    <div class="di-marker" style="left:22%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">EMD</div></div>
+                    <div class="di-marker" style="left:36%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">Escrow</div></div>
+                    <div class="di-marker" style="left:50%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">Inspect</div></div>
+                    <div class="di-marker" style="left:63%"><div class="di-marker-dot dm-active"></div><div class="di-marker-label">Contingency</div></div>
+                    <div class="di-marker" style="left:76%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">Appraisal</div></div>
+                    <div class="di-marker" style="left:88%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">Signing</div></div>
+                    <div class="di-marker" style="left:98%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">COE</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="di-alert">⚠ Contingency due tomorrow</div>
+              <div style="display:flex;align-items:center;gap:5px;margin-top:4px;cursor:pointer" onclick="openDoc()">
+                <div style="flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:58%;height:100%;background:var(--amber);border-radius:2px"></div></div>
+                <div style="font-size:9.5px;color:var(--amber);font-weight:500;white-space:nowrap">📋 7/12 docs</div>
+              </div>
+            </div>
+            <div class="di-expanded" id="d1">
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">Offer accepted & signed</div><div class="di-exp-date ok">Mar 20</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">EMD deposited</div><div class="di-exp-date ok">Mar 22</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">Escrow opened</div><div class="di-exp-date ok">Mar 22</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">Inspection completed</div><div class="di-exp-date ok">Mar 29</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check warn">!</div><div class="di-exp-name" style="color:var(--red)">Contingency — remove or exercise</div><div class="di-exp-date late">Apr 3</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Appraisal scheduled</div><div class="di-exp-date soon">Apr 5</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Loan approval / CTC</div><div class="di-exp-date">Apr 10</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Signing & COE</div><div class="di-exp-date">Apr 15</div></div>
+            </div>
+          </div>
+
+          <!-- DEAL 2 -->
+          <div class="deal-item" onclick="selectDeal(this)">
+            <div class="di-main">
+              <div class="di-top">
+                <div class="di-addr">172 Portola Dr</div>
+                <div class="di-expand" onclick="toggleDeal(event,'d2')">▾</div>
+                <div class="di-status ds-active">Active</div>
+              </div>
+              <div class="di-contact">
+                <div style="width:14px;height:14px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:600;flex-shrink:0">MR</div>
+                Marcus Rivera <span class="di-role-pill" style="background:var(--blue-l);color:var(--blue)">Buyer</span>
+              </div>
+              <div class="di-meta"><div class="di-price">$1.45M listed</div><div class="di-coe">Offer pending</div></div>
+              <div class="di-milestone-bar">
+                <div class="di-bar-track">
+                  <div class="di-bar-fill" style="width:30%"></div>
+                  <div class="di-bar-markers">
+                    <div class="di-marker" style="left:15%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">Listed</div></div>
+                    <div class="di-marker" style="left:30%"><div class="di-marker-dot dm-active"></div><div class="di-marker-label">Offer</div></div>
+                    <div class="di-marker" style="left:50%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">Accept</div></div>
+                    <div class="di-marker" style="left:75%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">Escrow</div></div>
+                    <div class="di-marker" style="left:98%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">COE</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="di-expanded" id="d2">
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">Property listed</div><div class="di-exp-date ok">Mar 15</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name" style="color:var(--amber);font-weight:500">Offer submitted — pending review</div><div class="di-exp-date soon">Now</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Offer accepted</div><div class="di-exp-date">TBD</div></div>
+            </div>
+          </div>
+
+          <!-- DEAL 3 -->
+          <div class="deal-item" onclick="selectDeal(this)">
+            <div class="di-main">
+              <div class="di-top">
+                <div class="di-addr">David Park · Buyer</div>
+                <div class="di-expand" onclick="toggleDeal(event,'d3')">▾</div>
+                <div class="di-status ds-contract">Contract</div>
+              </div>
+              <div class="di-contact">
+                <div style="width:14px;height:14px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:600;flex-shrink:0">DP</div>
+                David Park <span class="di-role-pill" style="background:var(--blue-l);color:var(--blue)">Buyer</span>
+              </div>
+              <div class="di-meta"><div class="di-price">$1.05M</div><div class="di-coe">COE Apr 28</div></div>
+              <div class="di-milestone-bar">
+                <div class="di-bar-track">
+                  <div class="di-bar-fill" style="width:55%"></div>
+                  <div class="di-bar-markers">
+                    <div class="di-marker" style="left:12%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">Offer</div></div>
+                    <div class="di-marker" style="left:28%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">EMD</div></div>
+                    <div class="di-marker" style="left:45%"><div class="di-marker-dot dm-done"></div><div class="di-marker-label">Inspect</div></div>
+                    <div class="di-marker" style="left:58%"><div class="di-marker-dot dm-active"></div><div class="di-marker-label">Appraisal</div></div>
+                    <div class="di-marker" style="left:78%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">Loan</div></div>
+                    <div class="di-marker" style="left:98%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">COE</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="di-expanded" id="d3">
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">Offer accepted</div><div class="di-exp-date ok">Mar 18</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">EMD deposited</div><div class="di-exp-date ok">Mar 20</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">Inspection complete</div><div class="di-exp-date ok">Mar 26</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Appraisal scheduled</div><div class="di-exp-date soon">Apr 5</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Loan approval</div><div class="di-exp-date">Apr 15</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Close of escrow</div><div class="di-exp-date">Apr 28</div></div>
+            </div>
+          </div>
+
+          <!-- DEALS 4-6 compact -->
+          <div class="deal-item" onclick="selectDeal(this)">
+            <div class="di-main">
+              <div class="di-top"><div class="di-addr">Theresa Chen · Seller</div><div class="di-expand" onclick="toggleDeal(event,'d4')">▾</div><div class="di-status ds-closing">Closing</div></div>
+              <div class="di-contact"><div style="width:14px;height:14px;border-radius:50%;background:var(--purple-l);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:600;flex-shrink:0">TC</div>Theresa Chen <span class="di-role-pill" style="background:var(--amber-l);color:var(--amber)">Seller</span></div>
+              <div class="di-meta"><div class="di-price">$1.38M</div><div class="di-coe soon">COE Apr 15</div></div>
+              <div class="di-milestone-bar"><div class="di-bar-track"><div class="di-bar-fill" style="width:88%"></div><div class="di-bar-markers"><div class="di-marker" style="left:88%"><div class="di-marker-dot dm-active"></div><div class="di-marker-label">Signing</div></div><div class="di-marker" style="left:98%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">COE</div></div></div></div></div>
+            </div>
+            <div class="di-expanded" id="d4">
+              <div class="di-exp-milestone"><div class="di-exp-check done">✓</div><div class="di-exp-name done">All contingencies removed</div><div class="di-exp-date ok">Apr 1</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Signing appointment</div><div class="di-exp-date soon">Apr 13</div></div>
+              <div class="di-exp-milestone"><div class="di-exp-check"></div><div class="di-exp-name">Close of escrow 🎉</div><div class="di-exp-date soon">Apr 15</div></div>
+            </div>
+          </div>
+
+          <div class="deal-item" onclick="selectDeal(this)">
+            <div class="di-main">
+              <div class="di-top"><div class="di-addr">James Wu · Investor</div><div class="di-expand" onclick="toggleDeal(event,'d5')">▾</div><div class="di-status ds-closing">Closing</div></div>
+              <div class="di-contact"><div style="width:14px;height:14px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:600;flex-shrink:0">JW</div>James Wu <span class="di-role-pill" style="background:var(--green-l);color:var(--green)">Investor</span></div>
+              <div class="di-meta"><div class="di-price">$720K</div><div class="di-coe soon">COE Apr 22</div></div>
+              <div class="di-milestone-bar"><div class="di-bar-track"><div class="di-bar-fill" style="width:82%"></div><div class="di-bar-markers"><div class="di-marker" style="left:82%"><div class="di-marker-dot dm-active"></div><div class="di-marker-label">Walkthrough</div></div><div class="di-marker" style="left:98%"><div class="di-marker-dot dm-pending"></div><div class="di-marker-label">COE</div></div></div></div></div>
+            </div>
+            <div class="di-expanded" id="d5"></div>
+          </div>
+
+          <div class="deal-item" onclick="selectDeal(this)">
+            <div class="di-main">
+              <div class="di-top"><div class="di-addr">Sandra Lee · Listing</div><div class="di-expand" onclick="toggleDeal(event,'d6')">▾</div><div class="di-status ds-active">Active</div></div>
+              <div class="di-contact"><div style="width:14px;height:14px;border-radius:50%;background:var(--amber-l);color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:600;flex-shrink:0">SL</div>Sandra Lee <span class="di-role-pill" style="background:var(--amber-l);color:var(--amber)">Seller</span></div>
+              <div class="di-meta"><div class="di-price">$1.2M target</div><div class="di-coe">Preparing to list</div></div>
+              <div class="di-milestone-bar"><div class="di-bar-track"><div class="di-bar-fill" style="width:18%"></div></div></div>
+            </div>
+            <div class="di-expanded" id="d6"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TC BOARD -->
+      <div class="tc-board">
+        <div class="tc-header">
+          <div class="tc-top">
+            <div class="tc-prop-row">
+              <div class="tc-prop-icon">🏠</div>
+              <div>
+                <div class="tc-addr">2895 Fordham St, East Palo Alto</div>
+                <div class="tc-sub">
+                  3 bed · 2 bath · $1.38M
+                  <span class="tc-pill" style="background:#d1fae5;color:#047857">Under Contract</span>
+                  <span class="tc-pill" style="background:var(--amber-l);color:var(--amber)">Seller Side</span>
+                  <span class="tc-pill" style="background:var(--red-l);color:var(--red)">⚠ Contingency Due Tomorrow</span>
+                </div>
+              </div>
+            </div>
+            <div class="tc-actions">
+              <button class="tc-btn" onclick="openDoc()">📋 Docs <span style="font-size:9px;background:var(--red-l);color:var(--red);padding:1px 5px;border-radius:3px;margin-left:2px">5 missing</span></button>
+              <button class="tc-btn" onclick="openNS()">⊕ Net Sheet</button>
+              <button class="tc-btn" onclick="openMsg('All Stakeholders','Deal update on 2895 Fordham St — ')">✉ Notify All</button>
+              <button class="tc-btn primary">+ Milestone</button>
+            </div>
+          </div>
+
+          <!-- STAKEHOLDERS — clickable -->
+          <div class="stakeholders">
+            <div class="sh-item" onclick="openContact('Theresa Chen','Seller','TC','var(--purple-l)','var(--purple)')">
+              <div style="font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em">Seller</div>
+              <div class="sh-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
+              <div class="sh-name">Theresa Chen</div>
+              <button class="sh-msg-btn" onclick="event.stopPropagation();openMsg('Theresa Chen','')">✉</button>
+            </div>
+            <div class="sh-divider"></div>
+            <div class="sh-item" onclick="openContact('David Park','Buyer','DP','var(--blue-l)','var(--blue)')">
+              <div style="font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em">Buyer</div>
+              <div class="sh-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
+              <div class="sh-name">David Park</div>
+              <button class="sh-msg-btn" onclick="event.stopPropagation();openMsg('David Park','')">✉</button>
+            </div>
+            <div class="sh-divider"></div>
+            <div class="sh-item" onclick="openContact('Giselle (TC)','Transaction Coordinator','G','var(--green-l)','var(--green)')">
+              <div style="font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em">TC</div>
+              <div class="sh-ava" style="background:var(--green-l);color:var(--green)">G</div>
+              <div class="sh-name">Giselle</div>
+              <button class="sh-msg-btn" onclick="event.stopPropagation();openMsg('Giselle','')">✉</button>
+            </div>
+            <div class="sh-divider"></div>
+            <div class="sh-item" onclick="openContact('Wells Fargo','Lender','WF','var(--bg)','var(--muted)')">
+              <div style="font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em">Lender</div>
+              <div class="sh-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">WF</div>
+              <div class="sh-name">Wells Fargo</div>
+              <button class="sh-msg-btn" onclick="event.stopPropagation();openMsg('Wells Fargo','')">✉</button>
+            </div>
+            <div class="sh-divider"></div>
+            <div class="sh-item" onclick="openContact('Fidelity Title','Escrow','FT','var(--bg)','var(--muted)')">
+              <div style="font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em">Escrow</div>
+              <div class="sh-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">FT</div>
+              <div class="sh-name">Fidelity Title</div>
+              <button class="sh-msg-btn" onclick="event.stopPropagation();openMsg('Fidelity Title','')">✉</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TC CONTENT -->
+        <div class="tc-content">
+
+          <!-- SUMMARY -->
+          <div class="summary-strip">
+            <div class="sum-box"><div class="sum-label">Close of Escrow</div><div class="sum-val">Apr 15</div><div class="sum-sub warn">17 days away</div></div>
+            <div class="sum-box"><div class="sum-label">Contract Price</div><div class="sum-val">$1.38M</div><div class="sum-sub good">Accepted</div></div>
+            <div class="sum-box"><div class="sum-label">Progress</div><div class="sum-val">72%</div><div class="sum-sub good">On track</div></div>
+            <div class="sum-box"><div class="sum-label">Open Contingencies</div><div class="sum-val">1</div><div class="sum-sub bad">Due tomorrow</div></div>
+          </div>
+
+          <!-- MILESTONE TIMELINE BAR -->
+          <div class="timeline-bar-wrap">
+            <div class="tl-bar-label">
+              <div class="tl-bar-title">Transaction timeline — click any milestone to expand</div>
+              <div class="tl-bar-pct">72% · 8 of 11 done</div>
+            </div>
+            <div class="tl-bar-outer">
+              <div class="tl-bar-track">
+                <div class="tl-bar-fill" style="width:72%"></div>
+                <div class="tl-markers">
+                  <div class="tl-m" style="left:8%" onclick="toggleMs('ms-offer')"><div class="tl-m-dot tm-done"></div><div class="tl-m-label">Offer Signed</div><div class="tl-m-date">Mar 20</div></div>
+                  <div class="tl-m" style="left:18%" onclick="toggleMs('ms-emd')"><div class="tl-m-dot tm-done"></div><div class="tl-m-label">EMD</div><div class="tl-m-date">Mar 22</div></div>
+                  <div class="tl-m" style="left:28%" onclick="toggleMs('ms-escrow')"><div class="tl-m-dot tm-done"></div><div class="tl-m-label">Escrow Open</div><div class="tl-m-date">Mar 22</div></div>
+                  <div class="tl-m" style="left:40%" onclick="toggleMs('ms-title')"><div class="tl-m-dot tm-done"></div><div class="tl-m-label">Title Report</div><div class="tl-m-date">Mar 25</div></div>
+                  <div class="tl-m" style="left:52%" onclick="toggleMs('ms-inspect')"><div class="tl-m-dot tm-done"></div><div class="tl-m-label">Inspection</div><div class="tl-m-date">Mar 29</div></div>
+                  <div class="tl-m" style="left:62%" onclick="toggleMs('ms-contingency')"><div class="tl-m-dot tm-overdue"></div><div class="tl-m-label" style="color:var(--red);font-weight:600">Contingency</div><div class="tl-m-date" style="color:var(--red)">Apr 3 ⚠</div></div>
+                  <div class="tl-m" style="left:72%" onclick="toggleMs('ms-appraisal')"><div class="tl-m-dot tm-current"></div><div class="tl-m-label">Appraisal</div><div class="tl-m-date">Apr 5</div></div>
+                  <div class="tl-m" style="left:82%" onclick="toggleMs('ms-loan')"><div class="tl-m-dot tm-pending"></div><div class="tl-m-label">Loan / CTC</div><div class="tl-m-date">Apr 10</div></div>
+                  <div class="tl-m" style="left:90%" onclick="toggleMs('ms-signing')"><div class="tl-m-dot tm-pending"></div><div class="tl-m-label">Signing</div><div class="tl-m-date">Apr 13</div></div>
+                  <div class="tl-m" style="left:98%" onclick="toggleMs('ms-coe')"><div class="tl-m-dot tm-pending"></div><div class="tl-m-label">COE 🎉</div><div class="tl-m-date">Apr 15</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTINGENCY ALERT -->
+          <div class="contingency-alert">
+            <div class="ca-ico">⚠</div>
+            <div class="ca-text">
+              <div class="ca-title">Inspection Contingency Due Tomorrow — April 3</div>
+              <div class="ca-sub">David Park must remove or exercise by 5pm. Click Notify Now to dispatch to all relevant parties instantly.</div>
+            </div>
+            <button class="ca-btn" onclick="alert('Dispatching to Buyer, Lender & Escrow…')">Notify Now →</button>
+          </div>
+
+          <!-- SECTION: OFFER & OPENING -->
+          <div class="ms-section">
+            <div class="ms-section-header" onclick="toggleSection('sec-offer')">
+              <div class="ms-section-icon" style="background:var(--green-l);color:var(--green)">✓</div>
+              <div class="ms-section-title">Offer & Opening Escrow</div>
+              <div class="ms-section-count">4 of 4 complete</div>
+              <div class="ms-section-toggle open" id="toggle-sec-offer">▾</div>
+            </div>
+            <div class="ms-items" id="sec-offer">
+              <div class="milestone ms-complete ms-done" id="ms-offer">
+                <div class="ms-row" onclick="toggleMs('ms-offer-detail')">
+                  <div class="ms-check done">✓</div>
+                  <div class="ms-body">
+                    <div class="ms-name done-text">Offer accepted & signed <span style="font-size:9px;color:var(--faint);font-weight:400">↕ click to expand</span></div>
+                    <div class="ms-preview">Both parties executed · $1.38M purchase price</div>
+                  </div>
+                  <div class="ms-right">
+                    <div class="ms-date done">Done · Mar 20</div>
+                    <button class="ms-expand-btn">▾ Details</button>
+                  </div>
+                </div>
+                <div class="ms-detail-panel" id="ms-offer-detail">
+                  <div class="ms-detail-grid">
+                    <div class="ms-detail-item"><div class="ms-detail-label">Completed by</div><div class="ms-detail-val">Graeham Watts</div></div>
+                    <div class="ms-detail-item"><div class="ms-detail-label">Date</div><div class="ms-detail-val">March 20, 2026 · 3:45pm</div></div>
+                    <div class="ms-detail-item"><div class="ms-detail-label">Purchase price</div><div class="ms-detail-val" style="color:var(--green);font-weight:500">$1,380,000</div></div>
+                    <div class="ms-detail-item"><div class="ms-detail-label">Close of escrow</div><div class="ms-detail-val">April 15, 2026</div></div>
+                  </div>
+                  <div class="ms-note-box">Theresa accepted the full-price offer with no contingency waivers. Buyer is conventional financing, 20% down. All parties signed via DocuSign.</div>
+                  <div class="ms-detail-actions">
+                    <button class="ms-action-btn">📄 View Document</button>
+                    <button class="ms-action-btn">✉ Send Copy</button>
+                    <button class="ms-action-btn">✎ Add Note</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="milestone ms-complete ms-done" id="ms-emd">
+                <div class="ms-row" onclick="toggleMs('ms-emd-detail')">
+                  <div class="ms-check done">✓</div>
+                  <div class="ms-body">
+                    <div class="ms-name done-text">Earnest money deposit (EMD) received</div>
+                    <div class="ms-preview">$27,600 deposited · Fidelity Title</div>
+                  </div>
+                  <div class="ms-right">
+                    <div class="ms-date done">Done · Mar 22</div>
+                    <button class="ms-expand-btn">▾ Details</button>
+                  </div>
+                </div>
+                <div class="ms-detail-panel" id="ms-emd-detail">
+                  <div class="ms-detail-grid">
+                    <div class="ms-detail-item"><div class="ms-detail-label">Amount</div><div class="ms-detail-val" style="color:var(--green);font-weight:500">$27,600 (2%)</div></div>
+                    <div class="ms-detail-item"><div class="ms-detail-label">Received by</div><div class="ms-detail-val">Fidelity Title · File #2026-4821</div></div>
+                  </div>
+                  <div class="ms-detail-actions"><button class="ms-action-btn">📄 Receipt</button><button class="ms-action-btn">✎ Add Note</button></div>
+                </div>
+              </div>
+
+              <div class="milestone ms-complete ms-done">
+                <div class="ms-row" onclick="toggleMs('ms-escrow-detail')">
+                  <div class="ms-check done">✓</div>
+                  <div class="ms-body"><div class="ms-name done-text">Escrow opened</div><div class="ms-preview">Fidelity Title · File #2026-4821</div></div>
+                  <div class="ms-right"><div class="ms-date done">Done · Mar 22</div><button class="ms-expand-btn">▾ Details</button></div>
+                </div>
+                <div class="ms-detail-panel" id="ms-escrow-detail">
+                  <div class="ms-note-box">Escrow officer: Patricia Wang · (650) 555-0300 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9cecebfdf2fbdcfaf5f8f9f0f5e8e5b2fff3f1">[email&#160;protected]</a></div>
+                  <div class="ms-detail-actions"><button class="ms-action-btn" onclick="openContact('Fidelity Title','Escrow','FT','var(--bg)','var(--muted)')">👤 Escrow Contact</button><button class="ms-action-btn">✉ Send Update</button></div>
+                </div>
+              </div>
+
+              <div class="milestone ms-complete ms-done">
+                <div class="ms-row">
+                  <div class="ms-check done">✓</div>
+                  <div class="ms-body"><div class="ms-name done-text">Preliminary title report delivered</div><div class="ms-preview">No issues found · Clear to proceed</div></div>
+                  <div class="ms-right"><div class="ms-date done">Done · Mar 25</div><button class="ms-expand-btn">▾ Details</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION: INSPECTIONS -->
+          <div class="ms-section">
+            <div class="ms-section-header" onclick="toggleSection('sec-inspect')">
+              <div class="ms-section-icon" style="background:var(--red-l);color:var(--red)">⚠</div>
+              <div class="ms-section-title">Inspections & Contingencies</div>
+              <div class="ms-section-count">1 of 3 complete · 1 overdue</div>
+              <div class="ms-section-toggle open" id="toggle-sec-inspect">▾</div>
+            </div>
+            <div class="ms-items" id="sec-inspect">
+              <div class="milestone ms-complete ms-done">
+                <div class="ms-row" onclick="toggleMs('ms-inspect-detail')">
+                  <div class="ms-check done">✓</div>
+                  <div class="ms-body"><div class="ms-name done-text">Home inspection completed</div><div class="ms-preview">No major issues · $2,500 seller credit agreed</div></div>
+                  <div class="ms-right"><div class="ms-date done">Done · Mar 29</div><button class="ms-expand-btn">▾ Details</button></div>
+                </div>
+                <div class="ms-detail-panel" id="ms-inspect-detail">
+                  <div class="ms-detail-grid">
+                    <div class="ms-detail-item"><div class="ms-detail-label">Inspector</div><div class="ms-detail-val">Bay Area Home Inspections</div></div>
+                    <div class="ms-detail-item"><div class="ms-detail-label">Result</div><div class="ms-detail-val good">No major issues</div></div>
+                  </div>
+                  <div class="ms-note-box">Minor items: leaky faucet in hall bath, GFCI outlets needed in kitchen. Seller agreed to $2,500 credit in lieu of repairs. Both parties signed addendum.</div>
+                  <div class="ms-detail-actions"><button class="ms-action-btn">📄 Inspection Report</button><button class="ms-action-btn">📄 Credit Addendum</button></div>
+                </div>
+              </div>
+
+              <div class="milestone ms-overdue" id="ms-contingency">
+                <div class="ms-row" onclick="toggleMs('ms-contingency-detail')">
+                  <div class="ms-check overdue">!</div>
+                  <div class="ms-body">
+                    <div class="ms-name" style="color:var(--red)">Inspection contingency — remove or exercise ⚠</div>
+                    <div class="ms-preview">David Park must formally remove or exercise inspection rights by 5pm</div>
+                  </div>
+                  <div class="ms-right">
+                    <div class="ms-date late">Due Tomorrow · Apr 3</div>
+                    <button class="ms-expand-btn" style="border-color:var(--red);color:var(--red)">▾ Details</button>
+                  </div>
+                </div>
+                <div class="ms-detail-panel" id="ms-contingency-detail">
+                  <div class="ms-detail-grid">
+                    <div class="ms-detail-item"><div class="ms-detail-label">Deadline</div><div class="ms-detail-val bad">April 3, 2026 · 5:00pm</div></div>
+                    <div class="ms-detail-item"><div class="ms-detail-label">Status</div><div class="ms-detail-val bad">Awaiting buyer response</div></div>
+                  </div>
+                  <div class="ms-note-box">Buyer has not yet formally submitted contingency removal. Call David Park today to confirm intention and send DocuSign for removal form.</div>
+                  <div class="ms-dispatch-row">
+                    <button class="dispatch-btn" onclick="this.classList.add('sent');this.textContent='✓ Sent to David Park'">✉ Notify Buyer</button>
+                    <button class="dispatch-btn" onclick="this.classList.add('sent');this.textContent='✓ Sent to Wells Fargo'">✉ Notify Lender</button>
+                    <button class="dispatch-btn" onclick="this.classList.add('sent');this.textContent='✓ Sent to Escrow'">✉ Notify Escrow</button>
+                  </div>
+                  <div class="ms-detail-actions">
+                    <button class="ms-action-btn done-btn" onclick="this.textContent='✓ Marked Complete'">Mark Complete</button>
+                    <button class="ms-action-btn" onclick="openMsg('David Park','Hi David — just a reminder that your inspection contingency needs to be removed or exercised by tomorrow April 3rd at 5pm. Please let me know your decision.')">✉ Message Buyer</button>
+                    <button class="ms-action-btn">📄 Removal Form</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="milestone ms-upcoming">
+                <div class="ms-row" onclick="toggleMs('ms-appraisal-detail')">
+                  <div class="ms-check"></div>
+                  <div class="ms-body"><div class="ms-name">Appraisal contingency deadline</div><div class="ms-preview">Lender appraisal must support $1.38M contract price</div></div>
+                  <div class="ms-right"><div class="ms-date soon">Apr 7</div><button class="ms-expand-btn">▾ Details</button></div>
+                </div>
+                <div class="ms-detail-panel" id="ms-appraisal-detail">
+                  <div class="ms-dispatch-row">
+                    <button class="dispatch-btn">✉ Notify Lender</button>
+                    <button class="dispatch-btn">✉ Notify Buyer</button>
+                  </div>
+                  <div class="ms-detail-actions"><button class="ms-action-btn done-btn" onclick="this.textContent='✓ Marked Complete'">Mark Complete</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION: LOAN -->
+          <div class="ms-section">
+            <div class="ms-section-header" onclick="toggleSection('sec-loan')">
+              <div class="ms-section-icon" style="background:var(--blue-l);color:var(--blue)">$</div>
+              <div class="ms-section-title">Loan & Appraisal</div>
+              <div class="ms-section-count">1 of 3 complete</div>
+              <div class="ms-section-toggle open" id="toggle-sec-loan">▾</div>
+            </div>
+            <div class="ms-items" id="sec-loan">
+              <div class="milestone ms-complete ms-done">
+                <div class="ms-row"><div class="ms-check done">✓</div><div class="ms-body"><div class="ms-name done-text">Loan application submitted</div><div class="ms-preview">Wells Fargo · Conventional 30yr · 20% down</div></div><div class="ms-right"><div class="ms-date done">Done · Mar 23</div></div></div>
+              </div>
+              <div class="milestone ms-upcoming">
+                <div class="ms-row" onclick="toggleMs('ms-appraisal2-detail')">
+                  <div class="ms-check"></div>
+                  <div class="ms-body"><div class="ms-name">Appraisal visit scheduled</div><div class="ms-preview">Appraiser visits · Must support $1.38M</div></div>
+                  <div class="ms-right"><div class="ms-date soon">Apr 5 · 10am</div><button class="ms-expand-btn">▾ Details</button></div>
+                </div>
+                <div class="ms-detail-panel" id="ms-appraisal2-detail">
+                  <div class="ms-dispatch-row">
+                    <button class="dispatch-btn" onclick="this.classList.add('sent');this.textContent='✓ Notified'">✉ Notify Seller</button>
+                    <button class="dispatch-btn">📅 Add to Calendar</button>
+                  </div>
+                  <div class="ms-detail-actions"><button class="ms-action-btn done-btn" onclick="this.textContent='✓ Done'">Mark Complete</button></div>
+                </div>
+              </div>
+              <div class="milestone ms-future">
+                <div class="ms-row"><div class="ms-check"></div><div class="ms-body"><div class="ms-name">Loan approval / clear to close</div><div class="ms-preview">Final underwriting · Lender issues CTC</div></div><div class="ms-right"><div class="ms-date">Apr 10</div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION: CLOSING -->
+          <div class="ms-section">
+            <div class="ms-section-header" onclick="toggleSection('sec-close')">
+              <div class="ms-section-icon" style="background:var(--amber-l);color:var(--amber)">🎉</div>
+              <div class="ms-section-title">Closing & Funding</div>
+              <div class="ms-section-count">0 of 4 complete</div>
+              <div class="ms-section-toggle open" id="toggle-sec-close">▾</div>
+            </div>
+            <div class="ms-items" id="sec-close">
+              <div class="milestone ms-future"><div class="ms-row"><div class="ms-check"></div><div class="ms-body"><div class="ms-name">Signing appointment</div><div class="ms-preview">Both parties sign closing docs</div></div><div class="ms-right"><div class="ms-date">Apr 13</div></div></div></div>
+              <div class="milestone ms-future">
+                <div class="ms-row" onclick="toggleMs('ms-walkthrough-detail')">
+                  <div class="ms-check"></div>
+                  <div class="ms-body"><div class="ms-name">Final walkthrough</div><div class="ms-preview">Buyer confirms property condition</div></div>
+                  <div class="ms-right"><div class="ms-date">Apr 14</div><button class="ms-expand-btn">▾ Details</button></div>
+                </div>
+                <div class="ms-detail-panel" id="ms-walkthrough-detail">
+                  <div class="ms-dispatch-row"><button class="dispatch-btn">✉ Schedule with Buyer</button><button class="dispatch-btn">✉ Notify Seller</button></div>
+                  <div class="ms-detail-actions"><button class="ms-action-btn done-btn" onclick="this.textContent='✓ Done'">Mark Complete</button></div>
+                </div>
+              </div>
+              <div class="milestone ms-future"><div class="ms-row"><div class="ms-check"></div><div class="ms-body"><div class="ms-name">Wire instructions sent</div><div class="ms-preview">Closing funds wired to escrow</div></div><div class="ms-right"><div class="ms-date">Apr 14</div></div></div></div>
+              <div class="milestone ms-future"><div class="ms-row"><div class="ms-check"></div><div class="ms-body"><div class="ms-name" style="color:var(--green);font-weight:600">🎉 Close of escrow — deed records</div><div class="ms-preview">Title transfers · Keys handed over · Commission released</div></div><div class="ms-right"><div class="ms-date" style="color:var(--green);font-weight:600;font-size:12px">April 15, 2026</div></div></div></div>
+              <div class="add-milestone">+ Add milestone or custom task</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CALENDAR / DATES VIEW -->
+    <div class="calendar-view" id="view-cal">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:900px">
+
+        <div class="cal-month">
+          <div class="cal-month-title">April 2026 <span class="cal-month-count">9 milestones</span></div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">3</div><div class="cal-day-weekday">Fri</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event overdue">
+                <div class="cal-event-dot" style="background:var(--red)"></div>
+                <div class="cal-event-name">Inspection contingency deadline</div>
+                <div class="cal-event-deal">2895 Fordham St · David Park · Due 5pm</div>
+                <div class="cal-event-status" style="background:var(--red-l);color:var(--red)">⚠ Overdue</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">5</div><div class="cal-day-weekday">Sun</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event urgent">
+                <div class="cal-event-dot" style="background:var(--amber)"></div>
+                <div class="cal-event-name">Appraisal visit · 10am</div>
+                <div class="cal-event-deal">2895 Fordham St · Wells Fargo</div>
+                <div class="cal-event-status" style="background:var(--amber-l);color:var(--amber)">Upcoming</div>
+              </div>
+              <div class="cal-event urgent">
+                <div class="cal-event-dot" style="background:var(--amber)"></div>
+                <div class="cal-event-name">Appraisal visit · David Park deal</div>
+                <div class="cal-event-deal">Buyer side · Wells Fargo</div>
+                <div class="cal-event-status" style="background:var(--amber-l);color:var(--amber)">Upcoming</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">7</div><div class="cal-day-weekday">Tue</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event">
+                <div class="cal-event-dot" style="background:var(--blue)"></div>
+                <div class="cal-event-name">Appraisal contingency deadline</div>
+                <div class="cal-event-deal">2895 Fordham St</div>
+                <div class="cal-event-status" style="background:var(--bg);color:var(--faint);border:1px solid var(--border)">Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">10</div><div class="cal-day-weekday">Fri</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event">
+                <div class="cal-event-dot" style="background:var(--blue)"></div>
+                <div class="cal-event-name">Loan approval / clear to close</div>
+                <div class="cal-event-deal">2895 Fordham St · Wells Fargo</div>
+                <div class="cal-event-status" style="background:var(--bg);color:var(--faint);border:1px solid var(--border)">Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">13</div><div class="cal-day-weekday">Mon</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event">
+                <div class="cal-event-dot" style="background:var(--purple)"></div>
+                <div class="cal-event-name">Signing appointment</div>
+                <div class="cal-event-deal">2895 Fordham St · Theresa Chen + David Park</div>
+                <div class="cal-event-status" style="background:var(--bg);color:var(--faint);border:1px solid var(--border)">Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">14</div><div class="cal-day-weekday">Tue</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event">
+                <div class="cal-event-dot" style="background:var(--muted)"></div>
+                <div class="cal-event-name">Final walkthrough</div>
+                <div class="cal-event-deal">2895 Fordham St · David Park</div>
+              </div>
+              <div class="cal-event">
+                <div class="cal-event-dot" style="background:var(--muted)"></div>
+                <div class="cal-event-name">Wire instructions deadline</div>
+                <div class="cal-event-deal">2895 Fordham St · Fidelity Title</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date" style="color:var(--green);font-weight:600">15</div><div class="cal-day-weekday" style="color:var(--green)">Wed 🎉</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event" style="border-color:var(--green);background:var(--green-l)">
+                <div class="cal-event-dot" style="background:var(--green)"></div>
+                <div class="cal-event-name" style="font-weight:500;color:var(--green)">Close of Escrow — 2895 Fordham St</div>
+                <div class="cal-event-deal">Theresa Chen sells · $1.38M · Graeham Watts</div>
+                <div class="cal-event-status" style="background:var(--green);color:#fff">COE 🎉</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">22</div><div class="cal-day-weekday">Wed</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event" style="border-color:var(--green);background:var(--green-l)">
+                <div class="cal-event-dot" style="background:var(--green)"></div>
+                <div class="cal-event-name" style="font-weight:500;color:var(--green)">Close of Escrow — James Wu · Investment</div>
+                <div class="cal-event-deal">$720K · Investor buy · Graeham Watts</div>
+                <div class="cal-event-status" style="background:var(--green);color:#fff">COE 🎉</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-day">
+            <div class="cal-day-label"><div class="cal-day-date">28</div><div class="cal-day-weekday">Tue</div></div>
+            <div class="cal-day-events">
+              <div class="cal-event" style="border-color:var(--green);background:var(--green-l)">
+                <div class="cal-event-dot" style="background:var(--green)"></div>
+                <div class="cal-event-name" style="font-weight:500;color:var(--green)">Close of Escrow — David Park · Buyer</div>
+                <div class="cal-event-deal">$1.05M · Graeham Watts</div>
+                <div class="cal-event-status" style="background:var(--green);color:#fff">COE 🎉</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: UPCOMING SUMMARY -->
+        <div>
+          <div class="cal-month" style="margin-bottom:0">
+            <div class="cal-month-title">Needs Attention Now</div>
+            <div style="background:var(--red-l);border:1px solid var(--red);border-radius:8px;padding:0.85rem 1rem;margin-bottom:8px">
+              <div style="font-size:11px;font-weight:500;color:var(--red);margin-bottom:4px">⚠ Inspection Contingency — Due Tomorrow</div>
+              <div style="font-size:11px;color:var(--red);opacity:0.85;margin-bottom:8px">2895 Fordham St · David Park · April 3 · 5pm</div>
+              <button style="background:var(--red);color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit" onclick="alert('Dispatching…')">Notify all parties →</button>
+            </div>
+            <div style="background:var(--amber-l);border:1px solid var(--amber);border-radius:8px;padding:0.85rem 1rem;margin-bottom:8px">
+              <div style="font-size:11px;font-weight:500;color:var(--amber);margin-bottom:4px">📅 Two appraisals on April 5</div>
+              <div style="font-size:11px;color:var(--amber);opacity:0.85">2895 Fordham St + David Park deal — same day, different lenders</div>
+            </div>
+          </div>
+
+          <div style="margin-top:1.25rem">
+            <div class="cal-month-title">This Month's Closings <span class="cal-month-count">3 deals</span></div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:10px;padding:0.75rem 1rem;border-bottom:1px solid var(--border)">
+                <div style="width:32px;height:32px;border-radius:6px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--green);flex-shrink:0">15</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:500">2895 Fordham St</div><div style="font-size:11px;color:var(--faint)">Theresa Chen · Seller · $1.38M</div></div>
+                <div style="font-size:10px;color:var(--green);font-weight:500">17d away</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:0.75rem 1rem;border-bottom:1px solid var(--border)">
+                <div style="width:32px;height:32px;border-radius:6px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--green);flex-shrink:0">22</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:500">James Wu · Investment</div><div style="font-size:11px;color:var(--faint)">Investor · $720K</div></div>
+                <div style="font-size:10px;color:var(--green);font-weight:500">24d away</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:0.75rem 1rem">
+                <div style="width:32px;height:32px;border-radius:6px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--green);flex-shrink:0">28</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:500">David Park · Buyer</div><div style="font-size:11px;color:var(--faint)">Buyer · $1.05M</div></div>
+                <div style="font-size:10px;color:var(--green);font-weight:500">30d away</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// VIEW SWITCHING
+function showView(v){
+  document.getElementById('view-tc').style.display='none';
+  document.getElementById('view-cal').style.display='none';
+  if(v==='tc'){document.getElementById('view-tc').style.display='flex'}
+  else if(v==='cal'){document.getElementById('view-cal').style.display='block'}
+  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// FILTER PILLS
+function setPill(el){document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('on'));el.classList.add('on')}
+
+// TOGGLE DEAL EXPANDED MILESTONES
+function toggleDeal(e,id){
+  e.stopPropagation();
+  const el=document.getElementById(id);
+  const btn=e.target;
+  if(el.classList.contains('open')){el.classList.remove('open');btn.textContent='▾'}
+  else{el.classList.add('open');btn.textContent='▴'}
+}
+
+// SELECT DEAL
+function selectDeal(el){
+  document.querySelectorAll('.deal-item').forEach(d=>d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// TOGGLE SECTION
+function toggleSection(id){
+  const el=document.getElementById(id);
+  const toggle=document.getElementById('toggle-'+id);
+  if(el.style.display==='none'){el.style.display='block';toggle.textContent='▾';toggle.classList.add('open');toggle.classList.remove('closed')}
+  else{el.style.display='none';toggle.textContent='▸';toggle.classList.remove('open');toggle.classList.add('closed')}
+}
+
+// TOGGLE MILESTONE DETAIL
+function toggleMs(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(el.classList.contains('open')){el.classList.remove('open')}
+  else{el.classList.add('open')}
+}
+
+// CONTACT SLIDE PANEL
+const contacts={
+  'Theresa Chen':{role:'Seller',ava:'TC',bgCol:'var(--purple-l)',textCol:'var(--purple)',phone:'(650) 555-0317',email:'theresa@email.com',ig:'@theresachen',note:'Seller on 2895 Fordham St. Flexible on close date. Preferred contact: text.'},
+  'David Park':{role:'Buyer',ava:'DP',bgCol:'var(--blue-l)',textCol:'var(--blue)',phone:'(415) 555-0231',email:'david@email.com',note:'Pre-approved $1.1M. Appraisal pending. Wants to move in by May.'},
+  'Giselle (TC)':{role:'Transaction Coordinator',ava:'G',bgCol:'var(--green-l)',textCol:'var(--green)',phone:'(650) 555-0400',email:'giselle@propiq.com',note:'TC for all active deals. Weekly sync Fridays.'},
+  'Wells Fargo':{role:'Lender',ava:'WF',bgCol:'var(--bg)',textCol:'var(--muted)',phone:'(800) 555-0100',email:'loans@wellsfargo.com',note:'Loan officer: Sarah Mitchell. Conventional 30yr, 20% down.'},
+  'Fidelity Title':{role:'Escrow',ava:'FT',bgCol:'var(--bg)',textCol:'var(--muted)',phone:'(650) 555-0300',email:'pwang@fidelity.com',note:'Officer: Patricia Wang. File #2026-4821.'},
+};
+function openContact(name,role,ava,bg,col){
+  const c=contacts[name]||{role,ava,bgCol:bg,textCol:col,phone:'—',email:'—',note:''};
+  document.getElementById('cs-role-label').textContent=c.role;
+  document.getElementById('cs-body').innerHTML=`
+    <div class="cs-ava" style="background:${c.bgCol};color:${c.textCol}">${c.ava}</div>
+    <div class="cs-name">${name}</div>
+    <div class="cs-sub">${c.role}</div>
+    <div class="cs-quick">
+      <button class="cs-q-btn primary" onclick="openMsg('${name}','')">✉ Message</button>
+      <button class="cs-q-btn">☎ Call</button>
+      <button class="cs-q-btn">📋 Profile</button>
+    </div>
+    <div class="cs-divider"></div>
+    <div class="cs-sec">Contact</div>
+    <div class="cs-row"><div class="cs-label">Phone</div><div class="cs-val link">${c.phone}</div></div>
+    <div class="cs-row"><div class="cs-label">Email</div><div class="cs-val link">${c.email}</div></div>
+    ${c.ig?`<div class="cs-row"><div class="cs-label">Instagram</div><div class="cs-val link">${c.ig}</div></div>`:''}
+    <div class="cs-divider"></div>
+    <div class="cs-sec">Note</div>
+    <div class="cs-note" style="background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:0.45rem 0.6rem;font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:0.25rem">${c.note}</div>
+  `;
+  document.getElementById('contactSlide').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+function closeContact(){
+  document.getElementById('contactSlide').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+// QUICK MESSAGE
+function openMsg(name,prefill){
+  document.getElementById('msg-title').textContent='Send message to '+name;
+  document.getElementById('msg-textarea').value=prefill||'';
+  document.getElementById('msgModal').classList.add('visible');
+}
+function closeMsg(){document.getElementById('msgModal').classList.remove('visible')}
+
+function closeAll(){closeContact();closeMsg()}
+</script>
+</body>
+</html>
+<!-- ============================================================
+     COMMISSION CALCULATOR SLIDE PANEL
+     ============================================================ -->
+<style>
+/* COMMISSION CALCULATOR */
+.comm-panel{position:fixed;left:-360px;top:0;bottom:0;width:340px;background:var(--surface);border-right:1px solid var(--border);z-index:200;transition:left 0.22s ease;box-shadow:4px 0 20px rgba(0,0,0,0.08);display:flex;flex-direction:column;overflow:hidden}
+.comm-panel.open{left:216px}
+.comm-header{padding:0.9rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.comm-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.comm-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer}
+.comm-body{overflow-y:auto;flex:1;padding:1rem}
+.comm-deal-select{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none;margin-bottom:1rem}
+.comm-section{font-size:9.5px;text-transform:uppercase;letter-spacing:0.09em;color:var(--faint);font-weight:500;margin-bottom:0.5rem;margin-top:0.85rem}
+.comm-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.comm-label{font-size:12px;color:var(--muted);flex:1;min-width:0}
+.comm-input{width:90px;border:1px solid var(--border);border-radius:5px;padding:5px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none;text-align:right;flex-shrink:0}
+.comm-input:focus{border-color:var(--green)}
+.comm-unit{font-size:11px;color:var(--faint);flex-shrink:0;width:18px}
+.comm-toggle-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;padding:6px 8px;background:var(--bg);border:1px solid var(--border);border-radius:6px}
+.comm-toggle-label{font-size:12px;color:var(--muted);flex:1}
+.comm-toggle-opts{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.comm-toggle-opt{padding:3px 8px;font-size:11px;cursor:pointer;color:var(--muted);background:var(--surface);border:none;font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.comm-toggle-opt.active{background:var(--ink);color:#fff}
+.comm-deduction{display:flex;align-items:flex-start;gap:6px;margin-bottom:5px;padding:6px 8px;background:var(--bg);border:1px solid var(--border);border-radius:6px}
+.comm-ded-info{flex:1;min-width:0}
+.comm-ded-name{font-size:12px;font-weight:500}
+.comm-ded-sub{font-size:10.5px;color:var(--faint);margin-top:1px}
+.comm-ded-from{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500;margin-top:3px;display:inline-block}
+.from-top{background:var(--red-l);color:var(--red)}
+.from-net{background:var(--blue-l);color:var(--blue)}
+.comm-ded-amt{font-size:12px;font-weight:500;color:var(--ink);white-space:nowrap;flex-shrink:0}
+.comm-add-ded{display:flex;align-items:center;gap:5px;padding:5px 8px;border:1.5px dashed var(--border2);border-radius:6px;cursor:pointer;color:var(--faint);font-size:11.5px;transition:all 0.12s;margin-top:2px}
+.comm-add-ded:hover{border-color:var(--green);color:var(--green);background:var(--green-l)}
+.comm-result{background:var(--green-l);border:1px solid var(--green);border-radius:8px;padding:0.85rem 1rem;margin-top:1rem}
+.comm-result-label{font-size:9.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:0.5rem;font-weight:500}
+.comm-result-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.comm-result-row.total{border-top:1px solid rgba(26,122,86,0.2);margin-top:6px;padding-top:6px;font-weight:500;font-size:13.5px}
+.comm-result-val{font-weight:500;color:var(--green)}
+.comm-result-val.total{font-family:'Playfair Display',serif;font-size:1.3rem}
+.comm-result-muted{color:var(--muted);font-weight:400}
+.comm-save-btn{width:100%;padding:8px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:13px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;margin-top:0.75rem;transition:background 0.12s}
+.comm-save-btn:hover{background:#156445}
+
+/* DOCUMENT CHECKLIST */
+.doc-panel{position:fixed;right:-380px;top:0;bottom:0;width:360px;background:var(--surface);border-left:1px solid var(--border);z-index:200;transition:right 0.22s ease;box-shadow:-4px 0 20px rgba(0,0,0,0.08);display:flex;flex-direction:column}
+.doc-panel.open{right:0}
+.doc-header{padding:0.9rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.doc-title{font-size:13px;font-weight:500}
+.doc-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer}
+.doc-progress{padding:0.75rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.doc-prog-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.doc-prog-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.doc-prog-fill{height:100%;background:var(--green);border-radius:3px}
+.doc-body{overflow-y:auto;flex:1;padding:0.75rem 1rem}
+.doc-section{margin-bottom:1rem}
+.doc-sec-header{font-size:10px;text-transform:uppercase;letter-spacing:0.09em;color:var(--faint);font-weight:500;margin-bottom:0.5rem;display:flex;align-items:center;justify-content:space-between}
+.doc-sec-count{font-size:9.5px;padding:1px 6px;border-radius:8px;font-weight:500}
+.doc-item{display:flex;align-items:center;gap:8px;padding:0.5rem 0.65rem;border:1px solid var(--border);border-radius:6px;margin-bottom:4px;transition:all 0.12s;cursor:pointer}
+.doc-item:hover{border-color:var(--border2);background:var(--bg)}
+.doc-item.received{background:var(--bg);opacity:0.8}
+.doc-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;transition:all 0.15s;cursor:pointer}
+.doc-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.doc-check.missing{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.doc-check.pending{background:var(--amber-l);border-color:var(--amber);color:var(--amber)}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-size:12px;font-weight:500}
+.doc-name.done{color:var(--faint);text-decoration:line-through;font-weight:400}
+.doc-sub{font-size:10.5px;color:var(--faint);margin-top:1px}
+.doc-status{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.ds-done{background:var(--green-l);color:var(--green)}
+.ds-missing{background:var(--red-l);color:var(--red)}
+.ds-pending{background:var(--amber-l);color:var(--amber)}
+.doc-request-btn{font-size:10px;color:var(--green);cursor:pointer;padding:2px 6px;border-radius:3px;border:1px solid var(--green-l);background:var(--green-l);font-family:'Epilogue',sans-serif;white-space:nowrap;flex-shrink:0}
+.doc-upload-btn{width:100%;padding:8px;background:transparent;color:var(--green);border:1.5px dashed var(--green);border-radius:6px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;margin-top:0.5rem;transition:all 0.12s}
+.doc-upload-btn:hover{background:var(--green-l)}
+
+/* NET SHEET MODAL */
+.netsheet-modal{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:300;display:none;align-items:center;justify-content:center}
+.netsheet-modal.visible{display:flex}
+.ns-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;width:500px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 32px rgba(0,0,0,0.12)}
+.ns-header{padding:0.9rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.ns-title{font-size:13.5px;font-weight:500}
+.ns-close{background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer}
+.ns-body{overflow-y:auto;flex:1;padding:1.1rem}
+.ns-deal-row{display:flex;align-items:center;gap:8px;margin-bottom:1rem}
+.ns-deal-label{font-size:11.5px;color:var(--muted)}
+.ns-deal-select{flex:1;border:1px solid var(--border);border-radius:5px;padding:5px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none}
+.ns-section{margin-bottom:1rem}
+.ns-sec-title{font-size:9.5px;text-transform:uppercase;letter-spacing:0.09em;color:var(--faint);font-weight:500;margin-bottom:0.5rem}
+.ns-row{display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.ns-row:last-child{border-bottom:none}
+.ns-row-label{color:var(--muted)}
+.ns-row-val{font-weight:500;color:var(--ink)}
+.ns-row-val.neg{color:var(--red)}
+.ns-row-val.pos{color:var(--green)}
+.ns-row.editable .ns-row-val{display:flex;align-items:center;gap:4px}
+.ns-edit-input{width:90px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none;text-align:right}
+.ns-edit-input:focus{border-color:var(--green)}
+.ns-total{background:var(--green-l);border:1px solid var(--green);border-radius:8px;padding:0.85rem 1rem;margin-top:0.75rem}
+.ns-total-label{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:4px}
+.ns-total-val{font-family:'Playfair Display',serif;font-size:2rem;color:var(--green)}
+.ns-total-sub{font-size:11px;color:var(--green);opacity:0.8;margin-top:2px}
+.ns-footer{padding:0.85rem 1.1rem;border-top:1px solid var(--border);display:flex;gap:7px;flex-shrink:0}
+.ns-btn{flex:1;padding:8px;border-radius:5px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;transition:all 0.12s}
+.ns-btn.secondary{background:var(--surface);color:var(--muted);border:1px solid var(--border2)}
+.ns-btn.secondary:hover{background:var(--bg)}
+.ns-btn.primary{background:var(--green);color:#fff;border:none}
+.ns-btn.primary:hover{background:#156445}
+</style>
+
+<!-- COMMISSION CALCULATOR PANEL -->
+<div class="comm-panel" id="commPanel">
+  <div class="comm-header">
+    <div class="comm-title">$ Commission Calculator</div>
+    <button class="comm-close" onclick="closeComm()">✕</button>
+  </div>
+  <div class="comm-body">
+    <select class="comm-deal-select" onchange="updateComm()">
+      <option>2895 Fordham St — $1,380,000</option>
+      <option>172 Portola Dr — $1,450,000</option>
+      <option>David Park — $1,050,000</option>
+      <option>James Wu — $720,000</option>
+    </select>
+
+    <div class="comm-section">Sale Price</div>
+    <div class="comm-row">
+      <div class="comm-label">Contract price</div>
+      <input class="comm-input" id="salePrice" value="1,380,000" onkeyup="calcComm()">
+      <div class="comm-unit">$</div>
+    </div>
+
+    <div class="comm-section">Commission Rate</div>
+    <div class="comm-row">
+      <div class="comm-label">Total commission</div>
+      <input class="comm-input" id="commRate" value="5.0" onkeyup="calcComm()">
+      <div class="comm-unit">%</div>
+    </div>
+    <div class="comm-row">
+      <div class="comm-label">Your side</div>
+      <input class="comm-input" id="mySide" value="2.5" onkeyup="calcComm()">
+      <div class="comm-unit">%</div>
+    </div>
+
+    <div class="comm-section">Brokerage Split</div>
+    <div class="comm-row">
+      <div class="comm-label">Your split</div>
+      <input class="comm-input" id="agentSplit" value="70" onkeyup="calcComm()">
+      <div class="comm-unit">%</div>
+    </div>
+    <div class="comm-toggle-row">
+      <div class="comm-toggle-label">E&O / transaction fee</div>
+      <input class="comm-input" id="eoFee" value="350" onkeyup="calcComm()" style="width:70px">
+      <div class="comm-unit">$</div>
+    </div>
+
+    <div class="comm-section">Additional Deductions</div>
+    <div class="comm-deduction">
+      <div class="comm-ded-info">
+        <div class="comm-ded-name">Marketing / staging credit</div>
+        <div class="comm-ded-sub">Agreed with seller at listing</div>
+        <div class="comm-toggle-opts" style="margin-top:4px;width:fit-content">
+          <button class="comm-toggle-opt" onclick="setFrom(this,'top')">Off top</button>
+          <button class="comm-toggle-opt active" onclick="setFrom(this,'net')">From net</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <input class="comm-input" value="1,500" onkeyup="calcComm()" style="width:75px">
+        <div class="comm-unit">$</div>
+      </div>
+    </div>
+    <div class="comm-deduction">
+      <div class="comm-ded-info">
+        <div class="comm-ded-name">Referral fee</div>
+        <div class="comm-ded-sub">25% to referring agent</div>
+        <div class="comm-toggle-opts" style="margin-top:4px;width:fit-content">
+          <button class="comm-toggle-opt active" onclick="setFrom(this,'top')">Off top</button>
+          <button class="comm-toggle-opt" onclick="setFrom(this,'net')">From net</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <input class="comm-input" value="0" onkeyup="calcComm()" style="width:75px">
+        <div class="comm-unit">$</div>
+      </div>
+    </div>
+    <div class="comm-add-ded" onclick="alert('Add deduction coming soon')">+ Add deduction</div>
+
+    <!-- RESULT -->
+    <div class="comm-result" id="commResult">
+      <div class="comm-result-label">Your estimated take-home</div>
+      <div class="comm-result-row"><div class="comm-result-muted">Gross commission (your side 2.5%)</div><div class="comm-result-val" id="res-gross">$34,500</div></div>
+      <div class="comm-result-row"><div class="comm-result-muted">Less brokerage (30%)</div><div class="comm-result-val" id="res-brok" style="color:var(--red)">−$10,350</div></div>
+      <div class="comm-result-row"><div class="comm-result-muted">Less E&O fee</div><div class="comm-result-val" style="color:var(--red)">−$350</div></div>
+      <div class="comm-result-row"><div class="comm-result-muted">Less deductions</div><div class="comm-result-val" style="color:var(--red)">−$1,500</div></div>
+      <div class="comm-result-row total"><div>Net to you</div><div class="comm-result-val total" id="res-net">$22,300</div></div>
+    </div>
+    <button class="comm-save-btn" onclick="closeComm()">Save & Close</button>
+  </div>
+</div>
+
+<!-- DOCUMENT CHECKLIST PANEL -->
+<div class="doc-panel" id="docPanel">
+  <div class="doc-header">
+    <div class="doc-title">📋 Document Checklist — 2895 Fordham St</div>
+    <button class="doc-close" onclick="closeDoc()">✕</button>
+  </div>
+  <div class="doc-progress">
+    <div class="doc-prog-label"><span>7 of 12 documents received</span><span style="color:var(--green);font-weight:500">58% complete</span></div>
+    <div class="doc-prog-bar"><div class="doc-prog-fill" style="width:58%"></div></div>
+  </div>
+  <div class="doc-body">
+
+    <div class="doc-section">
+      <div class="doc-sec-header">Offer & Contract <span class="doc-sec-count" style="background:var(--green-l);color:var(--green)">3 of 3</span></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">Purchase agreement</div><div class="doc-sub">Signed by all parties · Mar 20</div></div><div class="doc-status ds-done">Received</div></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">Seller disclosure (TDS)</div><div class="doc-sub">Completed by Theresa Chen · Mar 21</div></div><div class="doc-status ds-done">Received</div></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">Natural hazard disclosure</div><div class="doc-sub">Ordered from NHD company · Mar 21</div></div><div class="doc-status ds-done">Received</div></div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-sec-header">Escrow & Title <span class="doc-sec-count" style="background:var(--green-l);color:var(--green)">2 of 2</span></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">Escrow instructions</div><div class="doc-sub">Fidelity Title · File #2026-4821 · Mar 22</div></div><div class="doc-status ds-done">Received</div></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">Preliminary title report</div><div class="doc-sub">Clear · No liens · Mar 25</div></div><div class="doc-status ds-done">Received</div></div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-sec-header">Inspections <span class="doc-sec-count" style="background:var(--green-l);color:var(--green)">2 of 2</span></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">Home inspection report</div><div class="doc-sub">Bay Area Home Inspections · Mar 29</div></div><div class="doc-status ds-done">Received</div></div>
+      <div class="doc-item received"><div class="doc-check done">✓</div><div class="doc-info"><div class="doc-name done">$2,500 credit addendum</div><div class="doc-sub">Signed by both parties · Mar 30</div></div><div class="doc-status ds-done">Received</div></div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-sec-header">Loan & Appraisal <span class="doc-sec-count" style="background:var(--red-l);color:var(--red)">0 of 3 ⚠</span></div>
+      <div class="doc-item"><div class="doc-check missing">✗</div><div class="doc-info"><div class="doc-name">Appraisal report</div><div class="doc-sub">Awaiting appraisal visit Apr 5</div></div><div class="doc-status ds-pending">Pending</div><button class="doc-request-btn" onclick="alert('Reminder sent to Wells Fargo')">Request</button></div>
+      <div class="doc-item"><div class="doc-check missing">✗</div><div class="doc-info"><div class="doc-name">Loan approval letter</div><div class="doc-sub">Clear to close from Wells Fargo</div></div><div class="doc-status ds-missing">Missing</div><button class="doc-request-btn" onclick="alert('Reminder sent')">Request</button></div>
+      <div class="doc-item"><div class="doc-check missing">✗</div><div class="doc-info"><div class="doc-name">Contingency removal form</div><div class="doc-sub">David Park must sign — due Apr 3</div></div><div class="doc-status ds-missing" style="background:var(--red);color:#fff">⚠ Overdue</div><button class="doc-request-btn" onclick="alert('DocuSign sent to David Park')">Send DocuSign</button></div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-sec-header">Closing <span class="doc-sec-count" style="background:var(--bg);color:var(--faint);border:1px solid var(--border)">0 of 2</span></div>
+      <div class="doc-item"><div class="doc-check"></div><div class="doc-info"><div class="doc-name">Final closing disclosure (CD)</div><div class="doc-sub">Issued by lender 3 days before COE</div></div><div class="doc-status ds-pending">Not yet</div></div>
+      <div class="doc-item"><div class="doc-check"></div><div class="doc-info"><div class="doc-name">Wire transfer confirmation</div><div class="doc-sub">Buyer funds to escrow before COE</div></div><div class="doc-status ds-pending">Not yet</div></div>
+    </div>
+
+    <button class="doc-upload-btn" onclick="alert('Upload document')">+ Upload Document</button>
+  </div>
+</div>
+
+<!-- NET SHEET MODAL -->
+<div class="netsheet-modal" id="nsModal">
+  <div class="ns-box">
+    <div class="ns-header">
+      <div class="ns-title">⊕ Seller Net Sheet Generator</div>
+      <button class="ns-close" onclick="closeNS()">✕</button>
+    </div>
+    <div class="ns-body">
+      <div class="ns-deal-row">
+        <div class="ns-deal-label">Deal</div>
+        <select class="ns-deal-select">
+          <option>2895 Fordham St — Theresa Chen (Seller)</option>
+          <option>172 Portola Dr</option>
+          <option>Sandra Lee — Listing</option>
+        </select>
+      </div>
+
+      <div class="ns-section">
+        <div class="ns-sec-title">Sale Proceeds</div>
+        <div class="ns-row"><div class="ns-row-label">Sale price</div><div class="ns-row-val pos">$1,380,000</div></div>
+      </div>
+
+      <div class="ns-section">
+        <div class="ns-sec-title">Costs & Deductions</div>
+        <div class="ns-row editable"><div class="ns-row-label">Loan payoff (est.)</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="480,000" onkeyup="calcNS()"></div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Buyer's agent commission (2.5%)</div><div class="ns-row-val neg">−$34,500</div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Listing agent commission (2.5%)</div><div class="ns-row-val neg">−$34,500</div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Escrow & title fees (est.)</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="4,200" onkeyup="calcNS()"></div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Transfer tax (county)</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="1,518" onkeyup="calcNS()"></div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Home warranty (optional)</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="600" onkeyup="calcNS()"></div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Repair credit to buyer</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="2,500" onkeyup="calcNS()"></div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Property tax proration (est.)</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="1,840" onkeyup="calcNS()"></div></div>
+        <div class="ns-row editable"><div class="ns-row-label">Other costs</div><div class="ns-row-val neg">−<input class="ns-edit-input" value="0" onkeyup="calcNS()"></div></div>
+      </div>
+
+      <div class="ns-total">
+        <div class="ns-total-label">Estimated seller net proceeds</div>
+        <div class="ns-total-val" id="ns-total">$820,342</div>
+        <div class="ns-total-sub">Before taxes · This is an estimate — actual numbers may vary</div>
+      </div>
+    </div>
+    <div class="ns-footer">
+      <button class="ns-btn secondary" onclick="closeNS()">Close</button>
+      <button class="ns-btn secondary" onclick="alert('Printing…')">🖨 Print</button>
+      <button class="ns-btn primary" onclick="alert('Emailed to Theresa Chen')">✉ Email to Seller</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// COMMISSION CALCULATOR
+function openComm(){
+  document.getElementById('commPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+function closeComm(){
+  document.getElementById('commPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+function setFrom(btn,type){
+  const parent=btn.closest('.comm-toggle-opts');
+  parent.querySelectorAll('.comm-toggle-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  calcComm();
+}
+function calcComm(){
+  const price=parseFloat((document.getElementById('salePrice').value||'0').replace(/,/g,''))||1380000;
+  const mySidePct=parseFloat(document.getElementById('mySide').value)||2.5;
+  const splitPct=parseFloat(document.getElementById('agentSplit').value)||70;
+  const eoFee=parseFloat((document.getElementById('eoFee').value||'0').replace(/,/g,''))||350;
+  const gross=price*(mySidePct/100);
+  const brok=gross*(1-splitPct/100);
+  const deductions=1500;
+  const net=gross-brok-eoFee-deductions;
+  document.getElementById('res-gross').textContent='$'+Math.round(gross).toLocaleString();
+  document.getElementById('res-brok').textContent='−$'+Math.round(brok).toLocaleString();
+  document.getElementById('res-net').textContent='$'+Math.round(net).toLocaleString();
+}
+
+// DOCUMENT CHECKLIST
+function openDoc(){
+  document.getElementById('docPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+function closeDoc(){
+  document.getElementById('docPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+// NET SHEET
+function openNS(){
+  document.getElementById('nsModal').classList.add('visible');
+}
+function closeNS(){
+  document.getElementById('nsModal').classList.remove('visible');
+}
+function calcNS(){
+  const price=1380000;
+  const payoff=parseFloat((document.querySelector('#nsModal .ns-edit-input').value||'0').replace(/,/g,''))||480000;
+  const fixed=34500+34500+4200+1518+600+2500+1840;
+  const net=price-payoff-fixed;
+  const el=document.getElementById('ns-total');
+  if(el)el.textContent='$'+Math.round(net).toLocaleString();
+}
+
+// OVERRIDE closeAll to include n

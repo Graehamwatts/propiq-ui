@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Content v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a56;--green-l:#e8f5ef;--green-m:#2a9d6f;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --teal:#0e7490;--teal-l:#e0f7fa;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes slideup{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* UNIFIED TOP BAR */
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb-logo{font-family:'Playfair Display',serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0}
+.tb-logo span{color:var(--green)}
+.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
+.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
+.tb-mods::-webkit-scrollbar{display:none}
+.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+
+/* APP BODY */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb-mod{padding:0.85rem 1rem 0.3rem;font-size:11.5px;font-weight:500;display:flex;align-items:center;justify-content:space-between}
+.sb-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500;text-transform:uppercase}
+.nsec{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--faint);padding:0.65rem 1rem 0.3rem;font-weight:500}
+.ni{display:flex;align-items:center;gap:8px;padding:0.4rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all 0.1s;position:relative}
+.ni:hover{background:var(--bg);color:var(--ink)}
+.ni.on{background:var(--green-l);color:var(--green);font-weight:500}
+.ni.on::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green);border-radius:0 2px 2px 0}
+.nico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
+.nbadge{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nb-r{background:var(--red-l);color:var(--red)}
+.nb-g{background:var(--green-l);color:var(--green)}
+.nb-gr{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.nb-a{background:var(--amber-l);color:var(--amber)}
+.sdiv{height:1px;background:var(--border);margin:0.4rem 0}
+.sf{margin-top:auto;padding:0.75rem 1rem;border-top:1px solid var(--border)}
+.sf-row{display:flex;align-items:center;gap:8px}
+.sf-av{width:26px;height:26px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* GEO BAR */
+.geo-bar{display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;height:38px}
+.gtab{display:flex;align-items:center;gap:5px;padding:0 0.75rem;font-size:12px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.gtab:hover{color:var(--ink)}
+.gtab.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.gdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.gadd{display:flex;align-items:center;gap:4px;padding:0 0.75rem;font-size:12px;color:var(--faint);cursor:pointer;margin-bottom:-1px}
+.gadd:hover{color:var(--green)}
+.geo-r{margin-left:auto;display:flex;align-items:center;gap:7px}
+.oatog{display:flex;border:1px solid var(--border2);border-radius:4px;overflow:hidden;height:24px}
+.oab{padding:0 10px;font-size:11px;cursor:pointer;color:var(--muted);background:var(--surface);border:none;font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.oab.on{background:var(--ink);color:#fff}
+.oab.ads-on{background:var(--blue);color:#fff}
+
+/* FOUR-TIER TABS */
+.tier-bar{display:flex;align-items:stretch;background:var(--bg);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;height:38px}
+.ttab{display:flex;align-items:center;gap:6px;padding:0 1rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;white-space:nowrap;margin-bottom:-1px;transition:all 0.12s}
+.ttab:hover{color:var(--ink)}
+.ttab.on{font-weight:500}
+.ttab.on.t-r{color:var(--purple);border-bottom-color:var(--purple)}
+.ttab.on.t-p{color:var(--amber);border-bottom-color:var(--amber)}
+.ttab.on.t-m{color:var(--green);border-bottom-color:var(--green)}
+.ttab.on.t-c{color:var(--blue);border-bottom-color:var(--blue)}
+.tcnt{font-size:9.5px;padding:1px 6px;border-radius:8px;font-weight:500}
+.tc-r{background:var(--purple-l);color:var(--purple)}
+.tc-p{background:var(--amber-l);color:var(--amber)}
+.tc-m{background:var(--green-l);color:var(--green)}
+.tc-c{background:var(--blue-l);color:var(--blue)}
+
+/* CONTROLS BAR */
+.cbar{display:flex;align-items:center;gap:8px;padding:0.55rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.bsw{display:flex;align-items:center;gap:7px}
+.bsl{font-size:11px;color:var(--muted);white-space:nowrap;font-weight:500}
+.bsrange{width:110px;height:4px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,var(--amber) 0%,var(--amber) 70%,var(--blue) 70%,var(--blue) 100%);border-radius:2px;outline:none;cursor:pointer}
+.bsrange::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--surface);border:2px solid var(--border2);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.12)}
+.bspct{font-size:10.5px;font-weight:500;white-space:nowrap}
+.csep{width:1px;height:18px;background:var(--border)}
+.am-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:var(--green-l);border:1px solid var(--green-l);border-radius:4px;padding:3px 9px;cursor:pointer}
+.amdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.ce-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--purple);background:var(--purple-l);border:1px solid var(--purple-l);border-radius:4px;padding:3px 9px}
+.cedot{width:5px;height:5px;border-radius:50%;background:var(--purple);animation:pulse 1.5s infinite}
+/* AUTO ADS TOGGLE */
+.auto-ads-wrap{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);background:var(--blue-l);border:1px solid var(--blue-l);border-radius:4px;padding:3px 9px;cursor:pointer;transition:all 0.12s}
+.auto-ads-wrap.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.auto-ads-toggle{width:28px;height:14px;border-radius:7px;background:var(--border2);position:relative;transition:background 0.2s;flex-shrink:0}
+.auto-ads-toggle::after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.auto-ads-wrap.on .auto-ads-toggle{background:rgba(255,255,255,0.5)}
+.auto-ads-wrap.on .auto-ads-toggle::after{transform:translateX(14px)}
+.cr{margin-left:auto;display:flex;gap:5px}
+.cbtn{padding:4px 9px;border-radius:5px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.cbtn:hover{background:var(--bg);color:var(--ink)}
+.cbtn.p{background:var(--green);color:#fff;border-color:var(--green)}
+.cbtn.pu{background:var(--purple-l);color:var(--purple);border-color:var(--purple-l)}
+
+/* BUCKET FILTER TABS */
+.bfbar{display:flex;align-items:center;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;height:32px;overflow-x:auto;gap:0}
+.bfbar::-webkit-scrollbar{display:none}
+.bft{display:flex;align-items:center;gap:4px;padding:0 0.7rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;height:100%;white-space:nowrap;margin-bottom:-1px;transition:all 0.12s;flex-shrink:0}
+.bft:hover{color:var(--ink)}
+.bft.on{color:var(--ink);border-bottom-color:var(--border2);font-weight:500}
+.bftc{font-size:8.5px;padding:1px 4px;border-radius:5px;background:var(--bg);border:1px solid var(--border);color:var(--faint)}
+
+/* SUMMARY STRIP */
+.sstrip{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--border);flex-shrink:0}
+.scell{padding:0.55rem 1rem;border-right:1px solid var(--border);background:var(--surface)}
+.scell:last-child{border-right:none}
+.slbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:0.2rem}
+.sval{font-family:'Playfair Display',serif;font-size:1.1rem;line-height:1;color:var(--ink)}
+.ssub{font-size:9px;margin-top:2px}
+.good{color:var(--green)}.warn{color:var(--amber)}.bad{color:var(--red)}.neu{color:var(--faint)}
+
+/* SPREADSHEET */
+.ss-wrap{overflow:auto;flex:1}
+.ss-table{width:100%;border-collapse:collapse;font-size:12px}
+.ss-table thead{position:sticky;top:0;z-index:20}
+.ss-table th{padding:0.4rem 0.65rem;font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);font-weight:500;text-align:left;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg);cursor:pointer;white-space:nowrap;user-select:none}
+.ss-table th:hover{color:var(--ink)}
+.ss-table th:last-child{border-right:none}
+.ss-table td{padding:0.48rem 0.65rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);vertical-align:middle;white-space:nowrap}
+.ss-table td:last-child{border-right:none}
+.ss-table tr.dr{cursor:pointer;transition:background 0.1s}
+.ss-table tr.dr:hover td{background:var(--bg)}
+.ss-table tr.dr.sel td{background:#fff8e1}
+.ss-table tr.bhr td{background:var(--bg);padding:0.45rem 0.65rem;border-bottom:1px solid var(--border);cursor:pointer}
+.ss-table tr.bhr:hover td{background:var(--border)}
+.ss-table tr.detail-r td{padding:0;white-space:normal;background:var(--bg)}
+.ss-table tr.bfr td{background:var(--bg);padding:0.38rem 0.65rem;border-bottom:2px solid var(--border2)}
+
+/* BUCKET HEADER ROW */
+.bhr-inner{display:flex;align-items:center;gap:8px}
+.bhr-ico{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.bhr-name{font-size:12.5px;font-weight:500;flex:1;display:flex;align-items:center;gap:5px}
+.bhr-emoji{font-size:14px}
+.bhr-meta{display:flex;align-items:center;gap:7px;margin-left:auto}
+.bhr-count{font-size:10px;color:var(--faint)}
+.opp-pill{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
+.opp-hi{background:var(--green-l);color:var(--green)}
+.opp-md{background:var(--amber-l);color:var(--amber)}
+.opp-lo{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+/* BUCKET HEADER EXECUTE BUTTONS */
+.bhr-actions{display:flex;gap:4px;flex-shrink:0}
+.bha{padding:2px 8px;border-radius:4px;font-size:10px;cursor:pointer;border:1px solid;font-family:'Epilogue',sans-serif;transition:all 0.12s;white-space:nowrap}
+.bha.exec{background:var(--green);color:#fff;border-color:var(--green)}
+.bha.ads{background:var(--blue);color:#fff;border-color:var(--blue)}
+.bha.sel-all{background:var(--surface);color:var(--muted);border-color:var(--border2)}
+.bha:hover{opacity:0.85}
+/* BUCKET CHECKBOX */
+.bhr-cb{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border2);cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.bhr-toggle{font-size:10px;color:var(--faint);transition:transform 0.2s;flex-shrink:0}
+.bhr-toggle.op{transform:rotate(0)}
+.bhr-toggle.cl{transform:rotate(-90deg)}
+
+/* ROW CELLS */
+.itc{max-width:250px}
+.itn{display:flex;align-items:center;gap:5px;font-weight:500;font-size:12px}
+.iex{font-size:9px;color:var(--faint);transition:transform 0.12s;flex-shrink:0;cursor:pointer}
+.iex.op{transform:rotate(90deg)}
+.inew{font-size:8px;padding:1px 5px;border-radius:3px;background:var(--purple-l);color:var(--purple);font-weight:600;flex-shrink:0}
+/* AD BADGE ON TITLE */
+.ad-title-badge{font-size:8px;padding:1px 5px;border-radius:3px;background:var(--red-l);color:var(--red);font-weight:700;flex-shrink:0;border:1px solid var(--red);letter-spacing:0.04em}
+.ad-title-badge.consider{background:var(--amber-l);color:var(--amber);border-color:var(--amber)}
+.its{font-size:10px;color:var(--faint);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.tp{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+.tp-a{background:var(--blue-l);color:var(--blue)}
+.tp-v{background:var(--red-l);color:var(--red)}
+.tp-t{background:var(--teal-l);color:var(--teal)}
+.tp-s{background:var(--purple-l);color:var(--purple)}
+.tp-e{background:var(--amber-l);color:var(--amber)}
+.rk{font-weight:600;font-size:12.5px}
+.r1{color:var(--green)}.r3{color:var(--green)}.r5{color:var(--green)}.r10{color:var(--amber)}.r20{color:var(--red)}.rn{color:var(--faint);font-weight:400;font-size:11px}
+.dup{color:var(--green);font-weight:500}
+.ddn{color:var(--red);font-weight:500}
+.dne{color:var(--faint)}
+.sp{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+.sp-st{background:var(--green-l);color:var(--green)}
+.sp-dr{background:var(--amber-l);color:var(--amber)}
+.sp-ri{background:var(--red-l);color:var(--red)}
+.sp-op{background:var(--purple-l);color:var(--purple)}
+.sp-sc{background:var(--blue-l);color:var(--blue)}
+.sp-dft{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.sp-rv{background:var(--amber-l);color:var(--amber)}
+/* AD REC CELL */
+.ar{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500;white-space:nowrap}
+.ar-y{background:var(--green-l);color:var(--green);cursor:pointer}
+.ar-c{background:var(--amber-l);color:var(--amber)}
+.ar-n{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+/* ENGAGEMENT BAR */
+.egw{display:flex;align-items:center;gap:5px}
+.egb{width:40px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.egf{height:100%;background:var(--green);border-radius:2px}
+.egn{font-size:10.5px;color:var(--muted)}
+/* ACTION BTNS */
+.abw{display:flex;gap:4px}
+.ab{padding:2px 7px;border-radius:3px;font-size:10px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s;white-space:nowrap}
+.ab:hover{background:var(--bg);color:var(--ink)}
+.ab.exec{background:var(--green);color:#fff;border-color:var(--green)}
+.ab.gen{background:var(--purple-l);color:var(--purple);border-color:var(--purple-l)}
+.ab.amp{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
+.ab.fix{background:var(--red-l);color:var(--red);border-color:var(--red-l)}
+/* ROW CHECKBOX */
+.rcb{width:13px;height:13px;border-radius:3px;cursor:pointer;accent-color:var(--green);flex-shrink:0}
+
+/* BUCKET FOOTER ROW */
+.bfr-inner{display:flex;align-items:center;gap:7px}
+.bfr-lbl{font-size:10.5px;color:var(--faint);flex:1}
+.bfr-b{padding:2px 8px;border-radius:4px;font-size:10.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.bfr-b:hover{color:var(--ink)}
+.bfr-b.exec{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* EXPANDED DETAIL */
+.detail-panel{padding:0.85rem 1rem;border-left:3px solid var(--green);background:var(--bg)}
+.dpg{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:0.7rem}
+.dpc{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0.45rem 0.6rem}
+.dpl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px}
+.dpv{font-size:12px;font-weight:500;color:var(--ink)}
+.dpsub{font-size:9.5px;color:var(--faint);margin-top:1px}
+.dpw{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0.55rem 0.7rem;font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:0.6rem}
+.dpw strong{color:var(--ink);font-weight:500}
+.dp-adyes{background:var(--green-l);border:1px solid var(--green);border-radius:5px;padding:0.5rem 0.7rem;font-size:11.5px;margin-bottom:0.6rem;display:flex;gap:7px;align-items:flex-start;line-height:1.5;color:var(--green)}
+.dp-adyes strong{font-weight:500}
+.dp-adnot{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:0.5rem 0.7rem;font-size:11.5px;margin-bottom:0.6rem;color:var(--faint);line-height:1.5}
+.dpkw{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0.6rem}
+.dpk{font-size:10px;padding:2px 7px;border-radius:3px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+.dpact{display:flex;gap:5px;flex-wrap:wrap}
+.dpb{padding:5px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--border2);background:var(--surface);color:var(--muted);transition:all 0.12s}
+.dpb:hover{background:var(--bg);color:var(--ink)}
+.dpb.p{background:var(--green);color:#fff;border-color:var(--green)}
+.dpb.b{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
+.dpb.pu{background:var(--purple-l);color:var(--purple);border-color:var(--purple-l)}
+.dpb.r{background:var(--red-l);color:var(--red);border-color:var(--red-l)}
+
+/* ADD CUSTOM ROW */
+.add-row td{background:transparent;padding:0.5rem 0.65rem}
+.add-inner{display:flex;align-items:center;gap:5px;color:var(--faint);font-size:11.5px;cursor:pointer}
+.add-inner:hover{color:var(--green)}
+
+/* FLOATING BULK ACTION BAR */
+.bulk-bar{position:fixed;bottom:0;left:210px;right:0;background:var(--ink);color:#fff;padding:0.65rem 1.5rem;display:flex;align-items:center;gap:12px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.2);animation:slideup 0.18s ease;transition:transform 0.18s ease}
+.bulk-bar.hidden{display:none}
+.bb-count{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.bb-count span{background:var(--green);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.bb-sep{width:1px;height:20px;background:rgba(255,255,255,0.2)}
+.bb-btn{padding:5px 12px;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;border:none;transition:all 0.12s;white-space:nowrap}
+.bb-exec{background:var(--green);color:#fff}
+.bb-ads{background:var(--blue);color:#fff}
+.bb-re{background:rgba(255,255,255,0.15);color:#fff}
+.bb-sel-ads{background:var(--amber);color:#fff}
+.bb-clear{background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2)}
+.bb-btn:hover{opacity:0.85}
+.bb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* AUTOMONITOR PANEL */
+.am-panel{position:fixed;right:-320px;top:0;bottom:0;width:300px;background:var(--surface);border-left:1px solid var(--border);z-index:200;transition:right 0.22s ease;overflow-y:auto;box-shadow:-4px 0 16px rgba(0,0,0,0.07)}
+.am-panel.open{right:0}
+.am-hdr{padding:0.9rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.am-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer}
+.am-body{padding:1rem}
+.am-log{display:flex;gap:8px;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:11.5px;align-items:flex-start}
+.am-log:last-child{border-bottom:none}
+
+/* OVERLAY */
+.overlay{position:fixed;inset:0;z-index:190;display:none}
+.overlay.visible{display:block}
+
+/* VIEWS */
+.view{display:none;flex-direction:column;flex:1;overflow:hidden}
+.view.on{display:flex}
+
+/* ── CALENDAR VIEW ── */
+.cal-wrap{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.cal-why-bar{background:var(--blue-l);border:1px solid var(--blue);border-radius:7px;padding:0.65rem 1rem;margin-bottom:1rem;font-size:11.5px;color:var(--blue);display:flex;gap:8px;align-items:flex-start}
+.cal-why-ico{font-size:1rem;flex-shrink:0}
+.cal-week{margin-bottom:1.25rem}
+.cal-week-hdr{display:flex;align-items:center;gap:8px;margin-bottom:0.65rem}
+.cal-week-label{font-family:'Playfair Display',serif;font-size:1rem}
+.cal-week-sub{font-size:10.5px;color:var(--faint)}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-day{background:var(--surface);border:1px solid var(--border);border-radius:7px;overflow:hidden;min-height:110px}
+.cal-day.today{border-color:var(--green);border-width:2px}
+.cal-day.empty{background:var(--bg);border-color:var(--border);min-height:80px}
+.cd-hdr{padding:0.35rem 0.55rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cd-day{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:0.07em}
+.cd-date{font-size:11.5px;font-weight:600;color:var(--ink)}
+.cd-date.today-num{color:var(--green)}
+.cd-events{padding:0.35rem 0.4rem;display:flex;flex-direction:column;gap:3px}
+.cd-event{border-radius:4px;padding:3px 6px;font-size:10px;cursor:pointer;transition:opacity 0.12s;position:relative}
+.cd-event:hover{opacity:0.85}
+.cde-title{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.cde-time{font-size:9px;opacity:0.8;margin-top:1px}
+.cde-why{font-size:9px;opacity:0.75;line-height:1.3;margin-top:2px;white-space:normal}
+/* event colors */
+.ev-article{background:#dbeafe;color:#1e40af}
+.ev-social{background:var(--purple-l);color:var(--purple)}
+.ev-email{background:var(--amber-l);color:var(--amber)}
+.ev-video{background:var(--red-l);color:var(--red)}
+.ev-coe{background:var(--green-l);color:var(--green)}
+.cd-empty-msg{font-size:9.5px;color:var(--faint);padding:0.35rem 0.55rem;font-style:italic}
+/* CALENDAR LEGEND */
+.cal-legend{display:flex;gap:12px;margin-bottom:0.85rem;flex-wrap:wrap}
+.cal-leg-item{display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--muted)}
+.cal-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+/* BEST TIME INSIGHT */
+.cal-insight{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.75rem 1rem;margin-bottom:1rem}
+.ci-title{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:0.5rem;font-weight:500}
+.ci-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ci-box{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:0.5rem 0.65rem}
+.ci-label{font-size:9.5px;color:var(--faint);margin-bottom:2px}
+.ci-val{font-size:12.5px;font-weight:500;color:var(--ink)}
+.ci-sub{font-size:9.5px;color:var(--green);margin-top:1px}
+
+/* ── TOOLTIPS ── */
+.tt-wrap{position:relative;display:inline-flex;align-items:center}
+.tt-icon{width:14px;height:14px;border-radius:50%;background:var(--border2);color:var(--muted);font-size:8px;display:flex;align-items:center;justify-content:center;cursor:help;flex-shrink:0;margin-left:4px;font-weight:700;user-select:none}
+.tt-pop{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:11px;line-height:1.5;padding:7px 10px;border-radius:6px;white-space:normal;width:220px;z-index:500;pointer-events:none;opacity:0;transition:opacity 0.15s;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.tt-pop::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink)}
+.tt-wrap:hover .tt-pop{opacity:1}
+
+/* ── SIDEBAR VIEW SWITCHING ── */
+.main-view{display:none;flex-direction:column;flex:1;overflow:hidden}
+.main-view.on{display:flex}
+
+/* ── SECTION HEADER ── */
+.sec-hd{padding:0.85rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.sec-hd-title{font-family:'Playfair Display',serif;font-size:1.2rem}
+.sec-hd-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* ── COMPETITOR INTEL VIEW ── */
+.ci-wrap{flex:1;overflow-y:auto;padding:1.25rem}
+.ci-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.ci-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.ci-card-hd{padding:0.75rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ci-card-title{font-size:12px;font-weight:500}
+.ci-card-sub{font-size:10.5px;color:var(--faint)}
+.ci-table{width:100%;border-collapse:collapse}
+.ci-table th{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);padding:0.4rem 0.85rem;border-bottom:1px solid var(--border);text-align:left;background:var(--bg)}
+.ci-table td{padding:0.55rem 0.85rem;border-bottom:1px solid var(--border);font-size:12px;vertical-align:top}
+.ci-table tr:last-child td{border-bottom:none}
+.ci-table tr:hover td{background:var(--bg);cursor:pointer}
+.ci-rank{font-weight:700;font-size:13px;color:var(--muted)}
+.ci-gap{font-size:10.5px;color:var(--amber);margin-top:2px;background:var(--amber-l);padding:2px 6px;border-radius:3px;display:inline-block}
+.ci-target-btn{font-size:10px;padding:2px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;white-space:nowrap;font-family:inherit}
+
+/* ── KEYWORD GAPS ── */
+.kw-wrap{flex:1;overflow-y:auto;padding:1.25rem}
+.kw-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:1rem}
+.kw-sc{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem}
+.kw-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px}
+.kw-val{font-family:'Playfair Display',serif;font-size:1.15rem}
+.kw-sub{font-size:9.5px;margin-top:2px}
+
+/* ── YOUTUBE VIEW ── */
+.yt-wrap{flex:1;overflow-y:auto;padding:1.25rem}
+.yt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.yt-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.yt-card-title{font-size:11.5px;font-weight:500;margin-bottom:0.65rem;display:flex;align-items:center;justify-content:space-between}
+.yt-video-item{display:flex;gap:8px;padding:0.55rem 0;border-bottom:1px solid var(--border)}
+.yt-video-item:last-child{border-bottom:none}
+.yt-thumb{width:64px;height:40px;border-radius:4px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.yt-info{flex:1;min-width:0}
+.yt-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.yt-meta{font-size:10.5px;color:var(--faint)}
+.yt-bar{height:3px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden}
+.yt-bar-fill{height:100%;background:var(--red);border-radius:2px}
+
+/* ── BLUEPRINTS VIEW ── */
+.bp-wrap{flex:1;overflow-y:auto;padding:1.25rem}
+.bp-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:8px}
+.bp-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.6rem}
+.bp-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);font-weight:500}
+.bp-title{font-size:13px;font-weight:500;margin-bottom:0.4rem;font-family:'Playfair Display',serif}
+.bp-body{font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:0.6rem}
+.bp-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0.65rem}
+.bp-tag{font-size:9.5px;padding:2px 7px;border-radius:3px;background:var(--green-l);color:var(--green)}
+.bp-acts{display:flex;gap:5px}
+.bp-act{padding:4px 10px;border-radius:4px;font-size:11.5px;cursor:pointer;font-family:inherit;border:1px solid var(--border2);background:var(--surface);color:var(--muted)}
+.bp-act.g{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* ── RANK TRACKER VIEW ── */
+.rt-wrap{flex:1;overflow-y:auto;padding:1.25rem}
+
+/* ── PUBLISHED VIEW ── */
+.pub-view-wrap{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* ── SETTINGS VIEWS ── */
+.settings-wrap{flex:1;overflow-y:auto;padding:1.25rem}
+.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1rem}
+.settings-title{font-size:12.5px;font-weight:500;margin-bottom:0.85rem}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.settings-row:last-child{border-bottom:none}
+.settings-lbl{color:var(--muted)}
+.settings-val{font-weight:500;color:var(--ink)}
+
+/* ── EXPANDED IN-PROGRESS + PUBLISHED DETAIL ── */
+.prog-det{padding:0.85rem 1rem;border-left:3px solid var(--amber)}
+.pub-det{padding:0.85rem 1rem;border-left:3px solid var(--green)}
+.det-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:0.7rem}
+.det-cell{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0.45rem 0.6rem}
+.det-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px}
+.det-val{font-size:12.5px;font-weight:500}
+.det-sub{font-size:10px;color:var(--faint);margin-top:1px}
+.det-note{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0.55rem 0.7rem;font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:0.6rem}
+.det-note strong{color:var(--ink);font-weight:500}
+.det-acts{display:flex;gap:5px;flex-wrap:wrap}
+.det-btn{padding:5px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;font-family:inherit;border:1px solid var(--border2);background:var(--surface);color:var(--muted)}
+.det-btn.g{background:var(--green);color:#fff;border-color:var(--green)}
+.det-btn.b{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
+.det-btn.r{background:var(--red-l);color:var(--red);border-color:var(--red-l)}
+.det-btn.p{background:var(--purple-l);color:var(--purple);border-color:var(--purple-l)}
+
+</style>
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- FLOATING BULK ACTION BAR -->
+<div class="bulk-bar hidden" id="bulkBar">
+  <div class="bb-count">🪣 <span id="selCount">0</span> items selected</div>
+  <div class="bb-sep"></div>
+  <button class="bb-btn bb-exec" onclick="bulkAction('execute')">⚡ Execute Selected</button>
+  <button class="bb-btn bb-ads" onclick="bulkAction('ads')">$ Send to Ads</button>
+  <button class="bb-btn bb-re" onclick="bulkAction('reanalyze')">⟳ Reanalyze</button>
+  <button class="bb-btn bb-sel-ads" onclick="selectAdRec()">✓ Select All Ad-Recommended</button>
+  <div class="bb-right">
+    <button class="bb-btn bb-clear" onclick="clearSelection()">✕ Clear</button>
+  </div>
+</div>
+
+<!-- AUTOMONITOR PANEL -->
+<div class="am-panel" id="amPanel">
+  <div class="am-hdr">
+    <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px">🛡 Auto-Monitor <span style="font-size:9px;background:var(--green-l);color:var(--green);padding:1px 5px;border-radius:3px">Running</span></div>
+    <button class="am-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="am-body">
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:0.85rem"><strong style="color:var(--ink)">What this does in plain English:</strong> Every 72 hours, PropIQ checks where all your published articles are ranking on Google. If something starts slipping, it automatically rewrites the weak sections and updates the article — so your rankings stay strong without you having to do anything.</p>
+    <div style="background:var(--green-l);border:1px solid var(--green-l);border-radius:7px;padding:0.75rem;margin-bottom:1rem">
+      <div style="font-weight:500;margin-bottom:3px;display:flex;align-items:center;gap:5px"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Last scan: 2 hours ago · All healthy</div>
+      <div style="font-size:11px;color:var(--muted)">Next scan in 70 hours · 18 articles monitored</div>
+    </div>
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.09em;color:var(--faint);margin-bottom:0.5rem;font-weight:500">Last scan log</div>
+    <div class="am-log"><div style="color:var(--red)">↓</div><div style="flex:1;color:var(--muted);line-height:1.5"><strong style="color:var(--ink)">EPA Market Report Q1</strong> dropped 5 positions — AI rewrite queued, awaiting approval</div><div style="font-size:10px;color:var(--faint)">2h ago</div></div>
+    <div class="am-log"><div style="color:var(--amber)">↓</div><div style="flex:1;color:var(--muted);line-height:1.5"><strong style="color:var(--ink)">Cash Flow Calculator</strong> slipped 2 spots — optimization suggested</div><div style="font-size:10px;color:var(--faint)">2h ago</div></div>
+    <div class="am-log"><div style="color:var(--green)">↑</div><div style="flex:1;color:var(--muted);line-height:1.5"><strong style="color:var(--ink)">ADU Financing Guide</strong> climbed 3 spots to #1 — no action needed</div><div style="font-size:10px;color:var(--faint)">2h ago</div></div>
+    <div class="am-log"><div style="color:var(--green)">✓</div><div style="flex:1;color:var(--muted);line-height:1.5"><strong style="color:var(--ink)">4 other articles</strong> checked and stable</div><div style="font-size:10px;color:var(--faint)">2h ago</div></div>
+    <div style="margin-top:1rem;display:flex;gap:6px">
+      <button style="flex:1;padding:7px;background:var(--green);color:#fff;border:none;border-radius:5px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500">Run Scan Now</button>
+      <button style="flex:1;padding:7px;background:var(--surface);color:var(--muted);border:1px solid var(--border2);border-radius:5px;font-size:12px;cursor:pointer;font-family:inherit">Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- UNIFIED TOP BAR -->
+<div class="tbunified">
+  <div class="tb-logo">Prop<span>IQ</span></div>
+  <div class="tb-srch">🔍 Search anything…</div>
+  <div class="tb-mods">
+    <div class="tbt">⬡ Dashboard</div>
+    <div class="tbt">◎ Contacts</div>
+    <div class="tbt">◈ Deals</div>
+    <div class="tbt on">✦ Content<span class="tbdg">8</span></div>
+    <div class="tbt">⊕ Search</div>
+    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">$ Ads</div>
+    <div class="tbt">↗ SEO</div>
+    <div class="tbt">📊 Reports</div>
+  </div>
+  <div class="tb-r">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
+  </div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-mod">Content <span class="sb-tag">Active</span></div>
+    <div class="nsec">Create</div>
+    <div class="ni on"><span class="nico">⚡</span>Content Generator</div>
+    <div class="ni"><span class="nico">◈</span>Blueprints<span class="nbadge nb-g">3</span></div>
+    <div class="ni"><span class="nico">📅</span>Content Calendar</div>
+    <div class="ni"><span class="nico">◻</span>Drafts & Queue<span class="nbadge nb-a">4</span></div>
+    <div class="nsec">Performance</div>
+    <div class="ni"><span class="nico">🛡</span>Auto-Monitor<span class="nbadge nb-r">2</span></div>
+    <div class="ni"><span class="nico">↗</span>Rank Tracker</div>
+    <div class="ni"><span class="nico">◉</span>Published<span class="nbadge nb-gr">18</span></div>
+    <div class="nsec">Intelligence</div>
+    <div class="ni"><span class="nico">🔍</span>Competitor Intel</div>
+    <div class="ni"><span class="nico">🎯</span>Keyword Gaps</div>
+    <div class="ni"><span class="nico">▶</span>YouTube Analysis</div>
+    <div class="nsec">Settings</div>
+    <div class="ni"><span class="nico">◉</span>Geographic Markets</div>
+    <div class="ni"><span class="nico">👤</span>Persona Settings</div>
+    <div class="ni"><span class="nico">⚙</span>Auto-Publish Rules</div>
+    <div class="sdiv"></div>
+    <div class="nsec">Account</div>
+    <div class="ni"><span class="nico">⚙</span>Settings</div>
+    <div class="sf">
+      <div class="sf-row">
+        <div class="sf-av">GW</div>
+        <div><div style="font-size:11.5px;font-weight:500">Graeham Watts</div><div style="font-size:9.5px;color:var(--faint)">Intero Real Estate</div></div>
+        <div style="margin-left:auto;font-size:8.5px;background:var(--green-l);color:var(--green);padding:2px 6px;border-radius:3px;font-weight:500;text-transform:uppercase">Pro</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- GEO BAR -->
+    <div class="geo-bar">
+      <div class="gtab on" onclick="setGeo(this)"><div class="gdot" style="background:var(--green)"></div>East Palo Alto</div>
+      <div class="gtab" onclick="setGeo(this)"><div class="gdot" style="background:var(--blue)"></div>Redwood City</div>
+      <div class="gtab" onclick="setGeo(this)"><div class="gdot" style="background:var(--amber)"></div>Menlo Park</div>
+      <div class="gadd">+ Add Market</div>
+      <div class="geo-r">
+        <div class="oatog">
+          <button class="oab on" onclick="setOA(this,'organic')">◉ Organic</button>
+          <button class="oab" onclick="setOA(this,'ads')">$ Ads</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOUR-TIER TABS -->
+    <div class="tier-bar">
+      <div class="ttab t-r on" id="ttab-reco" onclick="setTier('reco')">⚡ Recommendations<span class="tcnt tc-r">24</span></div>
+      <div class="ttab t-p" id="ttab-prog" onclick="setTier('prog')">◻ In Progress<span class="tcnt tc-p">4</span></div>
+      <div class="ttab t-m" id="ttab-pub" onclick="setTier('pub')">🛡 Published & Monitored<span class="tcnt tc-m">18</span></div>
+      <div class="ttab t-c" id="ttab-cal" onclick="setTier('cal')">📅 Content Calendar<span class="tcnt tc-c">Apr</span></div>
+    </div>
+
+    <!-- CONTROLS BAR -->
+    <div class="cbar">
+      <span style="font-size:10.5px;color:var(--faint)">Mix:</span>
+      <div class="bsw">
+        <div class="bsl" style="color:var(--amber)">Seller</div>
+        <input type="range" class="bsrange" id="bsr" min="0" max="100" value="70" oninput="updateSlider(this)">
+        <div class="bsl" style="color:var(--blue)">Buyer</div>
+        <div class="bspct" id="bspct"><span style="color:var(--amber)">70%</span> · <span style="color:var(--blue)">30%</span></div>
+      </div>
+      <div class="csep"></div>
+      <div class="am-pill" onclick="openAM()"><div class="amdot"></div>Auto-Monitor · 2h ago</div>
+      <div class="ce-pill"><div class="cedot"></div>Consensus Engine analyzing…</div>
+      <div class="csep"></div>
+      <!-- AUTO SEND TO ADS TOGGLE -->
+      <div class="auto-ads-wrap" id="autoAdsWrap" onclick="toggleAutoAds()">
+        <div class="auto-ads-toggle" id="autoAdsToggle"></div>
+        <span id="autoAdsLabel">Auto-Send Ad Recs to Ads</span>
+      </div>
+      <div class="csep"></div>
+      <span style="font-size:11px;color:var(--faint)">SearchAtlas <span style="color:var(--green)">✓</span></span>
+      <div class="cr">
+        <button class="cbtn pu">⟳ Reanalyze</button>
+        <button class="cbtn" onclick="alert('Add custom category')">🪣 Custom Category</button>
+        <button class="cbtn p">⚡ Execute All High-Priority</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════
+         VIEW: RECOMMENDATIONS
+         ══════════════════════ -->
+    <div class="view on" id="view-reco">
+      <!-- BUCKET FILTER -->
+      <div class="bfbar">
+        <div class="bft on" onclick="setBF(this)">🪣 All<span class="bftc">24</span></div>
+        <div class="bft" onclick="setBF(this)">🗺 Geographic Gravity<span class="bftc">4</span></div>
+        <div class="bft" onclick="setBF(this)">⊕ Investor Analysis<span class="bftc">6</span></div>
+        <div class="bft" onclick="setBF(this)">$ Seller Strategy<span class="bftc">5</span></div>
+        <div class="bft" onclick="setBF(this)">🏠 Buyer Education<span class="bftc">4</span></div>
+        <div class="bft" onclick="setBF(this)">📊 Market Intelligence<span class="bftc">3</span></div>
+        <div class="bft" onclick="setBF(this)">🌿 Lifestyle<span class="bftc">3</span></div>
+        <div class="bft" onclick="setBF(this)">🏗 ADU<span class="bftc">3</span></div>
+        <div class="bft" onclick="setBF(this)">🎯 1031 Exchange<span class="bftc">2</span></div>
+        <div class="bft" onclick="setBF(this)">✏ Custom<span class="bftc">1</span></div>
+      </div>
+      <!-- SUMMARY -->
+      <div class="sstrip">
+        <div class="scell"><div class="slbl">Opportunities</div><div class="sval">24</div><div class="ssub warn">8 high priority</div></div>
+        <div class="scell"><div class="slbl">Est. visits if all created</div><div class="sval">12,400</div><div class="ssub neu">Combined / mo</div></div>
+        <div class="scell"><div class="slbl">Est. leads / mo</div><div class="sval">58</div><div class="ssub neu">All created</div></div>
+        <div class="scell"><div class="slbl">Ad-recommended</div><div class="sval">6</div><div class="ssub good">High ROI items</div></div>
+        <div class="scell"><div class="slbl">Avg competition</div><div class="sval">Low</div><div class="ssub good">EPA advantage</div></div>
+        <div class="scell"><div class="slbl">Buyer/Seller mix</div><div class="sval">70/30</div><div class="ssub neu">Seller-weighted</div></div>
+      </div>
+
+      <div class="ss-wrap">
+        <table class="ss-table">
+          <thead>
+            <tr>
+              <th style="width:26px"><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)" style="accent-color:var(--green)"></th>
+              <th style="width:26%">Title / Topic ↕</th>
+              <th>Bucket 🪣</th>
+              <th>Type</th>
+              <th>For</th>
+              <th>Keyword</th>
+              <th>Searches ↕</th>
+              <th>Competition ↕</th>
+              <th>Est. Rank</th>
+              <th>Est. Leads ↕</th>
+              <th>Priority ↕</th>
+              <th>Ad Rec. ↕</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- ╔══ BUCKET: GEOGRAPHIC GRAVITY ══╗ -->
+            <tr class="bhr" onclick="toggleBucket('geo')">
+              <td colspan="13">
+                <div class="bhr-inner">
+                  <input type="checkbox" class="bhr-cb bucket-cb" data-bucket="geo" onclick="event.stopPropagation();selectBucket('geo',this)" style="accent-color:var(--green)">
+                  <div class="bhr-ico" style="background:var(--green-l)">🗺</div>
+                  <div class="bhr-name"><span class="bhr-emoji">🪣</span> Geographic Gravity</div>
+                  <div class="bhr-meta">
+                    <div class="bhr-count">4 items · Est. 2,200 visits/mo</div>
+                    <div class="opp-pill opp-hi">High Opportunity</div>
+                    <div class="bhr-actions" onclick="event.stopPropagation()">
+                      <button class="bha sel-all" onclick="selectBucketItems('geo')">☐ Select all</button>
+                      <button class="bha exec" onclick="bucketAction('geo','execute')">⚡ Execute</button>
+                      <button class="bha ads" onclick="bucketAction('geo','ads')">$ Send to Ads</button>
+                    </div>
+                    <div class="bhr-toggle op" id="tog-geo">▾</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- GEO ITEMS -->
+            <tr class="dr geo-item" data-bucket="geo" data-ad="yes" onclick="toggleDetail('dg1',this)">
+              <td><input type="checkbox" class="rcb" data-id="dg1" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-dg1">▶</span><span class="inew">NEW</span><span class="ad-title-badge">AD</span>Is East Palo Alto Safe? Honest 2026 Guide</div><div class="its">Highest priority · 1,800 searches/mo · Zero competitors</div></td>
+              <td><span style="font-size:9.5px;color:var(--green)">🗺 Geo Gravity</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">Buyers</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">is east palo alto safe 2026</td>
+              <td>1,800/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1–3 est.</span></td>
+              <td><span class="good" style="font-weight:600">6–10</span></td>
+              <td><span class="opp-pill opp-hi">Highest</span></td>
+              <td><span class="ar ar-y">✓ Ads Rec.</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button><button class="ab amp">→ Ads</button></div></td>
+            </tr>
+            <tr class="detail-r geo-item" id="dg1" style="display:none" data-bucket="geo">
+              <td colspan="13"><div class="detail-panel">
+                <div class="dpg"><div class="dpc"><div class="dpl">Monthly searches</div><div class="dpv">1,800</div></div><div class="dpc"><div class="dpl">Competition</div><div class="dpv good">Low</div></div><div class="dpc"><div class="dpl">Est. rank</div><div class="dpv good">#1–3</div></div><div class="dpc"><div class="dpl">Est. leads</div><div class="dpv">6–10/mo</div></div><div class="dpc"><div class="dpl">Audience stage</div><div class="dpv">Decision</div></div></div>
+                <div class="dpw"><strong>Why this is the highest priority in your database:</strong> "Is EPA safe" is the #1 question buyers ask before looking at homes here. The top results are outdated Reddit threads from 2019. A well-researched, honest guide from a local expert will rank #1 within weeks and convert at a very high rate — buyers searching this are actively considering the area.</div>
+                <div class="dp-adyes"><span>📢</span><div><strong>Ads Strongly Recommended.</strong> Buyer-intent keyword at decision stage. Est. $7–11 CPC. One listing or buyer side commission pays for 12+ months of ad spend on this keyword. Run ads immediately while organic ranking builds.</div></div>
+                <div class="dpkw"><span class="dpk">is east palo alto safe 2026</span><span class="dpk">epa crime rate</span><span class="dpk">east palo alto good neighborhood</span></div>
+                <div class="dpact"><button class="dpb p">⚡ Generate — Top Priority</button><button class="dpb b">→ Create Ad Campaign</button><button class="dpb">Queue</button></div>
+              </div></td>
+            </tr>
+
+            <tr class="dr geo-item" data-bucket="geo" data-ad="yes" onclick="toggleDetail('dg2',this)">
+              <td><input type="checkbox" class="rcb" data-id="dg2" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-dg2">▶</span><span class="inew">NEW</span><span class="ad-title-badge">AD</span>EPA vs Menlo Park: Which Is Better Value in 2026?</div><div class="its">Comparison intent · Decision-stage buyers · High conversion</div></td>
+              <td><span style="font-size:9.5px;color:var(--green)">🗺 Geo Gravity</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">Buyers</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">epa vs menlo park homes 2026</td>
+              <td>880/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#2–5 est.</span></td>
+              <td><span class="good" style="font-weight:600">5–8</span></td>
+              <td><span class="opp-pill opp-hi">High</span></td>
+              <td><span class="ar ar-y">✓ Ads Rec.</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button><button class="ab amp">→ Ads</button></div></td>
+            </tr>
+            <tr class="detail-r geo-item" id="dg2" style="display:none" data-bucket="geo">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Comparison searches convert at 3x the rate of informational searches.</strong> The person has already decided to buy — they're choosing where. No competitor has this exact article for EPA. Recommend including real data: price per sqft, appreciation rates, commute times, school ratings side-by-side.</div><div class="dp-adyes"><span>📢</span><div><strong>Ads Recommended.</strong> Decision-stage audience, high intent, low CPC relative to the conversion value. Est. 12–18 buyer leads/month at $300–400 monthly ad spend.</div></div><div class="dpact"><button class="dpb p">⚡ Generate with AI</button><button class="dpb b">→ Create ad version</button><button class="dpb">Queue</button></div></div></td>
+            </tr>
+
+            <tr class="dr geo-item" data-bucket="geo" data-ad="no" onclick="toggleDetail('dg3',this)">
+              <td><input type="checkbox" class="rcb" data-id="dg3" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-dg3">▶</span><span class="inew">NEW</span>EPA Neighborhood Guide: The 6 Districts Buyers Need to Know</div><div class="its">Hyper-local · No competitors · Organic rank likely fast</div></td>
+              <td><span style="font-size:9.5px;color:var(--green)">🗺 Geo Gravity</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">Buyers</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">east palo alto neighborhoods</td>
+              <td>640/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1–3 est.</span></td>
+              <td><span style="color:var(--green);">4–6</span></td>
+              <td><span class="opp-pill opp-hi">High</span></td>
+              <td><span class="ar ar-c">Consider</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button></div></td>
+            </tr>
+            <tr class="detail-r geo-item" id="dg3" style="display:none" data-bucket="geo">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Zero-competition opportunity.</strong> No agent or portal has a guide covering EPA's specific micro-neighborhoods — University Ave corridor, Whiskey Gulch, Belle Haven, Ravenswood. Writing this establishes hyper-local authority Google rewards heavily.</div><div class="dp-adnot">📢 <strong>Ads: Consider.</strong> Organic rank will likely come fast on this keyword. Hold on ads unless rank takes more than 30 days — then it's worth paying for traffic while organic builds.</div><div class="dpact"><button class="dpb p">⚡ Generate</button><button class="dpb">Queue</button></div></div></td>
+            </tr>
+
+            <tr class="dr geo-item" data-bucket="geo" data-ad="no" onclick="toggleDetail('dg4',this)">
+              <td><input type="checkbox" class="rcb" data-id="dg4" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-dg4">▶</span><span class="inew">NEW</span>Moving to East Palo Alto: Complete 2026 Relocation Guide</div><div class="its">Long-form · Broad buyer audience · Medium competition</div></td>
+              <td><span style="font-size:9.5px;color:var(--green)">🗺 Geo Gravity</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">Buyers</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">moving to east palo alto 2026</td>
+              <td>1,200/mo</td>
+              <td><span class="warn" style="font-weight:500">Medium</span></td>
+              <td><span class="warn">#5–10 est.</span></td>
+              <td><span>3–5</span></td>
+              <td><span class="opp-pill opp-md">Medium</span></td>
+              <td><span class="ar ar-c">Consider</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button><button class="ab">Queue</button></div></td>
+            </tr>
+            <tr class="detail-r geo-item" id="dg4" style="display:none" data-bucket="geo">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>High volume but needs depth to compete.</strong> Zillow and Redfin have generic relocation guides. To rank, this needs 3,000+ words with local school data, commute times, neighborhood breakdown, and things only a local agent knows. Worth creating but make it comprehensive.</div><div class="dpact"><button class="dpb p">⚡ Generate long-form</button><button class="dpb">Queue</button></div></div></td>
+            </tr>
+
+            <tr class="bfr geo-item" data-bucket="geo"><td colspan="13"><div class="bfr-inner"><div class="bfr-lbl">Geographic Gravity 🪣 · 4 opportunities · Est. 2,200 combined monthly visits · 2 ad-recommended</div><button class="bfr-b" onclick="selectBucketItems('geo')">☐ Select all</button><button class="bfr-b" onclick="bucketAction('geo','queue')">Queue all</button><button class="bfr-b exec" onclick="bucketAction('geo','execute')">⚡ Execute all</button></div></td></tr>
+
+            <!-- ╔══ BUCKET: INVESTOR ANALYSIS ══╗ -->
+            <tr class="bhr" onclick="toggleBucket('inv')">
+              <td colspan="13">
+                <div class="bhr-inner">
+                  <input type="checkbox" class="bhr-cb bucket-cb" data-bucket="inv" onclick="event.stopPropagation();selectBucket('inv',this)" style="accent-color:var(--green)">
+                  <div class="bhr-ico" style="background:var(--blue-l)">⊕</div>
+                  <div class="bhr-name"><span class="bhr-emoji">🪣</span> Investor Analysis</div>
+                  <div class="bhr-meta">
+                    <div class="bhr-count">6 items · Est. 4,100 visits/mo</div>
+                    <div class="opp-pill opp-hi">High Opportunity</div>
+                    <div class="bhr-actions" onclick="event.stopPropagation()">
+                      <button class="bha sel-all" onclick="selectBucketItems('inv')">☐ Select all</button>
+                      <button class="bha exec" onclick="bucketAction('inv','execute')">⚡ Execute</button>
+                      <button class="bha ads" onclick="bucketAction('inv','ads')">$ Send to Ads</button>
+                    </div>
+                    <div class="bhr-toggle cl" id="tog-inv">▾</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dr inv-item" data-bucket="inv" data-ad="yes" style="display:none" onclick="toggleDetail('di1',this)">
+              <td><input type="checkbox" class="rcb" data-id="di1" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-di1">▶</span><span class="inew">NEW</span><span class="ad-title-badge">AD</span>EPA Cash-on-Cash Return Calculator 2026</div><div class="its">Interactive tool · Highest lead-gen potential in database</div></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">⊕ Investor</span></td>
+              <td><span class="tp tp-t">Tool</span></td>
+              <td><span style="font-size:9.5px;color:var(--green)">Investors</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">epa investment property calculator</td>
+              <td>820/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1 est.</span></td>
+              <td><span class="good" style="font-weight:600">8–14</span></td>
+              <td><span class="opp-pill opp-hi">Highest Priority</span></td>
+              <td><span class="ar ar-y">✓ Ads Rec.</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Build Tool</button><button class="ab amp">→ Ads</button></div></td>
+            </tr>
+            <tr class="detail-r inv-item" id="di1" style="display:none" data-bucket="inv">
+              <td colspan="13"><div class="detail-panel">
+                <div class="dpg"><div class="dpc"><div class="dpl">Tool type</div><div class="dpv">Interactive calculator</div></div><div class="dpc"><div class="dpl">Avg time on page</div><div class="dpv good">6–12 min</div><div class="dpsub">vs 2 min for articles</div></div><div class="dpc"><div class="dpl">Lead capture rate</div><div class="dpv good">3× higher</div><div class="dpsub">than articles</div></div><div class="dpc"><div class="dpl">Est. leads / mo</div><div class="dpv">8–14</div></div><div class="dpc"><div class="dpl">Competitor status</div><div class="dpv good">None exist for EPA</div></div></div>
+                <div class="dpw"><strong>Single highest-ROI item in your entire content database.</strong> Interactive calculators generate 5–8× more leads than articles because visitors actively engage. No competitor has an EPA-specific cash-on-cash calculator. This tool would immediately become your best-performing content asset and would naturally capture emails as a lead magnet.</div>
+                <div class="dp-adyes"><span>📢</span><div><strong>Strong Ads Recommended — Best ROI in this plan.</strong> Tools convert at 8–15% vs 1–2% for articles. At $400/mo ad spend, estimated 30–50 investor leads monthly. Best single ad investment in your content strategy.</div></div>
+                <div class="dpact"><button class="dpb p">⚡ Build this tool — Top Priority</button><button class="dpb b">→ Create ad campaign</button><button class="dpb">Queue</button></div>
+              </div></td>
+            </tr>
+
+            <tr class="dr inv-item" data-bucket="inv" data-ad="no" style="display:none" onclick="toggleDetail('di2',this)">
+              <td><input type="checkbox" class="rcb" data-id="di2" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-di2">▶</span><span class="inew">NEW</span>SB9 Lot Split Guide: EPA Investors Complete Playbook</div><div class="its">Zero competition · Untapped keyword · Fast #1 rank</div></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">⊕ Investor</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--green)">Investors</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">sb9 lot split east palo alto</td>
+              <td>540/mo</td>
+              <td><span class="good" style="font-weight:500">Very Low</span></td>
+              <td><span class="good" style="font-weight:600">#1 est.</span></td>
+              <td><span class="good" style="font-weight:600">4–7</span></td>
+              <td><span class="opp-pill opp-hi">High</span></td>
+              <td><span class="ar ar-n">Not Yet</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button></div></td>
+            </tr>
+            <tr class="detail-r inv-item" id="di2" style="display:none" data-bucket="inv">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Zero competition.</strong> SB9 allows most EPA single-family lots to split into two. Nobody has written a comprehensive guide for EPA investors specifically. Will rank #1 the day it's published.</div><div class="dp-adnot">📢 <strong>Ads not recommended yet.</strong> Zero competition means organic is instant and free. No need to pay for traffic here — save ad budget for higher-volume keywords where organic takes longer.</div><div class="dpact"><button class="dpb p">⚡ Generate now</button><button class="dpb">Queue</button></div></div></td>
+            </tr>
+
+            <tr class="dr inv-item" data-bucket="inv" data-ad="yes" style="display:none" onclick="toggleDetail('di3',this)">
+              <td><input type="checkbox" class="rcb" data-id="di3" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-di3">▶</span><span class="inew">NEW</span><span class="ad-title-badge">AD</span>Multi-Family Property Analysis: EPA vs Peninsula</div><div class="its">High-value audience · $700K+ buyers · Strong ROI</div></td>
+              <td><span style="font-size:9.5px;color:var(--blue)">⊕ Investor</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--green)">Investors</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">multi family investment epa peninsula</td>
+              <td>380/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1–3 est.</span></td>
+              <td><span class="good" style="font-weight:600">3–5</span></td>
+              <td><span class="opp-pill opp-hi">High</span></td>
+              <td><span class="ar ar-y">✓ Ads Rec.</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button><button class="ab amp">→ Ads</button></div></td>
+            </tr>
+            <tr class="detail-r inv-item" id="di3" style="display:none" data-bucket="inv">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>High-value audience:</strong> Multi-family investors typically purchase at $700K–$2M+. One converted lead pays for months of content creation. Lower search volume but extremely high lead quality.</div><div class="dp-adyes"><span>📢</span><div><strong>Ads Recommended.</strong> Low volume but very high-value audience. $200/mo ad campaign targeting this keyword could generate 1–3 investor leads/mo at $700K+ price points.</div></div><div class="dpact"><button class="dpb p">⚡ Generate</button><button class="dpb b">→ Create ad</button></div></div></td>
+            </tr>
+
+            <tr class="bfr inv-item" style="display:none" data-bucket="inv"><td colspan="13"><div class="bfr-inner"><div class="bfr-lbl">Investor Analysis 🪣 · 6 opportunities · Est. 4,100 visits/mo · 3 ad-recommended</div><button class="bfr-b" onclick="selectBucketItems('inv')">☐ Select all</button><button class="bfr-b" onclick="bucketAction('inv','queue')">Queue all</button><button class="bfr-b exec" onclick="bucketAction('inv','execute')">⚡ Execute top 3</button></div></td></tr>
+
+            <!-- ╔══ BUCKET: SELLER STRATEGY ══╗ -->
+            <tr class="bhr" onclick="toggleBucket('sell')">
+              <td colspan="13">
+                <div class="bhr-inner">
+                  <input type="checkbox" class="bhr-cb bucket-cb" data-bucket="sell" onclick="event.stopPropagation();selectBucket('sell',this)" style="accent-color:var(--green)">
+                  <div class="bhr-ico" style="background:var(--amber-l)">$</div>
+                  <div class="bhr-name"><span class="bhr-emoji">🪣</span> Seller Strategy</div>
+                  <div class="bhr-meta">
+                    <div class="bhr-count">5 items · Underweight vs 70% seller target</div>
+                    <div class="opp-pill opp-hi">High — Priority given your mix</div>
+                    <div class="bhr-actions" onclick="event.stopPropagation()">
+                      <button class="bha sel-all" onclick="selectBucketItems('sell')">☐ Select all</button>
+                      <button class="bha exec" onclick="bucketAction('sell','execute')">⚡ Execute</button>
+                      <button class="bha ads" onclick="bucketAction('sell','ads')">$ Send to Ads</button>
+                    </div>
+                    <div class="bhr-toggle cl" id="tog-sell">▾</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dr sell-item" data-bucket="sell" data-ad="yes" style="display:none" onclick="toggleDetail('ds1',this)">
+              <td><input type="checkbox" class="rcb" data-id="ds1" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-ds1">▶</span><span class="inew">NEW</span><span class="ad-title-badge">AD</span>When Is the Right Time to Sell in East Palo Alto?</div><div class="its">Highest seller intent keyword · Direct to listing appointment</div></td>
+              <td><span style="font-size:9.5px;color:var(--amber)">$ Seller</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--amber)">Sellers</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">when to sell east palo alto</td>
+              <td>520/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1–3 est.</span></td>
+              <td><span class="good" style="font-weight:600">5–8</span></td>
+              <td><span class="opp-pill opp-hi">High — Create Now</span></td>
+              <td><span class="ar ar-y">✓ Ads Rec.</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button><button class="ab amp">→ Ads</button></div></td>
+            </tr>
+            <tr class="detail-r sell-item" id="ds1" style="display:none" data-bucket="sell">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Highest-intent seller keyword for EPA.</strong> Someone searching "when to sell east palo alto" has already decided to sell — they're timing their decision. This is the exact moment to capture a listing lead. Converts directly to listing appointments at unusually high rate.</div><div class="dp-adyes"><span>📢</span><div><strong>Ads Strongly Recommended.</strong> Seller-intent keywords are the highest-converting category in real estate ads. Est. $11–16 CPC but one listing appointment is worth $20,000–40,000 in commission. One converted lead pays for 6+ months of ads on this keyword.</div></div><div class="dpact"><button class="dpb p">⚡ Generate — Top seller priority</button><button class="dpb b">→ Create ad campaign</button></div></div></td>
+            </tr>
+
+            <tr class="dr sell-item" data-bucket="sell" data-ad="no" style="display:none" onclick="toggleDetail('ds2',this)">
+              <td><input type="checkbox" class="rcb" data-id="ds2" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-ds2">▶</span><span class="inew">NEW</span>How to Price Your EPA Home: A Data-Driven Guide</div><div class="its">Positions you as pricing authority · CMA lead capture</div></td>
+              <td><span style="font-size:9.5px;color:var(--amber)">$ Seller</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;color:var(--amber)">Sellers</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">how to price home east palo alto</td>
+              <td>340/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1–2 est.</span></td>
+              <td><span class="good" style="font-weight:600">4–6</span></td>
+              <td><span class="opp-pill opp-hi">High</span></td>
+              <td><span class="ar ar-c">Consider</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button></div></td>
+            </tr>
+            <tr class="detail-r sell-item" id="ds2" style="display:none" data-bucket="sell">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Trust-building article that drives listing appointments.</strong> Sellers researching pricing want expert perspective. This article positions you as data-driven authority and naturally leads to a CMA request. Include your three-strategy pricing framework as a core section.</div><div class="dpact"><button class="dpb p">⚡ Generate with your pricing framework</button><button class="dpb">Queue</button></div></div></td>
+            </tr>
+
+            <tr class="bfr sell-item" style="display:none" data-bucket="sell"><td colspan="13"><div class="bfr-inner"><div class="bfr-lbl">Seller Strategy 🪣 · 5 opportunities · Underweight at 8% of content vs 70% seller target</div><button class="bfr-b" onclick="selectBucketItems('sell')">☐ Select all</button><button class="bfr-b" onclick="bucketAction('sell','queue')">Queue all</button><button class="bfr-b exec" onclick="bucketAction('sell','execute')">⚡ Execute top 3</button></div></td></tr>
+
+            <!-- ╔══ BUCKET: ADU OPPORTUNITIES ══╗ -->
+            <tr class="bhr" onclick="toggleBucket('adu')">
+              <td colspan="13">
+                <div class="bhr-inner">
+                  <input type="checkbox" class="bhr-cb bucket-cb" data-bucket="adu" onclick="event.stopPropagation();selectBucket('adu',this)" style="accent-color:var(--green)">
+                  <div class="bhr-ico" style="background:var(--teal-l)">🏗</div>
+                  <div class="bhr-name"><span class="bhr-emoji">🪣</span> ADU Opportunities</div>
+                  <div class="bhr-meta">
+                    <div class="bhr-count">3 items · You rank #1 for ADU financing — extend the cluster</div>
+                    <div class="opp-pill opp-hi">High — Build on existing rank</div>
+                    <div class="bhr-actions" onclick="event.stopPropagation()">
+                      <button class="bha sel-all" onclick="selectBucketItems('adu')">☐ Select all</button>
+                      <button class="bha exec" onclick="bucketAction('adu','execute')">⚡ Execute</button>
+                      <button class="bha ads" onclick="bucketAction('adu','ads')">$ Send to Ads</button>
+                    </div>
+                    <div class="bhr-toggle cl" id="tog-adu">▾</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dr adu-item" data-bucket="adu" data-ad="yes" style="display:none" onclick="toggleDetail('da1',this)">
+              <td><input type="checkbox" class="rcb" data-id="da1" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td>
+              <td class="itc"><div class="itn"><span class="iex" id="ex-da1">▶</span><span class="inew">NEW</span><span class="ad-title-badge">AD</span>How Much Does It Cost to Build an ADU in East Palo Alto?</div><div class="its">Natural next step after your #1 ADU financing article</div></td>
+              <td><span style="font-size:9.5px;color:var(--teal)">🏗 ADU</span></td>
+              <td><span class="tp tp-a">Article</span></td>
+              <td><span style="font-size:9.5px;">Both</span></td>
+              <td style="font-size:10.5px;color:var(--muted)">adu cost east palo alto 2026</td>
+              <td>890/mo</td>
+              <td><span class="good" style="font-weight:500">Low</span></td>
+              <td><span class="good" style="font-weight:600">#1–2 est.</span></td>
+              <td><span class="good" style="font-weight:600">5–8</span></td>
+              <td><span class="opp-pill opp-hi">High</span></td>
+              <td><span class="ar ar-y">✓ Ads Rec.</span></td>
+              <td><div class="abw"><button class="ab gen">⚡ Generate</button><button class="ab amp">→ Ads</button></div></td>
+            </tr>
+            <tr class="detail-r adu-item" id="da1" style="display:none" data-bucket="adu">
+              <td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Content cluster strategy:</strong> Someone who read your ADU financing guide (#1) will next search ADU costs. Covering both creates a content cluster Google rewards — you become the definitive ADU source for EPA. Each article links to the other, compounding both rankings.</div><div class="dp-adyes"><span>📢</span><div><strong>Ads Recommended.</strong> People researching ADU costs are 60–90 days from a transaction decision. High intent, good ROI on ad spend.</div></div><div class="dpact"><button class="dpb p">⚡ Generate</button><button class="dpb b">→ Ad campaign</button></div></div></td>
+            </tr>
+
+            <tr class="bfr adu-item" style="display:none" data-bucket="adu"><td colspan="13"><div class="bfr-inner"><div class="bfr-lbl">ADU Opportunities 🪣 · 3 items · Builds on existing #1 rank</div><button class="bfr-b exec" onclick="bucketAction('adu','execute')">⚡ Execute all</button></div></td></tr>
+
+            <!-- ADD CUSTOM -->
+            <tr class="add-row"><td colspan="13"><div class="add-inner" onclick="alert('Add custom content category')">🪣 + Add custom content category — FSBO, Expired Listings, Luxury Segment, New Construction, or any topic…</div></td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════
+         VIEW: IN PROGRESS
+         ══════════════════════ -->
+    <div class="view" id="view-prog">
+      <div class="sstrip">
+        <div class="scell"><div class="slbl">In Progress</div><div class="sval">4</div><div class="ssub neu">Active</div></div>
+        <div class="scell"><div class="slbl">Awaiting Review</div><div class="sval">2</div><div class="ssub bad">Needs you</div></div>
+        <div class="scell"><div class="slbl">Scheduled</div><div class="sval">2</div><div class="ssub good">Publishing soon</div></div>
+        <div class="scell"><div class="slbl">Next publish</div><div class="sval">Apr 2</div><div class="ssub neu">Social post</div></div>
+        <div class="scell"><div class="slbl">AI generating</div><div class="sval">1</div><div class="ssub warn">Running now</div></div>
+        <div class="scell"><div class="slbl">Waiting approval</div><div class="sval">2</div><div class="ssub bad">Your action needed</div></div>
+      </div>
+      <div class="ss-wrap"><table class="ss-table">
+        <thead><tr><th style="width:26px"></th><th style="width:28%">Title</th><th>Bucket 🪣</th><th>Type</th><th>Stage</th><th>Assigned</th><th>AI Model</th><th>Words</th><th>Est. Publish</th><th>Ad Plan</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr class="dr" onclick="toggleDetail('p1',this)"><td></td><td class="itc"><div class="itn"><span class="iex" id="ex-p1">▶</span>1031 Exchange Bay Area: Complete Timeline</div><div class="its">AI draft complete · Awaiting your review</div></td><td><span style="font-size:9.5px;color:var(--blue)">🪣 Investor</span></td><td><span class="tp tp-a">Article</span></td><td><span class="sp sp-rv">⚠ Review Now</span></td><td>AI Generated</td><td style="font-size:10.5px;color:var(--muted)">Claude + GPT-4</td><td>2,140</td><td>Apr 4</td><td><span class="ar ar-c">Consider</span></td><td><div class="abw"><button class="ab exec">Review & Approve</button><button class="ab">Edit</button></div></td></tr>
+          <tr class="detail-r" id="p1" style="display:none"><td colspan="11"><div class="detail-panel"><div class="dpw"><strong>Draft summary:</strong> 2,140-word article covering 1031 exchange timelines, ID rules, and Bay Area replacement property strategies. Consensus Engine synthesized Claude and GPT-4 inputs. Gemini flagged one section on reverse exchanges as potentially outdated — review that section before publishing.</div><div class="dpact"><button class="dpb p">Open full draft</button><button class="dpb b">Approve & Schedule</button><button class="dpb r">Send back for revision</button></div></div></td></tr>
+
+          <tr class="dr" onclick="toggleDetail('p2',this)"><td></td><td class="itc"><div class="itn"><span class="iex" id="ex-p2">▶</span>Why EPA Is the Peninsula's Best Kept Secret in 2026</div><div class="its">Video script · 8 min · In draft</div></td><td><span style="font-size:9.5px;color:var(--green)">🪣 Geo Gravity</span></td><td><span class="tp tp-v">Video</span></td><td><span class="sp sp-dft">Draft</span></td><td>AI Generated</td><td style="font-size:10.5px;color:var(--muted)">Claude</td><td>1,820</td><td>Apr 8</td><td><span class="ar ar-y">✓ Pre-roll</span></td><td><div class="abw"><button class="ab exec">Review</button><button class="ab amp">→ YouTube</button></div></td></tr>
+          <tr class="detail-r" id="p2" style="display:none"><td colspan="11"><div class="detail-panel"><div class="dpw">8-minute video script: hook (why EPA is misunderstood), 3 data points on appreciation, lifestyle section, investor angle, CTA. Recommend filming this week — summer buyer season starts in 60 days.</div><div class="dpact"><button class="dpb p">Review full script</button><button class="dpb b">Create thumbnail brief</button><button class="dpb">TubeBuddy optimization plan</button></div></div></td></tr>
+
+          <tr class="dr" onclick="toggleDetail('p3',this)"><td></td><td class="itc"><div class="itn"><span class="iex" id="ex-p3">▶</span>April Market Update — Peninsula Investor Newsletter</div><div class="its">Email · 847 subscribers · Scheduled Apr 5</div></td><td><span style="font-size:9.5px;color:var(--blue)">🪣 Investor</span></td><td><span class="tp tp-e">Email</span></td><td><span class="sp sp-sc">Scheduled</span></td><td>AI + Graeham</td><td style="font-size:10.5px;color:var(--muted)">Claude</td><td>680</td><td>Apr 5 · 8am</td><td><span class="ar ar-n">N/A</span></td><td><div class="abw"><button class="ab">Preview</button><button class="ab fix">Unschedule</button></div></td></tr>
+          <tr class="detail-r" id="p3" style="display:none"><td colspan="11"><div class="detail-panel"><div class="dpw">Newsletter: Q1 EPA market summary, 2 investment highlights, 1031 exchange reminder, CTA to cash flow calculator. Approved and scheduled. 847 subscribers · 42% open rate · 8% click rate historically.</div><div class="dpact"><button class="dpb p">Preview email</button><button class="dpb">Edit content</button></div></div></td></tr>
+
+          <tr class="dr" onclick="toggleDetail('p4',this)"><td></td><td class="itc"><div class="itn"><span class="iex" id="ex-p4">▶</span>Market stat: Median price up 7% YoY in EPA</div><div class="its">Instagram + Facebook · Scheduled Apr 2 · 10am</div></td><td><span style="font-size:9.5px;color:var(--amber)">🪣 Market Intel</span></td><td><span class="tp tp-s">Social</span></td><td><span class="sp sp-sc">Scheduled</span></td><td>AI Generated</td><td style="font-size:10.5px;color:var(--muted)">Claude</td><td>180</td><td>Apr 2 · 10am</td><td><span class="ar ar-c">Boost?</span></td><td><div class="abw"><button class="ab">Preview</button><button class="ab amp">Boost $30</button></div></td></tr>
+          <tr class="detail-r" id="p4" style="display:none"><td colspan="11"><div class="detail-panel"><div class="dpw">Stat post for Instagram and Facebook. Tuesday 10am — best engagement time for your accounts historically. Option to boost on Facebook for $30–50 to reach your geographic farming area.</div><div class="dpact"><button class="dpb p">Preview post</button><button class="dpb b">Boost on Facebook</button></div></div></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- ══════════════════════════
+         VIEW: PUBLISHED & MONITORED
+         ══════════════════════════ -->
+    <div class="view" id="view-pub">
+      <div class="sstrip">
+        <div class="scell"><div class="slbl">Published</div><div class="sval">18</div><div class="ssub neu">East Palo Alto</div></div>
+        <div class="scell"><div class="slbl">Ranking #1–5</div><div class="sval">6</div><div class="ssub good">Strong positions</div></div>
+        <div class="scell"><div class="slbl">Monthly visits</div><div class="sval">3,662</div><div class="ssub good">↑ 18% this month</div></div>
+        <div class="scell"><div class="slbl">Leads from content</div><div class="sval">14</div><div class="ssub good">This month</div></div>
+        <div class="scell"><div class="slbl">Drifting / At risk</div><div class="sval">3</div><div class="ssub bad">Need attention</div></div>
+        <div class="scell"><div class="slbl">Auto-rewrites queued</div><div class="sval">1</div><div class="ssub warn">Awaiting approval</div></div>
+      </div>
+      <div class="ss-wrap"><table class="ss-table">
+        <thead><tr><th style="width:26px"></th><th style="width:26%">Published Article</th><th>Bucket 🪣</th><th>Type</th><th>Rank</th><th>7-day</th><th>30-day</th><th>Visits/mo</th><th>Leads</th><th>Eng. Score</th><th>Monitor Status</th><th>Ad Rec.</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr class="dr" onclick="toggleDetail('m1',this)"><td><input type="checkbox" class="rcb" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td><td class="itc"><div class="itn"><span class="iex" id="ex-m1">▶</span><span class="ad-title-badge">AD</span>EPA ADU Financing Guide 2026</div><div class="its">propiq.com/epa-adu-financing · Mar 1 · 2,340 words</div></td><td><span style="font-size:9.5px;color:var(--teal)">🪣 ADU</span></td><td><span class="tp tp-a">Article</span></td><td><span class="rk r1">#1</span></td><td><span class="dup">↑ +3</span></td><td><span class="dup">↑ +8</span></td><td>1,240</td><td><span class="good" style="font-weight:500">6</span></td><td><div class="egw"><div class="egb"><div class="egf" style="width:92%"></div></div><span class="egn">92</span></div></td><td><span style="font-size:9.5px;color:var(--green)">🛡 Strong — No action</span></td><td><span class="ar ar-y">✓ Ads Live</span></td><td><div class="abw"><button class="ab exec">Amplify</button><button class="ab">Update</button></div></td></tr>
+          <tr class="detail-r" id="m1" style="display:none"><td colspan="13"><div class="detail-panel"><div class="dpg"><div class="dpc"><div class="dpl">Published</div><div class="dpv">Mar 1, 2026</div></div><div class="dpc"><div class="dpl">Word count</div><div class="dpv">2,340</div></div><div class="dpc"><div class="dpl">Avg time on page</div><div class="dpv good">4m 12s</div></div><div class="dpc"><div class="dpl">Bounce rate</div><div class="dpv good">38%</div></div><div class="dpc"><div class="dpl">Backlinks</div><div class="dpv">8</div></div></div><div class="dpw"><strong>Monitor log:</strong> Ranked #1 for 3 consecutive scans. 6 leads directly attributed — 4 investors, 2 buyers. Ad campaign running alongside at $9 CPC — 12 additional leads from paid this month. <strong>Total: 18 leads from this single piece.</strong></div><div class="dpact"><button class="dpb p">Scale up ad spend</button><button class="dpb b">Create video companion</button><button class="dpb">Add internal links</button></div></div></td></tr>
+
+          <tr class="dr" onclick="toggleDetail('m2',this)"><td><input type="checkbox" class="rcb" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td><td class="itc"><div class="itn"><span class="iex" id="ex-m2">▶</span>1031 Exchange Bay Area Investors</div><div class="its">propiq.com/1031-exchange-bay-area · Jan 20 · 2,100 words</div></td><td><span style="font-size:9.5px;color:var(--blue)">🪣 Investor</span></td><td><span class="tp tp-a">Article</span></td><td><span class="rk r5">#4</span></td><td><span class="dup">↑ +2</span></td><td><span class="dup">↑ +5</span></td><td>634</td><td><span class="good" style="font-weight:500">4</span></td><td><div class="egw"><div class="egb"><div class="egf" style="width:76%"></div></div><span class="egn">76</span></div></td><td><span style="font-size:9.5px;color:var(--green)">🛡 Strong — Climbing</span></td><td><span class="ar ar-y">✓ Ads Rec.</span></td><td><div class="abw"><button class="ab exec">Amplify</button><button class="ab amp">→ Ads</button></div></td></tr>
+          <tr class="detail-r" id="m2" style="display:none"><td colspan="13"><div class="detail-panel"><div class="dpw"><strong>Monitor log:</strong> Climbing consistently toward top 3. Running an ad campaign would capture both paid and organic positions simultaneously — very high value for this investor keyword.</div><div class="dp-adyes"><span>📢</span><div><strong>Ads Recommended based on performance.</strong> Article converts at 0.6% (4 leads from 634 visits). Adding paid traffic scales this proportionally. Estimated $14–18 CPC, but investor leads are high value.</div></div><div class="dpact"><button class="dpb p">Launch ad campaign</button><button class="dpb">Add internal link cluster</button></div></div></td></tr>
+
+          <tr class="dr" onclick="toggleDetail('m3',this)"><td><input type="checkbox" class="rcb" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td><td class="itc"><div class="itn"><span class="iex" id="ex-m3">▶</span>Peninsula Cash Flow Calculator</div><div class="its">propiq.com/cash-flow-calculator · Dec 15 · Interactive tool</div></td><td><span style="font-size:9.5px;color:var(--blue)">🪣 Investor</span></td><td><span class="tp tp-t">Tool</span></td><td><span class="rk r10">#7</span></td><td><span class="ddn">↓ −2</span></td><td><span class="ddn">↓ −4</span></td><td>411</td><td><span class="neu">2</span></td><td><div class="egw"><div class="egb"><div class="egf" style="width:58%;background:var(--amber)"></div></div><span class="egn">58</span></div></td><td><span style="font-size:9.5px;color:var(--amber)">⚠ Drifting — Optimize</span></td><td><span class="ar ar-n">Not Yet</span></td><td><div class="abw"><button class="ab gen">AI Optimize</button><button class="ab fix">Rebuild</button></div></td></tr>
+          <tr class="detail-r" id="m3" style="display:none"><td colspan="13"><div class="detail-panel" style="border-left-color:var(--amber)"><div class="dpw"><strong>Monitor log — drift detected:</strong> Two competitors published better calculators in March. Time on page dropped from 4 minutes to 2 minutes — users prefer competitor tools. Recommended: add rental comp data, ADU income toggle, and 5-year equity projection to outperform.</div><div class="dpact"><button class="dpb p">⚡ AI-optimize content</button><button class="dpb pu">Add rental comp data</button></div></div></td></tr>
+
+          <tr class="dr" onclick="toggleDetail('m4',this)"><td><input type="checkbox" class="rcb" onclick="event.stopPropagation();updateSelection()" style="accent-color:var(--green)"></td><td class="itc"><div class="itn"><span class="iex" id="ex-m4">▶</span>EPA Market Report Q1 2026</div><div class="its">propiq.com/epa-market-report-q1 · Jan 5 · 980 words</div></td><td><span style="font-size:9.5px;color:var(--amber)">🪣 Market Intel</span></td><td><span class="tp" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">Report</span></td><td><span class="rk r20">#12</span></td><td><span class="ddn">↓ −5</span></td><td><span class="ddn">↓ −9</span></td><td>187</td><td><span class="neu">1</span></td><td><div class="egw"><div class="egb"><div class="egf" style="width:22%;background:var(--red)"></div></div><span class="egn">22</span></div></td><td><span style="font-size:9.5px;color:var(--red)">🛡 At Risk — Rewrite ready</span></td><td><span class="ar ar-n">Not Yet</span></td><td><div class="abw"><button class="ab fix">Review Rewrite</button></div></td></tr>
+          <tr class="detail-r" id="m4" style="display:none"><td colspan="13"><div class="detail-panel" style="border-left-color:var(--red)"><div class="dpg"><div class="dpc"><div class="dpl">Problem</div><div class="dpv bad">Outdated + thin</div></div><div class="dpc"><div class="dpl">Word count</div><div class="dpv bad">980</div><div class="dpsub">Need 2,000+</div></div><div class="dpc"><div class="dpl">Competitors</div><div class="dpv bad">3 with Q2 data</div></div><div class="dpc"><div class="dpl">Auto-Monitor action</div><div class="dpv warn">Rewrite ready</div></div><div class="dpc"><div class="dpl">Rewrite word count</div><div class="dpv">2,100 words</div></div></div><div class="dpw"><strong>Auto-Monitor detected this and already wrote a 2,100-word update</strong> incorporating March 2026 sales data, median price movement, days on market, and seller outlook section. Waiting for your approval to publish.</div><div class="dpact"><button class="dpb p">Review AI rewrite</button><button class="dpb r">Approve & Publish now</button><button class="dpb">Request changes</button></div></div></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- ══════════════════════════
+         VIEW: CONTENT CALENDAR
+         ══════════════════════════ -->
+    <div class="view" id="view-cal">
+      <div class="cal-wrap">
+
+        <div class="cal-why-bar">
+          <div class="cal-why-ico">🧠</div>
+          <div><strong>How PropIQ schedules your content:</strong> The system analyzes engagement patterns across your social accounts, email open rates, Google traffic by day and hour, and competitor posting patterns — then recommends the optimal time to publish each piece for maximum reach and lead generation. Times are specific to your East Palo Alto audience.</div>
+        </div>
+
+        <!-- BEST TIME INSIGHTS -->
+        <div class="cal-insight">
+          <div class="ci-title">AI Posting Insights — East Palo Alto · Your Audience</div>
+          <div class="ci-grid">
+            <div class="ci-box"><div class="ci-label">Best day for articles</div><div class="ci-val">Tuesday</div><div class="ci-sub">32% more organic traffic</div></div>
+            <div class="ci-box"><div class="ci-label">Best time for social</div><div class="ci-val">10am or 6pm</div><div class="ci-sub">Highest engagement for your accounts</div></div>
+            <div class="ci-box"><div class="ci-label">Best day for email</div><div class="ci-val">Tuesday or Thursday</div><div class="ci-sub">42% open rate on these days</div></div>
+            <div class="ci-box"><div class="ci-label">Worst day to post</div><div class="ci-val">Saturday</div><div class="ci-sub">41% lower engagement</div></div>
+            <div class="ci-box"><div class="ci-label">Best investor content day</div><div class="ci-val">Wednesday</div><div class="ci-sub">Investor audience most active</div></div>
+            <div class="ci-box"><div class="ci-label">Best seller content day</div><div class="ci-val">Sunday evening</div><div class="ci-sub">Sellers browse listings on weekends</div></div>
+          </div>
+        </div>
+
+        <!-- LEGEND -->
+        <div class="cal-legend">
+          <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#bfdbfe"></div>Article</div>
+          <div class="cal-leg-item"><div class="cal-leg-dot" style="background:var(--purple-l)"></div>Social post</div>
+          <div class="cal-leg-item"><div class="cal-leg-dot" style="background:var(--amber-l)"></div>Email</div>
+          <div class="cal-leg-item"><div class="cal-leg-dot" style="background:var(--red-l)"></div>Video</div>
+          <div class="cal-leg-item"><div class="cal-leg-dot" style="background:var(--green-l)"></div>Milestone / event</div>
+          <div style="margin-left:auto;display:flex;gap:6px">
+            <button style="padding:3px 9px;border-radius:4px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">← March</button>
+            <button style="padding:3px 9px;border-radius:4px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit;font-weight:500">April 2026</button>
+            <button style="padding:3px 9px;border-radius:4px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">May →</button>
+          </div>
+        </div>
+
+        <!-- WEEK 1 -->
+        <div class="cal-week">
+          <div class="cal-week-hdr">
+            <div class="cal-week-label">Week of March 31 – April 6</div>
+            <div class="cal-week-sub">2 articles · 2 social posts · 1 email scheduled</div>
+          </div>
+          <div class="cal-days">
+            <!-- Mon Mar 31 -->
+            <div class="cal-day">
+              <div class="cd-hdr"><div class="cd-day">Mon</div><div class="cd-date">31</div></div>
+              <div class="cd-events">
+                <div class="cd-event ev-social"><div class="cde-title">EPA stat: Inventory down 18%</div><div class="cde-time">10:00am · Instagram + Facebook</div><div class="cde-why">Monday morning — buyers browsing during commute</div></div>
+              </div>
+            </div>
+            <!-- Tue Apr 1 -->
+            <div class="cal-day today">
+              <div class="cd-hdr"><div class="cd-day">Tue</div><div class="cd-date today-num">1</div></div>
+              <div class="cd-events">
+                <div class="cd-event ev-article"><div class="cde-title">EPA Neighborhood Guide</div><div class="cde-time">9:00am · Publish to site</div><div class="cde-why">Tuesday AM — peak article traffic day for your audience</div></div>
+              </div>
+            </div>
+            <!-- Wed Apr 2 -->
+            <div class="cal-day">
+              <div class="cd-hdr"><div class="cd-day">Wed</div><div class="cd-date">2</div></div>
+              <div class="cd-events">
+                <div class="cd-event ev-social"><div class="cde-title">Market stat: Prices up 7% YoY</div><div class="cde-time">10:00am · Instagram + Facebook</div><div class="cde-why">Wednesday — mid-week social peak</div></div>
+                <div class="cd-event ev-video" style="margin-top:3px"><div class="cde-title">EPA Best Kept Secret — video</div><div class="cde-time">6:00pm · YouTube publish</div><div class="cde-why">Wednesday PM — YouTube's highest traffic time</div></div>
+              </div>
+            </div>
+            <!-- Thu Apr 3 -->
+            <div class="cal-day">
+              <div class="cd-hdr"><div class="cd-day">Thu</div><div class="cd-date">3</div></div>
+              <div class="cd-events">
+                <div class="cd-event ev-coe"><div class="cde-title">⚠ Inspection contingency due</div><div class="cde-time">5:00pm · 2895 Fordham St</div></div>
+              </div>
+            </div>
+            <!-- Fri Apr 4 -->
+            <div class="cal-day">
+              <div class="cd-hdr"><div class="cd-day">Fri</div><div class="cd-date">4</div></div>
+              <div class="cd-events">
+                <div class="cd-event ev-article"><div class="cde-title">1031 Exchange Timeline Guide</div><div class="cde-time">8:00am · Publish to site</div><div class="cde-why">Friday AM — investor audience reads Friday morning</div></div>
+              </div>
+            </div>
+            <!-- Sat Apr 5 -->
+            <div class="cal-day empty">
+              <div class="cd-hdr"><div class="cd-day">Sat</div><div class="cd-date">5</div></div>
+              <div class="cd-empty-msg">No posts — Saturday engagement is 41% lower for your audience</div>
+            </div>
+            <!-- Sun Apr 6 -->
+            <div class="cal-day">
+              <div class="cd-hdr"><div class="cd-day">Sun</div><div class="cd-date">6</div></div>
+              <div class="cd-events">
+                <div class="cd-event ev-social"><div class="cde-title">Seller tip: Sunday evening post</div><div class="cde-time">7:00pm · Facebook</div><div class="cde-why">Sunday PM — sellers browse listings after dinner</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WEEK 2 -->
+        <div class="cal-week">
+          <div class="cal-week-hdr">
+            <div class="cal-week-label">Week of April 7 – 13</div>
+            <div class="cal-week-sub">1 article · 1 email · 2 social posts</div>
+          </div>
+          <div class="cal-days">
+            <div class="cal-day empty"><div class="cd-hdr"><div class="cd-day">Mon</div><div class="cd-date">7</div></div><div class="cd-empty-msg">No content — spacing for algorithm health</div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Tue</div><div class="cd-date">8</div></div><div class="cd-events"><div class="cd-event ev-article"><div class="cde-title">Is EPA Safe? Honest Guide</div><div class="cde-time">9:00am · Publish</div><div class="cde-why">Tuesday — highest organic traffic day</div></div></div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Wed</div><div class="cd-date">9</div></div><div class="cd-events"><div class="cd-event ev-social"><div class="cde-title">ADU tip: SB9 lot splits EPA</div><div class="cde-time">10:00am · Instagram</div></div></div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Thu</div><div class="cd-date">10</div></div><div class="cd-events"><div class="cd-event ev-email"><div class="cde-title">April Investor Newsletter</div><div class="cde-time">8:00am · 847 subscribers</div><div class="cde-why">Thursday AM — 2nd best email open rate day</div></div></div></div>
+            <div class="cal-day empty"><div class="cd-hdr"><div class="cd-day">Fri</div><div class="cd-date">11</div></div><div class="cd-empty-msg">No content scheduled</div></div>
+            <div class="cal-day empty"><div class="cd-hdr"><div class="cd-day">Sat</div><div class="cd-date">12</div></div><div class="cd-empty-msg">No posts — Saturday dip</div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Sun</div><div class="cd-date">13</div></div><div class="cd-events"><div class="cd-event ev-social"><div class="cde-title">When to sell EPA — seller tip</div><div class="cde-time">7:00pm · Facebook</div></div><div class="cd-event ev-coe" style="margin-top:3px"><div class="cde-title">🔑 Signing: 2895 Fordham St</div><div class="cde-time">Closing prep day</div></div></div></div>
+          </div>
+        </div>
+
+        <!-- WEEK 3 — COE WEEK -->
+        <div class="cal-week">
+          <div class="cal-week-hdr">
+            <div class="cal-week-label">Week of April 14 – 20 · 🎉 Closing week</div>
+            <div class="cal-week-sub">2 articles · 1 social · 2 closings</div>
+          </div>
+          <div class="cal-days">
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Mon</div><div class="cd-date">14</div></div><div class="cd-events"><div class="cd-event ev-article"><div class="cde-title">ADU Cost Guide EPA 2026</div><div class="cde-time">9:00am · Publish</div></div><div class="cd-event ev-coe" style="margin-top:3px"><div class="cde-title">Final walkthrough: Fordham St</div></div></div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Tue</div><div class="cd-date">15</div></div><div class="cd-events"><div class="cd-event ev-coe" style="font-size:10.5px;font-weight:500;padding:5px 7px"><div class="cde-title">🎉 COE — 2895 Fordham St</div><div class="cde-time">$1.38M · Theresa Chen sells</div></div></div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Wed</div><div class="cd-date">16</div></div><div class="cd-events"><div class="cd-event ev-social"><div class="cde-title">🎉 Just closed! Fordham St post</div><div class="cde-time">10:00am · All channels</div><div class="cde-why">Post-close celebration content — high engagement, builds trust</div></div></div></div>
+            <div class="cal-day empty"><div class="cd-hdr"><div class="cd-day">Thu</div><div class="cd-date">17</div></div><div class="cd-empty-msg">No content — post-close cooldown</div></div>
+            <div class="cal-day"><div class="cd-hdr"><div class="cd-day">Fri</div><div class="cd-date">18</div></div><div class="cd-events"><div class="cd-event ev-article"><div class="cde-title">Multi-Family Analysis: EPA</div><div class="cde-time">8:00am · Publish</div><div class="cde-why">Friday AM investor content</div></div></div></div>
+            <div class="cal-day empty"><div class="cd-hdr"><div class="cd-day">Sat</div><div class="cd-date">19</div></div><div class="cd-empty-msg">No posts</div></div>
+            <div class="cal-day empty"><div class="cd-hdr"><div class="cd-day">Sun</div><div class="cd-date">20</div></div><div class="cd-empty-msg">No posts</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── GEO TABS ──
+function setGeo(el){document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
+
+// ── ORGANIC/ADS TOGGLE ──
+function setOA(btn){btn.closest('.oatog').querySelectorAll('.oab').forEach(b=>{b.classList.remove('on','ads-on')});btn.classList.add('on')}
+
+// ── FOUR-TIER TABS ──
+function setTier(t){
+  document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('ttab-'+t).classList.add('on');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('view-'+t).classList.add('on');
+}
+
+// ── BUCKET FILTER TABS ──
+function setBF(el){document.querySelectorAll('.bft').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
+
+// ── BUYER/SELLER SLIDER ──
+function updateSlider(el){
+  const v=parseInt(el.value);
+  document.getElementById('bspct').innerHTML=`<span style="color:var(--amber)">${v}%</span> · <span style="color:var(--blue)">${100-v}%</span>`;
+  el.style.background=`linear-gradient(to right,var(--amber) 0%,var(--amber) ${v}%,var(--blue) ${v}%,var(--blue) 100%)`;
+}
+
+// ── AUTO SEND TO ADS TOGGLE ──
+let autoAdsOn=false;
+function toggleAutoAds(){
+  autoAdsOn=!autoAdsOn;
+  const wrap=document.getElementById('autoAdsWrap');
+  const lbl=document.getElementById('autoAdsLabel');
+  wrap.classList.toggle('on',autoAdsOn);
+  lbl.textContent=autoAdsOn?'Auto-Send: ON — Ad recs going to Ads module':'Auto-Send Ad Recs to Ads';
+}
+
+// ── TOGGLE BUCKET (collapse/expand all items in that bucket) ──
+function toggleBucket(id){
+  const items=document.querySelectorAll('.'+id+'-item');
+  const tog=document.getElementById('tog-'+id);
+  if(!tog)return;
+  const isOpen=tog.classList.contains('op');
+  items.forEach(i=>{
+    if(isOpen){i.style.display='none'}
+    else{
+      // Only show parent rows, not detail rows that were closed
+      if(!i.classList.contains('detail-r')){i.style.display='table-row'}
+    }
+  });
+  tog.classList.toggle('op',!isOpen);
+  tog.classList.toggle('cl',isOpen);
+}
+
+// ── TOGGLE DETAIL ROW ──
+function toggleDetail(id,row){
+  const detail=document.getElementById(id);
+  const arrow=document.getElementById('ex-'+id);
+  if(!detail)return;
+  const isOpen=detail.style.display==='table-row';
+  detail.style.display=isOpen?'none':'table-row';
+  if(arrow)arrow.classList.toggle('op',!isOpen);
+}
+
+// ── SELECTION ──
+let selected=new Set();
+function updateSelection(){
+  selected.clear();
+  document.querySelectorAll('.rcb:checked').forEach(cb=>{if(cb.dataset.id)selected.add(cb.dataset.id)});
+  const bar=document.getElementById('bulkBar');
+  const cnt=document.getElementById('selCount');
+  if(selected.size>0){bar.classList.remove('hidden');cnt.textContent=selected.size}
+  else{bar.classList.add('hidden')}
+}
+function clearSelection(){
+  document.querySelectorAll('.rcb').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.bucket-cb').forEach(cb=>cb.checked=false);
+  document.getElementById('selectAll').checked=false;
+  selected.clear();
+  document.getElementById('bulkBar').classList.add('hidden');
+}
+function toggleSelectAll(cb){
+  document.querySelectorAll('.rcb').forEach(r=>r.checked=cb.checked);
+  updateSelection();
+}
+function selectBucket(id,cb){
+  document.querySelectorAll('.'+id+'-item .rcb').forEach(r=>r.checked=cb.checked);
+  updateSelection();
+}
+function selectBucketItems(id){
+  const items=document.querySelectorAll('.'+id+'-item .rcb');
+  const anyUnchecked=[...items].some(r=>!r.checked);
+  items.forEach(r=>r.checked=anyUnchecked);
+  updateSelection();
+}
+function selectAdRec(){
+  document.querySelectorAll('.dr[data-ad="yes"] .rcb').forEach(cb=>cb.checked=true);
+  updateSelection();
+}
+function bulkAction(type){
+  const n=selected.size||document.querySelectorAll('.rcb:checked').length;
+  if(type==='execute')alert(`Executing ${n} selected items…`);
+  else if(type==='ads')alert(`Sending ${n} items to Ads module…`);
+  else if(type==='reanalyze')alert(`Reanalyzing ${n} items with Consensus Engine…`);
+  clearSelection();
+}
+function bucketAction(id,type){
+  const n=document.querySelectorAll('.'+id+'-item.dr').length;
+  if(type==='execute')alert(`Executing all ${n} items in this bucket…`);
+  else if(type==='ads')alert(`Sending ad-recommended items from this bucket to Ads module…`);
+  else if(type==='queue')alert(`Queuing all ${n} items…`);
+}
+
+// ── AUTO MONITOR PANEL ──
+function openAM(){
+  document.getElementById('amPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+function closeAll(){
+  document.getElementById('amPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+</script>
+</body>
+</html>
+<!-- ══════════════════════════════════════════
+     SIDE VIEWS — loaded when sidebar items clicked
+     Each sits INSIDE .main, shown/hidden by JS
+     ══════════════════════════════════════════ -->
+
+<style>
+/* side views overlay the main content area */
+.sv{position:absolute;top:0;left:0;right:0;bottom:0;display:none;flex-direction:column;background:var(--bg);z-index:50;overflow:hidden}
+.sv.on{display:flex}
+.sv-bar{display:flex;align-items:center;gap:8px;padding:0.75rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.sv-back{padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit}
+.sv-back:hover{background:var(--bg);color:var(--ink)}
+.sv-title{font-family:'Playfair Display',serif;font-size:1.2rem;flex:1}
+.sv-sub{font-size:11px;color:var(--faint)}
+.sv-content{flex:1;overflow-y:auto;padding:1.25rem}
+/* competitor table */
+.ci-full-table{width:100%;border-collapse:collapse}
+.ci-full-table th{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);padding:0.42rem 0.85rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg);text-align:left;cursor:pointer;white-space:nowrap}
+.ci-full-table th:last-child{border-right:none}
+.ci-full-table td{padding:0.55rem 0.85rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:12px;vertical-align:top}
+.ci-full-table td:last-child{border-right:none}
+.ci-full-table tr:hover td{background:var(--bg);cursor:pointer}
+.gap-high{background:var(--red-l);color:var(--red);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+.gap-med{background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+.gap-low{background:var(--green-l);color:var(--green);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+/* kw table */
+.kw-full-table{width:100%;border-collapse:collapse}
+.kw-full-table th{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);padding:0.42rem 0.85rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg);text-align:left;cursor:pointer;white-space:nowrap}
+.kw-full-table th:last-child{border-right:none}
+.kw-full-table td{padding:0.52rem 0.85rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:12px}
+.kw-full-table td:last-child{border-right:none}
+.kw-full-table tr:hover td{background:var(--bg);cursor:pointer}
+.diff-easy{background:var(--green-l);color:var(--green);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+.diff-med{background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+.diff-hard{background:var(--red-l);color:var(--red);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
+/* youtube */
+.yt-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:1rem}
+.yt-s-cell{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem}
+.yt-s-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px}
+.yt-s-val{font-family:'Playfair Display',serif;font-size:1.15rem}
+.yt-s-sub{font-size:9.5px;margin-top:2px}
+.yt-vid-table{width:100%;border-collapse:collapse}
+.yt-vid-table th{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);padding:0.42rem 0.85rem;border-bottom:1px solid var(--border);background:var(--bg);text-align:left;white-space:nowrap}
+.yt-vid-table td{padding:0.55rem 0.85rem;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle}
+.yt-vid-table tr:hover td{background:var(--bg)}
+/* blueprints */
+.bp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.bp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.bp-card-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);font-weight:500;margin-bottom:4px}
+.bp-card-title{font-family:'Playfair Display',serif;font-size:1.05rem;margin-bottom:0.5rem}
+.bp-card-body{font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:0.65rem}
+.bp-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0.65rem}
+.bp-card-tag{font-size:9.5px;padding:2px 7px;border-radius:3px;background:var(--green-l);color:var(--green)}
+.bp-card-acts{display:flex;gap:5px}
+.bp-card-btn{padding:4px 9px;border-radius:4px;font-size:11px;cursor:pointer;font-family:inherit;border:1px solid var(--border2);background:var(--surface);color:var(--muted)}
+.bp-card-btn.g{background:var(--green);color:#fff;border-color:var(--green)}
+/* rank tracker */
+.rt-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:1rem}
+.rt-cell{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem}
+.rt-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px}
+.rt-val{font-family:'Playfair Display',serif;font-size:1.15rem}
+.rt-sub{font-size:9.5px;margin-top:2px}
+.mini-chart{height:36px;display:flex;align-items:flex-end;gap:2px}
+.mc-bar{border-radius:2px 2px 0 0;flex:1;min-height:3px;transition:height 0.2s}
+/* geo markets settings */
+.mkt-item{display:flex;align-items:center;gap:10px;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:7px;margin-bottom:6px;background:var(--surface)}
+.mkt-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mkt-info{flex:1}
+.mkt-name{font-size:13px;font-weight:500}
+.mkt-sub{font-size:10.5px;color:var(--faint)}
+.mkt-actions{display:flex;gap:5px}
+.mkt-btn{padding:3px 8px;border-radius:4px;font-size:11px;cursor:pointer;font-family:inherit;border:1px solid var(--border2);background:var(--surface);color:var(--muted)}
+</style>
+
+<!-- The .main div needs position:relative for overlay views -->
+<script>
+// Add position relative to .main at runtime
+document.addEventListener('DOMContentLoaded', function(){
+  const main = document.querySelector('.main');
+  if(main) main.style.position = 'relative';
+  // Insert all side views into .main
+  const sideViewsHTML = getSideViewsHTML();
+  main.insertAdjacentHTML('beforeend', sideViewsHTML);
+});
+
+function getSideViewsHTML(){
+  return `
+  <!-- COMPETITOR INTEL -->
+  <div class="sv" id="sv-competitor">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Competitor Intel</div><div class="sv-sub">Who's outranking you on Google and exactly where the gaps are</div></div>
+      <div style="display:flex;gap:6px">
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">⟳ Refresh Analysis</button>
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:inherit">⚡ Target All Gaps</button>
+      </div>
+    </div>
+    <div class="sv-content">
+      <!-- SUMMARY -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:1rem">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Competitors tracked</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">14</div><div style="font-size:9.5px;color:var(--faint)">In EPA + Peninsula</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Gaps identified</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">31</div><div style="font-size:9.5px;color:var(--red)">8 high-value</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Keywords they own</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">147</div><div style="font-size:9.5px;color:var(--amber)">You own 23</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Your advantage</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">ADU</div><div style="font-size:9.5px;color:var(--green)">You dominate this topic</div></div>
+      </div>
+      <!-- COMPETITOR TABLE -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <table class="ci-full-table">
+          <thead>
+            <tr>
+              <th>Rank</th><th style="width:18%">Competitor</th><th style="width:25%">Keyword they rank for</th><th>Their rank</th><th>Your rank</th><th>Monthly searches</th><th>Gap size</th><th>Their weakness</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="ci-rank">#1</span></td><td><div style="font-weight:500">zillow.com</div><div style="font-size:10px;color:var(--faint)">National portal</div></td><td>east palo alto homes for sale 2026</td><td><span style="color:var(--green);font-weight:600">#1</span></td><td><span style="color:var(--amber)">#8</span></td><td>2,400/mo</td><td><span class="gap-high">High gap</span></td><td style="font-size:11px;color:var(--muted)">No local agent expertise, generic content, no ADU focus</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Target gap →</button></td></tr>
+            <tr><td><span class="ci-rank">#2</span></td><td><div style="font-weight:500">redfin.com</div><div style="font-size:10px;color:var(--faint)">National portal</div></td><td>east palo alto real estate market 2026</td><td><span style="color:var(--green);font-weight:600">#2</span></td><td><span style="color:var(--amber)">#11</span></td><td>1,800/mo</td><td><span class="gap-high">High gap</span></td><td style="font-size:11px;color:var(--muted)">National data only, no EPA-specific neighborhood breakdown</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Target gap →</button></td></tr>
+            <tr><td><span class="ci-rank">#3</span></td><td><div style="font-weight:500">johnsmithrealty.com</div><div style="font-size:10px;color:var(--faint)">Local agent</div></td><td>menlo park investment property returns</td><td><span style="color:var(--amber);">#3</span></td><td><span style="color:var(--red)">#14</span></td><td>1,200/mo</td><td><span class="gap-med">Medium gap</span></td><td style="font-size:11px;color:var(--muted)">No cash flow calculator, outdated 2024 data, no ADU section</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Target gap →</button></td></tr>
+            <tr><td><span class="ci-rank">#4</span></td><td><div style="font-weight:500">bayareaproperties.com</div><div style="font-size:10px;color:var(--faint)">Regional agent</div></td><td>1031 exchange bay area timeline 2026</td><td><span style="color:var(--amber);">#4</span></td><td><span style="color:var(--green);">#4</span></td><td>980/mo</td><td><span class="gap-low">You're tied</span></td><td style="font-size:11px;color:var(--muted)">You're even here — push to #1 by adding a 2026 data update and a downloadable PDF checklist</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--blue-l);color:var(--blue);border:1px solid var(--blue-l);cursor:pointer;font-family:inherit">Overtake #1 →</button></td></tr>
+            <tr><td><span class="ci-rank">#5</span></td><td><div style="font-weight:500">trulia.com</div><div style="font-size:10px;color:var(--faint)">National portal</div></td><td>is east palo alto safe 2026</td><td><span style="color:var(--amber);">#5</span></td><td><span style="color:var(--faint)">Not ranked</span></td><td>1,800/mo</td><td><span class="gap-high">🔥 Biggest gap</span></td><td style="font-size:11px;color:var(--muted)">Aggregates Reddit threads — no authoritative local agent perspective. This is your #1 content opportunity right now.</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green);color:#fff;border:none;cursor:pointer;font-family:inherit">⚡ Create now →</button></td></tr>
+            <tr><td><span class="ci-rank">#6</span></td><td><div style="font-weight:500">investepa.com</div><div style="font-size:10px;color:var(--faint)">Local competitor</div></td><td>east palo alto ADU laws 2026</td><td><span style="color:var(--amber);">#6</span></td><td><span style="color:var(--green);font-weight:600">#1</span></td><td>890/mo</td><td><span class="gap-low">You win this one</span></td><td style="font-size:11px;color:var(--muted)">You already rank #1 — monitor and maintain. Expand with ADU cost companion article to cement dominance.</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Expand cluster →</button></td></tr>
+            <tr><td><span class="ci-rank">#7</span></td><td><div style="font-weight:500">peninsulaprops.com</div><div style="font-size:10px;color:var(--faint)">Regional agent</div></td><td>epa vs menlo park home value</td><td><span style="color:var(--amber);">#7</span></td><td><span style="color:var(--faint)">Not ranked</span></td><td>880/mo</td><td><span class="gap-high">High gap</span></td><td style="font-size:11px;color:var(--muted)">Old content from 2023. Easy to outrank with an updated, detailed comparison guide written by a local agent.</td><td><button style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Target gap →</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYWORD GAPS -->
+  <div class="sv" id="sv-keywords">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Keyword Opportunities</div><div class="sv-sub">High-value keywords you could rank for — sorted by best return on content investment</div></div>
+      <div style="display:flex;gap:6px">
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">Export list</button>
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:inherit">⚡ Create content for top 5</button>
+      </div>
+    </div>
+    <div class="sv-content">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:1rem">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Total opportunities</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">48</div><div style="font-size:9.5px;color:var(--green)">Keywords tracked</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Easy wins</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">18</div><div style="font-size:9.5px;color:var(--green)">Low competition</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">You currently rank</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">23</div><div style="font-size:9.5px;color:var(--amber)">On top 10 keywords</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Combined monthly searches</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">42K</div><div style="font-size:9.5px;color:var(--faint)">Across all 48</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">SearchAtlas last sync</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">2h ago</div><div style="font-size:9.5px;color:var(--green)">Live data</div></div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <table class="kw-full-table">
+          <thead>
+            <tr><th style="width:28%">Keyword ↕</th><th>Searches/mo ↕</th><th>Competition ↕</th><th>Your rank ↕</th><th>Top competitor</th><th>Est. rank potential</th><th>Est. leads/mo</th><th>Ad CPC</th><th>Priority ↕</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:500">is east palo alto safe 2026</td><td>1,800</td><td><span class="diff-easy">Low</span></td><td><span style="color:var(--faint)">—</span></td><td>trulia.com</td><td><span style="color:var(--green);font-weight:500">#1–2 est.</span></td><td><span style="color:var(--green);font-weight:500">6–10</span></td><td>$8</td><td><span style="background:var(--green);color:#fff;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">🔥 Highest</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-l);cursor:pointer;font-family:inherit">⚡ Generate</button></td></tr>
+            <tr><td style="font-weight:500">east palo alto homes for sale 2026</td><td>2,400</td><td><span class="diff-hard">Hard</span></td><td><span style="color:var(--red)">#8</span></td><td>zillow.com</td><td><span style="color:var(--amber)">#3–5 possible</span></td><td>4–8</td><td>$14</td><td><span style="background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">High</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-l);cursor:pointer;font-family:inherit">⚡ Generate</button></td></tr>
+            <tr><td style="font-weight:500">epa adu financing options 2026</td><td>880</td><td><span class="diff-easy">Low</span></td><td><span style="color:var(--green);font-weight:600">#1</span></td><td>You already rank #1</td><td><span style="color:var(--green)">Maintain #1</span></td><td>6</td><td>$9</td><td><span style="background:var(--green-l);color:var(--green);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">Maintain</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);cursor:pointer;font-family:inherit">Amplify</button></td></tr>
+            <tr><td style="font-weight:500">east palo alto investment property</td><td>1,200</td><td><span class="diff-easy">Low</span></td><td><span style="color:var(--red)">#11</span></td><td>redfin.com</td><td><span style="color:var(--green)">#2–4 est.</span></td><td>4–7</td><td>$12</td><td><span style="background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">High</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-l);cursor:pointer;font-family:inherit">⚡ Generate</button></td></tr>
+            <tr><td style="font-weight:500">sb9 lot split east palo alto</td><td>540</td><td><span class="diff-easy">Very Low</span></td><td><span style="color:var(--faint)">—</span></td><td>No local competitors</td><td><span style="color:var(--green)">#1 est. day 1</span></td><td>4–7</td><td>$7</td><td><span style="background:var(--green-l);color:var(--green);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">Easy win</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-l);cursor:pointer;font-family:inherit">⚡ Generate</button></td></tr>
+            <tr><td style="font-weight:500">when to sell east palo alto</td><td>520</td><td><span class="diff-easy">Low</span></td><td><span style="color:var(--faint)">—</span></td><td>trulia.com</td><td><span style="color:var(--green)">#1–3 est.</span></td><td>5–8</td><td>$13</td><td><span style="background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">High — seller intent</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-l);cursor:pointer;font-family:inherit">⚡ Generate</button></td></tr>
+            <tr><td style="font-weight:500">best real estate agent east palo alto</td><td>320</td><td><span class="diff-hard">Hard</span></td><td><span style="color:var(--amber)">#6</span></td><td>yelp.com</td><td><span style="color:var(--amber)">#2–3 possible</span></td><td>3–5</td><td>$18</td><td><span style="background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">Medium</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);cursor:pointer;font-family:inherit">Optimize</button></td></tr>
+            <tr><td style="font-weight:500">menlo park cash on cash return 2026</td><td>390</td><td><span class="diff-med">Medium</span></td><td><span style="color:var(--faint)">—</span></td><td>johnsmithrealty.com</td><td><span style="color:var(--green)">#2–4 est.</span></td><td>3–5</td><td>$11</td><td><span style="background:var(--amber-l);color:var(--amber);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500">Medium</span></td><td><button style="font-size:10px;padding:2px 8px;border-radius:4px;background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-l);cursor:pointer;font-family:inherit">⚡ Generate</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUTUBE ANALYSIS -->
+  <div class="sv" id="sv-youtube">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">YouTube Analysis</div><div class="sv-sub">TubeBuddy data · Your channel performance vs competitors · Video content gaps</div></div>
+      <div style="display:flex;gap:6px">
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">TubeBuddy settings</button>
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--red);color:#fff;border:none;font-family:inherit">▶ Create Video Script</button>
+      </div>
+    </div>
+    <div class="sv-content">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:1rem">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Channel subscribers</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">847</div><div style="font-size:9.5px;color:var(--green)">↑ +43 this month</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Monthly views</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">4,210</div><div style="font-size:9.5px;color:var(--green)">↑ 22% vs last mo</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Avg watch time</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">3m 42s</div><div style="font-size:9.5px;color:var(--amber)">Target: 5+ min</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Leads from YouTube</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">3</div><div style="font-size:9.5px;color:var(--faint)">This month</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">TubeBuddy score</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">67/100</div><div style="font-size:9.5px;color:var(--amber)">Room to improve</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <!-- YOUR VIDEOS -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+          <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:12px;font-weight:500;display:flex;justify-content:space-between"><span>Your videos</span><span style="font-size:10.5px;color:var(--faint)">TubeBuddy optimization scores</span></div>
+          <table class="yt-vid-table">
+            <thead><tr><th style="width:40%">Title</th><th>Views</th><th>Watch time</th><th>TB Score</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><div style="font-size:12px;font-weight:500">Why EPA is Underrated for Investors</div><div style="font-size:10px;color:var(--faint)">Published Mar 1</div></td><td>1,840</td><td>4m 12s</td><td><span style="color:var(--green);font-weight:600">82</span></td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Optimize</button></td></tr>
+              <tr><td><div style="font-size:12px;font-weight:500">ADU Financing: What Banks Won't Tell You</div><div style="font-size:10px;color:var(--faint)">Published Feb 14</div></td><td>924</td><td>5m 38s</td><td><span style="color:var(--green);font-weight:600">76</span></td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--green-l);color:var(--green);border:1px solid var(--green-l);cursor:pointer;font-family:inherit">Optimize</button></td></tr>
+              <tr><td><div style="font-size:12px;font-weight:500">1031 Exchange Explained for Bay Area Investors</div><div style="font-size:10px;color:var(--faint)">Published Jan 20</div></td><td>612</td><td>3m 18s</td><td><span style="color:var(--amber);font-weight:600">54</span></td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-l);cursor:pointer;font-family:inherit">⚠ Fix SEO</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- VIDEO GAPS -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+          <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:12px;font-weight:500;display:flex;justify-content:space-between"><span>AI-recommended video topics</span><span style="font-size:10.5px;color:var(--faint)">Based on search trends + competitor analysis</span></div>
+          <table class="yt-vid-table">
+            <thead><tr><th style="width:40%">Recommended topic</th><th>Search vol</th><th>Competition</th><th>Est. views/mo</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><div style="font-weight:500">Is EPA Actually Safe in 2026? (Honest Review)</div><div style="font-size:10px;color:var(--faint)">Highest search intent</div></td><td>1,800</td><td><span style="color:var(--green);font-size:10px">Low</span></td><td>800–1,200</td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--red);color:#fff;border:none;cursor:pointer;font-family:inherit">Script →</button></td></tr>
+              <tr><td><div style="font-weight:500">EPA vs Menlo Park: Where Should You Buy?</div><div style="font-size:10px;color:var(--faint)">Decision-stage buyers</div></td><td>880</td><td><span style="color:var(--green);font-size:10px">Low</span></td><td>400–700</td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--red);color:#fff;border:none;cursor:pointer;font-family:inherit">Script →</button></td></tr>
+              <tr><td><div style="font-weight:500">What Does $800K Buy You in East Palo Alto?</div><div style="font-size:10px;color:var(--faint)">Viral format · High share rate</div></td><td>640</td><td><span style="color:var(--green);font-size:10px">Low</span></td><td>600–1,000</td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--red);color:#fff;border:none;cursor:pointer;font-family:inherit">Script →</button></td></tr>
+              <tr><td><div style="font-weight:500">ADU Cost Breakdown: Real Numbers for EPA in 2026</div><div style="font-size:10px;color:var(--faint)">Companion to your #1 article</div></td><td>890</td><td><span style="color:var(--green);font-size:10px">Low</span></td><td>400–600</td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--red);color:#fff;border:none;cursor:pointer;font-family:inherit">Script →</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLUEPRINTS -->
+  <div class="sv" id="sv-blueprints">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Takedown Blueprints</div><div class="sv-sub">AI-generated content playbooks — each one is a step-by-step plan to outrank a specific competitor on a specific keyword</div></div>
+      <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:inherit">⟳ Generate New Blueprint</button>
+    </div>
+    <div class="sv-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="bp-card"><div class="bp-card-lbl">Highest Priority · East Palo Alto</div><div class="bp-card-title">Blueprint #1: Is EPA Safe? Takedown Plan</div><div class="bp-card-body">Trulia ranks #5 with aggregated Reddit content from 2019. An honest, data-driven guide from a local agent will outrank them within 30 days. Article needs: current crime stats with context, neighborhood-by-neighborhood breakdown, school safety data, and a genuine local perspective that no national portal can replicate.</div><div class="bp-card-tags"><span class="bp-card-tag">1,800 searches/mo</span><span class="bp-card-tag">Low competition</span><span class="bp-card-tag">Est. 6–10 leads/mo</span><span class="bp-card-tag">Ad recommended</span></div><div class="bp-card-acts"><button class="bp-card-btn g">⚡ Generate content from this blueprint</button><button class="bp-card-btn">View full plan</button></div></div>
+
+        <div class="bp-card"><div class="bp-card-lbl">High Priority · Investor Audience</div><div class="bp-card-title">Blueprint #2: Cash-on-Cash Calculator Launch</div><div class="bp-card-body">No EPA-specific interactive calculator exists anywhere. Build an interactive tool that takes lot size, purchase price, and ADU potential as inputs and calculates cash-on-cash return, ADU income boost, and 5-year equity projection. This single tool becomes the most-linked resource in your market.</div><div class="bp-card-tags"><span class="bp-card-tag">820 searches/mo</span><span class="bp-card-tag">Zero competition</span><span class="bp-card-tag">Est. 8–14 leads/mo</span><span class="bp-card-tag">Highest ROI ad</span></div><div class="bp-card-acts"><button class="bp-card-btn g">⚡ Build this tool</button><button class="bp-card-btn">View full plan</button></div></div>
+
+        <div class="bp-card"><div class="bp-card-lbl">Seller Strategy · East Palo Alto</div><div class="bp-card-title">Blueprint #3: Seller Timing Authority Play</div><div class="bp-card-body">The keyword "when to sell east palo alto" has zero quality local answers. A comprehensive seller timing guide covering seasonal trends, interest rate context, EPA-specific supply data, and your three-strategy pricing framework will capture high-intent sellers exactly when they're considering listing.</div><div class="bp-card-tags"><span class="bp-card-tag">520 searches/mo</span><span class="bp-card-tag">Low competition</span><span class="bp-card-tag">Seller intent</span><span class="bp-card-tag">Ad recommended</span></div><div class="bp-card-acts"><button class="bp-card-btn g">⚡ Generate content</button><button class="bp-card-btn">View full plan</button></div></div>
+
+        <div class="bp-card"><div class="bp-card-lbl">Geographic Gravity · Comparison Content</div><div class="bp-card-title">Blueprint #4: EPA vs Menlo Park — Value Comparison</div><div class="bp-card-body">Decision-stage buyers compare these two markets constantly. Redfin has generic national content here. A local agent comparison with real price-per-sqft data, commute times, school ratings, and honest pros/cons will rank above any national portal because only a local can write it credibly.</div><div class="bp-card-tags"><span class="bp-card-tag">880 searches/mo</span><span class="bp-card-tag">Low competition</span><span class="bp-card-tag">Decision-stage buyers</span><span class="bp-card-tag">Ad recommended</span></div><div class="bp-card-acts"><button class="bp-card-btn g">⚡ Generate content</button><button class="bp-card-btn">View full plan</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RANK TRACKER -->
+  <div class="sv" id="sv-rank">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Rank Tracker</div><div class="sv-sub">30-day ranking history for every published piece — powered by SearchAtlas · Last updated 2 hours ago</div></div>
+      <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:inherit">⟳ Refresh Rankings</button>
+    </div>
+    <div class="sv-content">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:1rem">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Avg. rank (all articles)</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">4.2</div><div style="font-size:9.5px;color:var(--green)">↑ Up from 6.1 (30d ago)</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Articles ranking #1–3</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">4</div><div style="font-size:9.5px;color:var(--green)">↑ Up from 2</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Articles gaining rank</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">9</div><div style="font-size:9.5px;color:var(--green)">Trending up</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:2px">Articles losing rank</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem">2</div><div style="font-size:9.5px;color:var(--red)">Auto-Monitor alerted</div></div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <table class="kw-full-table">
+          <thead><tr><th style="width:30%">Article</th><th>Current rank</th><th>7-day change</th><th>30-day change</th><th>Peak rank</th><th>Monthly visits</th><th>30-day trend</th><th>Monitor status</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:500">EPA ADU Financing Guide 2026</td><td><span style="color:var(--green);font-weight:700;font-size:13px">#1</span></td><td><span style="color:var(--green);font-weight:500">↑ +3</span></td><td><span style="color:var(--green);font-weight:500">↑ +8</span></td><td>#1</td><td>1,240</td><td><div style="display:flex;align-items:flex-end;gap:2px;height:24px">${'<div style="width:8px;background:var(--green);border-radius:1px;opacity:0.5" style="height:8px"></div>'.repeat(0)}<div style="width:5px;height:8px;background:var(--green);border-radius:1px;opacity:0.4"></div><div style="width:5px;height:10px;background:var(--green);border-radius:1px;opacity:0.5"></div><div style="width:5px;height:12px;background:var(--green);border-radius:1px;opacity:0.6"></div><div style="width:5px;height:16px;background:var(--green);border-radius:1px;opacity:0.7"></div><div style="width:5px;height:20px;background:var(--green);border-radius:1px;opacity:0.8"></div><div style="width:5px;height:24px;background:var(--green);border-radius:1px"></div></div></td><td><span style="font-size:9.5px;color:var(--green)">🛡 No action needed</span></td></tr>
+            <tr><td style="font-weight:500">Menlo Park Investment Guide</td><td><span style="color:var(--green);font-weight:700;font-size:13px">#3</span></td><td><span style="color:var(--green);font-weight:500">↑ +1</span></td><td><span style="color:var(--green);font-weight:500">↑ +3</span></td><td>#3</td><td>892</td><td><div style="display:flex;align-items:flex-end;gap:2px;height:24px"><div style="width:5px;height:10px;background:var(--green);border-radius:1px;opacity:0.4"></div><div style="width:5px;height:12px;background:var(--green);border-radius:1px;opacity:0.5"></div><div style="width:5px;height:15px;background:var(--green);border-radius:1px;opacity:0.6"></div><div style="width:5px;height:18px;background:var(--green);border-radius:1px;opacity:0.7"></div><div style="width:5px;height:20px;background:var(--green);border-radius:1px;opacity:0.8"></div><div style="width:5px;height:22px;background:var(--green);border-radius:1px"></div></div></td><td><span style="font-size:9.5px;color:var(--green)">🛡 Stable</span></td></tr>
+            <tr><td style="font-weight:500">1031 Exchange Bay Area</td><td><span style="color:var(--green);font-weight:700;font-size:13px">#4</span></td><td><span style="color:var(--green);font-weight:500">↑ +2</span></td><td><span style="color:var(--green);font-weight:500">↑ +5</span></td><td>#4</td><td>634</td><td><div style="display:flex;align-items:flex-end;gap:2px;height:24px"><div style="width:5px;height:6px;background:var(--green);border-radius:1px;opacity:0.4"></div><div style="width:5px;height:9px;background:var(--green);border-radius:1px;opacity:0.5"></div><div style="width:5px;height:13px;background:var(--green);border-radius:1px;opacity:0.6"></div><div style="width:5px;height:17px;background:var(--green);border-radius:1px;opacity:0.7"></div><div style="width:5px;height:20px;background:var(--green);border-radius:1px"></div></div></td><td><span style="font-size:9.5px;color:var(--green)">🛡 Climbing</span></td></tr>
+            <tr><td style="font-weight:500">Peninsula Cash Flow Calculator</td><td><span style="color:var(--amber);font-weight:700;font-size:13px">#7</span></td><td><span style="color:var(--red);font-weight:500">↓ −2</span></td><td><span style="color:var(--red);font-weight:500">↓ −4</span></td><td>#5</td><td>411</td><td><div style="display:flex;align-items:flex-end;gap:2px;height:24px"><div style="width:5px;height:22px;background:var(--amber);border-radius:1px;opacity:0.8"></div><div style="width:5px;height:20px;background:var(--amber);border-radius:1px;opacity:0.7"></div><div style="width:5px;height:17px;background:var(--amber);border-radius:1px;opacity:0.6"></div><div style="width:5px;height:14px;background:var(--amber);border-radius:1px;opacity:0.5"></div><div style="width:5px;height:10px;background:var(--amber);border-radius:1px"></div></div></td><td><span style="font-size:9.5px;color:var(--amber)">⚠ Drifting</span></td></tr>
+            <tr><td style="font-weight:500">EPA Market Report Q1 2026</td><td><span style="color:var(--red);font-weight:700;font-size:13px">#12</span></td><td><span style="color:var(--red);font-weight:500">↓ −5</span></td><td><span style="color:var(--red);font-weight:500">↓ −9</span></td><td>#7</td><td>187</td><td><div style="display:flex;align-items:flex-end;gap:2px;height:24px"><div style="width:5px;height:24px;background:var(--red);border-radius:1px;opacity:0.7"></div><div style="width:5px;height:21px;background:var(--red);border-radius:1px;opacity:0.6"></div><div style="width:5px;height:16px;background:var(--red);border-radius:1px;opacity:0.5"></div><div style="width:5px;height:10px;background:var(--red);border-radius:1px;opacity:0.4"></div><div style="width:5px;height:5px;background:var(--red);border-radius:1px"></div></div></td><td><span style="font-size:9.5px;color:var(--red)">🛡 At Risk — rewrite ready</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEO MARKETS SETTINGS -->
+  <div class="sv" id="sv-geomarkets">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Geographic Markets</div><div class="sv-sub">Manage your target markets — the system generates content recommendations for each one</div></div>
+      <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:inherit">+ Add New Market</button>
+    </div>
+    <div class="sv-content">
+      <div class="mkt-item"><div class="mkt-dot" style="background:var(--green)"></div><div class="mkt-info"><div class="mkt-name">East Palo Alto</div><div class="mkt-sub">Primary market · 24 content opportunities · 18 published · Analyzing with Consensus Engine</div></div><div class="mkt-actions"><button class="mkt-btn">Edit</button><button class="mkt-btn" style="background:var(--green-l);color:var(--green);border-color:var(--green-l)">View content</button></div></div>
+      <div class="mkt-item"><div class="mkt-dot" style="background:var(--blue)"></div><div class="mkt-info"><div class="mkt-name">Redwood City</div><div class="mkt-sub">Secondary market · 18 content opportunities · 6 published · Pending full analysis</div></div><div class="mkt-actions"><button class="mkt-btn">Edit</button><button class="mkt-btn" style="background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)">View content</button></div></div>
+      <div class="mkt-item"><div class="mkt-dot" style="background:var(--amber)"></div><div class="mkt-info"><div class="mkt-name">Menlo Park</div><div class="mkt-sub">Secondary market · 14 content opportunities · 4 published · Analysis complete</div></div><div class="mkt-actions"><button class="mkt-btn">Edit</button><button class="mkt-btn" style="background:var(--amber-l);color:var(--amber);border-color:var(--amber-l)">View content</button></div></div>
+      <div style="border:1.5px dashed var(--border2);border-radius:7px;padding:1rem;text-align:center;cursor:pointer;color:var(--faint);font-size:12.5px;margin-top:8px" onclick="alert('Add new market')">+ Add a new geographic market — system will run full Consensus Engine analysis and generate a complete content plan</div>
+    </div>
+  </div>
+
+  <!-- PERSONA SETTINGS -->
+  <div class="sv" id="sv-persona">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Persona Settings</div><div class="sv-sub">Define your target audience segments — the Consensus Engine uses these to calibrate every content recommendation</div></div>
+    </div>
+    <div class="sv-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:0.85rem;color:var(--amber)">Seller Persona (70% of your content)</div><div style="font-size:11.5px;color:var(--muted);line-height:1.7"><div style="margin-bottom:4px"><strong style="color:var(--ink)">Age range:</strong> 45–65</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Motivation:</strong> Downsizing, equity capture, life change</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Content style:</strong> Data-driven, trusted authority</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Key questions:</strong> When to sell, how to price, what to expect</div><div style="margin-bottom:8px"><strong style="color:var(--ink)">Best channels:</strong> Google search, Facebook, email</div></div><button style="padding:4px 10px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">Edit persona</button></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:0.85rem;color:var(--blue)">Buyer Persona (30% of your content)</div><div style="font-size:11.5px;color:var(--muted);line-height:1.7"><div style="margin-bottom:4px"><strong style="color:var(--ink)">Age range:</strong> 28–42</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Motivation:</strong> First home, investment, moving from SF</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Content style:</strong> Educational, community-focused</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Key questions:</strong> Safety, schools, value vs Peninsula</div><div style="margin-bottom:8px"><strong style="color:var(--ink)">Best channels:</strong> Google, Instagram, YouTube</div></div><button style="padding:4px 10px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">Edit persona</button></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:0.85rem;color:var(--green)">Investor Persona (secondary audience)</div><div style="font-size:11.5px;color:var(--muted);line-height:1.7"><div style="margin-bottom:4px"><strong style="color:var(--ink)">Profile:</strong> Cash buyers, 1031 exchangers, ADU developers</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Content style:</strong> Financial data, ROI-focused, no fluff</div><div style="margin-bottom:4px"><strong style="color:var(--ink)">Key questions:</strong> Cap rate, cash-on-cash, ADU potential</div><div style="margin-bottom:8px"><strong style="color:var(--ink)">Best channels:</strong> Google, email newsletter, LinkedIn</div></div><button style="padding:4px 10px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:inherit">Edit persona</button></div>
+        <div style="background:var(--surface);border:1.5px dashed var(--border2);border-radius:8px;padding:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--faint);font-size:12px" onclick="alert('Add persona')">+ Add new audience persona</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTO-PUBLISH RULES -->
+  <div class="sv" id="sv-autopublish">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Auto-Publish Rules</div><div class="sv-sub">Control when the system can publish content automatically vs when it needs your approval first</div></div>
+    </div>
+    <div class="sv-content">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem">
+        <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:12.5px;font-weight:500">Content types — auto-publish vs require approval</div>
+        ${['Social media posts (under 300 words)', 'Market stat updates', 'Email newsletters', 'Short-form articles (under 800 words)', 'Long-form articles (800+ words)', 'Auto-Monitor rewrites', 'Video scripts'].map((item, i) => 
+          `<div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--muted)">${item}</span><div style="display:flex;gap:6px"><div style="display:flex;border:1px solid var(--border2);border-radius:4px;overflow:hidden"><button style="padding:3px 9px;font-size:11px;cursor:pointer;border:none;font-family:inherit;${i < 2 ? 'background:var(--green);color:#fff' : 'background:var(--surface);color:var(--muted)'}">Auto-publish</button><button style="padding:3px 9px;font-size:11px;cursor:pointer;border:none;font-family:inherit;${i >= 2 ? 'background:var(--ink);color:#fff' : 'background:var(--surface);color:var(--muted)'}">Require approval</button></div></div></div>`
+        ).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTOMONITOR DETAIL VIEW -->
+  <div class="sv" id="sv-automonitor">
+    <div class="sv-bar">
+      <button class="sv-back" onclick="closeSideView()">← Back to Content</button>
+      <div><div class="sv-title">Auto-Monitor</div><div class="sv-sub">Automatic rank tracking and content optimization — runs every 72 hours on all published articles</div></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green)"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Running</div>
+        <button style="padding:4px 9px;border-radius:4px;font-size:11.5px;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:inherit">Run Scan Now</button>
+      </div>
+    </div>
+    <div class="sv-content">
+      <div style="background:var(--green-l);border:1px solid var(--green);border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:12px;color:var(--ink);line-height:1.7"><strong>What Auto-Monitor does in plain English:</strong> Every 72 hours, the system checks where all your published articles rank on Google. If something starts dropping — even by 1 or 2 positions — it automatically analyzes why, rewrites the underperforming sections, and queues an update for your approval. You can set it to auto-publish minor updates or require approval for all changes. The result: your rankings stay strong without you monitoring them manually.</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem">
+        <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:12.5px;font-weight:500;display:flex;justify-content:space-between"><span>Scan history — last 5 runs</span><span style="font-size:10.5px;color:var(--faint)">18 articles monitored</span></div>
+        ${[
+          ['2h ago','18 articles scanned · 2 issues detected · 1 rewrite queued · 1 optimization suggested','var(--amber)','⚠'],
+          ['3d ago','18 articles scanned · All stable · No action taken','var(--green)','✓'],
+          ['6d ago','17 articles scanned · 1 rewrite published (EPA Q1 update) · Rankings improved +3 positions','var(--green)','✓'],
+          ['9d ago','17 articles scanned · All stable · No action taken','var(--green)','✓'],
+          ['12d ago','16 articles scanned · 3 social media shares scheduled based on article resurgence','var(--green)','✓'],
+        ].map(([time, desc, color, ico]) =>
+          `<div style="display:flex;gap:10px;padding:0.6rem 1rem;border-bottom:1px solid var(--border);font-size:12px;align-items:flex-start"><div style="font-size:12px;color:${color};flex-shrink:0;margin-top:1px">${ico}</div><div style="flex:1;color:var(--muted)">${desc}</div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap">${time}</div></div>`
+        ).join('')}
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+// Show/hide side views
+function showSideView(id){
+  // Remove 'on' from all side views
+  document.querySelectorAll('.sv').forEach(sv=>sv.classList.remove('on'));
+  // Also handle the calendar (tier tab)
+  if(id==='cal'){
+    setTier('cal');
+    return;
+  }
+  const sv = document.getElementById('sv-'+id);
+  if(sv) sv.classList.add('on');
+  // Update active sidebar item
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  // find the clicked one
+  event && event.currentTarget && event.currentTarget.classList.add('on');
+}
+
+function closeSideView(){
+  document.querySelectorAll('.sv').forEach(sv=>sv.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelector('.ni:first-of-type')?.classList.add('on');
+}
+
+// AM auto toggle
+function toggleAM_auto(){
+  const tog=document.getElementById('autoAMToggle');
+  const isOn=tog&&tog.style.background==='var(--green)';
+  if(tog){
+    tog.style.background=isOn?'var(--border2)':'var(--green)';
+    const knob=tog.querySelector('.toggle-knob');
+    if(knob) knob.style.left=isOn?'2px':'16px';
+  }
+}
+</script>

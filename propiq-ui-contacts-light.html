@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Contacts (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a56;--green-l:#e8f5ef;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+  --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* TOP BAR */
+.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
+.topbar-left{display:flex;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.top-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--faint);width:210px}
+.av-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.av-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.notif{position:relative;cursor:pointer;font-size:15px;color:var(--muted);padding:4px}
+.notif-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)}
+.top-avatar{width:30px;height:30px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer}
+
+/* MODULE NAV */
+.modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+
+/* APP BODY */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb-module{padding:0.9rem 1rem 0.3rem;font-size:11.5px;font-weight:500;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.sb-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
+.nav-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--faint);padding:0.7rem 1rem 0.3rem;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all 0.1s;position:relative}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--green-l);color:var(--green);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green);border-radius:0 2px 2px 0}
+.nav-ico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nb-red{background:var(--red-l);color:var(--red)}
+.nb-green{background:var(--green-l);color:var(--green)}
+.nb-gray{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.nb-blue{background:var(--blue-l);color:var(--blue)}
+.nb-amber{background:var(--amber-l);color:var(--amber)}
+.nb-purple{background:var(--purple-l);color:var(--purple)}
+.sb-divider{height:1px;background:var(--border);margin:0.4rem 0}
+.sb-other{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--faint);font-size:12px}
+.sb-other:hover{background:var(--bg);color:var(--muted)}
+.sidebar-footer{margin-top:auto;padding:0.85rem 1rem;border-top:1px solid var(--border)}
+.sf-row{display:flex;align-items:center;gap:8px}
+.sf-ava{width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.sf-name{font-size:12px;font-weight:500;line-height:1.2}
+.sf-role{font-size:10px;color:var(--faint)}
+.sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* CONTACTS TOOLBAR */
+.contacts-toolbar{padding:1rem 1.25rem 0.75rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.toolbar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.page-title{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-0.01em}
+.toolbar-actions{display:flex;gap:7px;align-items:center}
+.btn-sm{padding:0.4rem 0.85rem;border-radius:5px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;transition:all 0.15s;display:flex;align-items:center;gap:5px}
+.btn-p{background:var(--green);color:#fff;border:none}
+.btn-p:hover{background:#156445}
+.btn-o{background:var(--surface);color:var(--ink);border:1px solid var(--border2)}
+.btn-o:hover{background:var(--bg)}
+.toolbar-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--faint);width:220px}
+.filter-search input{border:none;background:transparent;outline:none;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);width:100%}
+.filter-search input::placeholder{color:var(--faint)}
+.filter-select{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--muted);font-family:'Epilogue',sans-serif;cursor:pointer;outline:none}
+.filter-tab{padding:4px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;color:var(--muted);border:1px solid transparent;transition:all 0.12s}
+.filter-tab:hover{background:var(--bg);color:var(--ink)}
+.filter-tab.on{background:var(--surface);border-color:var(--border2);color:var(--ink);font-weight:500}
+.filter-tab.role-all.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filter-tab.role-buyer.on{background:var(--blue-l);color:var(--blue);border-color:var(--blue)}
+.filter-tab.role-seller.on{background:var(--amber-l);color:var(--amber);border-color:var(--amber)}
+.filter-tab.role-investor.on{background:var(--green-l);color:var(--green);border-color:var(--green)}
+.filter-tab.role-landlord.on{background:var(--purple-l);color:var(--purple);border-color:var(--purple)}
+.filter-tab.role-past.on{background:var(--bg);color:var(--faint);border-color:var(--border2)}
+.sort-label{font-size:11px;color:var(--faint);margin-left:auto;white-space:nowrap}
+
+/* CONTACT LIST + DETAIL SPLIT */
+.contacts-body{display:flex;flex:1;overflow:hidden}
+
+/* CONTACT LIST */
+.contact-list{width:380px;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;background:var(--surface)}
+.contact-list-item{display:flex;align-items:flex-start;gap:10px;padding:0.85rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;position:relative}
+.contact-list-item:hover{background:var(--bg)}
+.contact-list-item.selected{background:var(--green-l)}
+.contact-list-item.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green)}
+.cli-ava{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.cli-info{flex:1;min-width:0}
+.cli-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.cli-name{font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cli-time{font-size:10px;color:var(--faint);flex-shrink:0;margin-left:6px}
+.cli-meta{font-size:11px;color:var(--faint);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cli-tags{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:4px}
+.tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap}
+.t-b{background:var(--blue-l);color:var(--blue)}
+.t-s{background:var(--amber-l);color:var(--amber)}
+.t-i{background:var(--green-l);color:var(--green)}
+.t-l{background:var(--purple-l);color:var(--purple)}
+.t-p{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.cli-av{display:flex;align-items:center;gap:4px}
+.av-bar{width:48px;height:3px;background:var(--bg);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.av-fill{height:100%;background:var(--green);border-radius:2px}
+.av-num{font-size:9.5px;color:var(--faint)}
+.av-label{font-size:9.5px;color:var(--faint)}
+
+/* CONTACT DETAIL PANEL */
+.contact-detail{flex:1;overflow-y:auto;background:var(--bg)}
+.cd-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem}
+.cd-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:1rem}
+.cd-ava{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;flex-shrink:0}
+.cd-name{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-0.01em;margin-bottom:4px}
+.cd-sub{font-size:12px;color:var(--muted);margin-bottom:6px}
+.cd-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.cd-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-action{padding:0.35rem 0.85rem;border-radius:5px;font-size:11.5px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;border:1px solid var(--border2);background:var(--surface);color:var(--ink);display:flex;align-items:center;gap:5px;transition:all 0.12s}
+.btn-action:hover{background:var(--bg)}
+.btn-action.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-action.primary:hover{background:#156445}
+.cd-score-row{display:flex;align-items:center;gap:1rem;padding:0.75rem 0;border-top:1px solid var(--border)}
+.cd-score-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.cd-score-val{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink)}
+.cd-score-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint)}
+.cd-score-divider{width:1px;height:30px;background:var(--border)}
+
+/* DETAIL TABS */
+.cd-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 1.5rem;gap:2px}
+.cd-tab{padding:0.6rem 0.85rem;font-size:12px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.cd-tab:hover{color:var(--ink)}
+.cd-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+
+/* DETAIL CONTENT */
+.cd-content{padding:1.25rem 1.5rem}
+.cd-section{margin-bottom:1.25rem}
+.cd-section-title{font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);font-weight:500;margin-bottom:0.65rem}
+.cd-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.cd-info-row{padding:0.45rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.cd-info-row:last-child{border-bottom:none}
+.cd-info-label{font-size:11.5px;color:var(--faint);width:130px;flex-shrink:0}
+.cd-info-val{font-size:12px;font-weight:400;color:var(--ink)}
+.cd-info-val.link{color:var(--blue);cursor:pointer}
+
+/* PROPERTY CARDS */
+.prop-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.prop-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem}
+.prop-card-status{font-size:8.5px;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;margin-bottom:0.4rem}
+.ps-buyer{color:var(--blue)}
+.ps-seller{color:var(--amber)}
+.ps-investor{color:var(--green)}
+.ps-landlord{color:var(--purple)}
+.prop-addr{font-weight:500;font-size:12.5px;margin-bottom:2px}
+.prop-detail{font-size:11px;color:var(--faint)}
+.prop-price{font-size:12px;color:var(--green);font-weight:500;margin-top:4px}
+.prop-badge{font-size:9px;padding:2px 7px;border-radius:3px;margin-top:5px;display:inline-block}
+
+/* TIMELINE */
+.timeline{position:relative}
+.tl-item{display:flex;gap:10px;padding-bottom:1rem;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:11px;top:22px;bottom:0;width:1px;background:var(--border)}
+.tl-ico{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;border:1.5px solid var(--border);background:var(--surface);z-index:1}
+.ti-msg{border-color:var(--green);color:var(--green)}
+.ti-call{border-color:var(--blue);color:var(--blue)}
+.ti-email{border-color:var(--amber);color:var(--amber)}
+.ti-note{border-color:var(--purple);color:var(--purple)}
+.ti-deal{border-color:var(--green);background:var(--green);color:#fff}
+.tl-body{flex:1;padding-top:2px}
+.tl-text{font-size:12px;line-height:1.5;color:var(--ink)}
+.tl-text strong{font-weight:500}
+.tl-time{font-size:10px;color:var(--faint);margin-top:2px}
+.tl-note-box{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:0.5rem 0.65rem;margin-top:5px;font-size:11.5px;color:var(--muted);line-height:1.5}
+
+/* QUICK NOTE */
+.quick-note{display:flex;gap:8px;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.quick-note textarea{flex:1;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--surface);resize:none;height:60px;outline:none}
+.quick-note textarea:focus{border-color:var(--green)}
+.quick-note textarea::placeholder{color:var(--faint)}
+.qn-btn{background:var(--green);color:#fff;border:none;border-radius:6px;padding:0 1rem;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;align-self:flex-end;height:36px}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
+.tb-logo-u span{color:var(--green)}
+.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
+.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
+.tb-mods::-webkit-scrollbar{display:none}
+.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<!-- UNIFIED TOP BAR -->
+<div class="tbunified">
+  <div class="tb-logo-u">Prop<span>IQ</span></div>
+  <div class="tb-srch">🔍 Search anything…</div>
+  <div class="tb-mods">
+    <div class="tbt">⬡ Dashboard</div>
+    <div class="tbt on">◎ Contacts</div>
+    <div class="tbt">◈ Deals</div>
+    <div class="tbt">✦ Content<span class="tbdg">2</span></div>
+    <div class="tbt">⊕ Search</div>
+    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">$ Ads</div>
+    <div class="tbt">↗ SEO</div>
+    <div class="tbt">📊 Reports</div>
+  </div>
+  <div class="tb-r">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
+  </div>
+</div>
+
+
+    <div class="top-search">🔍 Search contacts, properties, deals…</div>
+  </div>
+  <div class="topbar-right">
+    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
+    <div class="notif">🔔<div class="notif-badge">3</div></div>
+    <div class="top-avatar">GW</div>
+  </div>
+</div>
+
+  <div class="mod-tab active"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR — Contacts module -->
+  <div class="sidebar">
+    <div class="sb-module">Contacts <span class="sb-tag">Active</span></div>
+
+    <div class="nav-sec">All Contacts</div>
+    <div class="nav-item active"><span class="nav-ico">◎</span>Everyone<span class="nav-badge nb-gray">247</span></div>
+    <div class="nav-item"><span class="nav-ico">+</span>Add New Contact</div>
+    <div class="nav-item"><span class="nav-ico">⟳</span>Recently Added<span class="nav-badge nb-gray">12</span></div>
+
+    <div class="nav-sec">Filter by Role</div>
+    <div class="nav-item"><span class="nav-ico">🏠</span>Buyers<span class="nav-badge nb-blue">84</span></div>
+    <div class="nav-item"><span class="nav-ico">$</span>Sellers<span class="nav-badge nb-amber">51</span></div>
+    <div class="nav-item"><span class="nav-ico">⊕</span>Investors<span class="nav-badge nb-green">63</span></div>
+    <div class="nav-item"><span class="nav-ico">◻</span>Landlords<span class="nav-badge nb-purple">29</span></div>
+    <div class="nav-item"><span class="nav-ico">✓</span>Past Clients<span class="nav-badge nb-gray">38</span></div>
+
+    <div class="nav-sec">Smart Lists</div>
+    <div class="nav-item"><span class="nav-ico">🔥</span>High Engagement<span class="nav-badge nb-red">14</span></div>
+    <div class="nav-item"><span class="nav-ico">⚠</span>No Contact in 30+ Days<span class="nav-badge nb-amber">22</span></div>
+    <div class="nav-item"><span class="nav-ico">◈</span>In Active Deal</div>
+    <div class="nav-item"><span class="nav-ico">✉</span>Not on Any Campaign</div>
+
+    <div class="nav-sec">Tags & Segments</div>
+    <div class="nav-item"><span class="nav-ico">◉</span>EPA Market</div>
+    <div class="nav-item"><span class="nav-ico">◉</span>Peninsula Buyers</div>
+    <div class="nav-item"><span class="nav-ico">◉</span>1031 Exchange Prospects</div>
+    <div class="nav-item"><span class="nav-ico">+</span>Create New Tag</div>
+
+    <div class="nav-sec">Import & Export</div>
+    <div class="nav-item"><span class="nav-ico">↑</span>Import from CSV</div>
+    <div class="nav-item"><span class="nav-ico">↓</span>Export List</div>
+
+    <div class="sb-divider"></div>
+    <div style="padding:0.5rem 1rem 0.25rem;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint)">Other Modules</div>
+    <div class="sb-other"><span>⬡</span> Dashboard</div>
+    <div class="sb-other"><span>◈</span> Deals</div>
+    <div class="sb-other"><span>✦</span> Content</div>
+    <div class="sb-other"><span>⊕</span> Search</div>
+    <div class="sb-other"><span>☎</span> Messages</div>
+    <div class="sb-other"><span>↗</span> Reports</div>
+
+    <div class="nav-sec">Account</div>
+    <div class="nav-item"><span class="nav-ico">⚙</span>Settings</div>
+    <div class="nav-item"><span class="nav-ico">?</span>Help & Support</div>
+
+    <div class="sidebar-footer">
+      <div class="sf-row">
+        <div class="sf-ava">GW</div>
+        <div><div class="sf-name">Graeham Watts</div><div class="sf-role">Intero Real Estate</div></div>
+        <div class="sf-plan">Pro</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN — 3-panel: toolbar / list / detail -->
+  <div class="main">
+
+    <!-- TOOLBAR -->
+    <div class="contacts-toolbar">
+      <div class="toolbar-top">
+        <div class="page-title">Contacts</div>
+        <div class="toolbar-actions">
+          <button class="btn-sm btn-o">⟳ Sync CRM</button>
+          <button class="btn-sm btn-o">↓ Export</button>
+          <button class="btn-sm btn-p">+ Add Contact</button>
+        </div>
+      </div>
+      <div class="toolbar-filters">
+        <div class="filter-search">🔍 <input placeholder="Search by name, phone, email, address…" /></div>
+        <div class="filter-tab role-all on" onclick="setFilter(this)">All</div>
+        <div class="filter-tab role-buyer" onclick="setFilter(this)">Buyers</div>
+        <div class="filter-tab role-seller" onclick="setFilter(this)">Sellers</div>
+        <div class="filter-tab role-investor" onclick="setFilter(this)">Investors</div>
+        <div class="filter-tab role-landlord" onclick="setFilter(this)">Landlords</div>
+        <div class="filter-tab role-past" onclick="setFilter(this)">Past Clients</div>
+        <div class="sort-label">Sort: Engagement ↓</div>
+        <select class="filter-select">
+          <option>Engagement score</option>
+          <option>Last contacted</option>
+          <option>Date added</option>
+          <option>Name A–Z</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SPLIT: LIST + DETAIL -->
+    <div class="contacts-body">
+
+      <!-- CONTACT LIST -->
+      <div class="contact-list">
+
+        <div class="contact-list-item selected">
+          <div class="cli-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">Marcus Rivera</div><div class="cli-time">2h ago</div></div>
+            <div class="cli-meta">📱 (650) 555-0142 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8be6eaf9e8fef8cbeee6eae2e7a5e8e4e6">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:92%"></div></div><span class="av-num">92</span><span class="av-label" style="margin-left:4px">· Opened RCS</span></div>
+          </div>
+        </div>
+
+        <div class="contact-list-item">
+          <div class="cli-ava" style="background:var(--amber-l);color:var(--amber)">SL</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">Sandra Lee</div><div class="cli-time">5h ago</div></div>
+            <div class="cli-meta">📱 (650) 555-0198 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7948689839586a7828a868e8bc984888a">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-s">Seller</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:78%"></div></div><span class="av-num">78</span><span class="av-label" style="margin-left:4px">· Opened email</span></div>
+          </div>
+        </div>
+
+        <div class="contact-list-item">
+          <div class="cli-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">David Park</div><div class="cli-time">Yesterday</div></div>
+            <div class="cli-meta">📱 (415) 555-0231 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d5b1b4a3bcb195b0b8b4bcb9fbb6bab8">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-b">Buyer</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:65%"></div></div><span class="av-num">65</span><span class="av-label" style="margin-left:4px">· Viewed listing</span></div>
+          </div>
+        </div>
+
+        <div class="contact-list-item">
+          <div class="cli-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">Theresa Chen</div><div class="cli-time">Yesterday</div></div>
+            <div class="cli-meta">📱 (650) 555-0317 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="55213d3027302634153038343c397b363a38">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-l">Landlord</span><span class="tag t-s">Seller</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:54%"></div></div><span class="av-num">54</span><span class="av-label" style="margin-left:4px">· Instagram reply</span></div>
+          </div>
+        </div>
+
+        <div class="contact-list-item">
+          <div class="cli-ava" style="background:var(--green-l);color:var(--green)">JW</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">James Wu</div><div class="cli-time">2 days ago</div></div>
+            <div class="cli-meta">📱 (408) 555-0284 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2f454e424a5c6f4a424e4643014c4042">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-i">Investor</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:41%"></div></div><span class="av-num">41</span><span class="av-label" style="margin-left:4px">· Text delivered</span></div>
+          </div>
+        </div>
+
+        <div class="contact-list-item">
+          <div class="cli-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">RK</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">Rachel Kim</div><div class="cli-time">4 days ago</div></div>
+            <div class="cli-meta">📱 (650) 555-0156 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f48695979c9198b49199959d98da979b99">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-b">Buyer</span><span class="tag t-p">Past Client</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:28%"></div></div><span class="av-num">28</span><span class="av-label" style="margin-left:4px">· No recent activity</span></div>
+          </div>
+        </div>
+
+        <div class="contact-list-item">
+          <div class="cli-ava" style="background:var(--amber-l);color:var(--amber)">BT</div>
+          <div class="cli-info">
+            <div class="cli-top"><div class="cli-name">Brian Torres</div><div class="cli-time">5 days ago</div></div>
+            <div class="cli-meta">📱 (415) 555-0399 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2745554e464967424a464e4b0944484a">[email&#160;protected]</a></div>
+            <div class="cli-tags"><span class="tag t-s">Seller</span><span class="tag t-i">Investor</span></div>
+            <div class="cli-av"><div class="av-bar"><div class="av-fill" style="width:19%"></div></div><span class="av-num">19</span><span class="av-label" style="margin-left:4px">· Cold</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CONTACT DETAIL -->
+      <div class="contact-detail">
+
+        <div class="cd-header">
+          <div class="cd-top">
+            <div class="cd-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+            <div style="flex:1">
+              <div class="cd-name">Marcus Rivera</div>
+              <div class="cd-sub">Added March 2, 2026 · Source: Google Ad · EPA Market</div>
+              <div class="cd-tags">
+                <span class="tag t-b">Buyer</span>
+                <span class="tag t-i">Investor</span>
+              </div>
+              <div class="cd-actions">
+                <button class="btn-action primary">✉ Send Message</button>
+                <button class="btn-action">☎ Call</button>
+                <button class="btn-action">📧 Email</button>
+                <button class="btn-action">+ Add to Campaign</button>
+                <button class="btn-action">◈ Add to Deal</button>
+                <button class="btn-action" style="margin-left:auto;color:var(--red);border-color:var(--red-l)">⋯ More</button>
+              </div>
+            </div>
+          </div>
+          <div class="cd-score-row">
+            <div class="cd-score-item">
+              <div class="cd-score-val" style="color:var(--green)">92</div>
+              <div class="cd-score-label">Engagement Score</div>
+            </div>
+            <div class="cd-score-divider"></div>
+            <div class="cd-score-item">
+              <div class="cd-score-val">14</div>
+              <div class="cd-score-label">Touchpoints</div>
+            </div>
+            <div class="cd-score-divider"></div>
+            <div class="cd-score-item">
+              <div class="cd-score-val">2h</div>
+              <div class="cd-score-label">Last Contact</div>
+            </div>
+            <div class="cd-score-divider"></div>
+            <div class="cd-score-item">
+              <div class="cd-score-val">27</div>
+              <div class="cd-score-label">Days as Contact</div>
+            </div>
+            <div class="cd-score-divider"></div>
+            <div class="cd-score-item">
+              <div class="cd-score-val" style="color:var(--blue)">2</div>
+              <div class="cd-score-label">Active Properties</div>
+            </div>
+            <div class="cd-score-divider"></div>
+            <div class="cd-score-item">
+              <div class="cd-score-val">Google</div>
+              <div class="cd-score-label">Lead Source</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="cd-tabs">
+          <div class="cd-tab active">Overview</div>
+          <div class="cd-tab">Activity & Notes</div>
+          <div class="cd-tab">Messages</div>
+          <div class="cd-tab">Properties</div>
+          <div class="cd-tab">Campaigns</div>
+          <div class="cd-tab">Files</div>
+        </div>
+
+        <!-- TAB CONTENT — Overview -->
+        <div class="cd-content">
+
+          <!-- Contact Info -->
+          <div class="cd-section">
+            <div class="cd-section-title">Contact Information</div>
+            <div class="cd-info-row"><div class="cd-info-label">Phone</div><div class="cd-info-val link">(650) 555-0142</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Email</div><div class="cd-info-val link"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="147975667761673a667d62716675547179757d783a777b79">[email&#160;protected]</a></div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Instagram</div><div class="cd-info-val link">@marcusrivera</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Home Address</div><div class="cd-info-val">1204 University Ave, East Palo Alto</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Preferred Contact</div><div class="cd-info-val">Text message</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Best Time to Call</div><div class="cd-info-val">Evenings after 6pm</div></div>
+          </div>
+
+          <!-- Properties -->
+          <div class="cd-section">
+            <div class="cd-section-title">Properties — Marcus is involved in 2</div>
+            <div class="prop-cards">
+              <div class="prop-card">
+                <div class="prop-card-status ps-buyer">● Active Buyer</div>
+                <div class="prop-addr">172 Portola Dr, San Francisco</div>
+                <div class="prop-detail">3 bed · 2 bath · 1,480 sqft</div>
+                <div class="prop-price">$1.45M listed</div>
+                <div class="prop-badge" style="background:var(--blue-l);color:var(--blue)">Offer pending</div>
+              </div>
+              <div class="prop-card">
+                <div class="prop-card-status ps-investor">● Investment Watch</div>
+                <div class="prop-addr">441 Runnymede Ave, East Palo Alto</div>
+                <div class="prop-detail">4 bed · 2 bath · 1,620 sqft</div>
+                <div class="prop-price">$1.1M est. value</div>
+                <div class="prop-badge" style="background:var(--green-l);color:var(--green)">Off-market target</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buyer Criteria -->
+          <div class="cd-section">
+            <div class="cd-section-title">Buyer Criteria</div>
+            <div class="cd-info-row"><div class="cd-info-label">Price Range</div><div class="cd-info-val">$850K – $1.2M</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Areas</div><div class="cd-info-val">East Palo Alto, Menlo Park, Redwood City</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Min. Bedrooms</div><div class="cd-info-val">3+</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Must Have</div><div class="cd-info-val">ADU potential, off-street parking</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Timeline</div><div class="cd-info-val">Ready to move in 60–90 days</div></div>
+            <div class="cd-info-row"><div class="cd-info-label">Pre-Approved</div><div class="cd-info-val" style="color:var(--green);font-weight:500">✓ Yes — $1.1M</div></div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="cd-section">
+            <div class="cd-section-title">Recent Activity</div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-ico ti-msg">✉</div>
+                <div class="tl-body">
+                  <div class="tl-text">Opened your RCS message about <strong>172 Portola Dr</strong></div>
+                  <div class="tl-time">Today · 2 hours ago</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-ico ti-call">☎</div>
+                <div class="tl-body">
+                  <div class="tl-text">Called Marcus — discussed offer strategy on 172 Portola Dr</div>
+                  <div class="tl-note-box">Pre-approved at $1.1M. Wants to offer $1.05M with inspection contingency. Flexible on close date. Follow up Thursday.</div>
+                  <div class="tl-time">Yesterday · March 28 · 4:12pm</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-ico ti-msg">✉</div>
+                <div class="tl-body">
+                  <div class="tl-text">Sent RCS message 

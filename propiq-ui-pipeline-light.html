@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Pipeline (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a56;--green-l:#e8f5ef;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --gray:#5F5E5A;--gray-l:#F1EFE8;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+  --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* TOP BAR */
+.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
+.topbar-left{display:flex;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.top-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--faint);width:210px}
+.av-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.av-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.notif{position:relative;cursor:pointer;font-size:15px;color:var(--muted);padding:4px}
+.notif-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)}
+.top-avatar{width:30px;height:30px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer}
+
+/* MODULE NAV */
+.modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+
+/* APP BODY */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb-module{padding:0.9rem 1rem 0.3rem;font-size:11.5px;font-weight:500;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.sb-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
+.nav-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--faint);padding:0.7rem 1rem 0.3rem;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all 0.1s;position:relative}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--green-l);color:var(--green);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green)}
+.nav-ico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nb-gray{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.nb-green{background:var(--green-l);color:var(--green)}
+.nb-red{background:var(--red-l);color:var(--red)}
+.nb-amber{background:var(--amber-l);color:var(--amber)}
+.sb-divider{height:1px;background:var(--border);margin:0.4rem 0}
+.sb-other{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--faint);font-size:12px}
+.sb-other:hover{background:var(--bg);color:var(--muted)}
+.sidebar-footer{margin-top:auto;padding:0.85rem 1rem;border-top:1px solid var(--border)}
+.sf-row{display:flex;align-items:center;gap:8px}
+.sf-ava{width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.sf-name{font-size:12px;font-weight:500;line-height:1.2}
+.sf-role{font-size:10px;color:var(--faint)}
+.sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* PIPELINE TOOLBAR */
+.pipeline-toolbar{padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.page-title{font-family:'Playfair Display',serif;font-size:1.2rem;letter-spacing:-0.01em}
+.pipeline-select{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--ink);font-family:'Epilogue',sans-serif;cursor:pointer;outline:none}
+.toolbar-right{display:flex;align-items:center;gap:7px}
+.btn-sm{padding:0.38rem 0.8rem;border-radius:5px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:5px;transition:all 0.12s}
+.btn-p{background:var(--green);color:#fff;border:none}
+.btn-p:hover{background:#156445}
+.btn-o{background:var(--surface);color:var(--ink);border:1px solid var(--border2)}
+.btn-o:hover{background:var(--bg)}
+.view-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.vt-btn{padding:5px 10px;font-size:11.5px;cursor:pointer;color:var(--muted);background:var(--surface);border:none;font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.vt-btn.active{background:var(--ink);color:#fff}
+.filter-row{display:flex;align-items:center;gap:6px;padding:0.6rem 1.25rem;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0}
+.filter-chip{padding:3px 10px;border-radius:20px;font-size:11px;cursor:pointer;color:var(--muted);border:1px solid var(--border);background:var(--surface);transition:all 0.12s;white-space:nowrap}
+.filter-chip:hover{border-color:var(--border2);color:var(--ink)}
+.filter-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filter-chip.buyer.on{background:var(--blue);border-color:var(--blue)}
+.filter-chip.seller.on{background:var(--amber);border-color:var(--amber)}
+.filter-chip.investor.on{background:var(--green);border-color:var(--green)}
+.pipeline-search{display:flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-size:11.5px;color:var(--faint);margin-left:auto}
+.total-val{font-size:11px;color:var(--muted);margin-left:8px;white-space:nowrap}
+.total-val strong{color:var(--green);font-weight:500}
+
+/* KANBAN BOARD */
+.kanban{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;padding:1rem 1.25rem;gap:10px;align-items:flex-start}
+
+/* COLUMN */
+.kb-col{width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:0}
+.kb-col-header{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.6rem;border-radius:7px 7px 0 0;margin-bottom:0}
+.kb-col-name{font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px}
+.kb-col-dot{width:7px;height:7px;border-radius:50%}
+.kb-col-count{font-size:10px;color:var(--faint);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0px 6px}
+.kb-col-value{font-size:10px;color:var(--faint)}
+.kb-col-body{background:var(--bg);border:1px solid var(--border);border-radius:0 0 8px 8px;padding:0.5rem;min-height:400px;display:flex;flex-direction:column;gap:6px}
+.kb-col-body.drag-over{background:var(--green-l);border-color:var(--green)}
+
+/* PIPELINE CARD */
+.kb-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.75rem 0.85rem;cursor:grab;transition:all 0.12s;position:relative}
+.kb-card:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.06);transform:translateY(-1px)}
+.kb-card.dragging{opacity:0.4;transform:scale(0.97)}
+.kb-card-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.kb-ava{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.kb-card-info{flex:1;min-width:0}
+.kb-name{font-weight:500;font-size:12.5px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kb-sub{font-size:10.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kb-tags{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px}
+.tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap}
+.t-b{background:var(--blue-l);color:var(--blue)}
+.t-s{background:var(--amber-l);color:var(--amber)}
+.t-i{background:var(--green-l);color:var(--green)}
+.t-l{background:var(--purple-l);color:var(--purple)}
+.kb-property{font-size:10.5px;color:var(--muted);background:var(--bg);border-radius:4px;padding:3px 7px;margin-bottom:6px;border:1px solid var(--border)}
+.kb-footer{display:flex;align-items:center;justify-content:space-between}
+.kb-av{display:flex;align-items:center;gap:4px}
+.kb-av-bar{width:36px;height:3px;background:var(--bg);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.kb-av-fill{height:100%;background:var(--green);border-radius:2px}
+.kb-av-num{font-size:9.5px;color:var(--faint)}
+.kb-time{font-size:9.5px;color:var(--faint)}
+.kb-quick-btn{width:22px;height:22px;border-radius:4px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;color:var(--muted);transition:all 0.12s;padding:0}
+.kb-quick-btn:hover{background:var(--green-l);border-color:var(--green);color:var(--green)}
+.kb-actions{display:flex;gap:4px}
+.kb-price{font-size:11px;color:var(--green);font-weight:500}
+
+/* ADD CARD BUTTON */
+.kb-add{display:flex;align-items:center;gap:5px;padding:0.45rem 0.5rem;border-radius:5px;color:var(--faint);font-size:11.5px;cursor:pointer;transition:all 0.12s;border:1px dashed transparent;margin-top:2px}
+.kb-add:hover{background:var(--surface);border-color:var(--border);color:var(--muted)}
+
+/* CLOSED LOST COLUMN — muted */
+.kb-col.lost .kb-col-header{opacity:0.6}
+.kb-col.lost .kb-card{opacity:0.6}
+
+/* LIST VIEW (hidden by default) */
+.list-view{display:none;flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.list-view.visible{display:block}
+.kanban.hidden{display:none}
+.list-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.list-table th{background:var(--bg);padding:0.6rem 1rem;font-size:9.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);font-weight:500;text-align:left;border-bottom:1px solid var(--border)}
+.list-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:middle}
+.list-table tr:last-child td{border-bottom:none}
+.list-table tr:hover td{background:var(--bg)}
+.stage-pill{font-size:9.5px;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
+.sp-new{background:var(--gray-l);color:var(--gray)}
+.sp-nurture{background:var(--blue-l);color:var(--blue)}
+.sp-appt{background:var(--purple-l);color:var(--purple)}
+.sp-active{background:var(--amber-l);color:var(--amber)}
+.sp-contract{background:var(--green-l);color:var(--green)}
+.sp-closed{background:var(--green-l);color:var(--green)}
+
+/* STAGE EDIT MODAL */
+.stage-modal{display:none;position:fixed;inset:0;z-index:300;align-items:center;justify-content:center}
+.stage-modal.open{display:flex}
+.stage-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,0.3)}
+.stage-modal-box{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem;width:420px;z-index:1;box-shadow:0 8px 30px rgba(0,0,0,0.1)}
+.smb-title{font-size:13.5px;font-weight:500;margin-bottom:0.25rem}
+.smb-sub{font-size:11px;color:var(--faint);margin-bottom:1.25rem}
+.smb-stage{display:flex;align-items:center;gap:8px;padding:0.5rem 0.6rem;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;cursor:grab}
+.smb-stage:hover{border-color:var(--border2)}
+.smb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.smb-name{flex:1;font-size:12.5px}
+.smb-edit{font-size:10px;color:var(--faint);cursor:pointer}
+.smb-edit:hover{color:var(--ink)}
+.smb-delete{font-size:10px;color:var(--red-l);cursor:pointer}
+.smb-delete:hover{color:var(--red)}
+.smb-add{display:flex;align-items:center;gap:5px;color:var(--green);font-size:12px;cursor:pointer;padding:0.4rem 0.5rem;border-radius:5px;margin-top:4px}
+.smb-add:hover{background:var(--green-l)}
+.smb-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+.btn-cancel{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:0.4rem 1rem;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif}
+.btn-save{background:var(--green);color:#fff;border:none;padding:0.4rem 1rem;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
+.tb-logo-u span{color:var(--green)}
+.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
+.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
+.tb-mods::-webkit-scrollbar{display:none}
+.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<!-- UNIFIED TOP BAR -->
+<div class="tbunified">
+  <div class="tb-logo-u">Prop<span>IQ</span></div>
+  <div class="tb-srch">🔍 Search anything…</div>
+  <div class="tb-mods">
+    <div class="tbt">⬡ Dashboard</div>
+    <div class="tbt on">◎ Contacts</div>
+    <div class="tbt">◈ Deals</div>
+    <div class="tbt">✦ Content<span class="tbdg">2</span></div>
+    <div class="tbt">⊕ Search</div>
+    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">$ Ads</div>
+    <div class="tbt">↗ SEO</div>
+    <div class="tbt">📊 Reports</div>
+  </div>
+  <div class="tb-r">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
+  </div>
+</div>
+
+
+<!-- STAGE EDIT MODAL -->
+<div class="stage-modal" id="stageModal">
+  <div class="stage-modal-bg" onclick="closeStageModal()"></div>
+  <div class="stage-modal-box">
+    <div class="smb-title">Edit Pipeline Stages</div>
+    <div class="smb-sub">Drag to reorder. Click a stage name to rename it. Changes apply to this pipeline only.</div>
+    <div class="smb-stage"><div class="smb-dot" style="background:var(--gray)"></div><div class="smb-name">New Lead</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-stage"><div class="smb-dot" style="background:var(--blue)"></div><div class="smb-name">Nurturing</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-stage"><div class="smb-dot" style="background:var(--purple)"></div><div class="smb-name">Appointment Set</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-stage"><div class="smb-dot" style="background:var(--amber)"></div><div class="smb-name">Active</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-stage"><div class="smb-dot" style="background:var(--green)"></div><div class="smb-name">Under Contract</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-stage"><div class="smb-dot" style="background:#1a7a56"></div><div class="smb-name">Closed Won</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-stage"><div class="smb-dot" style="background:var(--red)"></div><div class="smb-name">Closed Lost</div><span class="smb-edit">Rename</span></div>
+    <div class="smb-add">+ Add a stage</div>
+    <div class="smb-footer">
+      <button class="btn-cancel" onclick="closeStageModal()">Cancel</button>
+      <button class="btn-save" onclick="closeStageModal()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+    <div class="top-search">🔍 Search contacts, properties, deals…</div>
+  </div>
+  <div class="topbar-right">
+    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
+    <div class="notif">🔔<div class="notif-badge">3</div></div>
+    <div class="top-avatar">GW</div>
+  </div>
+</div>
+
+  <div class="mod-tab active"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-module">Contacts <span class="sb-tag">Active</span></div>
+    <div class="nav-sec">All Contacts</div>
+    <div class="nav-item"><span class="nav-ico">◎</span>Everyone<span class="nav-badge nb-gray">247</span></div>
+    <div class="nav-item"><span class="nav-ico">+</span>Add New Contact</div>
+
+    <div class="nav-sec">Pipeline Views</div>
+    <div class="nav-item active"><span class="nav-ico">◈</span>Buyer Pipeline</div>
+    <div class="nav-item"><span class="nav-ico">◈</span>Seller Pipeline</div>
+    <div class="nav-item"><span class="nav-ico">◈</span>Investor Pipeline</div>
+    <div class="nav-item"><span class="nav-ico">+</span>New Pipeline</div>
+
+    <div class="nav-sec">Filter by Role</div>
+    <div class="nav-item"><span class="nav-ico">🏠</span>Buyers<span class="nav-badge nb-gray">84</span></div>
+    <div class="nav-item"><span class="nav-ico">$</span>Sellers<span class="nav-badge nb-gray">51</span></div>
+    <div class="nav-item"><span class="nav-ico">⊕</span>Investors<span class="nav-badge nb-gray">63</span></div>
+    <div class="nav-item"><span class="nav-ico">◻</span>Landlords<span class="nav-badge nb-gray">29</span></div>
+    <div class="nav-item"><span class="nav-ico">✓</span>Past Clients<span class="nav-badge nb-gray">38</span></div>
+
+    <div class="nav-sec">Smart Lists</div>
+    <div class="nav-item"><span class="nav-ico">🔥</span>High Engagement<span class="nav-badge nb-red">14</span></div>
+    <div class="nav-item"><span class="nav-ico">⚠</span>No Contact 30+ Days<span class="nav-badge nb-amber">22</span></div>
+    <div class="nav-item"><span class="nav-ico">◈</span>In Active Deal</div>
+    <div class="nav-item"><span class="nav-ico">✉</span>Not on Any Campaign</div>
+
+    <div class="nav-sec">Tags</div>
+    <div class="nav-item"><span class="nav-ico">◉</span>EPA Market</div>
+    <div class="nav-item"><span class="nav-ico">◉</span>Peninsula Buyers</div>
+    <div class="nav-item"><span class="nav-ico">◉</span>1031 Exchange</div>
+
+    <div class="sb-divider"></div>
+    <div style="padding:0.5rem 1rem 0.25rem;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint)">Other Modules</div>
+    <div class="sb-other"><span>⬡</span> Dashboard</div>
+    <div class="sb-other"><span>◈</span> Deals</div>
+    <div class="sb-other"><span>✦</span> Content</div>
+    <div class="sb-other"><span>⊕</span> Search</div>
+    <div class="sb-other"><span>☎</span> Messages</div>
+    <div class="sb-other"><span>↗</span> Reports</div>
+    <div class="nav-sec">Account</div>
+    <div class="nav-item"><span class="nav-ico">⚙</span>Settings</div>
+    <div class="nav-item"><span class="nav-ico">?</span>Help & Support</div>
+    <div class="sidebar-footer">
+      <div class="sf-row">
+        <div class="sf-ava">GW</div>
+        <div><div class="sf-name">Graeham Watts</div><div class="sf-role">Intero Real Estate</div></div>
+        <div class="sf-plan">Pro</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOOLBAR -->
+    <div class="pipeline-toolbar">
+      <div class="toolbar-left">
+        <div class="page-title">Pipeline</div>
+        <select class="pipeline-select">
+          <option>Buyer Pipeline</option>
+          <option>Seller Pipeline</option>
+          <option>Investor Pipeline</option>
+        </select>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-sm btn-o" onclick="openStageModal()">⚙ Edit Stages</button>
+        <button class="btn-sm btn-o">⟳ Automations</button>
+        <button class="btn-sm btn-p">+ Add Lead</button>
+        <div class="view-toggle">
+          <button class="vt-btn active" id="kanbanBtn" onclick="switchView('kanban')">⊞ Board</button>
+          <button class="vt-btn" id="listBtn" onclick="switchView('list')">≡ List</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER ROW -->
+    <div class="filter-row">
+      <div class="filter-chip on" onclick="toggleChip(this)">All leads</div>
+      <div class="filter-chip buyer" onclick="toggleChip(this)">Buyers</div>
+      <div class="filter-chip seller" onclick="toggleChip(this)">Sellers</div>
+      <div class="filter-chip investor" onclick="toggleChip(this)">Investors</div>
+      <div class="filter-chip" onclick="toggleChip(this)">High engagement</div>
+      <div class="filter-chip" onclick="toggleChip(this)">Needs follow-up</div>
+      <div class="filter-chip" onclick="toggleChip(this)">Pre-approved</div>
+      <div class="pipeline-search">🔍 Search pipeline…</div>
+      <div class="total-val">14 leads · <strong>$12.4M</strong> total value</div>
+    </div>
+
+    <!-- KANBAN BOARD -->
+    <div class="kanban" id="kanbanView">
+
+      <!-- NEW LEAD -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--gray-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--gray)"></div>New Lead<span class="kb-col-count">3</span></div>
+          <div class="kb-col-value">$2.1M</div>
+        </div>
+        <div class="kb-col-body" id="col-new">
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--blue-l);color:var(--blue)">AM</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Alex Martinez</div>
+                <div class="kb-sub">Google Ad · Added today</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
+            <div class="kb-property">🏠 Searching EPA · $800K–$1.1M</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:45%"></div></div><span class="kb-av-num">45</span></div>
+              <div class="kb-actions">
+                <button class="kb-quick-btn" title="Send message">✉</button>
+                <button class="kb-quick-btn" title="Call">☎</button>
+              </div>
+              <div class="kb-time">2h ago</div>
+            </div>
+          </div>
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--green-l);color:var(--green)">PL</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Priya Lal</div>
+                <div class="kb-sub">Referral · Added yesterday</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
+            <div class="kb-property">🏠 Menlo Park · $1.2M–$1.6M</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:31%"></div></div><span class="kb-av-num">31</span></div>
+              <div class="kb-actions">
+                <button class="kb-quick-btn">✉</button>
+                <button class="kb-quick-btn">☎</button>
+              </div>
+              <div class="kb-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="kb-add" onclick="addCard('col-new')">+ Add lead</div>
+        </div>
+      </div>
+
+      <!-- NURTURING -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--blue-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--blue)"></div>Nurturing<span class="kb-col-count">4</span></div>
+          <div class="kb-col-value">$3.8M</div>
+        </div>
+        <div class="kb-col-body" id="col-nurture">
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--green-l);color:var(--green)">JW</div>
+              <div class="kb-card-info">
+                <div class="kb-name">James Wu</div>
+                <div class="kb-sub">Organic · 12 days</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-i">Investor</span></div>
+            <div class="kb-property">⊕ Investment · $650K–$900K</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:41%"></div></div><span class="kb-av-num">41</span></div>
+              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
+              <div class="kb-time">2 days ago</div>
+            </div>
+          </div>
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">RK</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Rachel Kim</div>
+                <div class="kb-sub">Past client · 18 days</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
+            <div class="kb-property">🏠 Redwood City · $900K–$1.1M</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:28%"></div></div><span class="kb-av-num">28</span></div>
+              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
+              <div class="kb-time">4 days ago</div>
+            </div>
+          </div>
+          <div class="kb-add" onclick="addCard('col-nurture')">+ Add lead</div>
+        </div>
+      </div>
+
+      <!-- APPOINTMENT SET -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--purple-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--purple)"></div>Appt. Set<span class="kb-col-count">2</span></div>
+          <div class="kb-col-value">$1.9M</div>
+        </div>
+        <div class="kb-col-body" id="col-appt">
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
+              <div class="kb-card-info">
+                <div class="kb-name">David Park</div>
+                <div class="kb-sub">Meta Ad · 8 days</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
+            <div class="kb-property">🏠 Showing Tue Apr 1 · 2pm</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:65%"></div></div><span class="kb-av-num">65</span></div>
+              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
+              <div class="kb-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="kb-add" onclick="addCard('col-appt')">+ Add lead</div>
+        </div>
+      </div>
+
+      <!-- ACTIVE -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--amber-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--amber)"></div>Active<span class="kb-col-count">3</span></div>
+          <div class="kb-col-value">$3.6M</div>
+        </div>
+        <div class="kb-col-body" id="col-active">
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Marcus Rivera</div>
+                <div class="kb-sub">Google Ad · 27 days</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
+            <div class="kb-property">🏠 172 Portola Dr · $1.45M</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:92%"></div></div><span class="kb-av-num">92</span></div>
+              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
+              <div class="kb-time">2h ago</div>
+            </div>
+          </div>
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--amber-l);color:var(--amber)">SL</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Sandra Lee</div>
+                <div class="kb-sub">Zillow · 19 days</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-s">Seller</span></div>
+            <div class="kb-property">🏠 Listing prep · $1.2M target</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:78%"></div></div><span class="kb-av-num">78</span></div>
+              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
+              <div class="kb-time">5h ago</div>
+            </div>
+          </div>
+          <div class="kb-add" onclick="addCard('col-active')">+ Add lead</div>
+        </div>
+      </div>
+
+      <!-- UNDER CONTRACT -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--green-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--green)"></div>Under Contract<span class="kb-col-count">2</span></div>
+          <div class="kb-col-value">$1.9M</div>
+        </div>
+        <div class="kb-col-body" id="col-contract">
+          <div class="kb-card" draggable="true" style="border-left:2.5px solid var(--green)">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Theresa Chen</div>
+                <div class="kb-sub">Instagram · 41 days</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-s">Seller</span></div>
+            <div class="kb-property">🏠 2895 Fordham · COE Apr 15</div>
+            <div class="kb-footer">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:54%"></div></div><span class="kb-av-num">54</span></div>
+              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
+              <div class="kb-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="kb-add" onclick="addCard('col-contract')">+ Add lead</div>
+        </div>
+      </div>
+
+      <!-- CLOSED WON -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--green-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:#0d5c3a"></div>Closed Won<span class="kb-col-count">2</span></div>
+          <div class="kb-col-value">$2.1M</div>
+        </div>
+        <div class="kb-col-body" id="col-won">
+          <div class="kb-card" draggable="true" style="opacity:0.75">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--green-l);color:var(--green)">✓</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Robert Ngo</div>
+                <div class="kb-sub">Closed Mar 14</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
+            <div class="kb-price">$1.05M closed</div>
+            <div class="kb-footer" style="margin-top:6px">
+              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:100%"></div></div><span class="kb-av-num">✓</span></div>
+              <div class="kb-time">Mar 14</div>
+            </div>
+          </div>
+          <div class="kb-add">+ Add lead</div>
+        </div>
+      </div>
+
+      <!-- CLOSED LOST -->
+      <div class="kb-col lost">
+        <div class="kb-col-header" style="background:var(--red-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--red)"></div>Lost<span class="kb-col-count">2</span></div>
+          <div class="kb-col-value" style="color:var(--red)">$1.8M</div>
+        </div>
+        <div class="kb-col-body" id="col-lost">
+          <div class="kb-card" draggable="true">
+            <div class="kb-card-top">
+              <div class="kb-ava" style="background:var(--red-l);color:var(--red)">BT</div>
+              <div class="kb-card-info">
+                <div class="kb-name">Brian Torres</div>
+                <div class="kb-sub">Lost · Chose another agent</div>
+              </div>
+            </div>
+            <div class="kb-tags"><span class="tag t-s">Seller</span></div>
+            <div class="kb-property" style="color:var(--red)">Reason: Price disagreement</div>
+            <div class="kb-footer">
+              <div class="kb-time">Mar 10</div>
+            </div>
+          </div>
+          <div class="kb-add">+ Add lead</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LIST VIEW (hidden by default) -->
+    <div class="list-view" id="listView">
+      <table class="list-table">
+        <thead>
+          <tr>
+            <th>Name</th><th>Role</th><th>Stage</th><th>Property / Interest</th><th>Engagement</th><th>Last Contact</th><th>Value</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Marcus Rivera</strong></td><td><span class="tag t-b">Buyer</span> <span class="tag t-i">Investor</span></td><td><span class="stage-pill sp-active">Active</span></td><td>172 Portola Dr</td><td><span style="color:var(--green);font-weight:500">92</span></td><td>2h ago</td><td style="color:var(--green)">$1.45M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>Sandra Lee</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill sp-active">Active</span></td><td>Listing prep</td><td><span style="color:var(--green);font-weight:500">78</span></td><td>5h ago</td><td style="color:var(--green)">$1.2M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>David Park</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-appt">Appt. Set</span></td><td>Showing Apr 1</td><td>65</td><td>Yesterday</td><td>$1.05M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>Theresa Chen</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill sp-contract">Under Contract</span></td><td>2895 Fordham · Apr 15</td><td>54</td><td>Yesterday</td><td>$1.38M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>James Wu</strong></td><td><span class="tag t-i">Investor</span></td><td><span class="stage-pill sp-nurture">Nurturing</span></td><td>Investment · EPA</td><td>41</td><td>2 days ago</td><td>$720K</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>Rachel Kim</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-nurture">Nurturing</span></td><td>Redwood City</td><td>28</td><td>4 days ago</td><td>$950K</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>Alex Martinez</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-new">New Lead</span></td><td>EPA · $800K–$1.1M</td><td>45</td><td>2h ago</td><td>$900K</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr><td><strong>Brian Torres</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill" style="background:var(--red-l);color:var(--red)">Lost</span></td><td>Price disagreement</td><td style="color:var(--faint)">19</td><td>Mar 10</td><td style="color:var(--faint)">$1.8M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function switchView(view) {
+  const kanban = document.getElementById('kanbanView');
+  const list = document.getElementById('listView');
+  const kb = document.getElementById('kanbanBtn');
+  const lb = document.getElementById('listBtn');
+  if (view === 'kanban') {
+    kanban.classList.remove('hidden');
+    list.classList.remove('visible');
+    kb.classList.add('active');
+    lb.classList.remove('active');
+  } else {
+    kanban.classList.add('hidden');
+    list.classList.add('visible');
+    lb.classList.add('active');
+    kb.classList.remove('active');
+  }
+}
+
+function toggleChip(el) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function openStageModal() {
+  document.getElementById('stageModal').classList.add('open');
+}
+function closeStageModal() {
+  document.getElementById('stageModal').classList.remove('open');
+}
+
+function addCard(colId) {
+  const col = document.getElementById(colId);
+  const card = document.createElement('div');
+  card.className = 'kb-card';
+  card.draggable = true;
+  card.innerHTML = `
+    <div style="font-size:12px;color:var(--faint);text-align:center;padding:0.5rem">
+      Click to fill in contact details
+    </div>`;
+  const addBtn = col.querySelector('.kb-add');
+  col.insertBefore(card, addBtn);
+}
+
+// Basic drag and drop
+let dragCard = null;
+document.addEventListener('dragstart', e => {
+  if (e.target.classList.contains('kb-card')) {
+    dragCard = e.target;
+    setTimeout(() => dragCard.classList.add('dragging'), 0);
+  }
+});
+document.addEventListener('dragend', e => {
+  if (dragCard) dragCard.classList.remove('dragging');
+  dragCard = null;
+  document.querySelectorAll('.kb-col-body').forEach(c => c.classList.remove('drag-over'));
+});
+document.addEventListener('dragover', e => {
+  e.preventDefault();
+  const col = e.target.closest('.kb-col-body');
+  if (col) {
+    document.querySelectorAll('.kb-col-body').forEach(c => c.classList.remove('drag-over'));
+    col.classList.add('drag-over');
+  }
+});
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  const col = e.target.closest('.kb-col-body');
+  if (col && dragCard) {
+    const addBtn = col.querySelector('.kb-add');
+    col.insertBefore(dragCard, addBtn);
+  }
+  document.querySelectorAll('.kb-col-body').forEach(c => c.classList.remove('drag-over'));
+});
+</script>
+</body>
+</html>

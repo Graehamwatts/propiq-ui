@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Color Preview · Deep Slate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── NEW PRIMARY ── */
+  --p:#1a2744;       /* Deep Slate — primary */
+  --pl:#e8ecf5;      /* Slate light — bg tint */
+  --pm:#111d33;      /* Slate mid-dark — hover */
+  --pa:#2d4278;      /* Slate accent — secondary/links */
+
+  /* ── KEPT: status colors ── */
+  --am:#BA7517;--aml:#FAEEDA;
+  --re:#c0392b;--rel:#fdf0f0;
+  --b:#185FA5;--bl:#E6F1FB;
+  --pu:#534AB7;--pul:#EEEDFE;
+
+  /* ── KEPT: ARES ── */
+  --ar:#1e3a5f;--aa:#2563eb;--arl:#e8f0fa;
+
+  /* ── KEPT: surface ── */
+  --ink:#111827;--mu:#6b7280;--fa:#9ca3af;
+  --bg:#f8f7f4;--sf:#fff;--bo:#e5e3de;--b2:#d1cfc9;
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;padding:2rem;min-height:100vh}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+.page-title{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:.35rem}
+.page-sub{font-size:13px;color:var(--mu);margin-bottom:2rem}
+
+/* SECTION */
+.section{margin-bottom:2.5rem;animation:fadeIn .3s ease both}
+.sec-label{font-size:9.5px;text-transform:uppercase;letter-spacing:.13em;color:var(--fa);font-weight:600;margin-bottom:1rem}
+
+/* COLOR SWATCHES */
+.swatch-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.swatch{border-radius:8px;overflow:hidden;width:140px}
+.swatch-color{height:64px}
+.swatch-info{background:var(--sf);border:1px solid var(--bo);border-top:none;padding:.5rem .65rem}
+.swatch-name{font-size:12px;font-weight:500;margin-bottom:1px}
+.swatch-hex{font-size:10.5px;color:var(--fa);font-family:monospace}
+.swatch-role{font-size:10px;color:var(--mu);margin-top:2px}
+
+/* DEMO COMPONENTS */
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.demo-card{background:var(--sf);border:1px solid var(--bo);border-radius:10px;overflow:hidden}
+.demo-ch{padding:.7rem 1rem;border-bottom:1px solid var(--bo);font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500}
+.demo-body{padding:1rem}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:.75rem}
+.btn{padding:7px 14px;border-radius:6px;font-size:12.5px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;border:1.5px solid transparent;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.btn-primary{background:var(--p);color:#fff;border-color:var(--p)}
+.btn-primary:hover{background:var(--pm)}
+.btn-outline{background:transparent;color:var(--p);border-color:var(--p)}
+.btn-outline:hover{background:var(--pl)}
+.btn-ghost{background:var(--pl);color:var(--p);border-color:var(--pl)}
+.btn-ghost:hover{background:#dce3f0}
+.btn-danger{background:var(--rel);color:var(--re);border-color:var(--rel)}
+.btn-amber{background:var(--aml);color:var(--am);border-color:var(--aml)}
+.btn-muted{background:var(--bg);color:var(--mu);border-color:var(--b2)}
+
+/* BADGES */
+.badge-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem}
+.bdg{font-size:9.5px;padding:3px 8px;border-radius:4px;font-weight:600;letter-spacing:.03em}
+.bdg-p{background:var(--pl);color:var(--p)}
+.bdg-pa{background:var(--p);color:#fff}
+.bdg-am{background:var(--aml);color:var(--am)}
+.bdg-re{background:var(--rel);color:var(--re)}
+.bdg-b{background:var(--bl);color:var(--b)}
+.bdg-pu{background:var(--pul);color:var(--pu)}
+
+/* SIDEBAR PREVIEW */
+.sidebar-demo{width:200px;background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden}
+.sd-hd{padding:.75rem 1rem;border-bottom:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between}
+.sd-logo{font-family:'Playfair Display',serif;font-size:1rem}
+.sd-logo span{color:var(--p)}
+.sd-tag{font-size:9px;background:var(--pl);color:var(--p);padding:1px 6px;border-radius:3px;font-weight:600;text-transform:uppercase}
+.sd-sec{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--fa);padding:.55rem 1rem .2rem;font-weight:500}
+.sd-ni{display:flex;align-items:center;gap:7px;padding:.38rem 1rem;font-size:12px;color:var(--mu);border-left:2.5px solid transparent}
+.sd-ni.on{background:var(--pl);color:var(--p);font-weight:500;border-left-color:var(--p)}
+.sd-nb{margin-left:auto;font-size:9px;padding:1px 5px;border-radius:8px;font-weight:500;background:var(--pl);color:var(--p)}
+
+/* TODAY CARD */
+.today-card{background:linear-gradient(135deg,var(--p) 0%,#1e2e5a 50%,#2d4278 100%);border-radius:10px;padding:1rem 1.1rem;color:#fff;position:relative;overflow:hidden}
+.today-card::before{content:'';position:absolute;top:-30%;right:-5%;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.04)}
+.tc-t{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.25rem}
+.tc-s{font-size:11px;color:rgba(255,255,255,.65);margin-bottom:.85rem}
+.tc-task{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);border-radius:7px;padding:.5rem .75rem;margin-bottom:5px}
+.tc-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.tc-acts{display:flex;gap:5px;margin-top:.75rem}
+.tca{padding:5px 11px;border-radius:5px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff}
+.tca.p{background:rgba(255,255,255,.92);color:var(--p);border-color:transparent;font-weight:500}
+
+/* KPI CARDS */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:.75rem}
+.kpi{background:var(--sf);border:1px solid var(--bo);border-radius:8px;padding:.75rem .9rem;cursor:pointer;transition:all .15s}
+.kpi:hover{border-color:var(--pa);box-shadow:0 2px 8px rgba(26,39,68,.08)}
+.kl{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--fa);margin-bottom:4px}
+.kv{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;color:var(--p);margin-bottom:2px}
+.ks{font-size:11px;color:var(--mu)}
+
+/* TOP BAR PREVIEW */
+.topbar-demo{background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.tb-inner{height:44px;display:flex;align-items:center;border-bottom:1px solid var(--bo);padding:0 .85rem;gap:8px}
+.tb-logo-d{font-family:'Playfair Display',serif;font-size:1rem;border-right:1px solid var(--bo);padding-right:.75rem;height:100%;display:flex;align-items:center}
+.tb-logo-d span{color:var(--p)}
+.tb-tab{padding:0 .65rem;font-size:11px;color:var(--mu);border-bottom:2.5px solid transparent;height:100%;display:flex;align-items:center;margin-bottom:-1px;white-space:nowrap}
+.tb-tab.on{color:var(--p);border-bottom-color:var(--p);font-weight:500}
+.tb-pill{display:flex;align-items:center;gap:4px;font-size:11px;border:1px solid var(--pl);border-radius:20px;padding:3px 9px;background:var(--pl);color:var(--pa);margin-left:auto}
+.tb-av{width:26px;height:26px;border-radius:50%;background:var(--pl);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:600}
+
+/* LINK / ACTIVE STATES */
+.link-demo{font-size:13px;color:var(--pa);text-decoration:underline;cursor:pointer}
+
+/* INPUT */
+.input-demo{width:100%;border:1.5px solid var(--bo);border-radius:6px;padding:8px 11px;font-size:12.5px;font-family:'Epilogue',sans-serif;outline:none;transition:border .15s}
+.input-demo:focus{border-color:var(--p)}
+
+/* PROGRESS BAR */
+.prog-wrap{height:6px;background:var(--bo);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.prog-fill{height:100%;border-radius:3px;background:var(--p)}
+
+/* COMPARISON TABLE */
+.comp-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.comp-table th{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);padding:.45rem .75rem;border-bottom:1px solid var(--bo);text-align:left;font-weight:500}
+.comp-table td{padding:.5rem .75rem;border-bottom:1px solid var(--bo);color:var(--mu)}
+.comp-table td.was{color:var(--re);text-decoration:line-through}
+.comp-table td.now{color:var(--p);font-weight:500}
+.comp-table td.note{color:var(--fa);font-size:11px}
+</style>
+</head>
+<body>
+
+<div class="page-title">PropIQ — Color System Preview</div>
+<div class="page-sub">Deep Slate #1a2744 as primary · All status colors unchanged · Review before updating all files</div>
+
+<!-- PALETTE -->
+<div class="section">
+  <div class="sec-label">New Palette</div>
+  <div class="swatch-row">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#1a2744"></div>
+      <div class="swatch-info"><div class="swatch-name">Deep Slate</div><div class="swatch-hex">#1a2744</div><div class="swatch-role">Primary · Buttons · Sidebar active · Logo accent</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#e8ecf5"></div>
+      <div class="swatch-info"><div class="swatch-name">Slate Light</div><div class="swatch-hex">#e8ecf5</div><div class="swatch-role">Active bg · Badge bg · Input focus tint</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#111d33"></div>
+      <div class="swatch-info"><div class="swatch-name">Slate Dark</div><div class="swatch-hex">#111d33</div><div class="swatch-role">Hover state on primary buttons</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#2d4278"></div>
+      <div class="swatch-info"><div class="swatch-name">Slate Accent</div><div class="swatch-hex">#2d4278</div><div class="swatch-role">Links · Secondary actions · Subtle accents</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#BA7517"></div>
+      <div class="swatch-info"><div class="swatch-name">Amber <span style="color:var(--am)">✓ kept</span></div><div class="swatch-hex">#BA7517</div><div class="swatch-role">Warning · In progress · GBP</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#c0392b"></div>
+      <div class="swatch-info"><div class="swatch-name">Red <span style="color:var(--am)">✓ kept</span></div><div class="swatch-hex">#c0392b</div><div class="swatch-role">Error · Urgent · Decline</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#185FA5"></div>
+      <div class="swatch-info"><div class="swatch-name">Blue <span style="color:var(--am)">✓ kept</span></div><div class="swatch-hex">#185FA5</div><div class="swatch-role">Info · Ads · Platform</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#534AB7"></div>
+      <div class="swatch-info"><div class="swatch-name">Purple <span style="color:var(--am)">✓ kept</span></div><div class="swatch-hex">#534AB7</div><div class="swatch-role">Special · ARES Chat</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT CHANGES -->
+<div class="section">
+  <div class="sec-label">What Changes · What Stays</div>
+  <table class="comp-table" style="background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden;margin-bottom:1.5rem">
+    <thead><tr><th>Element</th><th>Was (Green)</th><th>Now (Deep Slate)</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Primary buttons</td><td class="was">#1a7a56 green</td><td class="now">#1a2744 slate</td><td class="note">More premium, less generic</td></tr>
+      <tr><td>Sidebar active state</td><td class="was">Green bg + border</td><td class="now">Slate bg + border</td><td class="note">Cleaner, darker edge</td></tr>
+      <tr><td>Logo accent (IQ)</td><td class="was">Green</td><td class="now">Slate</td><td class="note">More brand-like</td></tr>
+      <tr><td>Active nav tabs</td><td class="was">Green underline</td><td class="now">Slate underline</td><td class="note">Consistent authority</td></tr>
+      <tr><td>KPI values</td><td class="was">Green numbers</td><td class="now">Slate numbers</td><td class="note">Sophisticated, not "positive = green"</td></tr>
+      <tr><td>Links / cl class</td><td class="was">Green text</td><td class="now">Slate accent #2d4278</td><td class="note">Still clearly clickable</td></tr>
+      <tr><td>ARES gradient hero</td><td class="was">Navy → blue (unchanged)</td><td class="now">Navy → blue (unchanged)</td><td class="note">ARES keeps its own identity</td></tr>
+      <tr><td>Success / positive trend</td><td class="was">Green</td><td class="now">Green kept for trends only</td><td class="note">↑ 22% stays green — it means "good"</td></tr>
+      <tr><td>All status colors</td><td class="was">Amber · Red · Blue · Purple</td><td class="now">All unchanged</td><td class="note">These stay exactly as-is</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DEMO COMPONENTS -->
+<div class="section">
+  <div class="sec-label">Components in Context</div>
+
+  <!-- TOP BAR -->
+  <div class="topbar-demo">
+    <div class="tb-inner">
+      <div class="tb-logo-d">Prop<span>IQ</span></div>
+      <div class="tb-tab on">⬡ Dashboard</div>
+      <div class="tb-tab">◎ Contacts</div>
+      <div class="tb-tab">◈ Deals</div>
+      <div class="tb-tab">↗ SEO</div>
+      <div class="tb-tab">📊 Reports</div>
+      <div class="tb-pill"><div style="width:5px;height:5px;border-radius:50%;background:var(--pa);animation:none"></div>ARES Active</div>
+      <div class="tb-av" style="margin-left:.5rem">GW</div>
+    </div>
+  </div>
+
+  <div class="demo-grid">
+
+    <!-- TODAY CARD -->
+    <div>
+      <div style="font-size:11px;color:var(--fa);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;font-weight:500">Today Card (Dashboard hero)</div>
+      <div class="today-card">
+        <div class="tc-t">Today's priorities</div>
+        <div class="tc-s">3 things · ~18 min · ARES prepared everything</div>
+        <div class="tc-task">
+          <div class="tc-num" style="background:rgba(239,68,68,.3);color:#fca5a5">1</div>
+          <div style="font-size:12px;color:#fff">Approve 9 ARES fixes — score goes 79 → 90+</div>
+          <div style="margin-left:auto;font-size:10px;color:rgba(255,255,255,.5)">5 min</div>
+        </div>
+        <div class="tc-task">
+          <div class="tc-num" style="background:rgba(251,191,36,.3);color:#fde68a">2</div>
+          <div style="font-size:12px;color:#fff">Write "Is EPA Safe?" — 1,800 searches/mo</div>
+          <div style="margin-left:auto;font-size:10px;color:rgba(255,255,255,.5)">12 min</div>
+        </div>
+        <div class="tc-acts">
+          <button class="tca p">⚡ Start Fix Queue</button>
+          <button class="tca">💬 Ask ARES</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+      <div style="font-size:11px;color:var(--fa);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;font-weight:500">Sidebar Navigation</div>
+      <div class="sidebar-demo">
+        <div class="sd-hd"><div class="sd-logo">Prop<span>IQ</span></div><span class="sd-tag">ARES</span></div>
+        <div class="sd-sec">Overview</div>
+        <div class="sd-ni on">⬡ SEO Dashboard</div>
+        <div class="sd-ni">🔮 ARES Engine <span class="sd-nb">79/100</span></div>
+        <div class="sd-ni">💬 ARES Chat</div>
+        <div class="sd-sec">Rankings</div>
+        <div class="sd-ni">↗ Rank Tracker <span class="sd-nb">23</span></div>
+        <div class="sd-ni">🔍 Keywords</div>
+        <div class="sd-sec">ARES Actions</div>
+        <div class="sd-ni">⚡ Deploy Queue <span style="background:var(--rel);color:var(--re);font-size:9px;padding:1px 5px;border-radius:8px;font-weight:500;margin-left:auto">9</span></div>
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div>
+      <div style="font-size:11px;color:var(--fa);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;font-weight:500">Buttons</div>
+      <div class="btn-row">
+        <button class="btn btn-primary">Primary Action</button>
+        <button class="btn btn-outline">Outline</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-muted">Muted</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-danger">⚠ Urgent</button>
+        <button class="btn btn-amber">Warning</button>
+      </div>
+      <div style="margin-top:.85rem;font-size:11px;color:var(--fa);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;font-weight:500">Badges</div>
+      <div class="badge-row">
+        <span class="bdg bdg-p">Active</span>
+        <span class="bdg bdg-pa">Live</span>
+        <span class="bdg bdg-am">Warning</span>
+        <span class="bdg bdg-re">Urgent</span>
+        <span class="bdg bdg-b">Info</span>
+        <span class="bdg bdg-pu">Special</span>
+      </div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div>
+      <div style="font-size:11px;color:var(--fa);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;font-weight:500">KPI Cards</div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kl">Pipeline</div><div class="kv">$4.2M</div><div class="ks" style="color:var(--am)">↑ 22%</div></div>
+        <div class="kpi"><div class="kl">Leads</div><div class="kv">18</div><div class="ks" style="color:var(--am)">↑ 6</div></div>
+        <div class="kpi"><div class="kl">Commission</div><div class="kv">$44K</div><div class="ks" style="color:var(--am)">This mo</div></div>
+        <div class="kpi"><div class="kl">ROI</div><div class="kv">15.6×</div><div class="ks" style="color:var(--am)">Best mo</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--fa);text-transform:uppercase;letter-spacing:.09em;margin:.85rem 0 .5rem;font-weight:500">Input + Progress</div>
+      <input class="input-demo" placeholder="Search properties in East Palo Alto…" style="margin-bottom:.75rem">
+      <div style="font-size:11.5px;color:var(--mu);margin-bottom:.35rem">ARES Score — 79/100</div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:79%"></div></div>
+      <div class="prog-wrap" style="margin-top:4px"><div class="prog-fill" style="width:30%;background:var(--am)"></div></div>
+      <div class="prog-wrap" style="margin-top:4px"><div class="prog-fill" style="width:5%;background:var(--re)"></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DECISION -->
+<div class="section">
+  <div class="sec-label">Ready to Apply?</div>
+  <div style="background:var(--sf);border:1.5px solid var(--p);border-radius:10px;padding:1.1rem 1.25rem;display:flex;align-items:flex-start;gap:14px">
+    <div style="width:40px;height:40px;border-radius:9px;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;color:#fff">✓</div>
+    <div>
+      <div style="font-size:13.5px;font-weight:500;margin-bottom:.4rem">If this looks right — one CSS variable change updates everything</div>
+      <div style="font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:.85rem">The entire UI kit uses <code style="background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;font-size:11px">--g</code> as the primary color variable. Changing that one variable across all 17 files replaces every green button, sidebar active state, badge, link, and KPI number in the whole platform.</div>
+      <div style="font-size:12px;color:var(--mu);background:var(--bg);border:1px solid var(--bo);border-radius:7px;padding:.75rem 1rem;font-family:monospace;line-height:2">
+        <span style="color:var(--fa)">/* Old */</span><br>
+        --g: #1a7a56; &nbsp;<span style="color:var(--re)">/* remove */</span><br>
+        --gl: #e8f5ef; <span style="color:var(--re)">/* remove */</span><br>
+        --gm: #0f5c3f; <span style="color:var(--re)">/* remove */</span><br>
+        <br>
+        <span style="color:var(--fa)">/* New */</span><br>
+        --g: #1a2744; &nbsp;<span style="color:var(--p)">/* Deep Slate — primary */</span><br>
+        --gl: #e8ecf5; <span style="color:var(--p)">/* Slate light bg */</span><br>
+        --gm: #111d33; <span style="color:var(--p)">/* Slate hover */</span><br>
+        <br>
+        <span style="color:var(--fa)">/* Keep trend/success green for ↑↓ numbers only */</span><br>
+        --success: #1a7a56;
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Messages v2 (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a56;--green-l:#e8f5ef;--green-m:#2a9d6f;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+  --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* TOP BAR */
+.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
+.topbar-left{display:flex;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.top-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--faint);width:210px}
+.av-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.av-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.notif{position:relative;cursor:pointer;font-size:15px;color:var(--muted);padding:4px}
+.notif-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)}
+.top-avatar{width:30px;height:30px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer}
+
+/* MODULE NAV */
+.modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+
+/* APP BODY */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb-module{padding:0.9rem 1rem 0.3rem;font-size:11.5px;font-weight:500;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.sb-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
+.nav-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--faint);padding:0.7rem 1rem 0.3rem;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all 0.1s;position:relative}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--green-l);color:var(--green);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green);border-radius:0 2px 2px 0}
+.nav-ico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nb-red{background:var(--red-l);color:var(--red)}
+.nb-green{background:var(--green-l);color:var(--green)}
+.nb-gray{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.nb-blue{background:var(--blue-l);color:var(--blue)}
+.nb-amber{background:var(--amber-l);color:var(--amber)}
+.sb-divider{height:1px;background:var(--border);margin:0.4rem 0}
+.sb-other{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--faint);font-size:12px}
+.sb-other:hover{background:var(--bg);color:var(--muted)}
+.sidebar-footer{margin-top:auto;padding:0.85rem 1rem;border-top:1px solid var(--border)}
+.sf-row{display:flex;align-items:center;gap:8px}
+.sf-ava{width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.sf-name{font-size:12px;font-weight:500;line-height:1.2}
+.sf-role{font-size:10px;color:var(--faint)}
+.sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.messages-body{display:flex;flex:1;overflow:hidden}
+
+/* THREAD LIST */
+.thread-list{width:300px;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;background:var(--surface)}
+.tl-header{padding:0.75rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.tl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem}
+.tl-title{font-family:'Playfair Display',serif;font-size:1.1rem}
+.tl-new-btn{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;background:var(--green);color:#fff;border:none;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;transition:background 0.12s}
+.tl-new-btn:hover{background:#156445}
+.tl-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;color:var(--faint)}
+.tl-search input{border:none;background:transparent;outline:none;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);width:100%}
+.tl-search input::placeholder{color:var(--faint)}
+.tl-filters{display:flex;gap:3px;padding:0.5rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
+.tl-filter{padding:3px 7px;border-radius:4px;font-size:11px;cursor:pointer;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:all 0.1s}
+.tl-filter:hover{background:var(--bg)}
+.tl-filter.on{font-weight:500}
+.f-all.on{background:var(--ink);color:#fff}
+.f-rcs.on{background:#dcfce7;color:#166534;border-color:#86efac}
+.f-email.on{background:var(--blue-l);color:var(--blue);border-color:var(--blue)}
+.f-ig.on{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
+.f-fb.on{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+.thread-items{overflow-y:auto;flex:1}
+.thread-item{display:flex;gap:9px;padding:0.7rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;position:relative}
+.thread-item:hover{background:var(--bg)}
+.thread-item.selected{background:var(--green-l)}
+.thread-item.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green)}
+.thread-item.unread .ti-name{font-weight:600;color:var(--ink)}
+.thread-item.unread .ti-preview{color:var(--ink)}
+.ti-ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;position:relative}
+.ti-channel{position:absolute;bottom:-2px;right:-2px;width:13px;height:13px;border-radius:50%;border:2px solid var(--surface);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:700}
+.ch-rcs{background:#16a34a;color:#fff}
+.ch-email{background:var(--blue);color:#fff}
+.ch-ig{background:#e1306c;color:#fff}
+.ch-sms{background:#6366f1;color:#fff}
+.ch-fb{background:#1877f2;color:#fff}
+.ti-info{flex:1;min-width:0}
+.ti-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1px}
+.ti-name{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.ti-time{font-size:10px;color:var(--faint);flex-shrink:0;margin-left:4px}
+.ti-preview{font-size:11px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.ti-footer{display:flex;align-items:center;gap:4px}
+.ti-tag{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:500;text-transform:uppercase}
+.t-b{background:var(--blue-l);color:var(--blue)}
+.t-s{background:var(--amber-l);color:var(--amber)}
+.t-i{background:var(--green-l);color:var(--green)}
+.t-l{background:var(--purple-l);color:var(--purple)}
+.ti-assigned{font-size:9px;color:var(--faint);display:flex;align-items:center;gap:3px}
+.ti-assigned-dot{width:14px;height:14px;border-radius:50%;background:var(--purple-l);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:600}
+.ti-unread-dot{width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:auto;flex-shrink:0}
+.ti-done-badge{font-size:8.5px;padding:1px 5px;border-radius:3px;background:var(--bg);color:var(--faint);border:1px solid var(--border);margin-left:auto}
+
+/* CONVERSATION */
+.conversation{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+
+/* CONV HEADER */
+.conv-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0.8rem 1.25rem;flex-shrink:0}
+.conv-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.55rem}
+.conv-contact{display:flex;align-items:center;gap:10px}
+.conv-ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.conv-name{font-weight:500;font-size:13px;display:flex;align-items:center;gap:6px}
+.verified-badge{font-size:9px;background:#dcfce7;color:#166534;padding:2px 6px;border-radius:3px;font-weight:500;display:flex;align-items:center;gap:3px}
+.conv-sub{font-size:10.5px;color:var(--faint);margin-top:1px;display:flex;align-items:center;gap:8px}
+.fallback-pill{font-size:9px;background:var(--amber-l);color:var(--amber);padding:1px 6px;border-radius:3px;font-weight:500}
+.rcs-active-pill{font-size:9px;background:#dcfce7;color:#166534;padding:1px 6px;border-radius:3px;font-weight:500}
+.conv-actions{display:flex;gap:5px;flex-wrap:wrap}
+.conv-btn{padding:4px 9px;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s;display:flex;align-items:center;gap:3px;white-space:nowrap}
+.conv-btn:hover{background:var(--bg);color:var(--ink)}
+.conv-btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.conv-btn.danger{color:var(--red);border-color:var(--red-l)}
+.conv-btn.done-btn{background:#dcfce7;color:#166534;border-color:#86efac}
+
+/* ASSIGN ROW */
+.assign-row{display:flex;align-items:center;gap:8px;padding:0.4rem 0 0}
+.assign-label{font-size:10.5px;color:var(--faint)}
+.assign-select{border:1px solid var(--border);border-radius:5px;padding:2px 6px;font-size:11px;color:var(--ink);font-family:'Epilogue',sans-serif;background:var(--surface);cursor:pointer;outline:none}
+.assign-who{display:flex;align-items:center;gap:4px;font-size:11.5px}
+.assign-ava{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:600}
+.channel-bar{display:flex;align-items:center;gap:5px}
+.ch-label{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:0.08em;margin-right:2px}
+.ch-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border-radius:4px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.ch-btn:hover{background:var(--bg)}
+.ch-btn.active{border-color:var(--green);color:var(--green);background:var(--green-l)}
+.ch-dot{width:6px;height:6px;border-radius:50%}
+
+/* MESSAGES AREA */
+.messages-area{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.msg-date-divider{text-align:center;margin:0.85rem 0;position:relative}
+.msg-date-divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border)}
+.msg-date-label{background:var(--bg);padding:0 0.75rem;font-size:10px;color:var(--faint);position:relative;display:inline-block}
+.msg-row{display:flex;gap:8px;margin-bottom:0.75rem;align-items:flex-end}
+.msg-row.outbound{flex-direction:row-reverse}
+.msg-ava{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;flex-shrink:0;margin-bottom:2px}
+.msg-bubble-wrap{max-width:65%;display:flex;flex-direction:column}
+.msg-row.outbound .msg-bubble-wrap{align-items:flex-end}
+.msg-bubble{padding:0.55rem 0.8rem;font-size:12.5px;line-height:1.55}
+.msg-inbound{background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 3px;color:var(--ink)}
+.msg-outbound{color:#fff;border-radius:12px 12px 3px 12px}
+.msg-outbound.rcs{background:linear-gradient(135deg,#1a7a56,#2a9d6f)}
+.msg-outbound.email{background:var(--blue)}
+.msg-outbound.ig{background:linear-gradient(135deg,#833ab4,#e1306c)}
+.msg-outbound.sms{background:#4f46e5}
+.msg-meta{font-size:9px;color:var(--faint);margin-top:3px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.msg-row.outbound .msg-meta{justify-content:flex-end}
+.msg-read{color:var(--green);font-size:9.5px}
+.msg-delivered{color:var(--faint);font-size:9.5px}
+.msg-channel-badge{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:500}
+.mb-rcs{background:#dcfce7;color:#166534}
+.mb-email{background:var(--blue-l);color:var(--blue)}
+.mb-ig{background:#fce7f3;color:#9d174d}
+.mb-sms{background:#eef2ff;color:#4338ca}
+
+/* VERIFIED OUTBOUND HEADER */
+.verified-header{display:flex;align-items:center;gap:5px;margin-bottom:4px;justify-content:flex-end}
+.vbiz-badge{font-size:8.5px;background:#dcfce7;color:#166534;padding:1px 6px;border-radius:3px;display:flex;align-items:center;gap:3px;font-weight:500}
+
+/* RCS CARD */
+.rcs-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:250px;margin-top:4px}
+.rcs-card-img{height:90px;background:linear-gradient(135deg,#1d3a2a,#2a5c40);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.rcs-card-body{padding:0.6rem 0.75rem}
+.rcs-card-title{font-weight:500;font-size:12px;margin-bottom:2px}
+.rcs-card-sub{font-size:10.5px;color:var(--faint)}
+.rcs-card-actions{display:flex;border-top:1px solid var(--border)}
+.rcs-action{flex:1;text-align:center;padding:0.4rem;font-size:11px;color:var(--green);cursor:pointer;font-weight:500;border-right:1px solid var(--border);transition:background 0.12s}
+.rcs-action:last-child{border-right:none}
+.rcs-action:hover{background:var(--green-l)}
+
+/* SYSTEM EVENTS */
+.sys-event{display:flex;justify-content:center;margin:0.6rem 0}
+.sys-pill{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px 12px;font-size:10.5px;color:var(--faint);display:flex;align-items:center;gap:5px}
+.sys-pill .ico{font-size:11px}
+
+/* TYPING INDICATOR */
+.typing-row{display:flex;gap:8px;align-items:flex-end;margin-bottom:0.75rem}
+.typing-bubble{background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 3px;padding:0.6rem 0.9rem;display:flex;gap:4px;align-items:center}
+.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--faint);animation:tdot 1.2s infinite}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes tdot{0%,80%,100%{transform:scale(0.7);opacity:0.5}40%{transform:scale(1);opacity:1}}
+.typing-label{font-size:10px;color:var(--faint);margin-bottom:4px}
+
+/* SUGGESTED REPLIES */
+.suggested-wrap{padding:0.5rem 1.25rem 0.4rem;border-top:1px solid var(--border);background:var(--surface)}
+.sug-label{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.sug-label span{background:var(--green-l);color:var(--green);padding:1px 5px;border-radius:3px;font-size:8.5px}
+.sug-replies{display:flex;gap:5px;flex-wrap:wrap}
+.sug-reply{padding:4px 10px;border-radius:14px;border:1px solid var(--green);color:var(--green);font-size:11.5px;cursor:pointer;background:transparent;font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.sug-reply:hover{background:var(--green-l)}
+
+/* COMPOSE */
+.compose-area{background:var(--surface);border-top:1px solid var(--border);padding:0.75rem 1.25rem;flex-shrink:0}
+.compose-top{display:flex;align-items:center;gap:6px;margin-bottom:0.55rem;flex-wrap:wrap}
+.compose-via{font-size:10.5px;color:var(--faint)}
+.compose-ch-btn{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;cursor:pointer;font-weight:500;border:1.5px solid;transition:all 0.12s}
+.compose-ch-btn:hover{opacity:0.85}
+.ch-rcs-btn{background:#dcfce7;color:#166534;border-color:#86efac}
+.ch-email-btn{background:var(--blue-l);color:var(--blue);border-color:var(--blue)}
+.ch-ig-btn{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
+.ch-sms-btn{background:#eef2ff;color:#4338ca;border-color:#a5b4fc}
+.compose-extras{margin-left:auto;display:flex;gap:6px;align-items:center}
+.compose-extra-btn{font-size:11px;color:var(--muted);cursor:pointer;padding:3px 7px;border-radius:4px;border:1px solid var(--border);background:var(--surface);transition:all 0.12s;font-family:'Epilogue',sans-serif}
+.compose-extra-btn:hover{background:var(--bg);color:var(--ink)}
+.compose-extra-btn.ai{color:var(--green);border-color:var(--green-l);background:var(--green-l)}
+.compose-input-row{display:flex;gap:7px;align-items:flex-end}
+.compose-box{flex:1;border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.8rem;font-size:12.5px;font-family:'Epilogue',sans-serif;color:var(--ink);resize:none;min-height:56px;max-height:110px;outline:none;background:var(--bg);line-height:1.5}
+.compose-box:focus{border-color:var(--green);background:var(--surface)}
+.compose-box::placeholder{color:var(--faint)}
+.compose-tools{display:flex;gap:4px;align-items:flex-end}
+.compose-tool-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:var(--muted);transition:all 0.12s}
+.compose-tool-btn:hover{background:var(--bg);color:var(--ink)}
+.compose-send-wrap{display:flex;flex-direction:column;gap:3px;align-items:flex-end}
+.compose-send{height:34px;padding:0 0.95rem;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:4px;transition:background 0.12s;white-space:nowrap}
+.compose-send:hover{background:#156445}
+.schedule-btn{font-size:10px;color:var(--faint);cursor:pointer;display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:4px;border:1px solid var(--border);background:var(--surface);font-family:'Epilogue',sans-serif;white-space:nowrap}
+.schedule-btn:hover{background:var(--bg);color:var(--ink)}
+
+/* BROADCAST BANNER */
+.broadcast-banner{background:var(--amber-l);border-bottom:1px solid var(--amber);padding:0.55rem 1.25rem;font-size:12px;color:var(--amber);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.broadcast-banner.hidden{display:none}
+.bb-text{display:flex;align-items:center;gap:6px}
+.bb-btn{padding:3px 10px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--amber);background:transparent;color:var(--amber);font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.bb-btn.primary{background:var(--amber);color:#fff}
+.bb-btn:hover{background:var(--amber);color:#fff}
+
+/* TEMPLATES PANEL */
+.templates-panel{position:fixed;right:-280px;top:0;bottom:0;width:260px;background:var(--surface);border-left:1px solid var(--border);z-index:150;transition:right 0.22s ease;overflow-y:auto;box-shadow:-4px 0 16px rgba(0,0,0,0.06)}
+.templates-panel.open{right:0}
+.tp-header{padding:0.85rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.tp-title{font-size:13px;font-weight:500}
+.tp-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer}
+.tp-search{margin:0.6rem 1rem;display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:12px;color:var(--faint)}
+.tp-search input{border:none;background:transparent;outline:none;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);width:100%}
+.tp-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);padding:0.6rem 1rem 0.3rem;font-weight:500}
+.tp-item{padding:0.55rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.1s}
+.tp-item:hover{background:var(--bg)}
+.tp-item-name{font-size:12.5px;font-weight:500;margin-bottom:2px}
+.tp-item-preview{font-size:11px;color:var(--faint);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tp-item-ch{font-size:9px;margin-top:3px}
+
+/* AI WRITE PANEL */
+.ai-panel{position:fixed;right:-300px;top:0;bottom:0;width:280px;background:var(--surface);border-left:1px solid var(--border);z-index:150;transition:right 0.22s ease;overflow-y:auto;box-shadow:-4px 0 16px rgba(0,0,0,0.06)}
+.ai-panel.open{right:0}
+.ai-header{padding:0.85rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ai-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.ai-title span{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500}
+.ai-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer}
+.ai-body{padding:1rem}
+.ai-context{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.65rem 0.75rem;margin-bottom:0.85rem;font-size:11.5px;color:var(--muted);line-height:1.5}
+.ai-context strong{color:var(--ink);font-weight:500}
+.ai-tone-label{font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem}
+.ai-tones{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0.85rem}
+.ai-tone{padding:3px 9px;border-radius:10px;font-size:11px;cursor:pointer;border:1px solid var(--border);color:var(--muted);transition:all 0.12s}
+.ai-tone.active{border-color:var(--green);color:var(--green);background:var(--green-l)}
+.ai-generate-btn{width:100%;padding:0.55rem;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:13px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;margin-bottom:0.85rem;transition:background 0.12s}
+.ai-generate-btn:hover{background:#156445}
+.ai-result{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.75rem;margin-bottom:0.6rem}
+.ai-result-text{font-size:12.5px;line-height:1.6;color:var(--ink);margin-bottom:0.6rem}
+.ai-result-actions{display:flex;gap:5px}
+.ai-use-btn{flex:1;padding:5px;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;background:var(--green);color:#fff;border:none;transition:background 0.12s}
+.ai-use-btn:hover{background:#156445}
+.ai-regen-btn{padding:5px 10px;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--border2);background:var(--surface);color:var(--muted)}
+
+/* SCHEDULE MODAL */
+.schedule-modal{position:fixed;inset:0;background:rgba(0,0,0,0.2);z-index:200;display:none;align-items:center;justify-content:center}
+.schedule-modal.visible{display:flex}
+.schedule-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem;width:300px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.sb-title{font-weight:500;font-size:13.5px;margin-bottom:0.85rem}
+.sb-row{margin-bottom:0.75rem}
+.sb-label{font-size:10.5px;color:var(--faint);margin-bottom:4px}
+.sb-input{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12.5px;font-family:'Epilogue',sans-serif;color:var(--ink);outline:none;background:var(--bg)}
+.sb-input:focus{border-color:var(--green)}
+.sb-actions{display:flex;gap:7px;margin-top:0.85rem}
+.sb-cancel{flex:1;padding:7px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px}
+.sb-confirm{flex:1;padding:7px;border:none;border-radius:5px;background:var(--green);color:#fff;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px;font-weight:500}
+
+/* CONTACT PANEL */
+.contact-panel{width:250px;border-left:1px solid var(--border);background:var(--surface);overflow-y:auto;flex-shrink:0}
+.cp-header{padding:0.9rem 1rem;border-bottom:1px solid var(--border)}
+.cp-ava{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;margin:0 auto 0.6rem}
+.cp-name{font-weight:500;font-size:13px;text-align:center;margin-bottom:2px}
+.cp-sub{font-size:11px;color:var(--faint);text-align:center;margin-bottom:0.6rem}
+.cp-tags{display:flex;gap:4px;justify-content:center;margin-bottom:0.7rem;flex-wrap:wrap}
+.cp-score{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem;text-align:center;margin-bottom:0.7rem}
+.cp-score-val{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--green)}
+.cp-score-label{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-top:1px}
+.cp-quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:0.7rem}
+.cp-action{padding:5px 0;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);text-align:center;font-family:'Epilogue',sans-serif;transition:all 0.12s}
+.cp-action:hover{background:var(--bg);color:var(--ink)}
+.cp-divider{height:1px;background:var(--border);margin:0.4rem 0}
+.cp-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);padding:0.4rem 1rem 0.25rem;font-weight:500}
+.cp-row{display:flex;align-items:flex-start;gap:5px;padding:0.3rem 1rem;font-size:12px}
+.cp-label{color:var(--faint);width:68px;flex-shrink:0;font-size:11px;line-height:1.4}
+.cp-val{color:var(--ink);flex:1;word-break:break-word;line-height:1.4}
+.cp-val.link{color:var(--blue);cursor:pointer}
+.cp-val.good{color:var(--green);font-weight:500}
+.cp-channels{display:flex;gap:4px;padding:0.4rem 1rem;flex-wrap:wrap}
+.cp-ch{display:flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10.5px;font-weight:500;cursor:pointer;transition:opacity 0.12s}
+.cp-ch:hover{opacity:0.8}
+.cp-note{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:0.45rem 0.6rem;margin:0.3rem 1rem;font-size:11.5px;color:var(--muted);line-height:1.5}
+.call-attr{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.75rem;margin:0.4rem 1rem}
+.ca-label{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:4px}
+.ca-row{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;margin-bottom:2px}
+.ca-source{color:var(--muted)}
+.ca-num{color:var(--ink);font-weight:500;font-size:11px}
+.overlay-bg{position:fixed;inset:0;z-index:140;display:none}
+.overlay-bg.visible{display:block}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
+.tb-logo-u span{color:var(--green)}
+.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
+.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
+.tb-mods::-webkit-scrollbar{display:none}
+.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<!-- UNIFIED TOP BAR -->
+<div class="tbunified">
+  <div class="tb-logo-u">Prop<span>IQ</span></div>
+  <div class="tb-srch">🔍 Search anything…</div>
+  <div class="tb-mods">
+    <div class="tbt">⬡ Dashboard</div>
+    <div class="tbt">◎ Contacts</div>
+    <div class="tbt">◈ Deals</div>
+    <div class="tbt">✦ Content<span class="tbdg">2</span></div>
+    <div class="tbt">⊕ Search</div>
+    <div class="tbt on">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">$ Ads</div>
+    <div class="tbt">↗ SEO</div>
+    <div class="tbt">📊 Reports</div>
+  </div>
+  <div class="tb-r">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
+  </div>
+</div>
+
+
+<!-- OVERLAY -->
+<div class="overlay-bg" id="overlayBg" onclick="closePanels()"></div>
+
+<!-- TEMPLATES PANEL -->
+<div class="templates-panel" id="templatesPanel">
+  <div class="tp-header"><div class="tp-title">Message Templates</div><button class="tp-close" onclick="closePanels()">✕</button></div>
+  <div class="tp-search">🔍 <input placeholder="Search templates…" /></div>
+  <div class="tp-sec">RCS Templates</div>
+  <div class="tp-item" onclick="useTemplate('Hi [Name] — I wanted to follow up on the listing at [Address]. Are you still interested?')">
+    <div class="tp-item-name">Listing Follow-Up</div>
+    <div class="tp-item-preview">Hi [Name] — I wanted to follow up on the listing at [Address]. Are you still interested?</div>
+    <div class="tp-item-ch" style="color:#16a34a">● RCS</div>
+  </div>
+  <div class="tp-item" onclick="useTemplate('Great news — your offer was accepted! I\'ll send over the paperwork shortly.')">
+    <div class="tp-item-name">Offer Accepted</div>
+    <div class="tp-item-preview">Great news — your offer was accepted! I'll send over the paperwork shortly.</div>
+    <div class="tp-item-ch" style="color:#16a34a">● RCS</div>
+  </div>
+  <div class="tp-item" onclick="useTemplate('Your inspection is scheduled for [Date] at [Time]. The inspector will meet you at the property.')">
+    <div class="tp-item-name">Inspection Scheduled</div>
+    <div class="tp-item-preview">Your inspection is scheduled for [Date] at [Time].</div>
+    <div class="tp-item-ch" style="color:#16a34a">● RCS</div>
+  </div>
+  <div class="tp-sec">Email Templates</div>
+  <div class="tp-item">
+    <div class="tp-item-name">Pre-Listing Checklist</div>
+    <div class="tp-item-preview">Hi [Name], attached is your complete pre-listing checklist with everything we need to prepare your home for market.</div>
+    <div class="tp-item-ch" style="color:var(--blue)">@ Email</div>
+  </div>
+  <div class="tp-item">
+    <div class="tp-item-name">Investment Analysis Report</div>
+    <div class="tp-item-preview">Hi [Name], here's the full investment analysis on [Address] including cap rate, cash-on-cash return, and ADU potential.</div>
+    <div class="tp-item-ch" style="color:var(--blue)">@ Email</div>
+  </div>
+  <div class="tp-sec">SMS Templates</div>
+  <div class="tp-item">
+    <div class="tp-item-name">Quick Check-In</div>
+    <div class="tp-item-preview">Hey [Name] — just checking in. Any questions on the listing?</div>
+    <div class="tp-item-ch" style="color:#4338ca">S SMS</div>
+  </div>
+</div>
+
+<!-- AI WRITE PANEL -->
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <div class="ai-title">AI Message Writer <span>Beta</span></div>
+    <button class="ai-close" onclick="closePanels()">✕</button>
+  </div>
+  <div class="ai-body">
+    <div class="ai-context"><strong>Context:</strong> Marcus Rivera · Active Buyer · Last message: "Just saw the listing details again — can we talk today?"</div>
+    <div class="ai-tone-label">Tone</div>
+    <div class="ai-tones">
+      <div class="ai-tone active" onclick="setTone(this)">Friendly</div>
+      <div class="ai-tone" onclick="setTone(this)">Professional</div>
+      <div class="ai-tone" onclick="setTone(this)">Urgent</div>
+      <div class="ai-tone" onclick="setTone(this)">Casual</div>
+    </div>
+    <button class="ai-generate-btn" onclick="generateAI()">⚡ Generate Message</button>
+    <div class="ai-result" id="aiResult">
+      <div class="ai-result-text">Hey Marcus! Absolutely — I'm free this afternoon. Want to jump on a call around 2pm or 3pm? I can walk you through the offer strategy and we can move fast if you're ready. 🏠</div>
+      <div class="ai-result-actions">
+        <button class="ai-use-btn" onclick="useAI()">Use This →</button>
+        <button class="ai-regen-btn" onclick="generateAI()">⟳ Retry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE MODAL -->
+<div class="schedule-modal" id="scheduleModal">
+  <div class="schedule-box">
+    <div class="sb-title">📅 Schedule Message</div>
+    <div class="sb-row"><div class="sb-label">Send date</div><input type="date" class="sb-input" value="2026-03-30"></div>
+    <div class="sb-row"><div class="sb-label">Send time</div><input type="time" class="sb-input" value="09:00"></div>
+    <div class="sb-row"><div class="sb-label">Channel</div>
+      <select class="sb-input">
+        <option>RCS (preferred)</option>
+        <option>SMS fallback</option>
+        <option>Email</option>
+      </select>
+    </div>
+    <div style="font-size:11px;color:var(--faint);background:var(--green-l);border-radius:5px;padding:6px 8px;margin-top:4px">💡 Best time to reach Marcus based on past engagement: 9–10am or 6–7pm</div>
+    <div class="sb-actions">
+      <button class="sb-cancel" onclick="closeSchedule()">Cancel</button>
+      <button class="sb-confirm" onclick="closeSchedule()">Schedule Send ↑</button>
+    </div>
+  </div>
+</div>
+
+    <div class="top-search">🔍 Search messages…</div>
+  </div>
+  <div class="topbar-right">
+    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
+    <div class="notif">🔔<div class="notif-badge">3</div></div>
+    <div class="top-avatar">GW</div>
+  </div>
+</div>
+
+  <div class="mod-tab"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab active"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-module">Messages <span class="sb-tag">Active</span></div>
+    <div class="nav-sec">Inbox</div>
+    <div class="nav-item active"><span class="nav-ico">☎</span>All Messages<span class="nav-badge nb-red">8</span></div>
+    <div class="nav-item"><span class="nav-ico">●</span>Unread<span class="nav-badge nb-red">3</span></div>
+    <div class="nav-item"><span class="nav-ico">⭐</span>Starred</div>
+    <div class="nav-item"><span class="nav-ico">✓</span>Done</div>
+    <div class="nav-item"><span class="nav-ico">👤</span>Assigned to Me</div>
+
+    <div class="nav-sec">By Channel</div>
+    <div class="nav-item"><span class="nav-ico" style="color:#16a34a">◉</span>Text / RCS<span class="nav-badge nb-red">5</span></div>
+    <div class="nav-item"><span class="nav-ico" style="color:var(--blue)">◉</span>Email<span class="nav-badge nb-gray">12</span></div>
+    <div class="nav-item"><span class="nav-ico" style="color:#e1306c">◉</span>Instagram<span class="nav-badge nb-red">2</span></div>
+    <div class="nav-item"><span class="nav-ico" style="color:#1877f2">◉</span>Facebook</div>
+    <div class="nav-item"><span class="nav-ico">☎</span>Call Log</div>
+
+    <div class="nav-sec">By Role</div>
+    <div class="nav-item"><span class="nav-ico">🏠</span>Buyers</div>
+    <div class="nav-item"><span class="nav-ico">$</span>Sellers</div>
+    <div class="nav-item"><span class="nav-ico">⊕</span>Investors</div>
+    <div class="nav-item"><span class="nav-ico">◻</span>Landlords</div>
+
+    <div class="nav-sec">Tools</div>
+    <div class="nav-item"><span class="nav-ico">⚡</span>AI Message Writer</div>
+    <div class="nav-item"><span class="nav-ico">◻</span>Templates</div>
+    <div class="nav-item"><span class="nav-ico">📅</span>Scheduled<span class="nav-badge nb-amber">3</span></div>
+    <div class="nav-item"><span class="nav-ico">📢</span>Broadcast / Bulk</div>
+    <div class="nav-item"><span class="nav-ico">◈</span>Campaigns</div>
+    <div class="nav-item"><span class="nav-ico">☎</span>Call Attribution</div>
+
+    <div class="sb-divider"></div>
+    <div style="padding:0.4rem 1rem 0.2rem;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint)">Other Modules</div>
+    <div class="sb-other"><span>⬡</span> Dashboard</div>
+    <div class="sb-other"><span>◎</span> Contacts</div>
+    <div class="sb-other"><span>◈</span> Deals</div>
+    <div class="sb-other"><span>✦</span> Content</div>
+    <div class="sb-other"><span>⊕</span> Search</div>
+    <div class="sb-other"><span>↗</span> Reports</div>
+    <div class="nav-sec">Account</div>
+    <div class="nav-item"><span class="nav-ico">⚙</span>Settings</div>
+    <div class="sidebar-footer">
+      <div class="sf-row">
+        <div class="sf-ava">GW</div>
+        <div><div class="sf-name">Graeham Watts</div><div class="sf-role">Intero Real Estate</div></div>
+        <div class="sf-plan">Pro</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MESSAGES BODY -->
+  <div class="main">
+
+    <!-- BROADCAST BANNER -->
+    <div class="broadcast-banner" id="broadcastBanner">
+      <div class="bb-text">📢 <strong>Broadcast mode:</strong> Send one message to multiple contacts at once — select a segment or tag</div>
+      <div style="display:flex;gap:6px">
+        <button class="bb-btn">Select Segment</button>
+        <button class="bb-btn primary">Compose Broadcast →</button>
+        <button class="bb-btn" onclick="document.getElementById('broadcastBanner').classList.add('hidden')" style="border:none;background:transparent">✕</button>
+      </div>
+    </div>
+
+    <div class="messages-body">
+
+      <!-- THREAD LIST -->
+      <div class="thread-list">
+        <div class="tl-header">
+          <div class="tl-top">
+            <div class="tl-title">Messages</div>
+            <button class="tl-new-btn" onclick="alert('New conversation')">✏ New</button>
+          </div>
+          <div class="tl-search">🔍 <input placeholder="Search conversations…" /></div>
+        </div>
+        <div class="tl-filters">
+          <div class="tl-filter on f-all" onclick="setFilter(this)">All</div>
+          <div class="tl-filter f-rcs" onclick="setFilter(this)">RCS</div>
+          <div class="tl-filter f-email" onclick="setFilter(this)">Email</div>
+          <div class="tl-filter f-ig" onclick="setFilter(this)">Instagram</div>
+          <div class="tl-filter f-fb" onclick="setFilter(this)">Facebook</div>
+        </div>
+        <div class="thread-items">
+
+          <div class="thread-item unread selected">
+            <div class="ti-ava" style="background:var(--green-l);color:var(--green)">MR<div class="ti-channel ch-rcs">R</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">Marcus Rivera</div><div class="ti-time">9:14am</div></div>
+              <div class="ti-preview">Just saw the listing details again — can we talk today?</div>
+              <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><span class="ti-tag t-i">Investor</span><div class="ti-unread-dot"></div></div>
+            </div>
+          </div>
+
+          <div class="thread-item unread">
+            <div class="ti-ava" style="background:var(--purple-l);color:var(--purple)">TC<div class="ti-channel ch-ig">ig</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">Theresa Chen</div><div class="ti-time">Yesterday</div></div>
+              <div class="ti-preview">Hey — do I need to be at the walkthrough?</div>
+              <div class="ti-footer"><span class="ti-tag t-l">Landlord</span><span class="ti-tag t-s">Seller</span><div class="ti-unread-dot"></div></div>
+            </div>
+          </div>
+
+          <div class="thread-item unread">
+            <div class="ti-ava" style="background:var(--amber-l);color:var(--amber)">SL<div class="ti-channel ch-email">@</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">Sandra Lee</div><div class="ti-time">Yesterday</div></div>
+              <div class="ti-preview">Re: Pre-listing checklist — got it, reviewing now</div>
+              <div class="ti-footer">
+                <span class="ti-tag t-s">Seller</span>
+                <div class="ti-assigned"><div class="ti-assigned-dot">M</div>Maria</div>
+                <div class="ti-unread-dot"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="thread-item">
+            <div class="ti-ava" style="background:var(--blue-l);color:var(--blue)">DP<div class="ti-channel ch-rcs">R</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">David Park</div><div class="ti-time">Yesterday</div></div>
+              <div class="ti-preview">You: Great — appraisal confirmed for Thursday</div>
+              <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><div class="ti-done-badge">Done</div></div>
+            </div>
+          </div>
+
+          <div class="thread-item">
+            <div class="ti-ava" style="background:var(--green-l);color:var(--green)">JW<div class="ti-channel ch-sms">S</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">James Wu</div><div class="ti-time">2d ago</div></div>
+              <div class="ti-preview">You: Sent you the investment analysis on Runnymede</div>
+              <div class="ti-footer"><span class="ti-tag t-i">Investor</span></div>
+            </div>
+          </div>
+
+          <div class="thread-item">
+            <div class="ti-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">RK<div class="ti-channel ch-email">@</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">Rachel Kim</div><div class="ti-time">4d ago</div></div>
+              <div class="ti-preview">You: Let me know what areas you're looking at</div>
+              <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><div class="ti-done-badge">Done</div></div>
+            </div>
+          </div>
+
+          <div class="thread-item">
+            <div class="ti-ava" style="background:var(--amber-l);color:var(--amber)">BT<div class="ti-channel ch-rcs">R</div></div>
+            <div class="ti-info">
+              <div class="ti-top"><div class="ti-name">Brian Torres</div><div class="ti-time">5d ago</div></div>
+              <div class="ti-preview">You: Escrow docs sent — check your email</div>
+              <div class="ti-footer"><span class="ti-tag t-s">Seller</span><span class="ti-tag t-i">Investor</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CONVERSATION -->
+      <div class="conversation">
+
+        <!-- HEADER -->
+        <div class="conv-header">
+          <div class="conv-header-top">
+            <div class="conv-contact">
+              <div class="conv-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+              <div>
+                <div class="conv-name">
+                  Marcus Rivera
+                  <div class="verified-badge">✓ Verified Business</div>
+                  <div class="rcs-active-pill">● RCS Active</div>
+                </div>
+                <div class="conv-sub">
+                  Active Buyer · Investor · Score 92 · Last seen 2h ago
+                  <span class="fallback-pill" style="display:none">SMS Fallback</span>
+                </div>
+              </div>
+            </div>
+            <div class="conv-actions">
+              <button class="conv-btn">📋 Contact</button>
+              <button class="conv-btn">◈ Deal</button>
+              <button class="conv-btn">☎ Call</button>
+              <button class="conv-btn done-btn" onclick="markDone()">✓ Mark Done</button>
+              <button class="conv-btn" onclick="alert('Assign thread')">👤 Assign</button>
+              <button class="conv-btn primary">+ Send RCS</button>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div class="channel-bar">
+              <div class="ch-label">Channel:</div>
+              <div class="ch-btn active"><div class="ch-dot" style="background:#16a34a"></div>RCS/Text</div>
+              <div class="ch-btn"><div class="ch-dot" style="background:var(--blue)"></div>Email</div>
+              <div class="ch-btn"><div class="ch-dot" style="background:#e1306c"></div>Instagram</div>
+              <div class="ch-btn"><div class="ch-dot" style="background:#6366f1"></div>SMS</div>
+            </div>
+            <div class="assign-row">
+              <div class="assign-label">Assigned to:</div>
+              <div class="assign-who">
+                <div class="assign-ava" style="background:var(--green-l);color:var(--green)">GW</div>
+                <select class="assign-select">
+                  <option>Graeham Watts</option>
+                  <option>Maria (Coordinator)</option>
+                  <option>Giselle (TC)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="messages-area">
+
+          <div class="msg-date-divider"><span class="msg-date-label">March 27, 2026</span></div>
+
+          <div class="msg-row outbound">
+            <div class="msg-ava" style="background:var(--green-l);color:var(--green)">GW</div>
+            <div class="msg-bubble-wrap">
+              <div class="verified-header"><div class="vbiz-badge">✓ Graeham Watts · Intero Real Estate</div></div>
+              <div class="rcs-card">
+                <div class="rcs-card-img">🏠</div>
+                <div class="rcs-card-body">
+                  <div class="rcs-card-title">172 Portola Dr, San Francisco</div>
+                  <div class="rcs-card-sub">3 bed · 2 bath · 1,480 sqft · $1.45M listed</div>
+                </div>
+                <div class="rcs-card-actions">
+                  <div class="rcs-action">View Listing</div>
+                  <div class="rcs-action">Schedule Tour</div>
+                  <div class="rcs-action">Make Offer</div>
+                </div>
+              </div>
+              <div class="msg-meta"><span class="msg-channel-badge mb-rcs">RCS</span> 11:30am · <span class="msg-read">✓✓ Read 11:47am</span></div>
+            </div>
+          </div>
+
+          <div class="msg-row">
+            <div class="msg-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble msg-inbound">This looks great — exactly what I've been looking for. What's the situation with the ADU potential?</div>
+              <div class="msg-meta"><span class="msg-channel-badge mb-rcs">RCS</span> 11:47am</div>
+            </div>
+          </div>
+
+          <div class="msg-row outbound">
+            <div class="msg-ava" style="background:var(--green-l);color:var(--green)">GW</div>
+            <div class="msg-bubble-wrap">
+              <div class="verified-header"><div class="vbiz-badge">✓ Graeham Watts · Intero Real Estate</div></div>
+              <div class="msg-bubble msg-outbound rcs">Lot is 5,200 sqft — our analysis already ran the numbers. ADU could add ~$1,800/mo in rental income. Sending you the full breakdown now.</div>
+              <div class="msg-meta"><span class="msg-channel-badge mb-rcs">RCS</span> 12:02pm · <span class="msg-read">✓✓ Read 12:08pm</span></div>
+            </div>
+          </div>
+
+          <div class="msg-date-divider"><span class="msg-date-label">March 28, 2026 — Yesterday</span></div>
+
+          <!-- CALL LOG — with attribution -->
+          <div class="sys-event">
+            <div class="sys-pill">
+              <span class="ico" style="color:var(--blue)">☎</span>
+              Call · 18 min · Graeham → Marcus · 4:12pm ·
+              <span style="font-size:9px;background:var(--blue-l);color:var(--blue);padding:1px 5px;border-radius:3px;margin-left:2px">Google Ads Pool #4</span>
+            </div>
+          </div>
+
+          <div class="msg-row outbound">
+            <div class="msg-ava" style="background:var(--green-l);color:var(--green)">GW</div>
+            <div class="msg-bubble-wrap">
+              <div class="verified-header"><div class="vbiz-badge">✓ Graeham Watts · Intero Real Estate</div></div>
+              <div class="msg-bubble msg-outbound rcs">Great talking — as discussed, offer at $1.05M with inspection contingency. Paperwork coming tonight. 🤝</div>
+              <div class="msg-meta"><span class="msg-channel-badge mb-rcs">RCS</span> 4:38pm · <span class="msg-read">✓✓ Read 4:41pm</span></div>
+            </div>
+          </div>
+
+          <!-- SCHEDULED MESSAGE INDICATOR -->
+          <div class="sys-event">
+            <div class="sys-pill" style="background:var(--amber-l);border-color:var(--amber)">
+              <span class="ico">📅</span>
+              <span style="color:var(--amber)">Scheduled: Follow-up check-in · Tomorrow 9:00am · RCS</span>
+              <span style="color:var(--amber);cursor:pointer;font-size:10px;margin-left:4px">Cancel</span>
+            </div>
+          </div>
+
+          <div class="msg-date-divider"><span class="msg-date-label">Today — March 29, 2026</span></div>
+
+          <div class="msg-row">
+            <div class="msg-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble msg-inbound" style="border-color:var(--green);background:var(--green-l)">Just saw the listing details again — can we talk today? I think I want to move on this.</div>
+              <div class="msg-meta"><span class="msg-channel-badge mb-rcs">RCS</span> 9:14am · <span style="color:var(--red);font-size:9.5px">● Unread</span></div>
+            </div>
+          </div>
+
+          <!-- TYPING INDICATOR -->
+          <div class="typing-row">
+            <div class="msg-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+            <div class="msg-bubble-wrap">
+              <div class="typing-label">Marcus is typing…</div>
+              <div class="typing-bubble">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SUGGESTED REPLIES -->
+        <div class="suggested-wrap">
+          <div class="sug-label">AI suggested replies <span>Based on conversation context</span></div>
+          <div class="sug-replies">
+            <button class="sug-reply" onclick="useSuggestion(this)">Yes — calling you in 10 min</button>
+            <button class="sug-reply" onclick="useSuggestion(this)">Let's schedule for this afternoon</button>
+            <button class="sug-reply" onclick="useSuggestion(this)">I'll have the offer ready — want to review first?</button>
+          </div>
+        </div>
+
+        <!-- COMPOSE -->
+        <div class="compose-area">
+          <div class="compose-top">
+            <span class="compose-via">Send via</span>
+            <div class="compose-ch-btn ch-rcs-btn">◉ RCS</div>
+            <div class="compose-ch-btn ch-email-btn">@ Email</div>
+            <div class="compose-ch-btn ch-ig-btn">ig IG</div>
+            <div class="compose-ch-btn ch-sms-btn">S SMS</div>
+            <div class="compose-extras">
+              <button class="compose-extra-btn ai" onclick="openAI()">⚡ AI Write</button>
+              <button class="compose-extra-btn" onclick="openTemplates()">◻ Templates</button>
+              <button class="compose-extra-btn">📢 Broadcast</button>
+            </div>
+          </div>
+          <div class="compose-input-row">
+            <textarea class="compose-box" id="composeBox" placeholder="Type a message to Marcus…"></textarea>
+            <div class="compose-tools">
+              <div class="compose-tool-btn" title="Attach file">📎</div>
+              <div class="compose-tool-btn" title="Send listing card">🏠</div>
+              <div class="compose-tool-btn" title="Emoji">😊</div>
+              <div class="compose-send-wrap">
+                <button class="compose-send">Send ↑</button>
+                <button class="schedule-btn" onclick="openSchedule()">📅 Schedule</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CONTACT PANEL -->
+      <div class="contact-panel">
+        <div class="cp-header">
+          <div class="cp-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+          <div class="cp-name">Marcus Rivera</div>
+          <div class="cp-sub">Active Buyer · Investor</div>
+          <div class="cp-tags">
+            <span class="ti-tag t-b">Buyer</span>
+            <span class="ti-tag t-i">Investor</span>
+          </div>
+          <div class="cp-score">
+            <div class="cp-score-val">92</div>
+            <div class="cp-score-label">Engagement Score</div>
+          </div>
+          <div class="cp-quick-actions">
+            <div class="cp-action">☎ Call</div>
+            <div class="cp-action">📋 Profile</div>
+            <div class="cp-action">◈ Add Deal</div>
+            <div class="cp-action">+ Campaign</div>
+          </div>
+        </div>
+
+        <div class="cp-divider"></div>
+        <div class="cp-sec">Contact Info</div>
+        <div class="cp-row"><div class="cp-label">Phone</div><div class="cp-val link">(650) 555-0142</div></div>
+        <div class="cp-row"><div class="cp-label">Email</div><div class="cp-val link"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="523f332031272112373f333b3e7c313d3f">[email&#160;protected]</a></div></div>
+        <div class="cp-row"><div class="cp-label">Instagram</div><div class="cp-val link">@marcusrivera</div></div>
+        <div class="cp-row"><div class="cp-label">Pre-approved</div><div class="cp-val good">✓ $1.1M</div></div>
+        <div class="cp-row"><div class="cp-label">RCS Status</div><div class="cp-val good">● Active</div></div>
+        <div class="cp-row"><div class="cp-label">SMS Fallback</div><div class="cp-val" style="color:var(--faint)">Ready</div></div>
+
+        <div class="cp-divider"></div>
+        <div class="cp-sec">Active Channels</div>
+        <div class="cp-channels">
+          <div class="cp-ch" style="background:#dcfce7;color:#166534">◉ RCS</div>
+          <div class="cp-ch" style="background:var(--blue-l);color:var(--blue)">@ Email</div>
+          <div class="cp-ch" style="background:#fce7f3;color:#9d174d">ig IG</div>
+          <div class="cp-ch" style="background:#eef2ff;color:#4338ca">S SMS</div>
+        </div>
+
+        <div class="cp-divider"></div>
+        <div class="cp-sec">Current Deal</div>
+        <div class="cp-row"><div class="cp-label">Property</div><div class="cp-val">172 Portola Dr</div></div>
+        <div class="cp-row"><div class="cp-label">Stage</div><div class="cp-val" style="color:var(--amber);font-weight:500">Active</div></div>
+        <div class="cp-row"><div class="cp-label">Offer</div><div class="cp-val">$1.05M pending</div></div>
+
+        <div class="cp-divider"></div>
+        <div class="cp-sec">Call Attribution</div>
+        <div class="call-attr">
+          <div class="ca-label">Tracking Number Pool</div>
+          <div class="ca-row"><div class="ca-source">Google Ads</div><div class="ca-num">(650) 555-0900</div></div>
+          <div class="ca-row"><div class="ca-source">Meta Ads</div><div class="ca-num">(650) 555-0901</div></div>
+          <div class="ca-row"><div class="ca-source">Primary Line</div><div class="ca-num">(650) 555-0100</div></div>
+        </div>
+
+        <div class="cp-divider"></div>
+        <div class="cp-sec">Last Note</div>
+        <div class="cp-note">Wants to move on 172 Portola Dr. Offer $1.05M with inspection contingency. Pre-approved to $1.1M. Flexible on close.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function setFilter(el){document.querySelectorAll('.tl-filter').forEach(f=>f.classList.remove('on'));el.classList.add('on')}
+
+function openTemplates(){
+  document.getElementById('templatesPanel').classList.add('open');
+  document.getElementById('overlayBg').classList.add('visible');
+}
+function openAI(){
+  document.getElementById('aiPanel').classList.add('open');
+  document.getElementById('overlayBg').classList.add('visible');
+}
+function closePanels(){
+  document.getElementById('templatesPanel').classList.remove('open');
+  document.getElementById('aiPanel').classList.remove('open');
+  document.getElementById('overlayBg').classList.remove('visible');
+}
+function openSchedule(){
+  document.getElementById('scheduleModal').classList.add('visible');
+}
+function closeSchedule(){
+  document.getElementById('scheduleModal').classList.remove('visible');
+}
+function useTemplate(text){
+  document.getElementById('composeBox').value=text;
+  closePanels();
+}
+function setTone(el){
+  document.querySelectorAll('.ai-tone').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function generateAI(){
+  const result=document.getElementById('aiResult');
+  result.style.opacity='0.5';
+  setTimeout(()=>{result.style.opacity='1';},600);
+}
+function useAI(){
+  document.getElementById('composeBox').value="Hey Marcus! Absolutely — I'm free this afternoon. Want to jump on a call around 2pm or 3pm? I can walk you through the offer strategy and we can move fast if you're ready. 🏠";
+  closePanels();
+}
+function useSuggestion(btn){
+  document.getElementById('composeBox').value=btn.textContent;
+}
+functi

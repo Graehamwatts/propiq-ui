@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Dashboard v4 (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a56;--green-l:#e8f5ef;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+  --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* TOP BAR */
+.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
+.topbar-left{display:flex;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.top-search{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--faint);width:210px;cursor:text}
+.av-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.av-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.notif{position:relative;cursor:pointer;font-size:15px;color:var(--muted);padding:4px}
+.notif-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)}
+.top-avatar{width:30px;height:30px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer}
+
+/* MODULE NAV */
+.modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+
+/* APP BODY */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;z-index:40}
+.sb-module{padding:0.9rem 1rem 0.3rem;font-size:11.5px;font-weight:500;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.sb-module-tag{font-size:9px;background:var(--green-l);color:var(--green);padding:1px 6px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
+.nav-sec{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--faint);padding:0.7rem 1rem 0.3rem;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all 0.1s;position:relative}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--green-l);color:var(--green);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green);border-radius:0 2px 2px 0}
+.nav-ico{width:14px;text-align:center;font-size:12px;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nb-red{background:var(--red-l);color:var(--red)}
+.nb-green{background:var(--green-l);color:var(--green)}
+.nb-gray{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.sb-divider{height:1px;background:var(--border);margin:0.5rem 0}
+.sb-other-module{display:flex;align-items:center;gap:8px;padding:0.42rem 1rem;cursor:pointer;color:var(--faint);font-size:12px}
+.sb-other-module:hover{background:var(--bg);color:var(--muted)}
+.sb-other-ico{font-size:12px;width:14px;text-align:center}
+.sidebar-footer{margin-top:auto;padding:0.85rem 1rem;border-top:1px solid var(--border)}
+.sf-row{display:flex;align-items:center;gap:8px}
+.sf-ava{width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.sf-name{font-size:12px;font-weight:500;line-height:1.2}
+.sf-role{font-size:10px;color:var(--faint)}
+.sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:1.25rem;position:relative}
+
+/* PAGE HEADER */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.page-title{font-family:'Playfair Display',serif;font-size:1.35rem;letter-spacing:-0.01em;margin-bottom:2px}
+.page-sub{font-size:11px;color:var(--faint)}
+.header-actions{display:flex;gap:7px;align-items:center}
+.btn-sm{padding:0.4rem 0.85rem;border-radius:5px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500;transition:all 0.15s}
+.btn-p{background:var(--green);color:#fff;border:none}
+.btn-p:hover{background:#156445}
+.btn-o{background:var(--surface);color:var(--ink);border:1px solid var(--border2)}
+.btn-o:hover{background:var(--bg)}
+.btn-edit{background:var(--surface);color:var(--muted);border:1px solid var(--border);display:flex;align-items:center;gap:5px;font-size:12px;padding:0.4rem 0.85rem;border-radius:5px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:400;transition:all 0.15s}
+.btn-edit:hover{border-color:var(--border2);color:var(--ink)}
+.btn-edit.active{background:var(--amber-l);color:var(--amber);border-color:var(--amber)}
+
+/* EDIT MODE BANNER */
+.edit-banner{display:none;background:var(--amber-l);border:1px solid var(--amber);border-radius:8px;padding:0.65rem 1rem;margin-bottom:1rem;align-items:center;justify-content:space-between}
+.edit-banner.visible{display:flex}
+.edit-banner-text{font-size:12px;color:var(--amber);display:flex;align-items:center;gap:8px}
+.edit-banner-actions{display:flex;gap:7px}
+.btn-done{background:var(--green);color:#fff;border:none;padding:0.35rem 1rem;border-radius:4px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer;font-weight:500}
+.btn-cancel{background:transparent;color:var(--muted);border:1px solid var(--border2);padding:0.35rem 0.8rem;border-radius:4px;font-size:12px;font-family:'Epilogue',sans-serif;cursor:pointer}
+
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:1rem}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.8rem 0.85rem;position:relative}
+.kpi-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:0.3rem;line-height:1.3}
+.kpi-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;color:var(--ink)}
+.kpi-delta{font-size:9.5px;margin-top:0.25rem}
+.up{color:var(--green)}.dn{color:var(--red)}.neu{color:var(--faint)}
+.kpi-fixed-label{position:absolute;top:6px;right:7px;font-size:8px;color:var(--faint);text-transform:uppercase;letter-spacing:0.05em}
+
+/* WIDGET GRID */
+.widget-grid{display:grid;gap:8px}
+.row-2{grid-template-columns:1fr 290px}
+.row-3{grid-template-columns:1fr 1fr 1fr}
+
+/* WIDGET WRAPPER — edit mode styles applied here */
+.widget{position:relative;transition:transform 0.15s}
+.widget.editable{cursor:grab}
+.widget.editable:hover .widget-overlay{opacity:1}
+.widget.editable:hover .card{border-style:dashed;border-color:var(--amber)}
+.widget-overlay{position:absolute;inset:0;border-radius:8px;pointer-events:none;opacity:0;transition:opacity 0.15s;z-index:5}
+.widget-drag-handle{position:absolute;top:8px;left:8px;width:20px;height:20px;background:var(--amber);color:#fff;border-radius:4px;display:none;align-items:center;justify-content:center;font-size:10px;cursor:grab;z-index:10}
+.widget-remove{position:absolute;top:8px;right:8px;width:20px;height:20px;background:var(--red);color:#fff;border-radius:4px;display:none;align-items:center;justify-content:center;font-size:10px;cursor:pointer;z-index:10;border:none;font-family:inherit}
+.edit-mode .widget-drag-handle{display:flex}
+.edit-mode .widget-remove{display:flex}
+.edit-mode .widget .card{border-style:dashed;border-color:var(--border2);opacity:0.85}
+.edit-mode .widget:hover .card{border-color:var(--amber);opacity:1}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;transition:border-color 0.15s,opacity 0.15s}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.card-title{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);font-weight:500}
+.card-link{font-size:11px;color:var(--green);cursor:pointer}
+
+/* ADD WIDGET PANEL */
+.add-widget-panel{position:fixed;top:0;right:-320px;width:300px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:200;transition:right 0.25s ease;padding:1.25rem;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,0.06)}
+.add-widget-panel.open{right:0}
+.awp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.awp-title{font-size:13px;font-weight:500}
+.awp-close{background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer;padding:2px 6px}
+.awp-section{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);margin-bottom:0.5rem;margin-top:1rem;font-weight:500}
+.awp-widget{display:flex;align-items:center;gap:10px;padding:0.65rem 0.75rem;border:1px solid var(--border);border-radius:7px;margin-bottom:6px;cursor:pointer;transition:all 0.12s}
+.awp-widget:hover{border-color:var(--green);background:var(--green-l)}
+.awp-widget-ico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.awp-widget-name{font-size:12px;font-weight:500}
+.awp-widget-desc{font-size:10px;color:var(--faint);margin-top:1px}
+.awp-widget.added{border-color:var(--green-l);background:var(--green-l);opacity:0.6;cursor:not-allowed}
+.awp-add-btn{margin-left:auto;background:var(--green);color:#fff;border:none;border-radius:4px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit;font-weight:500}
+.awp-add-btn.added-btn{background:var(--border);color:var(--faint);cursor:not-allowed}
+.overlay-bg{position:fixed;inset:0;background:rgba(0,0,0,0.15);z-index:190;display:none}
+.overlay-bg.visible{display:block}
+
+/* CONTACTS */
+.contact-row{display:flex;align-items:center;gap:8px;padding:0.5rem 0;border-bottom:1px solid var(--border);cursor:pointer}
+.contact-row:last-child{border-bottom:none}
+.contact-row:hover .c-name{color:var(--green)}
+.c-ava{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.c-info{flex:1;min-width:0}
+.c-name{font-weight:500;font-size:12px;transition:color 0.1s}
+.c-meta{font-size:10px;color:var(--faint);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-tags{display:flex;gap:3px;margin:0 5px;flex-shrink:0}
+.tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap}
+.t-b{background:var(--blue-l);color:var(--blue)}
+.t-s{background:var(--amber-l);color:var(--amber)}
+.t-i{background:var(--green-l);color:var(--green)}
+.t-l{background:var(--purple-l);color:var(--purple)}
+.av-wrap{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.av-bar{width:44px;height:3px;background:var(--bg);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.av-fill{height:100%;background:var(--green);border-radius:2px}
+.av-num{font-size:9.5px;color:var(--faint);min-width:16px;text-align:right}
+
+/* ACTIVITY */
+.act-item{display:flex;gap:8px;padding:0.45rem 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.act-item:last-child{border-bottom:none}
+.act-ico{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px}
+.ai-msg{background:var(--green-l);color:var(--green)}
+.ai-call{background:var(--blue-l);color:var(--blue)}
+.ai-view{background:var(--amber-l);color:var(--amber)}
+.ai-task{background:var(--purple-l);color:var(--purple)}
+.ai-alert{background:var(--red-l);color:var(--red)}
+.act-text{font-size:11px;line-height:1.5;color:var(--ink);flex:1}
+.act-text strong{font-weight:500}
+.act-time{font-size:9.5px;color:var(--faint);margin-top:1px}
+
+/* PIPELINE */
+.pipe-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:0.4rem}
+.pipe-head{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center}
+.pipe-count{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0 5px;font-size:9px;color:var(--faint)}
+.pipe-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.7rem;margin-bottom:5px;cursor:pointer}
+.pipe-card:hover{border-color:var(--border2);background:var(--surface)}
+.pipe-addr{font-weight:500;font-size:11.5px;margin-bottom:1px}
+.pipe-detail{font-size:10px;color:var(--faint)}
+.pipe-price{font-size:10.5px;color:var(--green);font-weight:500;margin-top:3px}
+.pipe-prog-wrap{height:2px;border-radius:1px;background:var(--border);margin-top:5px;overflow:hidden}
+.pipe-prog{height:100%;border-radius:1px}
+
+/* TASKS */
+.task-item{display:flex;align-items:center;gap:8px;padding:0.45rem 0;border-bottom:1px solid var(--border);cursor:pointer}
+.task-item:last-child{border-bottom:none}
+.task-check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px}
+.task-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.task-label{flex:1;font-size:11.5px}
+.task-label.done{color:var(--faint);text-decoration:line-through}
+.task-due{font-size:9.5px;color:var(--faint);white-space:nowrap}
+.task-due.late{color:var(--red)}
+
+/* AD SPEND */
+.spend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.spend-box{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.5rem;text-align:center}
+.spend-val{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink)}
+.spend-src{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--faint);margin-top:2px}
+.spend-delta{font-size:9px;margin-top:2px}
+
+/* CONTENT HEALTH */
+.content-item{display:flex;align-items:center;gap:8px;padding:0.45rem 0;border-bottom:1px solid var(--border)}
+.content-item:last-child{border-bottom:none}
+.health-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hd-good{background:var(--green)}.hd-warn{background:var(--amber)}.hd-bad{background:var(--red)}
+.content-name{font-size:11.5px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.content-rank{font-size:10.5px;color:var(--muted);width:28px;text-align:center;flex-shrink:0}
+.content-change{font-size:10px;width:32px;text-align:right;flex-shrink:0}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
+.tb-logo-u span{color:var(--green)}
+.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
+.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
+.tb-mods::-webkit-scrollbar{display:none}
+.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
+.tbt:hover{color:var(--ink);background:var(--bg)}
+.tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
+.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<!-- UNIFIED TOP BAR -->
+<div class="tbunified">
+  <div class="tb-logo-u">Prop<span>IQ</span></div>
+  <div class="tb-srch">🔍 Search anything…</div>
+  <div class="tb-mods">
+    <div class="tbt on">⬡ Dashboard</div>
+    <div class="tbt">◎ Contacts</div>
+    <div class="tbt">◈ Deals</div>
+    <div class="tbt">✦ Content<span class="tbdg">2</span></div>
+    <div class="tbt">⊕ Search</div>
+    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">$ Ads</div>
+    <div class="tbt">↗ SEO</div>
+    <div class="tbt">📊 Reports</div>
+  </div>
+  <div class="tb-r">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
+  </div>
+</div>
+
+
+<!-- OVERLAY BG -->
+<div class="overlay-bg" id="overlayBg" onclick="closePanel()"></div>
+
+<!-- ADD WIDGET PANEL -->
+<div class="add-widget-panel" id="addWidgetPanel">
+  <div class="awp-header">
+    <div class="awp-title">Add a widget</div>
+    <button class="awp-close" onclick="closePanel()">✕</button>
+  </div>
+  <p style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:0.5rem">Choose what you want to see on your dashboard. Drag widgets to rearrange them once added.</p>
+
+  <div class="awp-section">Contacts & Activity</div>
+  <div class="awp-widget added">
+    <div class="awp-widget-ico" style="background:var(--green-l)">◎</div>
+    <div><div class="awp-widget-name">Hot Contacts</div><div class="awp-widget-desc">Your most engaged contacts right now</div></div>
+    <button class="awp-add-btn added-btn">Added</button>
+  </div>
+  <div class="awp-widget added">
+    <div class="awp-widget-ico" style="background:var(--blue-l)">⟳</div>
+    <div><div class="awp-widget-name">Activity Feed</div><div class="awp-widget-desc">Real-time log of what's happening</div></div>
+    <button class="awp-add-btn added-btn">Added</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--purple-l)">✉</div>
+    <div><div class="awp-widget-name">Unread Messages</div><div class="awp-widget-desc">All unread texts, emails and DMs</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+
+  <div class="awp-section">Deals & Transactions</div>
+  <div class="awp-widget added">
+    <div class="awp-widget-ico" style="background:var(--amber-l)">◈</div>
+    <div><div class="awp-widget-name">Active Deals</div><div class="awp-widget-desc">Your full pipeline at a glance</div></div>
+    <button class="awp-add-btn added-btn">Added</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--green-l)">📅</div>
+    <div><div class="awp-widget-name">Closing Calendar</div><div class="awp-widget-desc">Upcoming closing and contingency dates</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--red-l)">⚠</div>
+    <div><div class="awp-widget-name">Contingency Alerts</div><div class="awp-widget-desc">Deadlines coming up in the next 7 days</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+
+  <div class="awp-section">Performance & Spend</div>
+  <div class="awp-widget added">
+    <div class="awp-widget-ico" style="background:var(--green-l)">$</div>
+    <div><div class="awp-widget-name">Ad Spend by Source</div><div class="awp-widget-desc">Cost per lead broken out by channel</div></div>
+    <button class="awp-add-btn added-btn">Added</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--blue-l)">☎</div>
+    <div><div class="awp-widget-name">Call Attribution</div><div class="awp-widget-desc">Which ads are driving phone calls</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--amber-l)">↗</div>
+    <div><div class="awp-widget-name">Top Performing Ad</div><div class="awp-widget-desc">Your best creative this month</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+
+  <div class="awp-section">Content</div>
+  <div class="awp-widget added">
+    <div class="awp-widget-ico" style="background:var(--green-l)">⟳</div>
+    <div><div class="awp-widget-name">Content Health</div><div class="awp-widget-desc">How your articles are ranking in Google</div></div>
+    <button class="awp-add-btn added-btn">Added</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--purple-l)">✦</div>
+    <div><div class="awp-widget-name">Content Queue</div><div class="awp-widget-desc">Articles scheduled to publish this week</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+
+  <div class="awp-section">Search & Investment</div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--blue-l)">⊕</div>
+    <div><div class="awp-widget-name">Off-Market Watchlist</div><div class="awp-widget-desc">Properties you're monitoring for acquisition</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+  <div class="awp-widget">
+    <div class="awp-widget-ico" style="background:var(--green-l)">◎</div>
+    <div><div class="awp-widget-name">New Deal Alerts</div><div class="awp-widget-desc">Properties that just crossed your criteria</div></div>
+    <button class="awp-add-btn">+ Add</button>
+  </div>
+</div>
+
+    <div class="top-search">🔍 Search contacts, properties, deals…</div>
+  </div>
+  <div class="topbar-right">
+    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
+    <div class="notif">🔔<div class="notif-badge">3</div></div>
+    <div class="top-avatar">GW</div>
+  </div>
+</div>
+
+  <div class="mod-tab"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-module">Dashboard <span class="sb-module-tag">Active</span></div>
+    <div class="nav-sec">Overview</div>
+    <div class="nav-item active"><span class="nav-ico">⬡</span>Command Center</div>
+    <div class="nav-item"><span class="nav-ico">✓</span>Today's Tasks<span class="nav-badge nb-red">2</span></div>
+    <div class="nav-item"><span class="nav-ico">🔔</span>Notifications<span class="nav-badge nb-red">3</span></div>
+    <div class="nav-sec">My Deals</div>
+    <div class="nav-item"><span class="nav-ico">◈</span>Active Deals<span class="nav-badge nb-gray">6</span></div>
+    <div class="nav-item"><span class="nav-ico">◻</span>TC Boards<span class="nav-badge nb-green">2</span></div>
+    <div class="nav-item"><span class="nav-ico">📅</span>Closing Calendar</div>
+    <div class="nav-item"><span class="nav-ico">⚠</span>Contingency Tracker</div>
+    <div class="nav-sec">Performance</div>
+    <div class="nav-item"><span class="nav-ico">$</span>Ad Spend Summary</div>
+    <div class="nav-item"><span class="nav-ico">☎</span>Call Attribution</div>
+    <div class="nav-item"><span class="nav-ico">⟳</span>Content Health</div>
+    <div class="nav-item"><span class="nav-ico">↗</span>Lead Sources</div>
+    <div class="sb-divider"></div>
+    <div style="padding:0.5rem 1rem 0.25rem;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint)">Other Modules</div>
+    <div class="sb-other-module"><span class="sb-other-ico">◎</span>Contacts</div>
+    <div class="sb-other-module"><span class="sb-other-ico">◈</span>Deals</div>
+    <div class="sb-other-module"><span class="sb-other-ico">✦</span>Content</div>
+    <div class="sb-other-module"><span class="sb-other-ico">⊕</span>Search</div>
+    <div class="sb-other-module"><span class="sb-other-ico">☎</span>Messages</div>
+    <div class="sb-other-module"><span class="sb-other-ico">↗</span>Reports</div>
+    <div class="nav-sec">Account</div>
+    <div class="nav-item"><span class="nav-ico">⚙</span>Settings</div>
+    <div class="nav-item"><span class="nav-ico">?</span>Help & Support</div>
+    <div class="sidebar-footer">
+      <div class="sf-row">
+        <div class="sf-ava">GW</div>
+        <div><div class="sf-name">Graeham Watts</div><div class="sf-role">Intero Real Estate</div></div>
+        <div class="sf-plan">Pro</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="mainArea">
+
+    <div class="page-header">
+      <div>
+        <div class="page-title">Good morning, Graeham.</div>
+        <div class="page-sub">Sunday, March 29, 2026 · East Palo Alto & Peninsula</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-sm btn-o">+ New Contact</button>
+        <button class="btn-sm btn-o">Run Daily Audit</button>
+        <button class="btn-edit" id="editBtn" onclick="toggleEditMode()">✏ Edit Dashboard</button>
+      </div>
+    </div>
+
+    <!-- EDIT MODE BANNER -->
+    <div class="edit-banner" id="editBanner">
+      <div class="edit-banner-text">✏ Edit mode — drag widgets to rearrange, click ✕ to remove</div>
+      <div class="edit-banner-actions">
+        <button class="btn-cancel" onclick="toggleEditMode()">Cancel</button>
+        <button class="btn-done" onclick="saveLayout()">Save Layout</button>
+        <button class="btn-sm btn-p" onclick="openPanel()" style="font-size:11px;padding:0.35rem 0.8rem">+ Add Widget</button>
+      </div>
+    </div>
+
+    <!-- KPI STRIP — fixed, not draggable -->
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="kpi-fixed-label">Fixed</div>
+        <div class="kpi-label">Cost Per Lead</div>
+        <div class="kpi-val">$14</div>
+        <div class="kpi-delta up">↓ $3 vs last mo.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-fixed-label">Fixed</div>
+        <div class="kpi-label">Cost Per Call</div>
+        <div class="kpi-val">$38</div>
+        <div class="kpi-delta dn">↑ $5 vs last mo.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-fixed-label">Fixed</div>
+        <div class="kpi-label">Cost Per Ad Set</div>
+        <div class="kpi-val">$220</div>
+        <div class="kpi-delta neu">→ Stable</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-fixed-label">Fixed</div>
+        <div class="kpi-label">Deals in Escrow</div>
+        <div class="kpi-val">6</div>
+        <div class="kpi-delta up">2 closing soon</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-fixed-label">Fixed</div>
+        <div class="kpi-label">Total Contacts</div>
+        <div class="kpi-val">247</div>
+        <div class="kpi-delta up">↑ 12 this week</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-fixed-label">Fixed</div>
+        <div class="kpi-label">Avg. Engagement</div>
+        <div class="kpi-val">61</div>
+        <div class="kpi-delta up">↑ 4 pts this week</div>
+      </div>
+    </div>
+
+    <!-- WIDGET ROW 1 -->
+    <div class="widget-grid row-2" style="margin-bottom:8px">
+      <div class="widget" id="w-contacts">
+        <div class="widget-drag-handle">⠿</div>
+        <button class="widget-remove" onclick="removeWidget('w-contacts')">✕</button>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">Hottest contacts right now · Sorted by engagement score</div>
+            <div class="card-link">View all →</div>
+          </div>
+          <div class="contact-row">
+            <div class="c-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+            <div class="c-info"><div class="c-name">Marcus Rivera</div><div class="c-meta">Opened your message · 2h ago · 172 Portola Dr</div></div>
+            <div class="c-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
+            <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:92%"></div></div><span class="av-num">92</span></div>
+          </div>
+          <div class="contact-row">
+            <div class="c-ava" style="background:var(--amber-l);color:var(--amber)">SL</div>
+            <div class="c-info"><div class="c-name">Sandra Lee</div><div class="c-meta">Opened your email · 5h ago · Listing prep</div></div>
+            <div class="c-tags"><span class="tag t-s">Seller</span></div>
+            <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:78%"></div></div><span class="av-num">78</span></div>
+          </div>
+          <div class="contact-row">
+            <div class="c-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
+            <div class="c-info"><div class="c-name">David Park</div><div class="c-meta">Spent 4 min on your listing page · Yesterday</div></div>
+            <div class="c-tags"><span class="tag t-b">Buyer</span></div>
+            <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:65%"></div></div><span class="av-num">65</span></div>
+          </div>
+          <div class="contact-row">
+            <div class="c-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
+            <div class="c-info"><div class="c-name">Theresa Chen</div><div class="c-meta">Replied on Instagram · Yesterday · 2895 Fordham</div></div>
+            <div class="c-tags"><span class="tag t-l">Landlord</span><span class="tag t-s">Seller</span></div>
+            <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:54%"></div></div><span class="av-num">54</span></div>
+          </div>
+          <div class="contact-row">
+            <div class="c-ava" style="background:var(--green-l);color:var(--green)">JW</div>
+            <div class="c-info"><div class="c-name">James Wu</div><div class="c-meta">Text delivered · 2 days ago · Investment buyer</div></div>
+            <div class="c-tags"><span class="tag t-i">Investor</span></div>
+            <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:41%"></div></div><span class="av-num">41</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget" id="w-activity">
+        <div class="widget-drag-handle">⠿</div>
+        <button class="widget-remove" onclick="removeWidget('w-activity')">✕</button>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">What just happened</div>
+            <div class="card-link">All →</div>
+          </div>
+          <div class="act-item"><div class="act-ico ai-msg">✉</div><div><div class="act-text"><strong>Marcus Rivera</strong> opened your message about 172 Portola Dr</div><div class="act-time">2 minutes ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-call">☎</div><div><div class="act-text">Inbound call from your Google Ad — matched to Sandra Lee</div><div class="act-time">18 minutes ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-view">⊙</div><div><div class="act-text"><strong>David Park</strong> spent 4 minutes on your listing page</div><div class="act-time">1 hour ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-task">✓</div><div><div class="act-text">Giselle scheduled inspection · 2895 Fordham St · Apr 3</div><div class="act-time">3 hours ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-alert">!</div><div><div class="act-text">One of your articles is slipping in Google — needs attention</div><div class="act-time">5 hours ago</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET ROW 2 — pipeline -->
+    <div class="widget" id="w-pipeline" style="margin-bottom:8px">
+      <div class="widget-drag-handle">⠿</div>
+      <button class="widget-remove" onclick="removeWidget('w-pipeline')">✕</button>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title">Your active deals</div>
+          <div class="card-link">Go to full deal board →</div>
+        </div>
+        <div class="pipe-cols">
+          <div>
+            <div class="pipe-head">Prospects <span class="pipe-count">4</span></div>
+            <div class="pipe-card"><div class="pipe-addr">Marcus Rivera</div><div class="pipe-detail">Searching EPA + Menlo Park</div><div class="pipe-price">Budget $900K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:12%;background:var(--blue)"></div></div></div>
+            <div class="pipe-card"><div class="pipe-addr">441 Runnymede Ave</div><div class="pipe-detail">EPA · Off-market watch</div><div class="pipe-price">$1.1M est.</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:8%;background:var(--blue)"></div></div></div>
+          </div>
+          <div>
+            <div class="pipe-head">Active <span class="pipe-count">3</span></div>
+            <div class="pipe-card"><div class="pipe-addr">172 Portola Dr</div><div class="pipe-detail">San Francisco · Listed</div><div class="pipe-price">$1.45M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:35%;background:var(--amber)"></div></div></div>
+            <div class="pipe-card"><div class="pipe-addr">Sandra Lee · Listing</div><div class="pipe-detail">Preparing for market</div><div class="pipe-price">$1.2M target</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:22%;background:var(--amber)"></div></div></div>
+          </div>
+          <div>
+            <div class="pipe-head">Under Contract <span class="pipe-count">2</span></div>
+            <div class="pipe-card" style="border-left:2px solid var(--green)"><div class="pipe-addr">2895 Fordham St</div><div class="pipe-detail">Inspection · Apr 3</div><div class="pipe-price">$875K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:65%;background:var(--green)"></div></div></div>
+            <div class="pipe-card" style="border-left:2px solid var(--green)"><div class="pipe-addr">David Park · Buyer</div><div class="pipe-detail">Appraisal pending</div><div class="pipe-price">$1.05M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:60%;background:var(--green)"></div></div></div>
+          </div>
+          <div>
+            <div class="pipe-head">Closing Soon <span class="pipe-count">2</span></div>
+            <div class="pipe-card" style="border-left:2px solid var(--amber)"><div class="pipe-addr">Theresa Chen</div><div class="pipe-detail">Closing April 15</div><div class="pipe-price">$1.38M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:88%;background:var(--amber)"></div></div></div>
+            <div class="pipe-card" style="border-left:2px solid var(--amber)"><div class="pipe-addr">James Wu · Investor</div><div class="pipe-detail">Closing April 22</div><div class="pipe-price">$720K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:82%;background:var(--amber)"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET ROW 3 -->
+    <div class="widget-grid row-3">
+      <div class="widget" id="w-tasks">
+        <div class="widget-drag-handle">⠿</div>
+        <button class="widget-remove" onclick="removeWidget('w-tasks')">✕</button>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Today's to-do list</div><div class="card-link">+ Add task</div></div>
+          <div class="task-item"><div class="task-check done">✓</div><div class="task-label done">Called Marcus Rivera about 172 Portola Dr</div><div class="task-due">Done</div></div>
+          <div class="task-item"><div class="task-check"></div><div class="task-label">Send Sandra Lee her pre-listing checklist</div><div class="task-due late">Overdue</div></div>
+          <div class="task-item"><div class="task-check"></div><div class="task-label">Review 2895 Fordham inspection report</div><div class="task-due">3pm</div></div>
+          <div class="task-item"><div class="task-check"></div><div class="task-label">Follow up with James Wu on investment criteria</div><div class="task-due">5pm</div></div>
+          <div class="task-item"><div class="task-check"></div><div class="task-label">Weekly check-in with Giselle</div><div class="task-due">Tomorrow</div></div>
+        </div>
+      </div>
+
+      <div class="widget" id="w-spend">
+        <div class="widget-drag-handle">⠿</div>
+        <button class="widget-remove" onclick="removeWidget('w-spend')">✕</button>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">What each lead is costing you · By source</div><div class="card-link">Full report →</div></div>
+          <div class="spend-grid">
+            <div class="spend-box"><div class="spend-val">$9</div><div class="spend-src">Google</div><div class="spend-delta up">↓ Best</div></div>
+            <div class="spend-box"><div class="spend-val">$14</div><div class="spend-src">Facebook</div><div class="spend-delta neu">→ Stable</div></div>
+            <div class="spend-box"><div class="spend-val">$21</div><div class="spend-src">YouTube</div><div class="spend-delta dn">↑ Rising</div></div>
+            <div class="spend-box"><div class="spend-val">$6</div><div class="spend-src">Organic</div><div class="spend-delta up">↓ Best</div></div>
+            <div class="spend-box"><div class="spend-val">$31</div><div class="spend-src">Zillow</div><div class="spend-delta dn">↑ High</div></div>
+            <div class="spend-box"><div class="spend-val">$0</div><div class="spend-src">Referral</div><div class="spend-delta up">Free</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget" id="w-content">
+        <div class="widget-drag-handle">⠿</div>
+        <button class="widget-remove" onclick="removeWidget('w-content')">✕</button>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Content health · How your articles are ranking</div><div class="card-link">Go to Content →</div></div>
+          <div class="content-item"><div class="health-dot hd-good"></div><div class="content-name">EPA ADU Financing Guide 2026</div><div class="content-rank" style="color:var(--green);font-weight:500">#1</div><div class="content-change up">↑ +3</div></div>
+          <div class="content-item"><div class="health-dot hd-good"></div><div class="content-name">1031 Exchange Bay Area Investors</div><div class="content-rank" style="color:var(--green);font-weight:500">#4</div><div class="content-change up">↑ +1</div></div>
+          <div class="content-item"><div class="health-dot hd-warn"></div><div class="content-name">Peninsula Cash Flow Calculator</div><div class="content-rank" style="color:var(--amber)">#7</div><div class="content-change dn">↓ -2</div></div>
+          <div class="content-item"><div class="health-dot hd-bad"></div><div class="content-name">EPA Market Report Q1 2026</div><div class="content-rank" style="color:var(--red)">#12</div><div class="content-change dn">↓ -5</div></div>
+          <div class="content-item"><div class="health-dot hd-good"></div><div class="content-name">Menlo Park Investment Guide</div><div class="content-rank" style="color:var(--green);font-weight:500">#3</div><div class="content-change neu">→ 0</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let editMode = false;
+
+function toggleEditMode() {
+  editMode = !editMode;
+  const main = document.getElementById('mainArea');
+  const banner = document.getElementById('editBanner');
+  const btn = document.getElementById('editBtn');
+  if (editMode) {
+    main.classList.add('edit-mode');
+    banner.classList.add('visible');
+    btn.classList.add('active');
+    btn.textContent = '✏ Editing…';
+  } else {
+    main.classList.remove('edit-mode');
+    banner.classList.remove('visible');
+    btn.classList.remove('active');
+    btn.textContent = '✏ Edit Dashboard';
+    closePanel();
+  }
+}
+
+function saveLayout() {
+  toggleEditMode();
+  // show brief confirmation
+  const btn = document.getElementById('editBtn');
+  btn.textContent = '✓ Saved';
+  btn.style.color = 'var(--green)';
+  setTimeout(() => {
+    btn.textContent = '✏ Edit Dashboard';
+    btn.style.color = '';
+  }, 1800);
+}
+
+function removeWidget(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.transition = 'opacity 0.2s, transform 0.2s';
+    el.style.opacity = '0';
+    el.style.transform = 'scale(0.96)';
+    setTimeout(() => el.remove(), 220);
+  }
+}
+
+function openPanel() {
+  document.getElementById('addWidgetPanel').classList.add('open');
+  document.getElementById('overlayBg').classList.add('visible');
+}
+
+function closePanel() {
+  document.getElementById('addWidgetPanel').classList.remove('open');
+  document.getElementById('overlayBg').classList.remove('visible');
+}
+</script>
+</body>
+</html>
