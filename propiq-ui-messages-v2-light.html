@@ -14,13 +14,14 @@
   --purple:#534AB7;--purple-l:#EEEDFE;
   --red:#c0392b;--red-l:#fdf0f0;
   --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
-  --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
+  --bg:#f5f3ed;--surface:#faf8f3;--border:#e2dfd8;--border2:#d1cfc9;
   --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px
 }
-body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradient(135deg, #f5f3ed 0%, #efeae0 50%, #f5f3ed 100%);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 20% 50%, rgba(0,0,0,0.06) 1px, transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0}
 
 /* TOP BAR */
-.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;position:relative}
 .logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
 .topbar-left{display:flex;align-items:center}
 .topbar-right{display:flex;align-items:center;gap:10px}
@@ -92,13 +93,20 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .f-email.on{background:var(--blue-l);color:var(--blue);border-color:var(--blue)}
 .f-ig.on{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
 .f-fb.on{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+
+/* ANALYTICS STRIP */
+.analytics-strip{background:var(--surface);border-bottom:1px solid var(--border);padding:0.5rem 1rem;font-size:11px;display:flex;gap:1.5rem;justify-content:center;color:var(--faint);flex-shrink:0}
+.analytics-item{display:flex;align-items:center;gap:4px}
+.analytics-label{color:var(--muted);font-weight:500}
+
 .thread-items{overflow-y:auto;flex:1}
-.thread-item{display:flex;gap:9px;padding:0.7rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;position:relative}
+.thread-item{display:flex;gap:9px;padding:0.7rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;position:relative;flex-direction:column}
 .thread-item:hover{background:var(--bg)}
 .thread-item.selected{background:var(--green-l)}
 .thread-item.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--green)}
 .thread-item.unread .ti-name{font-weight:600;color:var(--ink)}
 .thread-item.unread .ti-preview{color:var(--ink)}
+.ti-header{display:flex;gap:9px}
 .ti-ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;position:relative}
 .ti-channel{position:absolute;bottom:-2px;right:-2px;width:13px;height:13px;border-radius:50%;border:2px solid var(--surface);display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:700}
 .ch-rcs{background:#16a34a;color:#fff}
@@ -111,7 +119,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .ti-name{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
 .ti-time{font-size:10px;color:var(--faint);flex-shrink:0;margin-left:4px}
 .ti-preview{font-size:11px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
-.ti-footer{display:flex;align-items:center;gap:4px}
+.ti-footer{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-size:10px}
 .ti-tag{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:500;text-transform:uppercase}
 .t-b{background:var(--blue-l);color:var(--blue)}
 .t-s{background:var(--amber-l);color:var(--amber)}
@@ -121,12 +129,20 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .ti-assigned-dot{width:14px;height:14px;border-radius:50%;background:var(--purple-l);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:600}
 .ti-unread-dot{width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:auto;flex-shrink:0}
 .ti-done-badge{font-size:8.5px;padding:1px 5px;border-radius:3px;background:var(--bg);color:var(--faint);border:1px solid var(--border);margin-left:auto}
+.ti-workflow{font-size:9px;color:var(--faint);display:flex;align-items:center;gap:4px;margin-top:3px}
+.ti-workflow-dot{width:6px;height:6px;border-radius:50%;background:var(--amber)}
 
 /* CONVERSATION */
 .conversation{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
 
+/* DEAL CONTEXT BAR */
+.deal-context-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0.6rem 1.25rem;display:flex;align-items:center;justify-content:space-between;font-size:11px;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
+.deal-context-content{display:flex;align-items:center;gap:6px;color:var(--muted)}
+.deal-context-link{color:var(--green);cursor:pointer;font-weight:500}
+.deal-context-link:hover{text-decoration:underline}
+
 /* CONV HEADER */
-.conv-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0.8rem 1.25rem;flex-shrink:0}
+.conv-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0.8rem 1.25rem;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
 .conv-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.55rem}
 .conv-contact{display:flex;align-items:center;gap:10px}
 .conv-ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
@@ -136,7 +152,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .fallback-pill{font-size:9px;background:var(--amber-l);color:var(--amber);padding:1px 6px;border-radius:3px;font-weight:500}
 .rcs-active-pill{font-size:9px;background:#dcfce7;color:#166534;padding:1px 6px;border-radius:3px;font-weight:500}
 .conv-actions{display:flex;gap:5px;flex-wrap:wrap}
-.conv-btn{padding:4px 9px;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s;display:flex;align-items:center;gap:3px;white-space:nowrap}
+.conv-btn{padding:4px 9px;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all 0.12s;display:flex;align-items:center;gap:3px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
 .conv-btn:hover{background:var(--bg);color:var(--ink)}
 .conv-btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
 .conv-btn.danger{color:var(--red);border-color:var(--red-l)}
@@ -165,9 +181,9 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .msg-ava{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;flex-shrink:0;margin-bottom:2px}
 .msg-bubble-wrap{max-width:65%;display:flex;flex-direction:column}
 .msg-row.outbound .msg-bubble-wrap{align-items:flex-end}
-.msg-bubble{padding:0.55rem 0.8rem;font-size:12.5px;line-height:1.55}
+.msg-bubble{padding:0.55rem 0.8rem;font-size:12.5px;line-height:1.55;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
 .msg-inbound{background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 3px;color:var(--ink)}
-.msg-outbound{color:#fff;border-radius:12px 12px 3px 12px}
+.msg-outbound{color:#fff;border-radius:12px 12px 3px 12px;border:none}
 .msg-outbound.rcs{background:linear-gradient(135deg,#1a7a56,#2a9d6f)}
 .msg-outbound.email{background:var(--blue)}
 .msg-outbound.ig{background:linear-gradient(135deg,#833ab4,#e1306c)}
@@ -187,7 +203,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .vbiz-badge{font-size:8.5px;background:#dcfce7;color:#166534;padding:1px 6px;border-radius:3px;display:flex;align-items:center;gap:3px;font-weight:500}
 
 /* RCS CARD */
-.rcs-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:250px;margin-top:4px}
+.rcs-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:250px;margin-top:4px;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
 .rcs-card-img{height:90px;background:linear-gradient(135deg,#1d3a2a,#2a5c40);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
 .rcs-card-body{padding:0.6rem 0.75rem}
 .rcs-card-title{font-weight:500;font-size:12px;margin-bottom:2px}
@@ -199,12 +215,12 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 
 /* SYSTEM EVENTS */
 .sys-event{display:flex;justify-content:center;margin:0.6rem 0}
-.sys-pill{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px 12px;font-size:10.5px;color:var(--faint);display:flex;align-items:center;gap:5px}
+.sys-pill{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px 12px;font-size:10.5px;color:var(--faint);display:flex;align-items:center;gap:5px;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
 .sys-pill .ico{font-size:11px}
 
 /* TYPING INDICATOR */
 .typing-row{display:flex;gap:8px;align-items:flex-end;margin-bottom:0.75rem}
-.typing-bubble{background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 3px;padding:0.6rem 0.9rem;display:flex;gap:4px;align-items:center}
+.typing-bubble{background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 3px;padding:0.6rem 0.9rem;display:flex;gap:4px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)}
 .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--faint);animation:tdot 1.2s infinite}
 .typing-dot:nth-child(2){animation-delay:0.2s}
 .typing-dot:nth-child(3){animation-delay:0.4s}
@@ -212,7 +228,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .typing-label{font-size:10px;color:var(--faint);margin-bottom:4px}
 
 /* SUGGESTED REPLIES */
-.suggested-wrap{padding:0.5rem 1.25rem 0.4rem;border-top:1px solid var(--border);background:var(--surface)}
+.suggested-wrap{padding:0.5rem 1.25rem 0.4rem;border-top:1px solid var(--border);background:var(--surface);box-shadow:0 -1px 4px rgba(0,0,0,0.05)}
 .sug-label{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;display:flex;align-items:center;gap:5px}
 .sug-label span{background:var(--green-l);color:var(--green);padding:1px 5px;border-radius:3px;font-size:8.5px}
 .sug-replies{display:flex;gap:5px;flex-wrap:wrap}
@@ -220,7 +236,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .sug-reply:hover{background:var(--green-l)}
 
 /* COMPOSE */
-.compose-area{background:var(--surface);border-top:1px solid var(--border);padding:0.75rem 1.25rem;flex-shrink:0}
+.compose-area{background:var(--surface);border-top:1px solid var(--border);padding:0.75rem 1.25rem;flex-shrink:0;box-shadow:0 -1px 4px rgba(0,0,0,0.05)}
 .compose-top{display:flex;align-items:center;gap:6px;margin-bottom:0.55rem;flex-wrap:wrap}
 .compose-via{font-size:10.5px;color:var(--faint)}
 .compose-ch-btn{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;cursor:pointer;font-weight:500;border:1.5px solid;transition:all 0.12s}
@@ -253,6 +269,50 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .bb-btn{padding:3px 10px;border-radius:4px;font-size:11.5px;cursor:pointer;border:1px solid var(--amber);background:transparent;color:var(--amber);font-family:'Epilogue',sans-serif;transition:all 0.12s}
 .bb-btn.primary{background:var(--amber);color:#fff}
 .bb-btn:hover{background:var(--amber);color:#fff}
+
+/* SMART FOLLOW-UPS PANEL */
+.followup-panel{position:fixed;right:-320px;top:0;bottom:0;width:300px;background:var(--surface);border-left:1px solid var(--border);z-index:150;transition:right 0.22s ease;overflow-y:auto;box-shadow:-4px 0 16px rgba(0,0,0,0.06);flex-direction:column}
+.followup-panel.open{right:0}
+.fp-header{padding:0.85rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.fp-title{font-size:13px;font-weight:500}
+.fp-close{background:none;border:none;font-size:15px;color:var(--muted);cursor:pointer}
+.fp-section{padding:1rem;border-bottom:1px solid var(--border)}
+.fp-section-title{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);margin-bottom:0.7rem;display:flex;align-items:center;gap:4px}
+.fp-toggle{display:flex;align-items:center;gap:8px;margin-bottom:0.7rem}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--border);position:relative;cursor:pointer;transition:background 0.2s}
+.toggle-switch.on{background:var(--green)}
+.toggle-knob{width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left 0.2s}
+.toggle-switch.on .toggle-knob{left:18px}
+.fp-input{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);margin-bottom:0.6rem;outline:none}
+.fp-input:focus{border-color:var(--green)}
+.fp-select{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);margin-bottom:0.6rem;outline:none}
+.fp-select:focus{border-color:var(--green)}
+.fp-label{font-size:10px;color:var(--faint);margin-bottom:4px;display:block}
+.fp-active-items{padding:0}
+.fp-active-item{padding:0.6rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11px;background:var(--bg)}
+.fp-active-text{color:var(--ink)}
+.fp-active-cancel{color:var(--red);cursor:pointer;font-weight:500}
+.fp-active-cancel:hover{text-decoration:underline}
+
+/* HANDOFF MODAL */
+.handoff-modal{position:fixed;inset:0;background:rgba(0,0,0,0.2);z-index:200;display:none;align-items:center;justify-content:center}
+.handoff-modal.visible{display:flex}
+.handoff-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem;width:320px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.hb-title{font-weight:500;font-size:13.5px;margin-bottom:0.85rem}
+.hb-team{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:0.85rem}
+.hb-member{display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:6px;background:var(--bg)}
+.hb-member-info{display:flex;align-items:center;gap:6px}
+.hb-member-ava{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+.hb-member-name{font-size:12px}
+.hb-member-role{font-size:9px;color:var(--faint)}
+.hb-assign-btn{padding:4px 10px;border:none;border-radius:5px;background:var(--green);color:#fff;font-size:11px;cursor:pointer;font-weight:500}
+.hb-note{margin-bottom:0.85rem}
+.hb-note-label{font-size:10.5px;color:var(--faint);margin-bottom:4px;display:block}
+.hb-note-input{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);resize:vertical;min-height:60px;outline:none}
+.hb-note-input:focus{border-color:var(--green)}
+.hb-actions{display:flex;gap:7px}
+.hb-cancel{flex:1;padding:7px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px}
+.hb-confirm{flex:1;padding:7px;border:none;border-radius:5px;background:var(--green);color:#fff;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px;font-weight:500}
 
 /* TEMPLATES PANEL */
 .templates-panel{position:fixed;right:-280px;top:0;bottom:0;width:260px;background:var(--surface);border-left:1px solid var(--border);z-index:150;transition:right 0.22s ease;overflow-y:auto;box-shadow:-4px 0 16px rgba(0,0,0,0.06)}
@@ -312,7 +372,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .cp-name{font-weight:500;font-size:13px;text-align:center;margin-bottom:2px}
 .cp-sub{font-size:11px;color:var(--faint);text-align:center;margin-bottom:0.6rem}
 .cp-tags{display:flex;gap:4px;justify-content:center;margin-bottom:0.7rem;flex-wrap:wrap}
-.cp-score{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem;text-align:center;margin-bottom:0.7rem}
+.cp-score{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem;text-align:center;margin-bottom:0.7rem;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .cp-score-val{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--green)}
 .cp-score-label{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-top:1px}
 .cp-quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:0.7rem}
@@ -336,7 +396,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .ca-num{color:var(--ink);font-weight:500;font-size:11px}
 .overlay-bg{position:fixed;inset:0;z-index:140;display:none}
 .overlay-bg.visible{display:block}
-.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
 .tb-logo-u span{color:var(--green)}
 .tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
@@ -347,6 +407,9 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
 .tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 .tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+
+/* HANDOFF BADGE */
+.handoff-badge{font-size:8px;padding:2px 6px;border-radius:3px;background:var(--purple-l);color:var(--purple);font-weight:500}
 </style>
 </head>
 <body>
@@ -372,9 +435,100 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   </div>
 </div>
 
-
 <!-- OVERLAY -->
 <div class="overlay-bg" id="overlayBg" onclick="closePanels()"></div>
+
+<!-- SMART FOLLOW-UPS PANEL -->
+<div class="followup-panel" id="followupPanel">
+  <div class="fp-header"><div class="fp-title">Smart Follow-ups</div><button class="fp-close" onclick="closePanels()">✕</button></div>
+  <div class="fp-section">
+    <div class="fp-section-title">⚙ Auto Follow-up Settings</div>
+    <div class="fp-toggle">
+      <span style="font-size:12px;font-weight:500">Enable auto follow-up</span>
+      <div class="toggle-switch" id="followupToggle" onclick="toggleFollowup()"><div class="toggle-knob"></div></div>
+    </div>
+    <label class="fp-label">Wait time before follow-up</label>
+    <select class="fp-select" id="waitTimeSelect">
+      <option>24 hours</option>
+      <option>48 hours</option>
+      <option>3 days</option>
+      <option>7 days</option>
+    </select>
+    <label class="fp-label">Follow-up message</label>
+    <textarea class="fp-input" style="resize:vertical;min-height:70px" placeholder="Hi [Name], just following up on the property..."></textarea>
+    <label class="fp-label">Max attempts</label>
+    <select class="fp-select">
+      <option>2 follow-ups then stop</option>
+      <option>3 follow-ups then stop</option>
+      <option>Unlimited</option>
+    </select>
+    <label class="fp-label">Channel preference</label>
+    <select class="fp-select">
+      <option>Same channel</option>
+      <option>Escalate to phone</option>
+    </select>
+  </div>
+  <div class="fp-section">
+    <div class="fp-section-title">📋 Active Automations</div>
+    <div class="fp-active-items">
+      <div class="fp-active-item">
+        <span class="fp-active-text">David Park — follow-up #1 in 18 hours</span>
+        <span class="fp-active-cancel">Cancel</span>
+      </div>
+      <div class="fp-active-item">
+        <span class="fp-active-text">Rachel Kim — follow-up #2 in 3 days</span>
+        <span class="fp-active-cancel">Cancel</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HANDOFF MODAL -->
+<div class="handoff-modal" id="handoffModal">
+  <div class="handoff-box">
+    <div class="hb-title">Hand off conversation</div>
+    <div class="hb-team">
+      <div class="hb-member">
+        <div class="hb-member-info">
+          <div class="hb-member-ava" style="background:var(--blue-l);color:var(--blue)">LC</div>
+          <div>
+            <div class="hb-member-name">Lisa Chen</div>
+            <div class="hb-member-role">Transaction Coordinator</div>
+          </div>
+        </div>
+        <button class="hb-assign-btn" onclick="assignHandoff('Lisa Chen')">Assign</button>
+      </div>
+      <div class="hb-member">
+        <div class="hb-member-info">
+          <div class="hb-member-ava" style="background:var(--amber-l);color:var(--amber)">MB</div>
+          <div>
+            <div class="hb-member-name">Mike at Bay Lending</div>
+            <div class="hb-member-role">Lender</div>
+          </div>
+        </div>
+        <button class="hb-assign-btn" onclick="assignHandoff('Mike')">Assign</button>
+      </div>
+      <div class="hb-member">
+        <div class="hb-member-info">
+          <div class="hb-member-ava" style="background:var(--purple-l);color:var(--purple)">SA</div>
+          <div>
+            <div class="hb-member-name">Sarah</div>
+            <div class="hb-member-role">Assistant</div>
+          </div>
+        </div>
+        <button class="hb-assign-btn" onclick="assignHandoff('Sarah')">Assign</button>
+      </div>
+    </div>
+    <div class="hb-note">
+      <label class="hb-note-label">Add context for the handoff…</label>
+      <textarea class="hb-note-input" placeholder="E.g., Buyer ready for loan discussion. Client prefers calls."></textarea>
+    </div>
+    <div class="hb-actions">
+      <button class="hb-cancel" onclick="closeHandoff()">Cancel</button>
+      <button class="hb-confirm" onclick="confirmHandoff()">Hand Off & Notify →</button>
+    </div>
+  </div>
+</div>
 
 <!-- TEMPLATES PANEL -->
 <div class="templates-panel" id="templatesPanel">
@@ -462,23 +616,6 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   </div>
 </div>
 
-    <div class="top-search">🔍 Search messages…</div>
-  </div>
-  <div class="topbar-right">
-    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
-    <div class="notif">🔔<div class="notif-badge">3</div></div>
-    <div class="top-avatar">GW</div>
-  </div>
-</div>
-
-  <div class="mod-tab"><span class="mod-ico">◎</span>Contacts</div>
-  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
-  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
-  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
-  <div class="mod-tab active"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
-  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
-</div>
-
 <div class="app-body">
 
   <!-- SIDEBAR -->
@@ -562,46 +699,68 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
           <div class="tl-filter f-ig" onclick="setFilter(this)">Instagram</div>
           <div class="tl-filter f-fb" onclick="setFilter(this)">Facebook</div>
         </div>
+
+        <!-- ANALYTICS STRIP -->
+        <div class="analytics-strip">
+          <div class="analytics-item"><span class="analytics-label">Avg response:</span> 12 min</div>
+          <div class="analytics-item"><span class="analytics-label">Response rate:</span> 94%</div>
+          <div class="analytics-item"><span class="analytics-label">Unread:</span> 3</div>
+          <div class="analytics-item"><span class="analytics-label">Scheduled:</span> 2</div>
+          <div class="analytics-item"><span class="analytics-label">Follow-ups pending:</span> 2</div>
+        </div>
+
         <div class="thread-items">
 
           <div class="thread-item unread selected">
-            <div class="ti-ava" style="background:var(--green-l);color:var(--green)">MR<div class="ti-channel ch-rcs">R</div></div>
-            <div class="ti-info">
-              <div class="ti-top"><div class="ti-name">Marcus Rivera</div><div class="ti-time">9:14am</div></div>
-              <div class="ti-preview">Just saw the listing details again — can we talk today?</div>
-              <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><span class="ti-tag t-i">Investor</span><div class="ti-unread-dot"></div></div>
-            </div>
-          </div>
-
-          <div class="thread-item unread">
-            <div class="ti-ava" style="background:var(--purple-l);color:var(--purple)">TC<div class="ti-channel ch-ig">ig</div></div>
-            <div class="ti-info">
-              <div class="ti-top"><div class="ti-name">Theresa Chen</div><div class="ti-time">Yesterday</div></div>
-              <div class="ti-preview">Hey — do I need to be at the walkthrough?</div>
-              <div class="ti-footer"><span class="ti-tag t-l">Landlord</span><span class="ti-tag t-s">Seller</span><div class="ti-unread-dot"></div></div>
-            </div>
-          </div>
-
-          <div class="thread-item unread">
-            <div class="ti-ava" style="background:var(--amber-l);color:var(--amber)">SL<div class="ti-channel ch-email">@</div></div>
-            <div class="ti-info">
-              <div class="ti-top"><div class="ti-name">Sandra Lee</div><div class="ti-time">Yesterday</div></div>
-              <div class="ti-preview">Re: Pre-listing checklist — got it, reviewing now</div>
-              <div class="ti-footer">
-                <span class="ti-tag t-s">Seller</span>
-                <div class="ti-assigned"><div class="ti-assigned-dot">M</div>Maria</div>
-                <div class="ti-unread-dot"></div>
+            <div class="ti-header">
+              <div class="ti-ava" style="background:var(--green-l);color:var(--green)">MR<div class="ti-channel ch-rcs">R</div></div>
+              <div class="ti-info">
+                <div class="ti-top"><div class="ti-name">Marcus Rivera</div><div class="ti-time">9:14am</div></div>
+                <div class="ti-preview">Just saw the listing details again — can we talk today?</div>
+                <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><span class="ti-tag t-i">Investor</span><div class="ti-unread-dot"></div></div>
               </div>
             </div>
+            <div class="ti-workflow"><span style="background:var(--blue);color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">●</span>Stage: Showing scheduled</div>
+          </div>
+
+          <div class="thread-item unread">
+            <div class="ti-header">
+              <div class="ti-ava" style="background:var(--purple-l);color:var(--purple)">TC<div class="ti-channel ch-ig">ig</div></div>
+              <div class="ti-info">
+                <div class="ti-top"><div class="ti-name">Theresa Chen</div><div class="ti-time">Yesterday</div></div>
+                <div class="ti-preview">Hey — do I need to be at the walkthrough?</div>
+                <div class="ti-footer"><span class="ti-tag t-l">Landlord</span><span class="ti-tag t-s">Seller</span><div class="ti-unread-dot"></div></div>
+              </div>
+            </div>
+            <div class="ti-workflow"><span style="background:var(--amber);color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">●</span>Stage: Inspection scheduled</div>
+          </div>
+
+          <div class="thread-item unread">
+            <div class="ti-header">
+              <div class="ti-ava" style="background:var(--amber-l);color:var(--amber)">SL<div class="ti-channel ch-email">@</div></div>
+              <div class="ti-info">
+                <div class="ti-top"><div class="ti-name">Sandra Lee</div><div class="ti-time">Yesterday</div></div>
+                <div class="ti-preview">Re: Pre-listing checklist — got it, reviewing now</div>
+                <div class="ti-footer">
+                  <span class="ti-tag t-s">Seller</span>
+                  <div class="ti-assigned"><div class="ti-assigned-dot">M</div>Maria</div>
+                  <div class="ti-unread-dot"></div>
+                </div>
+              </div>
+            </div>
+            <div class="ti-workflow"><span style="background:var(--green);color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">●</span>Stage: Pre-listing prep</div>
           </div>
 
           <div class="thread-item">
-            <div class="ti-ava" style="background:var(--blue-l);color:var(--blue)">DP<div class="ti-channel ch-rcs">R</div></div>
-            <div class="ti-info">
-              <div class="ti-top"><div class="ti-name">David Park</div><div class="ti-time">Yesterday</div></div>
-              <div class="ti-preview">You: Great — appraisal confirmed for Thursday</div>
-              <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><div class="ti-done-badge">Done</div></div>
+            <div class="ti-header">
+              <div class="ti-ava" style="background:var(--blue-l);color:var(--blue)">DP<div class="ti-channel ch-rcs">R</div></div>
+              <div class="ti-info">
+                <div class="ti-top"><div class="ti-name">David Park</div><div class="ti-time">Yesterday</div></div>
+                <div class="ti-preview">You: Great — appraisal confirmed for Thursday</div>
+                <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><span class="handoff-badge">Handed to Lisa Chen · Mar 28</span><div class="ti-done-badge">Done</div></div>
+              </div>
             </div>
+            <div class="ti-workflow"><span style="background:#10b981;color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">●</span>Stage: Appraisal & funding</div>
           </div>
 
           <div class="thread-item">
@@ -611,7 +770,6 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               <div class="ti-preview">You: Sent you the investment analysis on Runnymede</div>
               <div class="ti-footer"><span class="ti-tag t-i">Investor</span></div>
             </div>
-          </div>
 
           <div class="thread-item">
             <div class="ti-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">RK<div class="ti-channel ch-email">@</div></div>
@@ -620,7 +778,6 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               <div class="ti-preview">You: Let me know what areas you're looking at</div>
               <div class="ti-footer"><span class="ti-tag t-b">Buyer</span><div class="ti-done-badge">Done</div></div>
             </div>
-          </div>
 
           <div class="thread-item">
             <div class="ti-ava" style="background:var(--amber-l);color:var(--amber)">BT<div class="ti-channel ch-rcs">R</div></div>
@@ -629,13 +786,20 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               <div class="ti-preview">You: Escrow docs sent — check your email</div>
               <div class="ti-footer"><span class="ti-tag t-s">Seller</span><span class="ti-tag t-i">Investor</span></div>
             </div>
-          </div>
 
         </div>
       </div>
 
       <!-- CONVERSATION -->
       <div class="conversation">
+
+        <!-- DEAL CONTEXT BAR -->
+        <div class="deal-context-bar">
+          <div class="deal-context-content">
+            <span>◈ Connected to: 172 Portola Dr — Under Contract · COE Apr 15</span>
+            <span class="deal-context-link">View Deal</span>
+          </div>
+        </div>
 
         <!-- HEADER -->
         <div class="conv-header">
@@ -659,7 +823,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               <button class="conv-btn">◈ Deal</button>
               <button class="conv-btn">☎ Call</button>
               <button class="conv-btn done-btn" onclick="markDone()">✓ Mark Done</button>
-              <button class="conv-btn" onclick="alert('Assign thread')">👤 Assign</button>
+              <button class="conv-btn" onclick="openHandoff()">→ Hand Off</button>
               <button class="conv-btn primary">+ Send RCS</button>
             </div>
           </div>
@@ -802,6 +966,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
             <div class="compose-extras">
               <button class="compose-extra-btn ai" onclick="openAI()">⚡ AI Write</button>
               <button class="compose-extra-btn" onclick="openTemplates()">◻ Templates</button>
+              <button class="compose-extra-btn" onclick="openFollowup()">🤖 Follow-ups</button>
               <button class="compose-extra-btn">📢 Broadcast</button>
             </div>
           </div>
@@ -846,7 +1011,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
         <div class="cp-divider"></div>
         <div class="cp-sec">Contact Info</div>
         <div class="cp-row"><div class="cp-label">Phone</div><div class="cp-val link">(650) 555-0142</div></div>
-        <div class="cp-row"><div class="cp-label">Email</div><div class="cp-val link"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="523f332031272112373f333b3e7c313d3f">[email&#160;protected]</a></div></div>
+        <div class="cp-row"><div class="cp-label">Email</div><div class="cp-val link">marcus@email.com</div></div>
         <div class="cp-row"><div class="cp-label">Instagram</div><div class="cp-val link">@marcusrivera</div></div>
         <div class="cp-row"><div class="cp-label">Pre-approved</div><div class="cp-val good">✓ $1.1M</div></div>
         <div class="cp-row"><div class="cp-label">RCS Status</div><div class="cp-val good">● Active</div></div>
@@ -885,7 +1050,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 function setFilter(el){document.querySelectorAll('.tl-filter').forEach(f=>f.classList.remove('on'));el.classList.add('on')}
 
 function openTemplates(){
@@ -896,9 +1061,28 @@ function openAI(){
   document.getElementById('aiPanel').classList.add('open');
   document.getElementById('overlayBg').classList.add('visible');
 }
+function openFollowup(){
+  document.getElementById('followupPanel').classList.add('open');
+  document.getElementById('overlayBg').classList.add('visible');
+}
+function openHandoff(){
+  document.getElementById('handoffModal').classList.add('visible');
+}
+function closeHandoff(){
+  document.getElementById('handoffModal').classList.remove('visible');
+}
+function confirmHandoff(){
+  alert('Conversation handed off successfully!');
+  closeHandoff();
+}
+function assignHandoff(name){
+  alert('Assigning to ' + name + ' and notifying...');
+  closeHandoff();
+}
 function closePanels(){
   document.getElementById('templatesPanel').classList.remove('open');
   document.getElementById('aiPanel').classList.remove('open');
+  document.getElementById('followupPanel').classList.remove('open');
   document.getElementById('overlayBg').classList.remove('visible');
 }
 function openSchedule(){
@@ -927,4 +1111,13 @@ function useAI(){
 function useSuggestion(btn){
   document.getElementById('composeBox').value=btn.textContent;
 }
-functi
+function markDone(){
+  alert('Conversation marked as done!');
+}
+function toggleFollowup(){
+  const toggle=document.getElementById('followupToggle');
+  toggle.classList.toggle('on');
+}
+</script>
+</body>
+</html>
