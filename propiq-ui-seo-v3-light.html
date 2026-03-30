@@ -1,90 +1,229 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>PropIQ SEO — ARES Engine</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ SEO — ARES Engine (Light)</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--g:#1a7a56;--gl:#e8f5ef;--b:#185FA5;--bl:#E6F1FB;--am:#BA7517;--aml:#FAEEDA;--pu:#534AB7;--pul:#EEEDFE;--re:#c0392b;--rel:#fdf0f0;--ar:#1e3a5f;--arl:#e8f0fa;--aa:#2563eb;--ink:#111827;--mu:#6b7280;--fa:#9ca3af;--bg:#f8f7f4;--sf:#fff;--bo:#e5e3de;--b2:#d1cfc9}
-body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+:root{
+  --g:#1a7a56;--gl:#e8f5ef;
+  --b:#185FA5;--bl:#E6F1FB;
+  --am:#BA7517;--aml:#FAEEDA;
+  --re:#c0392b;--rel:#fdf0f0;
+  --ar:#1e3a5f;--arl:#e8f0fa;--aa:#2563eb;
+  --ink:#111827;--mu:#6b7280;--fa:#9ca3af;
+  --bg:#f5f3ed;--surface:#faf8f3;--sf:#fff;--border:#e2dfd8;--border2:#d1cfc9;
+}
+body{
+  font-family:'Epilogue',sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,#f5f3ed 0%,#efeae0 50%,#f5f3ed 100%);
+  font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden;position:relative
+}
+body::before{
+  content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:-1
+}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.tb{height:50px;display:flex;align-items:center;background:var(--sf);border-bottom:1px solid var(--bo);flex-shrink:0}
-.tb-logo{font-family:'Playfair Display',serif;font-size:1.1rem;padding:0 .9rem;border-right:1px solid var(--bo);height:100%;display:flex;align-items:center;flex-shrink:0}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+
+/* TOP BAR */
+.tb{height:50px;display:flex;align-items:center;background:var(--sf);border-bottom:1px solid var(--border);flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.tb-logo{font-family:'Playfair Display',serif;font-size:1.1rem;padding:0 .9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0}
 .tb-logo span{color:var(--g)}
 .tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%;padding:0 .5rem}
 .tb-mods::-webkit-scrollbar{display:none}
 .tbt{display:flex;align-items:center;padding:0 .65rem;font-size:11.5px;color:var(--mu);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;white-space:nowrap}
 .tbt:hover{color:var(--ink);background:var(--bg)}.tbt.on{color:var(--g);border-bottom-color:var(--g);font-weight:500}
 .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--rel);color:var(--re);font-weight:600;margin-left:2px}
-.tb-r{display:flex;align-items:center;gap:8px;padding:0 .85rem;border-left:1px solid var(--bo);flex-shrink:0}
+.tb-r{display:flex;align-items:center;gap:8px;padding:0 .85rem;border-left:1px solid var(--border);flex-shrink:0}
+
+/* MODE TOGGLE */
+.mode-toggle{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border2);border-radius:20px;padding:4px 8px;font-size:11.5px;color:var(--mu)}
+.mt-switch{width:40px;height:22px;border-radius:11px;background:var(--border2);position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
+.mt-switch.on{background:var(--ar)}
+.mt-knob{width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.mt-switch.on .mt-knob{left:21px}
+.mode-label{font-size:11px;font-weight:500;color:var(--mu);transition:color .2s;white-space:nowrap}
+.mode-label.pro{color:var(--ar)}
+
 .ap{display:flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--arl);border-radius:20px;padding:3px 9px;background:var(--arl)}
 .apd{width:5px;height:5px;border-radius:50%;background:var(--aa);animation:pulse 2s infinite}
 .ava{width:28px;height:28px;border-radius:50%;background:var(--gl);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600}
+
+/* APP */
 .app{display:flex;flex:1;overflow:hidden}
-.sb{width:200px;background:var(--sf);border-right:1px solid var(--bo);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
-.sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:var(--b2)}
+
+/* SIDEBAR */
+.sb{width:200px;background:var(--sf);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;box-shadow:1px 0 2px rgba(0,0,0,.02)}
+.sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:var(--border2)}
 .sb-hd{padding:.75rem 1rem .25rem;font-size:11.5px;font-weight:500;display:flex;align-items:center;justify-content:space-between}
 .sb-tag{font-size:9px;background:var(--arl);color:var(--aa);padding:1px 6px;border-radius:3px;font-weight:600;text-transform:uppercase}
 .ss{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--fa);padding:.55rem 1rem .2rem;font-weight:500}
 .ni{display:flex;align-items:center;gap:7px;padding:.38rem 1rem;cursor:pointer;color:var(--mu);font-size:12px;border-left:2.5px solid transparent;white-space:nowrap}
 .ni:hover{background:var(--bg);color:var(--ink)}.ni.on{background:var(--gl);color:var(--g);font-weight:500;border-left-color:var(--g)}
 .nb{margin-left:auto;font-size:9px;padding:1px 5px;border-radius:8px;font-weight:500}
-.nbg{background:var(--gl);color:var(--g)}.nbr{background:var(--rel);color:var(--re)}.nba{background:var(--aml);color:var(--am)}.nbgy{background:var(--bg);color:var(--fa);border:1px solid var(--bo)}.nbb{background:var(--bl);color:var(--b)}
-.sb-div{height:1px;background:var(--bo);margin:.3rem 0}
-.sf{margin-top:auto;padding:.65rem 1rem;border-top:1px solid var(--bo);display:flex;align-items:center;gap:8px}
+.nbg{background:var(--gl);color:var(--g)}.nbr{background:var(--rel);color:var(--re)}.nba{background:var(--aml);color:var(--am)}.nbgy{background:var(--bg);color:var(--fa);border:1px solid var(--border)}
+.pro-item{display:none}
+body.pro-mode .pro-item{display:flex}
+.sb-div{height:1px;background:var(--border);margin:.3rem 0}
+.sf{margin-top:auto;padding:.65rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
 .sf-av{width:24px;height:24px;border-radius:50%;background:var(--gl);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
+
+/* MAIN */
 .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
-.view{display:none;flex-direction:column;flex:1;overflow:hidden}
+.view{display:none;flex-direction:column;flex:1;overflow:hidden;animation:fadeIn .15s ease}
 .view.on{display:flex}
-.tlb{padding:.6rem 1.25rem;border-bottom:1px solid var(--bo);background:var(--sf);flex-shrink:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tlb{padding:.6rem 1.25rem;border-bottom:1px solid var(--border);background:var(--sf);flex-shrink:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pt{font-family:'Playfair Display',serif;font-size:1.15rem}
-.btn{padding:4px 9px;border-radius:5px;font-size:11.5px;cursor:pointer;border:1px solid var(--b2);background:var(--sf);color:var(--mu);font-family:'Epilogue',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.btn{padding:4px 9px;border-radius:5px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--sf);color:var(--mu);font-family:'Epilogue',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 .btn:hover{background:var(--bg)}.btng{background:var(--g);color:#fff;border-color:var(--g)}.bta{background:var(--ar);color:#fff;border-color:var(--ar)}.btr{background:var(--rel);color:var(--re);border-color:var(--rel)}
 .ca{flex:1;overflow-y:auto;padding:1.25rem}
-.ca::-webkit-scrollbar{width:4px}.ca::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
-.kpi{display:grid;border-bottom:1px solid var(--bo);flex-shrink:0}
-.kc{padding:.55rem .9rem;border-right:1px solid var(--bo);background:var(--sf)}.kc:last-child{border-right:none}
-.kl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:2px}
-.kv{font-family:'Playfair Display',serif;font-size:1.1rem;line-height:1}
-.ks{font-size:9.5px;margin-top:2px}
-.g{color:var(--g)}.a{color:var(--am)}.r{color:var(--re)}.n{color:var(--fa)}
-.card{background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden;margin-bottom:.85rem}
-.ch{padding:.65rem 1rem;border-bottom:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.ca::-webkit-scrollbar{width:4px}.ca::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* CARDS */
+.card{background:var(--sf);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem;box-shadow:0 1px 2px rgba(0,0,0,.02)}
+.ch{padding:.65rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
 .ct{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500}
 .cl{font-size:11.5px;color:var(--g);cursor:pointer}
 .bdg{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
-.bdgg{background:var(--gl);color:var(--g)}.bdga{background:var(--aml);color:var(--am)}.bdgr{background:var(--rel);color:var(--re)}.bdgb{background:var(--bl);color:var(--b)}.bdgy{background:var(--bg);color:var(--fa);border:1px solid var(--bo)}
+.bdgg{background:var(--gl);color:var(--g)}.bdga{background:var(--aml);color:var(--am)}.bdgr{background:var(--rel);color:var(--re)}.bdgb{background:var(--bl);color:var(--b)}.bdgy{background:var(--bg);color:var(--fa);border:1px solid var(--border)}
+
+/* DEPLOY QUEUE PROMINENT BANNER */
+.deploy-banner{background:linear-gradient(135deg,#1e3a5f 0%,#1e4080 50%,#2563eb 100%);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(30,58,95,.15)}
+.deploy-banner::before{content:'';position:absolute;top:-40%;right:-5%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
+.db-hd{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.db-ico{width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:1px solid rgba(255,255,255,.2)}
+.db-t{font-family:'Playfair Display',serif;font-size:1.3rem}
+.db-s{font-size:11.5px;color:rgba(255,255,255,.75);margin-top:2px}
+.db-impact{background:rgba(74,222,128,.2);border:1px solid rgba(74,222,128,.35);border-radius:6px;padding:8px 12px;font-size:11.5px;color:#4ade80;margin-bottom:1rem;display:inline-block;font-weight:500}
+.db-acts{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.dab{padding:7px 14px;border-radius:6px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;transition:all .12s;display:flex;align-items:center;gap:5px}
+.dab:hover{background:rgba(255,255,255,.2)}.dab.primary{background:rgba(255,255,255,.92);color:var(--ar);border-color:transparent;font-weight:600}.dab.primary:hover{background:#fff}
+
+/* LLM VISIBILITY ACTION PLAN */
+.llm-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 1px 2px rgba(0,0,0,.02)}
+.llm-hd{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.llm-ico{width:40px;height:40px;border-radius:8px;background:var(--arl);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;color:var(--b)}
+.llm-title{font-family:'Playfair Display',serif;font-size:1.15rem}
+.llm-sub{font-size:11.5px;color:var(--re);font-weight:500;margin-top:2px}
+.llm-steps{display:flex;flex-direction:column;gap:.85rem;margin-top:1rem}
+.llm-step{display:flex;gap:10px;padding:.85rem;background:var(--bg);border-radius:7px}
+.llm-step-num{width:32px;height:32px;border-radius:50%;background:var(--ar);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0}
+.llm-step-body{flex:1}
+.llm-step-title{font-weight:500;font-size:12px;margin-bottom:3px}
+.llm-step-desc{font-size:11px;color:var(--mu);line-height:1.5;margin-bottom:5px}
+.llm-step-meta{display:flex;gap:10px;font-size:10px;color:var(--fa)}
+.llm-step-meta span{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 6px}
+
+/* COMPETITOR TRACKING */
+.comp-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 1px 2px rgba(0,0,0,.02)}
+.comp-hd{margin-bottom:1rem}
+.comp-title{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:.5rem}
+.comp-sub{font-size:11.5px;color:var(--mu)}
+.comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1rem}
+.comp-item{background:var(--bg);border-radius:7px;padding:1rem;text-align:center;border:1px solid var(--border)}
+.comp-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:4px}
+.comp-domain{font-size:12px;font-weight:500;margin-bottom:6px;word-break:break-all}
+.comp-da{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--g);margin-bottom:4px}
+.comp-item.comp-current{background:linear-gradient(135deg,rgba(26,122,86,.05) 0%,rgba(74,222,128,.05) 100%);border-color:var(--g)}
+.comp-item.comp-current .comp-da{color:var(--g)}
+.comp-gaps{background:var(--aml);border-radius:8px;padding:.85rem;margin-bottom:1rem}
+.comp-gaps-title{font-size:11px;font-weight:500;color:var(--am);margin-bottom:6px}
+.comp-gaps-value{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--am);margin-bottom:.5rem}
+.comp-gaps-text{font-size:11.5px;color:var(--am);line-height:1.4;margin-bottom:.75rem}
+.comp-btn{padding:6px 12px;border-radius:6px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--am);background:rgba(186,117,23,.1);color:var(--am);transition:all .12s;display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.comp-btn:hover{background:var(--aml);border-color:var(--am)}
+
+/* SCORECARD */
+.scorecard{background:linear-gradient(135deg,#1e3a5f 0%,#1e4080 50%,#2563eb 100%);border-radius:12px;padding:1.25rem;margin-bottom:1rem;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(30,58,95,.15)}
+.scorecard::before{content:'';position:absolute;top:-40%;right:-5%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
+.sc-hd{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.sc-ico{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:1px solid rgba(255,255,255,.2)}
+.sc-title{font-family:'Playfair Display',serif;font-size:1.25rem}
+.sc-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.sc-badge{background:rgba(74,222,128,.2);border:1px solid rgba(74,222,128,.35);border-radius:5px;padding:4px 10px;color:#4ade80;font-size:11px;white-space:nowrap}
+.sc-pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1rem}
+.pil{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:.6rem .7rem;text-align:center}
+.pil-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.55);margin-bottom:4px}
+.pil-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;margin-bottom:4px}
+.pil-bar{height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.pil-fill{height:100%;border-radius:2px}
+.sc-acts{display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:1}
+.sab{padding:6px 12px;border-radius:6px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;transition:all .12s;display:flex;align-items:center;gap:5px}
+.sab:hover{background:rgba(255,255,255,.2)}.sab.primary{background:rgba(255,255,255,.92);color:var(--ar);border-color:transparent;font-weight:500}.sab.primary:hover{background:#fff}
+
+/* THIS WEEK */
+.this-week{background:var(--sf);border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.02)}
+.tw-hd{padding:.85rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.tw-title{font-family:'Playfair Display',serif;font-size:1.1rem}
+.tw-time{font-size:11px;color:var(--mu);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 10px}
+.task-item{display:flex;align-items:center;gap:12px;padding:.9rem 1.25rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.task-item:hover{background:var(--bg)}.task-item:last-child{border-bottom:none}
+.task-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;flex-shrink:0}
+.task-body{flex:1}
+.task-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.task-sub{font-size:12px;color:var(--mu);line-height:1.4}
+.task-time{font-size:10.5px;color:var(--fa);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 8px;white-space:nowrap;flex-shrink:0}
+.task-arrow{font-size:1rem;color:var(--border2);flex-shrink:0}
+.u-r{background:var(--rel);color:var(--re)}.u-a{background:var(--aml);color:var(--am)}.u-g{background:var(--gl);color:var(--g)}.u-b{background:var(--bl);color:var(--b)}
+
+/* STATUS GRID */
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
+.sg-card{background:var(--sf);border:1px solid var(--border);border-radius:9px;padding:1rem;cursor:pointer;transition:all .15s;box-shadow:0 1px 2px rgba(0,0,0,.02)}
+.sg-card:hover{border-color:var(--border2);transform:translateY(-1px)}.sg-card.urgent{border-color:#f5c2c7;background:var(--rel)}.sg-card.warn{border-color:#fcd0a0;background:var(--aml)}
+.sg-emt{font-size:1.4rem;margin-bottom:.4rem}
+.sg-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--fa);margin-bottom:4px;font-weight:500}
+.sg-val{font-family:'Playfair Display',serif;font-size:1.5rem;line-height:1;margin-bottom:3px}
+.sg-sub{font-size:11.5px;color:var(--mu);line-height:1.4}
+.sg-act{font-size:11px;color:var(--g);font-weight:500;margin-top:.5rem;display:flex;align-items:center;gap:3px}.sg-act.red{color:var(--re)}.sg-act.amber{color:var(--am)}
+
+/* PRO-ONLY SECTIONS */
+.pro-section{display:none;animation:slideIn .2s ease}
+body.pro-mode .pro-section{display:block}
+
+/* TABLES */
 .t{width:100%;border-collapse:collapse}
-.t th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);padding:.4rem .7rem;border-bottom:1px solid var(--bo);border-right:1px solid var(--bo);background:var(--bg);text-align:left;white-space:nowrap}
+.t th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);padding:.4rem .7rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg);text-align:left;white-space:nowrap}
 .t th:last-child{border-right:none}
-.t td{padding:.45rem .7rem;border-bottom:1px solid var(--bo);border-right:1px solid var(--bo);font-size:11.5px;vertical-align:middle}
+.t td{padding:.45rem .7rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:11.5px;vertical-align:middle}
 .t td:last-child{border-right:none}.t tr:hover td{background:var(--bg);cursor:pointer}
 .rb{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;min-width:24px;display:inline-block;text-align:center}
-.kd{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
-.kde{background:var(--gl);color:var(--g)}.kdm{background:var(--aml);color:var(--am)}.kdh{background:var(--rel);color:var(--re)}
-.int{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:600}
-.it{background:#fef3c7;color:#92400e}.ii{background:#dbeafe;color:#1e40af}.in{background:#f3f4f6;color:#374151}.ic{background:#ecfdf5;color:#065f46}
-.spark{height:22px;display:flex;align-items:flex-end;gap:2px}
-.sb2{border-radius:1px 1px 0 0;min-height:3px}
-.ah{background:linear-gradient(135deg,#1e3a5f 0%,#1e4080 50%,#2563eb 100%);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;position:relative;overflow:hidden;color:#fff}
-.ah::before{content:'';position:absolute;top:-40%;right:-5%;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04)}
-.ah-hd{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
-.ah-ico{width:40px;height:40px;border-radius:9px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:1px solid rgba(255,255,255,.2)}
-.ah-t{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff}
-.ah-s{font-size:11px;color:rgba(255,255,255,.7);margin-top:1px}
-.ah-st{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.8);margin-left:auto;flex-shrink:0}
-.ah-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
-.pils{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:.75rem}
-.pil{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:.5rem .65rem}
-.pil-l{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.6);margin-bottom:3px}
-.pil-v{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;line-height:1}
-.pil-b{height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;margin-top:4px}
-.pil-f{height:100%;border-radius:2px}
-.ah-acts{display:flex;gap:5px;flex-wrap:wrap;position:relative;z-index:1}
-.ab{padding:5px 11px;border-radius:5px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff}
-.ab:hover{background:rgba(255,255,255,.2)}.abp{background:rgba(255,255,255,.92);color:var(--ar);border-color:transparent;font-weight:500}
-.abp:hover{background:#fff}
+
+/* CHAT */
+.chat-w{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.chat-msgs::-webkit-scrollbar{width:4px}.chat-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.cm{display:flex;gap:9px;margin-bottom:1rem}
+.cm-a{justify-content:flex-start}.cm-u{justify-content:flex-end}
+.cm-av2{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.cm-a .cm-av2{background:linear-gradient(135deg,var(--ar),var(--aa));color:#fff}
+.cm-u .cm-av2{background:var(--gl);color:var(--g)}
+.bub{max-width:72%;border-radius:10px;padding:.6rem .85rem;font-size:12.5px;line-height:1.6}
+.cm-a .bub{background:var(--sf);border:1px solid var(--border);border-top-left-radius:2px}
+.cm-u .bub{background:var(--ar);color:#fff;border-bottom-right-radius:2px}
+.cd{background:var(--sf);border:1px solid var(--border);border-radius:7px;padding:.7rem;margin-top:.55rem;font-size:12px}
+.cr{display:flex;align-items:center;gap:8px;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:12px}
+.cr:last-child{border-bottom:none}
+.chat-ia{padding:.65rem 1.25rem;background:var(--sf);border-top:1px solid var(--border);flex-shrink:0}
+.cs-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.55rem}
+.csp{padding:3px 9px;border-radius:10px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--sf);color:var(--mu)}
+.csp:hover{border-color:var(--aa);color:var(--aa);background:var(--arl)}
+.chat-inp-w{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border2);border-radius:7px;padding:7px 12px}
+.chat-inp-w:focus-within{border-color:var(--aa)}
+.chat-inp{border:none;background:transparent;outline:none;font-size:13px;font-family:'Epilogue',sans-serif;color:var(--ink);flex:1}
+.chat-inp::placeholder{color:var(--fa)}
+.chat-send{padding:5px 13px;border-radius:5px;background:var(--ar);color:#fff;border:none;font-size:12.5px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500}
+
+/* UTILITY */
+.g{color:var(--g)}.a{color:var(--am)}.r{color:var(--re)}.n{color:var(--fa)}
 .alert-c{background:var(--rel);border:1px solid #f5c2c7;border-radius:7px;padding:.75rem 1rem;margin-bottom:.85rem;display:flex;align-items:flex-start;gap:10px;font-size:12px;line-height:1.6}
 .alert-w{background:var(--aml);border:1px solid #fcd0a0;border-radius:7px;padding:.75rem 1rem;margin-bottom:.85rem;display:flex;align-items:flex-start;gap:10px;font-size:12px;line-height:1.6}
 .alert-i{background:var(--arl);border:1px solid #bdd0f5;border-radius:7px;padding:.75rem 1rem;margin-bottom:.85rem;display:flex;align-items:flex-start;gap:10px;font-size:12px;line-height:1.6}
-.ii2{display:flex;align-items:flex-start;gap:9px;padding:.65rem 1rem;border-bottom:1px solid var(--bo)}
+
+.ii2{display:flex;align-items:flex-start;gap:9px;padding:.65rem 1rem;border-bottom:1px solid var(--border)}
 .ii2:hover{background:var(--bg)}.ii2:last-child{border-bottom:none}
 .ii-ic{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px}
 .ii-r{background:var(--rel)}.ii-a{background:var(--aml)}.ii-g{background:var(--gl)}.ii-b{background:var(--bl)}
@@ -93,539 +232,484 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .ii-s{font-size:11.5px;color:var(--mu);line-height:1.4;margin-bottom:5px}
 .ii-pl{font-size:11px;color:var(--g);background:var(--gl);border-radius:3px;padding:2px 7px;display:inline-block;margin-bottom:5px}
 .ii-acs{display:flex;gap:4px;flex-wrap:wrap}
-.ia{padding:3px 8px;border-radius:4px;font-size:11px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--b2);background:var(--sf);color:var(--mu)}
+.ia{padding:3px 8px;border-radius:4px;font-size:11px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--border2);background:var(--sf);color:var(--mu)}
 .ia:hover{background:var(--bg)}.iad{background:var(--g);color:#fff;border-color:var(--g);font-weight:500}.iap{background:var(--bl);color:var(--b);border-color:var(--bl)}
-.is{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
-.is-n{background:var(--rel);color:var(--re)}.is-p{background:var(--aml);color:var(--am)}.is-d{background:var(--gl);color:var(--g)}
-.rc{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--gl);color:var(--g);border:1px solid var(--gl);cursor:pointer;display:inline-flex;align-items:center;gap:3px}
-.rc:hover{background:var(--rel);color:var(--re);border-color:var(--rel)}
-.lp{display:flex;align-items:center;gap:10px;padding:.55rem .85rem;border-bottom:1px solid var(--bo)}
-.lp:last-child{border-bottom:none}
-.ln{font-size:12px;font-weight:500;width:85px;flex-shrink:0;display:flex;align-items:center;gap:5px}
-.lbw{flex:1;height:7px;background:var(--bo);border-radius:4px;overflow:hidden}
-.lbf{height:100%;border-radius:4px}
-.lsc{font-size:12px;font-weight:600;width:35px;text-align:right;flex-shrink:0}
-.ltd{font-size:10px;width:55px;text-align:right;flex-shrink:0}
-.tab-r{display:flex;border-bottom:1px solid var(--bo);background:var(--sf);flex-shrink:0}
-.ti{padding:.55rem .9rem;font-size:12px;color:var(--mu);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;margin-bottom:-1px}
-.ti:hover{color:var(--ink)}.ti.on{color:var(--aa);border-bottom-color:var(--aa);font-weight:500}
-.hm{position:relative;width:100%;height:200px;background:#d4e9d8;border:1px solid var(--bo);border-radius:7px;overflow:hidden}
-.hm-cells{position:absolute;inset:8px;display:grid;gap:3px}
-.hm-cell{border-radius:3px;cursor:pointer}
-.hm-leg{position:absolute;bottom:8px;right:8px;background:var(--sf);border:1px solid var(--bo);border-radius:5px;padding:.35rem .6rem;font-size:10px}
-.hl{display:flex;align-items:center;gap:4px;margin-bottom:2px;color:var(--mu)}.hl:last-child{margin-bottom:0}
-.hld{width:9px;height:9px;border-radius:2px;flex-shrink:0}
-.chat-w{display:flex;flex-direction:column;flex:1;overflow:hidden}
-.chat-msgs{flex:1;overflow-y:auto;padding:1rem 1.25rem}
-.chat-msgs::-webkit-scrollbar{width:4px}.chat-msgs::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
-.cm{display:flex;gap:9px;margin-bottom:1rem}
-.cm-a{justify-content:flex-start}.cm-u{justify-content:flex-end}
-.cm-av2{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
-.cm-a .cm-av2{background:linear-gradient(135deg,var(--ar),var(--aa));color:#fff}
-.cm-u .cm-av2{background:var(--gl);color:var(--g)}
-.bub{max-width:72%;border-radius:10px;padding:.6rem .85rem;font-size:12.5px;line-height:1.6}
-.cm-a .bub{background:var(--sf);border:1px solid var(--bo);border-top-left-radius:2px}
-.cm-u .bub{background:var(--ar);color:#fff;border-bottom-right-radius:2px}
-.cd{background:var(--sf);border:1px solid var(--bo);border-radius:7px;padding:.7rem;margin-top:.55rem;font-size:12px}
-.cr{display:flex;align-items:center;gap:8px;padding:.3rem 0;border-bottom:1px solid var(--bo);font-size:12px}
-.cr:last-child{border-bottom:none}
-.chat-ia{padding:.65rem 1.25rem;background:var(--sf);border-top:1px solid var(--bo);flex-shrink:0}
-.cs-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.55rem}
-.csp{padding:3px 9px;border-radius:10px;font-size:11.5px;cursor:pointer;border:1px solid var(--b2);background:var(--sf);color:var(--mu)}
-.csp:hover{border-color:var(--aa);color:var(--aa);background:var(--arl)}
-.chat-inp-w{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--b2);border-radius:7px;padding:7px 12px}
-.chat-inp-w:focus-within{border-color:var(--aa)}
-.chat-inp{border:none;background:transparent;outline:none;font-size:13px;font-family:'Epilogue',sans-serif;color:var(--ink);flex:1}
-.chat-inp::placeholder{color:var(--fa)}
-.chat-send{padding:5px 13px;border-radius:5px;background:var(--ar);color:#fff;border:none;font-size:12.5px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500}
-</style></head><body>
+</style>
+</head>
+<body>
+
 <div class="tb">
   <div class="tb-logo">Prop<span>IQ</span></div>
   <div class="tb-mods">
     <div class="tbt">⬡ Dashboard</div><div class="tbt">◎ Contacts</div><div class="tbt">◈ Deals</div>
     <div class="tbt">✦ Content</div><div class="tbt">⊕ Search</div>
-    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
+    <div class="tbt">☎ Messages</div>
     <div class="tbt">$ Ads</div>
     <div class="tbt on">↗ SEO<span class="tbdg">9</span></div>
     <div class="tbt">📊 Reports</div>
   </div>
   <div class="tb-r">
-    <div class="ap"><div class="apd"></div><span style="color:var(--aa);font-weight:500;font-size:11px">ARES Active</span></div>
+    <div class="ap"><div class="apd"></div>ARES Active</div>
+    <div style="font-size:11px;color:var(--mu)">|</div>
+    <div class="mode-toggle">
+      <span class="mode-label agent-label">Agent</span>
+      <div class="mt-switch" id="modeSwitch" onclick="toggleMode()">
+        <div class="mt-knob"></div>
+      </div>
+      <span class="mode-label pro pro-label">Pro</span>
+    </div>
+    <div style="font-size:11px;color:var(--mu)">|</div>
     <div class="ava">GW</div>
   </div>
 </div>
+
 <div class="app">
-<div class="sb">
-  <div class="sb-hd">SEO <span class="sb-tag">ARES</span></div>
-  <div class="ss">Overview</div>
-  <div class="ni on" onclick="sv('dash')">⬡ SEO Dashboard</div>
-  <div class="ni" onclick="sv('ares')">🔮 ARES Engine <span class="nb nbg">79/100</span></div>
-  <div class="ni" onclick="sv('chat')">💬 ARES Chat</div>
-  <div class="ss">Rankings</div>
-  <div class="ni" onclick="sv('ranks')">↗ Rank Tracker <span class="nb nbgy">23</span></div>
-  <div class="ni" onclick="sv('kw')">🔍 Keywords <span class="nb nbgy">95</span></div>
-  <div class="ni" onclick="sv('pages')">📄 Pages <span class="nb nbgy">32</span></div>
-  <div class="ni" onclick="sv('pos')">📈 Position Changes <span class="nb nba">2</span></div>
-  <div class="ss">LLM Visibility</div>
-  <div class="ni" onclick="sv('llm')">🤖 LLM Visibility <span class="nb nbr">0</span></div>
-  <div class="ni" onclick="sv('llm')">💬 Sentiment</div>
-  <div class="ni" onclick="sv('llm')">📊 Topics &amp; Queries</div>
-  <div class="ss">ARES Actions</div>
-  <div class="ni" onclick="sv('queue')">⚡ Deploy Queue <span class="nb nbr">9</span></div>
-  <div class="ni" onclick="sv('topical')">🗺 Topical Maps <span class="nb nbr">147</span></div>
-  <div class="ni" onclick="sv('cai')">✦ Content AI</div>
-  <div class="ni" onclick="sv('auth')">🔗 Backlinks <span class="nb nbgy">241</span></div>
-  <div class="ss">Local SEO</div>
-  <div class="ni" onclick="sv('gbp')">📍 GBP Galactic <span class="nb nba">9</span></div>
-  <div class="ni" onclick="sv('gbp')">🗺 Local Heatmap</div>
-  <div class="ni" onclick="sv('gbp')">⭐ Reviews <span class="nb nbgy">27</span></div>
-  <div class="ss">Reports</div>
-  <div class="ni" onclick="sv('report')">📊 Executive Report</div>
-  <div class="ni" onclick="sv('gsc')">G GSC Performance</div>
-  <div class="ss">Authority</div>
-  <div class="ni" onclick="sv('pr')">📰 Press Release</div>
-  <div class="sb-div"></div>
-  <div class="ni" onclick="sv('setup')">⚙ ARES Setup</div>
-  <div class="sf"><div class="sf-av">GW</div><div><div style="font-size:11px;font-weight:500">Graeham Watts</div><div style="font-size:9.5px;color:var(--fa)">Intero Real Estate</div></div></div>
-</div>
-<div class="main" id="mainArea">
+  <div class="sb">
+    <div class="sb-hd">SITE<span class="sb-tag">LIVE</span></div>
+    <div class="ss">Core</div>
+    <div class="ni on">◎ Dashboard</div>
+    <div class="ni">⊚ Rank Tracker<span class="nb nbr">8</span></div>
+    <div class="ni">◉ ARES Audit<span class="nb nbr">9</span></div>
+    <div class="ni">⚡ Keywords<span class="nb nba">147</span></div>
+    <div class="sb-div"></div>
+    <div class="ss">Pro Features</div>
+    <div class="ni pro-item">🧭 Topical Maps</div>
+    <div class="ni pro-item">🔗 Backlinks<span class="nb nbgy">5K+</span></div>
+    <div class="ni pro-item">🔍 GSC Deep Dive</div>
+    <div class="ni pro-item">📊 Reports</div>
+    <div class="sb-div"></div>
+    <div class="ss">Tools</div>
+    <div class="ni">💬 ARES Chat</div>
+    <div class="ni">⚙ Settings</div>
+    <div class="sf">
+      <div class="sf-av">GW</div>
+      <div style="font-size:11px;flex:1"><div style="font-weight:500;color:var(--ink)">Graeham</div><div style="color:var(--mu)">Pro Account</div></div>
+    </div>
+  </div>
 
-<div class="view on" id="view-dash">
-  <div class="tlb"><div class="pt">SEO Dashboard</div><div style="font-size:11.5px;color:var(--mu);flex:1">graehamwatts.com · ARES Engaged · Last scan 2h ago</div><button class="btn" onclick="sv('chat')">💬 Ask ARES</button><button class="btn bta" onclick="sv('ares')">🔮 ARES Report</button></div>
-  <div class="kpi" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kl">ARES Score</div><div class="kv">79/100</div><div class="ks g">Engaged</div></div>
-    <div class="kc"><div class="kl">Organic Keywords</div><div class="kv">95</div><div class="ks g">431 traffic</div></div>
-    <div class="kc"><div class="kl">LLM Visibility</div><div class="kv r">0</div><div class="ks r">Urgent — fix now</div></div>
-    <div class="kc"><div class="kl">Pages in Top 10</div><div class="kv">3</div><div class="ks g">Position 1-3: 2</div></div>
-    <div class="kc"><div class="kl">GBP Score</div><div class="kv a">63/100</div><div class="ks a">9 pending tasks</div></div>
-    <div class="kc"><div class="kl">Deploy Queue</div><div class="kv">9</div><div class="ks a">Awaiting approval</div></div>
-  </div>
-  <div class="ca">
-    <div class="ah">
-      <div class="ah-hd">
-        <div class="ah-ico">🔮</div>
-        <div><div class="ah-t">ARES — Agentic Real Estate SEO Engine</div><div class="ah-s">graehamwatts.com · 2.98K issues fixed · 119 days of work saved · $100K ROI</div></div>
-        <div class="ah-st"><div class="ah-dot"></div>Engaged · Next scan in 6 days</div>
-      </div>
-      <div class="pils">
-        <div class="pil"><div class="pil-l">ARES Score</div><div class="pil-v">79</div><div class="pil-b"><div class="pil-f" style="width:79%;background:#4ade80"></div></div></div>
-        <div class="pil"><div class="pil-l">Content</div><div class="pil-v" style="color:#fbbf24">30</div><div class="pil-b"><div class="pil-f" style="width:30%;background:#f59e0b"></div></div></div>
-        <div class="pil"><div class="pil-l">Authority</div><div class="pil-v" style="color:#4ade80">100</div><div class="pil-b"><div class="pil-f" style="width:100%;background:#4ade80"></div></div></div>
-        <div class="pil"><div class="pil-l">Technicals</div><div class="pil-v" style="color:#4ade80">91</div><div class="pil-b"><div class="pil-f" style="width:91%;background:#4ade80"></div></div></div>
-        <div class="pil"><div class="pil-l">UX Signals</div><div class="pil-v" style="color:#f87171">5</div><div class="pil-b"><div class="pil-f" style="width:5%;background:#ef4444"></div></div></div>
-      </div>
-      <div class="ah-acts">
-        <button class="ab abp" onclick="sv('queue')">⚡ Deploy Queue (9)</button>
-        <button class="ab" onclick="sv('llm')">🤖 Fix LLM Visibility (URGENT)</button>
-        <button class="ab" onclick="sv('chat')">💬 Ask ARES</button>
-        <button class="ab" onclick="sv('topical')">🗺 Topical Maps (147 pages)</button>
-        <button class="ab" onclick="sv('gbp')">📍 GBP Tasks (9)</button>
-      </div>
-    </div>
-    <div class="alert-c"><span style="font-size:1rem;flex-shrink:0">🔴</span><div><strong>URGENT: LLM Visibility is 0 across ALL AI platforms.</strong> ChatGPT, Gemini, Perplexity, Copilot, Grok, and Google AI show zero citations for graehamwatts.com. Competitors Zillow (72), Redfin (58), and Compass (18) are pulling ahead fast. 45% of real estate searches now start in AI tools. ARES has a 5-step fix plan ready.<div style="margin-top:.5rem;display:flex;gap:5px"><button class="btn bta" style="font-size:11px;padding:3px 8px" onclick="sv('llm')">View LLM Report</button><button class="btn" style="font-size:11px;padding:3px 8px" onclick="sv('chat')">Ask ARES how to fix</button></div></div></div>
-    <div class="alert-w"><span style="font-size:1rem;flex-shrink:0">⚠</span><div><strong>Content Score 30/100 — 147 pages needed.</strong> Your authority (100/100) and technicals (91/100) are excellent, but content is very thin. ARES has mapped 147 Domain Knowledge Network pages across Buying, Selling, Investment, and Neighborhood categories. Zero published so far. This is your #1 long-term SEO lever.<div style="margin-top:.5rem;display:flex;gap:5px"><button class="btn" style="font-size:11px;padding:3px 8px;background:var(--am);color:#fff;border-color:var(--am)" onclick="sv('topical')">Domain Knowledge Network</button><button class="btn" style="font-size:11px;padding:3px 8px" onclick="sv('cai')">Content AI Agent</button></div></div></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      <div class="card">
-        <div class="ch"><div class="ct">Top Rankings — Real Keywords</div><div class="cl" onclick="sv('ranks')">All 23 →</div></div>
-        <table class="t"><thead><tr><th>Rank</th><th>Keyword</th><th>Traffic</th><th>Volume</th><th>Trend</th></tr></thead><tbody id="topRanks"></tbody></table>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">LLM Visibility — All Platforms</div><div style="display:flex;gap:5px;align-items:center"><span class="bdg bdgr">0 — Urgent</span><div class="cl" onclick="sv('llm')">Full report →</div></div></div>
-        <div id="llmBars"></div>
-        <div style="padding:.6rem 1rem;background:var(--rel);border-top:1px solid #f5c2c7;font-size:11.5px;color:var(--re);line-height:1.5"><strong>Why this matters:</strong> 45% of real estate searches now start with an AI query. When someone asks "best real estate agent in East Palo Alto," you don't appear — but Zillow does (score 72).</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">ARES Deploy Queue Preview — Your Approval Required</div><div style="display:flex;gap:5px;align-items:center"><span class="bdg bdga">Nothing deploys without your click</span><div class="cl" onclick="sv('queue')">All 9 →</div></div></div>
-      <div style="padding:.55rem 1rem;background:var(--aml);border-bottom:1px solid #fcd0a0;font-size:12px;display:flex;align-items:center;gap:7px"><span>⚠</span><strong>ARES recommends — you approve. Nothing touches your site without your explicit click.</strong></div>
-      <div class="ii2"><div class="ii-ic ii-r">📊</div><div class="ii-b2"><div class="ii-t">UX Signals — Score 5/100 <span class="is is-n">Critical</span></div><div class="ii-pl">Fixing this alone could push ARES score from 79 to 90+. 8 specific fixes queued.</div><div class="ii-s">Core Web Vitals, mobile UX, page experience signals, INP fixes, layout shift reduction.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy All 8 UX Fixes</button><button class="ia iap" onclick="sv('queue')">👁 Preview</button></div></div></div>
-      <div class="ii2"><div class="ii-ic ii-a">📝</div><div class="ii-b2"><div class="ii-t">Twitter Card / Meta Tags — 130 pages <span class="is is-p">Ready</span></div><div class="ii-s">130 of 131 pages missing Twitter Card meta tags. ARES generated all 130 — bulk deploy one click.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy All 130</button><button class="ia" onclick="sv('queue')">Preview</button></div></div></div>
-      <div class="ii2"><div class="ii-ic ii-b">🔗</div><div class="ii-b2"><div class="ii-t">Internal Link Opportunities — 6 pages <span class="is is-p">Ready</span></div><div class="ii-s">6 articles mention ADU/investment without linking to your ranking content. Strengthens topical authority.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy 6 Links</button><button class="ia iap">👁 Review</button></div></div></div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">GSC Overview — graehamwatts.com</div><div class="cl" onclick="sv('gsc')">Full GSC →</div></div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr)">
-        <div style="padding:.6rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Total Keywords</div><div class="kv">6.5K</div><div class="ks g">↑ 5K</div></div>
-        <div style="padding:.6rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Avg Position</div><div class="kv">48</div><div class="ks a">↓ 34 on Mar 17</div></div>
-        <div style="padding:.6rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Impressions</div><div class="kv">270.9K</div><div class="ks g">↑ 65</div></div>
-        <div style="padding:.6rem .9rem;text-align:center"><div class="kl">Organic Traffic</div><div class="kv">1K</div><div class="ks g">↑ 21</div></div>
-      </div>
-    </div>
-  </div>
-</div>
+  <div class="main">
+    <div class="view on" id="dashboardView">
+      <div class="ca">
 
-<div class="view" id="view-ares">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">ARES Engine — Full Site Report</div><button class="btn bta" onclick="alert('Full audit queued')">🔮 Run Full Audit</button><button class="btn" onclick="alert('Downloading PDF…')">↓ Download</button></div>
-  <div class="kpi" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kc"><div class="kl">ARES Score</div><div class="kv">79/100</div><div class="ks g">↑ 6 pts this month</div></div>
-    <div class="kc"><div class="kl">Fixes Applied</div><div class="kv">2,980</div><div class="ks n">of 3,400 found</div></div>
-    <div class="kc"><div class="kl">Flawless Pages</div><div class="kv">127/131</div><div class="ks g">97%</div></div>
-    <div class="kc"><div class="kl">Time Saved</div><div class="kv">119d</div><div class="ks g">+ 1hr 42min today</div></div>
-    <div class="kc"><div class="kl">ARES ROI</div><div class="kv g">$100K</div></div>
-  </div>
-  <div class="ca">
-    <div class="ah" style="margin-bottom:1rem">
-      <div class="ah-hd" style="margin-bottom:0">
-        <div class="ah-ico">🔮</div>
-        <div><div class="ah-t">ARES is engaged on graehamwatts.com</div><div class="ah-s">Scanning continuously · Fixing with your approval · Rollback on demand · Never auto-deploys</div></div>
-        <span style="background:rgba(74,222,128,.2);border:1px solid rgba(74,222,128,.3);border-radius:5px;padding:4px 10px;color:#4ade80;font-size:11px;white-space:nowrap">✓ Engaged</span>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Holistic SEO Pillars — Your Real Numbers</div></div>
-        <div style="padding:1rem">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;text-align:center" id="pillarGrid"></div>
-          <div class="alert-w" style="margin-bottom:0"><span style="flex-shrink:0">💡</span><div>Authority is perfect (100/100) and technicals are strong (91/100). Two gaps: Content (30/100 — need 147 DKN pages) and UX Signals (5/100 — 8 fixes queued). Fixing both pushes ARES score above 90.</div></div>
+        <!-- DEPLOY QUEUE - PROMINENT BANNER -->
+        <div class="deploy-banner">
+          <div class="db-hd">
+            <div class="db-ico">📦</div>
+            <div>
+              <div class="db-t">8 SEO Fixes Ready to Deploy</div>
+              <div class="db-s">Your ARES fixes are queued and ready for production</div>
+            </div>
+          </div>
+          <div class="db-impact">Estimated impact: +15 score points from this deployment</div>
+          <div class="db-acts">
+            <button class="dab primary" onclick="alert('Reviewing deployment queue...')">↗ Review & Deploy</button>
+            <button class="dab" onclick="alert('Showing details...')">📋 Details</button>
+            <button class="dab" onclick="alert('Scheduling deployment...')">⏰ Schedule</button>
+          </div>
         </div>
-      </div>
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Tasks This Week — 12 of 23</div><div class="cl" onclick="sv('queue')">View all →</div></div>
-        <div id="taskList"></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">ARES Pixel — Site Connection</div><span class="bdg bdgg">✓ Connected</span></div>
-      <div style="padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div><div style="font-size:12.5px;font-weight:500;margin-bottom:.5rem">Active on: graehamwatts.com</div><div style="font-size:11.5px;color:var(--mu);line-height:1.6;margin-bottom:.75rem">The ARES pixel in your site header enables real-time scanning, issue detection, and one-click deployment of approved fixes.</div><div style="display:flex;gap:5px"><button class="btn" onclick="sv('setup')">View pixel code</button><button class="btn" onclick="alert('Connection test OK')">Test</button></div></div>
-        <div id="apiStatus"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="view" id="view-llm">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">LLM Visibility — graehamwatts.com</div><button class="btn bta" onclick="alert('ARES creating LLM optimization plan…')">🔮 Create Fix Plan</button></div>
-  <div class="tab-r" id="llmTabs">
-    <div class="ti on" onclick="setTab(this,'llmTabs')">Summary</div><div class="ti" onclick="setTab(this,'llmTabs')">Visibility</div><div class="ti" onclick="setTab(this,'llmTabs')">Sentiment</div><div class="ti" onclick="setTab(this,'llmTabs')">Topics &amp; Queries</div><div class="ti" onclick="setTab(this,'llmTabs')">Prompt Simulator</div>
-  </div>
-  <div class="ca">
-    <div class="alert-c"><span style="font-size:1rem;flex-shrink:0">🔴</span><div><strong>Executive Snapshot:</strong> Visibility remains at zero while sentiment improves slightly, yet citations dropped 15% — urgent action required. All 6 AI platforms show zero visibility. Competitors Zillow (72), Redfin (58), Compass (18) are gaining ground rapidly.</div></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
-      <div class="card" style="margin-bottom:0"><div class="ch"><div class="ct">Overall Visibility Score</div></div><div style="padding:1rem;text-align:center"><div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--re);line-height:1;margin-bottom:4px">0</div><div style="font-size:11px;color:var(--fa);margin-bottom:.5rem">Across 6 AI platforms</div><div style="font-size:10.5px;color:var(--fa)">ChatGPT · Gemini · Perplexity · Copilot · Grok · Google AI — all 0</div></div></div>
-      <div class="card" style="margin-bottom:0"><div class="ch"><div class="ct">Overall Sentiment</div></div><div style="padding:1rem;text-align:center"><div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--g);line-height:1;margin-bottom:4px">77%</div><div style="font-size:11px;color:var(--fa);margin-bottom:.5rem">Positive · Across 6 platforms</div><div style="font-size:11.5px;color:var(--mu);line-height:1.5">Sentiment is strong when you appear — the problem is you're not appearing at all.</div></div></div>
-      <div class="card" style="margin-bottom:0"><div class="ch"><div class="ct">Citations Found</div></div><div style="padding:1rem;text-align:center"><div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--am);line-height:1;margin-bottom:4px">113</div><div style="font-size:11px;color:var(--re);margin-bottom:.5rem">↓ −20 citations vs last month</div><div style="font-size:11.5px;color:var(--mu)">Brand mentions — but 0 direct agent citations.</div></div></div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">Visibility by Platform vs Competitors</div></div>
-      <div style="padding:.85rem 1rem" id="llmCompBars"></div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">ARES LLM Fix Plan — 5 Steps</div><button class="btn bta" style="font-size:11px;padding:4px 9px" onclick="alert('ARES executing all 5 steps…')">⚡ Execute All 5</button></div>
-      <div id="llmFixes"></div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">Visibility Performing Topics — All Currently Zero</div></div>
-      <table class="t"><thead><tr><th>Topic</th><th>Visibility</th><th>Rank</th><th>Citation Share</th><th>Volume</th><th>Action</th></tr></thead><tbody id="llmTopics"></tbody></table>
-    </div>
-  </div>
-</div>
-
-<div class="view" id="view-queue">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Deploy Queue — 9 Fixes Awaiting Approval</div><div style="flex:1;font-size:11.5px;color:var(--mu)">ARES recommends · You approve · Rollback any change instantly</div><button class="btn bta" onclick="alert('All 9 approved and deploying…')">⚡ Approve All 9</button></div>
-  <div style="flex:1;overflow-y:auto">
-    <div style="padding:.55rem 1.25rem;background:var(--aml);border-bottom:1px solid #fcd0a0;font-size:12px;display:flex;align-items:center;gap:8px;flex-shrink:0"><span>🛡</span><strong>Your site is always protected.</strong> Every fix queues here first. Rollback any deployed change instantly.</div>
-    <div style="padding:.5rem 1.25rem;font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--re);font-weight:500;background:var(--bg);border-bottom:1px solid var(--bo)">Critical — Fix First</div>
-    <div class="ii2"><div class="ii-ic ii-r">📱</div><div class="ii-b2"><div class="ii-t">UX Signals — 5/100 <span class="is is-n">Critical</span></div><div class="ii-pl">Your lowest score. Fixing this pushes ARES from 79 to 90+.</div><div class="ii-s">8 fixes: Core Web Vitals optimization, mobile UX, page experience, INP, cumulative layout shift reduction.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy All 8</button><button class="ia iap">👁 Preview</button></div></div></div>
-    <div class="ii2"><div class="ii-ic ii-r">🤖</div><div class="ii-b2"><div class="ii-t">LLM Entity Schema — 0 visibility <span class="is is-n">Critical</span></div><div class="ii-pl">AI tools are not citing you. Deploy RealEstateAgent, LocalBusiness, and FAQ schema now.</div><div class="ii-s">ARES prepared entity schema for your key pages. This is Step 1 of the LLM Visibility fix plan.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy Schema</button><button class="ia iap">Preview</button><button class="ia" onclick="sv('llm')">Full LLM Report</button></div></div></div>
-    <div style="padding:.5rem 1.25rem;font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--am);font-weight:500;background:var(--bg);border-bottom:1px solid var(--bo);border-top:1px solid var(--bo)">Medium Priority</div>
-    <div class="ii2"><div class="ii-ic ii-a">📝</div><div class="ii-b2"><div class="ii-t">Twitter Card Meta Tags — 130 pages <span class="is is-p">Ready</span></div><div class="ii-pl">Controls how your pages appear when shared on X/Twitter. Missing on 130 pages. All 130 written.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy All 130</button><button class="ia">Sample preview</button></div></div></div>
-    <div class="ii2"><div class="ii-ic ii-a">🔗</div><div class="ii-b2"><div class="ii-t">Internal Links — 6 pages <span class="is is-p">Ready</span></div><div class="ii-pl">6 articles mention ADU/investment without linking to your top-ranked content.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Deploy 6 Links</button><button class="ia iap">Review each</button></div></div></div>
-    <div class="ii2"><div class="ii-ic ii-b">🗺</div><div class="ii-b2"><div class="ii-t">XML Sitemap Stale <span class="is is-p">Low</span></div><div class="ii-pl">Last updated 14 days ago. ARES will automate future updates.</div><div class="ii-acs"><button class="ia iad" onclick="doDeploy(this)">✓ Update + Automate</button></div></div></div>
-    <div style="padding:.5rem 1.25rem;font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--g);font-weight:500;background:var(--bg);border-bottom:1px solid var(--bo);border-top:1px solid var(--bo)">Recently Deployed — Rollback Available</div>
-    <div class="ii2" style="background:var(--gl)"><div class="ii-ic ii-g">✓</div><div class="ii-b2"><div class="ii-t">Schema Markup — 3 articles <span class="is is-d">Deployed Mar 27</span></div><div class="ii-s">FAQ schema added to ADU Guide, 1031 Exchange, and Menlo Park Investment articles.</div><div class="ii-acs"><span class="rc" onclick="alert('Rolling back…')">↩ Rollback</span></div></div></div>
-    <div class="ii2" style="background:var(--gl)"><div class="ii-ic ii-g">✓</div><div class="ii-b2"><div class="ii-t">Meta Descriptions — 2 pages <span class="is is-d">Deployed Mar 25</span></div><div class="ii-s">EPA Q1 Market Report + Redwood City Overview — ARES-written optimized descriptions live.</div><div class="ii-acs"><span class="rc" onclick="alert('Rolling back…')">↩ Rollback</span></div></div></div>
-  </div>
-</div>
-
-<div class="view" id="view-chat">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">ARES Chat Agent</div><div style="font-size:11.5px;color:var(--mu)">Ask ARES anything — analyze, fix, explain, or deploy</div></div>
-  <div class="chat-w">
-    <div class="chat-msgs" id="chatMsgs"><div id="chatInit"></div></div>
-    <div class="chat-ia">
-      <div class="cs-pills">
-        <div class="csp" onclick="fillChat(this)">Why is my LLM visibility 0?</div>
-        <div class="csp" onclick="fillChat(this)">What should I fix first?</div>
-        <div class="csp" onclick="fillChat(this)">Run a site audit</div>
-        <div class="csp" onclick="fillChat(this)">What keywords am I losing?</div>
-        <div class="csp" onclick="fillChat(this)">Fix my GBP issues</div>
-        <div class="csp" onclick="fillChat(this)">Generate 5 content briefs</div>
-      </div>
-      <div class="chat-inp-w">
-        <span style="font-size:14px;color:var(--fa)">🔮</span>
-        <input class="chat-inp" id="chatIn" placeholder="Ask ARES to analyze, fix, explain, or deploy…" onkeydown="if(event.key==='Enter')sendChat()">
-        <button class="chat-send" onclick="sendChat()">Send →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="view" id="view-ranks">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Rank Tracker</div><div style="flex:1;font-size:11.5px;color:var(--mu)">Real data from graehamwatts.com · 23 tracked</div><button class="btn bta" onclick="alert('Refreshing…')">⟳ Refresh</button></div>
-  <div class="kpi" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kc"><div class="kl">Organic keywords</div><div class="kv">95</div><div class="ks g">↑ 72 improved</div></div>
-    <div class="kc"><div class="kl">Top 3</div><div class="kv">2</div><div class="ks g">graeham watts keywords</div></div>
-    <div class="kc"><div class="kl">Pos 4–10</div><div class="kv">1</div></div>
-    <div class="kc"><div class="kl">Pos 51–100</div><div class="kv">53</div><div class="ks a">Need improvement</div></div>
-    <div class="kc"><div class="kl">Monthly traffic</div><div class="kv">431</div></div>
-  </div>
-  <div class="ca">
-    <div class="alert-i"><span style="font-size:1rem;flex-shrink:0">💡</span><div><strong>Key insight:</strong> You rank #1 for personal name keywords but commercial real estate keywords sit at pos 17–86. Your authority (100/100) gives you power to rank for competitive terms — you just need the content. The 147 Domain Knowledge Network pages would fill this gap.</div></div>
-    <div class="card"><div class="ch"><div class="ct">Organic Keywords — Position History</div><button class="btn">↓ Export</button></div>
-    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-bottom:1px solid var(--bo)" id="posGrid"></div>
-    <table class="t"><thead><tr><th>Keyword</th><th>Intent</th><th>Prev</th><th>Current</th><th>SERP</th><th>Traffic</th><th>Volume</th><th>CPC</th><th>KD</th><th>URL</th></tr></thead><tbody id="rankRows"></tbody></table></div>
-  </div>
-</div>
-
-<div class="view" id="view-kw">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Keyword Research</div><button class="btn bta">⚡ Create Briefs</button></div>
-  <div class="tab-r" id="kwTabs"><div class="ti on" onclick="setTab(this,'kwTabs')">Organic (95)</div><div class="ti" onclick="setTab(this,'kwTabs')">Paid (0)</div><div class="ti" onclick="setTab(this,'kwTabs')">Opportunities (48)</div></div>
-  <div class="ca">
-    <div class="card"><div class="ch"><div class="ct">Keyword Distribution</div></div><div style="display:grid;grid-template-columns:repeat(6,1fr)" id="kwDist"></div></div>
-    <div class="card"><div class="ch"><div class="ct">All Organic Keywords</div><button class="btn">↓ Export</button></div>
-    <table class="t"><thead><tr><th>Keyword</th><th>Intent</th><th>Prev</th><th>Current</th><th>Diff</th><th>Position Serps</th><th>Traffic</th><th>Volume</th><th>CPC</th><th>KD</th></tr></thead><tbody id="kwRows"></tbody></table></div>
-  </div>
-</div>
-
-<div class="view" id="view-pages">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Organic Pages</div><div style="flex:1;font-size:11.5px;color:var(--mu)">32 organic pages · graehamwatts.com</div><button class="btn">↓ Export</button></div>
-  <div class="ca">
-    <div class="alert-w"><span style="font-size:1rem;flex-shrink:0">⚠</span><div><strong>Most pages have 0 traffic.</strong> Out of 32 indexed pages, only 2 generate meaningful traffic: homepage (331 visits, 99.17%) and one UTM-tagged page (12 visits, 3.7%). The 147 Domain Knowledge Network pages are the fix.</div></div>
-    <div class="card"><div class="ch"><div class="ct">All Organic Pages — 32 Indexed</div></div><table class="t"><thead><tr><th>URL</th><th>Organic Keywords</th><th>Paid Keywords</th><th>Traffic</th><th>Traffic %</th><th>Backlinks</th></tr></thead><tbody id="pageRows"></tbody></table></div>
-  </div>
-</div>
-
-<div class="view" id="view-pos">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Position Changes</div><div style="flex:1;font-size:11.5px;color:var(--mu)">Mar 16 – Mar 29, 2026</div></div>
-  <div class="kpi" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kc"><div class="kl">All position changes</div><div class="kv">2</div></div>
-    <div class="kc"><div class="kl">Traffic</div><div class="kv">431</div></div>
-    <div class="kc"><div class="kl">Improved</div><div class="kv g">47</div></div>
-    <div class="kc"><div class="kl">Declined</div><div class="kv r">39</div></div>
-  </div>
-  <div class="ca">
-    <div class="card"><div class="ch"><div class="ct">Position Changes — Mar 2026</div></div>
-    <div style="padding:.65rem 1rem;border-bottom:1px solid var(--bo);display:flex;gap:5px">
-      <button class="btn">New</button>
-      <button class="btn" style="background:var(--gl);color:var(--g);border-color:var(--gl)">Improved (47)</button>
-      <button class="btn">Declined (39)</button><button class="btn">Lost</button>
-      <span style="font-size:11.5px;color:var(--mu);margin-left:auto;align-self:center">All changes: 2</span>
-    </div>
-    <table class="t"><thead><tr><th>Keyword</th><th>Intent</th><th>Prev</th><th>Current</th><th>Diff</th><th>SERP Features</th><th>Traffic</th><th>Volume</th><th>CPC</th><th>KD</th></tr></thead><tbody id="posRows"></tbody></table></div>
-    <div class="alert-i"><span style="font-size:1rem;flex-shrink:0">💡</span><div><strong>What these changes mean:</strong> "Homes for sale in palo alto ca" dropped 10 positions (50 → 60) — content freshness issue. "AB 1482" is a new entry at position 2 — your article is gaining traction. ARES recommends updating the Palo Alto page with fresh 2026 data.</div></div>
-  </div>
-</div>
-
-<div class="view" id="view-topical">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Topical Maps — Domain Knowledge Network</div><div style="flex:1;font-size:11.5px;color:var(--mu)">147 pages pending · 0 published · Your biggest gap</div><button class="btn bta" onclick="sv('cai')">⚡ Start Creating</button></div>
-  <div class="ca">
-    <div class="alert-w"><span style="font-size:1rem;flex-shrink:0">⚠</span><div><strong>Domain Knowledge Network: 147 pages identified, 0 published.</strong> This is your Content score of 30/100 in one number. ARES has mapped every page your site needs to dominate Bay Area real estate on Google and in AI tools. Content AI can write and push to WordPress directly.</div></div>
-    <div class="card"><div class="ch"><div class="ct">Topical Maps — 3 Active Projects</div><button class="btn bta" style="font-size:11px;padding:4px 9px">+ Create New Map</button></div>
-    <table class="t"><thead><tr><th>Pillar Page</th><th>Keyword</th><th>Brand Vault</th><th>Topic Count</th><th>Ideas in Map</th><th>Content Created</th><th>Published</th><th>Status</th></tr></thead><tbody id="topicalRows"></tbody></table></div>
-    <div class="card"><div class="ch"><div class="ct">Domain Knowledge Network — Sample Pages (147 total · 0 published)</div></div>
-    <table class="t"><thead><tr><th>Page Title</th><th>Type</th><th>Keywords</th><th>Category</th><th>Status</th><th>Action</th></tr></thead><tbody id="dknRows"></tbody></table></div>
-  </div>
-</div>
-
-<div class="view" id="view-cai">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Content AI Agent</div><div style="font-size:11.5px;color:var(--mu)">What article are we going to create today?</div></div>
-  <div class="ca">
-    <div style="max-width:680px;margin:0 auto">
-      <div style="text-align:center;margin-bottom:1.25rem"><div style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.35rem">Content AI Agent</div><div style="font-size:13px;color:var(--mu)">✨ What article are we going to create today?</div></div>
-      <div style="background:var(--sf);border:1.5px solid var(--aa);border-radius:10px;padding:.85rem 1rem;margin-bottom:.75rem;box-shadow:0 0 20px rgba(37,99,235,.08)"><input style="width:100%;border:none;outline:none;font-size:13.5px;font-family:'Epilogue',sans-serif;color:var(--ink);background:transparent" placeholder="Let's start with your article title and keywords you want to rank for..." id="caiInput"></div>
-      <div style="display:flex;gap:6px;justify-content:center;margin-bottom:1.25rem"><button class="btn">Continue last chat</button><button class="btn">View history</button><button class="btn bta">Open agent</button></div>
-      <div style="display:flex;gap:8px;margin-bottom:.85rem;align-items:center;font-size:11.5px;flex-wrap:wrap">
-        <div style="background:var(--sf);border:1px solid var(--bo);border-radius:5px;padding:3px 10px;display:flex;align-items:center;gap:5px;cursor:pointer"><div style="width:14px;height:14px;border-radius:3px;background:var(--arl);flex-shrink:0"></div>BrandVault: graehamwatts.com ▾</div>
-        <button class="btn">+ New BrandVault</button><button class="btn">⚙ Settings</button>
-        <div style="margin-left:auto;display:flex;gap:5px"><button class="btn bta" style="font-size:11px">Write with AI in bulk</button><button class="btn">Write with AI</button><button class="btn">Write yourself</button></div>
-      </div>
-    </div>
-    <div class="card"><div class="ch"><div class="ct">Recent Articles — 3 total · WordPress Sync active</div></div>
-    <table class="t"><thead><tr><th>CS</th><th>Article</th><th>Brand Vault</th><th>Status</th><th>WP Sync</th><th>Target Keywords</th><th>Words</th></tr></thead><tbody id="caiRows"></tbody></table></div>
-  </div>
-</div>
-
-<div class="view" id="view-gbp">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">GBP Galactic — Google Business Profile</div><button class="btn bta" onclick="alert('ARES optimizing GBP…')">🔮 Optimize GBP</button><button class="btn">↓ Export</button></div>
-  <div class="kpi" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kl">GBP Score</div><div class="kv a">63/100</div></div>
-    <div class="kc"><div class="kl">Avg Rank</div><div class="kv a">17.0</div><div class="ks a">4 keywords</div></div>
-    <div class="kc"><div class="kl">Citation Score</div><div class="kv r">22</div></div>
-    <div class="kc"><div class="kl">Rating</div><div class="kv">5.0</div><div class="ks g">27 reviews</div></div>
-    <div class="kc"><div class="kl">Posts</div><div class="kv">439</div></div>
-    <div class="kc"><div class="kl">Pending Tasks</div><div class="kv r">9</div></div>
-  </div>
-  <div class="ca">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      <div>
-        <div class="card" style="margin-bottom:.85rem"><div class="ch"><div class="ct">GBP Performance — Feb–Mar 2026</div></div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr)">
-          <div style="padding:.55rem .75rem;border-right:1px solid var(--bo)"><div class="kl">Profile Interactions</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">86</div><div class="ks g">↑ 7.85%</div></div>
-          <div style="padding:.55rem .75rem;border-right:1px solid var(--bo)"><div class="kl">Views</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">191</div><div class="ks r">↓ 18.99%</div></div>
-          <div style="padding:.55rem .75rem;border-right:1px solid var(--bo)"><div class="kl">Search Appearances</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">75</div><div class="ks r">↓ 78.88%</div></div>
-          <div style="padding:.55rem .75rem"><div class="kl">Calls</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">7</div><div class="ks g">↑ 40%</div></div>
+        <!-- SCORECARD -->
+        <div class="scorecard">
+          <div class="sc-hd">
+            <div class="sc-ico">🎯</div>
+            <div>
+              <div class="sc-title">ARES Score</div>
+              <div class="sc-sub">Your SEO health at a glance</div>
+            </div>
+          </div>
+          <div class="sc-pillars">
+            <div class="pil">
+              <div class="pil-lbl">ARES Score</div>
+              <div class="pil-val">79</div>
+              <div class="pil-bar"><div class="pil-fill" style="width:79%;background:#4ade80"></div></div>
+            </div>
+            <div class="pil">
+              <div class="pil-lbl">Content</div>
+              <div class="pil-val">30</div>
+              <div class="pil-bar"><div class="pil-fill" style="width:30%;background:#f59e0b"></div></div>
+            </div>
+            <div class="pil">
+              <div class="pil-lbl">Authority</div>
+              <div class="pil-val">100</div>
+              <div class="pil-bar"><div class="pil-fill" style="width:100%;background:#4ade80"></div></div>
+            </div>
+            <div class="pil">
+              <div class="pil-lbl">Technicals</div>
+              <div class="pil-val">91</div>
+              <div class="pil-bar"><div class="pil-fill" style="width:91%;background:#4ade80"></div></div>
+            </div>
+            <div class="pil">
+              <div class="pil-lbl">UX Signals</div>
+              <div class="pil-val">5</div>
+              <div class="pil-bar"><div class="pil-fill" style="width:5%;background:#ef4444"></div></div>
+            </div>
+          </div>
+          <div class="sc-acts">
+            <button class="sab primary" onclick="alert('Opening audit details...')">View Full Audit</button>
+            <button class="sab" onclick="alert('Running updated analysis...')">Re-scan</button>
+          </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--bo)">
-          <div style="padding:.55rem .75rem;border-right:1px solid var(--bo)"><div class="kl">Directions</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">58</div><div class="ks r">↓ 49.13%</div></div>
-          <div style="padding:.55rem .75rem;border-right:1px solid var(--bo)"><div class="kl">Website Clicks</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">21</div><div class="ks r">↓ 16.67%</div></div>
-          <div style="padding:.55rem .75rem"><div class="kl">Bookings</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">0</div></div>
-        </div></div>
-        <div class="card"><div class="ch"><div class="ct">GBP Keyword Rankings</div></div>
-        <table class="t"><thead><tr><th>Keyword</th><th>Avg Rank</th><th>Last Updated</th></tr></thead><tbody>
-          <tr><td style="font-weight:500">Realtor</td><td class="a">14.5</td><td class="n">Mar 4</td></tr>
-          <tr><td style="font-weight:500">Real estate agent</td><td class="a">17.2</td><td class="n">Mar 4</td></tr>
-          <tr><td style="font-weight:500">First time home buyer</td><td class="r">19</td><td class="n">Mar 4</td></tr>
-        </tbody></table></div>
+
+        <!-- LLM VISIBILITY ACTION PLAN -->
+        <div class="llm-card">
+          <div class="llm-hd">
+            <div class="llm-ico">🤖</div>
+            <div>
+              <div class="llm-title">LLM Visibility</div>
+              <div class="llm-sub">Your site is invisible to AI search (ChatGPT, Gemini, Perplexity)</div>
+            </div>
+          </div>
+          <div class="llm-steps">
+            <div class="llm-step">
+              <div class="llm-step-num">1</div>
+              <div class="llm-step-body">
+                <div class="llm-step-title">Add FAQ schema to top 5 pages</div>
+                <div class="llm-step-desc">AI models prioritize pages with structured Q&amp;A schema. Deploy FAQ markup to your 5 highest-traffic pages.</div>
+                <div class="llm-step-meta">
+                  <span>Effort: 1 hour</span>
+                  <span>Impact: +12 points</span>
+                </div>
+              </div>
+            </div>
+            <div class="llm-step">
+              <div class="llm-step-num">2</div>
+              <div class="llm-step-body">
+                <div class="llm-step-title">Create definitive guides for core topics</div>
+                <div class="llm-step-desc">Write 3-5 long-form guides (3000+ words) on your core topics. AI models favor depth and authority.</div>
+                <div class="llm-step-meta">
+                  <span>Effort: 3 days</span>
+                  <span>Impact: +18 points</span>
+                </div>
+              </div>
+            </div>
+            <div class="llm-step">
+              <div class="llm-step-num">3</div>
+              <div class="llm-step-body">
+                <div class="llm-step-title">Build topical authority clusters</div>
+                <div class="llm-step-desc">Organize content into semantic clusters. Link related articles together and create hub pages for each topic.</div>
+                <div class="llm-step-meta">
+                  <span>Effort: 1 week</span>
+                  <span>Impact: +22 points</span>
+                </div>
+              </div>
+            </div>
+            <div class="llm-step">
+              <div class="llm-step-num">4</div>
+              <div class="llm-step-body">
+                <div class="llm-step-title">Get cited in authoritative sources</div>
+                <div class="llm-step-desc">Reach out to industry publications and ask to be cited. AI models track citation patterns to identify experts.</div>
+                <div class="llm-step-meta">
+                  <span>Effort: 2 weeks</span>
+                  <span>Impact: +25 points</span>
+                </div>
+              </div>
+            </div>
+            <div class="llm-step">
+              <div class="llm-step-num">5</div>
+              <div class="llm-step-body">
+                <div class="llm-step-title">Monitor weekly LLM visibility</div>
+                <div class="llm-step-desc">Track how often your site appears in ChatGPT, Gemini, and Perplexity responses. Adjust strategy based on results.</div>
+                <div class="llm-step-meta">
+                  <span>Effort: 2 hours/week</span>
+                  <span>Impact: Ongoing +5 points</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPETITOR TRACKING -->
+        <div class="comp-card">
+          <div class="comp-hd">
+            <div class="comp-title">How You Compare — EPA Real Estate</div>
+            <div class="comp-sub">Your domain authority vs competitors</div>
+          </div>
+          <div class="comp-grid">
+            <div class="comp-item comp-current">
+              <div class="comp-label">Your Domain</div>
+              <div class="comp-domain">graehamwatts.com</div>
+              <div class="comp-da">28</div>
+            </div>
+            <div class="comp-item">
+              <div class="comp-label">Competitor A</div>
+              <div class="comp-domain">competitor-a.com</div>
+              <div class="comp-da">42</div>
+            </div>
+            <div class="comp-item">
+              <div class="comp-label">Competitor B</div>
+              <div class="comp-domain">competitor-b.com</div>
+              <div class="comp-da">35</div>
+            </div>
+          </div>
+          <div class="comp-gaps">
+            <div class="comp-gaps-title">Gap Analysis</div>
+            <div class="comp-gaps-value">14 keywords</div>
+            <div class="comp-gaps-text">Your competitors outrank you on 14 keywords worth an estimated 180 monthly clicks.</div>
+            <button class="comp-btn" onclick="alert('Opening keyword gap analysis...')">→ Steal Their Keywords</button>
+          </div>
+        </div>
+
+        <!-- THIS WEEK TASKS -->
+        <div class="this-week">
+          <div class="tw-hd">
+            <div class="tw-title">This Week's Tasks</div>
+            <div class="tw-time">Due: Friday</div>
+          </div>
+          <div class="task-item">
+            <div class="task-num u-r">1</div>
+            <div class="task-body">
+              <div class="task-title">Fix Core Web Vitals — LCP Optimization</div>
+              <div class="task-sub">Reduce largest contentful paint to under 2.5s via image optimization and lazy loading</div>
+            </div>
+            <div class="task-time">1.5 hrs</div>
+            <div class="task-arrow">→</div>
+          </div>
+          <div class="task-item">
+            <div class="task-num u-a">2</div>
+            <div class="task-body">
+              <div class="task-title">Deploy Schema Markup — Person + LocalBusiness</div>
+              <div class="task-sub">Add structured data to homepage and about page for better AI understanding</div>
+            </div>
+            <div class="task-time">45 min</div>
+            <div class="task-arrow">→</div>
+          </div>
+          <div class="task-item">
+            <div class="task-num u-g">3</div>
+            <div class="task-body">
+              <div class="task-title">Review Top 10 Keywords Performance</div>
+              <div class="task-sub">Check ranking positions and click-through rates, identify optimization opportunities</div>
+            </div>
+            <div class="task-time">30 min</div>
+            <div class="task-arrow">→</div>
+          </div>
+          <div class="task-item">
+            <div class="task-num u-b">4</div>
+            <div class="task-body">
+              <div class="task-title">Q&amp;A Update — FAQ Schema Review</div>
+              <div class="task-sub">Update FAQ schema on top-performing pages with new customer questions</div>
+            </div>
+            <div class="task-time">20 min</div>
+            <div class="task-arrow">→</div>
+          </div>
+        </div>
+
+        <!-- ARES CHAT -->
+        <div class="card">
+          <div class="ch">
+            <div class="ct">ARES Chat</div>
+            <div class="cl" onclick="alert('Opening chat history...')">History</div>
+          </div>
+          <div class="chat-w" style="height:280px">
+            <div class="chat-msgs" id="chatInit">
+              <div class="cm cm-a">
+                <div class="cm-av2">A</div>
+                <div>
+                  <div class="bub">Hi Graeham — I'm ARES, your PropIQ SEO agent. I've analyzed graehamwatts.com. Your biggest urgent issue is <strong>LLM Visibility at 0</strong> — you're invisible to ChatGPT, Gemini, Perplexity. Your content score (30/100) and UX signals (5/100) are major opportunities. What would you like to focus on?</div>
+                  <div class="cd">
+                    <div class="cr"><span style="font-weight:500">ARES Score</span><span class="g" style="margin-left:auto">79/100 ↑</span></div>
+                    <div class="cr"><span style="font-weight:500">LLM Visibility</span><span class="r" style="margin-left:auto">0 — URGENT</span></div>
+                    <div class="cr"><span style="font-weight:500">Content Score</span><span class="a" style="margin-left:auto">30/100 — 147 pages</span></div>
+                    <div class="cr"><span style="font-weight:500">UX Signals</span><span class="a" style="margin-left:auto">5/100 — fix today</span></div>
+                    <div class="cr"><span style="font-weight:500">Authority</span><span class="g" style="margin-left:auto">100/100 — perfect</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-ia">
+              <div class="cs-pills">
+                <div class="csp" onclick="document.getElementById('chatIn').value='Fix LLM visibility first'">Fix LLM Visibility</div>
+                <div class="csp" onclick="document.getElementById('chatIn').value='Review deployment queue'">Deploy Queue</div>
+                <div class="csp" onclick="document.getElementById('chatIn').value='What is the content score for?'">Content Score</div>
+              </div>
+              <div class="chat-inp-w">
+                <input type="text" class="chat-inp" id="chatIn" placeholder="Ask ARES anything...">
+                <button class="chat-send" onclick="sendChat()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRO-ONLY: RANK TRACKER SECTION -->
+        <div class="pro-section">
+          <div class="card">
+            <div class="ch">
+              <div class="ct">Rank Tracker — Top Keywords</div>
+              <div class="cl" onclick="alert('Opening full rank tracker...')">View All</div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="t">
+                <thead>
+                  <tr>
+                    <th style="width:180px">Keyword</th>
+                    <th style="width:60px">Rank</th>
+                    <th style="width:60px">Volume</th>
+                    <th style="width:70px">CPC</th>
+                    <th style="width:80px">Trend</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="rankRows">
+                  <tr>
+                    <td style="font-weight:500">graeham watts real estate</td>
+                    <td class="g"><span class="rb">1</span></td>
+                    <td>390</td>
+                    <td>$0</td>
+                    <td>↑ +2 pos</td>
+                    <td><button class="btn btng" style="font-size:10px;padding:2px 6px" onclick="alert('Optimizing...')">Optimize</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:500">graeham watts realtor</td>
+                    <td class="g"><span class="rb">1</span></td>
+                    <td>40</td>
+                    <td>$0</td>
+                    <td>→ 0 pos</td>
+                    <td><button class="btn" style="font-size:10px;padding:2px 6px" onclick="alert('Analyzing...')">Analyze</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:500">houses for sale in east palo alto</td>
+                    <td class="a"><span class="rb">17</span></td>
+                    <td>480</td>
+                    <td>$2.40</td>
+                    <td>↓ -3 pos</td>
+                    <td><button class="btn btr" style="font-size:10px;padding:2px 6px" onclick="alert('Fixing...')">Fix</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:500">california ab 1482 multifamily housing</td>
+                    <td class="n"><span class="rb">32</span></td>
+                    <td>170</td>
+                    <td>$0</td>
+                    <td>↑ +1 pos</td>
+                    <td><button class="btn" style="font-size:10px;padding:2px 6px" onclick="alert('Analyzing...')">Analyze</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRO-ONLY: BACKLINKS SECTION -->
+        <div class="pro-section">
+          <div class="card">
+            <div class="ch">
+              <div class="ct">Backlinks Overview</div>
+              <div class="cl" onclick="alert('Opening backlinks...')">Manage</div>
+            </div>
+            <div style="padding:1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">Total Backlinks</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--g);margin-bottom:.5rem">5,240</div>
+                <div style="font-size:11px;color:var(--mu)">From 320 referring domains</div>
+              </div>
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">Authority Score</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--g);margin-bottom:.5rem">42</div>
+                <div style="font-size:11px;color:var(--mu)">Domain Authority</div>
+              </div>
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">New (30d)</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--am);margin-bottom:.5rem">12</div>
+                <div style="font-size:11px;color:var(--mu)">New backlinks this month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRO-ONLY: GSC DEEP DIVE -->
+        <div class="pro-section">
+          <div class="card">
+            <div class="ch">
+              <div class="ct">Google Search Console Deep Dive</div>
+              <div class="cl" onclick="alert('Opening GSC...')">Full Report</div>
+            </div>
+            <div style="padding:1rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem">
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center;border:1px solid var(--border)">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">Impressions</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.3rem">8,420</div>
+                <div style="font-size:11px;color:var(--g)">↑ +340 (30d)</div>
+              </div>
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center;border:1px solid var(--border)">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">Clicks</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.3rem">1,204</div>
+                <div style="font-size:11px;color:var(--g)">↑ +95 (30d)</div>
+              </div>
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center;border:1px solid var(--border)">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">Avg. Position</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.3rem">12.4</div>
+                <div style="font-size:11px;color:var(--am)">↓ +1.2 (30d)</div>
+              </div>
+              <div style="padding:.85rem;background:var(--bg);border-radius:7px;text-align:center;border:1px solid var(--border)">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:.5rem">CTR</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.3rem">14.3%</div>
+                <div style="font-size:11px;color:var(--g)">↑ +1.1% (30d)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRO-ONLY: TOPICAL MAPS -->
+        <div class="pro-section">
+          <div class="card">
+            <div class="ch">
+              <div class="ct">Topical Authority Maps</div>
+              <div class="cl" onclick="alert('Opening topical maps...')">Explore</div>
+            </div>
+            <div style="padding:1rem">
+              <div style="font-size:12px;color:var(--mu);margin-bottom:1rem">Your most developed topical clusters:</div>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem">
+                <div style="padding:.85rem;background:var(--gl);border:1px solid var(--g);border-radius:7px">
+                  <div style="font-weight:500;color:var(--g);margin-bottom:.5rem">East Palo Alto Real Estate</div>
+                  <div style="font-size:11px;color:var(--g);margin-bottom:.5rem">24 connected articles • Authority: 92/100</div>
+                  <button class="btn btng" style="font-size:10px;padding:2px 6px" onclick="alert('Opening cluster...')">View</button>
+                </div>
+                <div style="padding:.85rem;background:var(--aml);border:1px solid var(--am);border-radius:7px">
+                  <div style="font-weight:500;color:var(--am);margin-bottom:.5rem">ADU Development in Bay Area</div>
+                  <div style="font-size:11px;color:var(--am);margin-bottom:.5rem">18 connected articles • Authority: 78/100</div>
+                  <button class="btn" style="font-size:10px;padding:2px 6px;border-color:var(--am);color:var(--am)" onclick="alert('Opening cluster...')">View</button>
+                </div>
+                <div style="padding:.85rem;background:var(--bl);border:1px solid var(--b);border-radius:7px">
+                  <div style="font-weight:500;color:var(--b);margin-bottom:.5rem">Investment Properties California</div>
+                  <div style="font-size:11px;color:var(--b);margin-bottom:.5rem">12 connected articles • Authority: 65/100</div>
+                  <button class="btn" style="font-size:10px;padding:2px 6px;border-color:var(--b);color:var(--b)" onclick="alert('Opening cluster...')">View</button>
+                </div>
+                <div style="padding:.85rem;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:7px">
+                  <div style="font-weight:500;color:#374151;margin-bottom:.5rem">Buyer Representation Services</div>
+                  <div style="font-size:11px;color:#6b7280;margin-bottom:.5rem">8 connected articles • Authority: 42/100</div>
+                  <button class="btn" style="font-size:10px;padding:2px 6px;border-color:#e5e7eb;color:#6b7280" onclick="alert('Opening cluster...')">View</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div>
-        <div class="card" style="margin-bottom:.85rem"><div class="ch"><div class="ct">Business Assistant — 9 Pending Tasks</div><div style="font-size:11px;color:var(--mu);cursor:pointer">Bulk actions ▾</div></div>
-        <div id="gbpTasks"></div></div>
-        <div class="card"><div class="ch"><div class="ct">Local Search Heatmap — East Palo Alto</div></div>
-        <div style="padding:.75rem"><div class="hm"><div class="hm-cells" id="hmCells" style="grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(10,1fr)"></div>
-        <div class="hm-leg"><div class="hl"><div class="hld" style="background:#0f4a34"></div>Rank 1–3</div><div class="hl"><div class="hld" style="background:var(--g)"></div>Rank 4–7</div><div class="hl"><div class="hld" style="background:#a7d9bf"></div>Rank 8–15</div><div class="hl"><div class="hld" style="background:var(--rel);border:1px solid var(--re)"></div>Not visible</div></div>
-        </div></div></div>
-      </div>
     </div>
   </div>
 </div>
 
-<div class="view" id="view-gsc">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">GSC Performance</div><button class="btn">↓ Export</button></div>
-  <div class="ca">
-    <div class="card"><div class="ch"><div class="ct">graehamwatts.com — GSC Overview</div><span class="bdg bdgg">GA4 Connected</span></div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr)">
-      <div style="padding:.6rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Total Keywords</div><div class="kv">6.5K</div><div class="ks g">↑ 5K</div></div>
-      <div style="padding:.6rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Avg Position</div><div class="kv">48</div><div class="ks r">↓ 34 on Mar 17</div></div>
-      <div style="padding:.6rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Impressions</div><div class="kv">270.9K</div><div class="ks g">↑ 65</div></div>
-      <div style="padding:.6rem .9rem;text-align:center"><div class="kl">Organic Traffic</div><div class="kv">1K</div><div class="ks g">↑ 21</div></div>
-    </div></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      <div class="card" style="margin-bottom:0"><div class="ch"><div class="ct">Top Organic Keywords</div></div><table class="t"><thead><tr><th>Keyword</th><th>Intent</th><th>Position</th><th>Volume</th><th>Traffic</th></tr></thead><tbody id="gscKwRows"></tbody></table></div>
-      <div class="card" style="margin-bottom:0"><div class="ch"><div class="ct">Organic Pages by Traffic Range</div></div><div style="padding:.75rem 1rem" id="gscTrafficRanges"></div></div>
-    </div>
-  </div>
-</div>
-
-<div class="view" id="view-report">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Executive Report</div><div style="flex:1"></div>
-    <button class="btn" onclick="alert('Hiding empty sections…')">Hide Empty Sections</button>
-    <button class="btn" onclick="alert('Configure…')">Configure Report</button>
-    <button class="btn" onclick="alert('Creating presentation…')">Create Presentation</button>
-    <button class="btn btng" onclick="alert('Downloading PDF…')">↓ Download</button>
-  </div>
-  <div class="ca">
-    <div class="card"><div class="ch"><div class="ct">Executive Summary</div><div style="display:flex;gap:5px"><span class="bdg" style="background:var(--arl);color:var(--aa)">graehamwatts.com</span><button class="btn" style="font-size:10.5px;padding:2px 7px">Refresh</button><button class="btn bta" style="font-size:10.5px;padding:2px 7px">AI Settings</button></div></div>
-    <div style="display:grid;grid-template-columns:140px 1fr;gap:1rem;padding:1rem;border-bottom:1px solid var(--bo)">
-      <div style="background:var(--bg);border-radius:7px;height:90px;display:flex;align-items:center;justify-content:center;font-size:2rem">🏠</div>
-      <div><div style="font-size:15px;font-weight:500;margin-bottom:4px">Bay Area Real Estate Specialist - Buy &amp; Sell Homes | Graeham Watts</div><div style="font-size:11.5px;color:var(--mu);margin-bottom:5px">Intero Real Estate - Specializing in buying &amp; selling properties in Bay Area</div><div style="font-size:11.5px;color:var(--b)">https://graehamwatts.com/ ↗</div></div>
-    </div>
-    <div style="padding:1rem;border-bottom:1px solid var(--bo)">
-      <div style="font-size:12.5px;font-weight:500;margin-bottom:.65rem;display:flex;align-items:center;gap:6px"><span style="font-size:1rem">🔮</span>AI Insights</div>
-      <div style="font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:.65rem">Graeham Watts - Realtor has demonstrated exceptional growth across several digital performance metrics. Total users surged by 642%, new users increased by 671%, and engaged sessions rose by 529%. Additionally, impressive gains in Google My Business metrics, with website clicks rising by 600% and call clicks by 250%, indicate a strong upward trajectory in user engagement.</div>
-      <div style="font-size:12.5px;color:var(--mu);line-height:1.7">These exceptional growth metrics highlight the effectiveness of recent marketing strategies and the potential for increased brand engagement. The significant rise in users and interactions indicates that the current approach resonates well with the audience, creating opportunities for converting engagement into conversions.</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr)">
-      <div style="padding:.7rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Total Users</div><div class="kv">1,000</div><div class="ks g">↑ +642%</div></div>
-      <div style="padding:.7rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Engaged Sessions</div><div class="kv">1,200</div><div class="ks g">↑ +529%</div></div>
-      <div style="padding:.7rem .9rem;text-align:center"><div class="kl">New Users</div><div class="kv">800</div><div class="ks g">↑ +671%</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--bo)">
-      <div style="padding:.7rem .9rem;border-right:1px solid var(--bo);text-align:center"><div class="kl">Website Clicks</div><div class="kv">74</div><div class="ks g">↑ +600%</div></div>
-      <div style="padding:.7rem .9rem;text-align:center"><div class="kl">Call Clicks</div><div class="kv">18</div><div class="ks g">↑ +250%</div></div>
-    </div></div>
-  </div>
-</div>
-
-<div class="view" id="view-auth">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Authority &amp; Backlinks</div><div style="flex:1;font-size:11.5px;color:var(--mu)">Authority Score 100/100 — Perfect</div><button class="btn">↓ Export</button></div>
-  <div class="kpi" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kc"><div class="kl">Authority Score</div><div class="kv g">100/100</div><div class="ks g">Perfect</div></div>
-    <div class="kc"><div class="kl">Backlinks</div><div class="kv">1.7K</div></div>
-    <div class="kc"><div class="kl">Referring Domains</div><div class="kv">241</div></div>
-    <div class="kc"><div class="kl">Referring IPs</div><div class="kv">163</div></div>
-    <div class="kc"><div class="kl">Improved/Declined</div><div class="kv">47/39</div><div class="ks g">Net positive</div></div>
-  </div>
-  <div class="ca">
-    <div class="alert-i"><span>✓</span><div><strong>Authority is perfect (100/100).</strong> You have the domain power to rank for competitive keywords. The reason you're not is content gap (30/100), not authority. Good news — you just need to create content.</div></div>
-    <div class="card"><div class="ch"><div class="ct">Recent Backlinks</div></div>
-    <table class="t"><thead><tr><th>DP</th><th>Source Page</th><th>Ext Links</th><th>Int Links</th><th>Anchor &amp; Target</th><th>First Seen</th><th>Last Seen</th></tr></thead><tbody id="blRows"></tbody></table></div>
-  </div>
-</div>
-
-<div class="view" id="view-pr">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">Press Release Distribution</div><div style="flex:1;font-size:11.5px;color:var(--mu)">Builds the citation trail that LLMs need to cite you</div><button class="btn btng" onclick="alert('Creating new press release…')">+ Add Press Release</button></div>
-  <div class="ca">
-    <div class="alert-i"><span style="font-size:1rem;flex-shrink:0">💡</span><div><strong>Why press releases help LLM visibility:</strong> AI tools like ChatGPT and Perplexity pull from news sources when deciding who to cite as an expert. Distributing press releases about your market expertise builds the citation authority that gets you mentioned in AI answers. This is Step 4 of the ARES LLM fix plan.</div></div>
-    <div class="card"><div class="ch"><div class="ct">Press Release Projects</div></div>
-    <table class="t"><thead><tr><th>Created</th><th>Headline</th><th>Target URL</th><th>Target Keywords</th><th>Published</th><th>Status</th></tr></thead><tbody>
-      <tr><td class="n">12/15/25</td><td style="font-weight:500">East Palo Alto Real Estate Success Stories Shine</td><td style="color:var(--b);font-size:11px">https://graehamwatts.com/</td><td style="font-size:11px;color:var(--mu)">east palo alto ca homes for sale, east palo alto homes for sale</td><td class="n">—</td><td><button style="font-size:10.5px;padding:3px 9px;border-radius:4px;background:var(--pu);color:#fff;border:none;cursor:pointer;font-family:inherit">Publish content</button></td></tr>
-    </tbody></table></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem">
-      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:7px;padding:.85rem"><div style="font-size:12px;font-weight:500;margin-bottom:4px">Market Report Release</div><div style="font-size:11.5px;color:var(--mu);line-height:1.5;margin-bottom:.65rem">Announce your monthly EPA market update with data. AI tools cite market data sources frequently.</div><button class="btn bta" style="font-size:11px;padding:3px 8px">Use Template</button></div>
-      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:7px;padding:.85rem"><div style="font-size:12px;font-weight:500;margin-bottom:4px">Expert Commentary</div><div style="font-size:11.5px;color:var(--mu);line-height:1.5;margin-bottom:.65rem">Position yourself as the ADU and investment expert in EPA. Quote your research and analysis.</div><button class="btn bta" style="font-size:11px;padding:3px 8px">Use Template</button></div>
-      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:7px;padding:.85rem"><div style="font-size:12px;font-weight:500;margin-bottom:4px">Transaction Announcement</div><div style="font-size:11.5px;color:var(--mu);line-height:1.5;margin-bottom:.65rem">Announce notable closings. Builds citation trail for "top agent in EPA" queries.</div><button class="btn bta" style="font-size:11px;padding:3px 8px">Use Template</button></div>
-    </div>
-  </div>
-</div>
-
-<div class="view" id="view-setup">
-  <div class="tlb"><button class="btn" onclick="sv('dash')">← Back</button><div class="pt">ARES Setup &amp; Connection</div></div>
-  <div class="ca">
-    <div style="max-width:560px">
-      <div class="ah" style="margin-bottom:1rem"><div class="ah-hd" style="margin-bottom:0"><div class="ah-ico">🔮</div><div><div class="ah-t">ARES connected — graehamwatts.com</div><div class="ah-s">Pixel active · API live · GSC synced · GBP connected</div></div><span style="background:rgba(74,222,128,.2);border:1px solid rgba(74,222,128,.3);border-radius:5px;padding:4px 10px;color:#4ade80;font-size:11px;white-space:nowrap">✓ Engaged</span></div></div>
-      <div class="card"><div class="ch"><div class="ct">ARES Pixel — Installed</div><span class="bdg bdgg">✓ Live</span></div>
-      <div style="padding:1rem"><div style="font-size:12px;color:var(--mu);margin-bottom:.7rem;line-height:1.6">The ARES pixel is in your site header. It enables scanning, issue detection, and one-click fix deployment. Rollback any change anytime.</div>
-      <div style="background:var(--bg);border:1px solid var(--bo);border-radius:6px;padding:.7rem 1rem;font-family:monospace;font-size:11px;color:var(--g);margin-bottom:.7rem">&lt;!-- ARES SEO Engine — PropIQ --&gt;<br>&lt;script src="https://ares.propiq.com/pixel.js"<br>&nbsp;data-site="graehamwatts.com"<br>&nbsp;data-key="px_gwatts_01466876"&gt;&lt;/script&gt;</div>
-      <div style="display:flex;gap:5px"><button class="btn" onclick="alert('Copied')">📋 Copy</button><button class="btn" onclick="alert('WP guide…')">WordPress Plugin</button><button class="btn bta" onclick="alert('OK')">Test Connection</button></div></div></div>
-      <div class="card"><div class="ch"><div class="ct">Connected Services</div></div><div id="setupServices"></div></div>
-    </div>
-  </div>
-</div>
-
-</div></div></div>
 <script>
-function sv(id){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
-  var el = document.getElementById('view-'+id);
-  if(el) el.classList.add('on');
-  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on')});
+function toggleMode() {
+  var sw = document.getElementById('modeSwitch');
+  var body = document.body;
+  sw.classList.toggle('on');
+  body.classList.toggle('pro-mode');
+  var isProMode = body.classList.contains('pro-mode');
+  localStorage.setItem('seoMode', isProMode ? 'pro' : 'agent');
 }
-function setTab(el,groupId){
-  var g = document.getElementById(groupId);
-  if(g) g.querySelectorAll('.ti').forEach(function(t){t.classList.remove('on')});
-  el.classList.add('on');
+
+// Initialize mode from localStorage
+function initMode() {
+  var mode = localStorage.getItem('seoMode');
+  if(mode === 'pro') {
+    toggleMode();
+  }
 }
-function doDeploy(btn){
-  btn.textContent = 'Deploying…';
-  btn.disabled = true;
-  btn.style.opacity = '0.6';
-  setTimeout(function(){
-    btn.textContent = '✓ Deployed';
-    btn.style.background = 'var(--bl)';
-    btn.style.color = 'var(--b)';
-    btn.style.borderColor = 'var(--bl)';
-    btn.style.opacity = '1';
-    btn.disabled = false;
-    var acts = btn.parentElement;
-    if(acts && !acts.querySelector('.rc')){
-      var chip = document.createElement('span');
-      chip.className = 'rc';
-      chip.textContent = '↩ Rollback';
-      chip.onclick = function(){alert('Rolling back — restoring previous version')};
-      acts.appendChild(chip);
-    }
-  }, 1200);
-}
-function fillChat(el){
-  var inp = document.getElementById('chatIn');
-  if(inp) inp.value = el.textContent;
-}
+
 function sendChat(){
   var input = document.getElementById('chatIn');
   if(!input) return;
   var msg = input.value.trim();
   if(!msg) return;
-  var msgs = document.getElementById('chatMsgs');
+  var msgs = document.getElementById('chatInit');
   var uDiv = document.createElement('div');
   uDiv.className = 'cm cm-u';
   uDiv.innerHTML = '<div class="bub">' + msg + '</div><div class="cm-av2">GW</div>';
@@ -642,262 +726,7 @@ function sendChat(){
   }, 1400);
 }
 
-function mkBdg(txt,cls){return '<span class="bdg '+cls+'">'+txt+'</span>'}
-function mkAb(txt,fn){return '<button class="btn bta" style="font-size:10.5px;padding:2px 7px" onclick="'+fn+'">'+txt+'</button>'}
-function spark(data,col){
-  var h = '';
-  data.forEach(function(v){h+='<div class="sb2" style="height:'+v*3+'px;width:5px;background:'+col+'"></div>'});
-  return '<div class="spark">'+h+'</div>';
-}
-
-function initTopRanks(){
-  var data = [
-    ['#1','graeham watts - real','93.4','390',[4,5,6,7,8,9],'var(--g)'],
-    ['#1','graeham watts realtor','2.7','40',[5,6,7,8,9,10],'var(--g)'],
-    ['#17','houses for sale in east palo...','0.3','480',[8,7,7,6,6,5],'var(--am)'],
-    ['#32','california ab 1482','0','170',[3,3,3,4,4,4],'var(--fa)']
-  ];
-  var tb = document.getElementById('topRanks');
-  if(!tb) return;
-  data.forEach(function(d){
-    var col = d[0]==='#1'?'var(--g)':d[0].includes('17')?'var(--am)':'var(--fa)';
-    tb.innerHTML += '<tr><td><span class="rb" style="color:'+col+'">'+d[0]+'</span></td><td style="font-weight:500;font-size:12px">'+d[1]+'</td><td class="'+(parseFloat(d[2])>5?'g':'n')+'">'+d[2]+'</td><td class="n">'+d[3]+'</td><td>'+spark(d[4],d[5])+'</td></tr>';
-  });
-}
-
-function initLLMBars(){
-  var el = document.getElementById('llmBars');
-  if(!el) return;
-  var platforms = [
-    ['ChatGPT','#10a37f',0],['Gemini','#4285f4',0],['Perplexity','#8b5cf6',0],
-    ['Copilot','#0ea5e9',0],['Grok','#f59e0b',0],['Google AI','#ea4335',0]
-  ];
-  platforms.forEach(function(p){
-    el.innerHTML += '<div class="lp"><div class="ln"><span style="color:'+p[1]+';font-size:13px">⬤</span>'+p[0]+'</div><div class="lbw"><div class="lbf" style="width:'+p[2]+'%;background:'+p[1]+'"></div></div><div class="lsc r">0</div><div class="ltd r">Not found</div></div>';
-  });
-}
-
-function initLLMCompBars(){
-  var el = document.getElementById('llmCompBars');
-  if(!el) return;
-  var sites = [['graehamwatts.com','var(--re)',0],['zillow.com','#0074e4',72],['redfin.com','#cf3c1a',58],['facebook.com','#1877f2',24],['compass.com','var(--ink)',18]];
-  sites.forEach(function(s){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:8px;padding:.4rem 0;border-bottom:1px solid var(--bo);font-size:12px"><span style="width:140px;color:var(--mu);flex-shrink:0">'+s[0]+'</span><div style="flex:1;height:6px;background:var(--bo);border-radius:3px;overflow:hidden"><div style="width:'+s[2]+'%;height:100%;background:'+s[1]+';border-radius:3px"></div></div><span style="width:35px;text-align:right;font-weight:600;color:'+s[1]+'">'+s[2]+'</span></div>';
-  });
-}
-
-function initLLMFixes(){
-  var el = document.getElementById('llmFixes');
-  if(!el) return;
-  var fixes = [
-    ['Entity-Rich Structured Data','AI models prefer sites with clear schema. ARES adds Person, LocalBusiness, RealEstateAgent, and Review schema to your key pages.','sv(\'queue\')'],
-    ['Optimize for Conversational Queries','AI tools favor content that answers questions directly. ARES rewrites top pages with FAQ format and conversational structure.','alert(\'Queuing rewrites…\')'],
-    ['Create Expert Authority Content','Publishing EPA market data, investment analysis, and ADU guides as data-rich resources positions you as citable authority.','sv(\'cai\')'],
-    ['Press Release Distribution','AI models pull from news. Distributing to 200+ outlets creates the citation trail that tells AI tools you are a recognized expert.','sv(\'pr\')'],
-    ['GBP and Citation Consistency','AI tools pull from Google knowledge graph. Fixing GBP from 63 to 90+ and NAP consistency improves LLM citations.','sv(\'gbp\')']
-  ];
-  fixes.forEach(function(f,i){
-    el.innerHTML += '<div class="ii2"><div style="width:22px;height:22px;border-radius:50%;background:var(--arl);color:var(--aa);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px">'+(i+1)+'</div><div class="ii-b2"><div class="ii-t">'+f[0]+'</div><div class="ii-s">'+f[1]+'</div><div class="ii-acs"><button class="ia iad" onclick="'+f[2]+'">→ Start</button></div></div></div>';
-  });
-}
-
-function initLLMTopics(){
-  var el = document.getElementById('llmTopics');
-  if(!el) return;
-  var topics = [['Buyer representation services',0,'—','—','0'],['East Palo Alto investment specialist',0,'—','—','320'],['ADU development expert Bay Area',0,'—','—','180'],['Seller listing optimization',0,'—','—','1,300'],['Proactive buyer outreach',0,'—','—','0']];
-  topics.forEach(function(t){
-    el.innerHTML += '<tr><td style="font-weight:500">'+t[0]+'</td><td class="r">'+t[1]+'</td><td class="n">'+t[2]+'</td><td class="n">'+t[3]+'</td><td>'+t[4]+'</td><td>'+mkAb('Optimize','alert(\'ARES optimizing…\')')+'</td></tr>';
-  });
-}
-
-function initChatInitial(){
-  var el = document.getElementById('chatInit');
-  if(!el) return;
-  el.innerHTML = '<div class="cm cm-a"><div class="cm-av2">A</div><div><div class="bub">Hi Graeham — I\'m ARES, your PropIQ SEO agent. I\'ve analyzed graehamwatts.com. Your biggest urgent issue is <strong>LLM Visibility at 0</strong> — you\'re invisible to ChatGPT, Gemini, Perplexity, and every other AI platform. Your content score (30/100) and UX signals (5/100) are also major opportunities. What would you like to focus on?</div><div class="cd"><div class="cr"><span style="font-weight:500">ARES Score</span><span class="g" style="margin-left:auto">79/100 ↑</span></div><div class="cr"><span style="font-weight:500">LLM Visibility</span><span class="r" style="margin-left:auto">0 — URGENT</span></div><div class="cr"><span style="font-weight:500">Content Score</span><span class="a" style="margin-left:auto">30/100 — 147 pages needed</span></div><div class="cr"><span style="font-weight:500">UX Signals</span><span class="a" style="margin-left:auto">5/100 — fix today</span></div><div class="cr"><span style="font-weight:500">Authority</span><span class="g" style="margin-left:auto">100/100 — perfect</span></div><div style="margin-top:.55rem;display:flex;gap:5px"><button class="btn bta" style="font-size:11px;padding:4px 9px" onclick="sv(\'llm\')">Fix LLM Visibility →</button><button class="btn" style="font-size:11px;padding:4px 9px" onclick="sv(\'queue\')">Deploy Queue</button></div></div></div></div>';
-}
-
-function initPillarGrid(){
-  var el = document.getElementById('pillarGrid');
-  if(!el) return;
-  var pillars = [['Content','30','var(--am)','30%','#f59e0b'],['Authority','100','var(--g)','100%','var(--g)'],['Technicals','91','var(--g)','91%','var(--g)'],['UX Signals','5','var(--re)','5%','#ef4444']];
-  pillars.forEach(function(p){
-    el.innerHTML += '<div style="padding:.5rem;background:var(--bg);border-radius:6px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:4px">'+p[0]+'</div><div style="font-family:\'Playfair Display\',serif;font-size:1.5rem;color:'+p[2]+';line-height:1">'+p[1]+'</div><div style="height:4px;background:var(--bo);border-radius:2px;overflow:hidden;margin-top:4px"><div style="width:'+p[3]+';height:100%;background:'+p[4]+';border-radius:2px"></div></div></div>';
-  });
-}
-
-function initTaskList(){
-  var el = document.getElementById('taskList');
-  if(!el) return;
-  var tasks = [['Meta Keywords','130/131','g'],['Twitter Card','130/131','g'],['Twitter Title','130/131','g'],['Twitter Description','130/131','g'],['UX Signals — Core Web Vitals','5/100','r'],['LLM Visibility','0/100','r']];
-  tasks.forEach(function(t){
-    var bg = t[2]==='g'?'var(--g)':'var(--re)';
-    el.innerHTML += '<div class="ii2" style="padding:.5rem 1rem;'+(t[2]==='r'?'background:var(--rel)':'')+'"><div style="flex:1;font-size:12px;font-weight:500">'+t[0]+'</div><div style="font-size:11px;color:var(--mu);margin-right:8px">'+t[1]+'</div><div style="width:18px;height:18px;border-radius:50%;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">'+(t[2]==='g'?'✓':'!')+'</div></div>';
-  });
-}
-
-function initAPIStatus(){
-  var el = document.getElementById('apiStatus');
-  if(!el) return;
-  el.innerHTML = '<div style="font-size:12.5px;font-weight:500;margin-bottom:.5rem">API Connection Status</div>';
-  var services = [['ARES Engine','Connected','g'],['Rank Data Source','Live','g'],['Google Search Console','Synced','g'],['Google Business Profile','Connected','g']];
-  services.forEach(function(s){
-    el.innerHTML += '<div style="display:flex;justify-content:space-between;font-size:12px;padding:.3rem 0;border-bottom:1px solid var(--bo)"><span style="color:var(--mu)">'+s[0]+'</span><span class="'+s[2]+'">● '+s[1]+'</span></div>';
-  });
-}
-
-function initRankRows(){
-  var tb = document.getElementById('rankRows');
-  if(!tb) return;
-  var data = [
-    ['graeham watts - real','it-i','N','1','1','—','—','93.4','390','$0','31','var(--g)',[4,5,6,7,8,9]],
-    ['graeham watts realtor','it-i','I','1','1','—','—','2.7','40','$0','27','var(--g)',[5,6,7,8,9,10]],
-    ['houses for sale in east palo...','it-t','T','17','17','—','—','0.3','480','$0.25','25','var(--am)',[8,7,7,6,6,5]],
-    ['california ab 1482','it-i','I','32','32','—','—','0','170','$0.97','29','var(--fa)',[3,3,3,4,4,4]],
-    ['casas de venta en east palo...','it-c','C','42','42','—','—','0','40','$0.02','23','var(--fa)',[2,2,3,3,3,3]]
-  ];
-  data.forEach(function(d){
-    tb.innerHTML += '<tr><td style="font-weight:500">'+d[0]+'</td><td><span class="int '+d[1]+'">'+d[2]+'</span></td><td class="n">'+d[3]+'</td><td style="color:'+d[11]+';font-weight:500">'+d[4]+'</td><td class="n">'+d[5]+'</td><td class="n">'+d[7]+'</td><td>'+d[8]+'</td><td class="n">'+d[9]+'</td><td><span class="kd kde">'+d[10]+'</span></td><td style="font-size:10px;color:var(--b)">graehamwatts.com</td></tr>';
-  });
-}
-
-function initPosGrid(){
-  var el = document.getElementById('posGrid');
-  if(!el) return;
-  var posData = [['Top 3','2','var(--g)'],['Pos 4-10','1','var(--g)'],['Pos 11-20','7','var(--am)'],['Pos 21-50','29','var(--am)'],['Pos 51-100','53','var(--re)'],['SERP Features','3','var(--fa)']];
-  posData.forEach(function(p,i){
-    el.innerHTML += '<div style="padding:.6rem .85rem;border-right:'+(i<5?'1px solid var(--bo)':'none')+';text-align:center"><div class="kl">'+p[0]+'</div><div style="font-family:\'Playfair Display\',serif;font-size:1.2rem;color:'+p[2]+'">'+p[1]+'</div></div>';
-  });
-}
-
-function initKWDist(){
-  var el = document.getElementById('kwDist');
-  if(!el) return;
-  var d = [['Top 3','2','var(--g)'],['Pos 4-10','1','var(--g)'],['Pos 11-20','7','var(--am)'],['Pos 21-50','29','var(--am)'],['Pos 51-100','53','var(--re)'],['SERP Features','3','var(--n)']];
-  d.forEach(function(p,i){
-    el.innerHTML += '<div style="padding:.6rem .85rem;border-right:'+(i<5?'1px solid var(--bo)':'none')+';text-align:center"><div class="kl">'+p[0]+'</div><div style="font-family:\'Playfair Display\',serif;font-size:1.2rem;color:'+p[2]+'">'+p[1]+'</div></div>';
-  });
-}
-
-function initKWRows(){
-  var tb = document.getElementById('kwRows');
-  if(!tb) return;
-  var data = [['california ab 1482','I','32','32','—','—','0','170','$0.97','29'],['graeham watts - real','N','1','1','—','—','93.4','390','$0','31'],['houses for sale in east palo...','T','17','17','—','—','0.3','480','$0.25','25'],['casas de venta en east palo...','C','42','42','—','—','0','40','$0.02','23'],['graeham watts realtor','I','1','1','—','—','2.7','40','$0','27']];
-  data.forEach(function(d){
-    var curr = d[3]; var col = curr==='1'?'g':parseInt(curr)<20?'a':'n';
-    tb.innerHTML += '<tr><td style="font-weight:500">'+d[0]+'</td><td><span class="int i'+d[1].toLowerCase()+'">'+d[1]+'</span></td><td class="n">'+d[2]+'</td><td class="'+col+'" style="font-weight:500">'+d[3]+'</td><td class="n">'+d[4]+'</td><td class="n">'+d[5]+'</td><td class="'+(parseFloat(d[6])>5?'g':'n')+'">'+d[6]+'</td><td>'+d[7]+'</td><td class="n">'+d[8]+'</td><td><span class="kd kde">'+d[9]+'</span></td></tr>';
-  });
-}
-
-function initPageRows(){
-  var tb = document.getElementById('pageRows');
-  if(!tb) return;
-  var data = [['https://graehamwatts.com/','2','0','331','99.17%',true],['...?utm_source=google&utm_medium=organic-local','1','0','12','3.7%',false],['...east-palo-alto-ca-home-for-sale','1','0','1','0.3%',false],['...buy-with-graeham','1','0','0','0%',false],['...open-houses-in-menlo-park','0','0','0','0%',false]];
-  data.forEach(function(d){
-    tb.innerHTML += '<tr'+(d[5]?' style="background:var(--gl)"':'')+'><td style="color:var(--b);font-size:10.5px;max-width:260px;overflow:hidden;text-overflow:ellipsis">'+d[0]+'</td><td>'+d[1]+'</td><td>'+d[2]+'</td><td class="'+(parseInt(d[3])>100?'g':parseInt(d[3])>5?'a':'n')+'" style="font-weight:500">'+d[3]+'</td><td>'+d[4]+'</td><td><button style="font-size:10px;padding:2px 6px;border-radius:3px;border:1px solid var(--bo);background:var(--sf);cursor:pointer">Show</button></td></tr>';
-  });
-  tb.innerHTML += '<tr><td style="color:var(--fa);font-style:italic" colspan="6">+ 27 more pages with 0 traffic — Domain Knowledge Network will fix this</td></tr>';
-}
-
-function initPosRows(){
-  var tb = document.getElementById('posRows');
-  if(!tb) return;
-  tb.innerHTML = '<tr><td style="font-weight:500">homes for sale in palo alto ca</td><td><span class="int it">T</span></td><td class="n">50</td><td class="r" style="font-weight:500">60</td><td class="r" style="font-weight:600">↓ −10</td><td class="n">💬</td><td>0</td><td>880</td><td class="n">$0.4</td><td><span class="kd kde">29</span></td></tr><tr><td style="font-weight:500">ab 1482</td><td><span class="int ii">I</span></td><td class="n">—</td><td class="g" style="font-weight:500">2</td><td class="g" style="font-weight:600">new</td><td class="n">—</td><td>0</td><td>2,400</td><td class="n">$1.8</td><td><span class="kd kde">30</span></td></tr>';
-}
-
-function initTopicalRows(){
-  var tb = document.getElementById('topicalRows');
-  if(!tb) return;
-  var data = [['/bay-area-homes-for-sale','Bay Area real estate','graehamwatts.com','108','0','0','0'],['https://graehamwatts.com/','seo','graehamwatts.com','72','1','0','0'],['www.graehamwatts.com','east palo alto ca homes for sale','graehamwatts.com','300','73','0','0']];
-  data.forEach(function(d){
-    tb.innerHTML += '<tr><td style="color:var(--b);font-size:11px">'+d[0]+'</td><td style="font-weight:500">'+d[1]+'</td><td style="font-size:11px">'+d[2]+'</td><td style="font-family:\'Playfair Display\',serif;font-size:1.1rem">'+d[3]+'</td><td class="'+(parseInt(d[4])>0?'g':'r')+'">'+d[4]+'</td><td class="r">'+d[5]+'</td><td class="r">'+d[6]+'</td><td><span class="bdg '+(parseInt(d[4])===0?'bdgr':'bdga')+'">'+parseInt(d[4])===0?'No content':''+d[4]+' ideas, 0 published'+'</span></td></tr>';
-  });
-}
-
-function initDKNRows(){
-  var tb = document.getElementById('dknRows');
-  if(!tb) return;
-  var data = [['Guide to Buying Luxury Homes in the Bay Area...','Pillar','luxury homes bay... +2','Buying A Home'],['Your Guide to Relocating and Buying a Home...','Pillar','relocate bay area... +2','Buying A Home'],['Investing in Rental Properties in the Bay Area','Pillar','rental property bay... +2','Real Estate Investment'],['Find Your Dream Home: Redwood City...','Local Landing','redwood city houses... +2','Neighborhoods'],['Discover East Palo Alto Homes for Sale','Local Landing','east palo alto houses... +2','Neighborhoods']];
-  data.forEach(function(d){
-    tb.innerHTML += '<tr><td style="font-weight:500;max-width:200px;white-space:normal;line-height:1.3">'+d[0]+'</td><td style="font-size:11px">'+d[1]+'</td><td style="font-size:11px;color:var(--mu)">'+d[2]+'</td><td style="font-size:11px">'+d[3]+'</td><td><span class="bdg bdga">Pending Creation</span></td><td><button style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--arl);color:var(--aa);border:1px solid var(--arl);cursor:pointer;font-family:inherit">✏ Create</button></td></tr>';
-  });
-  tb.innerHTML += '<tr><td style="color:var(--fa);font-style:italic" colspan="6">+ 142 more pages pending — Buying, Selling, Investment, Local Markets</td></tr>';
-}
-
-function initCAIRows(){
-  var tb = document.getElementById('caiRows');
-  if(!tb) return;
-  var data = [['65','am','Redwood City Housing Market Insights for 2026','graehamwatts.com','Complete','WP','redwood city real estate...','1,240'],['81','g','Why East Palo Alto Is a Hidden Gem for Home Buyers','graehamwatts.com','Complete','WP','east palo alto real estate...','1,580'],['65','am','East Palo Alto vs. Redwood City: Where Should You Buy?','graehamwatts.com','Complete','WP','east palo alto vs redwood...','1,180']];
-  data.forEach(function(d){
-    tb.innerHTML += '<tr><td><div style="width:32px;height:32px;border-radius:50%;background:var(--'+d[1]+'l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--'+d[1]+')">'+d[0]+'</div></td><td style="font-weight:500;max-width:200px;white-space:normal;line-height:1.3;font-size:12px">'+d[2]+'<div style="font-size:9px;color:var(--fa)">Created from AI</div></td><td style="font-size:11px">'+d[3]+'</td><td><span class="bdg bdgg">'+d[4]+'</span></td><td style="font-size:12px">🔵 '+d[5]+'</td><td style="font-size:11px;color:var(--mu)">'+d[6]+'</td><td>'+d[7]+'</td></tr>';
-  });
-}
-
-function initGBPTasks(){
-  var el = document.getElementById('gbpTasks');
-  if(!el) return;
-  var tasks = [['Add Missing Social Media Profile','Add Links →','',''],['Add Additional Category','Add Category →','',''],['Automated Posting is disabled','Enable →','background:var(--rel)','color:var(--g)'],['Automated Review reply is disabled','Enable →','background:var(--rel)','color:var(--g)'],['Business Address mismatch on GBP and site','Edit On Site →','',''],['Phone Number mismatch on Profile and site','Fix →','','']];
-  tasks.forEach(function(t){
-    el.innerHTML += '<div class="ii2" style="padding:.55rem 1rem;'+(t[2])+'"><div style="flex:1;font-size:12px;font-weight:500;'+(t[2]?'color:var(--re)':'')+'">'+t[0]+'</div><button style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--bl);color:var(--b);border:1px solid var(--bl);cursor:pointer;font-family:inherit;'+(t[3])+'" onclick="alert(\'Done\')">'+t[1]+'</button></div>';
-  });
-}
-
-function initHeatmap(){
-  var grid = document.getElementById('hmCells');
-  if(!grid) return;
-  var colors = ['#0f4a34','#1a7a56','#a7d9bf','#e8f5ef','#fdf0f0'];
-  for(var i=0;i<160;i++){
-    var v = Math.random();
-    var c = v>0.75?colors[0]:v>0.5?colors[1]:v>0.3?colors[2]:v>0.1?colors[3]:colors[4];
-    var cell = document.createElement('div');
-    cell.className = 'hm-cell';
-    cell.style.cssText = 'background:'+c+';border:1px solid rgba(255,255,255,.15)';
-    cell.title = 'Rank: '+Math.ceil((1-v)*20);
-    grid.appendChild(cell);
-  }
-}
-
-function initGSCKW(){
-  var tb = document.getElementById('gscKwRows');
-  if(!tb) return;
-  var d = [['graham realtor','—','W5→2','390','1'],['redwood city house...','T','35→0 Inf','1K','0'],['centennial redwood...','—','28 new','90','0'],['palo alto vs east pal...','C','19 new','30','0'],['cheapest places to...','T','86 new','590','0']];
-  d.forEach(function(r){
-    tb.innerHTML += '<tr><td style="font-weight:500">'+r[0]+'</td><td><span class="int i'+r[1].toLowerCase()+'">'+r[1]+'</span></td><td class="'+(r[2].includes('1')||r[2].includes('2')?'g':'a')+'">'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>';
-  });
-}
-
-function initGSCRanges(){
-  var el = document.getElementById('gscTrafficRanges');
-  if(!el) return;
-  el.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);padding:.3rem 0;border-bottom:1px solid var(--bo);margin-bottom:.3rem"><span>Traffic Range</span><span>Pages</span><span>Total Traffic</span></div>';
-  var ranges = [['0','52 (96.3%)','0 (<0.1%)','r'],['1–100','2 (3.7%)','21 (100%)','g'],['101–1000','0','0','n'],['1001–5000','0','0','n'],['5001+','0','0','n']];
-  ranges.forEach(function(r){
-    el.innerHTML += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:12px;padding:.4rem 0;border-bottom:1px solid var(--bo)"><span style="color:var(--mu)">'+r[0]+'</span><span class="'+r[3]+'" style="font-weight:500">'+r[1]+'</span><span class="'+r[3]+'">'+r[2]+'</span></div>';
-  });
-}
-
-function initBLRows(){
-  var tb = document.getElementById('blRows');
-  if(!tb) return;
-  var d = [['1','The Coolest Gaming On Ice | Clash Resources','12','55','Ad → graehamwatts.com/blog','24 Jan 25','27 Mar 26'],['30','dfvnjdfabnmk.blogspot.com/','14.5K','7','Text Nofollow → paloaltohomevalue.com','23 Jan 26','13 Mar 26'],['30','dlyweiyucxz.blogspot.com/','13.5K','4','Text Nofollow New → graehamwattsofferstatus.com','13 Mar 26','26 Mar 26']];
-  d.forEach(function(r){
-    tb.innerHTML += '<tr><td>'+r[0]+'</td><td style="font-size:11px;color:var(--b)">'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td style="font-size:11px;color:var(--mu)">'+r[4]+'</td><td class="n">'+r[5]+'</td><td class="n">'+r[6]+'</td></tr>';
-  });
-}
-
-function initSetupServices(){
-  var el = document.getElementById('setupServices');
-  if(!el) return;
-  var s = [['ARES SEO Engine','Site audit · Issue detection · Deploy · Rollback','✓ Connected','bdgg'],['Google Search Console','Organic traffic · Click data · Indexing','✓ Synced','bdgg'],['Google Business Profile','GBP management · Local rankings · Reviews','✓ Connected','bdgg'],['Content AI Agent','Content Genius · WordPress sync · BrandVault','✓ Connected','bdgg'],['Site Explorer','Competitor analysis · Backlink data','Live','bdgb'],['Rank Tracker','24h position updates · 23 pages tracked','✓ Live','bdgg']];
-  s.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;padding:.6rem 1rem;border-bottom:1px solid var(--bo);font-size:12px"><span style="flex:1;font-weight:500">'+r[0]+'</span><span style="font-size:11px;color:var(--mu);flex:2">'+r[1]+'</span><span class="bdg '+r[3]+'">'+r[2]+'</span></div>';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  initTopRanks(); initLLMBars(); initLLMCompBars(); initLLMFixes(); initLLMTopics();
-  initChatInitial(); initPillarGrid(); initTaskList(); initAPIStatus();
-  initRankRows(); initPosGrid(); initKWDist(); initKWRows(); initPageRows(); initPosRows();
-  initTopicalRows(); initDKNRows(); initCAIRows(); initGBPTasks(); initHeatmap();
-  initGSCKW(); initGSCRanges(); initBLRows(); initSetupServices();
-});
-</script></body></html>
+initMode();
+</script>
+</body>
+</html>
