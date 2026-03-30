@@ -3,11 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropIQ — Reports</title>
+<title>PropIQ — Reports (Light)</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
+  --bg:#f5f3ed;
+  --surface:#faf8f3;
+  --border:#e2dfd8;
+  --border2:#d1cfc9;
   --g:#1a7a56;--gl:#e8f5ef;--gm:#0f5c3f;
   --b:#185FA5;--bl:#E6F1FB;
   --am:#BA7517;--aml:#FAEEDA;
@@ -15,31 +19,40 @@
   --ar:#1e3a5f;--arl:#e8f0fa;--aa:#2563eb;
   --pu:#534AB7;--pul:#EEEDFE;
   --ink:#111827;--mu:#6b7280;--fa:#9ca3af;
-  --bg:#f8f7f4;--sf:#fff;--bo:#e5e3de;--b2:#d1cfc9;
+  --sf:#fff;--bo:#e5e3de;--b2:#d1cfc9;
 }
-body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body{
+  font-family:'Epilogue',sans-serif;color:var(--ink);
+  background:linear-gradient(135deg, #f5f3ed 0%, #efeae0 50%, #f5f3ed 100%);
+  font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden;
+  position:relative;
+}
+body::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="100" height="100" fill="rgba(0,0,0,0.06)" filter="url(%23noise)"/></svg>');
+  pointer-events:none;z-index:-1;
+}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 @keyframes countUp{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
 
 /* TOP BAR */
-.tb{height:50px;display:flex;align-items:center;background:var(--sf);border-bottom:1px solid var(--bo);flex-shrink:0}
-.tb-logo{font-family:'Playfair Display',serif;font-size:1.1rem;padding:0 .9rem;border-right:1px solid var(--bo);height:100%;display:flex;align-items:center;flex-shrink:0}
+.tb{height:50px;display:flex;align-items:center;background:var(--sf);border-bottom:1px solid var(--border);flex-shrink:0}
+.tb-logo{font-family:'Playfair Display',serif;font-size:1.1rem;padding:0 .9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0}
 .tb-logo span{color:var(--g)}
 .tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%;padding:0 .5rem}
 .tb-mods::-webkit-scrollbar{display:none}
 .tbt{display:flex;align-items:center;padding:0 .65rem;font-size:11.5px;color:var(--mu);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;white-space:nowrap}
 .tbt:hover{color:var(--ink);background:var(--bg)}.tbt.on{color:var(--g);border-bottom-color:var(--g);font-weight:500}
-.tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--rel);color:var(--re);font-weight:600;margin-left:2px}
-.tb-r{display:flex;align-items:center;gap:8px;padding:0 .85rem;border-left:1px solid var(--bo);flex-shrink:0}
+.tb-r{display:flex;align-items:center;gap:8px;padding:0 .85rem;border-left:1px solid var(--border);flex-shrink:0}
 .ava{width:28px;height:28px;border-radius:50%;background:var(--gl);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600}
 
 /* APP */
 .app{display:flex;flex:1;overflow:hidden}
 
 /* SIDEBAR */
-.sb{width:210px;background:var(--sf);border-right:1px solid var(--bo);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
-.sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:var(--b2)}
+.sb{width:210px;background:var(--sf);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;box-shadow:1px 0 3px rgba(0,0,0,.05)}
+.sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:var(--border2)}
 .sb-hd{padding:.85rem 1rem .35rem;display:flex;align-items:center;justify-content:space-between}
 .sb-title{font-family:'Playfair Display',serif;font-size:1rem}
 .sb-tag{font-size:9px;background:var(--gl);color:var(--g);padding:1px 6px;border-radius:3px;font-weight:600;text-transform:uppercase}
@@ -47,48 +60,55 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .ni{display:flex;align-items:center;gap:7px;padding:.42rem 1rem;cursor:pointer;color:var(--mu);font-size:12px;border-left:2.5px solid transparent;white-space:nowrap;transition:all .1s}
 .ni:hover{background:var(--bg);color:var(--ink)}.ni.on{background:var(--gl);color:var(--g);font-weight:500;border-left-color:var(--g)}
 .nb{margin-left:auto;font-size:9px;padding:1px 5px;border-radius:8px;font-weight:500}
-.nbg{background:var(--gl);color:var(--g)}.nbr{background:var(--rel);color:var(--re)}.nba{background:var(--aml);color:var(--am)}.nbgy{background:var(--bg);color:var(--fa);border:1px solid var(--bo)}.nbpu{background:var(--pul);color:var(--pu)}
-.sb-div{height:1px;background:var(--bo);margin:.35rem 0}
-.sf{margin-top:auto;padding:.65rem 1rem;border-top:1px solid var(--bo);display:flex;align-items:center;gap:8px}
+.nbg{background:var(--gl);color:var(--g)}.nbr{background:var(--rel);color:var(--re)}.nba{background:var(--aml);color:var(--am)}.nbgy{background:var(--bg);color:var(--fa);border:1px solid var(--border)}.nbpu{background:var(--pul);color:var(--pu)}
+.sb-div{height:1px;background:var(--border);margin:.35rem 0}
+.sf{margin-top:auto;padding:.65rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
 .sf-av{width:24px;height:24px;border-radius:50%;background:var(--gl);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
 
 /* MAIN */
 .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .view{display:none;flex-direction:column;flex:1;overflow:hidden;animation:fadeIn .15s ease}
 .view.on{display:flex}
-.tlb{padding:.6rem 1.25rem;border-bottom:1px solid var(--bo);background:var(--sf);flex-shrink:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tlb{padding:.6rem 1.25rem;border-bottom:1px solid var(--border);background:var(--sf);flex-shrink:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pt{font-family:'Playfair Display',serif;font-size:1.15rem}
-.btn{padding:4px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;border:1px solid var(--b2);background:var(--sf);color:var(--mu);font-family:'Epilogue',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;transition:all .12s}
-.btn:hover{background:var(--bg);color:var(--ink)}.btng{background:var(--g);color:#fff;border-color:var(--g)}.btng:hover{background:var(--gm)}.bta{background:var(--ar);color:#fff;border-color:var(--ar)}.btr{background:var(--rel);color:var(--re);border-color:var(--rel)}
+
+/* VIEW TABS */
+.view-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--sf);padding:0;flex-shrink:0}
+.vt{padding:0 1rem;font-size:11.5px;color:var(--mu);border-bottom:2.5px solid transparent;height:42px;display:flex;align-items:center;cursor:pointer;transition:all .12s;white-space:nowrap}
+.vt:hover{color:var(--ink);background:var(--bg)}
+.vt.on{color:var(--g);border-bottom-color:var(--g);font-weight:500}
+
+.btn{padding:4px 10px;border-radius:5px;font-size:11.5px;cursor:pointer;border:1px solid var(--border2);background:var(--sf);color:var(--mu);font-family:'Epilogue',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;transition:all .12s;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.btn:hover{background:var(--bg);color:var(--ink);box-shadow:0 2px 4px rgba(0,0,0,.08)}.btng{background:var(--g);color:#fff;border-color:var(--g)}.btng:hover{background:var(--gm);box-shadow:0 2px 6px rgba(26,122,86,.15)}.bta{background:var(--ar);color:#fff;border-color:var(--ar)}.btr{background:var(--rel);color:var(--re);border-color:var(--rel)}
 .ca{flex:1;overflow-y:auto;padding:1.25rem}
-.ca::-webkit-scrollbar{width:4px}.ca::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+.ca::-webkit-scrollbar{width:4px}.ca::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
 /* DATE RANGE PILL */
-.date-pill{display:flex;align-items:center;gap:3px;background:var(--bg);border:1px solid var(--b2);border-radius:5px;padding:4px 10px;font-size:11.5px;color:var(--mu);cursor:pointer}
-.date-pill:hover{border-color:var(--g);color:var(--g)}
+.date-pill{display:flex;align-items:center;gap:3px;background:var(--bg);border:1px solid var(--border2);border-radius:5px;padding:4px 10px;font-size:11.5px;color:var(--mu);cursor:pointer;transition:all .12s}
+.date-pill:hover{border-color:var(--g);color:var(--g);box-shadow:0 1px 3px rgba(26,122,86,.1)}
 
 /* AI NARRATIVE CARD */
-.ai-narrative{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;color:#fff;position:relative;overflow:hidden}
+.ai-narrative{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;color:#fff;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(30,58,95,.15)}
 .ai-narrative::before{content:'';position:absolute;top:-30%;right:-5%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
 .an-hd{display:flex;align-items:center;gap:8px;margin-bottom:.65rem}
 .an-ico{font-size:1rem}
 .an-label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.6);font-weight:600}
 .an-text{font-size:13px;color:rgba(255,255,255,.92);line-height:1.7}
-.an-acts{display:flex;gap:5px;margin-top:.75rem}
+.an-acts{display:flex;gap:5px;margin-top:.75rem;flex-wrap:wrap}
 .an-btn{padding:5px 11px;border-radius:5px;font-size:11.5px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;transition:all .12s}
 .an-btn:hover{background:rgba(255,255,255,.2)}.an-btn.p{background:rgba(255,255,255,.9);color:var(--ar);border-color:transparent;font-weight:500}
 
 /* KPI STRIP */
-.kpi{display:grid;border-bottom:1px solid var(--bo);flex-shrink:0}
-.kc{padding:.6rem .9rem;border-right:1px solid var(--bo);background:var(--sf)}.kc:last-child{border-right:none}
+.kpi{display:grid;border-bottom:1px solid var(--border);flex-shrink:0}
+.kc{padding:.6rem .9rem;border-right:1px solid var(--border);background:var(--sf)}.kc:last-child{border-right:none}
 .kl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:2px}
 .kv{font-family:'Playfair Display',serif;font-size:1.15rem;line-height:1;animation:countUp .4s ease}
 .ks{font-size:9.5px;margin-top:2px}
 .g{color:var(--g)}.a{color:var(--am)}.r{color:var(--re)}.n{color:var(--fa)}
 
 /* CARD */
-.card{background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden;margin-bottom:.85rem}
-.ch{padding:.65rem 1rem;border-bottom:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.card{background:var(--sf);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.ch{padding:.65rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;background:var(--surface)}
 .ct{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500}
 .cl{font-size:11.5px;color:var(--g);cursor:pointer}
 .bdg{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500}
@@ -96,89 +116,109 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 
 /* TABLE */
 .t{width:100%;border-collapse:collapse}
-.t th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);padding:.4rem .75rem;border-bottom:1px solid var(--bo);border-right:1px solid var(--bo);background:var(--bg);text-align:left;white-space:nowrap}
+.t th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);padding:.4rem .75rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg);text-align:left;white-space:nowrap}
 .t th:last-child{border-right:none}
-.t td{padding:.5rem .75rem;border-bottom:1px solid var(--bo);border-right:1px solid var(--bo);font-size:12px;vertical-align:middle}
-.t td:last-child{border-right:none}.t tr:hover td{background:var(--bg);cursor:pointer}
+.t td{padding:.4rem .75rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.t tr:last-child td{border-bottom:none}
+.t td:last-child{border-right:none}
+.t a{color:var(--g);text-decoration:none}.t a:hover{text-decoration:underline}
 
-/* BAR CHART HORIZONTAL */
-.bar-row{display:flex;align-items:center;gap:10px;padding:.55rem .85rem;border-bottom:1px solid var(--bo)}
-.bar-row:last-child{border-bottom:none}
-.bar-label{font-size:12px;color:var(--mu);width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bar-wrap{flex:1;height:8px;background:var(--bo);border-radius:4px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
-.bar-val{font-size:12px;font-weight:500;width:60px;text-align:right;flex-shrink:0}
-.bar-pct{font-size:10.5px;color:var(--fa);width:40px;text-align:right;flex-shrink:0}
+/* REPORT TABS */
+.report-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);padding:0 1rem;overflow-x:auto}
+.report-tabs::-webkit-scrollbar{display:none}
+.rt{padding:.4rem .85rem;font-size:11.5px;color:var(--mu);border-bottom:2px solid transparent;cursor:pointer;transition:all .12s;white-space:nowrap}
+.rt:hover{color:var(--ink);background:var(--bg)}
+.rt.on{color:var(--g);border-bottom-color:var(--g);font-weight:500}
 
-/* TREND SPARKLINE */
-.spark{height:22px;display:flex;align-items:flex-end;gap:2px}
-.spb{border-radius:1px 1px 0 0;min-height:3px;transition:height .3s}
+/* FUNNEL */
+.funnel-row{display:flex;align-items:center;gap:.75rem;padding:.55rem 0}
+.funnel-bar{flex:1;height:32px;border-radius:4px;display:flex;align-items:center;padding:0 .5rem;color:#fff;font-size:10px;font-weight:500}
+.funnel-label{width:120px;font-size:11px;color:var(--mu)}
+.funnel-val{width:80px;text-align:right;font-size:10px;color:var(--fa)}
 
-/* PIPELINE FUNNEL */
-.funnel-row{display:flex;align-items:center;gap:12px;padding:.65rem 1rem;border-bottom:1px solid var(--bo);cursor:pointer;transition:background .1s}
-.funnel-row:hover{background:var(--bg)}.funnel-row:last-child{border-bottom:none}
-.fr-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.fr-body{flex:1}
-.fr-title{font-size:12.5px;font-weight:500;margin-bottom:2px}
-.fr-sub{font-size:11.5px;color:var(--mu)}
-.fr-val{text-align:right;flex-shrink:0}
-.fr-main{font-family:'Playfair Display',serif;font-size:1.2rem}
-.fr-pct{font-size:10px;color:var(--fa);margin-top:1px}
-.fr-bar{width:80px;height:5px;background:var(--bo);border-radius:3px;overflow:hidden;margin-top:3px}
-.fr-fill{height:100%;border-radius:3px}
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
+.modal.on{display:flex}
+.modal-box{background:var(--sf);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.2);padding:1.5rem;width:90%;max-width:500px;animation:fadeIn .2s ease}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:1rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--mu)}
+.modal-form{display:flex;flex-direction:column;gap:.75rem}
+.modal-row{display:flex;gap:.5rem}
+.modal-row>*{flex:1}
+.form-group{display:flex;flex-direction:column}
+.form-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--fa);font-weight:600;margin-bottom:.3rem}
+.form-input,.form-select{padding:.5rem;border:1px solid var(--border);border-radius:5px;font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--ink)}
+.form-input:focus,.form-select:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 2px var(--gl)}
+.modal-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem}
+
+/* ATTRIBUTION */
+.attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.attr-source{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.attr-source-title{font-size:11.5px;font-weight:600;color:var(--ink);margin-bottom:.65rem;display:flex;align-items:center;gap:6px}
+.attr-funnel{display:flex;align-items:stretch;gap:.3rem;margin-bottom:.65rem;height:28px}
+.attr-step{flex:1;background:var(--bg);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--mu);position:relative}
+.attr-step-arrow{width:0;height:0;border-left:6px solid var(--border);border-top:5px solid transparent;border-bottom:5px solid transparent;margin:0 -3px}
+.attr-metrics{display:flex;flex-direction:column;gap:.4rem;font-size:10px}
+.attr-metric{display:flex;justify-content:space-between}
+.attr-metric-label{color:var(--fa)}
+.attr-metric-val{font-weight:600;color:var(--ink)}
+.attr-highlight{background:var(--gl);padding:.4rem;border-radius:5px;margin-top:.65rem;font-size:10px;color:var(--g);font-weight:600}
+
+/* FORECAST CARD */
+.forecast-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.forecast-stat{background:var(--surface);padding:1rem;border-radius:8px;border:1px solid var(--border)}
+.forecast-label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--fa);margin-bottom:.4rem;font-weight:600}
+.forecast-value{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--ink);margin-bottom:.3rem}
+.forecast-sub{font-size:10px;color:var(--mu)}
+.risk-flag{background:var(--rel);border:1px solid #f8b9b4;padding:.6rem;border-radius:6px;margin-top:.65rem;color:var(--re);font-size:10px;font-weight:600}
+
+/* SCHEDULE SECTION */
+.schedule-item{background:var(--surface);padding:.65rem 1rem;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;font-size:11px}
+.schedule-details{color:var(--mu)}
+.schedule-action{color:var(--g);cursor:pointer;font-weight:500}
 
 /* LISTING CARD */
-.listing-card{background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden;margin-bottom:.75rem;display:flex}
-.lc-img{width:100px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0}
-.lc-body{flex:1;padding:.85rem}
-.lc-addr{font-size:13px;font-weight:500;margin-bottom:2px}
-.lc-meta{font-size:11.5px;color:var(--mu);margin-bottom:.65rem}
-.lc-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--bo);border-radius:6px;overflow:hidden}
-.lcs{padding:.45rem .6rem;border-right:1px solid var(--bo);text-align:center}.lcs:last-child{border-right:none}
-.lcs-l{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:2px}
-.lcs-v{font-family:'Playfair Display',serif;font-size:1rem;line-height:1}
-.lc-acts{display:flex;flex-direction:column;gap:5px;padding:.85rem;border-left:1px solid var(--bo);justify-content:center;flex-shrink:0;min-width:120px}
-
-/* DONUT CHART CANVAS */
-.donut-wrap{position:relative;width:120px;height:120px;flex-shrink:0}
-.donut-wrap canvas{position:absolute;inset:0}
-.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.donut-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1}
-.donut-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-top:2px}
+.listing-card{display:flex;gap:1rem;padding:1rem;border:1px solid var(--border);border-radius:8px;margin-bottom:.75rem;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.lc-img{width:80px;height:80px;border-radius:6px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.lc-body{flex:1}
+.lc-addr{font-weight:600;font-size:11.5px;margin-bottom:2px}
+.lc-meta{font-size:10px;color:var(--mu);margin-bottom:.5rem}
+.lc-stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:.5rem}
+.lcs{display:flex;flex-direction:column}
+.lcs-l{font-size:9px;color:var(--fa);text-transform:uppercase;letter-spacing:.06em}
+.lcs-v{font-size:11px;font-weight:600;margin-top:2px}
+.lc-acts{display:flex;gap:.5rem}
 
 /* ROI HERO */
-.roi-hero{background:var(--g);border-radius:10px;padding:1.25rem;margin-bottom:1rem;color:#fff;display:flex;align-items:center;gap:1.25rem}
-.rh-num{font-family:'Playfair Display',serif;font-size:3.5rem;color:#fff;line-height:1;flex-shrink:0}
-.rh-body{flex:1}
-.rh-title{font-size:14px;font-weight:500;margin-bottom:4px}
-.rh-sub{font-size:12px;color:rgba(255,255,255,.7);line-height:1.6}
-.rh-breakdown{display:flex;gap:.75rem;margin-top:.65rem;flex-wrap:wrap}
-.rhb{background:rgba(255,255,255,.15);border-radius:6px;padding:.4rem .65rem;font-size:11.5px;color:rgba(255,255,255,.9)}
+.roi-hero{background:linear-gradient(135deg, var(--g) 0%, #0f5c3f 100%);border-radius:10px;padding:1.25rem;margin-bottom:1rem;color:#fff;box-shadow:0 2px 8px rgba(26,122,86,.2)}
+.rh-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;line-height:1;margin-bottom:.5rem}
+.rh-body{display:flex;flex-direction:column;gap:.5rem}
+.rh-title{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.rh-sub{font-size:11px;line-height:1.6;opacity:.95}
+.rh-breakdown{margin-top:.65rem;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.2);display:flex;flex-direction:column;gap:.4rem}
+.rhb{font-size:10px;opacity:.9}
 
-/* SOURCE TAG */
-.src-tag{font-size:9.5px;padding:2px 7px;border-radius:3px;font-weight:500}
-.src-organic{background:var(--gl);color:var(--g)}.src-ads{background:var(--bl);color:var(--b)}.src-referral{background:var(--pul);color:var(--pu)}.src-direct{background:var(--bg);color:var(--fa);border:1px solid var(--bo)}
+/* BENCHMARKING */
+.bench-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.bench-card{background:var(--surface);padding:1rem;border:1px solid var(--border);border-radius:8px}
+.bench-metric{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--fa);margin-bottom:.4rem;font-weight:600}
+.bench-comparison{display:flex;justify-content:space-between;gap:1rem}
+.bench-item{flex:1}
+.bench-label{font-size:10px;color:var(--mu);margin-bottom:.3rem}
+.bench-val{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--g);font-weight:600}
+.bench-sub{font-size:9px;color:var(--fa);margin-top:.2rem}
 
-/* LEAD JOURNEY */
-.lj-step{display:flex;gap:12px;padding:.65rem 0;position:relative;align-items:flex-start}
-.lj-step:not(:last-child)::before{content:'';position:absolute;left:15px;top:34px;bottom:-8px;width:1.5px;background:var(--bo)}
-.lj-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;z-index:1}
-.lj-body{flex:1;padding-top:4px}
-.lj-title{font-size:12.5px;font-weight:500;margin-bottom:2px}
-.lj-sub{font-size:11.5px;color:var(--mu);line-height:1.4}
+/* LEAD SOURCES CHART */
+.chart-container{padding:.85rem 1rem}
+#donutCanvas{margin-bottom:.5rem}
+.lead-legend{display:flex;flex-direction:column;gap:.4rem;font-size:10px}
+.ll-item{display:flex;align-items:center;gap:6px}
+.ll-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ll-label{color:var(--mu);flex:1}
+.ll-val{font-weight:600;color:var(--ink)}
 
-/* SHARE MODAL */
-.share-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
-.share-modal.on{display:flex}
-.share-box{background:var(--sf);border-radius:12px;padding:1.5rem;width:420px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.sb-title2{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:.4rem}
-.share-link{background:var(--bg);border:1px solid var(--bo);border-radius:6px;padding:.6rem .85rem;font-size:12px;color:var(--mu);display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-
-/* REPORT TYPE PILLS */
-.report-tabs{display:flex;gap:4px;padding:.65rem 1.25rem;background:var(--sf);border-bottom:1px solid var(--bo);overflow-x:auto;flex-shrink:0}
-.report-tabs::-webkit-scrollbar{display:none}
-.rt{padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--bo);color:var(--mu);white-space:nowrap;transition:all .15s}
-.rt:hover{border-color:var(--g);color:var(--g)}.rt.on{background:var(--g);color:#fff;border-color:var(--g);font-weight:500}
+/* PIPELINE FUNNEL */
+#pipelineFunnel{padding:.85rem 1rem}
 </style>
 </head>
 <body>
@@ -221,6 +261,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   <div class="ni" onclick="sv('builder')">📝 Report Builder</div>
   <div class="ni" onclick="sv('sent')">📤 Sent Reports <span class="nb nbgy">4</span></div>
   <div class="sb-div"></div>
+  <div class="ni" onclick="showScheduleModal()">⏰ Schedule Report</div>
   <div class="ni">⚙ Report Settings</div>
   <div class="sf">
     <div class="sf-av">GW</div>
@@ -239,113 +280,285 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
     <div class="date-pill" onclick="alert('Date range picker…')">📅 March 2026 ▾</div>
     <button class="btn" onclick="showShare()">🔗 Share</button>
     <button class="btn" onclick="alert('Generating PDF…')">↓ Download PDF</button>
-    <button class="btn btng" onclick="alert('Creating presentation from this report…')">📊 Create Presentation</button>
   </div>
 
-  <!-- REPORT TYPE TABS -->
-  <div class="report-tabs" id="execTabs">
-    <div class="rt on" onclick="setRT(this,'execTabs')">Monthly Summary</div>
-    <div class="rt" onclick="setRT(this,'execTabs')">Last Quarter</div>
-    <div class="rt" onclick="setRT(this,'execTabs')">Year to Date</div>
-    <div class="rt" onclick="setRT(this,'execTabs')">Custom Range</div>
-  </div>
-
-  <!-- KPI -->
-  <div class="kpi" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kl">Total Leads</div><div class="kv">18</div><div class="ks g">↑ 6 vs last month</div></div>
-    <div class="kc"><div class="kl">Cost per Lead</div><div class="kv">$157</div><div class="ks g">↓ from $218</div></div>
-    <div class="kc"><div class="kl">Active Pipeline</div><div class="kv">$4.2M</div><div class="ks g">7 buyers, 2 sellers</div></div>
-    <div class="kc"><div class="kl">Closed Volume</div><div class="kv">$1.77M</div><div class="ks g">2 transactions</div></div>
-    <div class="kc"><div class="kl">Commission Earned</div><div class="kv">$44.3K</div><div class="ks g">This month</div></div>
-    <div class="kc"><div class="kl">Marketing ROI</div><div class="kv g">15.6×</div><div class="ks g">$44.3K vs $2.84K spend</div></div>
+  <!-- VIEW TABS: Dashboard / Deep Dive -->
+  <div class="view-tabs">
+    <div class="vt on" onclick="switchViewMode(this, 'dash')">⊕ Dashboard View</div>
+    <div class="vt" onclick="switchViewMode(this, 'deep')">📊 Deep Dive</div>
   </div>
 
   <div class="ca">
 
-    <!-- AI NARRATIVE -->
-    <div class="ai-narrative">
-      <div class="an-hd"><span class="an-ico">🔮</span><span class="an-label">PropIQ AI — March 2026 Insights</span></div>
-      <div class="an-text">March was your strongest month yet. You generated 18 leads at an average cost of $157 each — down 28% from February's $218. Two transactions closed totaling $1.77M in volume, earning $44,250 in commission against $2,840 in total marketing spend. That's a <strong>15.6× return on every dollar invested</strong>. Your Google Ads campaigns are outperforming Meta significantly, and your organic SEO content is beginning to compound — the AB 1482 article entered rankings at #2 this month. The pipeline entering April is healthy at $4.2M across 9 active clients. Primary growth opportunity: LLM visibility is still zero, and your content score (30/100) means you're leaving organic leads on the table. Addressing these two areas is projected to add 8–12 leads per month at zero incremental cost.</div>
-      <div class="an-acts">
-        <button class="an-btn p" onclick="showShare()">📤 Share This Report</button>
-        <button class="an-btn" onclick="alert('Downloading PDF…')">↓ Download PDF</button>
-        <button class="an-btn" onclick="alert('Creating slides…')">📊 Make Presentation</button>
-      </div>
-    </div>
+    <!-- ══ DASHBOARD VIEW ══ -->
+    <div id="dash-view" class="on">
 
-    <!-- ROI HERO -->
-    <div class="roi-hero">
-      <div class="rh-num">15.6×</div>
-      <div class="rh-body">
-        <div class="rh-title">Marketing ROI — March 2026</div>
-        <div class="rh-sub">For every $1 you spent on ads and SEO this month, PropIQ generated $15.60 in commission. Total spend: $2,840. Total commission earned from marketing-sourced clients: $44,250.</div>
-        <div class="rh-breakdown">
-          <div class="rhb">Google Ads: $2,020 → $26,250 commission (12.9×)</div>
-          <div class="rhb">Meta Ads: $580 → $18,000 commission (31×)</div>
-          <div class="rhb">SEO: $240 (ARES) → $0 this month, compounding</div>
+      <!-- KPI STRIP -->
+      <div class="kpi" style="grid-template-columns:repeat(6,1fr);margin-bottom:1rem">
+        <div class="kc"><div class="kl">Total Leads</div><div class="kv">18</div><div class="ks g">↑ 6 vs last month</div></div>
+        <div class="kc"><div class="kl">Cost per Lead</div><div class="kv">$157</div><div class="ks g">↓ from $218</div></div>
+        <div class="kc"><div class="kl">Active Pipeline</div><div class="kv">$4.2M</div><div class="ks g">7 buyers, 2 sellers</div></div>
+        <div class="kc"><div class="kl">Closed Volume</div><div class="kv">$1.77M</div><div class="ks g">2 transactions</div></div>
+        <div class="kc"><div class="kl">Commission Earned</div><div class="kv">$44.3K</div><div class="ks g">This month</div></div>
+        <div class="kc"><div class="kl">Marketing ROI</div><div class="kv g">15.6×</div><div class="ks g">$44.3K vs $2.84K spend</div></div>
+      </div>
+
+      <!-- ROI HERO CARD -->
+      <div class="roi-hero">
+        <div class="rh-num">15.6×</div>
+        <div class="rh-body">
+          <div class="rh-title">Marketing ROI — March 2026</div>
+          <div class="rh-sub">For every $1 you spent on ads and SEO this month, PropIQ generated $15.60 in commission. Total spend: $2,840. Total commission earned from marketing-sourced clients: $44,250.</div>
+          <div class="rh-breakdown">
+            <div class="rhb">Google Ads: $2,020 → $26,250 commission (12.9×)</div>
+            <div class="rhb">Meta Ads: $580 → $18,000 commission (31×)</div>
+            <div class="rhb">SEO: $240 (ARES) → $0 this month, compounding</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <!-- DASHBOARD WIDGETS GRID -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <!-- LEAD SOURCES -->
+        <div class="card">
+          <div class="ch"><div class="ct">Lead Sources — March 2026</div></div>
+          <div class="chart-container">
+            <canvas id="donutCanvas" width="120" height="120"></canvas>
+            <div class="lead-legend" id="leadSourceLegend"></div>
+          </div>
+        </div>
 
-      <!-- LEAD SOURCES -->
+        <!-- PIPELINE -->
+        <div class="card">
+          <div class="ch"><div class="ct">Pipeline Funnel — March 2026</div></div>
+          <div id="pipelineFunnel"></div>
+        </div>
+      </div>
+
+      <!-- ATTRIBUTION MODELING CARD -->
       <div class="card">
-        <div class="ch"><div class="ct">Lead Sources — Where Your 18 Leads Came From</div></div>
-        <div style="display:flex;gap:1rem;padding:.85rem 1rem;border-bottom:1px solid var(--bo)">
-          <canvas id="donutCanvas" width="120" height="120"></canvas>
-          <div style="flex:1;padding-top:.25rem" id="leadSourceLegend"></div>
+        <div class="ch"><div class="ct">Lead Attribution — Last 90 Days</div></div>
+        <div class="attr-grid" style="padding:1rem">
+          <div class="attr-source">
+            <div class="attr-source-title" style="color:#EA4335">📱 Google Ads</div>
+            <div class="attr-funnel" style="background:linear-gradient(90deg,#EA4335 0%,#EA4335 30%,#ddd 30%,#ddd 34%,#ccc 34%,#ccc 37%,#999 37%)"></div>
+            <div class="attr-metrics">
+              <div class="attr-metric"><span class="attr-metric-label">34 leads</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">8 showings</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">3 under contract</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">1 closed</span><span class="attr-metric-val" style="color:var(--g)">$1.05M</span></div>
+            </div>
+          </div>
+
+          <div class="attr-source">
+            <div class="attr-source-title" style="color:var(--g)">🌱 SEO/Organic</div>
+            <div class="attr-funnel" style="background:linear-gradient(90deg,var(--g) 0%,var(--g) 20%,#ddd 20%,#ddd 27%,#ccc 27%,#ccc 32%,#999 32%)"></div>
+            <div class="attr-metrics">
+              <div class="attr-metric"><span class="attr-metric-label">22 leads</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">6 showings</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">2 under contract</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">1 closed</span><span class="attr-metric-val" style="color:var(--g)">$1.38M</span></div>
+            </div>
+          </div>
+
+          <div class="attr-source">
+            <div class="attr-source-title" style="color:#1877F2">📘 Social Media</div>
+            <div class="attr-funnel" style="background:linear-gradient(90deg,#1877F2 0%,#1877F2 17%,#ddd 17%,#ddd 28%,#ccc 28%,#ccc 32%,#999 32%)"></div>
+            <div class="attr-metrics">
+              <div class="attr-metric"><span class="attr-metric-label">18 leads</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">3 showings</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">1 under contract</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">—</span><span class="attr-metric-val" style="color:var(--fa)">pending</span></div>
+            </div>
+          </div>
+
+          <div class="attr-source">
+            <div class="attr-source-title" style="color:var(--pu)">🤝 Referrals</div>
+            <div class="attr-funnel" style="background:linear-gradient(90deg,var(--pu) 0%,var(--pu) 23%,#ddd 23%,#ddd 42%,#ccc 42%,#ccc 58%,#999 58%)"></div>
+            <div class="attr-metrics">
+              <div class="attr-metric"><span class="attr-metric-label">12 leads</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">5 showings</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">2 under contract</span><span class="attr-metric-val">↓</span></div>
+              <div class="attr-metric"><span class="attr-metric-label">1 closed</span><span class="attr-metric-val" style="color:var(--g)">$0.95M</span></div>
+            </div>
+            <div class="attr-highlight">✓ Best ROI: Referrals (41.7% conversion)</div>
+          </div>
         </div>
-        <div id="leadSourceBars"></div>
       </div>
 
-      <!-- PIPELINE -->
+      <!-- FORECAST CARD -->
       <div class="card">
-        <div class="ch"><div class="ct">Pipeline Funnel — March 2026</div><div class="cl" onclick="sv('leads')">Full attribution →</div></div>
-        <div id="pipelineFunnel"></div>
-      </div>
-    </div>
-
-    <!-- MONTHLY PERFORMANCE CHART -->
-    <div class="card">
-      <div class="ch">
-        <div class="ct">Monthly Trend — Leads, Spend &amp; Commission (Last 6 Months)</div>
-        <div style="display:flex;gap:10px;font-size:11px;color:var(--fa)">
-          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:var(--g);display:inline-block;border-radius:2px"></span>Leads</span>
-          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:var(--b);display:inline-block;border-radius:2px"></span>Ad Spend</span>
-          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:var(--am);display:inline-block;border-radius:2px"></span>Commission</span>
+        <div class="ch"><div class="ct">Forecast — Next 90 Days</div></div>
+        <div style="padding:1rem">
+          <div class="forecast-grid">
+            <div class="forecast-stat">
+              <div class="forecast-label">Predicted Closed Volume</div>
+              <div class="forecast-value">$3.2M</div>
+              <div class="forecast-sub">Based on pipeline velocity</div>
+            </div>
+            <div class="forecast-stat">
+              <div class="forecast-label">Predicted Commission</div>
+              <div class="forecast-value" style="color:var(--g)">$80K</div>
+              <div class="forecast-sub">At current close rate</div>
+            </div>
+            <div class="forecast-stat">
+              <div class="forecast-label">Confidence Level</div>
+              <div class="forecast-value" style="color:var(--g)">High</div>
+              <div class="forecast-sub">3 deals near close</div>
+            </div>
+            <div class="forecast-stat">
+              <div class="forecast-label">Risk Flag</div>
+              <div class="forecast-value" style="color:var(--re)">1 at Risk</div>
+              <div class="forecast-sub">Sandra Lee appraisal</div>
+            </div>
+          </div>
+          <div class="risk-flag">⚠ Sandra Lee deal at risk — appraisal pending, reassess in 3 days</div>
         </div>
       </div>
-      <div style="padding:.85rem 1rem">
-        <canvas id="trendChart" height="60"></canvas>
-      </div>
-    </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
-
-      <!-- TOP CAMPAIGNS -->
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Top Performing Campaigns</div></div>
-        <div id="topCampaigns"></div>
+      <!-- BENCHMARKING CARD -->
+      <div class="card">
+        <div class="ch"><div class="ct">How You Compare — EPA Market</div></div>
+        <div style="padding:1rem">
+          <div class="bench-grid">
+            <div class="bench-card">
+              <div class="bench-metric">Days to Close</div>
+              <div class="bench-comparison">
+                <div class="bench-item">
+                  <div class="bench-label">Your Avg</div>
+                  <div class="bench-val" style="color:var(--g)">34 days</div>
+                </div>
+                <div class="bench-item">
+                  <div class="bench-label">Market Avg</div>
+                  <div class="bench-val">42 days</div>
+                  <div class="bench-sub">↑ 19% faster than market</div>
+                </div>
+              </div>
+            </div>
+            <div class="bench-card">
+              <div class="bench-metric">Conversion Rate</div>
+              <div class="bench-comparison">
+                <div class="bench-item">
+                  <div class="bench-label">Your Rate</div>
+                  <div class="bench-val" style="color:var(--g)">18%</div>
+                </div>
+                <div class="bench-item">
+                  <div class="bench-label">Top Agents</div>
+                  <div class="bench-val">22%</div>
+                  <div class="bench-sub">↑ Target: +4 ppts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- TOP CONTENT -->
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Top Organic Content</div></div>
-        <div id="topContent"></div>
+      <!-- ACTIVE SCHEDULES -->
+      <div class="card">
+        <div class="ch"><div class="ct">Active Report Schedules</div><button class="btn btng" onclick="showScheduleModal()" style="font-size:10px;padding:3px 8px">+ New Schedule</button></div>
+        <div style="padding:1rem">
+          <div class="schedule-item">
+            <div>
+              <div style="font-weight:600;margin-bottom:2px">📊 Weekly Performance</div>
+              <div class="schedule-details">graehamwatts@gmail.com · Every Monday 9:00 AM · PDF</div>
+            </div>
+            <div class="schedule-action" onclick="alert('Edit schedule')">Edit</div>
+          </div>
+          <div class="schedule-item">
+            <div>
+              <div style="font-weight:600;margin-bottom:2px">🏠 Listing Performance</div>
+              <div class="schedule-details">graehamwatts@gmail.com · Monthly on 1st · Email Summary</div>
+            </div>
+            <div class="schedule-action" onclick="alert('Edit schedule')">Edit</div>
+          </div>
+          <div class="schedule-item">
+            <div>
+              <div style="font-weight:600;margin-bottom:2px">◎ Lead Attribution</div>
+              <div class="schedule-details">team@intero.com · Quarterly on Jan 1 · PDF + Email</div>
+            </div>
+            <div class="schedule-action" onclick="alert('Edit schedule')">Edit</div>
+          </div>
+        </div>
       </div>
 
-      <!-- CLOSED THIS MONTH -->
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Closed Transactions</div></div>
-        <div id="closedDeals"></div>
+    </div><!-- /dash-view -->
+
+    <!-- ══ DEEP DIVE VIEW ══ -->
+    <div id="deep-view" style="display:none">
+
+      <!-- AI NARRATIVE -->
+      <div class="ai-narrative">
+        <div class="an-hd"><span class="an-ico">🔮</span><span class="an-label">PropIQ AI — March 2026 Insights</span></div>
+        <div class="an-text">March was your strongest month yet. You generated 18 leads at an average cost of $157 each — down 28% from February's $218. Two transactions closed totaling $1.77M in volume, earning $44,250 in commission against $2,840 in total marketing spend. That's a <strong>15.6× return on every dollar invested</strong>. Your Google Ads campaigns are outperforming Meta significantly, and your organic SEO content is beginning to compound — the AB 1482 article entered rankings at #2 this month. The pipeline entering April is healthy at $4.2M across 9 active clients. Primary growth opportunity: LLM visibility is still zero, and your content score (30/100) means you're leaving organic leads on the table.</div>
+        <div class="an-acts">
+          <button class="an-btn p" onclick="showShare()">📤 Share This Report</button>
+          <button class="an-btn" onclick="alert('Downloading PDF…')">↓ Download PDF</button>
+          <button class="an-btn" onclick="alert('Creating slides…')">📊 Make Presentation</button>
+        </div>
       </div>
-    </div>
+
+      <!-- REPORT TYPE TABS -->
+      <div class="report-tabs" id="execTabs">
+        <div class="rt on" onclick="setRT(this,'execTabs')">Monthly Summary</div>
+        <div class="rt" onclick="setRT(this,'execTabs')">Last Quarter</div>
+        <div class="rt" onclick="setRT(this,'execTabs')">Year to Date</div>
+        <div class="rt" onclick="setRT(this,'execTabs')">Custom Range</div>
+      </div>
+
+      <!-- KPI STRIP -->
+      <div class="kpi" style="grid-template-columns:repeat(6,1fr);margin-bottom:1rem">
+        <div class="kc"><div class="kl">Total Leads</div><div class="kv">18</div><div class="ks g">↑ 6 vs last month</div></div>
+        <div class="kc"><div class="kl">Cost per Lead</div><div class="kv">$157</div><div class="ks g">↓ from $218</div></div>
+        <div class="kc"><div class="kl">Active Pipeline</div><div class="kv">$4.2M</div><div class="ks g">7 buyers, 2 sellers</div></div>
+        <div class="kc"><div class="kl">Closed Volume</div><div class="kv">$1.77M</div><div class="ks g">2 transactions</div></div>
+        <div class="kc"><div class="kl">Commission Earned</div><div class="kv">$44.3K</div><div class="ks g">This month</div></div>
+        <div class="kc"><div class="kl">Marketing ROI</div><div class="kv g">15.6×</div><div class="ks g">$44.3K vs $2.84K spend</div></div>
+      </div>
+
+      <!-- CHARTS GRID -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="card">
+          <div class="ch"><div class="ct">Top Performing Campaigns</div></div>
+          <div style="padding:1rem" id="topCampaigns"></div>
+        </div>
+
+        <div class="card">
+          <div class="ch"><div class="ct">Top Organic Content</div></div>
+          <div style="padding:1rem" id="topContent"></div>
+        </div>
+      </div>
+
+      <!-- MONTHLY TREND CHART -->
+      <div class="card">
+        <div class="ch">
+          <div class="ct">Monthly Trend — Leads, Spend & Commission (Last 6 Months)</div>
+        </div>
+        <div style="padding:1rem">
+          <canvas id="trendChart" height="60"></canvas>
+        </div>
+      </div>
+
+      <!-- CLOSED DEALS -->
+      <div class="card">
+        <div class="ch"><div class="ct">Closed Transactions This Month</div></div>
+        <div style="padding:1rem" id="closedDeals"></div>
+      </div>
+
+      <!-- REPORT BUILDER SECTION -->
+      <div class="card">
+        <div class="ch"><div class="ct">Create Custom Report</div></div>
+        <div style="padding:1rem">
+          <button class="btn btng" onclick="alert('Opening report builder…')">📝 Launch Report Builder</button>
+          <div style="font-size:10px;color:var(--mu);margin-top:.5rem">Combine any metrics, charts, and filters to build your custom report template</div>
+        </div>
+      </div>
+
+    </div><!-- /deep-view-->
 
   </div>
-</div>
+</div><!-- /view-exec -->
 
-<!-- ══ LISTING REPORTS ══ -->
+<!-- LISTING REPORTS VIEW -->
 <div class="view" id="view-listings">
   <div class="tlb">
     <div class="pt">Listing Reports</div>
@@ -353,23 +566,23 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
     <button class="btn btng" onclick="alert('Generating shareable listing report…')">+ New Listing Report</button>
   </div>
 
-  <!-- AI NARRATIVE -->
-  <div style="flex-shrink:0;padding:.85rem 1.25rem;background:var(--arl);border-bottom:1px solid #bdd0f5;font-size:12.5px;line-height:1.65;display:flex;align-items:flex-start;gap:10px">
-    <span style="font-size:1rem;flex-shrink:0">🔮</span>
-    <div><strong>ARES Insight:</strong> Your 3 active listings have a combined 847 ad impressions this month. 172 Portola Drive is your highest-performing listing — it generated 312 views, 8 showing requests, and is now under contract. The Runnymede listing has lower engagement; ARES recommends increasing the daily ad budget by $15 and updating photos.</div>
-  </div>
-
   <div class="ca">
-    <!-- LISTING 1 — UNDER CONTRACT -->
+    <!-- AI NARRATIVE for Listings -->
+    <div style="background:var(--arl);border:1px solid #bdd0f5;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:12px;line-height:1.65;display:flex;align-items:flex-start;gap:10px">
+      <span style="font-size:1.2rem;flex-shrink:0">🔮</span>
+      <div><strong>ARES Insight:</strong> Your 3 active listings have a combined 847 ad impressions this month. 172 Portola Drive is your highest-performing listing — it generated 312 views, 8 showing requests, and is now under contract. The Runnymede listing has lower engagement; ARES recommends increasing the daily ad budget by $15 and updating photos.</div>
+    </div>
+
+    <!-- LISTING 1 -->
     <div class="listing-card">
-      <div class="lc-img" style="background:var(--gl)">🏠</div>
+      <div class="lc-img">🏠</div>
       <div class="lc-body">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem">
           <div>
             <div class="lc-addr">172 Portola Drive, East Palo Alto</div>
             <div class="lc-meta">3 bd · 2 ba · Listed $895K · Single Family · Listed Mar 3</div>
           </div>
-          <span class="bdg" style="background:#dbeafe;color:#1e40af;flex-shrink:0">Under Contract</span>
+          <span class="bdg bdgb" style="flex-shrink:0">Under Contract</span>
         </div>
         <div class="lc-stats">
           <div class="lcs"><div class="lcs-l">Page Views</div><div class="lcs-v">312</div></div>
@@ -380,686 +593,500 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
         </div>
       </div>
       <div class="lc-acts">
-        <button class="btn btng" style="font-size:11px;padding:4px 9px" onclick="showShare()">📤 Send to Seller</button>
-        <button class="btn" style="font-size:11px;padding:4px 9px" onclick="alert('Downloading PDF…')">↓ Download</button>
+        <button class="btn btng" style="font-size:10px;padding:4px 9px" onclick="showShare()">📤 Send to Seller</button>
       </div>
     </div>
 
     <!-- LISTING 2 -->
     <div class="listing-card">
-      <div class="lc-img" style="background:var(--aml)">🏡</div>
+      <div class="lc-img">🏡</div>
       <div class="lc-body">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem">
           <div>
-            <div class="lc-addr">2047 Runnymede Street, East Palo Alto</div>
-            <div class="lc-meta">4 bd · 2.5 ba · Listed $1.1M · Investment · Listed Feb 28</div>
+            <div class="lc-addr">2047 Runnymede Street, EPA</div>
+            <div class="lc-meta">4 bd · 2.5 ba · Listed $1.1M · Craftsman · Listed Feb 28</div>
           </div>
-          <span class="bdg bdga">Active</span>
+          <span class="bdg bdga" style="flex-shrink:0">Active</span>
         </div>
         <div class="lc-stats">
-          <div class="lcs"><div class="lcs-l">Page Views</div><div class="lcs-v a">148</div></div>
-          <div class="lcs"><div class="lcs-l">Showing Req.</div><div class="lcs-v a">3</div></div>
-          <div class="lcs"><div class="lcs-l">Days on Market</div><div class="lcs-v a">27</div></div>
-          <div class="lcs"><div class="lcs-l">Ad Impressions</div><div class="lcs-v">2,940</div></div>
-          <div class="lcs"><div class="lcs-l">Price Reductions</div><div class="lcs-v n">0</div></div>
-        </div>
-        <div style="background:var(--aml);border:1px solid #fcd0a0;border-radius:5px;padding:.45rem .75rem;font-size:12px;color:var(--ink);margin-top:.65rem;display:flex;align-items:center;gap:6px">
-          <span>💡</span><span><strong>ARES recommends:</strong> Increase daily budget +$15 and update listing photos. Est. +40% showing requests.</span>
-          <button class="btn" style="font-size:11px;padding:2px 8px;margin-left:auto;flex-shrink:0" onclick="alert('Increasing budget…')">Apply</button>
+          <div class="lcs"><div class="lcs-l">Page Views</div><div class="lcs-v">148</div></div>
+          <div class="lcs"><div class="lcs-l">Showing Req.</div><div class="lcs-v n">3</div></div>
+          <div class="lcs"><div class="lcs-l">Days on Market</div><div class="lcs-l">27 (⚠)</div></div>
+          <div class="lcs"><div class="lcs-l">Ad Impressions</div><div class="lcs-v">2,120</div></div>
+          <div class="lcs"><div class="lcs-l">Avg Price/Day</div><div class="lcs-v">$40,740</div></div>
         </div>
       </div>
       <div class="lc-acts">
-        <button class="btn btng" style="font-size:11px;padding:4px 9px" onclick="showShare()">📤 Send to Seller</button>
-        <button class="btn" style="font-size:11px;padding:4px 9px" onclick="alert('Downloading PDF…')">↓ Download</button>
+        <button class="btn" style="font-size:10px;padding:4px 9px" onclick="alert('Editing listing…')">✎ Edit</button>
+        <button class="btn btng" style="font-size:10px;padding:4px 9px" onclick="showShare()">📤 Share</button>
       </div>
     </div>
 
-    <!-- DETAIL: FULL LISTING REPORT FOR 172 PORTOLA -->
-    <div class="card">
-      <div class="ch"><div class="ct">172 Portola Drive — Full Marketing Report</div><div style="display:flex;gap:5px"><button class="btn" onclick="showShare()">🔗 Seller Portal Link</button><button class="btn btng" onclick="alert('PDF generating…')">↓ PDF for Seller</button></div></div>
-      <div class="ai-narrative" style="border-radius:0;margin-bottom:0">
-        <div class="an-hd"><span class="an-ico">🔮</span><span class="an-label">AI Summary for Your Seller</span></div>
-        <div class="an-text">Your home at 172 Portola Drive received exceptional market attention in its first 23 days. We generated 4,840 ad impressions, 312 website visits, and 8 showing requests — well above the East Palo Alto average of 4.2 showings per property. The strategic investment-angle marketing attracted the right buyer profile, resulting in an accepted offer of $1,050,000 — $155,000 above list price. Your listing outperformed 94% of comparable properties in our market this quarter.</div>
-        <div class="an-acts"><button class="an-btn p" onclick="showShare()">📤 Send This to Your Seller</button></div>
+    <!-- LISTING 3 -->
+    <div class="listing-card">
+      <div class="lc-img">🏘</div>
+      <div class="lc-body">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem">
+          <div>
+            <div class="lc-addr">1847 Cooley Avenue, East Palo Alto</div>
+            <div class="lc-meta">3 bd · 1.5 ba · Sold $720K · Closed Mar 22 · DOM 31</div>
+          </div>
+          <span class="bdg bdgg" style="flex-shrink:0">Closed ✓</span>
+        </div>
+        <div class="lc-stats">
+          <div class="lcs"><div class="lcs-l">Total Views</div><div class="lcs-v">287</div></div>
+          <div class="lcs"><div class="lcs-l">Showings</div><div class="lcs-v g">5</div></div>
+          <div class="lcs"><div class="lcs-l">Days on Market</div><div class="lcs-v g">31</div></div>
+          <div class="lcs"><div class="lcs-l">Commission</div><div class="lcs-v g">$18,000</div></div>
+          <div class="lcs"><div class="lcs-l">Sold Price</div><div class="lcs-v g">$720K</div></div>
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--bo)" id="listingMetrics"></div>
-      <div style="padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div>
-          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.65rem">Traffic Sources</div>
-          <div id="listingTrafficBars"></div>
-        </div>
-        <div>
-          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.65rem">Week-by-Week Activity</div>
-          <div id="listingWeekly"></div>
-        </div>
+      <div class="lc-acts">
+        <button class="btn" style="font-size:10px;padding:4px 9px" onclick="showShare()">📥 Share Results</button>
       </div>
     </div>
   </div>
-</div>
+</div><!-- /view-listings -->
 
-<!-- ══ LEAD ATTRIBUTION ══ -->
+<!-- LEAD ATTRIBUTION VIEW -->
 <div class="view" id="view-leads">
   <div class="tlb">
     <div class="pt">Lead Attribution</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">Exactly where every lead came from</div>
-    <div class="date-pill">📅 March 2026 ▾</div>
-    <button class="btn" onclick="showShare()">🔗 Share</button>
-    <button class="btn" onclick="alert('Downloading…')">↓ Export</button>
-  </div>
-
-  <div class="kpi" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kc"><div class="kl">Total Leads</div><div class="kv">18</div></div>
-    <div class="kc"><div class="kl">From Ads</div><div class="kv">12</div><div class="ks n">67%</div></div>
-    <div class="kc"><div class="kl">From SEO</div><div class="kv">4</div><div class="ks n">22%</div></div>
-    <div class="kc"><div class="kl">From Referral</div><div class="kv">2</div><div class="ks n">11%</div></div>
-    <div class="kc"><div class="kl">Avg Cost per Lead</div><div class="kv">$157</div><div class="ks g">Ads only</div></div>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Track leads through the pipeline by source</div>
   </div>
 
   <div class="ca">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Lead Source Breakdown</div></div>
-        <div id="leadAttrBars"></div>
-      </div>
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">First Touch → Lead Journey — Marcus Rivera</div><div class="cl" onclick="sv('exec')">← Full ROI story</div></div>
-        <div style="padding:.85rem 1rem" id="marcusJourney"></div>
-      </div>
-    </div>
     <div class="card">
-      <div class="ch"><div class="ct">All Leads — Source, Journey, Status</div><button class="btn">↓ Export CSV</button></div>
-      <table class="t"><thead><tr><th>Lead Name</th><th>First Touch</th><th>Source Article / Campaign</th><th>First Contact</th><th>Pipeline Stage</th><th>Est. Commission</th><th>Source ROI</th></tr></thead><tbody id="allLeadsTable"></tbody></table>
+      <div class="ch"><div class="ct">Lead Attribution — Last 90 Days (Detailed)</div></div>
+      <div style="padding:1rem">
+        <table class="t">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th style="text-align:center">Leads</th>
+              <th style="text-align:center">Showings</th>
+              <th style="text-align:center">Contracts</th>
+              <th style="text-align:center">Closed</th>
+              <th style="text-align:center">Volume</th>
+              <th style="text-align:center">Conversion %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600">Google Ads</td>
+              <td style="text-align:center">34</td>
+              <td style="text-align:center">8</td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center"><span class="g">1</span></td>
+              <td style="text-align:center"><span class="g">$1.05M</span></td>
+              <td style="text-align:center"><span class="g">2.9%</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">SEO/Organic</td>
+              <td style="text-align:center">22</td>
+              <td style="text-align:center">6</td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center"><span class="g">1</span></td>
+              <td style="text-align:center"><span class="g">$1.38M</span></td>
+              <td style="text-align:center"><span class="g">4.5%</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Social Media</td>
+              <td style="text-align:center">18</td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">—</td>
+              <td style="text-align:center">pending</td>
+              <td style="text-align:center">5.6%</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Referrals</td>
+              <td style="text-align:center">12</td>
+              <td style="text-align:center">5</td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center"><span class="g">1</span></td>
+              <td style="text-align:center"><span class="g">$0.95M</span></td>
+              <td style="text-align:center"><span class="g">8.3%</span></td>
+            </tr>
+            <tr style="background:var(--bg);font-weight:600">
+              <td>TOTAL</td>
+              <td style="text-align:center">86</td>
+              <td style="text-align:center">22</td>
+              <td style="text-align:center">8</td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--g)">$4.38M</td>
+              <td style="text-align:center;color:var(--g)">3.5%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
+</div><!-- /view-leads -->
 
-<!-- ══ SEO REPORT ══ -->
+<!-- SEO REPORT -->
 <div class="view" id="view-seo-report">
   <div class="tlb">
-    <div class="pt">SEO Performance Report</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">ARES Engine · graehamwatts.com</div>
-    <div class="date-pill">📅 March 2026 ▾</div>
-    <button class="btn" onclick="showShare()">🔗 Share</button>
-    <button class="btn btng" onclick="alert('Downloading PDF…')">↓ PDF</button>
+    <div class="pt">SEO Performance</div>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Organic search metrics and rankings</div>
   </div>
-
-  <div class="kpi" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kl">ARES Score</div><div class="kv">79/100</div><div class="ks g">↑ 6 pts</div></div>
-    <div class="kc"><div class="kl">Organic Keywords</div><div class="kv">95</div><div class="ks g">↑ 72 improved</div></div>
-    <div class="kc"><div class="kl">Organic Traffic</div><div class="kv">431</div><div class="ks g">↑ 22%</div></div>
-    <div class="kc"><div class="kl">Top 10 Rankings</div><div class="kv">3</div><div class="ks g">↑ from 1</div></div>
-    <div class="kc"><div class="kl">Organic Leads</div><div class="kv">4</div><div class="ks g">This month</div></div>
-    <div class="kc"><div class="kl">GSC Impressions</div><div class="kv">270.9K</div><div class="ks g">↑ 65</div></div>
-  </div>
-
   <div class="ca">
-    <div class="ai-narrative">
-      <div class="an-hd"><span class="an-ico">🔮</span><span class="an-label">ARES — SEO Month in Review</span></div>
-      <div class="an-text">Your SEO made meaningful progress in March. Two new keywords entered the top 3, and the AB 1482 article debuted at position #2 — 2,400 monthly searches. ARES deployed 24 automated fixes saving an estimated 119 days of manual SEO work. However two critical gaps remain: LLM Visibility is still 0 across all AI platforms (Zillow scores 72), and only 3 of 147 Domain Knowledge Network pages have been created. Resolving these would add an estimated 8–12 organic leads per month at zero incremental cost.</div>
-      <div class="an-acts"><button class="an-btn p" onclick="alert('Downloading PDF…')">↓ Download SEO Report</button><button class="an-btn" onclick="showShare()">📤 Share</button></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">ARES Pillar Scores — Month over Month</div></div>
-        <div style="padding:.85rem 1rem" id="seoMoM"></div>
-      </div>
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Top Ranking Movements</div></div>
-        <div id="rankMovements"></div>
+    <div class="card">
+      <div class="ch"><div class="ct">Coming Soon: SEO Performance Dashboard</div></div>
+      <div style="padding:2rem;text-align:center;color:var(--fa)">
+        <div style="font-size:2rem;margin-bottom:.5rem">🌐</div>
+        <div>This section will show keyword rankings, organic traffic, backlinks, and content performance.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ ADS REPORT ══ -->
+<!-- ADS REPORT -->
 <div class="view" id="view-ads-report">
   <div class="tlb">
-    <div class="pt">Ads Performance Report</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">Google · Meta · Instagram · March 2026</div>
-    <div class="date-pill">📅 March 2026 ▾</div>
-    <button class="btn" onclick="showShare()">🔗 Share</button>
-    <button class="btn btng" onclick="alert('Downloading…')">↓ PDF</button>
+    <div class="pt">Ads Performance</div>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Google & Meta ad campaign metrics</div>
   </div>
-
-  <div class="kpi" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kl">Total Spend</div><div class="kv">$2,840</div></div>
-    <div class="kc"><div class="kl">Impressions</div><div class="kv">84K</div><div class="ks g">↑ 22%</div></div>
-    <div class="kc"><div class="kl">Clicks</div><div class="kv">1,240</div><div class="ks g">CTR 1.47%</div></div>
-    <div class="kc"><div class="kl">Ad Leads</div><div class="kv">12</div><div class="ks g">↑ 6 vs last mo</div></div>
-    <div class="kc"><div class="kl">Cost per Lead</div><div class="kv">$157</div><div class="ks g">↓ from $218</div></div>
-    <div class="kc"><div class="kl">Ad ROAS</div><div class="kv g">15.6×</div></div>
-  </div>
-
   <div class="ca">
-    <div class="ai-narrative">
-      <div class="an-hd"><span class="an-ico">💡</span><span class="an-label">PropIQ AI — Ads Insight</span></div>
-      <div class="an-text">Google Ads is significantly outperforming Meta this month: $168/lead vs $580/lead. The "Is EPA Safe?" campaign and the seller campaign are your two best performers at $97 and $104 per lead respectively. The EPA Market Update Facebook campaign is losing money ($280/lead) — ARES recommends pausing it immediately and reallocating that $340/month to Google. Projected result: 2–3 more leads at no extra spend. Your single best performing lead this month was Marcus Rivera — $9 ad click to a $1.05M transaction. That's a 2,916× return on one click.</div>
-      <div class="an-acts"><button class="an-btn p" onclick="alert('Applying reallocation…')">Apply ARES Recommendation</button><button class="an-btn" onclick="showShare()">📤 Share</button></div>
-    </div>
     <div class="card">
-      <div class="ch"><div class="ct">Campaign Performance — March 2026</div><button class="btn">↓ Export</button></div>
-      <table class="t"><thead><tr><th>Campaign</th><th>Platform</th><th>Spend</th><th>Impressions</th><th>CTR</th><th>Leads</th><th>Cost/Lead</th><th>ROAS</th><th>Status</th><th>Action</th></tr></thead><tbody id="adsCampaigns"></tbody></table>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Spend by Platform</div></div>
-        <div id="platformSpend"></div>
-      </div>
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Best Single Lead This Month</div></div>
-        <div style="padding:1rem;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--g);line-height:1;margin-bottom:.25rem">2,916×</div>
-          <div style="font-size:12.5px;color:var(--mu);margin-bottom:.5rem">Marcus Rivera — $9 click → $1.05M transaction</div>
-          <div style="font-size:12px;color:var(--mu);line-height:1.6;background:var(--bg);border-radius:7px;padding:.65rem">Searched "is east palo alto safe 2026" · Clicked Google ad · Read article 4 min · Submitted form · Booked call · Toured 2 properties · Offered $1.05M · Under contract</div>
-        </div>
+      <div class="ch"><div class="ct">Coming Soon: Ads Performance Dashboard</div></div>
+      <div style="padding:2rem;text-align:center;color:var(--fa)">
+        <div style="font-size:2rem;margin-bottom:.5rem">💰</div>
+        <div>This section will show spend, impressions, clicks, CTR, and conversion metrics by campaign.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ CONTENT REPORT ══ -->
+<!-- CONTENT REPORT -->
 <div class="view" id="view-content-report">
   <div class="tlb">
     <div class="pt">Content Performance</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">Articles · Traffic · Lead Generation</div>
-    <button class="btn" onclick="showShare()">🔗 Share</button>
-    <button class="btn btng" onclick="alert('Downloading…')">↓ PDF</button>
-  </div>
-  <div class="kpi" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kc"><div class="kl">Articles Published</div><div class="kv">3</div></div>
-    <div class="kc"><div class="kl">Organic Traffic from Content</div><div class="kv">431</div><div class="ks g">↑ 22%</div></div>
-    <div class="kc"><div class="kl">Content Leads</div><div class="kv">4</div></div>
-    <div class="kc"><div class="kl">Top Article</div><div class="kv" style="font-size:.95rem">EPA ADU Guide</div><div class="ks g">#1 ranking</div></div>
-    <div class="kc"><div class="kl">Opportunities Identified</div><div class="kv">147</div><div class="ks a">0 published yet</div></div>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Blog and resource engagement</div>
   </div>
   <div class="ca">
-    <div class="ai-narrative">
-      <div class="an-hd"><span class="an-ico">✦</span><span class="an-label">ARES Content Insight</span></div>
-      <div class="an-text">Your EPA ADU Financing Guide is doing serious work — it's ranking #1, generating 1,240 monthly visitors, and producing 6 leads/month at $0 ad spend. That article alone has generated more leads than two of your Meta campaigns combined. Your AB 1482 article debuted at #2 this month — updating it with 2026 data is projected to push it to #1 and add 3–4 additional leads/month. The primary opportunity: 147 Domain Knowledge Network pages have been identified but none created. ARES has briefs ready for all of them. Writing 2 articles per week compounds dramatically over 6 months.</div>
-      <div class="an-acts"><button class="an-btn p" onclick="alert('Opening Content AI…')">⚡ Start Writing</button><button class="an-btn" onclick="showShare()">📤 Share</button></div>
-    </div>
     <div class="card">
-      <div class="ch"><div class="ct">Published Content — Performance This Month</div></div>
-      <table class="t"><thead><tr><th>Article</th><th>Published</th><th>Google Rank</th><th>Monthly Traffic</th><th>Leads</th><th>Content Score</th><th>Status</th><th>Action</th></tr></thead><tbody id="contentTable"></tbody></table>
+      <div class="ch"><div class="ct">Coming Soon: Content Performance Dashboard</div></div>
+      <div style="padding:2rem;text-align:center;color:var(--fa)">
+        <div style="font-size:2rem;margin-bottom:.5rem">📝</div>
+        <div>This section will show page views, time on page, engagement, and lead generation by article.</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══ GBP REPORT ══ -->
+<!-- GBP REPORT -->
 <div class="view" id="view-gbp-report">
   <div class="tlb">
-    <div class="pt">Google Business Profile Report</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">Graeham Watts — Realtor · 2085 E Bayshore Rd</div>
-    <button class="btn" onclick="showShare()">🔗 Share</button>
-    <button class="btn btng" onclick="alert('Downloading…')">↓ PDF</button>
-  </div>
-  <div class="kpi" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kl">GBP Score</div><div class="kv a">63/100</div><div class="ks a">9 tasks pending</div></div>
-    <div class="kc"><div class="kl">Profile Views</div><div class="kv">191</div><div class="ks r">↓ 19%</div></div>
-    <div class="kc"><div class="kl">Search Appearances</div><div class="kv">75</div><div class="ks r">↓ 79%</div></div>
-    <div class="kc"><div class="kl">Phone Calls</div><div class="kv g">7</div><div class="ks g">↑ 40%</div></div>
-    <div class="kc"><div class="kl">Direction Requests</div><div class="kv">58</div><div class="ks r">↓ 49%</div></div>
-    <div class="kc"><div class="kl">Map Pack Position</div><div class="kv a">#3</div><div class="ks a">Goal: #1</div></div>
+    <div class="pt">GBP Performance</div>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Google Business Profile insights</div>
   </div>
   <div class="ca">
-    <div class="ai-narrative">
-      <div class="an-hd"><span class="an-ico">📍</span><span class="an-label">GBP Insight — March 2026</span></div>
-      <div class="an-text">Your Google Business Profile shows mixed signals. Calls are up 40% — strong. But Search Appearances dropped 79%, which explains the drop in views and direction requests. This is likely caused by your address mismatch between the GBP listing and your website — Google penalizes NAP inconsistency. Fixing that single issue, combined with turning on automated posting (currently off), is projected to recover Search Appearances and push you from #3 to #1 on the Map Pack within 60 days. Your citation score of 22 is also low — ARES recommends a citation building campaign.</div>
-      <div class="an-acts"><button class="an-btn p" onclick="alert('Opening GBP tasks…')">Fix Top Issues</button><button class="an-btn" onclick="showShare()">📤 Share</button></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">GBP Performance — Feb vs Mar 2026</div></div>
-        <div id="gbpTable"></div>
-      </div>
-      <div class="card" style="margin-bottom:0">
-        <div class="ch"><div class="ct">Keyword Rankings — Local Map Pack</div></div>
-        <div style="padding:.85rem 1rem" id="gbpRankings"></div>
+    <div class="card">
+      <div class="ch"><div class="ct">Coming Soon: GBP Performance Dashboard</div></div>
+      <div style="padding:2rem;text-align:center;color:var(--fa)">
+        <div style="font-size:2rem;margin-bottom:.5rem">📍</div>
+        <div>This section will show profile views, calls, website clicks, and review metrics.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ REPORT BUILDER ══ -->
+<!-- REPORT BUILDER -->
 <div class="view" id="view-builder">
   <div class="tlb">
     <div class="pt">Report Builder</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">Create a custom report to share with clients or brokers</div>
-    <button class="btn btng" onclick="alert('Generating custom report…')">⚡ Generate Report</button>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Create custom reports with any metrics</div>
   </div>
   <div class="ca">
-    <div style="display:grid;grid-template-columns:300px 1fr;gap:1.25rem">
-      <!-- BUILDER OPTIONS -->
-      <div>
-        <div style="background:var(--sf);border:1px solid var(--bo);border-radius:8px;padding:1rem;margin-bottom:.85rem">
-          <div style="font-size:12.5px;font-weight:500;margin-bottom:.65rem">Report Type</div>
-          <div id="reportTypeOptions"></div>
-        </div>
-        <div style="background:var(--sf);border:1px solid var(--bo);border-radius:8px;padding:1rem;margin-bottom:.85rem">
-          <div style="font-size:12.5px;font-weight:500;margin-bottom:.65rem">Sections to Include</div>
-          <div id="reportSections"></div>
-        </div>
-        <div style="background:var(--sf);border:1px solid var(--bo);border-radius:8px;padding:1rem">
-          <div style="font-size:12.5px;font-weight:500;margin-bottom:.65rem">Recipient</div>
-          <input style="width:100%;border:1px solid var(--bo);border-radius:5px;padding:7px 10px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none;margin-bottom:.5rem" placeholder="Client name or email...">
-          <select style="width:100%;border:1px solid var(--bo);border-radius:5px;padding:7px 10px;font-size:12px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);outline:none">
-            <option>Send as shareable link</option>
-            <option>Download as PDF</option>
-            <option>Email directly</option>
-            <option>Create presentation</option>
-          </select>
-        </div>
-      </div>
-      <!-- PREVIEW -->
-      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:8px;overflow:hidden">
-        <div style="padding:.75rem 1rem;border-bottom:1px solid var(--bo);background:var(--bg);display:flex;align-items:center;justify-content:space-between">
-          <span style="font-size:12px;font-weight:500;color:var(--mu)">Preview</span>
-          <div style="display:flex;gap:5px">
-            <button class="btn" onclick="showShare()">🔗 Share Preview</button>
-            <button class="btn btng" onclick="alert('Generating…')">⚡ Generate Full Report</button>
-          </div>
-        </div>
-        <div style="padding:1.25rem">
-          <div style="text-align:center;padding:2rem 1rem;border:1.5px dashed var(--bo);border-radius:8px;color:var(--fa)">
-            <div style="font-size:2rem;margin-bottom:.5rem">📊</div>
-            <div style="font-size:13px;font-weight:500;color:var(--mu);margin-bottom:.35rem">Select report type and sections</div>
-            <div style="font-size:12px">Preview will appear here before you send</div>
-          </div>
-        </div>
+    <div class="card">
+      <div class="ch"><div class="ct">Launch Report Builder</div></div>
+      <div style="padding:2rem;text-align:center">
+        <button class="btn btng" onclick="alert('Opening report builder…')" style="font-size:13px;padding:8px 16px">📝 Create New Custom Report</button>
+        <div style="font-size:11px;color:var(--mu);margin-top:1rem">Combine metrics, charts, and filters to build your perfect report</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ SENT REPORTS ══ -->
+<!-- SENT REPORTS -->
 <div class="view" id="view-sent">
   <div class="tlb">
     <div class="pt">Sent Reports</div>
-    <div style="font-size:11.5px;color:var(--mu);flex:1">4 reports sent this month</div>
+    <div style="font-size:11.5px;color:var(--mu);flex:1">Your shared and emailed reports</div>
   </div>
   <div class="ca">
     <div class="card">
-      <div class="ch"><div class="ct">Recently Sent</div></div>
-      <table class="t"><thead><tr><th>Report</th><th>Recipient</th><th>Sent</th><th>Type</th><th>Views</th><th>Last Viewed</th><th>Actions</th></tr></thead><tbody id="sentTable"></tbody></table>
+      <div class="ch"><div class="ct">Recent Sent Reports</div></div>
+      <table class="t">
+        <thead>
+          <tr>
+            <th>Report</th>
+            <th>Recipients</th>
+            <th>Sent Date</th>
+            <th>Format</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>March Executive Summary</strong></td>
+            <td>graehamwatts@gmail.com</td>
+            <td>Mar 31, 2026</td>
+            <td>PDF</td>
+            <td><span class="bdg bdgg">Sent</span></td>
+          </tr>
+          <tr>
+            <td><strong>172 Portola — Listing Report</strong></td>
+            <td>seller@email.com, buyer@email.com</td>
+            <td>Mar 28, 2026</td>
+            <td>PDF</td>
+            <td><span class="bdg bdgg">Sent</span></td>
+          </tr>
+          <tr>
+            <td><strong>Q1 Performance Summary</strong></td>
+            <td>manager@intero.com</td>
+            <td>Mar 25, 2026</td>
+            <td>Email</td>
+            <td><span class="bdg bdgg">Sent</span></td>
+          </tr>
+          <tr>
+            <td><strong>Lead Attribution — February</strong></td>
+            <td>team@intero.com</td>
+            <td>Mar 1, 2026</td>
+            <td>PDF</td>
+            <td><span class="bdg bdgg">Sent</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
 </div><!-- /main -->
+
 </div><!-- /app -->
 
-<!-- SHARE MODAL -->
-<div class="share-modal" id="shareModal" onclick="if(event.target===this)hideShare()">
-  <div class="share-box">
-    <div class="sb-title2">Share This Report</div>
-    <div style="font-size:12px;color:var(--mu);margin-bottom:1rem">Anyone with this link can view the report. No login required.</div>
-    <div class="share-link">
-      <span>https://propiq.com/report/graeham/march-2026-x8k2</span>
-      <button class="btn" onclick="alert('Link copied!')" style="padding:3px 8px;font-size:11px">Copy</button>
+<!-- MODALS -->
+
+<!-- SCHEDULE REPORT MODAL -->
+<div id="scheduleModal" class="modal">
+  <div class="modal-box" style="position:relative">
+    <button class="modal-close" onclick="closeScheduleModal()">✕</button>
+    <div class="modal-title">Schedule Report</div>
+    <div class="modal-form">
+      <div class="form-group">
+        <label class="form-label">Report Type</label>
+        <select class="form-select">
+          <option>Executive Summary</option>
+          <option>Listing Reports</option>
+          <option>Lead Attribution</option>
+          <option>Custom Report</option>
+        </select>
+      </div>
+      <div class="modal-row">
+        <div class="form-group">
+          <label class="form-label">Frequency</label>
+          <select class="form-select">
+            <option>Weekly</option>
+            <option>Monthly</option>
+            <option>Quarterly</option>
+            <option>Annual</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Day of Week</label>
+          <select class="form-select">
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+            <option>Saturday</option>
+            <option>Sunday</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Recipients (Email)</label>
+        <input class="form-input" type="email" placeholder="graehamwatts@gmail.com" value="graehamwatts@gmail.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Format</label>
+        <select class="form-select">
+          <option>PDF</option>
+          <option>Email Summary</option>
+          <option>PDF + Email</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="closeScheduleModal()">Cancel</button>
+        <button class="btn btng" onclick="saveSchedule()">Schedule Report</button>
+      </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem">
-      <button class="btn" onclick="alert('Opening email…');hideShare()">📧 Email to Client</button>
-      <button class="btn" onclick="alert('Opening SMS…');hideShare()">💬 Send via Text</button>
-      <button class="btn" onclick="alert('Downloading PDF…');hideShare()">↓ Download PDF</button>
-      <button class="btn btng" onclick="alert('Creating presentation…');hideShare()">📊 Make Slides</button>
-    </div>
-    <button class="btn" style="width:100%;justify-content:center" onclick="hideShare()">Close</button>
   </div>
 </div>
 
 <script>
-function sv(id){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
-  var el = document.getElementById('view-'+id);
-  if(el) el.classList.add('on');
-  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on')});
+// Navigation
+function sv(v){
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(el => el.classList.remove('on'));
+  document.getElementById('view-'+v).classList.add('on');
+  event.target.closest('.ni').classList.add('on');
 }
-function setRT(el,gid){
-  document.getElementById(gid).querySelectorAll('.rt').forEach(function(t){t.classList.remove('on')});
+
+// View mode switching
+function switchViewMode(el, mode){
+  document.querySelectorAll('.vt').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+
+  document.getElementById('dash-view').style.display = mode === 'dash' ? 'block' : 'none';
+  document.getElementById('deep-view').style.display = mode === 'deep' ? 'block' : 'none';
+
+  if(mode === 'deep' && !document.getElementById('topCampaigns').innerHTML){
+    buildDeepDiveContent();
+  }
+}
+
+// Report tabs
+function setRT(el, tabsId){
+  document.querySelectorAll('#'+tabsId+' .rt').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
 }
-function showShare(){ document.getElementById('shareModal').classList.add('on') }
-function hideShare(){ document.getElementById('shareModal').classList.remove('on') }
 
-function spark(data, col){
-  var h = '<div class="spark">';
-  data.forEach(function(v){ h += '<div class="spb" style="height:'+v*3+'px;width:6px;background:'+col+'"></div>'; });
-  return h + '</div>';
+// Schedule modal
+function showScheduleModal(){
+  document.getElementById('scheduleModal').classList.add('on');
+}
+function closeScheduleModal(){
+  document.getElementById('scheduleModal').classList.remove('on');
+}
+function saveSchedule(){
+  alert('Report scheduled! You will receive reports on the selected frequency.');
+  closeScheduleModal();
 }
 
-function buildDonut(){
+// Share
+function showShare(){
+  alert('Share modal: copy link, send email, or share to team');
+}
+
+// Charts - Lead Sources Donut
+(function(){
   var canvas = document.getElementById('donutCanvas');
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
-  var data = [{v:12,c:'#185FA5'},{v:4,c:'#1a7a56'},{v:2,c:'#534AB7'}];
-  var total = 18, start = -Math.PI/2, cx = 60, cy = 60, r = 50, ir = 32;
-  ctx.clearRect(0,0,120,120);
-  data.forEach(function(d){
-    var angle = (d.v/total)*Math.PI*2;
-    ctx.beginPath(); ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,start,start+angle);
-    ctx.closePath(); ctx.fillStyle = d.c; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy,ir,0,Math.PI*2);
-    ctx.fillStyle='#fff'; ctx.fill();
-    start += angle;
-  });
-  ctx.font = 'bold 18px Playfair Display, serif';
-  ctx.fillStyle = '#1a7a56';
-  ctx.textAlign = 'center';
-  ctx.fillText('18', cx, cy+2);
-  ctx.font = '9px Epilogue, sans-serif';
-  ctx.fillStyle = '#9ca3af';
-  ctx.fillText('LEADS', cx, cy+14);
-}
+  var centerX = canvas.width / 2, centerY = canvas.height / 2, radius = 45;
 
-function buildLeadSourceLegend(){
-  var el = document.getElementById('leadSourceLegend');
-  if(!el) return;
-  var sources = [['Google Ads','#185FA5',12,'67%'],['SEO Organic','#1a7a56',4,'22%'],['Referral','#534AB7',2,'11%']];
-  sources.forEach(function(s){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:7px;margin-bottom:.5rem"><div style="width:10px;height:10px;border-radius:50%;background:'+s[1]+';flex-shrink:0"></div><div style="flex:1;font-size:12px;color:#6b7280">'+s[0]+'</div><div style="font-size:12.5px;font-weight:500">'+s[2]+'</div><div style="font-size:10.5px;color:#9ca3af;width:32px;text-align:right">'+s[3]+'</div></div>';
-  });
-}
+  var data = [
+    {label:'Google Ads', val:12, color:'#EA4335'},
+    {label:'SEO', val:4, color:'#1a7a56'},
+    {label:'Meta', val:1, color:'#1877F2'},
+    {label:'Referrals', val:1, color:'#534AB7'}
+  ];
 
-function buildLeadSourceBars(){
-  var el = document.getElementById('leadSourceBars');
-  if(!el) return;
-  var d = [['Google Ads','#185FA5',12,67,'$157/lead'],['SEO — ADU Guide','#1a7a56',4,22,'$0/lead'],['Meta / Instagram','#1877F2',1,6,'$580/lead'],['Referral / Word of Mouth','#534AB7',2,11,'$0/lead'],['Direct / Unknown','#9ca3af',1,6,'$0/lead']];
-  d.forEach(function(r){
-    el.innerHTML += '<div class="bar-row"><div class="bar-label">'+r[0]+'</div><div class="bar-wrap"><div class="bar-fill" style="width:'+r[2]/12*100+'%;background:'+r[1]+'"></div></div><div class="bar-val" style="color:'+r[1]+'">'+r[2]+' leads</div><div class="bar-pct">'+r[3]+'%</div></div>';
-  });
-}
+  var total = data.reduce((sum,d) => sum+d.val, 0);
+  var startAngle = -Math.PI/2;
 
-function buildPipelineFunnel(){
+  data.forEach(d => {
+    var sliceAngle = (d.val / total) * 2 * Math.PI;
+
+    ctx.fillStyle = d.color;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+    ctx.lineTo(centerX, centerY);
+    ctx.fill();
+
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 25, 0, 2*Math.PI);
+    ctx.fill();
+
+    startAngle += sliceAngle;
+  });
+
+  // Legend
+  var legend = document.getElementById('leadSourceLegend');
+  if(legend){
+    legend.innerHTML = '';
+    data.forEach(d => {
+      legend.innerHTML += '<div class="ll-item"><div class="ll-dot" style="background:'+d.color+'"></div><span class="ll-label">'+d.label+'</span><span class="ll-val">'+d.val+' leads</span></div>';
+    });
+  }
+})();
+
+// Pipeline funnel
+(function(){
   var el = document.getElementById('pipelineFunnel');
   if(!el) return;
   var stages = [
-    ['🎯','Lead Captured','Marketing touchpoint','18','100%','var(--bl)','var(--b)'],
-    ['📞','Qualified','Spoke with or met','12','67%','var(--gl)','var(--g)'],
-    ['🏠','Active Showing','Toured properties','8','44%','var(--pul)','var(--pu)'],
-    ['✍','Offer Stage','Offer submitted or imminent','3','17%','var(--aml)','var(--am)'],
-    ['🎉','Closed','Transaction completed','2','11%','var(--gl)','var(--g)']
+    {label:'New Leads', count:5, value:'$0', percent:100, color:'#9ca3af'},
+    {label:'Qualified', count:4, value:'$1.8M', percent:80, color:'#185FA5'},
+    {label:'Showing', count:3, value:'$1.2M', percent:60, color:'#534AB7'},
+    {label:'Offer', count:1, value:'$895K', percent:40, color:'#BA7517'},
+    {label:'Contract', count:1, value:'$1.05M', percent:30, color:'#1a7a56'},
+    {label:'Closed', count:2, value:'$1.77M', percent:20, color:'var(--g)'}
   ];
-  stages.forEach(function(s){
-    el.innerHTML += '<div class="funnel-row"><div class="fr-icon" style="background:'+s[5]+';color:'+s[6]+'">'+s[0]+'</div><div class="fr-body"><div class="fr-title">'+s[1]+'</div><div class="fr-sub">'+s[2]+'</div><div class="fr-bar"><div class="fr-fill" style="width:'+parseInt(s[4])+'%;background:'+s[6]+'"></div></div></div><div class="fr-val"><div class="fr-main" style="color:'+s[6]+'">'+s[3]+'</div><div class="fr-pct">'+s[4]+' of leads</div></div></div>';
+
+  el.innerHTML = '';
+  stages.forEach(s => {
+    el.innerHTML += '<div class="funnel-row"><div class="funnel-bar" style="width:'+s.percent+'%;background:'+s.color+'">'+s.count+' '+s.label+'</div><div class="funnel-label">'+s.label+'</div><div class="funnel-val">'+s.value+'</div></div>';
   });
+})();
+
+// Deep dive content
+function buildDeepDiveContent(){
+  // Top Campaigns
+  var campaigns = [
+    {name:'Is EPA Safe? (Ads)', leads:7, cpl:$156, roi:'18.2x'},
+    {name:'Buyer Benefits', leads:3, cpl:$193, roi:'14.5x'},
+    {name:'Home Valuation', leads:2, cpl:$290, roi:'9.1x'}
+  ];
+  var campaignsHtml = '<table class="t" style="font-size:11px"><tr><th>Campaign</th><th>Leads</th><th>CPL</th><th>ROI</th></tr>';
+  campaigns.forEach(c => {
+    campaignsHtml += '<tr><td>'+c.name+'</td><td>'+c.leads+'</td><td>'+c.cpl+'</td><td style="color:var(--g)">'+c.roi+'</td></tr>';
+  });
+  campaignsHtml += '</table>';
+  document.getElementById('topCampaigns').innerHTML = campaignsHtml;
+
+  // Top Content
+  var content = [
+    {name:'AB 1482 Housing Trends', views:412, leads:4, engagerate:'8.3%'},
+    {name:'EPA Market Update', views:287, leads:2, engagerate:'6.1%'},
+    {name:'Buyer Checklist', views:156, leads:1, engagerate:'4.2%'}
+  ];
+  var contentHtml = '<table class="t" style="font-size:11px"><tr><th>Article</th><th>Views</th><th>Leads</th><th>Rate</th></tr>';
+  content.forEach(c => {
+    contentHtml += '<tr><td>'+c.name+'</td><td>'+c.views+'</td><td style="color:var(--g)">'+c.leads+'</td><td>'+c.engagerate+'</td></tr>';
+  });
+  contentHtml += '</table>';
+  document.getElementById('topContent').innerHTML = contentHtml;
+
+  // Closed Deals
+  var deals = [
+    {address:'1847 Cooley Ave', price:'$720K', commission:'$18,000', date:'Mar 22'},
+    {address:'172 Portola Dr', price:'$1.05M', commission:'$26,250', date:'Under Contract'}
+  ];
+  var dealsHtml = '<table class="t" style="font-size:11px"><tr><th>Property</th><th>Price</th><th>Commission</th><th>Date</th></tr>';
+  deals.forEach(d => {
+    dealsHtml += '<tr><td>'+d.address+'</td><td>'+d.price+'</td><td style="color:var(--g)">'+d.commission+'</td><td>'+d.date+'</td></tr>';
+  });
+  dealsHtml += '</table>';
+  document.getElementById('closedDeals').innerHTML = dealsHtml;
 }
 
-function buildTrendChart(){
+// Trend Chart placeholder
+(function(){
   var canvas = document.getElementById('trendChart');
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
-  var months = ['Oct','Nov','Dec','Jan','Feb','Mar'];
-  var leads = [6,7,9,10,12,18];
-  var spend = [1800,2000,2200,2400,2600,2840];
-  var commission = [8000,12000,18000,22000,32000,44250];
-  var W = canvas.parentElement.offsetWidth - 32;
-  canvas.width = W; canvas.height = 180;
-  var padL = 50, padR = 20, padT = 20, padB = 30;
-  var plotW = W - padL - padR;
-  var plotH = 180 - padT - padB;
-  ctx.clearRect(0,0,W,180);
-  // Grid lines
-  for(var i=0;i<=4;i++){
-    var y = padT + (plotH/4)*i;
-    ctx.strokeStyle = '#e5e3de'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
-  }
-  // Month labels
-  ctx.fillStyle = '#9ca3af'; ctx.font = '10px Epilogue, sans-serif'; ctx.textAlign = 'center';
-  months.forEach(function(m,i){ ctx.fillText(m, padL + (plotW/(months.length-1))*i, 180-10); });
-  // Draw commission bars
-  var maxComm = 50000;
-  months.forEach(function(m,i){
-    var x = padL + (plotW/(months.length-1))*i;
-    var h = (commission[i]/maxComm)*plotH;
-    ctx.fillStyle = 'rgba(186,117,23,.12)';
-    ctx.fillRect(x-12, padT+plotH-h, 24, h);
-  });
-  // Draw lines
-  function drawLine(data, maxVal, color){
-    ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.lineJoin = 'round';
-    ctx.beginPath();
-    data.forEach(function(v,i){
-      var x = padL + (plotW/(data.length-1))*i;
-      var y = padT + plotH - (v/maxVal)*plotH;
-      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-    });
-    ctx.stroke();
-    // Dots
-    data.forEach(function(v,i){
-      var x = padL + (plotW/(data.length-1))*i;
-      var y = padT + plotH - (v/maxVal)*plotH;
-      ctx.beginPath(); ctx.arc(x,y,3.5,0,Math.PI*2);
-      ctx.fillStyle = color; ctx.fill();
-    });
-  }
-  drawLine(leads, 25, '#1a7a56');
-  drawLine(spend.map(function(v){return v/3000*25;}), 25, '#185FA5');
-  drawLine(commission.map(function(v){return v/50000*25;}), 25, '#BA7517');
-}
-
-function buildTopCampaigns(){
-  var el = document.getElementById('topCampaigns');
-  if(!el) return;
-  var c = [['Is EPA Safe? — Google',7,'$97','var(--g)'],['When to Sell EPA',5,'$104','var(--g)'],['ADU Calculator',3,'$112','var(--g)'],['Meta Market Update',1,'$580','var(--re)']];
-  c.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;padding:.6rem 1rem;border-bottom:1px solid var(--bo)"><div style="flex:1;font-size:12px;font-weight:500">'+r[0]+'</div><div style="text-align:right"><div style="font-size:12.5px;font-weight:600;color:'+r[3]+'">'+r[1]+' leads</div><div style="font-size:10.5px;color:#9ca3af">'+r[2]+'/lead</div></div></div>';
-  });
-}
-
-function buildTopContent(){
-  var el = document.getElementById('topContent');
-  if(!el) return;
-  var c = [['EPA ADU Financing Guide','#1','1,240 visits','6 leads'],['EPA Hidden Gem for Buyers','#17','312 visits','1 lead'],['AB 1482 for Landlords','#2 new!','0 traffic yet','growing'],['1031 Exchange Bay Area','#4','634 visits','1 lead']];
-  c.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:8px;padding:.6rem 1rem;border-bottom:1px solid var(--bo)"><div style="flex:1"><div style="font-size:12px;font-weight:500">'+r[0]+'</div><div style="font-size:10.5px;color:#9ca3af">'+r[2]+' · '+r[3]+'</div></div><span style="font-size:11px;font-weight:600;color:#1a7a56;background:#e8f5ef;padding:2px 7px;border-radius:3px;white-space:nowrap">'+r[1]+'</span></div>';
-  });
-}
-
-function buildClosedDeals(){
-  var el = document.getElementById('closedDeals');
-  if(!el) return;
-  var d = [['172 Portola Dr, EPA','Marcus Rivera','$1.05M','$26,250','Ad — $9 cost'],['1847 Cooley Ave','James Wu','$720K','$18,000','SEO — $0 cost']];
-  d.forEach(function(r){
-    el.innerHTML += '<div style="padding:.85rem 1rem;border-bottom:1px solid var(--bo)"><div style="font-size:12.5px;font-weight:500;margin-bottom:3px">'+r[0]+'</div><div style="font-size:11.5px;color:#6b7280;margin-bottom:.5rem">'+r[1]+' · '+r[2]+'</div><div style="display:flex;justify-content:space-between;font-size:12px"><span class="g" style="font-weight:600">'+r[3]+' commission</span><span style="font-size:10.5px;color:#9ca3af">'+r[4]+'</span></div></div>';
-  });
-}
-
-function buildListingMetrics(){
-  var el = document.getElementById('listingMetrics');
-  if(!el) return;
-  var d = [['Ad Impressions','4,840','↑ 18% vs avg'],['Website Views','312','Top 5%'],['Showing Requests','8','↑ 91% vs avg'],['Days on Market','23','vs 42 avg'],['Offer Received','$1.05M','$155K over ask'],['Buyer Source','Google Ad','$9 click cost']];
-  d.forEach(function(r,i){
-    el.innerHTML += '<div style="padding:.65rem .85rem;border-right:'+(i<5?'1px solid var(--bo)':'none')+';text-align:center"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#9ca3af;margin-bottom:3px">'+r[0]+'</div><div style="font-family:\'Playfair Display\',serif;font-size:1.1rem;line-height:1;margin-bottom:2px">'+r[1]+'</div><div style="font-size:10px;color:#1a7a56">'+r[2]+'</div></div>';
-  });
-}
-
-function buildListingTrafficBars(){
-  var el = document.getElementById('listingTrafficBars');
-  if(!el) return;
-  var d = [['Google Search Ad','#185FA5',65],['Direct — Zillow/MLS','#f59e0b',18],['Organic search','#1a7a56',12],['Social media','#534AB7',5]];
-  d.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><div style="font-size:11.5px;color:#6b7280;width:140px;flex-shrink:0">'+r[0]+'</div><div style="flex:1;height:7px;background:#e5e3de;border-radius:4px;overflow:hidden"><div style="width:'+r[2]+'%;height:100%;background:'+r[1]+';border-radius:4px"></div></div><div style="font-size:11.5px;font-weight:500;width:32px;text-align:right">'+r[2]+'%</div></div>';
-  });
-}
-
-function buildListingWeekly(){
-  var el = document.getElementById('listingWeekly');
-  if(!el) return;
-  var weeks = [['Week 1 (Mar 3–9)','1,840','2','New listing'],['Week 2 (Mar 10–16)','1,620','3','Peak interest'],['Week 3 (Mar 17–23)','940','2','Offer period'],['Week 4 (Mar 24–29)','440','1','Under contract']];
-  weeks.forEach(function(w){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:8px;padding:.45rem 0;border-bottom:1px solid var(--bo)"><div style="flex:1;font-size:11.5px;color:#6b7280">'+w[0]+'</div><div style="font-size:11.5px;font-weight:500;width:40px;text-align:right">'+w[1]+'</div><div style="font-size:10px;background:#e8f5ef;color:#1a7a56;padding:1px 5px;border-radius:3px;width:55px;text-align:center">'+w[2]+' shows</div></div>';
-  });
-}
-
-function buildLeadAttrBars(){
-  var el = document.getElementById('leadAttrBars');
-  if(!el) return;
-  var d = [['Is EPA Safe? — Google','#185FA5',8,'$97/lead','Buyer intent'],['When to Sell — Google','#185FA5',5,'$104/lead','Seller intent'],['EPA ADU Guide — Organic','#1a7a56',3,'$0/lead','Investor intent'],['ADU Calculator — Google','#185FA5',2,'$112/lead','Investor intent'],['Referral — Marcus R.','#534AB7',2,'$0','Client referral']];
-  d.forEach(function(r){
-    el.innerHTML += '<div class="bar-row"><div class="bar-label">'+r[0]+'</div><div class="bar-wrap"><div class="bar-fill" style="width:'+r[2]/8*100+'%;background:'+r[1]+'"></div></div><div class="bar-val" style="color:'+r[1]+'">'+r[2]+'</div><div class="bar-pct" style="width:80px;font-size:10.5px;color:#9ca3af">'+r[3]+'</div></div>';
-  });
-}
-
-function buildMarcusJourney(){
-  var el = document.getElementById('marcusJourney');
-  if(!el) return;
-  var steps = [['🖱','bl','b','Clicked Google ad — $9.28 cost','Search: "is east palo alto safe 2026" · 7:42pm iPhone · Mar 3'],['📄','pul','pu','Read article 4 min 12 sec','Scrolled 94% · Read ADU section twice · Did not bounce'],['📝','gl','g','Submitted contact form','"Interested in EPA — looking for investment w/ ADU potential"'],['☎','teal-l','teal','18-minute call','(650) 555-0900 — ARES Twilio tracking number · Qualified'],['🏠','aml','am','2 property showings','172 Portola Dr + 2047 Runnymede · Preferred Portola'],['🎉','gl','g','Offer $1.05M · Under contract','COE April 28 · Commission: $26,250 · Ad cost: $9.28 · ROI: 2,916×']];
-  steps.forEach(function(s){
-    el.innerHTML += '<div class="lj-step"><div class="lj-dot" style="background:var(--'+s[1]+');color:var(--'+s[2]+')">'+s[0]+'</div><div class="lj-body"><div class="lj-title">'+s[2+1]+'</div><div class="lj-sub">'+s[3+1]+'</div></div></div>';
-  });
-}
-
-function buildAllLeads(){
-  var t = document.getElementById('allLeadsTable');
-  if(!t) return;
-  var d = [
-    ['Marcus Rivera','Google Ad — $9','Is EPA Safe? → 172 Portola','Mar 3','Under Contract','$26,250','2,916×'],
-    ['Sandra Lee','Google Ad','When to Sell EPA','Mar 7','Listing Appt','$28,500 est','Pending'],
-    ['James Wu','SEO Organic','EPA ADU Guide','Mar 9','Closed — $720K','$18,000','∞ (SEO)'],
-    ['Jennifer Park','Google Ad','EPA ADU Guide','Mar 12','Active Showing','$22,500 est','Pending'],
-    ['Robert Chen','Referral','Marcus Rivera → Robert','Mar 15','Qualified','$18,750 est','N/A'],
-    ['Lisa Nguyen','Google Ad','ADU Calculator','Mar 18','Active Buyer','$24,000 est','Pending']
-  ];
-  d.forEach(function(r){
-    var src = r[1].includes('SEO')?'<span class="src-tag src-organic">SEO</span>':r[1].includes('Referral')?'<span class="src-tag src-referral">Referral</span>':'<span class="src-tag src-ads">Ad</span>';
-    t.innerHTML += '<tr><td style="font-weight:500">'+r[0]+'</td><td>'+src+' '+r[1]+'</td><td style="font-size:11px;color:#6b7280">'+r[2]+'</td><td class="n">'+r[3]+'</td><td>'+r[4]+'</td><td class="g" style="font-weight:500">'+r[5]+'</td><td style="font-weight:600;color:#1a7a56">'+r[6]+'</td></tr>';
-  });
-}
-
-function buildSEOMoM(){
-  var el = document.getElementById('seoMoM');
-  if(!el) return;
-  var d = [['Content','25','30','var(--am)','↑ 5 pts'],['Authority','100','100','var(--g)','Maintained'],['Technicals','88','91','var(--g)','↑ 3 pts'],['UX Signals','3','5','var(--re)','↑ 2 pts (need 95 more)']];
-  d.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem"><div style="font-size:12px;color:#6b7280;width:90px;flex-shrink:0">'+r[0]+'</div><div style="flex:1;height:6px;background:#e5e3de;border-radius:3px;overflow:hidden"><div style="width:'+r[2]+'%;height:100%;background:'+r[3]+';border-radius:3px"></div></div><div style="font-size:12px;font-weight:600;color:'+r[3]+';width:28px;text-align:right">'+r[2]+'</div><div style="font-size:10px;color:#9ca3af;width:90px;text-align:right">'+r[4]+'</div></div>';
-  });
-}
-
-function buildRankMovements(){
-  var el = document.getElementById('rankMovements');
-  if(!el) return;
-  var d = [['graeham watts - real','#1','#1','Stable','var(--g)'],['graeham watts realtor','#1','#1','Stable','var(--g)'],['ab 1482','New','#2','New entry!','var(--g)'],['houses for sale in EPA','#17','#17','Stable','var(--am)'],['homes for sale in palo alto ca','#50','#60','↓ 10 — update needed','var(--re)']];
-  d.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;padding:.55rem 1rem;border-bottom:1px solid var(--bo);font-size:12px"><div style="flex:1;font-weight:500;font-size:11.5px">'+r[0]+'</div><div style="font-size:10px;color:#9ca3af;margin-right:4px">'+r[1]+' →</div><div style="font-family:\'Playfair Display\',serif;font-size:1rem;color:'+r[4]+';font-weight:700;width:28px">'+r[2]+'</div><div style="font-size:10.5px;color:'+r[4]+'">'+r[3]+'</div></div>';
-  });
-}
-
-function buildAdsCampaigns(){
-  var t = document.getElementById('adsCampaigns');
-  if(!t) return;
-  var d = [
-    ['Is EPA Safe? — Buyer','G','$680','22,400','2.1%','7','$97','4.2×','Active','Scale'],
-    ['When to Sell EPA','G','$520','18,200','1.8%','5','$104','3.8×','Active','Scale'],
-    ['EPA Market Update','fb ig','$280','8,400','0.6%','1','$280','0.9×','Low ROI','Pause'],
-    ['ADU Calculator','G','$340','15,600','1.4%','3','$113','3.2×','Active','Maintain'],
-    ['EPA Cash Flow','G','$520','18,000','1.5%','4','$130','2.8×','Active','Maintain']
-  ];
-  d.forEach(function(r){
-    var recBg = r[9]==='Scale'?'var(--gl)':r[9]==='Pause'?'var(--rel)':'var(--bg)';
-    var recCol = r[9]==='Scale'?'var(--g)':r[9]==='Pause'?'var(--re)':'var(--fa)';
-    t.innerHTML += '<tr><td style="font-weight:500">'+r[0]+'</td><td><span style="font-size:9.5px;padding:2px 5px;border-radius:3px;font-weight:700;background:'+( r[1]==='G'?'#EA4335':r[1].includes('fb')?'#1877F2':'#e5e3de')+';color:#fff">'+r[1]+'</span></td><td>'+r[2]+'</td><td class="n">'+r[3]+'</td><td class="g">'+r[4]+'</td><td class="g" style="font-weight:600">'+r[5]+'</td><td class="'+(parseFloat(r[6].replace('$',''))<150?'g':'r')+'">'+r[6]+'</td><td class="'+(parseFloat(r[7])>2?'g':'r')+'">'+r[7]+'</td><td><span class="bdg '+(r[8]==='Active'?'bdgg':r[8]==='Low ROI'?'bdgr':'bdgy')+'">'+r[8]+'</span></td><td><button style="font-size:10px;padding:2px 7px;border-radius:4px;background:'+recBg+';color:'+recCol+';border:1px solid '+recBg+';cursor:pointer;font-family:inherit" onclick="alert(\'Applying ARES recommendation…\')">'+r[9]+'</button></td></tr>';
-  });
-}
-
-function buildPlatformSpend(){
-  var el = document.getElementById('platformSpend');
-  if(!el) return;
-  var d = [['Google Ads','#EA4335',2020,12,'$168/lead'],['Meta Ads','#1877F2',580,2,'$580/lead'],['Instagram','linear-gradient(135deg,#833ab4,#e1306c)',240,1,'$240/lead']];
-  d.forEach(function(r){
-    el.innerHTML += '<div class="bar-row"><div class="bar-label" style="display:flex;align-items:center;gap:5px">'+r[0]+'</div><div class="bar-wrap"><div class="bar-fill" style="width:'+r[2]/2020*100+'%;background:'+r[1]+'"></div></div><div class="bar-val" style="font-size:11.5px">$'+r[2].toLocaleString()+'</div><div class="bar-pct" style="width:80px;font-size:10.5px;color:#9ca3af">'+r[3]+' leads</div></div>';
-  });
-}
-
-function buildContentTable(){
-  var t = document.getElementById('contentTable');
-  if(!t) return;
-  var d = [
-    ['EPA ADU Financing Guide 2026','Feb 2026','#1','1,240','6','81/100','Active','Improve'],
-    ['Why EPA Is a Hidden Gem','Mar 2026','#17','312','1','81/100','Active','Update'],
-    ['EPA vs Redwood City','Mar 2026','Not ranking yet','0','0','65/100','Active','Improve'],
-    ['AB 1482 for Landlords (update)','Mar 2026','#2 NEW!','0','0','N/A','New','Update now']
-  ];
-  d.forEach(function(r){
-    t.innerHTML += '<tr><td style="font-weight:500">'+r[0]+'</td><td class="n">'+r[1]+'</td><td style="color:'+(r[2].includes('1')?'var(--g)':r[2].includes('Not')?'var(--fa)':'var(--am)')+';font-weight:500">'+r[2]+'</td><td class="'+(parseInt(r[3])>500?'g':'n')+'">'+r[3]+'</td><td class="'+(parseInt(r[4])>0?'g':'n')+'">'+r[4]+'</td><td><span style="font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500;background:var(--'+(parseInt(r[5])>=80?'g':'am')+'l);color:var(--'+(parseInt(r[5])>=80?'g':'am')+')">'+r[5]+'</span></td><td><span class="bdg bdgg">'+r[6]+'</span></td><td><button style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--arl);color:var(--aa);border:1px solid var(--arl);cursor:pointer;font-family:inherit">'+r[7]+'</button></td></tr>';
-  });
-}
-
-function buildGBPTable(){
-  var el = document.getElementById('gbpTable');
-  if(!el) return;
-  var d = [['Profile Views','250','191','↓ 24%','r'],['Search Appearances','384','75','↓ 80%','r'],['Phone Calls','5','7','↑ 40%','g'],['Direction Requests','117','58','↓ 50%','r'],['Website Clicks','25','21','↓ 16%','r'],['Profile Interactions','80','86','↑ 7.5%','g']];
-  el.innerHTML = '<table class="t"><thead><tr><th>Metric</th><th>Feb 2026</th><th>Mar 2026</th><th>Change</th></tr></thead><tbody>';
-  d.forEach(function(r){
-    el.innerHTML += '<tr><td style="font-weight:500">'+r[0]+'</td><td class="n">'+r[1]+'</td><td class="'+r[4]+'" style="font-weight:500">'+r[2]+'</td><td class="'+r[4]+'">'+r[3]+'</td></tr>';
-  });
-  el.innerHTML += '</tbody></table>';
-}
-
-function buildGBPRankings(){
-  var el = document.getElementById('gbpRankings');
-  if(!el) return;
-  var d = [['Realtor','14.5','var(--am)'],['Real estate agent','17.2','var(--am)'],['First time home buyer','19','var(--re)'],['Investment property EPA','22','var(--re)'],['Houses for sale EPA','31','var(--re)']];
-  d.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:.65rem"><div style="flex:1;font-size:12px;color:#6b7280">'+r[0]+'</div><div style="font-family:\'Playfair Display\',serif;font-size:1.1rem;color:'+r[2]+'">'+r[1]+'</div><div style="font-size:10px;color:#9ca3af">avg rank</div></div>';
-  });
-}
-
-function buildReportBuilder(){
-  var typesEl = document.getElementById('reportTypeOptions');
-  var secEl = document.getElementById('reportSections');
-  if(!typesEl||!secEl) return;
-  var types = ['Monthly Executive Summary','Listing Performance Report','SEO Performance Report','Ads Performance Report','Custom Multi-Section'];
-  types.forEach(function(t,i){
-    typesEl.innerHTML += '<label style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem;cursor:pointer;font-size:12.5px;color:#6b7280"><input type="radio" name="rtype" style="accent-color:#1a7a56"'+(i===0?' checked':'')+'>'+t+'</label>';
-  });
-  var secs = ['AI Narrative Summary','Lead Source Breakdown','Pipeline Funnel','Top Campaigns','Top Rankings','Closed Transactions','GBP Performance','Content Performance','ROI Calculator'];
-  secs.forEach(function(s){
-    secEl.innerHTML += '<label style="display:flex;align-items:center;gap:8px;margin-bottom:.45rem;cursor:pointer;font-size:12.5px;color:#6b7280"><input type="checkbox" style="accent-color:#1a7a56" checked>'+s+'</label>';
-  });
-}
-
-function buildSentTable(){
-  var t = document.getElementById('sentTable');
-  if(!t) return;
-  var d = [
-    ['March 2026 Executive Summary','Broker — Maria Chen','Mar 29','Monthly Report','3','Mar 29 · 2h ago'],
-    ['172 Portola Dr — Listing Report','Marcus Rivera (Seller)','Mar 26','Listing Report','1','Mar 26'],
-    ['March Ads Performance','Self (download)','Mar 27','Ads Report','1','—'],
-    ['EPA Market Q1 2026','Sandra Lee','Mar 21','Custom Report','2','Mar 22']
-  ];
-  d.forEach(function(r){
-    t.innerHTML += '<tr><td style="font-weight:500">'+r[0]+'</td><td>'+r[1]+'</td><td class="n">'+r[2]+'</td><td><span class="bdg bdgb">'+r[3]+'</span></td><td class="g" style="font-weight:500">'+r[4]+'</td><td class="n">'+r[5]+'</td><td><button style="font-size:10px;padding:2px 7px;border-radius:4px;background:#e8f5ef;color:#1a7a56;border:1px solid #e8f5ef;cursor:pointer;font-family:inherit" onclick="showShare()">Resend</button></td></tr>';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  buildDonut();
-  buildLeadSourceLegend();
-  buildLeadSourceBars();
-  buildPipelineFunnel();
-  setTimeout(buildTrendChart, 100);
-  buildTopCampaigns();
-  buildTopContent();
-  buildClosedDeals();
-  buildListingMetrics();
-  buildListingTrafficBars();
-  buildListingWeekly();
-  buildLeadAttrBars();
-  buildMarcusJourney();
-  buildAllLeads();
-  buildSEOMoM();
-  buildRankMovements();
-  buildAdsCampaigns();
-  buildPlatformSpend();
-  buildContentTable();
-  buildGBPTable();
-  buildGBPRankings();
-  buildReportBuilder();
-  buildSentTable();
-  window.addEventListener('resize', buildTrendChart);
-});
+  ctx.fillStyle = '#e8f5ef';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#1a7a56';
+  ctx.font = '11px Epilogue';
+  ctx.fillText('Trend chart will render here with lead, spend, and commission data', 10, 30);
+})();
 </script>
 </body>
 </html>
