@@ -17,10 +17,28 @@
   --bg:#f8f7f4;--surface:#ffffff;--border:#e5e3de;--border2:#d1cfc9;
   --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px
 }
-body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradient(135deg, #f8f7f4 0%, #f3f1eb 50%, #f8f7f4 100%);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden;position:relative}
+
+/* Subtle noise overlay */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, #000, transparent),
+    radial-gradient(2px 2px at 60% 70%, #000, transparent),
+    radial-gradient(1px 1px at 50% 50%, #000, transparent),
+    radial-gradient(1px 1px at 80% 10%, #000, transparent),
+    radial-gradient(2px 2px at 90% 60%, #000, transparent);
+  background-size:200px 200px;
+  background-repeat:repeat;
+  opacity:0.03;
+  pointer-events:none;
+  z-index:1;
+}
 
 /* TOP BAR */
-.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60}
+.topbar{height:var(--topnav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;position:relative}
 .logo{font-family:'Playfair Display',serif;font-size:1.15rem;margin-right:1.25rem}.logo span{color:var(--green)}
 .topbar-left{display:flex;align-items:center}
 .topbar-right{display:flex;align-items:center;gap:10px}
@@ -33,7 +51,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .top-avatar{width:30px;height:30px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer}
 
 /* MODULE NAV */
-.modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50;position:relative}
 .mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
 .mod-tab:hover{color:var(--ink)}
 .mod-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
@@ -41,7 +59,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 
 /* APP BODY */
-.app-body{display:flex;flex:1;overflow:hidden}
+.app-body{display:flex;flex:1;overflow:hidden;position:relative;z-index:2}
 
 /* SIDEBAR */
 .sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;z-index:40}
@@ -69,7 +87,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
 
 /* MAIN */
-.main{flex:1;overflow-y:auto;padding:1.25rem;position:relative}
+.main{flex:1;overflow-y:auto;padding:1.25rem;position:relative;z-index:2}
 
 /* PAGE HEADER */
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
@@ -95,7 +113,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 
 /* KPI STRIP */
 .kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:1rem}
-.kpi{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.8rem 0.85rem;position:relative}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.8rem 0.85rem;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)}
 .kpi-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:0.3rem;line-height:1.3}
 .kpi-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;color:var(--ink)}
 .kpi-delta{font-size:9.5px;margin-top:0.25rem}
@@ -121,10 +139,68 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .edit-mode .widget:hover .card{border-color:var(--amber);opacity:1}
 
 /* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;transition:border-color 0.15s,opacity 0.15s}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;transition:border-color 0.15s,opacity 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
 .card-title{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);font-weight:500}
-.card-link{font-size:11px;color:var(--green);cursor:pointer}
+.card-link{font-size:11px;color:var(--green);cursor:pointer;transition:color 0.15s}
+.card-link:hover{color:#156445}
+
+/* TODAY'S FOCUS WIDGET */
+.todays-focus{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)}
+.tf-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.tf-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);font-weight:500}
+.tf-badge{font-size:9px;background:var(--green-l);color:var(--green);padding:2px 8px;border-radius:12px;font-weight:500;text-transform:uppercase}
+.tf-subtitle{font-size:11px;color:var(--faint);margin-bottom:0.75rem;line-height:1.4}
+.tf-items{display:flex;flex-direction:column;gap:0}
+.tf-item{display:flex;align-items:center;gap:10px;padding:0.65rem 0.75rem;border:1px solid transparent;border-radius:6px;transition:all 0.15s;border-bottom:1px solid var(--border)}
+.tf-item:last-child{border-bottom:none}
+.tf-item:hover{background:var(--bg);border-color:var(--border)}
+.tf-priority{width:3px;height:32px;border-radius:2px;flex-shrink:0;background:var(--blue)}
+.tf-priority.urgent{background:var(--red)}
+.tf-priority.important{background:var(--amber)}
+.tf-priority.routine{background:var(--blue)}
+.tf-icon{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.tf-icon.call{background:var(--red-l);color:var(--red)}
+.tf-icon.email{background:var(--green-l);color:var(--green)}
+.tf-icon.calendar{background:var(--amber-l);color:var(--amber)}
+.tf-icon.message{background:var(--blue-l);color:var(--blue)}
+.tf-content{flex:1;min-width:0}
+.tf-action{font-size:11.5px;color:var(--ink);font-weight:500;margin-bottom:2px;line-height:1.3}
+.tf-action-contact{color:var(--green);cursor:pointer;font-weight:500;transition:color 0.15s}
+.tf-action-contact:hover{color:#156445}
+.tf-meta{font-size:10px;color:var(--faint);margin-bottom:3px}
+.tf-time{font-size:9.5px;color:var(--muted);font-weight:500}
+.tf-time.overdue{color:var(--red)}
+.tf-time.urgent{color:var(--amber)}
+.tf-tags{display:flex;gap:4px;flex-wrap:wrap}
+.tf-tag{font-size:8px;background:var(--blue-l);color:var(--blue);padding:2px 6px;border-radius:3px;font-weight:500;text-transform:uppercase;white-space:nowrap}
+.tf-checkbox{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;background:var(--surface)}
+.tf-checkbox:hover{border-color:var(--green);background:var(--green-l)}
+.tf-checkbox.done{background:var(--green);border-color:var(--green);color:#fff;font-size:10px}
+.tf-item.completed .tf-action{color:var(--faint);text-decoration:line-through}
+
+/* COMMISSION FORECAST WIDGET */
+.commission-forecast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)}
+.cf-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem}
+.cf-title{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);font-weight:500}
+.cf-main{display:flex;align-items:baseline;gap:8px;margin-bottom:1rem}
+.cf-amount{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--green);font-weight:500}
+.cf-period{font-size:10px;color:var(--faint)}
+.cf-chart{margin-bottom:0.8rem}
+.cf-chart-title{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--faint);margin-bottom:0.5rem;font-weight:500}
+.cf-bar{display:flex;height:20px;border-radius:4px;overflow:hidden;margin-bottom:5px}
+.cf-segment{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;transition:flex 0.3s}
+.cf-segment.under-contract{background:var(--green)}
+.cf-segment.active-pipeline{background:linear-gradient(90deg, var(--green) 0%, var(--green) 30%, rgba(26, 122, 86, 0.4) 100%)}
+.cf-segment.nurturing{background:var(--border2);color:var(--muted)}
+.cf-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:0.8rem}
+.cf-item{padding:0.5rem;background:var(--bg);border-radius:5px;border-left:2px solid var(--green)}
+.cf-item.pipeline{border-left-color:var(--green)}
+.cf-item.nurturing{border-left-color:var(--border2)}
+.cf-item-label{font-size:8px;color:var(--faint);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px;font-weight:500}
+.cf-item-amount{font-size:12px;font-weight:500;color:var(--ink)}
+.cf-footer{font-size:10px;color:var(--faint);margin-bottom:0.5rem;line-height:1.4}
+.cf-trend{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--green);font-weight:500}
 
 /* ADD WIDGET PANEL */
 .add-widget-panel{position:fixed;top:0;right:-320px;width:300px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:200;transition:right 0.25s ease;padding:1.25rem;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,0.06)}
@@ -150,7 +226,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .contact-row:hover .c-name{color:var(--green)}
 .c-ava{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
 .c-info{flex:1;min-width:0}
-.c-name{font-weight:500;font-size:12px;transition:color 0.1s}
+.c-name{font-weight:500;font-size:12px;transition:color 0.1s;color:var(--green);cursor:pointer}
 .c-meta{font-size:10px;color:var(--faint);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .c-tags{display:flex;gap:3px;margin:0 5px;flex-shrink:0}
 .tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap}
@@ -173,7 +249,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .ai-task{background:var(--purple-l);color:var(--purple)}
 .ai-alert{background:var(--red-l);color:var(--red)}
 .act-text{font-size:11px;line-height:1.5;color:var(--ink);flex:1}
-.act-text strong{font-weight:500}
+.act-text strong{font-weight:500;color:var(--green);cursor:pointer}
 .act-time{font-size:9.5px;color:var(--faint);margin-top:1px}
 
 /* PIPELINE */
@@ -182,7 +258,8 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .pipe-count{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0 5px;font-size:9px;color:var(--faint)}
 .pipe-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.7rem;margin-bottom:5px;cursor:pointer}
 .pipe-card:hover{border-color:var(--border2);background:var(--surface)}
-.pipe-addr{font-weight:500;font-size:11.5px;margin-bottom:1px}
+.pipe-addr{font-weight:500;font-size:11.5px;margin-bottom:1px;color:var(--green);cursor:pointer;transition:color 0.15s}
+.pipe-addr:hover{color:#156445}
 .pipe-detail{font-size:10px;color:var(--faint)}
 .pipe-price{font-size:10.5px;color:var(--green);font-weight:500;margin-top:3px}
 .pipe-prog-wrap{height:2px;border-radius:1px;background:var(--border);margin-top:5px;overflow:hidden}
@@ -213,7 +290,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .content-name{font-size:11.5px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .content-rank{font-size:10.5px;color:var(--muted);width:28px;text-align:center;flex-shrink:0}
 .content-change{font-size:10px;width:32px;text-align:right;flex-shrink:0}
-.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
+.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0;position:relative}
 .tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
 .tb-logo-u span{color:var(--green)}
 .tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
@@ -399,7 +476,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
     <div class="page-header">
       <div>
         <div class="page-title">Good morning, Graeham.</div>
-        <div class="page-sub">Sunday, March 29, 2026 · East Palo Alto & Peninsula</div>
+        <div class="page-sub">Monday, March 30, 2026 · East Palo Alto & Peninsula</div>
       </div>
       <div class="header-actions">
         <button class="btn-sm btn-o">+ New Contact</button>
@@ -418,44 +495,154 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
       </div>
     </div>
 
+    <!-- TODAY'S FOCUS WIDGET — NEW -->
+    <div class="todays-focus">
+      <div class="tf-header">
+        <div class="tf-title">Today's Focus</div>
+        <div class="tf-badge">4 actions</div>
+      </div>
+      <div class="tf-subtitle">Monday, March 30 — here's what needs your attention</div>
+
+      <div class="tf-items">
+        <div class="tf-item" id="tf-item-1">
+          <div class="tf-priority urgent"></div>
+          <div class="tf-icon call">☎</div>
+          <div class="tf-content">
+            <div class="tf-action">Call <span class="tf-action-contact">Marcus Rivera</span> back — opened your RCS about <span class="tf-action-contact">172 Portola Dr</span></div>
+            <div class="tf-meta">Pipeline: Active</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="tf-time overdue">2h ago</div>
+              <div class="tf-tags"><span class="tf-tag">Urgent</span></div>
+            </div>
+          </div>
+          <div class="tf-checkbox" onclick="toggleTaskDone(this, 'tf-item-1')"></div>
+        </div>
+
+        <div class="tf-item" id="tf-item-2">
+          <div class="tf-priority important"></div>
+          <div class="tf-icon calendar">📅</div>
+          <div class="tf-content">
+            <div class="tf-action">Confirm appraisal appointment with appraiser for <span class="tf-action-contact">2895 Fordham</span></div>
+            <div class="tf-meta">Deal: Under Contract · Sandra Lee</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="tf-time">Due today</div>
+              <div class="tf-tags"><span class="tf-tag" style="background:var(--amber-l);color:var(--amber)">Due Today</span></div>
+            </div>
+          </div>
+          <div class="tf-checkbox" onclick="toggleTaskDone(this, 'tf-item-2')"></div>
+        </div>
+
+        <div class="tf-item" id="tf-item-3">
+          <div class="tf-priority important"></div>
+          <div class="tf-icon email">✉</div>
+          <div class="tf-content">
+            <div class="tf-action">Send final walkthrough scheduling email to <span class="tf-action-contact">Theresa Chen</span> — COE is Apr 15</div>
+            <div class="tf-meta">Deal: Closing Soon</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="tf-time urgent">5 days out</div>
+              <div class="tf-tags"><span class="tf-tag" style="background:var(--amber-l);color:var(--amber)">Important</span></div>
+            </div>
+          </div>
+          <div class="tf-checkbox" onclick="toggleTaskDone(this, 'tf-item-3')"></div>
+        </div>
+
+        <div class="tf-item" id="tf-item-4">
+          <div class="tf-priority routine"></div>
+          <div class="tf-icon message">💬</div>
+          <div class="tf-content">
+            <div class="tf-action">Review 3 unread messages from <span class="tf-action-contact">David Park</span>, <span class="tf-action-contact">Rachel Kim</span>, <span class="tf-action-contact">James Wu</span></div>
+            <div class="tf-meta">Messages</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="tf-time">New today</div>
+              <div class="tf-tags"><span class="tf-tag" style="background:var(--blue-l);color:var(--blue)">Routine</span></div>
+            </div>
+          </div>
+          <div class="tf-checkbox" onclick="toggleTaskDone(this, 'tf-item-4')"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- KPI STRIP — fixed, not draggable -->
     <div class="kpi-strip">
       <div class="kpi">
         <div class="kpi-fixed-label">Fixed</div>
-        <div class="kpi-label">Cost Per Lead</div>
-        <div class="kpi-val">$14</div>
-        <div class="kpi-delta up">↓ $3 vs last mo.</div>
+        <div class="kpi-label">Active Leads</div>
+        <div class="kpi-val">18</div>
+        <div class="kpi-delta up">↑ 3 this week</div>
       </div>
       <div class="kpi">
         <div class="kpi-fixed-label">Fixed</div>
-        <div class="kpi-label">Cost Per Call</div>
-        <div class="kpi-val">$38</div>
-        <div class="kpi-delta dn">↑ $5 vs last mo.</div>
+        <div class="kpi-label">Pipeline Value</div>
+        <div class="kpi-val">$4.7M</div>
+        <div class="kpi-delta up">↑ $600K</div>
       </div>
       <div class="kpi">
         <div class="kpi-fixed-label">Fixed</div>
-        <div class="kpi-label">Cost Per Ad Set</div>
-        <div class="kpi-val">$220</div>
-        <div class="kpi-delta neu">→ Stable</div>
+        <div class="kpi-label">Under Contract</div>
+        <div class="kpi-val">2</div>
+        <div class="kpi-delta up">On track</div>
       </div>
       <div class="kpi">
         <div class="kpi-fixed-label">Fixed</div>
-        <div class="kpi-label">Deals in Escrow</div>
-        <div class="kpi-val">6</div>
-        <div class="kpi-delta up">2 closing soon</div>
+        <div class="kpi-label">Closed This Month</div>
+        <div class="kpi-val">1</div>
+        <div class="kpi-delta neu">$1.38M</div>
       </div>
       <div class="kpi">
         <div class="kpi-fixed-label">Fixed</div>
-        <div class="kpi-label">Total Contacts</div>
-        <div class="kpi-val">247</div>
-        <div class="kpi-delta up">↑ 12 this week</div>
+        <div class="kpi-label">Commission YTD</div>
+        <div class="kpi-val">$74K</div>
+        <div class="kpi-delta up">↑ 18%</div>
       </div>
       <div class="kpi">
         <div class="kpi-fixed-label">Fixed</div>
-        <div class="kpi-label">Avg. Engagement</div>
-        <div class="kpi-val">61</div>
-        <div class="kpi-delta up">↑ 4 pts this week</div>
+        <div class="kpi-label">Avg Response Time</div>
+        <div class="kpi-val">12m</div>
+        <div class="kpi-delta up">↓ Fast</div>
       </div>
+    </div>
+
+    <!-- COMMISSION FORECAST WIDGET -->
+    <div class="commission-forecast" style="margin-bottom:1rem">
+      <div class="cf-header">
+        <div class="cf-title">Commission Forecast</div>
+      </div>
+      <div class="cf-main">
+        <div>
+          <div class="cf-amount">$47,500</div>
+          <div class="cf-period">Projected Q2 2026</div>
+        </div>
+      </div>
+      <div class="cf-chart">
+        <div class="cf-chart-title">Pipeline Breakdown</div>
+        <div class="cf-bar">
+          <div class="cf-segment under-contract" style="flex:225">
+            <span>Under Contract $22.5K</span>
+          </div>
+          <div class="cf-segment active-pipeline" style="flex:180">
+            <span>Active $18K</span>
+          </div>
+          <div class="cf-segment nurturing" style="flex:95">
+            <span>Nurturing $7K</span>
+          </div>
+        </div>
+      </div>
+      <div class="cf-breakdown">
+        <div class="cf-item pipeline">
+          <div class="cf-item-label">Under Contract</div>
+          <div class="cf-item-amount">$22,500</div>
+        </div>
+        <div class="cf-item pipeline">
+          <div class="cf-item-label">Active Pipeline</div>
+          <div class="cf-item-amount">$18,000</div>
+        </div>
+        <div class="cf-item nurturing">
+          <div class="cf-item-label">Nurturing</div>
+          <div class="cf-item-amount">$7,000</div>
+        </div>
+      </div>
+      <div class="cf-footer">Based on 3 pipeline deals at avg 2.5% commission</div>
+      <div class="cf-trend">↑ 12% vs last quarter</div>
     </div>
 
     <!-- WIDGET ROW 1 -->
@@ -470,31 +657,31 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
           </div>
           <div class="contact-row">
             <div class="c-ava" style="background:var(--green-l);color:var(--green)">MR</div>
-            <div class="c-info"><div class="c-name">Marcus Rivera</div><div class="c-meta">Opened your message · 2h ago · 172 Portola Dr</div></div>
+            <div class="c-info"><div class="c-name" onclick="openContact('Marcus Rivera')">Marcus Rivera</div><div class="c-meta">Opened your message · 2h ago · 172 Portola Dr</div></div>
             <div class="c-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
             <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:92%"></div></div><span class="av-num">92</span></div>
           </div>
           <div class="contact-row">
             <div class="c-ava" style="background:var(--amber-l);color:var(--amber)">SL</div>
-            <div class="c-info"><div class="c-name">Sandra Lee</div><div class="c-meta">Opened your email · 5h ago · Listing prep</div></div>
+            <div class="c-info"><div class="c-name" onclick="openContact('Sandra Lee')">Sandra Lee</div><div class="c-meta">Opened your email · 5h ago · Listing prep</div></div>
             <div class="c-tags"><span class="tag t-s">Seller</span></div>
             <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:78%"></div></div><span class="av-num">78</span></div>
           </div>
           <div class="contact-row">
             <div class="c-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
-            <div class="c-info"><div class="c-name">David Park</div><div class="c-meta">Spent 4 min on your listing page · Yesterday</div></div>
+            <div class="c-info"><div class="c-name" onclick="openContact('David Park')">David Park</div><div class="c-meta">Spent 4 min on your listing page · Yesterday</div></div>
             <div class="c-tags"><span class="tag t-b">Buyer</span></div>
             <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:65%"></div></div><span class="av-num">65</span></div>
           </div>
           <div class="contact-row">
             <div class="c-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
-            <div class="c-info"><div class="c-name">Theresa Chen</div><div class="c-meta">Replied on Instagram · Yesterday · 2895 Fordham</div></div>
+            <div class="c-info"><div class="c-name" onclick="openContact('Theresa Chen')">Theresa Chen</div><div class="c-meta">Replied on Instagram · Yesterday · 2895 Fordham</div></div>
             <div class="c-tags"><span class="tag t-l">Landlord</span><span class="tag t-s">Seller</span></div>
             <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:54%"></div></div><span class="av-num">54</span></div>
           </div>
           <div class="contact-row">
             <div class="c-ava" style="background:var(--green-l);color:var(--green)">JW</div>
-            <div class="c-info"><div class="c-name">James Wu</div><div class="c-meta">Text delivered · 2 days ago · Investment buyer</div></div>
+            <div class="c-info"><div class="c-name" onclick="openContact('James Wu')">James Wu</div><div class="c-meta">Text delivered · 2 days ago · Investment buyer</div></div>
             <div class="c-tags"><span class="tag t-i">Investor</span></div>
             <div class="av-wrap"><div class="av-bar"><div class="av-fill" style="width:41%"></div></div><span class="av-num">41</span></div>
           </div>
@@ -509,9 +696,9 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
             <div class="card-title">What just happened</div>
             <div class="card-link">All →</div>
           </div>
-          <div class="act-item"><div class="act-ico ai-msg">✉</div><div><div class="act-text"><strong>Marcus Rivera</strong> opened your message about 172 Portola Dr</div><div class="act-time">2 minutes ago</div></div></div>
-          <div class="act-item"><div class="act-ico ai-call">☎</div><div><div class="act-text">Inbound call from your Google Ad — matched to Sandra Lee</div><div class="act-time">18 minutes ago</div></div></div>
-          <div class="act-item"><div class="act-ico ai-view">⊙</div><div><div class="act-text"><strong>David Park</strong> spent 4 minutes on your listing page</div><div class="act-time">1 hour ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-msg">✉</div><div><div class="act-text"><strong onclick="openContact('Marcus Rivera')">Marcus Rivera</strong> opened your message about 172 Portola Dr</div><div class="act-time">2 minutes ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-call">☎</div><div><div class="act-text">Inbound call from your Google Ad — matched to <strong onclick="openContact('Sandra Lee')">Sandra Lee</strong></div><div class="act-time">18 minutes ago</div></div></div>
+          <div class="act-item"><div class="act-ico ai-view">⊙</div><div><div class="act-text"><strong onclick="openContact('David Park')">David Park</strong> spent 4 minutes on your listing page</div><div class="act-time">1 hour ago</div></div></div>
           <div class="act-item"><div class="act-ico ai-task">✓</div><div><div class="act-text">Giselle scheduled inspection · 2895 Fordham St · Apr 3</div><div class="act-time">3 hours ago</div></div></div>
           <div class="act-item"><div class="act-ico ai-alert">!</div><div><div class="act-text">One of your articles is slipping in Google — needs attention</div><div class="act-time">5 hours ago</div></div></div>
         </div>
@@ -530,23 +717,23 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
         <div class="pipe-cols">
           <div>
             <div class="pipe-head">Prospects <span class="pipe-count">4</span></div>
-            <div class="pipe-card"><div class="pipe-addr">Marcus Rivera</div><div class="pipe-detail">Searching EPA + Menlo Park</div><div class="pipe-price">Budget $900K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:12%;background:var(--blue)"></div></div></div>
+            <div class="pipe-card"><div class="pipe-addr" onclick="openContact('Marcus Rivera')">Marcus Rivera</div><div class="pipe-detail">Searching EPA + Menlo Park</div><div class="pipe-price">Budget $900K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:12%;background:var(--blue)"></div></div></div>
             <div class="pipe-card"><div class="pipe-addr">441 Runnymede Ave</div><div class="pipe-detail">EPA · Off-market watch</div><div class="pipe-price">$1.1M est.</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:8%;background:var(--blue)"></div></div></div>
           </div>
           <div>
             <div class="pipe-head">Active <span class="pipe-count">3</span></div>
             <div class="pipe-card"><div class="pipe-addr">172 Portola Dr</div><div class="pipe-detail">San Francisco · Listed</div><div class="pipe-price">$1.45M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:35%;background:var(--amber)"></div></div></div>
-            <div class="pipe-card"><div class="pipe-addr">Sandra Lee · Listing</div><div class="pipe-detail">Preparing for market</div><div class="pipe-price">$1.2M target</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:22%;background:var(--amber)"></div></div></div>
+            <div class="pipe-card"><div class="pipe-addr" onclick="openContact('Sandra Lee')">Sandra Lee · Listing</div><div class="pipe-detail">Preparing for market</div><div class="pipe-price">$1.2M target</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:22%;background:var(--amber)"></div></div></div>
           </div>
           <div>
             <div class="pipe-head">Under Contract <span class="pipe-count">2</span></div>
             <div class="pipe-card" style="border-left:2px solid var(--green)"><div class="pipe-addr">2895 Fordham St</div><div class="pipe-detail">Inspection · Apr 3</div><div class="pipe-price">$875K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:65%;background:var(--green)"></div></div></div>
-            <div class="pipe-card" style="border-left:2px solid var(--green)"><div class="pipe-addr">David Park · Buyer</div><div class="pipe-detail">Appraisal pending</div><div class="pipe-price">$1.05M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:60%;background:var(--green)"></div></div></div>
+            <div class="pipe-card" style="border-left:2px solid var(--green)"><div class="pipe-addr" onclick="openContact('David Park')">David Park · Buyer</div><div class="pipe-detail">Appraisal pending</div><div class="pipe-price">$1.05M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:60%;background:var(--green)"></div></div></div>
           </div>
           <div>
             <div class="pipe-head">Closing Soon <span class="pipe-count">2</span></div>
-            <div class="pipe-card" style="border-left:2px solid var(--amber)"><div class="pipe-addr">Theresa Chen</div><div class="pipe-detail">Closing April 15</div><div class="pipe-price">$1.38M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:88%;background:var(--amber)"></div></div></div>
-            <div class="pipe-card" style="border-left:2px solid var(--amber)"><div class="pipe-addr">James Wu · Investor</div><div class="pipe-detail">Closing April 22</div><div class="pipe-price">$720K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:82%;background:var(--amber)"></div></div></div>
+            <div class="pipe-card" style="border-left:2px solid var(--amber)"><div class="pipe-addr" onclick="openContact('Theresa Chen')">Theresa Chen</div><div class="pipe-detail">Closing April 15</div><div class="pipe-price">$1.38M</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:88%;background:var(--amber)"></div></div></div>
+            <div class="pipe-card" style="border-left:2px solid var(--amber)"><div class="pipe-addr" onclick="openContact('James Wu')">James Wu · Investor</div><div class="pipe-detail">Closing April 22</div><div class="pipe-price">$720K</div><div class="pipe-prog-wrap"><div class="pipe-prog" style="width:82%;background:var(--amber)"></div></div></div>
           </div>
         </div>
       </div>
@@ -624,7 +811,6 @@ function toggleEditMode() {
 
 function saveLayout() {
   toggleEditMode();
-  // show brief confirmation
   const btn = document.getElementById('editBtn');
   btn.textContent = '✓ Saved';
   btn.style.color = 'var(--green)';
@@ -652,6 +838,17 @@ function openPanel() {
 function closePanel() {
   document.getElementById('addWidgetPanel').classList.remove('open');
   document.getElementById('overlayBg').classList.remove('visible');
+}
+
+function openContact(name) {
+  console.log('Opening contact:', name);
+}
+
+function toggleTaskDone(element, itemId) {
+  const checkbox = element;
+  const item = document.getElementById(itemId);
+  checkbox.classList.toggle('done');
+  item.classList.toggle('completed');
 }
 </script>
 </body>
