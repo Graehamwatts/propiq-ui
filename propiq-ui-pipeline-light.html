@@ -70,7 +70,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .sf-plan{margin-left:auto;font-size:9px;background:var(--green-l);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:500;text-transform:uppercase}
 
 /* MAIN */
-.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
 
 /* PIPELINE TOOLBAR */
 .pipeline-toolbar{padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:1rem}
@@ -83,6 +83,8 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .btn-p:hover{background:#156445}
 .btn-o{background:var(--surface);color:var(--ink);border:1px solid var(--border2)}
 .btn-o:hover{background:var(--bg)}
+.btn-contacts{background:var(--surface);color:var(--green);border:2px solid var(--green);font-weight:500}
+.btn-contacts:hover{background:var(--green-l)}
 .view-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .vt-btn{padding:5px 10px;font-size:11.5px;cursor:pointer;color:var(--muted);background:var(--surface);border:none;font-family:'Epilogue',sans-serif;transition:all 0.12s}
 .vt-btn.active{background:var(--ink);color:#fff}
@@ -93,12 +95,15 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .filter-chip.buyer.on{background:var(--blue);border-color:var(--blue)}
 .filter-chip.seller.on{background:var(--amber);border-color:var(--amber)}
 .filter-chip.investor.on{background:var(--green);border-color:var(--green)}
-.pipeline-search{display:flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-size:11.5px;color:var(--faint);margin-left:auto}
+.pipeline-search{display:flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-size:11.5px;color:var(--faint);margin-left:auto;cursor:text}
+.pipeline-search input{background:transparent;border:none;outline:none;color:var(--ink);font-size:11.5px;flex:1;font-family:'Epilogue',sans-serif}
+.pipeline-search input::placeholder{color:var(--faint)}
+.search-hint{font-size:10px;color:var(--faint);margin-left:4px;padding-left:4px;border-left:1px solid var(--border)}
 .total-val{font-size:11px;color:var(--muted);margin-left:8px;white-space:nowrap}
 .total-val strong{color:var(--green);font-weight:500}
 
 /* KANBAN BOARD */
-.kanban{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;padding:1rem 1.25rem;gap:10px;align-items:flex-start}
+.kanban{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;padding:1rem 1.25rem;gap:10px;align-items:flex-start;position:relative}
 
 /* COLUMN */
 .kb-col{width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:0}
@@ -107,12 +112,12 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .kb-col-dot{width:7px;height:7px;border-radius:50%}
 .kb-col-count{font-size:10px;color:var(--faint);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0px 6px}
 .kb-col-value{font-size:10px;color:var(--faint)}
-.kb-col-body{background:var(--bg);border:1px solid var(--border);border-radius:0 0 8px 8px;padding:0.5rem;min-height:400px;display:flex;flex-direction:column;gap:6px}
+.kb-col-body{background:var(--bg);border:1px solid var(--border);border-radius:0 0 8px 8px;padding:0.5rem;min-height:400px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
 .kb-col-body.drag-over{background:var(--green-l);border-color:var(--green)}
 
 /* PIPELINE CARD */
 .kb-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:0.75rem 0.85rem;cursor:grab;transition:all 0.12s;position:relative}
-.kb-card:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.06);transform:translateY(-1px)}
+.kb-card:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.06);transform:translateY(-1px);cursor:pointer}
 .kb-card.dragging{opacity:0.4;transform:scale(0.97)}
 .kb-card-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
 .kb-ava{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
@@ -125,6 +130,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .t-s{background:var(--amber-l);color:var(--amber)}
 .t-i{background:var(--green-l);color:var(--green)}
 .t-l{background:var(--purple-l);color:var(--purple)}
+.t-p{background:var(--gray-l);color:var(--gray)}
 .kb-property{font-size:10.5px;color:var(--muted);background:var(--bg);border-radius:4px;padding:3px 7px;margin-bottom:6px;border:1px solid var(--border)}
 .kb-footer{display:flex;align-items:center;justify-content:space-between}
 .kb-av{display:flex;align-items:center;gap:4px}
@@ -182,6 +188,68 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .smb-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
 .btn-cancel{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:0.4rem 1rem;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif}
 .btn-save{background:var(--green);color:#fff;border:none;padding:0.4rem 1rem;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500}
+
+/* ALL CONTACTS OVERLAY */
+.all-contacts-overlay{display:none;position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.4);flex-direction:column}
+.all-contacts-overlay.open{display:flex}
+.aco-container{background:var(--surface);width:100%;height:100%;max-width:600px;margin:auto;border-radius:12px 12px 0 0;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(0,0,0,0.15);max-height:95vh}
+.aco-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.aco-title{font-family:'Playfair Display',serif;font-size:1.1rem;letter-spacing:-0.01em}
+.aco-close{font-size:20px;cursor:pointer;color:var(--muted);padding:4px;display:flex;align-items:center;justify-content:center}
+.aco-close:hover{color:var(--ink)}
+.aco-search-box{padding:1rem 1.25rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.aco-search-input{width:100%;display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px}
+.aco-search-input input{background:transparent;border:none;outline:none;flex:1;font-family:'Epilogue',sans-serif;font-size:12px;color:var(--ink)}
+.aco-search-input input::placeholder{color:var(--faint)}
+.aco-filters{display:flex;gap:6px;padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
+.aco-filter-tab{padding:4px 12px;border-radius:16px;font-size:11px;cursor:pointer;white-space:nowrap;background:var(--bg);color:var(--muted);border:1px solid var(--border);transition:all 0.12s}
+.aco-filter-tab:hover{border-color:var(--border2);color:var(--ink)}
+.aco-filter-tab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.aco-list{flex:1;overflow-y:auto;padding:0.75rem 1.25rem;display:flex;flex-direction:column;gap:6px}
+.cli-item{display:flex;align-items:flex-start;gap:10px;padding:0.6rem 0.75rem;border-radius:6px;cursor:pointer;transition:all 0.12s;border:1px solid transparent}
+.cli-item:hover{background:var(--bg);border-color:var(--border)}
+.cli-ava{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.cli-info{flex:1;min-width:0}
+.cli-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.cli-name{font-weight:500;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cli-time{font-size:10px;color:var(--faint);flex-shrink:0;margin-left:6px}
+.cli-meta{font-size:10px;color:var(--faint);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cli-tags{display:flex;gap:3px;flex-wrap:wrap}
+
+/* CONTACT DETAIL SLIDE-OUT */
+.contact-detail-panel{position:absolute;right:-420px;top:0;bottom:0;width:420px;background:var(--surface);border-left:1px solid var(--border);box-shadow:-5px 0 20px rgba(0,0,0,0.1);z-index:100;transition:right 0.3s ease;display:flex;flex-direction:column;overflow:hidden}
+.contact-detail-panel.open{right:0}
+.cd-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem;position:relative}
+.cd-close-btn{position:absolute;top:1rem;right:1.5rem;font-size:18px;cursor:pointer;color:var(--muted);padding:4px;display:flex;align-items:center;justify-content:center}
+.cd-close-btn:hover{color:var(--ink)}
+.cd-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:1rem}
+.cd-ava{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;flex-shrink:0}
+.cd-name{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-0.01em;margin-bottom:4px}
+.cd-sub{font-size:11px;color:var(--muted);margin-bottom:6px}
+.cd-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.cd-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-action{padding:0.35rem 0.75rem;border-radius:5px;font-size:11.5px;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;font-family:'Epilogue',sans-serif;transition:all 0.12s;white-space:nowrap}
+.btn-action:hover{background:var(--bg);border-color:var(--border2)}
+.btn-action.primary{background:var(--green);color:#fff;border-color:var(--green);font-weight:500}
+.btn-action.primary:hover{background:#156445}
+.cd-score-row{display:flex;align-items:center;gap:1rem;padding:0.75rem 0;border-top:1px solid var(--border);overflow-x:auto;padding-right:1.5rem}
+.cd-score-item{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:fit-content}
+.cd-score-val{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink)}
+.cd-score-label{font-size:8px;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);text-align:center}
+.cd-score-divider{width:1px;height:30px;background:var(--border);flex-shrink:0}
+.cd-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 1.5rem;gap:2px;overflow-x:auto}
+.cd-tab{padding:0.6rem 0.85rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap;flex-shrink:0}
+.cd-tab:hover{color:var(--ink)}
+.cd-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.cd-content{flex:1;overflow-y:auto;padding:1.25rem 1.5rem}
+.cd-section{margin-bottom:1.25rem}
+.cd-section-title{font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);font-weight:500;margin-bottom:0.65rem}
+.cd-info-row{padding:0.5rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:12px}
+.cd-info-row:last-child{border-bottom:none}
+.cd-info-label{font-weight:500;color:var(--muted);min-width:100px;font-size:11px}
+.cd-info-val{color:var(--ink);flex:1}
+
+/* TBUNIFIED - existing */
 .tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
 .tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
 .tb-logo-u span{color:var(--green)}
@@ -193,6 +261,12 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
 .tbt.on{color:var(--green);border-bottom-color:var(--green);font-weight:500}
 .tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 .tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
+
+/* Responsive scrollbar for lists */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border)}
 </style>
 </head>
 <body>
@@ -218,7 +292,6 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   </div>
 </div>
 
-
 <!-- STAGE EDIT MODAL -->
 <div class="stage-modal" id="stageModal">
   <div class="stage-modal-bg" onclick="closeStageModal()"></div>
@@ -240,21 +313,102 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   </div>
 </div>
 
-    <div class="top-search">🔍 Search contacts, properties, deals…</div>
+<!-- ALL CONTACTS OVERLAY -->
+<div class="all-contacts-overlay" id="allContactsOverlay">
+  <div class="aco-container">
+    <div class="aco-header">
+      <div class="aco-title">All Contacts</div>
+      <div class="aco-close" onclick="closeAllContacts()">✕</div>
+    </div>
+    <div class="aco-search-box">
+      <div class="aco-search-input">
+        <span>🔍</span>
+        <input id="contactSearchInput" type="text" placeholder="Search by name, phone, email…" />
+      </div>
+    </div>
+    <div class="aco-filters">
+      <div class="aco-filter-tab on" onclick="filterContacts(this, 'all')">All</div>
+      <div class="aco-filter-tab" onclick="filterContacts(this, 'buyer')">Buyers</div>
+      <div class="aco-filter-tab" onclick="filterContacts(this, 'seller')">Sellers</div>
+      <div class="aco-filter-tab" onclick="filterContacts(this, 'investor')">Investors</div>
+      <div class="aco-filter-tab" onclick="filterContacts(this, 'landlord')">Landlords</div>
+      <div class="aco-filter-tab" onclick="filterContacts(this, 'past')">Past Clients</div>
+    </div>
+    <div class="aco-list" id="contactList">
+      <div class="cli-item" onclick="selectContactAndClose('Marcus Rivera', 'MR', 'var(--green-l)', 'var(--green)', 'buyer investor')">
+        <div class="cli-ava" style="background:var(--green-l);color:var(--green)">MR</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Marcus Rivera</div><div class="cli-time">2h ago</div></div>
+          <div class="cli-meta">📱 (650) 555-0142</div>
+          <div class="cli-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('Sandra Lee', 'SL', 'var(--amber-l)', 'var(--amber)', 'seller')">
+        <div class="cli-ava" style="background:var(--amber-l);color:var(--amber)">SL</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Sandra Lee</div><div class="cli-time">5h ago</div></div>
+          <div class="cli-meta">📱 (650) 555-0198</div>
+          <div class="cli-tags"><span class="tag t-s">Seller</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('David Park', 'DP', 'var(--blue-l)', 'var(--blue)', 'buyer')">
+        <div class="cli-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">David Park</div><div class="cli-time">Yesterday</div></div>
+          <div class="cli-meta">📱 (415) 555-0231</div>
+          <div class="cli-tags"><span class="tag t-b">Buyer</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('Theresa Chen', 'TC', 'var(--purple-l)', 'var(--purple)', 'seller landlord')">
+        <div class="cli-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Theresa Chen</div><div class="cli-time">Yesterday</div></div>
+          <div class="cli-meta">📱 (650) 555-0317</div>
+          <div class="cli-tags"><span class="tag t-l">Landlord</span><span class="tag t-s">Seller</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('James Wu', 'JW', 'var(--green-l)', 'var(--green)', 'investor')">
+        <div class="cli-ava" style="background:var(--green-l);color:var(--green)">JW</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">James Wu</div><div class="cli-time">2 days ago</div></div>
+          <div class="cli-meta">📱 (408) 555-0284</div>
+          <div class="cli-tags"><span class="tag t-i">Investor</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('Rachel Kim', 'RK', 'var(--bg)', 'var(--muted)', 'buyer past')">
+        <div class="cli-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">RK</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Rachel Kim</div><div class="cli-time">4 days ago</div></div>
+          <div class="cli-meta">📱 (650) 555-0156</div>
+          <div class="cli-tags"><span class="tag t-b">Buyer</span><span class="tag t-p">Past Client</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('Brian Torres', 'BT', 'var(--amber-l)', 'var(--amber)', 'seller investor')">
+        <div class="cli-ava" style="background:var(--amber-l);color:var(--amber)">BT</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Brian Torres</div><div class="cli-time">5 days ago</div></div>
+          <div class="cli-meta">📱 (415) 555-0399</div>
+          <div class="cli-tags"><span class="tag t-s">Seller</span><span class="tag t-i">Investor</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('Alex Martinez', 'AM', 'var(--blue-l)', 'var(--blue)', 'buyer')">
+        <div class="cli-ava" style="background:var(--blue-l);color:var(--blue)">AM</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Alex Martinez</div><div class="cli-time">2h ago</div></div>
+          <div class="cli-meta">📱 (415) 555-0299</div>
+          <div class="cli-tags"><span class="tag t-b">Buyer</span></div>
+        </div>
+      </div>
+      <div class="cli-item" onclick="selectContactAndClose('Priya Lal', 'PL', 'var(--green-l)', 'var(--green)', 'buyer investor')">
+        <div class="cli-ava" style="background:var(--green-l);color:var(--green)">PL</div>
+        <div class="cli-info">
+          <div class="cli-top"><div class="cli-name">Priya Lal</div><div class="cli-time">Yesterday</div></div>
+          <div class="cli-meta">📱 (408) 555-0156</div>
+          <div class="cli-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="topbar-right">
-    <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
-    <div class="notif">🔔<div class="notif-badge">3</div></div>
-    <div class="top-avatar">GW</div>
-  </div>
-</div>
-
-  <div class="mod-tab active"><span class="mod-ico">◎</span>Contacts</div>
-  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
-  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
-  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
-  <div class="mod-tab"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
-  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
 </div>
 
 <div class="app-body">
@@ -298,9 +452,11 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
     <div class="sb-other"><span>⊕</span> Search</div>
     <div class="sb-other"><span>☎</span> Messages</div>
     <div class="sb-other"><span>↗</span> Reports</div>
+
     <div class="nav-sec">Account</div>
     <div class="nav-item"><span class="nav-ico">⚙</span>Settings</div>
     <div class="nav-item"><span class="nav-ico">?</span>Help & Support</div>
+
     <div class="sidebar-footer">
       <div class="sf-row">
         <div class="sf-ava">GW</div>
@@ -313,7 +469,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
   <!-- MAIN -->
   <div class="main">
 
-    <!-- TOOLBAR -->
+    <!-- PIPELINE TOOLBAR -->
     <div class="pipeline-toolbar">
       <div class="toolbar-left">
         <div class="page-title">Pipeline</div>
@@ -324,40 +480,42 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
         </select>
       </div>
       <div class="toolbar-right">
-        <button class="btn-sm btn-o" onclick="openStageModal()">⚙ Edit Stages</button>
-        <button class="btn-sm btn-o">⟳ Automations</button>
+        <button class="btn-sm btn-contacts" onclick="openAllContacts()">◎ All Contacts (247)</button>
         <button class="btn-sm btn-p">+ Add Lead</button>
         <div class="view-toggle">
-          <button class="vt-btn active" id="kanbanBtn" onclick="switchView('kanban')">⊞ Board</button>
-          <button class="vt-btn" id="listBtn" onclick="switchView('list')">≡ List</button>
+          <button class="vt-btn active" id="kanbanBtn" onclick="switchView('kanban')">Kanban</button>
+          <button class="vt-btn" id="listBtn" onclick="switchView('list')">List</button>
         </div>
+        <button class="btn-sm btn-o" onclick="openStageModal()">⚙ Stages</button>
       </div>
     </div>
 
     <!-- FILTER ROW -->
     <div class="filter-row">
-      <div class="filter-chip on" onclick="toggleChip(this)">All leads</div>
-      <div class="filter-chip buyer" onclick="toggleChip(this)">Buyers</div>
-      <div class="filter-chip seller" onclick="toggleChip(this)">Sellers</div>
-      <div class="filter-chip investor" onclick="toggleChip(this)">Investors</div>
-      <div class="filter-chip" onclick="toggleChip(this)">High engagement</div>
-      <div class="filter-chip" onclick="toggleChip(this)">Needs follow-up</div>
-      <div class="filter-chip" onclick="toggleChip(this)">Pre-approved</div>
-      <div class="pipeline-search">🔍 Search pipeline…</div>
-      <div class="total-val">14 leads · <strong>$12.4M</strong> total value</div>
+      <div class="pipeline-search" onclick="this.querySelector('input').focus()">
+        🔍 <input type="text" placeholder="Search leads…" />
+        <div class="search-hint">or <a href="javascript:openAllContacts()" style="color:var(--green);text-decoration:none;cursor:pointer;font-weight:500">search all contacts</a></div>
+      </div>
+      <div class="filter-chip buyer" onclick="toggleChip(this)">Buyer</div>
+      <div class="filter-chip seller" onclick="toggleChip(this)">Seller</div>
+      <div class="filter-chip investor" onclick="toggleChip(this)">Investor</div>
+      <div class="total-val">Total: <strong>63</strong></div>
     </div>
 
-    <!-- KANBAN BOARD -->
+    <!-- KANBAN VIEW -->
     <div class="kanban" id="kanbanView">
 
       <!-- NEW LEAD -->
       <div class="kb-col">
         <div class="kb-col-header" style="background:var(--gray-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--gray)"></div>New Lead<span class="kb-col-count">3</span></div>
-          <div class="kb-col-value">$2.1M</div>
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--gray)"></div>New Lead</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">3</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
+          </div>
         </div>
-        <div class="kb-col-body" id="col-new">
-          <div class="kb-card" draggable="true">
+        <div class="kb-col-body" id="newLead">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('Alex Martinez', 'AM', 'var(--blue-l)', 'var(--blue)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--blue-l);color:var(--blue)">AM</div>
               <div class="kb-card-info">
@@ -366,17 +524,8 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
-            <div class="kb-property">🏠 Searching EPA · $800K–$1.1M</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:45%"></div></div><span class="kb-av-num">45</span></div>
-              <div class="kb-actions">
-                <button class="kb-quick-btn" title="Send message">✉</button>
-                <button class="kb-quick-btn" title="Call">☎</button>
-              </div>
-              <div class="kb-time">2h ago</div>
-            </div>
           </div>
-          <div class="kb-card" draggable="true">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('Priya Lal', 'PL', 'var(--green-l)', 'var(--green)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--green-l);color:var(--green)">PL</div>
               <div class="kb-card-info">
@@ -385,28 +534,8 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
-            <div class="kb-property">🏠 Menlo Park · $1.2M–$1.6M</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:31%"></div></div><span class="kb-av-num">31</span></div>
-              <div class="kb-actions">
-                <button class="kb-quick-btn">✉</button>
-                <button class="kb-quick-btn">☎</button>
-              </div>
-              <div class="kb-time">Yesterday</div>
-            </div>
           </div>
-          <div class="kb-add" onclick="addCard('col-new')">+ Add lead</div>
-        </div>
-      </div>
-
-      <!-- NURTURING -->
-      <div class="kb-col">
-        <div class="kb-col-header" style="background:var(--blue-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--blue)"></div>Nurturing<span class="kb-col-count">4</span></div>
-          <div class="kb-col-value">$3.8M</div>
-        </div>
-        <div class="kb-col-body" id="col-nurture">
-          <div class="kb-card" draggable="true">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('James Wu', 'JW', 'var(--green-l)', 'var(--green)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--green-l);color:var(--green)">JW</div>
               <div class="kb-card-info">
@@ -415,178 +544,146 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-i">Investor</span></div>
-            <div class="kb-property">⊕ Investment · $650K–$900K</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:41%"></div></div><span class="kb-av-num">41</span></div>
-              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
-              <div class="kb-time">2 days ago</div>
-            </div>
           </div>
-          <div class="kb-card" draggable="true">
+          <div class="kb-add" onclick="addCard('newLead')">+ Add card</div>
+        </div>
+      </div>
+
+      <!-- NURTURING -->
+      <div class="kb-col">
+        <div class="kb-col-header" style="background:var(--blue-l)">
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--blue)"></div>Nurturing</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">8</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
+          </div>
+        </div>
+        <div class="kb-col-body" id="nurturing">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('Rachel Kim', 'RK', 'var(--bg)', 'var(--muted)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--bg);color:var(--muted);border:1px solid var(--border)">RK</div>
               <div class="kb-card-info">
                 <div class="kb-name">Rachel Kim</div>
-                <div class="kb-sub">Past client · 18 days</div>
+                <div class="kb-sub">Listed property · 4 days</div>
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
-            <div class="kb-property">🏠 Redwood City · $900K–$1.1M</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:28%"></div></div><span class="kb-av-num">28</span></div>
-              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
-              <div class="kb-time">4 days ago</div>
-            </div>
+            <div style="font-size:10.5px;color:var(--faint)">Viewing Sun 2pm</div>
           </div>
-          <div class="kb-add" onclick="addCard('col-nurture')">+ Add lead</div>
+          <div class="kb-add" onclick="addCard('nurturing')">+ Add card</div>
         </div>
       </div>
 
       <!-- APPOINTMENT SET -->
       <div class="kb-col">
         <div class="kb-col-header" style="background:var(--purple-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--purple)"></div>Appt. Set<span class="kb-col-count">2</span></div>
-          <div class="kb-col-value">$1.9M</div>
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--purple)"></div>Appointment Set</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">4</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
+          </div>
         </div>
-        <div class="kb-col-body" id="col-appt">
-          <div class="kb-card" draggable="true">
+        <div class="kb-col-body" id="appointmentSet">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('David Park', 'DP', 'var(--blue-l)', 'var(--blue)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--blue-l);color:var(--blue)">DP</div>
               <div class="kb-card-info">
                 <div class="kb-name">David Park</div>
-                <div class="kb-sub">Meta Ad · 8 days</div>
+                <div class="kb-sub">Showing · Fri 10am</div>
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
-            <div class="kb-property">🏠 Showing Tue Apr 1 · 2pm</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:65%"></div></div><span class="kb-av-num">65</span></div>
-              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
-              <div class="kb-time">Yesterday</div>
-            </div>
           </div>
-          <div class="kb-add" onclick="addCard('col-appt')">+ Add lead</div>
+          <div class="kb-add" onclick="addCard('appointmentSet')">+ Add card</div>
         </div>
       </div>
 
       <!-- ACTIVE -->
       <div class="kb-col">
         <div class="kb-col-header" style="background:var(--amber-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--amber)"></div>Active<span class="kb-col-count">3</span></div>
-          <div class="kb-col-value">$3.6M</div>
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--amber)"></div>Active</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">12</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
+          </div>
         </div>
-        <div class="kb-col-body" id="col-active">
-          <div class="kb-card" draggable="true">
+        <div class="kb-col-body" id="active">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('Marcus Rivera', 'MR', 'var(--green-l)', 'var(--green)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--green-l);color:var(--green)">MR</div>
               <div class="kb-card-info">
                 <div class="kb-name">Marcus Rivera</div>
-                <div class="kb-sub">Google Ad · 27 days</div>
+                <div class="kb-sub">172 Portola Dr · Offer pending</div>
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-b">Buyer</span><span class="tag t-i">Investor</span></div>
-            <div class="kb-property">🏠 172 Portola Dr · $1.45M</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:92%"></div></div><span class="kb-av-num">92</span></div>
-              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
-              <div class="kb-time">2h ago</div>
-            </div>
+            <div style="font-size:10px;color:var(--green);font-weight:500">$1.45M</div>
           </div>
-          <div class="kb-card" draggable="true">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('Sandra Lee', 'SL', 'var(--amber-l)', 'var(--amber)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--amber-l);color:var(--amber)">SL</div>
               <div class="kb-card-info">
                 <div class="kb-name">Sandra Lee</div>
-                <div class="kb-sub">Zillow · 19 days</div>
+                <div class="kb-sub">Listing prep · 2895 Fordham</div>
               </div>
             </div>
             <div class="kb-tags"><span class="tag t-s">Seller</span></div>
-            <div class="kb-property">🏠 Listing prep · $1.2M target</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:78%"></div></div><span class="kb-av-num">78</span></div>
-              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
-              <div class="kb-time">5h ago</div>
-            </div>
+            <div style="font-size:10px;color:var(--green);font-weight:500">$1.2M</div>
           </div>
-          <div class="kb-add" onclick="addCard('col-active')">+ Add lead</div>
+          <div class="kb-add" onclick="addCard('active')">+ Add card</div>
         </div>
       </div>
 
       <!-- UNDER CONTRACT -->
       <div class="kb-col">
         <div class="kb-col-header" style="background:var(--green-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--green)"></div>Under Contract<span class="kb-col-count">2</span></div>
-          <div class="kb-col-value">$1.9M</div>
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--green)"></div>Under Contract</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">6</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
+          </div>
         </div>
-        <div class="kb-col-body" id="col-contract">
-          <div class="kb-card" draggable="true" style="border-left:2.5px solid var(--green)">
+        <div class="kb-col-body" id="underContract">
+          <div class="kb-card" draggable="true" onclick="openContactDetail('Theresa Chen', 'TC', 'var(--purple-l)', 'var(--purple)')">
             <div class="kb-card-top">
               <div class="kb-ava" style="background:var(--purple-l);color:var(--purple)">TC</div>
               <div class="kb-card-info">
                 <div class="kb-name">Theresa Chen</div>
-                <div class="kb-sub">Instagram · 41 days</div>
+                <div class="kb-sub">2895 Fordham · Closing Apr 15</div>
               </div>
             </div>
-            <div class="kb-tags"><span class="tag t-s">Seller</span></div>
-            <div class="kb-property">🏠 2895 Fordham · COE Apr 15</div>
-            <div class="kb-footer">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:54%"></div></div><span class="kb-av-num">54</span></div>
-              <div class="kb-actions"><button class="kb-quick-btn">✉</button><button class="kb-quick-btn">☎</button></div>
-              <div class="kb-time">Yesterday</div>
-            </div>
+            <div class="kb-tags"><span class="tag t-l">Landlord</span><span class="tag t-s">Seller</span></div>
+            <div style="font-size:10px;color:var(--green);font-weight:500">$1.38M</div>
           </div>
-          <div class="kb-add" onclick="addCard('col-contract')">+ Add lead</div>
+          <div class="kb-add" onclick="addCard('underContract')">+ Add card</div>
         </div>
       </div>
 
       <!-- CLOSED WON -->
       <div class="kb-col">
         <div class="kb-col-header" style="background:var(--green-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:#0d5c3a"></div>Closed Won<span class="kb-col-count">2</span></div>
-          <div class="kb-col-value">$2.1M</div>
-        </div>
-        <div class="kb-col-body" id="col-won">
-          <div class="kb-card" draggable="true" style="opacity:0.75">
-            <div class="kb-card-top">
-              <div class="kb-ava" style="background:var(--green-l);color:var(--green)">✓</div>
-              <div class="kb-card-info">
-                <div class="kb-name">Robert Ngo</div>
-                <div class="kb-sub">Closed Mar 14</div>
-              </div>
-            </div>
-            <div class="kb-tags"><span class="tag t-b">Buyer</span></div>
-            <div class="kb-price">$1.05M closed</div>
-            <div class="kb-footer" style="margin-top:6px">
-              <div class="kb-av"><div class="kb-av-bar"><div class="kb-av-fill" style="width:100%"></div></div><span class="kb-av-num">✓</span></div>
-              <div class="kb-time">Mar 14</div>
-            </div>
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--green)"></div>Closed Won</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">28</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
           </div>
-          <div class="kb-add">+ Add lead</div>
+        </div>
+        <div class="kb-col-body" id="closedWon">
+          <div class="kb-add" onclick="addCard('closedWon')">+ Add card</div>
         </div>
       </div>
 
       <!-- CLOSED LOST -->
       <div class="kb-col lost">
         <div class="kb-col-header" style="background:var(--red-l)">
-          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--red)"></div>Lost<span class="kb-col-count">2</span></div>
-          <div class="kb-col-value" style="color:var(--red)">$1.8M</div>
-        </div>
-        <div class="kb-col-body" id="col-lost">
-          <div class="kb-card" draggable="true">
-            <div class="kb-card-top">
-              <div class="kb-ava" style="background:var(--red-l);color:var(--red)">BT</div>
-              <div class="kb-card-info">
-                <div class="kb-name">Brian Torres</div>
-                <div class="kb-sub">Lost · Chose another agent</div>
-              </div>
-            </div>
-            <div class="kb-tags"><span class="tag t-s">Seller</span></div>
-            <div class="kb-property" style="color:var(--red)">Reason: Price disagreement</div>
-            <div class="kb-footer">
-              <div class="kb-time">Mar 10</div>
-            </div>
+          <div class="kb-col-name"><div class="kb-col-dot" style="background:var(--red)"></div>Closed Lost</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div class="kb-col-count">5</div>
+            <div class="kb-col-value" onclick="openStageModal()" style="cursor:pointer;color:var(--faint);font-size:11px">⚙</div>
           </div>
-          <div class="kb-add">+ Add lead</div>
+        </div>
+        <div class="kb-col-body" id="closedLost">
+          <div class="kb-add" onclick="addCard('closedLost')">+ Add card</div>
         </div>
       </div>
 
@@ -601,19 +698,93 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg);fon
           </tr>
         </thead>
         <tbody>
-          <tr><td><strong>Marcus Rivera</strong></td><td><span class="tag t-b">Buyer</span> <span class="tag t-i">Investor</span></td><td><span class="stage-pill sp-active">Active</span></td><td>172 Portola Dr</td><td><span style="color:var(--green);font-weight:500">92</span></td><td>2h ago</td><td style="color:var(--green)">$1.45M</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>Sandra Lee</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill sp-active">Active</span></td><td>Listing prep</td><td><span style="color:var(--green);font-weight:500">78</span></td><td>5h ago</td><td style="color:var(--green)">$1.2M</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>David Park</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-appt">Appt. Set</span></td><td>Showing Apr 1</td><td>65</td><td>Yesterday</td><td>$1.05M</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>Theresa Chen</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill sp-contract">Under Contract</span></td><td>2895 Fordham · Apr 15</td><td>54</td><td>Yesterday</td><td>$1.38M</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>James Wu</strong></td><td><span class="tag t-i">Investor</span></td><td><span class="stage-pill sp-nurture">Nurturing</span></td><td>Investment · EPA</td><td>41</td><td>2 days ago</td><td>$720K</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>Rachel Kim</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-nurture">Nurturing</span></td><td>Redwood City</td><td>28</td><td>4 days ago</td><td>$950K</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>Alex Martinez</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-new">New Lead</span></td><td>EPA · $800K–$1.1M</td><td>45</td><td>2h ago</td><td>$900K</td><td><button class="kb-quick-btn">✉</button></td></tr>
-          <tr><td><strong>Brian Torres</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill" style="background:var(--red-l);color:var(--red)">Lost</span></td><td>Price disagreement</td><td style="color:var(--faint)">19</td><td>Mar 10</td><td style="color:var(--faint)">$1.8M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('Marcus Rivera', 'MR', 'var(--green-l)', 'var(--green)')"><td><strong>Marcus Rivera</strong></td><td><span class="tag t-b">Buyer</span> <span class="tag t-i">Investor</span></td><td><span class="stage-pill sp-active">Active</span></td><td>172 Portola Dr</td><td><span style="color:var(--green);font-weight:500">92</span></td><td>2h ago</td><td style="color:var(--green)">$1.45M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('Sandra Lee', 'SL', 'var(--amber-l)', 'var(--amber)')"><td><strong>Sandra Lee</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill sp-active">Active</span></td><td>Listing prep</td><td><span style="color:var(--green);font-weight:500">78</span></td><td>5h ago</td><td style="color:var(--green)">$1.2M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('David Park', 'DP', 'var(--blue-l)', 'var(--blue)')"><td><strong>David Park</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-appt">Appt. Set</span></td><td>Showing Apr 1</td><td>65</td><td>Yesterday</td><td>$1.05M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('Theresa Chen', 'TC', 'var(--purple-l)', 'var(--purple)')"><td><strong>Theresa Chen</strong></td><td><span class="tag t-l">Landlord</span></td><td><span class="stage-pill sp-contract">Under Contract</span></td><td>2895 Fordham · Apr 15</td><td>54</td><td>Yesterday</td><td>$1.38M</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('James Wu', 'JW', 'var(--green-l)', 'var(--green)')"><td><strong>James Wu</strong></td><td><span class="tag t-i">Investor</span></td><td><span class="stage-pill sp-nurture">Nurturing</span></td><td>Investment · EPA</td><td>41</td><td>2 days ago</td><td>$720K</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('Rachel Kim', 'RK', 'var(--bg)', 'var(--muted)')"><td><strong>Rachel Kim</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-nurture">Nurturing</span></td><td>Redwood City</td><td>28</td><td>4 days ago</td><td>$950K</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('Alex Martinez', 'AM', 'var(--blue-l)', 'var(--blue)')"><td><strong>Alex Martinez</strong></td><td><span class="tag t-b">Buyer</span></td><td><span class="stage-pill sp-new">New Lead</span></td><td>EPA · $800K–$1.1M</td><td>45</td><td>2h ago</td><td>$900K</td><td><button class="kb-quick-btn">✉</button></td></tr>
+          <tr onclick="openContactDetail('Brian Torres', 'BT', 'var(--amber-l)', 'var(--amber)')"><td><strong>Brian Torres</strong></td><td><span class="tag t-s">Seller</span></td><td><span class="stage-pill" style="background:var(--red-l);color:var(--red)">Lost</span></td><td>Price disagreement</td><td style="color:var(--faint)">19</td><td>Mar 10</td><td style="color:var(--faint)">$1.8M</td><td><button class="kb-quick-btn">✉</button></td></tr>
         </tbody>
       </table>
     </div>
 
+    <!-- CONTACT DETAIL SLIDE-OUT PANEL -->
+    <div class="contact-detail-panel" id="contactDetailPanel">
+      <div class="cd-header">
+        <div class="cd-close-btn" onclick="closeContactDetail()">✕</div>
+        <div class="cd-top">
+          <div class="cd-ava" id="cdAva" style="background:var(--green-l);color:var(--green)">MR</div>
+          <div style="flex:1">
+            <div class="cd-name" id="cdName">Marcus Rivera</div>
+            <div class="cd-sub">Added March 2, 2026 · Source: Google Ad · EPA Market</div>
+            <div class="cd-tags">
+              <span class="tag t-b">Buyer</span>
+              <span class="tag t-i">Investor</span>
+            </div>
+            <div class="cd-actions">
+              <button class="btn-action primary">✉ Send Message</button>
+              <button class="btn-action">☎ Call</button>
+              <button class="btn-action">📧 Email</button>
+            </div>
+          </div>
+        </div>
+        <div class="cd-score-row">
+          <div class="cd-score-item">
+            <div class="cd-score-val" style="color:var(--green)">92</div>
+            <div class="cd-score-label">Engagement</div>
+          </div>
+          <div class="cd-score-divider"></div>
+          <div class="cd-score-item">
+            <div class="cd-score-val">14</div>
+            <div class="cd-score-label">Touchpoints</div>
+          </div>
+          <div class="cd-score-divider"></div>
+          <div class="cd-score-item">
+            <div class="cd-score-val">2h</div>
+            <div class="cd-score-label">Last Contact</div>
+          </div>
+          <div class="cd-score-divider"></div>
+          <div class="cd-score-item">
+            <div class="cd-score-val">27</div>
+            <div class="cd-score-label">Days as Contact</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cd-tabs">
+        <div class="cd-tab active">Overview</div>
+        <div class="cd-tab">Activity</div>
+        <div class="cd-tab">Messages</div>
+        <div class="cd-tab">Properties</div>
+      </div>
+
+      <div class="cd-content">
+        <div class="cd-section">
+          <div class="cd-section-title">Contact Information</div>
+          <div class="cd-info-row"><div class="cd-info-label">Phone</div><div class="cd-info-val">(650) 555-0142</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Email</div><div class="cd-info-val">marcus.rivera@email.com</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Location</div><div class="cd-info-val">East Palo Alto, CA</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Preferred Contact</div><div class="cd-info-val">Text message</div></div>
+        </div>
+        <div class="cd-section">
+          <div class="cd-section-title">Properties</div>
+          <div class="cd-info-row"><div class="cd-info-label">Primary</div><div class="cd-info-val">172 Portola Dr, SF</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Status</div><div class="cd-info-val" style="color:var(--green);font-weight:500">Offer pending</div></div>
+        </div>
+        <div class="cd-section">
+          <div class="cd-section-title">Buyer Profile</div>
+          <div class="cd-info-row"><div class="cd-info-label">Price Range</div><div class="cd-info-val">$850K – $1.2M</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Areas</div><div class="cd-info-val">EPA, Menlo Park, RWC</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Min. Beds</div><div class="cd-info-val">3+</div></div>
+          <div class="cd-info-row"><div class="cd-info-label">Pre-Approved</div><div class="cd-info-val" style="color:var(--green);font-weight:500">✓ $1.1M</div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </div>
 
 <script>
@@ -643,6 +814,7 @@ function toggleChip(el) {
 function openStageModal() {
   document.getElementById('stageModal').classList.add('open');
 }
+
 function closeStageModal() {
   document.getElementById('stageModal').classList.remove('open');
 }
@@ -660,7 +832,43 @@ function addCard(colId) {
   col.insertBefore(card, addBtn);
 }
 
-// Basic drag and drop
+function openAllContacts() {
+  document.getElementById('allContactsOverlay').classList.add('open');
+}
+
+function closeAllContacts() {
+  document.getElementById('allContactsOverlay').classList.remove('open');
+}
+
+function selectContactAndClose(name, initials, bgColor, textColor, roles) {
+  openContactDetail(name, initials, bgColor, textColor);
+  closeAllContacts();
+}
+
+function openContactDetail(name, initials, bgColor, textColor) {
+  const panel = document.getElementById('contactDetailPanel');
+  const avaEl = document.getElementById('cdAva');
+  const nameEl = document.getElementById('cdName');
+
+  avaEl.textContent = initials;
+  avaEl.style.background = bgColor;
+  avaEl.style.color = textColor;
+  nameEl.textContent = name;
+
+  panel.classList.add('open');
+}
+
+function closeContactDetail() {
+  document.getElementById('contactDetailPanel').classList.remove('open');
+}
+
+function filterContacts(el, filter) {
+  document.querySelectorAll('.aco-filter-tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  // Filter logic would go here in production
+}
+
+// Drag and drop
 let dragCard = null;
 document.addEventListener('dragstart', e => {
   if (e.target.classList.contains('kb-card')) {
@@ -668,11 +876,13 @@ document.addEventListener('dragstart', e => {
     setTimeout(() => dragCard.classList.add('dragging'), 0);
   }
 });
+
 document.addEventListener('dragend', e => {
   if (dragCard) dragCard.classList.remove('dragging');
   dragCard = null;
   document.querySelectorAll('.kb-col-body').forEach(c => c.classList.remove('drag-over'));
 });
+
 document.addEventListener('dragover', e => {
   e.preventDefault();
   const col = e.target.closest('.kb-col-body');
@@ -681,6 +891,7 @@ document.addEventListener('dragover', e => {
     col.classList.add('drag-over');
   }
 });
+
 document.addEventListener('drop', e => {
   e.preventDefault();
   const col = e.target.closest('.kb-col-body');
@@ -689,6 +900,21 @@ document.addEventListener('drop', e => {
     col.insertBefore(dragCard, addBtn);
   }
   document.querySelectorAll('.kb-col-body').forEach(c => c.classList.remove('drag-over'));
+});
+
+// Close overlay when clicking outside
+document.getElementById('allContactsOverlay').addEventListener('click', e => {
+  if (e.target.id === 'allContactsOverlay') {
+    closeAllContacts();
+  }
+});
+
+// Close detail panel when clicking outside
+document.addEventListener('click', e => {
+  const panel = document.getElementById('contactDetailPanel');
+  if (panel.classList.contains('open') && !e.target.closest('.contact-detail-panel') && !e.target.closest('.kb-card') && !e.target.closest('.list-table tbody tr')) {
+    closeContactDetail();
+  }
 });
 </script>
 </body>
