@@ -376,7 +376,7 @@ body > *{position:relative;z-index:2}
         <div class="card-preview" style="background:linear-gradient(135deg,#f5f3ed,#e8f5ef)">
           <div class="cp-grid"></div>
           <div class="mini-content">
-            <div style="height:20px;border-radius:10px;background:rgba(26,122,86,.15);border:1px solid rgba(26,122,86,.2);margin-bottom:5px;display:flex;align-items:center;padding:0 8px"><div style="font-size:7px;color:var(--n)">Search properties in East Palo Alto…</div></div>
+            <div style="height:20px;border-radius:10px;background:rgba(30,58,95,.12);border:1px solid rgba(30,58,95,.18);margin-bottom:5px;display:flex;align-items:center;padding:0 8px"><div style="font-size:7px;color:var(--n)">Search properties in East Palo Alto…</div></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
               <div class="mini-card" style="height:30px"></div><div class="mini-card" style="height:30px"></div>
               <div class="mini-card" style="height:30px"></div><div class="mini-card" style="height:30px"></div>
@@ -384,53 +384,14 @@ body > *{position:relative;z-index:2}
           </div>
         </div>
         <div class="card-body">
-          <div class="card-header"><div class="card-title">⊕ Search — Light</div><span class="card-tag tag-final">Final</span></div>
-          <div class="card-desc">Property search with list, map, and detail views. Underwriting tool, ADU calculator, acquisition watchlist, and off-market pipeline kanban. Light mode.</div>
+          <div class="card-header"><div class="card-title">⊕ Property Search</div><span class="card-tag tag-final">Final</span></div>
+          <div class="card-desc">AI-powered property search with list, grid, map &amp; split views. Natural language queries, Investor/Buyer/1031/Rental modes, Agent|Client portal, saved searches, and underwriting tools.</div>
           <div class="card-features"><span class="feat">List View</span><span class="feat">Map View</span><span class="feat">Underwriting</span><span class="feat">ADU Calc</span></div>
           <div class="card-footer"><span class="card-file">propiq-ui-search-light.html</span><button class="open-btn" onclick="event.stopPropagation();window.open('propiq-ui-search-light.html')">Open →</button></div>
         </div>
       </div>
 
-      <!-- SEARCH BRAIN DARK -->
-      <div class="module-card" data-tags="search brain dark ai investor" onclick="window.open('propiq-search-v2.html')">
-        <div class="card-preview theme-search">
-          <div class="cp-grid"></div>
-          <div class="mini-content" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)">
-            <div style="height:18px;border-radius:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);margin-bottom:5px"></div>
-            <div class="mini-card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)"></div>
-            <div class="mini-card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)"></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-header"><div class="card-title">⊕ Search Brain — Dark</div><span class="card-tag tag-final">Final</span></div>
-          <div class="card-desc">Natural language AI search as the primary entry point. Dark mode. Mission Control sidebar, Alpha Alerts, Agent Math vs PropIQ Ground Truth, Buyer / Investor / 1031 / Rental modes.</div>
-          <div class="card-features"><span class="feat">AI Search</span><span class="feat">Dark Mode</span><span class="feat">Mission Control</span><span class="feat">Alpha Alerts</span></div>
-          <div class="card-footer"><span class="card-file">propiq-search-v2.html</span><button class="open-btn" onclick="event.stopPropagation();window.open('propiq-search-v2.html')">Open →</button></div>
-        </div>
-      </div>
-
-      <!-- SEARCH 4-VIEW -->
-      <div class="module-card" data-tags="search views list thumbnail map agent client split" onclick="window.open('propiq-search-views.html')">
-        <div class="card-preview" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)">
-          <div class="cp-grid"></div>
-          <div style="position:absolute;top:15px;left:50%;transform:translateX(-50%);display:flex;gap:5px">
-            <div style="padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.9);font-size:7px;color:#1e3a5f;font-weight:600">☰ List</div>
-            <div style="padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.2);font-size:7px;color:rgba(255,255,255,.8)">⊞ Grid</div>
-            <div style="padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.2);font-size:7px;color:rgba(255,255,255,.8)">🗺 Map</div>
-            <div style="padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.2);font-size:7px;color:rgba(255,255,255,.8)">⬛⬛ Split</div>
-          </div>
-          <div class="mini-content" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);top:38px">
-            <div class="mini-card" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.1)"></div>
-            <div class="mini-card" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.1)"></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-header"><div class="card-title">⊕ Search — 4-View Selector</div><span class="card-tag tag-final">Final</span></div>
-          <div class="card-desc">Four view modes: List (default), Thumbnail grid, Full-screen Map, and Agent|Client Split (shows exactly what each side sees simultaneously). Built to match the developer's real MLS data layout.</div>
-          <div class="card-features"><span class="feat">4 Views</span><span class="feat">Agent|Client Split</span><span class="feat">MLS Layout</span><span class="feat">Budget Panel</span></div>
-          <div class="card-footer"><span class="card-file">propiq-search-views.html</span><button class="open-btn" onclick="event.stopPropagation();window.open('propiq-search-views.html')">Open →</button></div>
-        </div>
-      </div>
+      <!-- (Dark search files merged into propiq-ui-search-light.html above) -->
 
     </div>
 
@@ -603,7 +564,7 @@ body > *{position:relative;z-index:2}
             <div class="color-swatch" style="background:#2a4d7a"></div>
           </div>
           <div class="color-info">#1e3a5f · #e8ecf4 · #2a4d7a</div>
-          <div style="font-size:11px;color:var(--fa);margin-top:4px">Brand · Light · Hover</div>
+          <div style="font-size:11px;color:var(--fa);margin-top:4px">Accent · Nav · Headers</div>
         </div>
         <!-- ACCENT COLORS -->
         <div class="ds-card">

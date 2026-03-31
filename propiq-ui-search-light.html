@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — Search Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1e3a5f;--navy-l:#e8ecf4;--navy-m:#2a4d7a;
+  --green:#2d8a63;--green-l:#e4f0ea;
+  --blue:#185FA5;--blue-l:#E6F1FB;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --purple:#534AB7;--purple-l:#EEEDFE;
+  --red:#c0392b;--red-l:#fdf0f0;
+  --gray:#5F5E5A;--gray-l:#F1F0EC;
+  --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
+  --bg:#eef0f5;--surface:#f8f9fc;--border:#dde1ea;--border2:#c8cdd8;
+  --topnav-h:50px;--modnav-h:44px;--sidebar-w:216px;
+}
+body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradient(135deg, #eef0f5 0%, #e6e9f0 50%, #eef0f5 100%);font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(30,58,95,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');pointer-events:none;z-index:-1}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px rgba(45,138,99,.25)}50%{box-shadow:0 0 20px rgba(45,138,99,.4)}}
+
+/* ── TOP BAR ── */
+.topbar{height:var(--topnav-h);display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:0;z-index:60;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.tb-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--navy);padding-right:1.5rem;border-right:1px solid var(--border);height:100%;flex-shrink:0}
+.tb-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--navy-m),var(--navy));display:flex;align-items:center;justify-content:center;font-size:16px}
+.tb-search-wrap{flex:1;padding:0 1.5rem}
+.tb-search-inner{display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px 14px;transition:all .2s}
+.tb-search-inner:focus-within{border-color:var(--navy);background:#fff;box-shadow:0 0 0 3px var(--blue-l)}
+.tb-search-inner input{border:none;background:transparent;outline:none;font-size:13px;font-family:'Epilogue',sans-serif;color:var(--ink);flex:1}
+.tb-search-inner input::placeholder{color:var(--faint)}
+.tb-search-ico{color:var(--muted);font-size:14px;flex-shrink:0}
+.tb-right{display:flex;align-items:center;gap:16px;flex-shrink:0;padding-left:1.5rem;border-left:1px solid var(--border)}
+.tb-proxy{display:flex;align-items:center;gap:5px;font-size:11px}
+.proxy-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
+.proxy-label{color:var(--muted)}
+.proxy-status{color:var(--green);font-weight:500}
+.tb-user{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.tb-ava{width:32px;height:32px;border-radius:50%;border:2px solid var(--navy-l);overflow:hidden;background:var(--navy-l);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--navy);flex-shrink:0}
+.tb-notif{position:relative;cursor:pointer;font-size:16px;color:var(--muted);transition:color .2s}
+.tb-notif:hover{color:var(--navy)}
+.tb-notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)}
+
+/* ── APP BODY ── */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-section{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);padding:.75rem 1rem .4rem;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:8px;padding:.45rem 1rem;cursor:pointer;color:var(--muted);font-size:13px;transition:all .15s;border-left:2.5px solid transparent;margin:0 .5rem .2rem .5rem;border-radius:6px}
+.sb-item:hover{background:var(--navy-l);color:var(--navy);border-left-color:transparent}
+.sb-item.on{background:var(--navy-l);color:var(--navy);border-left-color:var(--navy);border-radius:6px;margin-left:.5rem;margin-right:.5rem}
+.sb-item-ico{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.sb-badge{margin-left:auto;font-size:8px;padding:2px 6px;border-radius:6px;font-weight:600}
+.sbb-g{background:var(--green-l);color:var(--green)}
+.sbb-a{background:var(--amber-l);color:var(--amber)}
+.sbb-r{background:var(--red-l);color:var(--red)}
+.sbb-gy{background:var(--gray-l);color:var(--gray);border:1px solid var(--border)}
+
+/* PROJECT ITEMS */
+.proj-item{display:flex;align-items:center;gap:8px;padding:.4rem 1rem .4rem 1.25rem;cursor:pointer;color:var(--muted);font-size:12px;transition:all .15s;border-left:2.5px solid transparent;margin:0 .5rem .15rem .5rem;border-radius:6px}
+.proj-item:hover{background:var(--navy-l);color:var(--navy)}
+.proj-item.on{color:var(--navy);border-left-color:var(--navy);background:var(--navy-l);border-radius:6px}
+.proj-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* SIDEBAR FOOTER */
+.sb-foot{margin-top:auto;padding:.75rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.sb-foot-ava{width:32px;height:32px;border-radius:50%;border:2px solid var(--navy-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--navy);background:var(--navy-l);flex-shrink:0}
+.sb-foot-name{font-size:12px;font-weight:500;color:var(--ink)}
+.sb-foot-dre{font-size:10px;color:var(--faint)}
+
+/* ── MAIN ── */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
+
+/* ── VIEWS ── */
+.view{display:none;flex-direction:column;flex:1;overflow:hidden}
+.view.on{display:flex}
+
+/* ── MODE + PORTAL SELECTOR BAR ── */
+.mode-bar{display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:0;height:var(--modnav-h)}
+.mode-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-right:10px;white-space:nowrap;font-weight:600}
+.mode-tabs{display:flex;gap:2px}
+.mode-tab{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;color:var(--muted);background:transparent;border:1px solid transparent;transition:all .15s;white-space:nowrap;font-weight:500}
+.mode-tab:hover{background:var(--navy-l);color:var(--navy)}
+.mode-tab.on{font-weight:600}
+.mode-tab.m-buyer.on{background:var(--blue-l);color:var(--blue)}
+.mode-tab.m-investor.on{background:var(--green-l);color:var(--green)}
+.mode-tab.m-1031.on{background:var(--amber-l);color:var(--amber)}
+.mode-tab.m-rental.on{background:var(--purple-l);color:var(--purple)}
+.mode-divider{width:1px;height:22px;background:var(--border);margin:0 1rem;flex-shrink:0}
+/* PORTAL TOGGLE */
+.portal-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-left:auto;flex-shrink:0}
+.pt-btn{padding:6px 14px;font-size:11.5px;cursor:pointer;color:var(--muted);background:transparent;border:none;font-family:'Epilogue',sans-serif;transition:all .15s;display:flex;align-items:center;gap:4px;font-weight:500}
+.pt-btn:hover{color:var(--navy)}
+.pt-btn.on.agent{background:var(--amber-l);color:var(--amber)}
+.pt-btn.on.client{background:var(--blue-l);color:var(--blue)}
+.pt-badge{font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:600}
+
+/* ── SEARCH RESULTS VIEW ── */
+.results-bar{display:flex;align-items:center;gap:8px;padding:.65rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.results-count{font-size:12.5px;color:var(--muted);flex:1}
+.results-count strong{color:var(--navy)}
+.list-grid-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.lgt-btn{padding:6px 12px;font-size:12px;cursor:pointer;color:var(--muted);background:transparent;border:none;transition:all .12s;font-weight:500}
+.lgt-btn:hover{color:var(--navy)}
+.lgt-btn.on{background:var(--navy-l);color:var(--navy)}
+.results-toggle-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.results-toggle{width:36px;height:20px;border-radius:10px;background:var(--border);border:1px solid var(--border2);position:relative;cursor:pointer;transition:background .2s}
+.results-toggle.on{background:var(--green)}
+.rt-knob{width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s}
+.results-toggle.on .rt-knob{left:18px}
+
+/* SPLIT RESULTS */
+.results-body{display:flex;flex:1;overflow:hidden}
+
+/* LIST PANEL */
+.list-panel{width:52%;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden}
+.list-scroll{overflow-y:auto;flex:1}
+.list-scroll::-webkit-scrollbar{width:4px}.list-scroll::-webkit-scrollbar-track{background:transparent}.list-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* LIST ITEM */
+.list-item{display:flex;gap:12px;padding:.85rem 1.25rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;animation:fadeIn .25s ease}
+.list-item:hover{background:var(--navy-l)}
+.list-item.selected{background:var(--green-l);border-left:2.5px solid var(--green)}
+.li-photo{width:120px;height:80px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:1.8rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.li-photo img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.li-body{flex:1;min-width:0}
+.li-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.li-addr{font-size:13.5px;font-weight:600;color:var(--navy)}
+.li-price{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy)}
+.li-menu{color:var(--faint);cursor:pointer;font-size:14px;padding:0 4px;transition:color .12s}
+.li-menu:hover{color:var(--navy)}
+.li-badges{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.badge{display:flex;align-items:center;gap:4px;font-size:10px;padding:3px 8px;border-radius:5px;font-weight:600;border:1px solid;white-space:nowrap}
+.badge-match-g{background:var(--green-l);color:var(--green);border-color:var(--green-l)}
+.badge-match-a{background:var(--amber-l);color:var(--amber);border-color:var(--amber-l)}
+.badge-fixer{background:var(--red-l);color:var(--red);border-color:var(--red-l)}
+.badge-turnkey{background:var(--green-l);color:var(--green);border-color:var(--green-l)}
+.badge-adu{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
+.badge-sb9{background:var(--purple-l);color:var(--purple);border-color:var(--purple-l)}
+.li-summary{font-size:12px;color:var(--muted);margin:6px 0;line-height:1.5}
+.li-specs{font-size:12px;color:var(--muted);margin:4px 0}
+/* AGENT MATH vs GROUND TRUTH */
+.cap-compare{display:flex;align-items:center;gap:8px;font-size:12px;margin:6px 0}
+.cap-agent{color:var(--red);font-weight:600}
+.cap-vs{color:var(--faint);font-size:10px}
+.cap-propiq{color:var(--green);font-weight:700;font-size:13px}
+.cap-label{font-size:10px;color:var(--faint)}
+.li-actions{display:flex;gap:5px;margin-top:8px}
+.li-btn{padding:4px 10px;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Epilogue',sans-serif;transition:all .12s;font-weight:500}
+.li-btn:hover{background:var(--navy-l);color:var(--navy)}
+.li-btn.g{background:var(--green-l);color:var(--green);border-color:var(--green-l)}
+.li-btn.b{background:var(--blue-l);color:var(--blue);border-color:var(--blue-l)}
+
+/* GRID ITEMS */
+.grid-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:1rem;overflow-y:auto;flex:1;align-content:start}
+.grid-results::-webkit-scrollbar{width:4px}.grid-results::-webkit-scrollbar-track{background:transparent}.grid-results::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.grid-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .15s;animation:fadeIn .25s ease;box-shadow:0 1px 4px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.03)}
+.grid-item:hover{border-color:var(--border2);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.grid-item.selected{border-color:var(--green);background:var(--green-l)}
+.gi-photo{height:120px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative;overflow:hidden}
+.gi-photo img{width:100%;height:100%;object-fit:cover}
+.gi-scores{position:absolute;top:8px;left:8px;display:flex;gap:4px}
+.gi-match{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;background:rgba(255,255,255,.95)}
+.gi-body{padding:.75rem}
+.gi-addr{font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--navy)}
+.gi-price{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:5px}
+.gi-icons{display:flex;gap:8px;margin-bottom:6px;font-size:12px}
+.gi-icon-item{display:flex;flex-direction:column;align-items:center;font-size:10px;gap:2px;cursor:help}
+.gi-cap{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+
+/* MAP PANEL */
+.map-panel{flex:1;background:var(--surface);position:relative;overflow:hidden;display:flex;flex-direction:column;border-left:1px solid var(--border)}
+/* light map effect */
+.map-bg{flex:1;background:linear-gradient(135deg, #f0f4f9 0%, #e8ecf4 35%, #f0f4f9 70%, #eef0f5 100%);position:relative;overflow:hidden}
+.map-bg::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(30,58,95,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(30,58,95,.08) 1px,transparent 1px);background-size:35px 35px}
+/* map roads */
+.map-road{position:absolute;background:rgba(30,58,95,.12)}
+.map-road-h{height:1.5px;left:0;right:0}
+.map-road-h.major{height:3px;background:rgba(30,58,95,.18)}
+.map-road-v{width:1.5px;top:0;bottom:0}
+.map-road-v.major{width:3px;background:rgba(30,58,95,.18)}
+.map-street-label{position:absolute;font-size:9.5px;color:rgba(30,58,95,.35);white-space:nowrap;font-weight:500;letter-spacing:.03em}
+/* map pins */
+.map-pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;transition:all .15s;z-index:10}
+.map-pin:hover{z-index:20}
+.pin-inner{position:relative}
+.pin-bubble{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.12);position:relative;transition:all .15s}
+.pin-bubble::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent}
+.pb-green{background:var(--green);color:#fff}
+.pb-green::after{border-top-color:var(--green)}
+.pb-red{background:var(--red);color:#fff}
+.pb-red::after{border-top-color:var(--red)}
+.pb-selected{background:var(--navy);color:#fff;transform:scale(1.1)}
+.pb-selected::after{border-top-color:var(--navy)}
+.pb-amber{background:var(--amber);color:#fff}
+.pb-amber::after{border-top-color:var(--amber)}
+/* map tooltip */
+.map-tooltip{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.7rem .9rem;width:220px;box-shadow:0 4px 12px rgba(0,0,0,.12);pointer-events:none;z-index:30}
+.mt-photo{width:100%;height:70px;border-radius:6px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:6px;overflow:hidden}
+.mt-photo img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+.mt-addr{font-size:12px;font-weight:600;margin-bottom:5px;color:var(--navy)}
+.mt-stats{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.mt-stat-green{color:var(--green);font-weight:600}
+/* draw area polygon */
+.draw-polygon{position:absolute;border:2px solid var(--blue);border-radius:4px;background:rgba(24,95,165,.08);pointer-events:none}
+/* map controls */
+.map-controls{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:5px;z-index:20}
+.mc-btn{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;color:var(--muted);transition:all .12s;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.mc-btn:hover{background:var(--navy-l);color:var(--navy)}
+/* map legend */
+.map-legend{position:absolute;bottom:12px;left:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.7rem .85rem;font-size:10.5px;z-index:20;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.ml-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;color:var(--muted);font-weight:500}
+.ml-row:last-child{margin-bottom:0}
+.ml-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* ── SEARCH FILTERS SIDEBAR ── */
+.filter-panel{width:260px;border-right:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.filter-panel::-webkit-scrollbar{width:4px}.filter-panel::-webkit-scrollbar-track{background:transparent}.filter-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.fp-hd{padding:.85rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.fp-title{font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em}
+.fp-sec{padding:.75rem 1rem;border-bottom:1px solid var(--border)}
+.fps-title{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.04em}
+.fps-row{display:flex;align-items:center;gap:6px;margin-bottom:.4rem}
+.fps-row:last-child{margin-bottom:0}
+.filter-input{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface);font-size:12px;color:var(--ink);font-family:'Epilogue',sans-serif}
+.filter-input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px var(--blue-l)}
+.filter-range{width:100%;margin:.4rem 0}
+.filter-checkbox{width:16px;height:16px;cursor:pointer;accent-color:var(--green)}
+.filter-label{font-size:12px;color:var(--muted);cursor:pointer;flex:1}
+.filter-label:hover{color:var(--navy)}
+
+/* ── PRIMARY BUTTONS ── */
+.btn-primary{background:var(--green);color:#fff;padding:9px 16px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Epilogue',sans-serif;transition:all .2s;box-shadow:0 2px 4px rgba(45,138,99,.2)}
+.btn-primary:hover{background:#238a54;box-shadow:0 4px 8px rgba(45,138,99,.3)}
+.btn-secondary{background:var(--navy-l);color:var(--navy);padding:9px 16px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Epilogue',sans-serif;transition:all .2s}
+.btn-secondary:hover{background:var(--navy);color:#fff}
+
+/* ── CLIENT VERSION DIFFERENCES ── */
+.agent-only{transition:opacity .2s}
+.client-mode .agent-only{display:none!important}
+.client-only{display:none}
+.client-mode .client-only{display:flex!important}
+.client-mode .client-show{display:block!important}
+
+/* ── SEARCH QUERY DISPLAY ── */
+.search-query-display{padding:.65rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.sqd-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);font-weight:600;margin-bottom:.3rem}
+.sqd-text{font-size:13px;color:var(--navy);font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-logo">
+    <div class="tb-logo-icon">🏠</div>
+    PropIQ
+  </div>
+  <div class="tb-search-wrap">
+    <div class="tb-search-inner">
+      <span class="tb-search-ico">🔍</span>
+      <input id="mainSearch" placeholder="Find the highest cash-flowing properties with ADU potential…" value="">
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-proxy">
+      <div class="proxy-dot"></div>
+      <span class="proxy-label">PropIQ Agent Proxy:</span>
+      <span class="proxy-status">ACTIVE</span>
+    </div>
+    <div class="tb-notif">🔔<div class="tb-notif-badge">3</div></div>
+    <div class="tb-user">
+      <span>Graeham Watts | DRE #01466876</span>
+      <div class="tb-ava">GW</div>
+    </div>
+  </div>
+</div>
+
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div style="padding:.65rem .5rem">
+      <div class="sb-item on" style="border-radius:6px;border-left:none;background:var(--navy-l);padding:.5rem .75rem" onclick="showMainView('search')">
+        <span style="font-size:14px">🔍</span>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:600;color:var(--navy)">Search Hub</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">Saved Searches</div>
+    <div class="sb-item">
+      <span style="font-size:12px">⭐</span>
+      <span style="flex:1">Cash Flow Champions</span>
+      <div class="sb-badge sbb-g">12</div>
+    </div>
+    <div class="sb-item">
+      <span style="font-size:12px">📊</span>
+      <span style="flex:1">ADU Opportunities</span>
+      <div class="sb-badge sbb-a">8</div>
+    </div>
+    <div class="sb-item">
+      <span style="font-size:12px">🔄</span>
+      <span style="flex:1">1031 Candidates</span>
+      <div class="sb-badge sbb-r">5</div>
+    </div>
+    <div class="sb-item">
+      <span style="font-size:12px">📍</span>
+      <span style="flex:1">EPA Portfolio</span>
+      <div class="sb-badge sbb-gy">3</div>
+    </div>
+
+    <div class="sb-section">Recent Projects</div>
+    <div class="proj-item on">
+      <div class="proj-dot" style="background:var(--amber)"></div>
+      Austin 4-Plex
+    </div>
+    <div class="proj-item">
+      <div class="proj-dot" style="background:var(--blue)"></div>
+      Portland Fixers
+    </div>
+    <div class="proj-item">
+      <div class="proj-dot" style="background:var(--green)"></div>
+      ADU Expansions
+    </div>
+    <div class="proj-item">
+      <div class="proj-dot" style="background:var(--purple)"></div>
+      PNW Cash Flow
+    </div>
+
+    <div class="sb-foot">
+      <div class="sb-foot-ava">GW</div>
+      <div>
+        <div class="sb-foot-name">Graeham Watts</div>
+        <div class="sb-foot-dre">DRE #01466876</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- ══ MODE + PORTAL BAR ══ -->
+    <div class="mode-bar">
+      <span class="mode-label">Mode:</span>
+      <div class="mode-tabs">
+        <div class="mode-tab m-investor on" onclick="setMode(this, 'investor')">
+          <span>💰</span> Investor
+        </div>
+        <div class="mode-tab m-buyer" onclick="setMode(this, 'buyer')">
+          <span>🏡</span> Buyer
+        </div>
+        <div class="mode-tab m-1031" onclick="setMode(this, '1031')">
+          <span>🔄</span> 1031
+        </div>
+        <div class="mode-tab m-rental" onclick="setMode(this, 'rental')">
+          <span>🏘</span> Rental
+        </div>
+      </div>
+      <div class="mode-divider"></div>
+      <div class="portal-toggle">
+        <button class="pt-btn on agent" id="ptAgent" onclick="setPortal('agent')">
+          Agent View
+        </button>
+        <button class="pt-btn client" id="ptClient" onclick="setPortal('client')">
+          Client View
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ HOME SEARCH VIEW ══ -->
+    <div class="view on" id="homeView">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;text-align:center">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy);margin-bottom:1rem;font-weight:700">Search Properties</div>
+          <div style="font-size:14px;color:var(--muted);margin-bottom:2rem;max-width:500px">
+            Use the search bar above to find properties matching your investment criteria. Select your search mode and view type to get started.
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center">
+            <button class="btn-primary" onclick="startSearch()">Start Search</button>
+            <button class="btn-secondary">View Saved Searches</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RESULTS VIEW ══ -->
+    <div class="view" id="resultsView">
+      <!-- Search query display -->
+      <div class="search-query-display">
+        <div class="sqd-label">Current Search</div>
+        <div class="sqd-text" id="searchQuery">Highest Cash Flow EPA, 10% Reserve, ADU Potential</div>
+      </div>
+
+      <!-- Results bar -->
+      <div class="results-bar">
+        <div class="results-count">Showing <strong id="resultCount">24</strong> properties</div>
+        <div class="list-grid-toggle">
+          <button class="lgt-btn on" id="listBtn" onclick="setListGrid('list')">☰ List</button>
+          <button class="lgt-btn" id="gridBtn" onclick="setListGrid('grid')">⊞ Grid</button>
+        </div>
+        <div class="results-toggle-wrap">
+          <span>Map</span>
+          <div class="results-toggle on" id="resultsToggle" onclick="toggleResultsList()">
+            <div class="rt-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPLIT BODY: LIST/GRID + MAP -->
+      <div class="results-body">
+
+        <!-- LIST / GRID PANEL -->
+        <div class="list-panel">
+          <div class="list-scroll" id="listView">
+
+            <!-- LIST ITEMS -->
+            <div class="list-item" onclick="selectAndDetail(this)">
+              <div class="li-photo">🏠</div>
+              <div class="li-body">
+                <div class="li-top">
+                  <div>
+                    <div class="li-addr">2047 Runnymede St</div>
+                    <div style="font-size:11px;color:var(--muted)">East Palo Alto, CA 94303</div>
+                  </div>
+                  <div class="li-price">$485K</div>
+                </div>
+                <div class="li-specs">3 bed • 2 bath • 1,840 sqft • 0.45 acres</div>
+                <div class="li-badges">
+                  <div class="badge badge-match-g">93% Match</div>
+                  <div class="badge badge-turnkey">Turnkey</div>
+                  <div class="badge badge-adu">ADU Potential</div>
+                </div>
+                <div class="li-summary">High cash flow potential with established rental history and ADU opportunity. Strong neighborhood appreciation.</div>
+                <div class="cap-compare">
+                  <span class="cap-label">Agent Cap Rate:</span> <span class="cap-agent">4.2%</span> <span class="cap-vs">vs</span> <span class="cap-label">PropIQ:</span> <span class="cap-propiq">6.8%</span>
+                </div>
+                <div class="li-actions">
+                  <button class="li-btn g">💾 Save</button>
+                  <button class="li-btn">🔍 Details</button>
+                  <button class="li-btn">📞 Contact</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="list-item" onclick="selectAndDetail(this)">
+              <div class="li-photo">🏠</div>
+              <div class="li-body">
+                <div class="li-top">
+                  <div>
+                    <div class="li-addr">1823 Oak Grove Ave</div>
+                    <div style="font-size:11px;color:var(--muted)">East Palo Alto, CA 94303</div>
+                  </div>
+                  <div class="li-price">$425K</div>
+                </div>
+                <div class="li-specs">2 bed • 1 bath • 1,220 sqft • 0.30 acres</div>
+                <div class="li-badges">
+                  <div class="badge badge-match-g">87% Match</div>
+                  <div class="badge badge-fixer">Fixer-Upper</div>
+                </div>
+                <div class="li-summary">Value-add opportunity in appreciating neighborhood. Requires renovations but strong upside.</div>
+                <div class="cap-compare">
+                  <span class="cap-label">Agent Cap Rate:</span> <span class="cap-agent">3.8%</span> <span class="cap-vs">vs</span> <span class="cap-label">PropIQ:</span> <span class="cap-propiq">7.2%</span>
+                </div>
+                <div class="li-actions">
+                  <button class="li-btn g">💾 Save</button>
+                  <button class="li-btn">🔍 Details</button>
+                  <button class="li-btn">📞 Contact</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="list-item" onclick="selectAndDetail(this)">
+              <div class="li-photo">🏠</div>
+              <div class="li-body">
+                <div class="li-top">
+                  <div>
+                    <div class="li-addr">945 Bay Road</div>
+                    <div style="font-size:11px;color:var(--muted)">East Palo Alto, CA 94303</div>
+                  </div>
+                  <div class="li-price">$565K</div>
+                </div>
+                <div class="li-specs">4 bed • 3 bath • 2,350 sqft • 0.55 acres</div>
+                <div class="li-badges">
+                  <div class="badge badge-match-g">91% Match</div>
+                  <div class="badge badge-turnkey">Turnkey</div>
+                  <div class="badge badge-adu">ADU Potential</div>
+                </div>
+                <div class="li-summary">Exceptional cash flow property with excellent rental history and strong neighborhood fundamentals.</div>
+                <div class="cap-compare">
+                  <span class="cap-label">Agent Cap Rate:</span> <span class="cap-agent">5.1%</span> <span class="cap-vs">vs</span> <span class="cap-label">PropIQ:</span> <span class="cap-propiq">7.5%</span>
+                </div>
+                <div class="li-actions">
+                  <button class="li-btn g">💾 Save</button>
+                  <button class="li-btn">🔍 Details</button>
+                  <button class="li-btn">📞 Contact</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- GRID VIEW (hidden by default) -->
+          <div class="grid-results" id="gridView" style="display:none">
+            <div class="grid-item" onclick="selectAndDetail(this)">
+              <div class="gi-photo">🏠</div>
+              <div class="gi-body">
+                <div class="gi-price">$485K</div>
+                <div class="gi-addr">2047 Runnymede St</div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:6px">East Palo Alto, CA</div>
+                <div class="gi-icons">
+                  <div class="gi-icon-item">🛏 <span>3</span></div>
+                  <div class="gi-icon-item">🚿 <span>2</span></div>
+                  <div class="gi-icon-item">📐 <span>1.8K</span></div>
+                </div>
+                <div class="gi-cap">
+                  <span style="color:var(--green);font-weight:700">93%</span> Match
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-item" onclick="selectAndDetail(this)">
+              <div class="gi-photo">🏠</div>
+              <div class="gi-body">
+                <div class="gi-price">$425K</div>
+                <div class="gi-addr">1823 Oak Grove Ave</div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:6px">East Palo Alto, CA</div>
+                <div class="gi-icons">
+                  <div class="gi-icon-item">🛏 <span>2</span></div>
+                  <div class="gi-icon-item">🚿 <span>1</span></div>
+                  <div class="gi-icon-item">📐 <span>1.2K</span></div>
+                </div>
+                <div class="gi-cap">
+                  <span style="color:var(--green);font-weight:700">87%</span> Match
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-item" onclick="selectAndDetail(this)">
+              <div class="gi-photo">🏠</div>
+              <div class="gi-body">
+                <div class="gi-price">$565K</div>
+                <div class="gi-addr">945 Bay Road</div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:6px">East Palo Alto, CA</div>
+                <div class="gi-icons">
+                  <div class="gi-icon-item">🛏 <span>4</span></div>
+                  <div class="gi-icon-item">🚿 <span>3</span></div>
+                  <div class="gi-icon-item">📐 <span>2.4K</span></div>
+                </div>
+                <div class="gi-cap">
+                  <span style="color:var(--green);font-weight:700">91%</span> Match
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-item" onclick="selectAndDetail(this)">
+              <div class="gi-photo">🏠</div>
+              <div class="gi-body">
+                <div class="gi-price">$495K</div>
+                <div class="gi-addr">512 Churchill Ave</div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:6px">East Palo Alto, CA</div>
+                <div class="gi-icons">
+                  <div class="gi-icon-item">🛏 <span>3</span></div>
+                  <div class="gi-icon-item">🚿 <span>2</span></div>
+                  <div class="gi-icon-item">📐 <span>1.7K</span></div>
+                </div>
+                <div class="gi-cap">
+                  <span style="color:var(--green);font-weight:700">85%</span> Match
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- MAP PANEL -->
+        <div class="map-panel" id="mapPanel">
+          <div class="map-bg">
+            <div class="map-road map-road-h major" style="top:15%;height:3px;background:rgba(30,58,95,.15)"></div>
+            <div class="map-road map-road-v major" style="left:25%;width:3px;background:rgba(30,58,95,.15)"></div>
+            <div class="map-road map-road-h" style="top:45%;height:1.5px;background:rgba(30,58,95,.1)"></div>
+            <div class="map-road map-road-v" style="left:65%;width:1.5px;background:rgba(30,58,95,.1)"></div>
+
+            <!-- Map pins -->
+            <div class="map-pin" style="top:35%;left:40%" onclick="selectProperty(0)">
+              <div class="pin-bubble pb-green">
+                93%
+              </div>
+            </div>
+            <div class="map-pin" style="top:55%;left:45%" onclick="selectProperty(1)">
+              <div class="pin-bubble pb-green">
+                87%
+              </div>
+            </div>
+            <div class="map-pin" style="top:25%;left:55%" onclick="selectProperty(2)">
+              <div class="pin-bubble pb-green">
+                91%
+              </div>
+            </div>
+            <div class="map-pin" style="top:60%;left:60%" onclick="selectProperty(3)">
+              <div class="pin-bubble">
+                85%
+              </div>
+            </div>
+
+            <!-- Map legend -->
+            <div class="map-legend">
+              <div class="ml-row">
+                <div class="ml-dot" style="background:var(--green)"></div>
+                <span>Excellent Match (80%+)</span>
+              </div>
+              <div class="ml-row">
+                <div class="ml-dot" style="background:var(--amber)"></div>
+                <span>Good Match (60-79%)</span>
+              </div>
+              <div class="ml-row">
+                <div class="ml-dot" style="background:var(--red)"></div>
+                <span>Fair Match (Below 60%)</span>
+              </div>
+            </div>
+
+            <!-- Map controls -->
+            <div class="map-controls">
+              <button class="mc-btn" title="Zoom in">+</button>
+              <button class="mc-btn" title="Zoom out">−</button>
+              <button class="mc-btn" title="Reset">🎯</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let currentMode = 'investor';
+let currentPortal = 'agent';
+let currentView = 'list';
+
+function showMainView(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  if(view==='results') document.getElementById('resultsView').classList.add('on');
+  else if(view==='search') document.getElementById('homeView').classList.add('on');
+  else document.getElementById('homeView').classList.add('on');
+}
+
+function startSearch(){
+  const query = document.getElementById('mainSearch').value || 'Highest Cash Flow EPA, 10% Reserve, ADU Potential';
+  document.getElementById('searchQuery').textContent = query;
+  showMainView('results');
+}
+
+function setMode(el, mode){
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function setPortal(portal){
+  currentPortal = portal;
+  document.getElementById('ptAgent').classList.toggle('on', portal==='agent');
+  document.getElementById('ptClient').classList.toggle('on', portal==='client');
+  const main = document.getElementById('mainArea');
+  if(portal==='client'){
+    main?.classList.add('client-mode');
+    document.querySelectorAll('.client-only').forEach(el=>el.style.display='flex');
+    document.querySelectorAll('.agent-only').forEach(el=>el.style.display='none');
+  } else {
+    main?.classList.remove('client-mode');
+    document.querySelectorAll('.client-only').forEach(el=>el.style.display='none');
+    document.querySelectorAll('.agent-only').forEach(el=>el.style.removeProperty('display'));
+  }
+}
+
+function setListGrid(type){
+  currentView = type;
+  document.getElementById('listBtn').classList.toggle('on', type==='list');
+  document.getElementById('gridBtn').classList.toggle('on', type==='grid');
+  document.getElementById('listView').style.display = type==='list' ? 'block' : 'none';
+  document.getElementById('gridView').style.display = type==='grid' ? 'grid' : 'none';
+}
+
+function toggleResultsList(){
+  const tog = document.getElementById('resultsToggle');
+  const mapPanel = document.getElementById('mapPanel');
+  tog.classList.toggle('on');
+  mapPanel.style.display = tog.classList.contains('on') ? 'flex' : 'none';
+}
+
+function selectAndDetail(el){
+  document.querySelectorAll('.list-item,.grid-item').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectProperty(idx){
+  const items = document.querySelectorAll('.list-item');
+  if(items[idx]) selectAndDetail(items[idx]);
+}
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && e.ctrlKey){
+    startSearch();
+  }
+});
+</script>
+</body>
+</html>

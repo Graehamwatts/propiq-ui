@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Listing Report — Graeham Watts</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<title>PropIQ Client Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -17,732 +17,1703 @@
   --ink:#111827;--muted:#6b7280;--faint:#9ca3af;
   --bg:#eef0f5;--surface:#f8f9fc;--border:#dde1ea;--border2:#c8cdd8;
 }
-body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradient(135deg, #eef0f5 0%, #e6e9f0 50%, #eef0f5 100%);font-size:13px;min-height:100vh;position:relative}
-body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23000" width="100" height="100"/><circle cx="20" cy="20" r="1" fill="%23fff" opacity="0.06"/><circle cx="60" cy="30" r="1" fill="%23fff" opacity="0.06"/><circle cx="30" cy="60" r="1" fill="%23fff" opacity="0.06"/><circle cx="80" cy="80" r="1" fill="%23fff" opacity="0.06"/></svg>');pointer-events:none;z-index:-1}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
 
-/* PORTAL HEADER — agent branded, no PropIQ mention */
-.portal-header{background:var(--navy);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
-.ph-agent{display:flex;align-items:center;gap:12px}
-.ph-logo{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1rem;color:#fff;font-weight:700;flex-shrink:0}
-.ph-name{font-size:14px;font-weight:500;color:#fff}
-.ph-sub{font-size:11.5px;color:rgba(255,255,255,.75)}
-.ph-contact{display:flex;gap:8px}
-.ph-btn{padding:6px 14px;border-radius:6px;font-size:12.5px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;border:1.5px solid rgba(255,255,255,.4);color:#fff;background:rgba(255,255,255,.1);transition:all .12s}
-.ph-btn:hover{background:rgba(255,255,255,.2)}.ph-btn.p{background:#fff;color:var(--navy);border-color:#fff}
-
-/* HERO */
-.hero{background:var(--surface);border-bottom:1px solid var(--border);padding:1.5rem;display:flex;gap:1.25rem;flex-wrap:wrap;animation:fadeIn .4s ease;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.hero-img{width:220px;height:160px;border-radius:10px;background:linear-gradient(135deg,var(--gl),#d4e9f7);display:flex;align-items:center;justify-content:center;font-size:4rem;flex-shrink:0}
-.hero-body{flex:1;min-width:200px}
-.hero-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--fa);margin-bottom:4px}
-.hero-addr{font-family:'Playfair Display',serif;font-size:1.6rem;line-height:1.2;margin-bottom:.35rem}
-.hero-meta{font-size:13px;color:var(--mu);margin-bottom:.85rem}
-.hero-badge{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:20px;margin-bottom:.75rem}
-.hero-badge.active{background:var(--navy-l);color:var(--navy);border:1px solid rgba(26,122,86,.2)}
-.hero-badge.contract{background:var(--bl);color:var(--b);border:1px solid rgba(24,95,165,.2)}
-.hero-stats{display:flex;gap:1rem;flex-wrap:wrap}
-.hs{text-align:center;min-width:70px}
-.hs-val{font-family:'Playfair Display',serif;font-size:1.4rem;line-height:1;margin-bottom:2px;animation:countUp .5s ease both}
-.hs-lbl{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa)}
-
-/* CONTAINER */
-.container{max-width:840px;margin:0 auto;padding:1.25rem 1.25rem 2rem}
-
-/* NARRATIVE CARD */
-.narrative{background:linear-gradient(135deg,var(--navy),#2563eb);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.25rem;color:#fff;animation:fadeIn .4s ease .1s both;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-.n-label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.6);font-weight:600;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
-.n-ico{font-size:.85rem}
-.n-text{font-size:13px;line-height:1.75;color:rgba(255,255,255,.92)}
-.n-acts{display:flex;gap:6px;margin-top:.85rem;flex-wrap:wrap}
-.nb{padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;transition:all .12s}
-.nb:hover{background:rgba(255,255,255,.2)}.nb.p{background:rgba(255,255,255,.9);color:var(--navy);border-color:transparent;font-weight:500}
-
-/* STATS GRID */
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem;margin-bottom:1.25rem;animation:fadeIn .4s ease .15s both}
-@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:1rem;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
-.sc-val{font-family:'Playfair Display',serif;font-size:2rem;line-height:1;margin-bottom:3px;animation:countUp .5s ease both;color:var(--navy)}
-.sc-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--fa);margin-bottom:3px}
-.sc-trend{font-size:11.5px}
-
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:1rem;animation:fadeIn .4s ease .2s both;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
-.ch{padding:.75rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.ct{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500}
-
-/* ACTIVITY TIMELINE */
-.tl-row{display:flex;gap:12px;padding:.75rem 1.1rem;position:relative;align-items:flex-start}
-.tl-row:not(:last-child)::before{content:'';position:absolute;left:22px;top:42px;bottom:-12px;width:1.5px;background:var(--border)}
-.tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;z-index:1}
-.tl-body{flex:1;padding-top:2px}
-.tl-title{font-size:12.5px;font-weight:500;margin-bottom:2px}
-.tl-sub{font-size:11.5px;color:var(--mu)}
-.tl-time{font-size:10.5px;color:var(--fa);white-space:nowrap;flex-shrink:0}
-
-/* BAR */
-.bar-row{display:flex;align-items:center;gap:10px;padding:.5rem .85rem;border-bottom:1px solid var(--border)}
-.bar-row:last-child{border-bottom:none}
-.bar-label{font-size:12px;color:var(--mu);width:120px;flex-shrink:0}
-.bar-wrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px}
-.bar-val{font-size:12px;font-weight:500;width:50px;text-align:right;flex-shrink:0}
-
-/* NEXT STEPS */
-.next-step{display:flex;gap:12px;padding:.85rem 1.1rem;border-bottom:1px solid var(--border);align-items:flex-start}
-.next-step:last-child{border-bottom:none}
-.ns-num{width:26px;height:26px;border-radius:50%;background:var(--navy-l);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
-.ns-body{flex:1}
-.ns-title{font-size:12.5px;font-weight:500;margin-bottom:2px}
-.ns-sub{font-size:11.5px;color:var(--mu);line-height:1.5}
-
-/* FOOTER */
-.footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;background:var(--surface);flex-wrap:wrap;gap:.75rem;margin-top:1.5rem;box-shadow:0 -2px 6px rgba(0,0,0,0.03)}
-.footer-agent{font-size:12px;color:var(--mu)}
-.footer-agent strong{color:var(--ink)}
-.footer-acts{display:flex;gap:6px}
-.fa-btn{padding:8px 16px;border-radius:7px;font-size:12.5px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;border:1.5px solid var(--border);background:var(--surface);color:var(--mu);transition:all .12s}
-.fa-btn:hover{border-color:var(--g);color:var(--g)}.fa-btn.p{background:var(--g);color:#fff;border-color:var(--g)}
-
-/* COMPARISON BADGE */
-.comp-good{font-size:11px;color:var(--g);background:var(--gl);padding:2px 8px;border-radius:10px}
-
-/* MOBILE NOTE */
-@media(max-width:600px){
-  .hero-img{display:none}
-  .hero-addr{font-size:1.3rem}
-  .portal-header{padding:1rem}
+body{
+  font-family:'Epilogue',sans-serif;
+  color:var(--ink);
+  background:linear-gradient(135deg, #eef0f5 0%, #e6e9f0 50%, #eef0f5 100%);
+  font-size:14px;
+  min-height:100vh;
+  position:relative;
 }
 
-/* VIEW TOGGLE — buyer vs seller */
-.view-toggle{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px;margin-bottom:1.25rem}
-.vt-opt{flex:1;padding:6px;text-align:center;border-radius:16px;font-size:12.5px;cursor:pointer;color:var(--mu);transition:all .15s}
-.vt-opt.on{background:var(--surface);color:var(--ink);font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+/* PORTAL HEADER */
+.portal-header{
+  background:var(--navy);
+  padding:1.25rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:1rem;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
 
-/* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);overflow-x:auto}
-.tabs::-webkit-scrollbar{display:none}
-.tab{padding:.65rem 1rem;font-size:12px;color:var(--mu);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .12s;margin-bottom:-1px}
-.tab:hover{color:var(--ink)}.tab.on{color:var(--g);border-bottom-color:var(--g);font-weight:500}
-.tab-content{display:none;animation:fadeIn .2s ease}.tab-content.on{display:block}
+.ph-left{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
 
-/* MESSAGING SECTION */
-.messages-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:1rem;margin-bottom:1.25rem;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
-.msg-header{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem}
-.messages-container{height:280px;overflow-y:auto;margin-bottom:.85rem;display:flex;flex-direction:column;gap:.65rem;padding-bottom:.5rem}
-.message-item{display:flex;gap:8px;animation:fadeIn .3s ease}
-.message-item.agent{justify-content:flex-start}
-.message-item.client{justify-content:flex-end}
-.msg-bubble{padding:.65rem .9rem;border-radius:8px;font-size:12.5px;line-height:1.5;max-width:70%;word-wrap:break-word}
-.msg-bubble.agent{background:var(--bg);color:var(--ink);border:1px solid var(--border)}
-.msg-bubble.client{background:var(--g);color:#fff}
-.msg-time{font-size:9px;color:var(--fa);margin-top:2px;text-align:center}
-.msg-input-wrap{display:flex;gap:8px;align-items:flex-end}
-.msg-input{flex:1;padding:.65rem .85rem;border:1px solid var(--border);border-radius:6px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--ink);background:var(--bg)}
-.msg-input::placeholder{color:var(--fa)}
-.msg-send-btn{padding:.65rem 1rem;border:none;border-radius:6px;background:var(--green);color:#fff;font-family:'Epilogue',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .12s}
-.msg-send-btn:hover{opacity:.9}
-.msg-note{font-size:10px;color:var(--fa);margin-top:.5rem}
+.ph-logo{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  border:2px solid rgba(255,255,255,.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  color:#fff;
+  font-weight:700;
+  flex-shrink:0;
+}
 
-/* E-SIGNATURE SECTION */
-.esign-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:1rem;margin-bottom:1.25rem;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
-.esign-header{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.85rem}
-.doc-item{display:flex;align-items:center;justify-content:space-between;padding:.75rem;background:var(--bg);border:1px solid var(--border);border-radius:7px;margin-bottom:.6rem}
-.doc-left{flex:1}
-.doc-name{font-size:12.5px;font-weight:500;margin-bottom:2px}
-.doc-status{font-size:11px;color:var(--mu)}
-.doc-btn{padding:5px 12px;border:1.5px solid var(--green);background:transparent;color:var(--green);border-radius:5px;font-size:11.5px;font-weight:500;cursor:pointer;font-family:'Epilogue',sans-serif;transition:all .12s}
-.doc-btn:hover{background:var(--green);color:#fff}
-.doc-btn.done{border-color:var(--fa);color:var(--fa);cursor:default}
-.doc-btn.done:hover{background:transparent;color:var(--fa)}
-.esign-note{font-size:10px;color:var(--fa);margin-top:.5rem;padding:.5rem;background:var(--bg);border-radius:5px}
+.ph-branding{
+  color:#fff;
+}
 
-/* MORTGAGE CALCULATOR */
-.calc-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:1rem;margin-bottom:1.25rem;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
-.calc-header{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.85rem}
-.calc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
-@media(max-width:600px){.calc-inputs{grid-template-columns:1fr}}
-.calc-input-group{display:flex;flex-direction:column}
-.calc-label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);font-weight:500;margin-bottom:.35rem}
-.calc-input{padding:.6rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:12.5px;font-family:'Epilogue',sans-serif;color:var(--ink);background:var(--bg)}
-.calc-input::placeholder{color:var(--fa)}
-.calc-results{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.85rem;margin-bottom:.75rem}
-.calc-result-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;font-size:12px;border-bottom:1px solid var(--border)}
-.calc-result-row:last-child{border-bottom:none;margin-top:.35rem;padding-top:.35rem;font-weight:600;font-size:13px;color:var(--g)}
-.calc-result-label{color:var(--mu)}
-.calc-result-val{font-family:'Playfair Display',serif;font-weight:600;color:var(--ink)}
-.calc-disclaimer{font-size:10px;color:var(--fa)}
+.ph-title{
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:2px;
+}
 
-/* SCHEDULE CALL CTA */
-.call-cta{background:linear-gradient(135deg, #1a7a56 0%, #2d9970 100%);border-radius:9px;padding:1.25rem;margin-bottom:1.25rem;animation:fadeIn .4s ease .3s both;box-shadow:0 4px 12px rgba(26, 122, 86, 0.2)}
-.cta-content{display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center}
-@media(max-width:600px){.cta-content{grid-template-columns:1fr;text-align:center}}
-.agent-avatar{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;font-weight:700;flex-shrink:0}
-.cta-info h3{font-size:13px;color:#fff;margin-bottom:2px;font-weight:600;font-family:'Playfair Display',serif}
-.cta-info p{font-size:11.5px;color:rgba(255,255,255,.85);line-height:1.4}
-.cta-availability{font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
-.cta-actions{display:flex;gap:.75rem;flex-direction:column;flex-shrink:0}
-@media(max-width:600px){.cta-actions{flex-direction:row;width:100%}}
-.cta-btn{padding:.65rem 1rem;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:all .12s;font-family:'Epilogue',sans-serif;white-space:nowrap}
-.cta-btn.primary{background:#fff;color:var(--g)}
-.cta-btn.primary:hover{background:rgba(255,255,255,.95)}
-.cta-btn.secondary{border:1.5px solid rgba(255,255,255,.3);background:transparent;color:#fff}
-.cta-btn.secondary:hover{background:rgba(255,255,255,.1)}
+.ph-client{
+  font-size:12.5px;
+  color:rgba(255,255,255,.75);
+}
+
+.ph-right{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+}
+
+.notification-bell{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  color:#fff;
+  font-size:16px;
+  transition:all .2s;
+}
+
+.notification-bell:hover{
+  background:rgba(255,255,255,.2);
+}
+
+.notification-dot{
+  position:absolute;
+  top:6px;
+  right:6px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#ffd700;
+}
+
+/* TOGGLE TABS */
+.view-toggle{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 1.5rem;
+  display:flex;
+  gap:0;
+  margin-bottom:1.5rem;
+}
+
+.toggle-tab{
+  padding:1rem 1.5rem;
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-family:'Epilogue',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  color:var(--muted);
+  position:relative;
+  transition:color .2s;
+  border-bottom:2px solid transparent;
+}
+
+.toggle-tab.active{
+  color:var(--navy);
+  border-bottom-color:var(--navy);
+}
+
+/* CONTAINER */
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 1.5rem 2rem;
+}
+
+/* SECTION TABS */
+.section-tabs{
+  display:flex;
+  gap:0.5rem;
+  margin-bottom:1.5rem;
+  flex-wrap:wrap;
+}
+
+.section-tab{
+  padding:0.75rem 1.25rem;
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:8px;
+  cursor:pointer;
+  font-family:'Epilogue',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted);
+  transition:all .2s;
+}
+
+.section-tab:hover{
+  border-color:var(--navy);
+  color:var(--navy);
+}
+
+.section-tab.active{
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+}
+
+/* CONTENT SECTION */
+.content-section{
+  display:none;
+}
+
+.content-section.active{
+  display:block;
+  animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+
+/* CARDS */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.5rem;
+  margin-bottom:1.25rem;
+  box-shadow:0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  animation:fadeIn .3s ease;
+}
+
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:1rem;
+}
+
+.card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;
+  font-weight:600;
+  color:var(--navy);
+}
+
+.card-subtitle{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--faint);
+  margin-bottom:1rem;
+}
+
+/* STATUS CARD */
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:1.25rem;
+  margin-bottom:1.5rem;
+}
+
+.status-item{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.25rem;
+  text-align:center;
+}
+
+.status-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--muted);
+  margin-bottom:0.5rem;
+}
+
+.status-value{
+  font-family:'Playfair Display',serif;
+  font-size:1.75rem;
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:0.25rem;
+}
+
+.status-meta{
+  font-size:12px;
+  color:var(--faint);
+}
+
+/* KPI STRIP */
+.kpi-strip{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+
+.kpi{
+  background:linear-gradient(135deg, var(--navy-l) 0%, rgba(232, 236, 244, 0.5) 100%);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:1.25rem;
+  text-align:center;
+}
+
+.kpi-value{
+  font-family:'Playfair Display',serif;
+  font-size:2.25rem;
+  font-weight:700;
+  color:var(--navy);
+  line-height:1;
+  margin-bottom:0.5rem;
+}
+
+.kpi-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--muted);
+}
+
+/* NEXT STEPS CALLOUT */
+.next-steps{
+  background:linear-gradient(135deg, var(--blue-l) 0%, rgba(230, 241, 251, 0.5) 100%);
+  border:1px solid rgba(24, 95, 165, 0.2);
+  border-radius:10px;
+  padding:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.ns-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  font-weight:600;
+  color:var(--blue);
+  margin-bottom:1rem;
+}
+
+.ns-list{
+  list-style:none;
+}
+
+.ns-item{
+  display:flex;
+  gap:0.75rem;
+  margin-bottom:0.75rem;
+  align-items:flex-start;
+}
+
+.ns-item:last-child{
+  margin-bottom:0;
+}
+
+.ns-number{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--blue);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.ns-content{
+  flex:1;
+}
+
+.ns-text-title{
+  font-size:13px;
+  font-weight:500;
+  color:var(--navy);
+  margin-bottom:2px;
+}
+
+.ns-text-desc{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* TIMELINE / KANBAN */
+.timeline-container{
+  display:flex;
+  gap:1rem;
+  overflow-x:auto;
+  padding-bottom:1rem;
+}
+
+.timeline-stage{
+  flex:0 0 220px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.ts-header{
+  background:linear-gradient(135deg, var(--navy-l) 0%, rgba(232, 236, 244, 0.5) 100%);
+  padding:1rem;
+  border-bottom:1px solid var(--border);
+}
+
+.ts-title{
+  font-size:13px;
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:0.25rem;
+}
+
+.ts-count{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.ts-body{
+  padding:1rem;
+  min-height:200px;
+}
+
+.timeline-item{
+  background:var(--navy-l);
+  border:1px solid rgba(30, 58, 95, 0.1);
+  border-radius:8px;
+  padding:0.75rem;
+  margin-bottom:0.75rem;
+  font-size:12px;
+  color:var(--navy);
+  cursor:pointer;
+  transition:all .2s;
+}
+
+.timeline-item:hover{
+  box-shadow:0 2px 8px rgba(30, 58, 95, 0.15);
+}
+
+/* DOCUMENT MANAGEMENT */
+.upload-area{
+  border:2px dashed var(--border);
+  border-radius:10px;
+  padding:2rem;
+  text-align:center;
+  cursor:pointer;
+  transition:all .2s;
+  margin-bottom:1.5rem;
+}
+
+.upload-area:hover{
+  border-color:var(--navy);
+  background:var(--navy-l);
+}
+
+.upload-icon{
+  font-size:2.5rem;
+  margin-bottom:0.75rem;
+}
+
+.upload-text{
+  font-size:14px;
+  color:var(--navy);
+  font-weight:500;
+  margin-bottom:0.25rem;
+}
+
+.upload-sub{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.document-list{
+  list-style:none;
+}
+
+.doc-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1rem;
+  border:1px solid var(--border);
+  border-radius:9px;
+  margin-bottom:0.75rem;
+  background:var(--surface);
+}
+
+.doc-left{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  flex:1;
+}
+
+.doc-icon{
+  font-size:1.5rem;
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--navy-l);
+  border-radius:8px;
+  color:var(--navy);
+}
+
+.doc-info{
+  flex:1;
+}
+
+.doc-name{
+  font-size:13px;
+  font-weight:500;
+  color:var(--navy);
+  margin-bottom:2px;
+}
+
+.doc-meta{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.doc-actions{
+  display:flex;
+  gap:0.5rem;
+}
+
+.doc-btn{
+  padding:0.5rem 1rem;
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:500;
+  color:var(--navy);
+  transition:all .2s;
+}
+
+.doc-btn:hover{
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+}
+
+/* PROPERTIES / FAVORITES */
+.property-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:1rem;
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:1rem;
+  padding:1rem;
+}
+
+.property-img{
+  width:200px;
+  height:150px;
+  border-radius:8px;
+  background:linear-gradient(135deg, var(--navy-l), #d0e8f8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  flex-shrink:0;
+}
+
+.property-details{
+  flex:1;
+}
+
+.property-address{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:0.5rem;
+}
+
+.property-meta{
+  display:flex;
+  gap:1.5rem;
+  margin-bottom:0.75rem;
+  flex-wrap:wrap;
+}
+
+.pm-item{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.pm-label{
+  color:var(--faint);
+  font-weight:500;
+}
+
+.property-actions{
+  display:flex;
+  gap:0.5rem;
+}
+
+/* REPORTS */
+.report-list{
+  list-style:none;
+}
+
+.report-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.25rem;
+  border:1px solid var(--border);
+  border-radius:9px;
+  margin-bottom:0.75rem;
+  background:var(--surface);
+  transition:all .2s;
+}
+
+.report-item:hover{
+  border-color:var(--navy);
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.report-date{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--muted);
+  margin-bottom:0.5rem;
+}
+
+.report-title{
+  font-size:14px;
+  font-weight:500;
+  color:var(--navy);
+  margin-bottom:0.25rem;
+}
+
+.report-description{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.report-actions{
+  display:flex;
+  gap:0.5rem;
+}
+
+.report-btn{
+  padding:0.5rem 1rem;
+  border:1px solid var(--border);
+  background:transparent;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:500;
+  color:var(--navy);
+  transition:all .2s;
+}
+
+.report-btn:hover{
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+}
+
+/* MESSAGES / CHAT */
+.message-container{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  height:500px;
+  display:flex;
+  flex-direction:column;
+  margin-bottom:1rem;
+}
+
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+.message{
+  display:flex;
+  gap:0.75rem;
+  animation:fadeIn .3s ease;
+}
+
+.message.agent{
+  justify-content:flex-start;
+}
+
+.message.client{
+  justify-content:flex-end;
+}
+
+.message-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:var(--navy-l);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  color:var(--navy);
+  flex-shrink:0;
+}
+
+.message-bubble{
+  max-width:60%;
+  padding:0.75rem 1rem;
+  border-radius:8px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.message.agent .message-bubble{
+  background:var(--navy-l);
+  color:var(--navy);
+  border:1px solid rgba(30, 58, 95, 0.1);
+}
+
+.message.client .message-bubble{
+  background:var(--navy);
+  color:#fff;
+}
+
+.message-time{
+  font-size:11px;
+  color:var(--faint);
+  margin-top:0.25rem;
+}
+
+.message-input-area{
+  padding:1rem;
+  border-top:1px solid var(--border);
+  display:flex;
+  gap:0.75rem;
+}
+
+.message-input{
+  flex:1;
+  padding:0.75rem 1rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-family:'Epilogue',sans-serif;
+  font-size:13px;
+  resize:none;
+  max-height:100px;
+}
+
+.message-input:focus{
+  outline:none;
+  border-color:var(--navy);
+  box-shadow:0 0 0 3px rgba(30, 58, 95, 0.1);
+}
+
+.message-send{
+  padding:0.75rem 1.25rem;
+  background:var(--green);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:'Epilogue',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  transition:all .2s;
+}
+
+.message-send:hover{
+  background:var(--green);
+  opacity:0.9;
+}
+
+/* BUTTONS */
+.btn{
+  padding:0.75rem 1.5rem;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:'Epilogue',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  transition:all .2s;
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+}
+
+.btn-primary{
+  background:var(--green);
+  color:#fff;
+}
+
+.btn-primary:hover{
+  background:var(--green);
+  opacity:0.9;
+}
+
+.btn-secondary{
+  background:var(--surface);
+  color:var(--navy);
+  border:1px solid var(--border);
+}
+
+.btn-secondary:hover{
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+}
+
+.btn-small{
+  padding:0.5rem 1rem;
+  font-size:12px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .portal-header{
+    padding:1rem;
+  }
+
+  .ph-left{
+    width:100%;
+    margin-bottom:0.5rem;
+  }
+
+  .ph-right{
+    width:100%;
+    justify-content:flex-end;
+  }
+
+  .container{
+    padding:0 1rem 1.5rem;
+  }
+
+  .status-grid, .kpi-strip{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .property-card{
+    grid-template-columns:1fr;
+  }
+
+  .property-img{
+    width:100%;
+  }
+
+  .timeline-container{
+    grid-template-columns:1fr;
+  }
+
+  .message-bubble{
+    max-width:100%;
+  }
+
+  .section-tabs{
+    overflow-x:auto;
+  }
+
+  .view-toggle{
+    padding:0 1rem;
+  }
+}
+
+/* UTILITY */
+.hidden{
+  display:none;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.mt-1{margin-top:0.75rem}
+.mt-2{margin-top:1.5rem}
+.mb-1{margin-bottom:0.75rem}
+.mb-2{margin-bottom:1.5rem}
+
+.text-muted{color:var(--muted)}
+.text-faint{color:var(--faint)}
+
+.badge{
+  display:inline-block;
+  padding:0.35rem 0.75rem;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+
+.badge-navy{
+  background:var(--navy-l);
+  color:var(--navy);
+}
+
+.badge-green{
+  background:var(--green-l);
+  color:var(--green);
+}
+
+.badge-amber{
+  background:var(--amber-l);
+  color:var(--amber);
+}
+
+.badge-red{
+  background:var(--red-l);
+  color:var(--red);
+}
+
+.badge-blue{
+  background:var(--blue-l);
+  color:var(--blue);
+}
+
 </style>
 </head>
 <body>
 
-<!-- PORTAL HEADER — agent branded -->
+<!-- HEADER -->
 <div class="portal-header">
-  <div class="ph-agent">
-    <div class="ph-logo">GW</div>
-    <div>
-      <div class="ph-name">Graeham Watts</div>
-      <div class="ph-sub">Intero Real Estate · DRE #01466876 · East Palo Alto Specialist</div>
+  <div class="ph-left">
+    <div class="ph-logo">P</div>
+    <div class="ph-branding">
+      <div class="ph-title">PropIQ Client Portal</div>
+      <div class="ph-client">Welcome, Sarah Mitchell</div>
     </div>
   </div>
-  <div class="ph-contact">
-    <button class="ph-btn" onclick="window.location.href='tel:6503084727'">📞 Call</button>
-    <button class="ph-btn" onclick="alert('Opening text…')">💬 Text</button>
-    <button class="ph-btn p" onclick="alert('Booking a call…')">Book a Call</button>
-  </div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-img">🏠</div>
-  <div class="hero-body">
-    <div class="hero-label">Your Listing Report · March 2026</div>
-    <div class="hero-addr">172 Portola Drive<br>East Palo Alto, CA 94303</div>
-    <div class="hero-meta">3 bed · 2 bath · 1,480 sqft · Listed at $895,000</div>
-    <div class="hero-badge contract">
-      <div style="width:7px;height:7px;border-radius:50%;background:var(--b)"></div>
-      Under Contract — $1,050,000
-    </div>
-    <div class="hero-stats">
-      <div class="hs"><div class="hs-val" style="color:var(--g)">23</div><div class="hs-lbl">Days on Market</div></div>
-      <div class="hs"><div class="hs-val">312</div><div class="hs-lbl">Listing Views</div></div>
-      <div class="hs"><div class="hs-val" style="color:var(--g)">8</div><div class="hs-lbl">Showing Requests</div></div>
-      <div class="hs"><div class="hs-val" style="color:var(--g)">$1.05M</div><div class="hs-lbl">Offer Accepted</div></div>
+  <div class="ph-right">
+    <div class="notification-bell" onclick="alert('No new notifications')">
+      🔔
+      <span class="notification-dot"></span>
     </div>
   </div>
 </div>
 
-<!-- VIEW TOGGLE (seller / buyer) — demo both portals in one file -->
+<!-- TOGGLE SELLER / BUYER -->
+<div class="view-toggle">
+  <button class="toggle-tab active" onclick="switchView('seller')">Seller Portal</button>
+  <button class="toggle-tab" onclick="switchView('buyer')">Buyer Portal</button>
+</div>
+
 <div class="container">
-  <div class="view-toggle">
-    <div class="vt-opt on" id="vt-seller" onclick="setView('seller')">🏠 Seller Portal — 172 Portola Dr</div>
-    <div class="vt-opt" id="vt-buyer" onclick="setView('buyer')">🔍 Buyer Portal — Marcus Rivera</div>
+
+  <!-- ============ SELLER VIEW ============ -->
+  <div id="seller-view" class="view-content active">
+
+    <!-- Section Tabs -->
+    <div class="section-tabs">
+      <button class="section-tab active" onclick="switchSection('seller', 'overview')">Overview</button>
+      <button class="section-tab" onclick="switchSection('seller', 'reports')">Reports</button>
+      <button class="section-tab" onclick="switchSection('seller', 'timeline')">Timeline</button>
+      <button class="section-tab" onclick="switchSection('seller', 'documents')">Documents</button>
+      <button class="section-tab" onclick="switchSection('seller', 'messages')">Messages</button>
+    </div>
+
+    <!-- OVERVIEW SECTION -->
+    <div id="seller-overview" class="content-section active">
+
+      <!-- Listing Status Card -->
+      <div class="card">
+        <div class="card-title">123 Oak Ridge Drive, Palo Alto, CA 94301</div>
+        <div class="card-subtitle">Your Active Listing</div>
+
+        <div class="status-grid">
+          <div class="status-item">
+            <div class="status-label">Status</div>
+            <div class="status-value" style="color: var(--green);">Active</div>
+            <div class="status-meta">Listed 24 days ago</div>
+          </div>
+          <div class="status-item">
+            <div class="status-label">List Price</div>
+            <div class="status-value">$2.85M</div>
+            <div class="status-meta">No price change</div>
+          </div>
+          <div class="status-item">
+            <div class="status-label">Days On Market</div>
+            <div class="status-value">24</div>
+            <div class="status-meta">3 weeks, 3 days</div>
+          </div>
+          <div class="status-item">
+            <div class="status-label">Market Position</div>
+            <div class="status-value">Top 15%</div>
+            <div class="status-meta">In your neighborhood</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Strip -->
+      <div class="card">
+        <div class="card-subtitle" style="margin-bottom: 1rem;">Key Performance Metrics</div>
+        <div class="kpi-strip">
+          <div class="kpi">
+            <div class="kpi-value">12</div>
+            <div class="kpi-label">Showings</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">3</div>
+            <div class="kpi-label">Offers Received</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">4.2K</div>
+            <div class="kpi-label">Online Views</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">128K</div>
+            <div class="kpi-label">Total Ad Reach</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">847</div>
+            <div class="kpi-label">Saved By Buyers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="next-steps">
+        <div class="ns-title">📋 Recommended Next Steps</div>
+        <ul class="ns-list">
+          <li class="ns-item">
+            <div class="ns-number">1</div>
+            <div class="ns-content">
+              <div class="ns-text-title">Review Offers</div>
+              <div class="ns-text-desc">You have 3 active offers. Review terms, contingencies, and net proceeds in the Timeline section.</div>
+            </div>
+          </li>
+          <li class="ns-item">
+            <div class="ns-number">2</div>
+            <div class="ns-content">
+              <div class="ns-text-title">Schedule Inspection Coordination</div>
+              <div class="ns-text-desc">The leading offer buyer wants to schedule inspection this weekend. Confirm availability with Graeham.</div>
+            </div>
+          </li>
+          <li class="ns-item">
+            <div class="ns-number">3</div>
+            <div class="ns-content">
+              <div class="ns-text-title">Prepare Closing Documents</div>
+              <div class="ns-text-desc">Have your closing documents ready. Upload any HOA docs, warranties, or permits to the Documents section.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- REPORTS SECTION -->
+    <div id="seller-reports" class="content-section">
+      <div class="card">
+        <div class="card-title">Market Reports</div>
+        <div class="card-subtitle">Weekly reports saved automatically</div>
+
+        <ul class="report-list">
+          <li class="report-item">
+            <div>
+              <div class="report-date">March 30, 2026</div>
+              <div class="report-title">Weekly Market Performance</div>
+              <div class="report-description">Your listing reached 4,200+ people this week with 12 showings scheduled.</div>
+            </div>
+            <div class="report-actions">
+              <button class="report-btn">View</button>
+              <button class="report-btn">Download</button>
+            </div>
+          </li>
+          <li class="report-item">
+            <div>
+              <div class="report-date">March 23, 2026</div>
+              <div class="report-title">Weekly Market Performance</div>
+              <div class="report-description">Strong market activity with increased buyer interest in your price segment.</div>
+            </div>
+            <div class="report-actions">
+              <button class="report-btn">View</button>
+              <button class="report-btn">Download</button>
+            </div>
+          </li>
+          <li class="report-item">
+            <div>
+              <div class="report-date">March 16, 2026</div>
+              <div class="report-title">Weekly Market Performance</div>
+              <div class="report-description">Listing received significant exposure with excellent engagement metrics.</div>
+            </div>
+            <div class="report-actions">
+              <button class="report-btn">View</button>
+              <button class="report-btn">Download</button>
+            </div>
+          </li>
+          <li class="report-item">
+            <div>
+              <div class="report-date">March 9, 2026</div>
+              <div class="report-title">Weekly Market Performance</div>
+              <div class="report-description">Initial launch report showing strong early traction and buyer interest.</div>
+            </div>
+            <div class="report-actions">
+              <button class="report-btn">View</button>
+              <button class="report-btn">Download</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TIMELINE SECTION -->
+    <div id="seller-timeline" class="content-section">
+      <div class="card">
+        <div class="card-title">Deal Timeline & Stages</div>
+        <div class="card-subtitle">Track your listing from listing to closing</div>
+
+        <div class="timeline-container">
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">📋 Listed</div>
+              <div class="ts-count">Complete</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item">✓ Listing Activated</div>
+              <div class="timeline-item">✓ Photos Uploaded</div>
+              <div class="timeline-item">✓ Advertised Online</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">👥 Showings</div>
+              <div class="ts-count">12 completed</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item">✓ 3/28 - 2 PM</div>
+              <div class="timeline-item">✓ 3/29 - 10 AM</div>
+              <div class="timeline-item">✓ 3/29 - 3 PM</div>
+              <div class="timeline-item">→ Next: 4/2 - 6 PM</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">💰 Offers</div>
+              <div class="ts-count">3 active</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="background: var(--amber-l); color: var(--amber);">🏆 Offer #1: $2.8M</div>
+              <div class="timeline-item">📋 Offer #2: $2.75M</div>
+              <div class="timeline-item">📋 Offer #3: $2.7M</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">✍️ Under Contract</div>
+              <div class="ts-count">Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="color: var(--faint); opacity: 0.5;">Awaiting acceptance</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">🔍 Inspection</div>
+              <div class="ts-count">Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="color: var(--faint); opacity: 0.5;">Awaiting contract</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">🔐 Closing</div>
+              <div class="ts-count">Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="color: var(--faint); opacity: 0.5;">Awaiting contract</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS SECTION -->
+    <div id="seller-documents" class="content-section">
+      <div class="card">
+        <div class="card-title">Document Management</div>
+        <div class="card-subtitle">Upload, sign, and manage all listing documents</div>
+
+        <div class="upload-area" onclick="alert('Upload functionality would open file picker')">
+          <div class="upload-icon">📤</div>
+          <div class="upload-text">Upload Documents</div>
+          <div class="upload-sub">Drag & drop or click to browse</div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <h3 style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 1rem;">Pending Signatures</h3>
+          <ul class="document-list">
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">📋</div>
+                <div class="doc-info">
+                  <div class="doc-name">Purchase Agreement - Offer #1</div>
+                  <div class="doc-meta">Added March 30, 2026 • Awaiting your signature</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Review</button>
+                <button class="doc-btn">Sign</button>
+              </div>
+            </li>
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">📋</div>
+                <div class="doc-info">
+                  <div class="doc-name">Disclosure Form Update</div>
+                  <div class="doc-meta">Added March 29, 2026 • Awaiting your signature</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Review</button>
+                <button class="doc-btn">Sign</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <h3 style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 1rem;">Signed Documents</h3>
+          <ul class="document-list">
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">✓📄</div>
+                <div class="doc-info">
+                  <div class="doc-name">Listing Agreement</div>
+                  <div class="doc-meta">Signed March 6, 2026</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Download</button>
+              </div>
+            </li>
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">✓📄</div>
+                <div class="doc-info">
+                  <div class="doc-name">Initial Disclosure Statement</div>
+                  <div class="doc-meta">Signed March 6, 2026</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Download</button>
+              </div>
+            </li>
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">✓📄</div>
+                <div class="doc-info">
+                  <div class="doc-name">Property Information Sheet</div>
+                  <div class="doc-meta">Signed March 6, 2026</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Download</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES SECTION -->
+    <div id="seller-messages" class="content-section">
+      <div class="message-container">
+        <div class="messages">
+          <div class="message agent">
+            <div class="message-avatar">G</div>
+            <div>
+              <div class="message-bubble">Great news! We received an offer on your property. It's competitive and worth serious consideration. Let's discuss the details.</div>
+              <div class="message-time">Today, 10:30 AM</div>
+            </div>
+          </div>
+
+          <div class="message client">
+            <div>
+              <div class="message-bubble">That's wonderful! What are the terms?</div>
+              <div class="message-time">Today, 10:35 AM</div>
+            </div>
+            <div class="message-avatar">S</div>
+          </div>
+
+          <div class="message agent">
+            <div class="message-avatar">G</div>
+            <div>
+              <div class="message-bubble">$2.8M, 60-day close, no contingencies. Buyer is pre-approved. I'd recommend we counter if you want to aim higher.</div>
+              <div class="message-time">Today, 10:37 AM</div>
+            </div>
+          </div>
+
+          <div class="message client">
+            <div>
+              <div class="message-bubble">Can we schedule a call to discuss strategy?</div>
+              <div class="message-time">Today, 10:40 AM</div>
+            </div>
+            <div class="message-avatar">S</div>
+          </div>
+
+          <div class="message agent">
+            <div class="message-avatar">G</div>
+            <div>
+              <div class="message-bubble">Absolutely! I have availability at 2 PM today or 10 AM tomorrow. Which works better for you?</div>
+              <div class="message-time">Today, 10:42 AM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="message-input-area">
+          <textarea class="message-input" placeholder="Type your message..." rows="2"></textarea>
+          <button class="message-send" onclick="alert('Message sent!')">Send</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- SELLER VIEW -->
-  <div id="seller-view">
+  <!-- ============ BUYER VIEW ============ -->
+  <div id="buyer-view" class="view-content">
 
-    <!-- NARRATIVE -->
-    <div class="narrative">
-      <div class="n-label"><span class="n-ico">📊</span>Your Marketing Report — From Graeham</div>
-      <div class="n-text">Your home generated exceptional buyer attention this month. We received <strong>312 website visits</strong>, ran targeted ads that reached <strong>4,840 potential buyers</strong>, and generated <strong>8 showing requests</strong> — nearly double the EPA average of 4.2 showings per listing. The result: a full-price offer of <strong>$1,050,000</strong>, which is $155,000 above your original list price. Your home outperformed 94% of comparable properties listed in East Palo Alto this quarter. I'm proud of the outcome and grateful for your trust.</div>
-      <div class="n-acts">
-        <button class="nb p" onclick="alert('Downloading PDF…')">↓ Download as PDF</button>
-        <button class="nb" onclick="alert('Calling Graeham…')">📞 Call Graeham</button>
-        <button class="nb" onclick="alert('Opening escrow timeline…')">📋 View Escrow Timeline</button>
-      </div>
+    <!-- Section Tabs -->
+    <div class="section-tabs">
+      <button class="section-tab active" onclick="switchSection('buyer', 'overview')">Overview</button>
+      <button class="section-tab" onclick="switchSection('buyer', 'properties')">Properties</button>
+      <button class="section-tab" onclick="switchSection('buyer', 'timeline')">Timeline</button>
+      <button class="section-tab" onclick="switchSection('buyer', 'documents')">Documents</button>
+      <button class="section-tab" onclick="switchSection('buyer', 'messages')">Messages</button>
     </div>
 
-    <!-- STATS GRID -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="sc-lbl">Days on Market</div>
-        <div class="sc-val" style="color:var(--g)">23</div>
-        <div class="sc-trend" style="color:var(--g)">vs 42 day avg</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-lbl">Listing Views</div>
-        <div class="sc-val">312</div>
-        <div class="sc-trend" style="color:var(--g)">Top 5% of listings</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-lbl">Offer Received</div>
-        <div class="sc-val" style="color:var(--g)">$1.05M</div>
-        <div class="sc-trend" style="color:var(--g)">$155K over ask</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-lbl">Total Ad Reach</div>
-        <div class="sc-val">4,840</div>
-        <div class="sc-trend" style="color:var(--fa)">Buyers reached</div>
-      </div>
-    </div>
+    <!-- OVERVIEW SECTION -->
+    <div id="buyer-overview" class="content-section active">
 
-    <!-- MESSAGING SECTION -->
-    <div class="messages-card">
-      <div class="msg-header">Messages with Graeham</div>
-      <div class="messages-container">
-        <div class="message-item agent">
-          <div style="flex:1">
-            <div class="msg-bubble agent">Hi Sarah, your inspection is scheduled for Thursday at 2pm. The inspector is John from HomeCheck Inspections. Let me know if you have questions!</div>
-            <div class="msg-time">Mar 28, 10:15 AM</div>
+      <!-- Search Status Card -->
+      <div class="card">
+        <div class="card-title">Your Home Search Status</div>
+        <div class="card-subtitle">Making progress toward your dream home</div>
+
+        <div class="status-grid">
+          <div class="status-item">
+            <div class="status-label">Pre-Approval</div>
+            <div class="status-value" style="color: var(--green);">✓ Approved</div>
+            <div class="status-meta">Up to $3.2M</div>
           </div>
-        </div>
-        <div class="message-item client">
-          <div style="flex:1;text-align:right">
-            <div class="msg-bubble client">Thanks Graeham! Should we be there during the inspection?</div>
-            <div class="msg-time">Mar 28, 10:35 AM</div>
+          <div class="status-item">
+            <div class="status-label">Properties Viewed</div>
+            <div class="status-value">18</div>
+            <div class="status-meta">Last 30 days</div>
           </div>
-        </div>
-        <div class="message-item agent">
-          <div style="flex:1">
-            <div class="msg-bubble agent">You're welcome to attend! It typically takes 2-3 hours. I'll be there the whole time.</div>
-            <div class="msg-time">Mar 28, 10:42 AM</div>
+          <div class="status-item">
+            <div class="status-label">Offers Submitted</div>
+            <div class="status-value">3</div>
+            <div class="status-meta">2 pending, 1 withdrawn</div>
+          </div>
+          <div class="status-item">
+            <div class="status-label">Search Timeline</div>
+            <div class="status-value">6 weeks</div>
+            <div class="status-meta">Started Feb 15</div>
           </div>
         </div>
       </div>
-      <div class="msg-input-wrap">
-        <input type="text" class="msg-input" placeholder="Type a message…" id="msgInput">
-        <button class="msg-send-btn" onclick="sendMessage()">Send</button>
+
+      <!-- KPI Strip -->
+      <div class="card">
+        <div class="card-subtitle" style="margin-bottom: 1rem;">Your Search Metrics</div>
+        <div class="kpi-strip">
+          <div class="kpi">
+            <div class="kpi-value">18</div>
+            <div class="kpi-label">Properties Viewed</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">12</div>
+            <div class="kpi-label">Saved Favorites</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">3</div>
+            <div class="kpi-label">Offers Submitted</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">2</div>
+            <div class="kpi-label">Offers Pending</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">$2.95M</div>
+            <div class="kpi-label">Avg. Price Viewed</div>
+          </div>
+        </div>
       </div>
-      <div class="msg-note">Messages are sent to Graeham's PropIQ inbox</div>
+
+      <!-- Next Steps -->
+      <div class="next-steps">
+        <div class="ns-title">📋 Next Steps in Your Journey</div>
+        <ul class="ns-list">
+          <li class="ns-item">
+            <div class="ns-number">1</div>
+            <div class="ns-content">
+              <div class="ns-text-title">Review Pending Offers</div>
+              <div class="ns-text-desc">2 of your offers are pending. Check the Timeline section for offer status updates and next actions.</div>
+            </div>
+          </li>
+          <li class="ns-item">
+            <div class="ns-number">2</div>
+            <div class="ns-content">
+              <div class="ns-text-title">Schedule Property Inspections</div>
+              <div class="ns-text-desc">Once an offer is accepted, coordinate inspection timing. Graeham can help schedule contractors.</div>
+            </div>
+          </li>
+          <li class="ns-item">
+            <div class="ns-number">3</div>
+            <div class="ns-content">
+              <div class="ns-text-title">Gather Closing Documents</div>
+              <div class="ns-text-desc">Prepare bank statements, tax returns, and other documents for your final loan approval.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
     </div>
 
-    <!-- E-SIGNATURE SECTION -->
-    <div class="esign-card">
-      <div class="esign-header">Documents Requiring Your Signature</div>
-      <div class="doc-item">
-        <div class="doc-left">
-          <div class="doc-name">Seller Disclosure Statement (TDS)</div>
-          <div class="doc-status">⏳ Awaiting your signature</div>
-        </div>
-        <button class="doc-btn" onclick="alert('Opening DocuSign…')">Sign Now</button>
-      </div>
-      <div class="doc-item">
-        <div class="doc-left">
-          <div class="doc-name">Transfer Disclosure Statement (TDS)</div>
-          <div class="doc-status">✅ Signed Mar 25</div>
-        </div>
-        <button class="doc-btn done" disabled>Signed</button>
-      </div>
-      <div class="doc-item">
-        <div class="doc-left">
-          <div class="doc-name">Counterproposal #2</div>
-          <div class="doc-status">⏳ Awaiting your signature</div>
-        </div>
-        <button class="doc-btn" onclick="alert('Opening DocuSign…')">Sign Now</button>
-      </div>
-      <div class="esign-note">Powered by DocuSign · e-Signature</div>
-    </div>
+    <!-- PROPERTIES SECTION -->
+    <div id="buyer-properties" class="content-section">
+      <div class="card">
+        <div class="card-title">Saved & Viewed Properties</div>
+        <div class="card-subtitle">Your favorite homes and recent viewings</div>
 
-    <!-- TABS -->
-    <div class="card" style="margin-bottom:1rem">
-      <div class="tabs" id="sellerTabs">
-        <div class="tab on" onclick="setTab(this,'sellerTabs','st')">Marketing Activity</div>
-        <div class="tab" onclick="setTab(this,'sellerTabs','st')">Traffic Sources</div>
-        <div class="tab" onclick="setTab(this,'sellerTabs','st')">Timeline</div>
-        <div class="tab" onclick="setTab(this,'sellerTabs','st')">Buyer Profile</div>
-      </div>
-      <div id="st-0" class="tab-content on" style="padding:1rem">
-        <!-- MARKETING ACTIVITY -->
-        <div style="font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:1rem">Here's a summary of every marketing action taken on your behalf during the listing period:</div>
-        <div id="marketingActivity"></div>
-      </div>
-      <div id="st-1" class="tab-content" style="padding:1rem">
-        <div style="font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:.85rem">Where buyers came from when they viewed your listing:</div>
-        <div id="trafficSources"></div>
-      </div>
-      <div id="st-2" class="tab-content" style="padding:.5rem 0">
-        <div id="listingTimeline"></div>
-      </div>
-      <div id="st-3" class="tab-content" style="padding:1rem">
-        <div style="font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:.85rem">The buyer who made your accepted offer:</div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem">
-          <div style="font-size:13px;font-weight:500;margin-bottom:.5rem">Marcus Rivera — Buyer</div>
-          <div style="font-size:12px;color:var(--mu);line-height:1.7">Found your listing via a Google ad campaign for "is east palo alto safe 2026." Read the linked article for 4 minutes, submitted a contact form, booked a call, and toured two properties before selecting yours. Pre-qualified at $1.2M. No financing contingency in final offer. Strong buyer.</div>
-          <div style="margin-top:.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
-            <div style="text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.5rem .85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:2px">Ad Cost to Find Buyer</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--g)">$9.28</div></div>
-            <div style="text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.5rem .85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:2px">Time from Lead to Offer</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">23 days</div></div>
-            <div style="text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.5rem .85rem"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);margin-bottom:2px">Properties Toured</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem">2</div></div>
+        <div class="property-card">
+          <div class="property-img">🏡</div>
+          <div class="property-details">
+            <div class="property-address">285 Heritage Oak Lane, Los Altos Hills, CA</div>
+            <div class="property-meta">
+              <div class="pm-item"><span class="pm-label">Price:</span> $3.1M</div>
+              <div class="pm-item"><span class="pm-label">Beds:</span> 4 | <span class="pm-label">Baths:</span> 3.5</div>
+              <div class="pm-item"><span class="pm-label">Status:</span> <span class="badge badge-green">FAVORITE</span></div>
+            </div>
+            <div class="property-actions">
+              <button class="btn btn-secondary btn-small">View Details</button>
+              <button class="btn btn-secondary btn-small">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card">
+          <div class="property-img">🏠</div>
+          <div class="property-details">
+            <div class="property-address">450 Mountain View Court, Sunnyvale, CA</div>
+            <div class="property-meta">
+              <div class="pm-item"><span class="pm-label">Price:</span> $2.85M</div>
+              <div class="pm-item"><span class="pm-label">Beds:</span> 3 | <span class="pm-label">Baths:</span> 2.5</div>
+              <div class="pm-item"><span class="pm-label">Status:</span> <span class="badge badge-blue">OFFER PENDING</span></div>
+            </div>
+            <div class="property-actions">
+              <button class="btn btn-secondary btn-small">View Details</button>
+              <button class="btn btn-secondary btn-small">Withdraw Offer</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card">
+          <div class="property-img">🏘️</div>
+          <div class="property-details">
+            <div class="property-address">820 Oakmont Ridge, Palo Alto, CA</div>
+            <div class="property-meta">
+              <div class="pm-item"><span class="pm-label">Price:</span> $3.2M</div>
+              <div class="pm-item"><span class="pm-label">Beds:</span> 5 | <span class="pm-label">Baths:</span> 4</div>
+              <div class="pm-item"><span class="pm-label">Status:</span> <span class="badge badge-amber">VIEWED</span></div>
+            </div>
+            <div class="property-actions">
+              <button class="btn btn-secondary btn-small">View Details</button>
+              <button class="btn btn-primary btn-small">Make Offer</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- NEXT STEPS -->
-    <div class="card">
-      <div class="ch"><div class="ct">What Happens Next — Escrow Timeline</div></div>
-      <div id="nextSteps"></div>
-    </div>
+    <!-- TIMELINE SECTION -->
+    <div id="buyer-timeline" class="content-section">
+      <div class="card">
+        <div class="card-title">Purchase Journey Timeline</div>
+        <div class="card-subtitle">Track your path to home ownership</div>
 
-    <!-- SCHEDULE A CALL CTA -->
-    <div class="call-cta">
-      <div class="agent-avatar">GW</div>
-      <div class="cta-info">
-        <h3>Schedule a Call with Graeham</h3>
-        <p>Graeham Watts · Intero Real Estate</p>
-        <p class="cta-availability">Available: Mon-Fri, 9am-7pm</p>
-      </div>
-      <div class="cta-actions">
-        <button class="cta-btn primary" onclick="alert('Opening calendar…')">📅 Schedule</button>
-        <button class="cta-btn secondary" onclick="window.location.href='tel:6505550100'">📞 (650) 555-0100</button>
-      </div>
-    </div>
-
-  </div><!-- /seller view -->
-
-  <!-- BUYER VIEW -->
-  <div id="buyer-view" style="display:none">
-
-    <!-- BUYER NARRATIVE -->
-    <div class="narrative">
-      <div class="n-label"><span class="n-ico">🏡</span>Your Home Search · From Graeham</div>
-      <div class="n-text">Marcus, congratulations — your offer of <strong>$1,050,000 on 172 Portola Drive was accepted</strong>. You're now in escrow with a close of escrow date of April 28th. I've laid out everything you need to know between now and closing below. If anything comes up, reach out anytime — I'm always available for you.</div>
-      <div class="n-acts">
-        <button class="nb p" onclick="alert('Opening escrow checklist…')">📋 View Closing Checklist</button>
-        <button class="nb" onclick="alert('Calling Graeham…')">📞 Call Graeham</button>
-        <button class="nb" onclick="alert('Opening messages…')">💬 Message</button>
-      </div>
-    </div>
-
-    <!-- BUYER STATS -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="sc-lbl">Under Contract</div>
-        <div class="sc-val" style="color:var(--b);font-size:1.5rem">172 Portola</div>
-        <div class="sc-trend" style="color:var(--b)">East Palo Alto</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-lbl">Close of Escrow</div>
-        <div class="sc-val" style="font-size:1.4rem">Apr 28</div>
-        <div class="sc-trend" style="color:var(--fa)">29 days away</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-lbl">Accepted Price</div>
-        <div class="sc-val" style="color:var(--g)">$1.05M</div>
-        <div class="sc-trend" style="color:var(--fa)">3% down payment</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-lbl">Inspection Status</div>
-        <div class="sc-val" style="color:var(--g);font-size:1.3rem">Sched.</div>
-        <div class="sc-trend" style="color:var(--fa)">Apr 3 @ 10am</div>
-      </div>
-    </div>
-
-    <!-- MESSAGING SECTION -->
-    <div class="messages-card">
-      <div class="msg-header">Messages with Graeham</div>
-      <div class="messages-container">
-        <div class="message-item agent">
-          <div style="flex:1">
-            <div class="msg-bubble agent">Marcus, great news! Your appraisal came back at $1,055,000 — above your offer price. We're in great shape for close.</div>
-            <div class="msg-time">Mar 27, 2:45 PM</div>
+        <div class="timeline-container">
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">💰 Pre-Approval</div>
+              <div class="ts-count">Complete</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item">✓ Pre-Approved</div>
+              <div class="timeline-item">✓ Loan Amount: $3.2M</div>
+              <div class="timeline-item">✓ Valid until: 6/30/26</div>
+            </div>
           </div>
-        </div>
-        <div class="message-item client">
-          <div style="flex:1;text-align:right">
-            <div class="msg-bubble client">That's fantastic! When should I expect the final walkthrough?</div>
-            <div class="msg-time">Mar 27, 3:10 PM</div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">🔍 Search</div>
+              <div class="ts-count">Active</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item">✓ 18 properties viewed</div>
+              <div class="timeline-item">✓ 12 saved favorites</div>
+              <div class="timeline-item">→ Still searching</div>
+            </div>
           </div>
-        </div>
-        <div class="message-item agent">
-          <div style="flex:1">
-            <div class="msg-bubble agent">Final walkthrough is scheduled for April 25 at 2:00 PM. I'll meet you there and we'll do a final inspection together.</div>
-            <div class="msg-time">Mar 27, 3:15 PM</div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">📝 Make Offer</div>
+              <div class="ts-count">2 Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="background: var(--amber-l); color: var(--amber);">→ Mountain View: $2.8M</div>
+              <div class="timeline-item">→ Heritage Oak: $3.05M</div>
+              <div class="timeline-item">✓ Sunnyvale: Withdrawn</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">✓ Offer Accepted</div>
+              <div class="ts-count">Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="color: var(--faint); opacity: 0.5;">Awaiting offer response</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">🔍 Inspection</div>
+              <div class="ts-count">Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="color: var(--faint); opacity: 0.5;">Awaiting offer acceptance</div>
+            </div>
+          </div>
+
+          <div class="timeline-stage">
+            <div class="ts-header">
+              <div class="ts-title">🔐 Closing</div>
+              <div class="ts-count">Pending</div>
+            </div>
+            <div class="ts-body">
+              <div class="timeline-item" style="color: var(--faint); opacity: 0.5;">Awaiting inspection clear</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="msg-input-wrap">
-        <input type="text" class="msg-input" placeholder="Type a message…" id="msgInputBuyer">
-        <button class="msg-send-btn" onclick="sendMessage()">Send</button>
-      </div>
-      <div class="msg-note">Messages are sent to Graeham's PropIQ inbox</div>
     </div>
 
-    <!-- MORTGAGE CALCULATOR -->
-    <div class="calc-card">
-      <div class="calc-header">Estimate Your Monthly Payment</div>
-      <div class="calc-inputs">
-        <div class="calc-input-group">
-          <label class="calc-label">Purchase Price</label>
-          <input type="number" class="calc-input" id="purchasePrice" value="1050000" onchange="calculatePayment()">
+    <!-- DOCUMENTS SECTION -->
+    <div id="buyer-documents" class="content-section">
+      <div class="card">
+        <div class="card-title">Document Management</div>
+        <div class="card-subtitle">Upload, sign, and manage all purchase documents</div>
+
+        <div class="upload-area" onclick="alert('Upload functionality would open file picker')">
+          <div class="upload-icon">📤</div>
+          <div class="upload-text">Upload Documents</div>
+          <div class="upload-sub">Bank statements, tax returns, and other required docs</div>
         </div>
-        <div class="calc-input-group">
-          <label class="calc-label">Down Payment %</label>
-          <input type="number" class="calc-input" id="downPaymentPct" value="20" onchange="calculatePayment()">
+
+        <div style="margin-top: 2rem;">
+          <h3 style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 1rem;">Pending Signatures</h3>
+          <ul class="document-list">
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">📋</div>
+                <div class="doc-info">
+                  <div class="doc-name">Offer Agreement - Mountain View</div>
+                  <div class="doc-meta">Added March 28, 2026 • Awaiting your signature</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Review</button>
+                <button class="doc-btn">Sign</button>
+              </div>
+            </li>
+          </ul>
         </div>
-        <div class="calc-input-group">
-          <label class="calc-label">Interest Rate %</label>
-          <input type="number" class="calc-input" id="interestRate" value="6.75" step="0.1" onchange="calculatePayment()">
-        </div>
-        <div class="calc-input-group">
-          <label class="calc-label">Loan Term (years)</label>
-          <input type="number" class="calc-input" id="loanTerm" value="30" onchange="calculatePayment()">
+
+        <div style="margin-top: 2rem;">
+          <h3 style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 1rem;">Submitted Documents</h3>
+          <ul class="document-list">
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">✓📄</div>
+                <div class="doc-info">
+                  <div class="doc-name">Pre-Approval Letter</div>
+                  <div class="doc-meta">Submitted Feb 20, 2026</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Download</button>
+              </div>
+            </li>
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">✓📄</div>
+                <div class="doc-info">
+                  <div class="doc-name">Bank Statements (Last 2 months)</div>
+                  <div class="doc-meta">Submitted Feb 20, 2026</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Download</button>
+              </div>
+            </li>
+            <li class="doc-item">
+              <div class="doc-left">
+                <div class="doc-icon">✓📄</div>
+                <div class="doc-info">
+                  <div class="doc-name">Last 2 Years Tax Returns</div>
+                  <div class="doc-meta">Submitted Feb 20, 2026</div>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button class="doc-btn">Download</button>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="calc-results">
-        <div class="calc-result-row">
-          <span class="calc-result-label">Monthly Principal & Interest</span>
-          <span class="calc-result-val" id="piPayment">$5,447</span>
-        </div>
-        <div class="calc-result-row">
-          <span class="calc-result-label">Estimated Property Tax</span>
-          <span class="calc-result-val" id="taxPayment">$1,094/mo</span>
-        </div>
-        <div class="calc-result-row">
-          <span class="calc-result-label">Estimated Insurance</span>
-          <span class="calc-result-val" id="insurancePayment">$250/mo</span>
-        </div>
-        <div class="calc-result-row" style="color:var(--g)">
-          <span style="color:var(--g)">Total Estimated Payment</span>
-          <span id="totalPayment">$6,791/mo</span>
-        </div>
-      </div>
-      <div class="calc-disclaimer">Estimates only. Contact your lender for exact figures.</div>
     </div>
 
-    <!-- BUYER TABS -->
-    <div class="card" style="margin-bottom:1rem">
-      <div class="tabs" id="buyerTabs">
-        <div class="tab on" onclick="setTab(this,'buyerTabs','bt')">Closing Checklist</div>
-        <div class="tab" onclick="setTab(this,'buyerTabs','bt')">Your Property</div>
-        <div class="tab" onclick="setTab(this,'buyerTabs','bt')">Saved Searches</div>
-        <div class="tab" onclick="setTab(this,'buyerTabs','bt')">Market Update</div>
-      </div>
-      <div id="bt-0" class="tab-content on" style="padding:.5rem 0">
-        <div id="buyerChecklist"></div>
-      </div>
-      <div id="bt-1" class="tab-content" style="padding:1rem">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-          <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.75rem;height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem">🏠</div>
-          <div>
-            <div style="font-size:13px;font-weight:500;margin-bottom:.5rem">172 Portola Drive, EPA</div>
-            <div style="font-size:12px;color:var(--mu);line-height:1.7">3 bed · 2 bath · 1,480 sqft<br>ADU potential on lot<br>Single family detached<br>Year built: 1958</div>
+    <!-- MESSAGES SECTION -->
+    <div id="buyer-messages" class="content-section">
+      <div class="message-container">
+        <div class="messages">
+          <div class="message agent">
+            <div class="message-avatar">G</div>
+            <div>
+              <div class="message-bubble">Good morning! I have great news about the Mountain View property. The seller is considering our offer!</div>
+              <div class="message-time">Today, 8:15 AM</div>
+            </div>
+          </div>
+
+          <div class="message client">
+            <div>
+              <div class="message-bubble">That's exciting! What happens next?</div>
+              <div class="message-time">Today, 8:20 AM</div>
+            </div>
+            <div class="message-avatar">J</div>
+          </div>
+
+          <div class="message agent">
+            <div class="message-avatar">G</div>
+            <div>
+              <div class="message-bubble">We should hear back by end of business today. Once we have their response, we can decide if counter is needed. Your financing is solid, which helps!</div>
+              <div class="message-time">Today, 8:22 AM</div>
+            </div>
+          </div>
+
+          <div class="message client">
+            <div>
+              <div class="message-bubble">Fingers crossed! Let me know as soon as you hear anything.</div>
+              <div class="message-time">Today, 8:25 AM</div>
+            </div>
+            <div class="message-avatar">J</div>
+          </div>
+
+          <div class="message agent">
+            <div class="message-avatar">G</div>
+            <div>
+              <div class="message-bubble">Will do! In the meantime, I'll send you a few more properties that match your criteria. Keep an eye on your inbox.</div>
+              <div class="message-time">Today, 8:27 AM</div>
+            </div>
           </div>
         </div>
-        <div style="margin-top:.85rem;padding:.75rem;background:var(--gl);border-radius:7px;font-size:12px;color:var(--ink)"><strong>ADU Note:</strong> This lot qualifies for an ADU under SB9. Estimated ADU rental income: $2,200–$2,800/mo. ARES cash flow model available on request.</div>
-      </div>
-      <div id="bt-2" class="tab-content" style="padding:1rem">
-        <div style="font-size:12.5px;color:var(--mu);margin-bottom:.75rem">Your saved searches are still active. ARES will alert you to new matching properties.</div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.75rem;margin-bottom:.65rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:3px">East Palo Alto Investment · ADU Potential</div><div style="font-size:11.5px;color:var(--mu)">$700K–$1.2M · 3+ bed · Investment · ADU zoning</div><div style="font-size:10.5px;color:var(--g);margin-top:3px">✓ 4 new matches this week</div></div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.75rem"><div style="font-size:12.5px;font-weight:500;margin-bottom:3px">Menlo Park Single Family</div><div style="font-size:11.5px;color:var(--mu)">$1.5M–$2.5M · 4+ bed · Off-market priority</div><div style="font-size:10.5px;color:var(--fa);margin-top:3px">No new matches</div></div>
-      </div>
-      <div id="bt-3" class="tab-content" style="padding:1rem">
-        <div style="font-size:12.5px;color:var(--mu);margin-bottom:.75rem;line-height:1.65">East Palo Alto market update — March 2026:</div>
-        <div id="buyerMarket"></div>
+
+        <div class="message-input-area">
+          <textarea class="message-input" placeholder="Type your message..." rows="2"></textarea>
+          <button class="message-send" onclick="alert('Message sent!')">Send</button>
+        </div>
       </div>
     </div>
 
-    <!-- BUYER NEXT STEPS -->
-    <div class="card">
-      <div class="ch"><div class="ct">Your Next Steps to Close</div></div>
-      <div id="buyerNextSteps"></div>
-    </div>
-
-    <!-- SCHEDULE A CALL CTA -->
-    <div class="call-cta">
-      <div class="agent-avatar">GW</div>
-      <div class="cta-info">
-        <h3>Schedule a Call with Graeham</h3>
-        <p>Graeham Watts · Intero Real Estate</p>
-        <p class="cta-availability">Available: Mon-Fri, 9am-7pm</p>
-      </div>
-      <div class="cta-actions">
-        <button class="cta-btn primary" onclick="alert('Opening calendar…')">📅 Schedule</button>
-        <button class="cta-btn secondary" onclick="window.location.href='tel:6505550100'">📞 (650) 555-0100</button>
-      </div>
-    </div>
-
-  </div><!-- /buyer view -->
-
-</div><!-- /container -->
-
-<!-- FOOTER -->
-<div class="footer">
-  <div>
-    <div style="font-family:'Playfair Display',serif;font-size:.95rem;margin-bottom:3px">Graeham Watts — Realtor</div>
-    <div class="footer-agent">Intero Real Estate · <strong>(650) 308-4727</strong> · graeham@graehamwatts.com · DRE #01466876</div>
   </div>
-  <div class="footer-acts">
-    <button class="fa-btn" onclick="window.location.href='tel:6503084727'">📞 Call</button>
-    <button class="fa-btn" onclick="alert('Opening text…')">💬 Text</button>
-    <button class="fa-btn p" onclick="alert('Booking call…')">Book a Meeting</button>
-  </div>
+
 </div>
 
 <script>
-function setView(v){
-  document.getElementById('seller-view').style.display = v==='seller' ? 'block' : 'none';
-  document.getElementById('buyer-view').style.display = v==='buyer' ? 'block' : 'none';
-  document.getElementById('vt-seller').classList.toggle('on', v==='seller');
-  document.getElementById('vt-buyer').classList.toggle('on', v==='buyer');
-  // update hero
-  if(v==='buyer'){
-    document.querySelector('.hero-badge').className='hero-badge contract';
-    document.querySelector('.hero-badge').innerHTML='<div style="width:7px;height:7px;border-radius:50%;background:var(--b)"></div> Under Contract — Buyer: Marcus Rivera';
-  } else {
-    document.querySelector('.hero-badge').className='hero-badge contract';
-    document.querySelector('.hero-badge').innerHTML='<div style="width:7px;height:7px;border-radius:50%;background:var(--b)"></div> Under Contract — $1,050,000';
-  }
-}
+function switchView(view) {
+  // Hide all views
+  document.getElementById('seller-view').classList.remove('active');
+  document.getElementById('buyer-view').classList.remove('active');
 
-function setTab(el, groupId, prefix){
-  var tabs = document.getElementById(groupId).querySelectorAll('.tab');
-  var idx = Array.from(tabs).indexOf(el);
-  tabs.forEach(function(t){t.classList.remove('on')});
-  el.classList.add('on');
-  var contents = document.querySelectorAll('[id^="'+prefix+'-"]');
-  contents.forEach(function(c,i){ c.classList.toggle('on', i===idx); });
-}
+  // Show selected view
+  document.getElementById(view + '-view').classList.add('active');
 
-function sendMessage(){
-  var input = document.getElementById('msgInput') || document.getElementById('msgInputBuyer');
-  if(input && input.value.trim()){
-    alert('Message sent to Graeham: "' + input.value + '"');
-    input.value = '';
-  }
-}
+  // Update toggle buttons
+  const toggles = document.querySelectorAll('.toggle-tab');
+  toggles.forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
 
-function calculatePayment(){
-  var price = parseFloat(document.getElementById('purchasePrice').value) || 1050000;
-  var downPct = parseFloat(document.getElementById('downPaymentPct').value) || 20;
-  var rate = parseFloat(document.getElementById('interestRate').value) || 6.75;
-  var years = parseFloat(document.getElementById('loanTerm').value) || 30;
-
-  var downPayment = price * (downPct / 100);
-  var principal = price - downPayment;
-  var monthlyRate = rate / 100 / 12;
-  var numPayments = years * 12;
-
-  var piPayment = (principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments))) / (Math.pow(1 + monthlyRate, numPayments) - 1);
-  var taxPayment = (price * 0.00125) / 12;
-  var insurance = 250;
-  var total = piPayment + taxPayment + insurance;
-
-  document.getElementById('piPayment').textContent = '$' + Math.round(piPayment).toLocaleString();
-  document.getElementById('taxPayment').textContent = '$' + Math.round(taxPayment).toLocaleString() + '/mo';
-  document.getElementById('insurancePayment').textContent = '$' + Math.round(insurance).toLocaleString() + '/mo';
-  document.getElementById('totalPayment').textContent = '$' + Math.round(total).toLocaleString() + '/mo';
-}
-
-function buildMarketingActivity(){
-  var el = document.getElementById('marketingActivity');
-  if(!el) return;
-  var items = [
-    {ico:'📸','action':'Professional photography','sub':'12 photos + floor plan · Staged for maximum appeal','date':'Mar 3'},
-    {ico:'📝','action':'Listed on MLS + Zillow + Redfin','sub':'Syndicated to 40+ platforms within 2 hours of listing','date':'Mar 3'},
-    {ico:'$','action':'Google Ads campaign launched','sub':'Targeted buyers searching "EPA homes for sale" and "east palo alto investment" — 4,840 impressions','date':'Mar 3'},
-    {ico:'📱','action':'Instagram + Facebook campaign','sub':'Investment-angle creative targeting EPA investor audience — 2,940 impressions','date':'Mar 4'},
-    {ico:'✉','action':'Email blast to 847 buyer contacts','sub':'Matched your property to active buyers in my database · 3 immediate showing requests','date':'Mar 5'},
-    {ico:'🏠','action':'8 showings conducted','sub':'All qualified buyers pre-vetted before scheduling','date':'Mar 5–20'},
-    {ico:'✍','action':'Offer received and negotiated','sub':'$895K list → $1,050,000 accepted · $155K above ask','date':'Mar 24'}
-  ];
-  items.forEach(function(i){
-    el.innerHTML += '<div style="display:flex;gap:10px;padding:.6rem 0;border-bottom:1px solid var(--border)">'
-      + '<div style="width:28px;height:28px;border-radius:6px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">'+i.ico+'</div>'
-      + '<div style="flex:1"><div style="font-size:12.5px;font-weight:500;margin-bottom:2px">'+i.action+'</div><div style="font-size:11.5px;color:var(--mu)">'+i.sub+'</div></div>'
-      + '<div style="font-size:10.5px;color:var(--fa);white-space:nowrap">'+i.date+'</div></div>';
+  // Reset section tabs to first tab
+  const sectionTabs = document.querySelectorAll('.section-tab');
+  sectionTabs.forEach((t, i) => {
+    if (i === 0) {
+      t.classList.add('active');
+    } else {
+      t.classList.remove('active');
+    }
   });
+
+  // Reset content sections
+  const sections = document.querySelectorAll('.content-section');
+  sections.forEach(s => s.classList.remove('active'));
+  document.getElementById(view + '-overview').classList.add('active');
 }
 
-function buildTrafficSources(){
-  var el = document.getElementById('trafficSources');
-  if(!el) return;
-  var d = [['Google Ads','#EA4335',65],['Zillow / MLS','#f59e0b',18],['Organic Search','#1a7a56',12],['Social Media','#534AB7',5]];
-  d.forEach(function(r){
-    el.innerHTML += '<div class="bar-row"><div class="bar-label">'+r[0]+'</div><div class="bar-wrap"><div class="bar-fill" style="width:'+r[2]+'%;background:'+r[1]+'"></div></div><div class="bar-val" style="color:'+r[1]+'">'+r[2]+'%</div></div>';
+function switchSection(portalType, section) {
+  // Get all section content divs for this portal
+  const sectionDivs = document.querySelectorAll('#' + portalType + '-view .content-section');
+  sectionDivs.forEach(div => {
+    div.classList.remove('active');
   });
-}
 
-function buildListingTimeline(){
-  var el = document.getElementById('listingTimeline');
-  if(!el) return;
-  var steps = [
-    {ico:'📋',bg:'var(--bl)',col:'var(--b)','title':'Listed at $895,000','sub':'Went live on MLS, Zillow, Redfin, and 40+ platforms','date':'Mar 3'},
-    {ico:'👁',bg:'var(--gl)',col:'var(--g)','title':'312 views in first week','sub':'Above average for EPA — strong early interest','date':'Mar 3–9'},
-    {ico:'🏠',bg:'var(--aml)',col:'var(--am)','title':'8 showings scheduled','sub':'All buyers pre-qualified before viewing','date':'Mar 5–20'},
-    {ico:'✍',bg:'var(--aml)',col:'var(--am)','title':'Offer received — $1,050,000','sub':'Strong buyer, no financing contingency','date':'Mar 24'},
-    {ico:'🎉',bg:'var(--gl)',col:'var(--g)','title':'Offer accepted — $155K above list','sub':'Under contract. Close of escrow: April 28','date':'Mar 26'}
-  ];
-  steps.forEach(function(s){
-    el.innerHTML += '<div class="tl-row"><div class="tl-dot" style="background:'+s.bg+';color:'+s.col+'">'+s.ico+'</div>'
-      + '<div class="tl-body"><div class="tl-title">'+s.title+'</div><div class="tl-sub">'+s.sub+'</div></div>'
-      + '<div class="tl-time">'+s.date+'</div></div>';
-  });
-}
+  // Show selected section
+  document.getElementById(portalType + '-' + section).classList.add('active');
 
-function buildNextSteps(){
-  var el = document.getElementById('nextSteps');
-  if(!el) return;
-  var steps = [
-    {title:'Inspection period','sub':'Buyer has until April 7 to complete inspection and request repairs. I\'ll handle all communication.'},
-    {title:'Appraisal','sub':'Scheduled for April 10. I\'ll be present and have comparables ready to support the $1.05M value.'},
-    {title:'Loan contingency removal','sub':'April 14 — buyer removes financing contingency.'},
-    {title:'Final walk-through','sub':'April 25 — buyer does final walk-through. I\'ll coordinate timing with you.'},
-    {title:'Close of escrow','sub':'April 28 — funds transfer. Proceeds wired to your account same day.'}
-  ];
-  steps.forEach(function(s,i){
-    el.innerHTML += '<div class="next-step"><div class="ns-num">'+(i+1)+'</div>'
-      + '<div class="ns-body"><div class="ns-title">'+s.title+'</div><div class="ns-sub">'+s.sub+'</div></div></div>';
-  });
+  // Update tab buttons
+  const tabs = event.target.parentElement.querySelectorAll('.section-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
 }
-
-function buildBuyerChecklist(){
-  var el = document.getElementById('buyerChecklist');
-  if(!el) return;
-  var items = [
-    {done:true,title:'Offer accepted','sub':'$1,050,000 · 172 Portola Dr · Mar 26'},
-    {done:true,title:'Earnest money deposited','sub':'$21,000 · Wire confirmed · Mar 27'},
-    {done:false,title:'Home inspection','sub':'Scheduled: April 3 @ 10am · Inspector: Pacific Bay Home Inspection · (650) 555-0234',urgent:true},
-    {done:false,title:'Review disclosure documents','sub':'Seller disclosures due April 5 · I\'ll send them directly'},
-    {done:false,title:'Appraisal','sub':'Scheduled: April 10'},
-    {done:false,title:'Remove loan contingency','sub':'Deadline: April 14'},
-    {done:false,title:'Final walk-through','sub':'April 25 — 2:00pm'},
-    {done:false,title:'Sign closing documents','sub':'April 27 — escrow will contact you directly'},
-    {done:false,title:'Close of escrow — keys!','sub':'April 28 · Funds transfer + key handoff'}
-  ];
-  items.forEach(function(i){
-    el.innerHTML += '<div style="display:flex;align-items:flex-start;gap:10px;padding:.7rem 1.1rem;border-bottom:1px solid var(--border)">'
-      + '<div style="width:20px;height:20px;border-radius:50%;border:2px solid '+(i.done?'var(--g)':'var(--b2)')+';background:'+(i.done?'var(--g)':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">'
-      + (i.done?'<span style="color:#fff;font-size:10px">✓</span>':'')+'</div>'
-      + '<div><div style="font-size:12.5px;font-weight:500;color:'+(i.done?'var(--fa)':i.urgent?'#dc2626':'var(--ink)')+'">'+(i.urgent?'🔔 ':'')+i.title+'</div>'
-      + '<div style="font-size:11.5px;color:var(--mu);margin-top:1px">'+i.sub+'</div></div></div>';
-  });
-}
-
-function buildBuyerMarket(){
-  var el = document.getElementById('buyerMarket');
-  if(!el) return;
-  var d = [['Avg sale price','$942K','↑ 7% YoY'],['Days on market','38','Sellers market'],['Active listings','24','Low inventory'],['List to sale ratio','104%','Above ask common']];
-  d.forEach(function(r){
-    el.innerHTML += '<div style="display:flex;align-items:center;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:12px">'
-      + '<span style="color:var(--mu)">'+r[0]+'</span>'
-      + '<div style="text-align:right"><div style="font-weight:600;color:var(--g)">'+r[1]+'</div><div style="font-size:10.5px;color:var(--fa)">'+r[2]+'</div></div></div>';
-  });
-}
-
-function buildBuyerNextSteps(){
-  var el = document.getElementById('buyerNextSteps');
-  if(!el) return;
-  var steps = [
-    {title:'Attend home inspection','sub':'April 3 @ 10am · 172 Portola Dr · I recommend you attend in person — I\'ll walk you through everything the inspector finds.'},
-    {title:'Review seller disclosures','sub':'I\'ll send these by April 5 with my notes highlighting anything worth attention.'},
-    {title:'Confirm loan with your lender','sub':'Make sure your lender is tracking the April 14 contingency removal deadline.'},
-    {title:'Final walk-through','sub':'April 25 — we\'ll check that the property is in the same condition as when you made your offer.'},
-    {title:'Pick up your keys!','sub':'April 28 — close of escrow. I\'ll be there for the key handoff. 🎉'}
-  ];
-  steps.forEach(function(s,i){
-    el.innerHTML += '<div class="next-step"><div class="ns-num">'+(i+1)+'</div>'
-      + '<div class="ns-body"><div class="ns-title">'+s.title+'</div><div class="ns-sub">'+s.sub+'</div></div></div>';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  buildMarketingActivity();
-  buildTrafficSources();
-  buildListingTimeline();
-  buildNextSteps();
-  buildBuyerChecklist();
-  buildBuyerMarket();
-  buildBuyerNextSteps();
-  calculatePayment();
-});
 </script>
+
 </body>
 </html>
