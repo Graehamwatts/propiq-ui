@@ -150,6 +150,12 @@ body > *{position:relative;z-index:2}
 .search-ico{font-size:12px;color:var(--fa)}
 .search-inp{border:none;background:transparent;outline:none;font-size:12.5px;font-family:'Epilogue',sans-serif;color:var(--ink);flex:1}
 .search-inp::placeholder{color:var(--fa)}
+/* COMPONENT REFERENCE GRID */
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.cr-card{background:var(--sf);border:1px solid var(--bo);border-radius:8px;padding:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:140px}
+.cr-card-full{background:var(--sf);border:1px solid var(--bo);border-radius:8px;padding:1rem;margin-bottom:1rem}
+.cr-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa);font-weight:600;margin-bottom:.6rem;text-align:center}
+.cr-demo{display:flex;align-items:center;justify-content:center;flex:1;width:100%;padding:.5rem}
 </style>
 </head>
 <body>
@@ -519,6 +525,27 @@ body > *{position:relative;z-index:2}
         </div>
       </div>
 
+      <!-- SETTINGS -->
+      <div class="module-card" data-tags="settings profile account integrations team billing api" onclick="window.open('propiq-ui-settings-light.html')">
+        <div class="card-preview" style="background:linear-gradient(135deg,#e8ecf4 0%,#dde1ea 100%)">
+          <div class="cp-grid"></div>
+          <div class="mini-content">
+            <div style="display:flex;gap:6px;margin-bottom:5px">
+              <div style="width:60px;height:8px;border-radius:4px;background:rgba(30,58,95,.15)"></div>
+              <div style="flex:1;height:8px;border-radius:4px;background:rgba(30,58,95,.08)"></div>
+            </div>
+            <div class="mini-card"></div>
+            <div class="mini-card"></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-header"><div class="card-title">⚙ Settings</div><span class="card-tag tag-final">Final</span></div>
+          <div class="card-desc">Agent profile, team &amp; permissions, integrations (Google, MLS, GHL, Zillow), notification preferences, billing, branding/white-label, data privacy, and API/webhooks.</div>
+          <div class="card-features"><span class="feat">Profile</span><span class="feat">Team Roles</span><span class="feat">Integrations</span><span class="feat">Billing</span><span class="feat">API</span></div>
+          <div class="card-footer"><span class="card-file">propiq-ui-settings-light.html</span><button class="open-btn" onclick="event.stopPropagation();window.open('propiq-ui-settings-light.html')">Open →</button></div>
+        </div>
+      </div>
+
     </div>
 
     <div class="divider"></div>
@@ -601,6 +628,234 @@ body > *{position:relative;z-index:2}
         </div>
       </div>
     </div>
+
+    <!-- COMPONENT REFERENCE -->
+    <div id="component-reference">
+      <div class="section-header">
+        <div class="section-label">Component Reference</div>
+        <div class="section-title">Rendered UI Components</div>
+        <div class="section-sub">Live examples of every reusable component across the wireframes. Copy these patterns into your builds.</div>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="section-header" style="margin-top:1.8rem;margin-bottom:1rem">
+        <div class="section-label">Buttons</div>
+      </div>
+      <div class="cr-grid">
+        <div class="cr-card">
+          <div class="cr-label">Primary CTA</div>
+          <div class="cr-demo">
+            <button style="padding:10px 20px;border-radius:6px;background:var(--green);color:#fff;border:none;font-family:'Epilogue',sans-serif;font-size:13px;font-weight:500;cursor:pointer;box-shadow:0 2px 6px rgba(26,122,86,.2)">Primary CTA</button>
+          </div>
+        </div>
+        <div class="cr-card">
+          <div class="cr-label">Secondary</div>
+          <div class="cr-demo">
+            <button style="padding:10px 20px;border-radius:6px;background:transparent;color:var(--n);border:1.5px solid var(--n);font-family:'Epilogue',sans-serif;font-size:13px;font-weight:500;cursor:pointer">Secondary</button>
+          </div>
+        </div>
+        <div class="cr-card">
+          <div class="cr-label">Ghost</div>
+          <div class="cr-demo">
+            <button style="padding:10px 20px;border-radius:6px;background:transparent;color:var(--n);border:none;font-family:'Epilogue',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(30,58,95,.06)'" onmouseout="this.style.background='transparent'">Ghost</button>
+          </div>
+        </div>
+        <div class="cr-card">
+          <div class="cr-label">Danger</div>
+          <div class="cr-demo">
+            <button style="padding:10px 20px;border-radius:6px;background:transparent;color:var(--re);border:1.5px solid var(--re);font-family:'Epilogue',sans-serif;font-size:13px;font-weight:500;cursor:pointer">Danger</button>
+          </div>
+        </div>
+        <div class="cr-card">
+          <div class="cr-label">Disabled</div>
+          <div class="cr-demo">
+            <button style="padding:10px 20px;border-radius:6px;background:#e5e7eb;color:var(--fa);border:none;font-family:'Epilogue',sans-serif;font-size:13px;font-weight:500;cursor:not-allowed;opacity:.6" disabled>Disabled</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARDS -->
+      <div class="section-header" style="margin-top:1.8rem;margin-bottom:1rem">
+        <div class="section-label">Cards</div>
+      </div>
+      <div class="cr-grid">
+        <div class="cr-card-full">
+          <div class="cr-label">Standard Card</div>
+          <div class="cr-demo" style="justify-content:flex-start;align-items:flex-start">
+            <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1rem;width:100%;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+              <div style="font-size:13.5px;font-weight:500;color:var(--ink);margin-bottom:.5rem">Card Title</div>
+              <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:.75rem">Subtitle text describing the card content goes here. This is typical body copy used throughout the interface.</div>
+              <div style="border-top:1px solid var(--bo);padding-top:.7rem;display:flex;gap:.5rem">
+                <button style="padding:5px 12px;border-radius:5px;font-size:12px;background:var(--green);color:#fff;border:none;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500">Action</button>
+                <button style="padding:5px 12px;border-radius:5px;font-size:12px;background:transparent;color:var(--mu);border:1px solid var(--bo);cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cr-card-full">
+          <div class="cr-label">Stat/KPI Card</div>
+          <div class="cr-demo" style="justify-content:flex-start;align-items:flex-start">
+            <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1rem;width:100%;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+              <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.5rem">
+                <div style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--n);line-height:1">18</div>
+                <div style="font-size:12px;color:var(--mu)">Active Leads</div>
+              </div>
+              <div style="font-size:11px;color:var(--green);font-weight:500">+3 this week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BADGES & TAGS -->
+      <div class="section-header" style="margin-top:1.8rem;margin-bottom:1rem">
+        <div class="section-label">Badges & Tags</div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Role Tags</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem">
+          <span style="padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500;background:var(--bl);color:var(--b)">Buyer</span>
+          <span style="padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500;background:var(--aml);color:var(--am)">Seller</span>
+          <span style="padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500;background:var(--green-l);color:var(--green)">Investor</span>
+          <span style="padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500;background:var(--pul);color:var(--pu)">Landlord</span>
+        </div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Status Badges</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem">
+          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:var(--green-l);color:var(--green)">Active</span>
+          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:var(--aml);color:var(--am)">Pending</span>
+          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:#e5e7eb;color:var(--fa)">Closed</span>
+          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:var(--rel);color:var(--re)">Urgent</span>
+        </div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Count Badges</div>
+        <div style="display:flex;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--rel);color:var(--re);font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center">3</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#e5e7eb;color:var(--fa);font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center">12</div>
+        </div>
+      </div>
+
+      <!-- FORM INPUTS -->
+      <div class="section-header" style="margin-top:1.8rem;margin-bottom:1rem">
+        <div class="section-label">Form Inputs</div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+        <div style="margin-bottom:1rem">
+          <div style="font-size:11px;color:var(--fa);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em">Text Input</div>
+          <input type="text" placeholder="Search contacts…" style="width:100%;padding:8px 12px;border:1.5px solid var(--bo);border-radius:6px;font-family:'Epilogue',sans-serif;font-size:13px;outline:none;transition:all .12s;box-sizing:border-box" onfocus="this.style.borderColor='var(--n)'" onblur="this.style.borderColor='var(--bo)'">
+        </div>
+        <div style="margin-bottom:1rem">
+          <div style="font-size:11px;color:var(--fa);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em">Select Dropdown</div>
+          <select style="width:100%;padding:8px 12px;border:1.5px solid var(--bo);border-radius:6px;font-family:'Epilogue',sans-serif;font-size:13px;outline:none;background:var(--sf);color:var(--ink)" onfocus="this.style.borderColor='var(--n)'" onblur="this.style.borderColor='var(--bo)'">
+            <option>Choose an option</option>
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+          </select>
+        </div>
+        <div style="margin-bottom:1rem">
+          <div style="font-size:11px;color:var(--fa);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.05em">Toggle Switch</div>
+          <div style="display:flex;gap:1rem">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <button style="width:40px;height:24px;border-radius:12px;background:var(--green);border:none;cursor:pointer;position:relative;transition:all .2s;box-shadow:inset 0 2px 4px rgba(0,0,0,.1)" onclick="this.style.background='var(--green)';this.querySelector('span').style.left='20px'">
+                <span style="position:absolute;left:2px;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:all .2s"></span>
+              </button>
+              <span style="font-size:12px;color:var(--mu)">On</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <button style="width:40px;height:24px;border-radius:12px;background:var(--bo);border:none;cursor:pointer;position:relative;transition:all .2s;box-shadow:inset 0 2px 4px rgba(0,0,0,.1)" onclick="this.style.background='var(--bo)';this.querySelector('span').style.left='2px'">
+                <span style="position:absolute;left:20px;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:all .2s"></span>
+              </button>
+              <span style="font-size:12px;color:var(--mu)">Off</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--fa);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.05em">Checkbox</div>
+          <div style="display:flex;gap:1rem">
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+              <input type="checkbox" checked style="width:16px;height:16px;cursor:pointer">
+              <span style="font-size:12px;color:var(--ink)">Checked</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+              <input type="checkbox" style="width:16px;height:16px;cursor:pointer">
+              <span style="font-size:12px;color:var(--ink)">Unchecked</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODALS & PANELS -->
+      <div class="section-header" style="margin-top:1.8rem;margin-bottom:1rem">
+        <div class="section-label">Modals & Panels</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem">
+        <!-- Slide-out Panel -->
+        <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1.25rem;position:relative;min-height:300px">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:1rem">Slide-out Panel</div>
+          <div style="position:absolute;right:0;top:0;bottom:0;width:280px;background:var(--sf);border-left:1px solid var(--bo);border-radius:0 10px 10px 0;display:flex;flex-direction:column;box-shadow:-2px 4px 12px rgba(0,0,0,.08)">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem;border-bottom:1px solid var(--bo)">
+              <div style="font-size:13.5px;font-weight:500">Panel Title</div>
+              <button style="background:none;border:none;color:var(--fa);cursor:pointer;font-size:14px">✕</button>
+            </div>
+            <div style="flex:1;padding:1rem;overflow-y:auto">
+              <div style="font-size:12px;color:var(--mu);line-height:1.6">Panel content goes here. Contacts, details, settings. Right-aligned 280px wide.</div>
+            </div>
+          </div>
+        </div>
+        <!-- Centered Modal -->
+        <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1.25rem;position:relative;min-height:300px;display:flex;align-items:center;justify-content:center">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;position:absolute;top:1.25rem;left:1.25rem;right:1.25rem">Centered Modal</div>
+          <div style="background:#fff;border:1px solid var(--bo);border-radius:10px;padding:1.5rem;width:280px;box-shadow:0 10px 30px rgba(0,0,0,.15);text-align:center">
+            <div style="font-size:13.5px;font-weight:500;margin-bottom:.5rem">Confirm Action</div>
+            <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:1.25rem">Are you sure you want to proceed? This action cannot be undone.</div>
+            <div style="display:flex;gap:.75rem">
+              <button style="flex:1;padding:8px 12px;border-radius:5px;background:var(--bo);color:var(--n);border:none;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;font-size:12px">Cancel</button>
+              <button style="flex:1;padding:8px 12px;border-radius:5px;background:var(--green);color:#fff;border:none;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;font-size:12px">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVIGATION PATTERNS -->
+      <div class="section-header" style="margin-top:1.8rem;margin-bottom:1rem">
+        <div class="section-label">Navigation Patterns</div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--bo);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+        <div style="margin-bottom:1.5rem">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Sidebar Nav Item</div>
+          <div style="display:flex;flex-direction:column;gap:.25rem;max-width:200px">
+            <div style="padding:8px 12px;border-radius:6px;background:transparent;color:var(--mu);font-size:12px;cursor:pointer;border-left:2px solid transparent;transition:all .12s">Dashboard</div>
+            <div style="padding:8px 12px;border-radius:6px;background:transparent;color:var(--n);font-size:12px;font-weight:500;cursor:pointer;border-left:2px solid var(--n);transition:all .12s">Contacts</div>
+            <div style="padding:8px 12px;border-radius:6px;background:transparent;color:var(--mu);font-size:12px;cursor:pointer;border-left:2px solid transparent;transition:all .12s">Pipeline</div>
+          </div>
+        </div>
+        <div style="margin-bottom:1.5rem">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Module Tabs</div>
+          <div style="display:flex;gap:.5rem;border-bottom:1px solid var(--bo)">
+            <button style="padding:8px 12px;border:none;background:transparent;color:var(--mu);font-size:12px;cursor:pointer;border-bottom:2px solid transparent;transition:all .12s">Overview</button>
+            <button style="padding:8px 12px;border:none;background:transparent;color:var(--n);font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid var(--n);transition:all .12s">Details</button>
+            <button style="padding:8px 12px;border:none;background:transparent;color:var(--mu);font-size:12px;cursor:pointer;border-bottom:2px solid transparent;transition:all .12s">History</button>
+          </div>
+        </div>
+        <div style="margin-bottom:1.5rem">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Breadcrumb Trail</div>
+          <div style="font-size:12px;color:var(--mu)">
+            <span style="color:var(--n);cursor:pointer">Dashboard</span>
+            <span style="margin:0 6px">/</span>
+            <span style="color:var(--n);cursor:pointer">Contacts</span>
+            <span style="margin:0 6px">/</span>
+            <span style="color:var(--fa)">John Smith</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--fa);font-weight:500;margin-bottom:.75rem">Filter Chips</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button style="padding:6px 12px;border-radius:6px;background:var(--nl);color:var(--n);border:none;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;transition:all .12s">Active</button>
+            <button style="padding:6px 12px;border-radius:6px;background:transparent;color:var(--mu);border:1px solid var(--bo);font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;transition:all .12s">Pending</button>
+            <button style="padding:6px 12px;border-radius:6px;background:transparent;color:var(--mu);border:1px solid var(--bo);font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;transition:all .12s">Closed</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- WHATS NEXT -->
     <div class="divider"></div>

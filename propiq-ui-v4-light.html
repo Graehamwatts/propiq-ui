@@ -221,6 +221,44 @@ body::before{
 .awp-add-btn.added-btn{background:var(--border);color:var(--faint);cursor:not-allowed}
 .overlay-bg{position:fixed;inset:0;background:rgba(0,0,0,0.15);z-index:190;display:none}
 .overlay-bg.visible{display:block}
+.overlay-bg.visible{display:block}
+
+/* NOTIFICATION PANEL */
+.notif-panel{position:absolute;top:calc(var(--topnav-h) + 2px);right:0;width:360px;max-height:480px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.12);z-index:200;display:none;flex-direction:column;overflow:hidden}
+.notif-panel.open{display:flex}
+.notif-panel-header{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.notif-panel-title{font-size:13px;font-weight:500;color:var(--ink)}
+.notif-mark-read{font-size:11px;color:var(--navy);cursor:pointer;transition:color 0.15s}
+.notif-mark-read:hover{color:var(--navy-m)}
+.notif-filters{display:flex;gap:6px;padding:0.6rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
+.notif-filter-tab{font-size:11px;color:var(--muted);cursor:pointer;padding:3px 10px;border-radius:4px;background:transparent;border:1px solid transparent;transition:all 0.12s;white-space:nowrap;font-family:inherit}
+.notif-filter-tab:hover{color:var(--ink);background:var(--bg)}
+.notif-filter-tab.active{color:var(--navy);background:var(--navy-l);border-color:var(--navy-l)}
+.notif-items{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.notif-items::-webkit-scrollbar{width:6px}
+.notif-items::-webkit-scrollbar-track{background:transparent}
+.notif-items::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.notif-items::-webkit-scrollbar-thumb:hover{background:var(--border2)}
+.notif-item{display:flex;gap:10px;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;position:relative}
+.notif-item:last-child{border-bottom:none}
+.notif-item:hover{background:var(--bg)}
+.notif-item.unread{background:var(--navy-l)}
+.notif-item.unread::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--navy)}
+.notif-item-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.notif-item-icon.deals{background:var(--amber-l);color:var(--amber)}
+.notif-item-icon.messages{background:var(--blue-l);color:var(--blue)}
+.notif-item-icon.tasks{background:var(--purple-l);color:var(--purple)}
+.notif-item-icon.docs{background:var(--green-l);color:var(--green)}
+.notif-item-icon.system{background:var(--red-l);color:var(--red)}
+.notif-item-icon.content{background:var(--blue-l);color:var(--blue)}
+.notif-item-content{flex:1;min-width:0}
+.notif-item-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px;line-height:1.3}
+.notif-item-desc{font-size:11px;color:var(--muted);line-height:1.3}
+.notif-item-time{font-size:10px;color:var(--faint);margin-top:3px}
+.notif-dot{width:6px;height:6px;border-radius:50%;background:var(--navy);flex-shrink:0;margin-top:6px}
+.notif-panel-footer{padding:0.75rem 1rem;border-top:1px solid var(--border);text-align:center;flex-shrink:0}
+.notif-view-all{font-size:11px;color:var(--green);cursor:pointer;transition:color 0.15s;display:inline-flex;align-items:center;gap:4px}
+.notif-view-all:hover{color:#156445}
 
 /* CONTACTS */
 .contact-row{display:flex;align-items:center;gap:8px;padding:0.5rem 0;border-bottom:1px solid var(--border);cursor:pointer}
@@ -323,7 +361,7 @@ body::before{
   </div>
   <div class="tb-r">
     <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
-    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
+    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)" onclick="toggleNotificationPanel()">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
     <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
   </div>
 </div>
@@ -331,6 +369,132 @@ body::before{
 
 <!-- OVERLAY BG -->
 <div class="overlay-bg" id="overlayBg" onclick="closePanel()"></div>
+
+<!-- NOTIFICATION PANEL — Reference implementation. Copy this pattern to all module pages. -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-panel-header">
+    <div class="notif-panel-title">Notifications</div>
+    <div class="notif-mark-read" onclick="markAllAsRead()">Mark all read</div>
+  </div>
+  
+  <div class="notif-filters">
+    <div class="notif-filter-tab active" onclick="filterNotifications('all', this)">All</div>
+    <div class="notif-filter-tab" onclick="filterNotifications('deals', this)">Deals</div>
+    <div class="notif-filter-tab" onclick="filterNotifications('messages', this)">Messages</div>
+    <div class="notif-filter-tab" onclick="filterNotifications('tasks', this)">Tasks</div>
+    <div class="notif-filter-tab" onclick="filterNotifications('system', this)">System</div>
+  </div>
+  
+  <div class="notif-items" id="notifItems">
+    <!-- Marcus Rivera opened your RCS -->
+    <div class="notif-item unread" data-category="deals">
+      <div class="notif-item-icon deals">🟢</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Marcus Rivera opened your RCS</div>
+        <div class="notif-item-desc">about 172 Portola Dr</div>
+        <div class="notif-item-time">2 hours ago</div>
+      </div>
+      <div class="notif-dot"></div>
+    </div>
+    
+    <!-- Offer received -->
+    <div class="notif-item unread" data-category="deals">
+      <div class="notif-item-icon deals">📋</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Offer received: $1.05M on 172 Portola Dr</div>
+        <div class="notif-item-desc">from Marcus Rivera</div>
+        <div class="notif-item-time">3 hours ago</div>
+      </div>
+      <div class="notif-dot"></div>
+    </div>
+    
+    <!-- Document signed -->
+    <div class="notif-item unread" data-category="docs">
+      <div class="notif-item-icon docs">✓</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Document signed: Seller Disclosure</div>
+        <div class="notif-item-desc">Sandra Lee signed the document</div>
+        <div class="notif-item-time">5 hours ago</div>
+      </div>
+      <div class="notif-dot"></div>
+    </div>
+    
+    <!-- Appraisal appointment -->
+    <div class="notif-item" data-category="tasks">
+      <div class="notif-item-icon tasks">📅</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Appraisal appointment confirmed for 2895 Fordham</div>
+        <div class="notif-item-desc">Tomorrow at 10:00 AM</div>
+        <div class="notif-item-time">6 hours ago</div>
+      </div>
+    </div>
+    
+    <!-- Message reply -->
+    <div class="notif-item" data-category="messages">
+      <div class="notif-item-icon messages">💬</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">David Park replied to your message</div>
+        <div class="notif-item-desc">New message in the deal thread</div>
+        <div class="notif-item-time">Yesterday</div>
+      </div>
+    </div>
+    
+    <!-- Weekly report -->
+    <div class="notif-item" data-category="system">
+      <div class="notif-item-icon system">📊</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Weekly Report ready: Pipeline Summary</div>
+        <div class="notif-item-desc">Mar 23-29 summary is available</div>
+        <div class="notif-item-time">Yesterday</div>
+      </div>
+    </div>
+    
+    <!-- New listing match -->
+    <div class="notif-item" data-category="deals">
+      <div class="notif-item-icon deals">🏠</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">New listing match: 441 Runnymede Ave</div>
+        <div class="notif-item-desc">matches Marcus Rivera's search criteria</div>
+        <div class="notif-item-time">Yesterday</div>
+      </div>
+    </div>
+    
+    <!-- Contingency deadline -->
+    <div class="notif-item" data-category="system">
+      <div class="notif-item-icon system">⚠️</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Contingency deadline: Inspection for 2895 Fordham</div>
+        <div class="notif-item-desc">expires in 3 days</div>
+        <div class="notif-item-time">2 days ago</div>
+      </div>
+    </div>
+    
+    <!-- Google Ads budget -->
+    <div class="notif-item" data-category="system">
+      <div class="notif-item-icon system">📢</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">Google Ads campaign 'EPA Buyers' spent $142 today</div>
+        <div class="notif-item-desc">Above your daily budget limit</div>
+        <div class="notif-item-time">2 days ago</div>
+      </div>
+    </div>
+    
+    <!-- SEO Score improved -->
+    <div class="notif-item" data-category="content">
+      <div class="notif-item-icon content">✎</div>
+      <div class="notif-item-content">
+        <div class="notif-item-title">SEO: ARES Score improved to 72</div>
+        <div class="notif-item-desc">+4 improvement this week</div>
+        <div class="notif-item-time">3 days ago</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="notif-panel-footer">
+    <a class="notif-view-all" href="#">View all notifications →</a>
+  </div>
+</div>
+
 
 <!-- ADD WIDGET PANEL -->
 <div class="add-widget-panel" id="addWidgetPanel">
@@ -420,7 +584,7 @@ body::before{
   </div>
   <div class="topbar-right">
     <div class="av-pill"><div class="av-dot"></div>Tracking live</div>
-    <div class="notif">🔔<div class="notif-badge">3</div></div>
+    <div class="notif" onclick="toggleNotificationPanel()">🔔<div class="notif-badge">3</div></div>
     <div class="top-avatar">GW</div>
   </div>
 </div>
@@ -844,6 +1008,59 @@ function openPanel() {
 function closePanel() {
   document.getElementById('addWidgetPanel').classList.remove('open');
   document.getElementById('overlayBg').classList.remove('visible');
+
+function toggleNotificationPanel() {
+  const panel = document.getElementById('notifPanel');
+  panel.classList.toggle('open');
+}
+
+function closeNotificationPanel() {
+  const panel = document.getElementById('notifPanel');
+  panel.classList.remove('open');
+}
+
+function markAllAsRead() {
+  const items = document.querySelectorAll('.notif-item.unread');
+  items.forEach(item => {
+    item.classList.remove('unread');
+    const dot = item.querySelector('.notif-dot');
+    if (dot) dot.style.display = 'none';
+  });
+}
+
+function filterNotifications(category, element) {
+  // Update active tab
+  document.querySelectorAll('.notif-filter-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  element.classList.add('active');
+  
+  // Filter items
+  const items = document.querySelectorAll('.notif-item');
+  items.forEach(item => {
+    if (category === 'all' || item.dataset.category === category) {
+      item.style.display = 'flex';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+// Close notification panel when clicking outside
+document.addEventListener('click', function(event) {
+  const panel = document.getElementById('notifPanel');
+  const bell = document.querySelector('.notif');
+  const tbBell = document.querySelector('.tb-r > div:nth-child(2)');
+  
+  if (panel && panel.classList.contains('open')) {
+    if (!panel.contains(event.target) && 
+        !(bell && bell.contains(event.target)) &&
+        !(tbBell && tbBell.contains(event.target))) {
+      closeNotificationPanel();
+    }
+  }
+});
+
 }
 
 function openContact(name) {

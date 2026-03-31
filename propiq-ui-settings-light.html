@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - PropIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Epilogue:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1e3a5f;
+            --navy-l: #e8ecf4;
+            --navy-m: #2a4d7a;
+            --green: #2d8a63;
+            --green-l: #e4f0ea;
+            --blue: #185FA5;
+            --blue-l: #E6F1FB;
+            --amber: #BA7517;
+            --amber-l: #FAEEDA;
+            --purple: #534AB7;
+            --purple-l: #EEEDFE;
+            --red: #c0392b;
+            --red-l: #fdf0f0;
+            --gray: #5F5E5A;
+            --gray-l: #F1F0EC;
+            --ink: #111827;
+            --muted: #6b7280;
+            --faint: #9ca3af;
+            --bg: #eef0f5;
+            --surface: #f8f9fc;
+            --border: #dde1ea;
+            --border2: #c8cdd8;
+            --topnav-h: 50px;
+            --modnav-h: 44px;
+            --sidebar-w: 216px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Epilogue', sans-serif;
+            background: linear-gradient(135deg, #eef0f5 0%, #e6e9f0 50%, #eef0f5 100%);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* Topbar */
+        .topbar {
+            height: var(--topnav-h);
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+            position: relative;
+            z-index: 100;
+        }
+
+        .topbar-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: -0.5px;
+        }
+
+        .topbar-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-box {
+            width: 300px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--navy);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Module Nav */
+        .modnav {
+            height: var(--modnav-h);
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 2px;
+            overflow-x: auto;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+            position: relative;
+            z-index: 99;
+        }
+
+        .nav-tab {
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--ink);
+            background: var(--surface);
+        }
+
+        .nav-tab.active {
+            color: var(--navy);
+            border-bottom-color: var(--navy);
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            height: calc(100vh - var(--topnav-h) - var(--modnav-h));
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: white;
+            border-right: 1px solid var(--border);
+            padding: 24px 0;
+            overflow-y: auto;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .sidebar-section {
+            padding: 0;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--faint);
+            padding: 8px 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-item {
+            padding: 10px 16px;
+            font-size: 13px;
+            color: var(--muted);
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-item:hover {
+            background: var(--surface);
+            color: var(--ink);
+        }
+
+        .sidebar-item.active {
+            background: var(--navy-l);
+            color: var(--navy);
+            border-left-color: var(--navy);
+            font-weight: 500;
+        }
+
+        .sidebar-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 32px 40px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #eef0f5 0%, #e6e9f0 50%, #eef0f5 100%);
+        }
+
+        .content-header {
+            margin-bottom: 28px;
+        }
+
+        .content-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .content-header p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* Card / Section */
+        .settings-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .settings-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+
+        label .optional {
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            font-family: 'Epilogue', sans-serif;
+            font-size: 13px;
+            color: var(--ink);
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--navy);
+            background: white;
+            box-shadow: 0 0 0 3px var(--navy-l);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Profile Photo */
+        .profile-photo-group {
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+        }
+
+        .photo-container {
+            width: 80px;
+            height: 80px;
+            background: var(--navy);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            border: 2px solid var(--border);
+        }
+
+        .photo-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            padding: 8px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-l);
+            border-color: var(--border2);
+        }
+
+        /* Chips */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--navy-l);
+            border: 1px solid var(--navy);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--navy);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        .chip.inactive {
+            background: var(--gray-l);
+            border-color: var(--border);
+            color: var(--muted);
+        }
+
+        .chip-remove {
+            cursor: pointer;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        .chip-remove:hover {
+            opacity: 1;
+        }
+
+        /* Connected Accounts */
+        .account-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 12px;
+            background: var(--surface);
+        }
+
+        .account-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .account-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--navy-l);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 13px;
+        }
+
+        .account-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .account-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .account-status {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .account-status.connected {
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Epilogue', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #238555;
+            box-shadow: 0 2px 8px rgba(45, 138, 99, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--ink);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-l);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Team Table */
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .team-table th {
+            background: var(--surface);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .team-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--ink);
+        }
+
+        .team-table tr:hover {
+            background: var(--surface);
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--navy);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .member-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .member-name {
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .member-email {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .role-select {
+            padding: 6px 10px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.active {
+            background: var(--green-l);
+            color: var(--green);
+        }
+
+        .status-badge.pending {
+            background: var(--amber-l);
+            color: var(--amber);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border2);
+        }
+
+        /* Hide sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 24px 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                overflow-x: auto;
+                padding: 0;
+            }
+
+            .sidebar-section {
+                margin: 0;
+                padding: 0 16px;
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+
+            .sidebar-title {
+                display: none;
+            }
+
+            .sidebar-item {
+                padding: 12px 0;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+                white-space: nowrap;
+            }
+
+            .sidebar-item.active {
+                border-left: none;
+                border-bottom-color: var(--navy);
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-logo">PropIQ</div>
+        <div class="topbar-center">
+            <input type="text" class="search-box" placeholder="Search...">
+        </div>
+        <div class="topbar-right">
+            <div class="notification-icon">🔔</div>
+            <div class="avatar">GW</div>
+        </div>
+    </div>
+
+    <!-- Module Nav -->
+    <div class="modnav">
+        <div class="nav-tab" onclick="switchTab(this)">📊 Dashboard</div>
+        <div class="nav-tab" onclick="switchTab(this)">👥 Contacts</div>
+        <div class="nav-tab" onclick="switchTab(this)">🤝 Deals</div>
+        <div class="nav-tab" onclick="switchTab(this)">📄 Content</div>
+        <div class="nav-tab" onclick="switchTab(this)">🔍 Search</div>
+        <div class="nav-tab" onclick="switchTab(this)">💬 Messages</div>
+        <div class="nav-tab" onclick="switchTab(this)">📢 Ads</div>
+        <div class="nav-tab" onclick="switchTab(this)">🔗 SEO</div>
+        <div class="nav-tab" onclick="switchTab(this)">📈 Reports</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ACCOUNT</div>
+                <div class="sidebar-item active" onclick="switchSection(event, 'profile')">
+                    <span class="sidebar-icon">👤</span>
+                    Profile & Account
+                </div>
+                <div class="sidebar-item" onclick="switchSection(event, 'team')">
+                    <span class="sidebar-icon">👥</span>
+                    Team & Permissions
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">INTEGRATIONS</div>
+                <div class="sidebar-item" onclick="switchSection(event, 'integrations')">
+                    <span class="sidebar-icon">🔌</span>
+                    Integrations
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">PREFERENCES</div>
+                <div class="sidebar-item" onclick="switchSection(event, 'notifications')">
+                    <span class="sidebar-icon">🔔</span>
+                    Notifications
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">BUSINESS</div>
+                <div class="sidebar-item" onclick="switchSection(event, 'billing')">
+                    <span class="sidebar-icon">💳</span>
+                    Billing & Plan
+                </div>
+                <div class="sidebar-item" onclick="switchSection(event, 'branding')">
+                    <span class="sidebar-icon">🎨</span>
+                    Branding & White Label
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">ADVANCED</div>
+                <div class="sidebar-item" onclick="switchSection(event, 'privacy')">
+                    <span class="sidebar-icon">🔒</span>
+                    Data & Privacy
+                </div>
+                <div class="sidebar-item" onclick="switchSection(event, 'api')">
+                    <span class="sidebar-icon">⚙️</span>
+                    API & Webhooks
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Profile & Account Section -->
+            <div id="profile" class="content-section active">
+                <div class="content-header">
+                    <h1>Profile & Account</h1>
+                    <p>Manage your agent profile, business details, and connected accounts</p>
+                </div>
+
+                <!-- Agent Profile -->
+                <div class="settings-section">
+                    <h3>Agent Profile</h3>
+                    
+                    <div class="form-group profile-photo-group">
+                        <div class="photo-container">GW</div>
+                        <div class="photo-actions">
+                            <button class="btn btn-secondary btn-small">Upload Photo</button>
+                            <button class="btn btn-secondary btn-small">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" value="Graeham Watts">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" value="graehamwatts@gmail.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" value="(650) 555-0100">
+                        </div>
+                        <div class="form-group">
+                            <label for="brokerage">Brokerage</label>
+                            <input type="text" id="brokerage" value="Intero Real Estate Services">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="license">License Number</label>
+                            <input type="text" id="license" value="DRE 02XXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">License State</label>
+                            <select id="state">
+                                <option>California</option>
+                                <option>Texas</option>
+                                <option>Florida</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">Professional Bio <span class="optional">(optional)</span></label>
+                        <textarea id="bio" placeholder="Share your expertise and background...">Award-winning real estate agent specializing in residential and investment properties in the Silicon Valley and Peninsula areas. 15+ years of experience helping clients achieve their real estate goals.</textarea>
+                    </div>
+                </div>
+
+                <!-- Business Settings -->
+                <div class="settings-section">
+                    <h3>Business Settings</h3>
+
+                    <div class="form-group">
+                        <label>Service Areas</label>
+                        <div class="chips-container">
+                            <div class="chip">East Palo Alto <span class="chip-remove">×</span></div>
+                            <div class="chip">Menlo Park <span class="chip-remove">×</span></div>
+                            <div class="chip">Redwood City <span class="chip-remove">×</span></div>
+                            <div class="chip">Palo Alto <span class="chip-remove">×</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Specialties</label>
+                        <div class="chips-container">
+                            <div class="chip">Residential <span class="chip-remove">×</span></div>
+                            <div class="chip">Investment <span class="chip-remove">×</span></div>
+                            <div class="chip">1031 Exchange <span class="chip-remove">×</span></div>
+                            <div class="chip">First-Time Buyers <span class="chip-remove">×</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="response-time">Default Response Time</label>
+                            <select id="response-time">
+                                <option>15 minutes</option>
+                                <option selected>30 minutes</option>
+                                <option>1 hour</option>
+                                <option>2 hours</option>
+                                <option>Next business day</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone">
+                                <option selected>America/Los_Angeles (PST)</option>
+                                <option>America/Denver (MST)</option>
+                                <option>America/Chicago (CST)</option>
+                                <option>America/New_York (EST)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Connected Accounts -->
+                <div class="settings-section">
+                    <h3>Connected Accounts</h3>
+                    <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">Integrate your favorite tools and platforms to streamline your workflow</p>
+
+                    <div class="account-item">
+                        <div class="account-info">
+                            <div class="account-icon">G</div>
+                            <div class="account-details">
+                                <div class="account-name">Google</div>
+                                <div class="account-status connected"><span class="status-dot"></span> Connected</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-small">Manage</button>
+                    </div>
+
+                    <div class="account-item">
+                        <div class="account-info">
+                            <div class="account-icon" style="background: var(--blue-l); color: var(--blue);">M</div>
+                            <div class="account-details">
+                                <div class="account-name">MLS / MLSListings.com</div>
+                                <div class="account-status connected"><span class="status-dot"></span> Connected</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-small">Manage</button>
+                    </div>
+
+                    <div class="account-item">
+                        <div class="account-info">
+                            <div class="account-icon" style="background: var(--purple-l); color: var(--purple);">GH</div>
+                            <div class="account-details">
+                                <div class="account-name">GoHighLevel CRM</div>
+                                <div class="account-status connected"><span class="status-dot"></span> Connected</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-small">Manage</button>
+                    </div>
+
+                    <div class="account-item">
+                        <div class="account-info">
+                            <div class="account-icon" style="background: var(--blue-l); color: var(--blue);">Z</div>
+                            <div class="account-details">
+                                <div class="account-name">Zillow</div>
+                                <div class="account-status">Not connected</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-small">Connect</button>
+                    </div>
+
+                    <div class="account-item">
+                        <div class="account-info">
+                            <div class="account-icon" style="background: var(--amber-l); color: var(--amber);">R</div>
+                            <div class="account-details">
+                                <div class="account-name">Realtor.com</div>
+                                <div class="account-status">Not connected</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-small">Connect</button>
+                    </div>
+                </div>
+
+                <!-- Save Actions -->
+                <div style="display: flex; gap: 12px; margin-top: 32px;">
+                    <button class="btn btn-primary">Save Changes</button>
+                    <button class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Team & Permissions Section -->
+            <div id="team" class="content-section">
+                <div class="content-header">
+                    <h1>Team & Permissions</h1>
+                    <p>Manage team members, roles, and access permissions</p>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Team Members</h3>
+
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th style="width: 100px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="member-avatar">GW</div>
+                                        <div class="member-info">
+                                            <div class="member-name">Graeham Watts</div>
+                                            <div class="member-email">graehamwatts@gmail.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="role-select" disabled style="cursor: not-allowed;">
+                                        <option selected>Owner</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="status-badge active">
+                                        <span class="status-dot"></span> Active
+                                    </div>
+                                </td>
+                                <td style="font-size: 12px; color: var(--muted);">Mar 15, 2024</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="member-avatar" style="background: var(--blue);">M</div>
+                                        <div class="member-info">
+                                            <div class="member-name">Maria Gonzalez</div>
+                                            <div class="member-email">maria@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="role-select">
+                                        <option selected>Coordinator</option>
+                                        <option>Agent</option>
+                                        <option>Admin</option>
+                                        <option>Viewer</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="status-badge active">
+                                        <span class="status-dot"></span> Active
+                                    </div>
+                                </td>
+                                <td style="font-size: 12px; color: var(--muted);">Feb 20, 2024</td>
+                                <td>
+                                    <button class="btn btn-secondary btn-small">Remove</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="member-avatar" style="background: var(--green);">G</div>
+                                        <div class="member-info">
+                                            <div class="member-name">Giselle Martinez</div>
+                                            <div class="member-email">giselle@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="role-select">
+                                        <option selected>Transaction Coordinator</option>
+                                        <option>Coordinator</option>
+                                        <option>Agent</option>
+                                        <option>Admin</option>
+                                        <option>Viewer</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="status-badge pending">
+                                        ⏳ Pending Invite
+                                    </div>
+                                </td>
+                                <td style="font-size: 12px; color: var(--muted);">Invited 3 days ago</td>
+                                <td>
+                                    <button class="btn btn-secondary btn-small">Resend</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-primary">Invite Team Member</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Role Permissions</h3>
+                    <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">Define what each role can access and modify in PropIQ</p>
+                    
+                    <div style="background: var(--surface); padding: 16px; border-radius: 6px; text-align: center; color: var(--muted); font-size: 13px;">
+                        Role permissions editor coming soon
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrations Section (placeholder) -->
+            <div id="integrations" class="content-section">
+                <div class="content-header">
+                    <h1>Integrations</h1>
+                    <p>Connect with other apps and services</p>
+                </div>
+                <div class="settings-section">
+                    <p style="text-align: center; padding: 40px 20px; color: var(--muted);">Integration settings coming soon</p>
+                </div>
+            </div>
+
+            <!-- Notifications Section (placeholder) -->
+            <div id="notifications" class="content-section">
+                <div class="content-header">
+                    <h1>Notifications</h1>
+                    <p>Control how and when you receive notifications</p>
+                </div>
+                <div class="settings-section">
+                    <p style="text-align: center; padding: 40px 20px; color: var(--muted);">Notification preferences coming soon</p>
+                </div>
+            </div>
+
+            <!-- Billing Section (placeholder) -->
+            <div id="billing" class="content-section">
+                <div class="content-header">
+                    <h1>Billing & Plan</h1>
+                    <p>Manage your subscription and billing information</p>
+                </div>
+                <div class="settings-section">
+                    <p style="text-align: center; padding: 40px 20px; color: var(--muted);">Billing settings coming soon</p>
+                </div>
+            </div>
+
+            <!-- Branding Section (placeholder) -->
+            <div id="branding" class="content-section">
+                <div class="content-header">
+                    <h1>Branding & White Label</h1>
+                    <p>Customize the PropIQ experience with your branding</p>
+                </div>
+                <div class="settings-section">
+                    <p style="text-align: center; padding: 40px 20px; color: var(--muted);">Branding settings coming soon</p>
+                </div>
+            </div>
+
+            <!-- Privacy Section (placeholder) -->
+            <div id="privacy" class="content-section">
+                <div class="content-header">
+                    <h1>Data & Privacy</h1>
+                    <p>Manage your data privacy and security settings</p>
+                </div>
+                <div class="settings-section">
+                    <p style="text-align: center; padding: 40px 20px; color: var(--muted);">Privacy settings coming soon</p>
+                </div>
+            </div>
+
+            <!-- API Section (placeholder) -->
+            <div id="api" class="content-section">
+                <div class="content-header">
+                    <h1>API & Webhooks</h1>
+                    <p>Manage API keys and webhook configurations</p>
+                </div>
+                <div class="settings-section">
+                    <p style="text-align: center; padding: 40px 20px; color: var(--muted);">API settings coming soon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchSection(event, sectionId) {
+            // Remove active class from all sidebar items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            event.currentTarget.classList.add('active');
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected content section
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function switchTab(element) {
+            // This prevents the tabs from working (they're grayed out in Settings context)
+            // Uncomment below to enable navigation
+            /*
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            element.classList.add('active');
+            */
+        }
+
+        // Chip interactions
+        document.querySelectorAll('.chip-remove').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.parentElement.style.opacity = '0.5';
+                this.parentElement.style.textDecoration = 'line-through';
+            });
+        });
+
+        // Chip selection
+        document.querySelectorAll('.chip.inactive').forEach(chip => {
+            chip.addEventListener('click', function() {
+                this.classList.toggle('inactive');
+            });
+        });
+    </script>
+</body>
+</html>
