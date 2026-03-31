@@ -236,6 +236,14 @@ body.pro-mode .pro-section{display:block}
 .ii-acs{display:flex;gap:4px;flex-wrap:wrap}
 .ia{padding:3px 8px;border-radius:4px;font-size:11px;cursor:pointer;font-family:'Epilogue',sans-serif;border:1px solid var(--border2);background:var(--sf);color:var(--mu)}
 .ia:hover{background:var(--bg)}.iad{background:var(--g);color:#f8f9fc;border-color:var(--g);font-weight:500}.iap{background:var(--bl);color:var(--b);border-color:var(--bl)}
+
+/* MODULE NAV */
+.modnav{height:44px;display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 </style>
 </head>
 <body>
@@ -263,6 +271,18 @@ body.pro-mode .pro-section{display:block}
     <div style="font-size:11px;color:var(--mu)">|</div>
     <div class="ava">GW</div>
   </div>
+</div>
+
+<div class="modnav">
+  <div class="mod-tab" onclick="window.location='propiq-ui-v4-light.html'"><span class="mod-ico">⬡</span>Dashboard</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-contacts-light.html'"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-deals-v3-light.html'"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-content-v5-light.html'"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-search-light.html'"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-messages-v2-light.html'"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-ads-v2-light.html'"><span class="mod-ico">$</span>Ads</div>
+  <div class="mod-tab active" onclick="window.location='propiq-ui-seo-v3-light.html'"><span class="mod-ico">✎</span>SEO</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-reports-light.html'"><span class="mod-ico">↗</span>Reports</div>
 </div>
 
 <div class="app">

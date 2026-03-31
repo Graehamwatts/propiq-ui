@@ -282,6 +282,14 @@ body::before{
 .seasonal-title{font-size:11px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem}
 .seasonal-text{font-size:11.5px;color:var(--ink);line-height:1.5;margin-bottom:.5rem}
 .seasonal-btn{padding:5px 10px;background:var(--amber);color:#f8f9fc;border:none;border-radius:4px;font-size:10px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500}
+
+/* MODULE NAV */
+.modnav{height:44px;display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
+.mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
+.mod-tab:hover{color:var(--ink)}
+.mod-tab.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
+.mod-ico{font-size:12px}
+.mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 </style>
 </head>
 <body>
@@ -300,6 +308,18 @@ body::before{
     <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
     <div class="tb-ava">GW</div>
   </div>
+</div>
+
+<div class="modnav">
+  <div class="mod-tab" onclick="window.location='propiq-ui-v4-light.html'"><span class="mod-ico">⬡</span>Dashboard</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-contacts-light.html'"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-deals-v3-light.html'"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-content-v5-light.html'"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-search-light.html'"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-messages-v2-light.html'"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab active" onclick="window.location='propiq-ui-ads-v2-light.html'"><span class="mod-ico">$</span>Ads</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-seo-v3-light.html'"><span class="mod-ico">✎</span>SEO</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-reports-light.html'"><span class="mod-ico">↗</span>Reports</div>
 </div>
 
 <div class="app">

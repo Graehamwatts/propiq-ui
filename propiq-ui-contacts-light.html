@@ -38,7 +38,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradie
 .modnav{height:var(--modnav-h);display:flex;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding:0 1.25rem;gap:2px;z-index:50}
 .mod-tab{display:flex;align-items:center;gap:6px;padding:0 0.9rem;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;margin-bottom:-1px}
 .mod-tab:hover{color:var(--ink)}
-.mod-tab.active{color:var(--green);border-bottom-color: var(--navy);font-weight:500}
+.mod-tab.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
 .mod-ico{font-size:12px}
 .mod-badge{font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
 
@@ -201,40 +201,20 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradie
 .quick-note textarea:focus{border-color:var(--green)}
 .quick-note textarea::placeholder{color:var(--faint)}
 .qn-btn{background:var(--green);color:#fff;border:none;border-radius:6px;padding:0 1rem;font-size:12px;cursor:pointer;font-family:'Epilogue',sans-serif;font-weight:500;align-self:flex-end;height:36px}
-.tbunified{height:50px;display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:60;padding:0}
-.tb-logo-u{font-family:"Playfair Display",serif;font-size:1.1rem;padding:0 0.9rem;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;flex-shrink:0;white-space:nowrap}
-.tb-logo-u span{color:var(--green)}
-.tb-srch{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--faint);width:180px;margin:0 0.65rem;flex-shrink:0}
-.tb-mods{display:flex;align-items:stretch;flex:1;overflow-x:auto;height:100%}
-.tb-mods::-webkit-scrollbar{display:none}
-.tbt{display:flex;align-items:center;gap:4px;padding:0 0.65rem;font-size:11.5px;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;height:100%;flex-shrink:0;margin-bottom:-1px;transition:all 0.12s;white-space:nowrap}
-.tbt:hover{color:var(--ink);background:var(--bg)}
-.tbt.on{color:var(--green);border-bottom-color: var(--navy);font-weight:500}
-.tbt .tbdg{font-size:8px;padding:1px 4px;border-radius:5px;background:var(--red-l);color:var(--red);font-weight:600;margin-left:2px}
-.tb-r{display:flex;align-items:center;gap:7px;padding:0 0.85rem;border-left:1px solid var(--border);flex-shrink:0}
 </style>
 </head>
 <body>
 <!-- UNIFIED TOP BAR -->
-<div class="tbunified">
-  <div class="tb-logo-u">Prop<span>IQ</span></div>
-  <div class="tb-srch">🔍 Search anything…</div>
-  <div class="tb-mods">
-    <div class="tbt">⬡ Dashboard</div>
-    <div class="tbt on">◎ Contacts</div>
-    <div class="tbt">◈ Deals</div>
-    <div class="tbt">✦ Content<span class="tbdg">2</span></div>
-    <div class="tbt">⊕ Search</div>
-    <div class="tbt">☎ Messages<span class="tbdg">3</span></div>
-    <div class="tbt">$ Ads</div>
-    <div class="tbt">↗ SEO</div>
-    <div class="tbt">📊 Reports</div>
-  </div>
-  <div class="tb-r">
-    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:3px 9px"><div style="width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite"></div>Live</div>
-    <div style="position:relative;cursor:pointer;font-size:15px;color:var(--muted)">🔔<div style="position:absolute;top:-2px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--surface)">3</div></div>
-    <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;cursor:pointer">GW</div>
-  </div>
+<div class="modnav">
+  <div class="mod-tab" onclick="window.location='propiq-ui-v4-light.html'"><span class="mod-ico">⬡</span>Dashboard</div>
+  <div class="mod-tab active" onclick="window.location='propiq-ui-contacts-light.html'"><span class="mod-ico">◎</span>Contacts</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-deals-v3-light.html'"><span class="mod-ico">◈</span>Deals</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-content-v5-light.html'"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-search-light.html'"><span class="mod-ico">⊕</span>Search</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-messages-v2-light.html'"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-ads-v2-light.html'"><span class="mod-ico">$</span>Ads</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-seo-v3-light.html'"><span class="mod-ico">✎</span>SEO</div>
+  <div class="mod-tab" onclick="window.location='propiq-ui-reports-light.html'"><span class="mod-ico">↗</span>Reports</div>
 </div>
 
 
@@ -247,12 +227,6 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradie
   </div>
 </div>
 
-  <div class="mod-tab active"><span class="mod-ico">◎</span>Contacts</div>
-  <div class="mod-tab"><span class="mod-ico">◈</span>Deals</div>
-  <div class="mod-tab"><span class="mod-ico">✦</span>Content<span class="mod-badge">2</span></div>
-  <div class="mod-tab"><span class="mod-ico">⊕</span>Search</div>
-  <div class="mod-tab"><span class="mod-ico">☎</span>Messages<span class="mod-badge">3</span></div>
-  <div class="mod-tab"><span class="mod-ico">↗</span>Reports</div>
 </div>
 
 <div class="app-body">
