@@ -84,8 +84,8 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradie
 .btn-p:hover{background:#156445}
 .btn-o{background:var(--surface);color:var(--ink);border:1px solid var(--border2)}
 .btn-o:hover{background:var(--bg)}
-.btn-contacts{background:var(--surface);color:var(--green);border:2px solid var(--green);font-weight:500}
-.btn-contacts:hover{background:var(--green-l)}
+.btn-contacts{background:var(--navy-l);color:var(--navy);border:2px solid var(--navy);font-weight:500}
+.btn-contacts:hover{background:var(--navy);color:#fff}
 .view-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .vt-btn{padding:5px 10px;font-size:11.5px;cursor:pointer;color:var(--muted);background:var(--surface);border:none;font-family:'Epilogue',sans-serif;transition:all 0.12s}
 .vt-btn.active{background:var(--ink);color:#fff}
@@ -495,7 +495,7 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradie
     <div class="filter-row">
       <div class="pipeline-search" onclick="this.querySelector('input').focus()">
         🔍 <input type="text" placeholder="Search leads…" />
-        <div class="search-hint">or <a href="javascript:openAllContacts()" style="color:var(--green);text-decoration:none;cursor:pointer;font-weight:500">search all contacts</a></div>
+        <div class="search-hint">or <a href="javascript:openAllContacts()" style="color:var(--navy);text-decoration:none;cursor:pointer;font-weight:500">search all contacts</a></div>
       </div>
       <div class="filter-chip buyer" onclick="toggleChip(this)">Buyer</div>
       <div class="filter-chip seller" onclick="toggleChip(this)">Seller</div>
@@ -792,25 +792,19 @@ body{font-family:'Epilogue',sans-serif;color:var(--ink);background:linear-gradie
 function switchView(view) {
   const kanban = document.querySelector('.kanban');
   const listView = document.querySelector('.list-view');
-  const boardBtn = document.querySelector('[data-view="board"]');
-  const listBtn = document.querySelector('[data-view="list"]');
-  
+  const kb = document.getElementById('kanbanBtn');
+  const lb = document.getElementById('listBtn');
+
   if (view === 'list') {
     kanban.classList.add('hidden');
     listView.classList.add('visible');
-    if(boardBtn) boardBtn.classList.remove('active');
-    if(listBtn) listBtn.classList.add('active');
+    if(kb) kb.classList.remove('active');
+    if(lb) lb.classList.add('active');
   } else {
     kanban.classList.remove('hidden');
     listView.classList.remove('visible');
-    if(boardBtn) boardBtn.classList.add('active');
-    if(listBtn) listBtn.classList.remove('active');
-  }
-} else {
-    kanban.classList.add('hidden');
-    list.classList.add('visible');
-    lb.classList.add('active');
-    kb.classList.remove('active');
+    if(kb) kb.classList.add('active');
+    if(lb) lb.classList.remove('active');
   }
 }
 
