@@ -14,39 +14,55 @@
 
         :root {
             --gold: #B5A264;
-            --gold-l: #F5F0E0;
+            --gold-l: #D4C27A;
             --gold-d: #9A8A55;
-            --black: #111111;
-            --black-l: #1a1a1a;
-            --black-m: #2a2a2a;
-            --white: #FFFFFF;
-            --off-white: #FAFAF8;
-            --cream: #F5F3EE;
+            --gold-glow: rgba(181, 162, 100, 0.12);
+            --gold-border: rgba(181, 162, 100, 0.2);
+            --bg: #0F0F0F;
+            --surface: #161616;
+            --surface2: #1C1C1C;
+            --surface3: #242424;
+            --bg-light: #FAFAF8;
+            --surface-light: #FFFFFF;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --border: rgba(255, 255, 255, 0.06);
+            --border2: rgba(255, 255, 255, 0.1);
+            --ink: #F5F5F0;
+            --ink-dark: #111111;
             --muted: #8C8C8C;
-            --faint: #B5B5B5;
-            --border: rgba(0,0,0,0.08);
-            --border2: rgba(0,0,0,0.12);
-            --ink: #111111;
-            --surface: #FFFFFF;
-            --bg: #FAFAF8;
-            --green: #4A7C59;
-            --green-l: #EDF5F0;
+            --faint: #555555;
+            --green: #6B9E7A;
+            --green-l: rgba(107, 158, 122, 0.15);
             --red: #C0392B;
-            --red-l: #FDF0F0;
-            --blue: #3B6FA0;
-            --blue-l: #EBF3FA;
+            --red-l: rgba(192, 57, 43, 0.15);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Epilogue', sans-serif;
             background-color: var(--bg);
             color: var(--ink);
-            line-height: 1.5;
+            line-height: 1.6;
+            overflow: hidden;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    rgba(255, 255, 255, 0.02) 4px
+                );
         }
 
         /* TOP BAR */
         .top-bar {
-            background-color: var(--white);
+            background-color: var(--surface);
             border-bottom: 1px solid var(--border);
             padding: 1rem 2rem;
             display: flex;
@@ -55,40 +71,32 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: var(--black);
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+            color: var(--gold);
+            letter-spacing: 2px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 3rem;
             flex: 1;
-            margin-left: 3rem;
+            margin-left: 4rem;
         }
 
         .nav-links a {
             color: var(--muted);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: color 0.2s;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
         }
 
         .nav-links a:hover {
@@ -96,34 +104,26 @@
         }
 
         .nav-links a.active {
-            color: var(--ink);
-            border-bottom: 2px solid var(--gold);
-            padding-bottom: 0.3rem;
+            color: var(--gold);
         }
 
         .top-bar-right {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
-        .icon-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--white);
+        .bell-icon, .avatar {
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--muted);
-            font-size: 1.2rem;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
         }
 
-        .icon-btn:hover {
-            border-color: var(--gold);
+        .bell-icon {
+            font-size: 1.5rem;
+            color: var(--muted);
+        }
+
+        .bell-icon:hover {
             color: var(--gold);
         }
 
@@ -131,364 +131,432 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-d) 100%);
+            background: linear-gradient(135deg, var(--gold), var(--gold-l));
+            border: 2px solid var(--gold);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--white);
+            color: var(--ink-dark);
             font-weight: 600;
             font-size: 0.9rem;
         }
 
-        /* MAIN CONTENT */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        /* TABS */
-        .tab-nav {
+        /* VIEW TABS */
+        .view-tabs {
             display: flex;
-            gap: 2rem;
-            margin-bottom: 3rem;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
+            background-color: var(--surface);
+            padding: 0 2rem;
+            gap: 3rem;
         }
 
-        .tab-btn {
-            background: none;
-            border: none;
-            font-family: 'Epilogue', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
+        .view-tab {
+            padding: 1.2rem 0;
             color: var(--muted);
             cursor: pointer;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.2s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
         }
 
-        .tab-btn:hover {
-            color: var(--ink);
-        }
-
-        .tab-btn.active {
+        .view-tab:hover {
             color: var(--gold);
         }
 
-        .tab-btn.active::after {
-            content: '';
+        .view-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        /* VIEWS */
+        .views-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .view {
             position: absolute;
-            bottom: -1rem;
-            left: 0;
             width: 100%;
-            height: 2px;
-            background: var(--gold);
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            overflow-y: auto;
         }
 
-        .tab-content {
-            display: none;
+        .view.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .tab-content.active {
-            display: block;
+        /* VIEW 1: CONTENT PREVIEW */
+        .content-preview {
+            padding: 3rem 2rem;
+            background-color: var(--bg);
         }
 
-        /* VIEW 1: PREVIEW SCREEN */
         .preview-header {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .preview-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--ink);
+        .preview-label {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
-        .preview-header p {
-            font-size: 1rem;
+        .preview-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--ink);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-subtitle {
             color: var(--muted);
-            font-weight: 500;
+            font-size: 1rem;
         }
 
-        .preview-grid {
+        /* CONTENT GRID */
+        .content-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        @media (max-width: 1200px) {
-            .preview-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .preview-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .content-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            transition: all 0.3s;
+            background-color: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
 
         .content-card:hover {
-            border-color: var(--gold);
-            box-shadow: 0 8px 24px rgba(181, 162, 100, 0.1);
+            border-color: var(--gold-border);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(181, 162, 100, 0.1);
         }
 
         .card-thumbnail {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(135deg, rgba(181, 162, 100, 0.15) 0%, rgba(181, 162, 100, 0.05) 100%);
-            border-radius: 6px;
-            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gold);
-            font-size: 2.5rem;
-            border: 1px solid var(--border);
+            font-size: 3rem;
+            color: var(--faint);
+            position: relative;
+        }
+
+        .card-thumbnail::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .card-content {
+            padding: 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .card-type-label {
             display: inline-block;
-            background: var(--gold-l);
-            color: var(--gold-d);
-            padding: 0.35rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            background-color: var(--gold-glow);
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
             font-weight: 600;
-            margin-bottom: 0.75rem;
-            border-left: 3px solid var(--gold);
+            margin-bottom: 0.8rem;
+            width: fit-content;
         }
 
         .card-platforms {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.8rem;
             flex-wrap: wrap;
         }
 
         .platform-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: var(--bg);
-            color: var(--ink);
-            padding: 0.25rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.35rem 0.7rem;
             border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid var(--border);
+            letter-spacing: 0.5px;
         }
 
-        .platform-pill.yt { color: #FF0000; border-color: #FFE0E0; background: #FFF0F0; }
-        .platform-pill.ig { color: #E1306C; border-color: #FFE0F0; background: #FFF0F8; }
-        .platform-pill.tt { color: #000000; border-color: #E0E0E0; background: #F5F5F5; }
-        .platform-pill.fb { color: #1877F2; border-color: #E0E8FF; background: #F0F4FF; }
+        .platform-pill.yt {
+            background-color: rgba(192, 57, 43, 0.2);
+            color: #FF4444;
+        }
+
+        .platform-pill.ig {
+            background: linear-gradient(135deg, rgba(217, 82, 120, 0.2), rgba(252, 84, 154, 0.2));
+            color: #FC549F;
+        }
+
+        .platform-pill.tt {
+            background-color: rgba(26, 26, 26, 0.5);
+            color: var(--ink);
+            border: 1px solid var(--border2);
+        }
+
+        .platform-pill.fb {
+            background-color: rgba(59, 111, 160, 0.2);
+            color: #4267B2;
+        }
 
         .card-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border2);
             font-size: 0.85rem;
+        }
+
+        .card-date {
             color: var(--muted);
-            border-top: 1px solid var(--border);
-            padding-top: 0.75rem;
-            margin-top: 0.75rem;
         }
 
         .card-reach {
+            color: var(--gold);
             font-weight: 600;
-            color: var(--ink);
         }
 
+        /* SUMMARY BAR */
         .summary-bar {
-            background: var(--cream);
-            border-left: 4px solid var(--gold);
-            padding: 1.25rem 1.5rem;
-            border-radius: 6px;
-            margin-bottom: 2.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background-color: var(--surface2);
+            border: 1px solid var(--gold-border);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
         }
 
-        .summary-bar-text {
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        .summary-bar-stat {
+        .summary-text {
             color: var(--muted);
             font-size: 0.95rem;
         }
 
+        .summary-highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ACTION BUTTONS */
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
             align-items: center;
+            gap: 1rem;
         }
 
         .btn {
-            font-family: 'Epilogue', sans-serif;
+            padding: 0.8rem 2rem;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-size: 0.95rem;
             font-weight: 600;
-            font-size: 1rem;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: all 0.2s;
-            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
         }
 
         .btn-primary {
-            background: var(--gold);
-            color: var(--white);
-            min-width: 200px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 100%);
+            color: var(--ink-dark);
+            height: 48px;
+            padding: 0 3rem;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
         }
 
         .btn-primary:hover {
-            background: var(--gold-d);
-            box-shadow: 0 8px 16px rgba(181, 162, 100, 0.2);
+            box-shadow: 0 15px 40px rgba(181, 162, 100, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--gold);
-            border: 2px solid var(--gold);
-            min-width: 200px;
+            border: 1.5px solid var(--gold);
+            height: 44px;
+            padding: 0 2.5rem;
         }
 
         .btn-secondary:hover {
-            background: var(--gold-l);
+            background-color: var(--gold-glow);
+            box-shadow: 0 10px 30px rgba(181, 162, 100, 0.2);
         }
 
         .btn-tertiary {
-            background: none;
+            background: transparent;
             color: var(--muted);
             border: none;
             padding: 0.5rem 1rem;
-            font-size: 0.95rem;
-            text-decoration: underline;
-            text-decoration-color: transparent;
-            transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
         .btn-tertiary:hover {
-            color: var(--ink);
-            text-decoration-color: var(--muted);
+            color: var(--gold);
         }
 
-        /* VIEW 2: IN-BROWSER RECORDER */
-        .recorder-container {
+        /* VIEW 2: STUDIO RECORDER */
+        .studio-recorder {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 2rem;
+            padding: 2rem;
+            gap: 1.5rem;
+            height: 100%;
+            background-color: var(--bg);
         }
 
-        .recorder-header {
-            margin-bottom: 1rem;
-        }
-
-        .recorder-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .recorder-header p {
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        .setting-suggestion {
-            background: var(--cream);
-            border: 1px solid var(--gold);
+        .recording-tip {
+            background-color: var(--gold-glow);
+            border: 1px solid var(--gold-border);
+            border-left: 3px solid var(--gold);
+            padding: 1rem 1.5rem;
             border-radius: 6px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
-            max-width: 600px;
-            color: var(--ink);
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-style: italic;
+            letter-spacing: 0.3px;
         }
 
-        .setting-suggestion strong {
-            color: var(--gold);
+        .camera-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .camera-preview {
-            width: 100%;
-            max-width: 700px;
+            background-color: #0A0A0A;
+            border-radius: 12px;
             aspect-ratio: 16 / 9;
-            background: var(--black);
-            border-radius: 8px;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
 
-        .camera-icon {
-            font-size: 3rem;
+        .camera-preview::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .camera-idle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 1rem;
             color: var(--muted);
+            z-index: 1;
+        }
+
+        .camera-idle-icon {
+            font-size: 5rem;
+            opacity: 0.5;
+        }
+
+        .camera-idle-text {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .camera-recording {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .camera-recording.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .recording-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+            z-index: 3;
         }
 
         .recording-indicator {
-            position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Courier New', monospace;
+            color: var(--red);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .recording-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--red);
-            box-shadow: 0 0 8px var(--red);
-            opacity: 0;
-            animation: pulse-recording 1.5s infinite;
+            background-color: var(--red);
+            animation: pulse 1s infinite;
         }
 
-        .recording-indicator.active {
-            opacity: 1;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        @keyframes pulse-recording {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0.5; }
-        }
-
-        .timer {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(0, 0, 0, 0.6);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
+        .recording-timer {
+            font-family: 'Courier New', monospace;
+            color: var(--ink);
+            font-size: 1rem;
             font-weight: 600;
-        }
-
-        .camera-preview.has-recording::before {
-            content: '▶';
-            position: absolute;
-            font-size: 3rem;
-            color: var(--gold);
-            z-index: 10;
+            letter-spacing: 1px;
         }
 
         .teleprompter {
@@ -496,703 +564,903 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            color: var(--white);
-            padding: 2rem 1.5rem 1.5rem;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        .teleprompter-item {
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-
-        .recorder-controls {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .record-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--gold);
-            border: 4px solid transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 2rem;
-            transition: all 0.2s;
-            box-shadow: 0 8px 24px rgba(181, 162, 100, 0.3);
-        }
-
-        .record-btn:hover {
-            background: var(--gold-d);
-            transform: scale(1.05);
-            box-shadow: 0 12px 32px rgba(181, 162, 100, 0.4);
-        }
-
-        .record-btn.recording {
-            animation: recording-pulse 1.5s infinite;
-        }
-
-        @keyframes recording-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-        }
-
-        .control-btn-small {
+            height: 35%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5));
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .control-btn-small:hover {
-            color: var(--ink);
-        }
-
-        .control-icon {
-            font-size: 1.5rem;
-        }
-
-        .duration-indicator {
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .recorder-review {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .review-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .review-buttons .btn {
-            min-width: 160px;
-        }
-
-        .confirmation-message {
-            background: var(--green-l);
-            color: var(--green);
-            padding: 1.25rem 1.5rem;
-            border-radius: 6px;
-            border-left: 4px solid var(--green);
-            font-weight: 500;
-            max-width: 500px;
-            text-align: center;
-            display: none;
-        }
-
-        .confirmation-message.show {
-            display: block;
-        }
-
-        /* VIEW 3: NOTIFICATION STATES */
-        .notification-reference {
-            display: grid;
-            gap: 3rem;
-        }
-
-        .notification-item {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            justify-content: flex-end;
             padding: 2rem;
+            z-index: 10;
+            overflow: hidden;
         }
 
-        .notification-item h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            color: var(--ink);
-        }
-
-        .in-app-banner-demo {
-            background: var(--cream);
-            border-left: 4px solid var(--gold);
-            padding: 1.5rem;
-            border-radius: 6px;
-            max-width: 600px;
-        }
-
-        .banner-title {
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 0.5rem;
-        }
-
-        .banner-text {
-            color: var(--muted);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .banner-btn {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
+        .teleprompter-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            margin-bottom: 1rem;
         }
 
-        .banner-btn:hover {
-            background: var(--gold-d);
-        }
-
-        .email-preview {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 2rem;
-            max-width: 600px;
-        }
-
-        .email-header {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .email-from {
-            color: var(--muted);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .email-subject {
-            font-weight: 700;
-            color: var(--ink);
-            font-size: 1.1rem;
-        }
-
-        .email-body {
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            color: var(--ink);
-        }
-
-        .email-grid-preview {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        .sms-preview {
-            max-width: 400px;
-        }
-
-        .phone-mockup {
-            background: var(--white);
-            border: 8px solid var(--black);
-            border-radius: 40px;
-            padding: 1.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            aspect-ratio: 9 / 16;
+        .teleprompter-content {
             display: flex;
             flex-direction: column;
+            gap: 1.2rem;
+            color: var(--ink);
+            position: relative;
+        }
+
+        .teleprompter-line {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .teleprompter-line.current {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: 0.5px;
+        }
+
+        .teleprompter-line.next {
+            color: rgba(245, 245, 240, 0.6);
+            font-size: 1rem;
+        }
+
+        .teleprompter-line.following {
+            color: rgba(245, 245, 240, 0.3);
+            font-size: 0.95rem;
+        }
+
+        .teleprompter-dots {
+            display: flex;
+            gap: 0.5rem;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .teleprompter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--gold);
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .teleprompter-dot.active {
+            opacity: 1;
+        }
+
+        /* CONTROLS BAR */
+        .controls-bar {
+            background-color: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+        }
+
+        .control-btn {
+            background-color: transparent;
+            border: 1px solid var(--border2);
+            color: var(--muted);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .record-button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-l));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(181, 162, 100, 0.2);
             position: relative;
             overflow: hidden;
         }
 
-        .phone-mockup::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50%;
-            height: 25px;
-            background: var(--black);
-            border-radius: 0 0 20px 20px;
+        .record-button.idle {
+            animation: recordPulse 2s infinite;
         }
 
-        .phone-status-bar {
+        @keyframes recordPulse {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(181, 162, 100, 0.2);
+            }
+            50% {
+                box-shadow: 0 10px 40px rgba(181, 162, 100, 0.4);
+            }
+        }
+
+        .record-button.recording {
+            background: linear-gradient(135deg, #C0392B, #E74C3C);
+            box-shadow: 0 10px 40px rgba(192, 57, 43, 0.3);
+        }
+
+        .record-button.idle::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            background-color: var(--ink-dark);
+        }
+
+        .record-button.recording::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: var(--ink-dark);
+        }
+
+        .record-label {
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* REVIEW STATE */
+        .review-state {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+        }
+
+        .review-state.active {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .review-play-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 3rem;
+            color: var(--ink-dark);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 60px rgba(181, 162, 100, 0.3);
+        }
+
+        .review-play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 25px 70px rgba(181, 162, 100, 0.4);
+        }
+
+        .review-label {
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .review-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* CONFIRMATION STATE */
+        .confirmation-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 200;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .confirmation-overlay.active {
+            display: flex;
+        }
+
+        .checkmark {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--ink-dark);
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .confirmation-text {
+            text-align: center;
+        }
+
+        .confirmation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--ink);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .confirmation-subtitle {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .confirmation-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .confirmation-link:hover {
+            text-decoration: underline;
+        }
+
+        /* VIEW 3: NOTIFICATION REFERENCE */
+        .notification-reference {
+            padding: 3rem 2rem;
+            background-color: var(--bg);
+            overflow-y: auto;
+        }
+
+        .notification-header {
+            margin-bottom: 2rem;
+        }
+
+        .notification-label {
             font-size: 0.75rem;
-            color: var(--black);
-            margin-bottom: 1rem;
-            padding-top: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .notification-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .notification-card {
+            background-color: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .notification-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--ink);
+            border-bottom: 1px solid var(--border2);
+            padding-bottom: 1rem;
+        }
+
+        /* IN-APP BANNER MOCKUP */
+        .banner-mockup {
+            background-color: var(--surface3);
+            border-left: 4px solid var(--gold);
+            padding: 1.2rem;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .banner-diagnosis {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .banner-ask {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .banner-cta {
+            background-color: var(--gold);
+            color: var(--ink-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* EMAIL MOCKUP */
+        .email-mockup {
+            background-color: var(--surface3);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: var(--surface);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border2);
+        }
+
+        .email-subject {
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .email-from {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .email-body {
+            padding: 1rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .email-cta {
+            background: linear-gradient(135deg, var(--gold), var(--gold-l));
+            color: var(--ink-dark);
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        /* SMS MOCKUP */
+        .sms-mockup {
+            background-color: var(--surface3);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            border: 1px solid var(--border2);
+            overflow: hidden;
+        }
+
+        .phone-header {
+            background-color: var(--surface);
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--border2);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .phone-body {
+            padding: 1.2rem;
         }
 
         .sms-message {
-            background: var(--gold);
-            color: var(--white);
-            padding: 1rem;
-            border-radius: 12px;
-            border-bottom-right-radius: 4px;
-            margin-bottom: 1rem;
+            background-color: rgba(181, 162, 100, 0.2);
+            color: var(--ink);
+            padding: 0.8rem 1rem;
+            border-radius: 16px;
             font-size: 0.9rem;
-            line-height: 1.5;
-            align-self: flex-end;
-            max-width: 85%;
+            margin-bottom: 0.8rem;
+            word-wrap: break-word;
         }
 
         .sms-link {
-            display: inline-block;
-            background: var(--gold-d);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
+            color: var(--gold);
+            text-decoration: underline;
             font-weight: 600;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
         }
 
-        /* Utility */
-        .hidden {
-            display: none !important;
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .notification-cards {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .section-note {
-            background: var(--blue-l);
-            border-left: 4px solid var(--blue);
-            padding: 1rem 1.25rem;
-            border-radius: 6px;
-            margin-top: 2rem;
-            color: var(--blue);
-            font-size: 0.9rem;
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .preview-title {
+                font-size: 1.8rem;
+            }
         }
-
     </style>
 </head>
 <body>
-
-    <!-- TOP BAR -->
     <div class="top-bar">
         <div class="logo">PropertyIQ</div>
         <div class="nav-links">
-            <a href="#">Dashboard</a>
-            <a href="#" class="active">Content</a>
-            <a href="#">Assets</a>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Campaigns</a>
             <a href="#">Analytics</a>
             <a href="#">Settings</a>
         </div>
         <div class="top-bar-right">
-            <button class="icon-btn">🔔</button>
-            <div class="avatar">JD</div>
+            <div class="bell-icon">🔔</div>
+            <div class="avatar">GW</div>
         </div>
     </div>
 
-    <!-- MAIN CONTAINER -->
-    <div class="container">
-
-        <!-- TABS -->
-        <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab(0)">1. Preview Screen</button>
-            <button class="tab-btn" onclick="switchTab(1)">2. In-Browser Recorder</button>
-            <button class="tab-btn" onclick="switchTab(2)">3. Notification Reference</button>
+    <div style="display: flex; flex-direction: column; height: calc(100vh - 65px);">
+        <div class="view-tabs">
+            <div class="view-tab active" onclick="switchView(0)">Content Preview</div>
+            <div class="view-tab" onclick="switchView(1)">Record Video</div>
+            <div class="view-tab" onclick="switchView(2)">Notification Reference</div>
         </div>
 
-        <!-- VIEW 1: PREVIEW SCREEN -->
-        <div id="tab-0" class="tab-content active">
-            <div class="preview-header">
-                <h1>With 2 new videos, here's what we'll build for you:</h1>
-                <p>Based on your East Palo Alto market and current content strategy</p>
-            </div>
+        <div class="views-container">
+            <div class="view active" id="view-0">
+                <div class="content-preview">
+                    <div class="preview-header">
+                        <div class="preview-label">With 2 New Videos</div>
+                        <h1 class="preview-title">Here's What We'll Build For You</h1>
+                        <p class="preview-subtitle">Based on your East Palo Alto market and current content strategy</p>
+                    </div>
 
-            <div class="preview-grid">
-                <!-- Card 1 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">📊</div>
-                    <div class="card-type-label">Market Explainer</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill yt">YT</span>
-                        <span class="platform-pill ig">IG</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 3, 2026</span>
-                        <span class="card-reach">~1,200 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🏘️</div>
-                    <div class="card-type-label">Neighborhood Spotlight</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill fb">FB</span>
-                        <span class="platform-pill ig">IG</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 5, 2026</span>
-                        <span class="card-reach">~950 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🎤</div>
-                    <div class="card-type-label">Authority Clip</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill yt">YT</span>
-                        <span class="platform-pill tt">TT</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 7, 2026</span>
-                        <span class="card-reach">~1,100 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🏡</div>
-                    <div class="card-type-label">Just Listed</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill ig">IG</span>
-                        <span class="platform-pill fb">FB</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 10, 2026</span>
-                        <span class="card-reach">~800 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 5 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">💰</div>
-                    <div class="card-type-label">Investment Tip</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill yt">YT</span>
-                        <span class="platform-pill tt">TT</span>
-                        <span class="platform-pill ig">IG</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 12, 2026</span>
-                        <span class="card-reach">~1,350 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">⭐</div>
-                    <div class="card-type-label">Client Testimonial</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill ig">IG</span>
-                        <span class="platform-pill fb">FB</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 15, 2026</span>
-                        <span class="card-reach">~720 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 7 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">📈</div>
-                    <div class="card-type-label">Market Stats</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill yt">YT</span>
-                        <span class="platform-pill ig">IG</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 18, 2026</span>
-                        <span class="card-reach">~1,050 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 8 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🎬</div>
-                    <div class="card-type-label">Behind the Scenes</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill ig">IG</span>
-                        <span class="platform-pill tt">TT</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 20, 2026</span>
-                        <span class="card-reach">~680 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 9 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🔑</div>
-                    <div class="card-type-label">Market Explainer</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill yt">YT</span>
-                        <span class="platform-pill fb">FB</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 25, 2026</span>
-                        <span class="card-reach">~920 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 10 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🌟</div>
-                    <div class="card-type-label">Neighborhood Spotlight</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill ig">IG</span>
-                        <span class="platform-pill fb">FB</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>May 28, 2026</span>
-                        <span class="card-reach">~1,180 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 11 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">🏆</div>
-                    <div class="card-type-label">Authority Clip</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill yt">YT</span>
-                        <span class="platform-pill tt">TT</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>June 1, 2026</span>
-                        <span class="card-reach">~1,400 views</span>
-                    </div>
-                </div>
-
-                <!-- Card 12 -->
-                <div class="content-card">
-                    <div class="card-thumbnail">💼</div>
-                    <div class="card-type-label">Client Testimonial</div>
-                    <div class="card-platforms">
-                        <span class="platform-pill ig">IG</span>
-                        <span class="platform-pill fb">FB</span>
-                        <span class="platform-pill yt">YT</span>
-                    </div>
-                    <div class="card-meta">
-                        <span>June 5, 2026</span>
-                        <span class="card-reach">~890 views</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="summary-bar">
-                <div>
-                    <span class="summary-bar-text">12 new content pieces</span>
-                    <span class="summary-bar-stat"> | Est. reach: 12,420</span>
-                    <span class="summary-bar-stat"> | Scheduled through June 2026</span>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="scrollToRecorder()">Record Now</button>
-                <button class="btn btn-secondary">Upload from Camera Roll</button>
-                <button class="btn btn-tertiary">Remind Me Later</button>
-            </div>
-        </div>
-
-        <!-- VIEW 2: IN-BROWSER RECORDER -->
-        <div id="tab-1" class="tab-content">
-            <div class="recorder-container">
-                <div class="recorder-header">
-                    <h2>Record Your Content</h2>
-                    <p>Quick 60-second video to unlock your full content calendar</p>
-                </div>
-
-                <div class="setting-suggestion">
-                    <strong>We recommend:</strong> Recording this at your desk in a different outfit than your current avatar. Natural lighting helps your face stand out.
-                </div>
-
-                <div class="camera-preview" id="camera-preview">
-                    <div class="recording-indicator" id="recording-indicator"></div>
-                    <div class="timer" id="timer">0:47 / 1:00</div>
-                    <div class="camera-icon">📹</div>
-                    <div class="teleprompter">
-                        <div class="teleprompter-item">Talk about what makes East Palo Alto special for investors</div>
-                        <div class="teleprompter-item">Mention the ADU potential and rental income opportunities</div>
-                        <div class="teleprompter-item">Share a recent success story with a client</div>
-                    </div>
-                </div>
-
-                <div class="recorder-controls">
-                    <div class="control-btn-small">
-                        <div class="control-icon">🔄</div>
-                        <span>Flip Camera</span>
-                    </div>
-                    <button class="record-btn" id="record-btn" onclick="toggleRecording()">●</button>
-                    <div class="duration-indicator">
-                        <div>Duration</div>
-                        <div>60s target</div>
-                    </div>
-                </div>
-
-                <div class="recorder-review hidden" id="recorder-review">
-                    <div class="review-buttons">
-                        <button class="btn btn-primary" onclick="confirmRecording()">Use This Recording</button>
-                        <button class="btn btn-secondary" onclick="resetRecording()">Re-Record</button>
-                    </div>
-                </div>
-
-                <div class="confirmation-message" id="confirmation-message">
-                    ✓ Got it! We'll have your new content ready within 24 hours.
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 3: NOTIFICATION REFERENCE -->
-        <div id="tab-2" class="tab-content">
-            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 2rem;">Notification Channels Reference</h2>
-
-            <div class="notification-reference">
-                <!-- In-App Banner -->
-                <div class="notification-item">
-                    <h3>In-App Banner</h3>
-                    <div class="in-app-banner-demo">
-                        <div class="banner-title">Your content engine is ready to go</div>
-                        <div class="banner-text">
-                            We've prepared 12 pieces of East Palo Alto market content. With just 2 quick videos from you, we'll build a complete May-June content calendar.
-                        </div>
-                        <a href="#" class="banner-btn">See What We'll Build</a>
-                    </div>
-                    <div class="section-note">
-                        Shown on dashboard. Triggers "See what we'll create" preview flow above.
-                    </div>
-                </div>
-
-                <!-- Email Preview -->
-                <div class="notification-item">
-                    <h3>Email Preview</h3>
-                    <div class="email-preview">
-                        <div class="email-header">
-                            <div class="email-from">From: PropertyIQ Content Engine</div>
-                            <div class="email-subject">Your 12-piece content calendar is ready (2 videos needed)</div>
-                        </div>
-                        <div class="email-body">
-                            Hi there,<br><br>
-                            We've analyzed your East Palo Alto market and prepared a complete content strategy. We have 12 content pieces ready to build — all we need from you is 2 quick 60-second videos.<br><br>
-                            Here's a preview of what we'll create:
-                        </div>
-                        <div class="email-grid-preview">
-                            [Preview grid with 6 sample cards]<br>
-                            + 6 more pieces
-                        </div>
-                        <button class="banner-btn">Record Now</button>
-                    </div>
-                    <div class="section-note">
-                        Embedded grid preview shown in email. "Record Now" links to recorder.
-                    </div>
-                </div>
-
-                <!-- SMS Preview -->
-                <div class="notification-item">
-                    <h3>SMS Preview</h3>
-                    <div class="sms-preview">
-                        <div class="phone-mockup">
-                            <div class="phone-status-bar">
-                                <span>9:41</span>
-                                <span>●●●●●</span>
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <div class="card-thumbnail">📽️</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Market Explainer</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill yt">YT</span>
+                                    <span class="platform-pill ig">IG</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 3, 2026</div>
+                                    <div class="card-reach">~1,200 views</div>
+                                </div>
                             </div>
-                            <div class="sms-message">
-                                Your Property IQ content engine has 12 new pieces ready to build — just needs a quick 60-second video from you.<br>
-                                <a href="#" class="sms-link">Record Now</a>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🎬</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Neighborhood Spotlight</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill yt">YT</span>
+                                    <span class="platform-pill tt">TT</span>
+                                    <span class="platform-pill ig">IG</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 5, 2026</div>
+                                    <div class="card-reach">~950 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🎤</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Authority Clip</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill ig">IG</span>
+                                    <span class="platform-pill fb">FB</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 7, 2026</div>
+                                    <div class="card-reach">~750 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🏠</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Just Listed</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill yt">YT</span>
+                                    <span class="platform-pill ig">IG</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 10, 2026</div>
+                                    <div class="card-reach">~1,100 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">💰</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Investment Tip</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill tt">TT</span>
+                                    <span class="platform-pill ig">IG</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 12, 2026</div>
+                                    <div class="card-reach">~820 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🎬</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Client Testimonial</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill yt">YT</span>
+                                    <span class="platform-pill fb">FB</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 15, 2026</div>
+                                    <div class="card-reach">~680 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">📊</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Market Stats</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill ig">IG</span>
+                                    <span class="platform-pill tt">TT</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 18, 2026</div>
+                                    <div class="card-reach">~920 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">👥</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Behind the Scenes</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill ig">IG</span>
+                                    <span class="platform-pill fb">FB</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 20, 2026</div>
+                                    <div class="card-reach">~1,050 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🎥</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Market Explainer</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill yt">YT</span>
+                                    <span class="platform-pill ig">IG</span>
+                                    <span class="platform-pill tt">TT</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 22, 2026</div>
+                                    <div class="card-reach">~1,300 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🏘️</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Neighborhood Spotlight</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill yt">YT</span>
+                                    <span class="platform-pill ig">IG</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 25, 2026</div>
+                                    <div class="card-reach">~1,080 views</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-thumbnail">🎙️</div>
+                            <div class="card-content">
+                                <div class="card-type-label">Authority Clip</div>
+                                <div class="card-platforms">
+                                    <span class="platform-pill ig">IG</span>
+                                    <span class="platform-pill tt">TT</span>
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-date">May 28, 2026</div>
+                                    <div class="card-reach">~850 views</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="section-note">
-                        Compact message. Link opens recorder or full preview if user not authenticated yet.
+
+                    <div class="summary-bar">
+                        <div>
+                            <span class="summary-text"><span class="summary-highlight">12 new content pieces</span> | Est. reach: <span class="summary-highlight">8,400</span> | Scheduled through June 2026</span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="switchView(1)">Record Now</button>
+                        <button class="btn btn-secondary">Upload from Camera Roll</button>
+                        <button class="btn btn-tertiary">Remind Me Later</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="view-1">
+                <div class="studio-recorder">
+                    <div class="recording-tip">
+                        Recording Tip: We recommend your desk or office. Wear a different outfit than your current avatar.
+                    </div>
+
+                    <div class="camera-section">
+                        <div class="camera-preview">
+                            <div class="camera-idle" id="cameraIdle">
+                                <div class="camera-idle-icon">📹</div>
+                                <div class="camera-idle-text">Click Record to Begin</div>
+                            </div>
+
+                            <div class="camera-recording" id="cameraRecording">
+                                <div class="recording-header">
+                                    <div class="recording-indicator">
+                                        <div class="recording-dot"></div>
+                                        REC
+                                    </div>
+                                    <div class="recording-timer" id="recordingTimer">00:00 / 01:00</div>
+                                </div>
+                            </div>
+
+                            <div class="teleprompter">
+                                <div class="teleprompter-label">Teleprompter</div>
+                                <div class="teleprompter-content">
+                                    <div class="teleprompter-line current" id="promptCurrent">Talk about what makes East Palo Alto special for investors</div>
+                                    <div class="teleprompter-line next" id="promptNext">Mention the ADU potential and rental income opportunities</div>
+                                    <div class="teleprompter-line following" id="promptFollowing">Share your most recent success story</div>
+                                </div>
+                                <div class="teleprompter-dots">
+                                    <div class="teleprompter-dot active"></div>
+                                    <div class="teleprompter-dot"></div>
+                                    <div class="teleprompter-dot"></div>
+                                </div>
+                            </div>
+
+                            <div class="review-state" id="reviewState">
+                                <div class="review-play-button">▶</div>
+                                <div class="review-label">Review Your Recording</div>
+                                <div class="review-buttons">
+                                    <button class="btn btn-primary" onclick="useRecording()">Use This Recording</button>
+                                    <button class="btn btn-secondary" onclick="reRecord()">Re-Record</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="controls-bar">
+                        <button class="control-btn" title="Flip Camera">🔄</button>
+                        <button class="record-button idle" id="recordButton" onclick="toggleRecord()"></button>
+                        <div class="record-label">TARGET: 60 SECONDS</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="view-2">
+                <div class="notification-reference">
+                    <div class="notification-header">
+                        <div class="notification-label">Notification Channels</div>
+                    </div>
+
+                    <div class="notification-cards">
+                        <div class="notification-card">
+                            <div class="notification-card-title">In-App Banner</div>
+                            <div class="banner-mockup">
+                                <div class="banner-diagnosis">Your content engine has 12 new pieces ready to build.</div>
+                                <div class="banner-ask">Just needs a 60-second video from you to get started.</div>
+                                <div class="banner-cta">Record Now</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-card">
+                            <div class="notification-card-title">Email</div>
+                            <div class="email-mockup">
+                                <div class="email-header">
+                                    <div class="email-subject">Your content engine has 12 pieces ready to build</div>
+                                    <div class="email-from">PropertyIQ Content Team</div>
+                                </div>
+                                <div class="email-body">
+                                    <p>Your East Palo Alto content strategy has generated 12 new pieces across YouTube, Instagram, and TikTok. All we need is a 60-second video intro from you.</p>
+                                    <div class="email-cta">Record Now</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notification-card">
+                            <div class="notification-card-title">SMS</div>
+                            <div class="sms-mockup">
+                                <div class="phone-header">PropertyIQ</div>
+                                <div class="phone-body">
+                                    <div class="sms-message">Your Property IQ engine has 12 new pieces ready — just needs a 60-sec video. <span class="sms-link">[Link]</span></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- JAVASCRIPT -->
+    <div class="confirmation-overlay" id="confirmationOverlay">
+        <div class="checkmark">✓</div>
+        <div class="confirmation-text">
+            <div class="confirmation-title">Got it!</div>
+            <div class="confirmation-subtitle">Your 12 new content pieces will be ready within 24 hours.</div>
+        </div>
+        <a class="confirmation-link" onclick="returnToDashboard()">← Return to Dashboard</a>
+    </div>
+
     <script>
-        // Tab Switching
-        function switchTab(tabIndex) {
-            const tabs = document.querySelectorAll('.tab-content');
-            const buttons = document.querySelectorAll('.tab-btn');
-
-            tabs.forEach(tab => tab.classList.remove('active'));
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(`tab-${tabIndex}`).classList.add('active');
-            buttons[tabIndex].classList.add('active');
-        }
-
-        // Recorder Functions
         let isRecording = false;
+        let recordingTime = 0;
+        let recordingInterval = null;
+        const maxRecordingTime = 60;
+        const prompts = [
+            "Talk about what makes East Palo Alto special for investors",
+            "Mention the ADU potential and rental income opportunities",
+            "Share your most recent success story",
+            "Discuss current market trends in the area",
+            "Highlight your recent sales successes"
+        ];
 
-        function toggleRecording() {
-            const recordBtn = document.getElementById('record-btn');
-            const indicator = document.getElementById('recording-indicator');
-            const preview = document.getElementById('camera-preview');
-
-            if (!isRecording) {
-                isRecording = true;
-                recordBtn.classList.add('recording');
-                indicator.classList.add('active');
-                recordBtn.textContent = '⏹';
-            } else {
-                isRecording = false;
-                recordBtn.classList.remove('recording');
-                indicator.classList.remove('active');
-                recordBtn.textContent = '●';
-
-                // Show review screen
-                preview.classList.add('has-recording');
-                document.getElementById('recorder-review').classList.remove('hidden');
-            }
+        function switchView(viewIndex) {
+            const views = document.querySelectorAll('.view');
+            const tabs = document.querySelectorAll('.view-tab');
+            views.forEach(v => v.classList.remove('active'));
+            tabs.forEach(t => t.classList.remove('active'));
+            views[viewIndex].classList.add('active');
+            tabs[viewIndex].classList.add('active');
+            if (viewIndex === 1) resetRecorder();
         }
 
-        function resetRecording() {
+        function toggleRecord() {
+            isRecording ? stopRecording() : startRecording();
+        }
+
+        function startRecording() {
+            isRecording = true;
+            recordingTime = 0;
+            const recordButton = document.getElementById('recordButton');
+            const cameraIdle = document.getElementById('cameraIdle');
+            const cameraRecording = document.getElementById('cameraRecording');
+            recordButton.classList.remove('idle');
+            recordButton.classList.add('recording');
+            cameraIdle.style.display = 'none';
+            cameraRecording.classList.add('active');
+            recordingInterval = setInterval(() => {
+                recordingTime++;
+                updateTimer();
+                updateTeleprompter();
+                if (recordingTime >= maxRecordingTime) stopRecording();
+            }, 1000);
+        }
+
+        function stopRecording() {
             isRecording = false;
-            const recordBtn = document.getElementById('record-btn');
-            const preview = document.getElementById('camera-preview');
-            const reviewSection = document.getElementById('recorder-review');
-            const confirmation = document.getElementById('confirmation-message');
-
-            recordBtn.classList.remove('recording');
-            recordBtn.textContent = '●';
-            preview.classList.remove('has-recording');
-            reviewSection.classList.add('hidden');
-            confirmation.classList.remove('show');
+            clearInterval(recordingInterval);
+            const recordButton = document.getElementById('recordButton');
+            const cameraRecording = document.getElementById('cameraRecording');
+            const reviewState = document.getElementById('reviewState');
+            recordButton.classList.remove('recording');
+            cameraRecording.classList.remove('active');
+            reviewState.classList.add('active');
         }
 
-        function confirmRecording() {
-            const confirmation = document.getElementById('confirmation-message');
-            confirmation.classList.add('show');
-
-            // Disable buttons briefly
-            const reviewBtn = document.querySelector('.reviewer-review .btn-primary');
-            if (reviewBtn) {
-                reviewBtn.disabled = true;
-            }
+        function updateTimer() {
+            const mins = Math.floor(recordingTime / 60);
+            const secs = recordingTime % 60;
+            document.getElementById('recordingTimer').textContent = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} / 01:00`;
         }
 
-        function scrollToRecorder() {
-            switchTab(1);
-            document.querySelector('.recorder-header').scrollIntoView({ behavior: 'smooth' });
+        function updateTeleprompter() {
+            const promptIndex = Math.floor(recordingTime / 15) % prompts.length;
+            document.getElementById('promptCurrent').textContent = prompts[promptIndex];
+            document.getElementById('promptNext').textContent = prompts[(promptIndex + 1) % prompts.length];
+            document.getElementById('promptFollowing').textContent = prompts[(promptIndex + 2) % prompts.length];
+            const dots = document.querySelectorAll('.teleprompter-dot');
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === promptIndex));
         }
+
+        function reRecord() {
+            resetRecorder();
+        }
+
+        function resetRecorder() {
+            isRecording = false;
+            recordingTime = 0;
+            clearInterval(recordingInterval);
+            const recordButton = document.getElementById('recordButton');
+            const cameraIdle = document.getElementById('cameraIdle');
+            const cameraRecording = document.getElementById('cameraRecording');
+            const reviewState = document.getElementById('reviewState');
+            recordButton.classList.add('idle');
+            recordButton.classList.remove('recording');
+            cameraIdle.style.display = 'flex';
+            cameraRecording.classList.remove('active');
+            reviewState.classList.remove('active');
+            document.getElementById('recordingTimer').textContent = '00:00 / 01:00';
+            document.getElementById('promptCurrent').textContent = prompts[0];
+            document.getElementById('promptNext').textContent = prompts[1];
+            document.getElementById('promptFollowing').textContent = prompts[2];
+        }
+
+        function useRecording() {
+            document.getElementById('confirmationOverlay').classList.add('active');
+        }
+
+        function returnToDashboard() {
+            document.getElementById('confirmationOverlay').classList.remove('active');
+            switchView(0);
+            resetRecorder();
+        }
+
+        resetRecorder();
     </script>
-
 </body>
 </html>

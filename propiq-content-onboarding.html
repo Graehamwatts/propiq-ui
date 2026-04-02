@@ -4,34 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropIQ Content Engine — Onboarding</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         /* ============================================================
-           DESIGN SYSTEM — Quiet Luxury / High-Net-Worth Minimalist
+           LUXURY DARK MODE DESIGN SYSTEM
            ============================================================ */
         :root {
             --gold: #B5A264;
-            --gold-l: #F5F0E0;
+            --gold-l: #D4C27A;
             --gold-d: #9A8A55;
-            --black: #111111;
-            --black-l: #1a1a1a;
-            --black-m: #2a2a2a;
-            --white: #FFFFFF;
-            --off-white: #FAFAF8;
-            --cream: #F5F3EE;
+            --gold-glow: rgba(181,162,100,0.12);
+            --gold-border: rgba(181,162,100,0.2);
+
+            --bg: #0F0F0F;
+            --surface: #161616;
+            --surface2: #1C1C1C;
+            --surface3: #242424;
+
+            --border: rgba(255,255,255,0.06);
+            --border2: rgba(255,255,255,0.1);
+
+            --ink: #F5F5F0;
             --muted: #8C8C8C;
-            --faint: #B5B5B5;
-            --border: rgba(0, 0, 0, 0.08);
-            --border2: rgba(0, 0, 0, 0.12);
-            --ink: #111111;
-            --surface: #FFFFFF;
-            --bg: #FAFAF8;
-            --green: #4A7C59;
-            --green-l: #EDF5F0;
+            --faint: #555555;
+
+            --green: #6B9E7A;
+            --green-l: rgba(107,158,122,0.15);
             --red: #C0392B;
-            --red-l: #FDF0F0;
-            --blue: #3B6FA0;
-            --blue-l: #EBF3FA;
+            --red-l: rgba(192,57,43,0.15);
         }
 
         * {
@@ -40,40 +40,55 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
+            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 100%);
             color: var(--ink);
             line-height: 1.6;
+            position: relative;
+        }
+
+        /* Ambient grain texture overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
         }
 
         /* ============================================================
            HEADER & BRANDING
            ============================================================ */
         .header {
-            background: var(--white);
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--gold);
+            background: var(--surface);
+            padding: 2rem;
+            border-bottom: 1px solid var(--gold-border);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            position: relative;
+            z-index: 100;
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--black);
+            color: var(--ink);
             letter-spacing: -0.5px;
         }
 
         .logo span {
             color: var(--gold);
-        }
-
-        .header-spacer {
-            width: 100px;
         }
 
         /* ============================================================
@@ -82,84 +97,823 @@
         .wizard-container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            padding: 3rem 2rem 4rem;
             min-height: 100vh;
+            position: relative;
+            z-index: 10;
         }
 
         /* ============================================================
-           PROGRESS INDICATOR (Thin Gold Line + Step Dots)
+           PROGRESS INDICATOR
            ============================================================ */
         .progress-section {
-            margin-bottom: 3rem;
-            text-align: center;
+            margin-bottom: 4rem;
         }
 
-        .progress-bar {
-            height: 3px;
-            background: var(--border);
-            border-radius: 2px;
+        .progress-bar-container {
+            position: relative;
+            height: 2px;
+            background: var(--surface3);
+            border-radius: 1px;
             margin-bottom: 2rem;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .progress-bar {
             height: 100%;
-            background: var(--gold);
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
+            border-radius: 1px;
             width: 25%;
-            transition: width 0.6s ease;
-            border-radius: 2px;
+            transition: width 0.8s cubic-bezier(0.23, 1, 0.320, 1);
         }
 
-        .step-dots {
+        .progress-dots {
             display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
+            justify-content: space-between;
+            gap: 1rem;
         }
 
-        .step-dot {
-            width: 12px;
-            height: 12px;
+        .progress-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: var(--border2);
+            background: var(--surface3);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .step-dot.active {
+        .progress-dot.active {
             background: var(--gold);
-            width: 14px;
-            height: 14px;
-            box-shadow: 0 0 0 3px rgba(181, 162, 100, 0.2);
+            box-shadow: 0 0 12px rgba(181,162,100,0.4);
         }
 
-        .step-dot.completed {
-            background: var(--green);
+        .progress-dot.completed {
+            background: var(--gold);
+        }
+
+        /* ============================================================
+           STEP CARD STYLING
+           ============================================================ */
+        .step {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            transform: translateX(40px);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            pointer-events: none;
+        }
+
+        .step.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .step.exit-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .step-header {
+            margin-bottom: 2.5rem;
         }
 
         .step-label {
-            font-size: 0.75rem;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+            display: block;
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .step-subtitle {
+            font-size: 0.95rem;
             color: var(--muted);
-            margin-top: 0.5rem;
-            letter-spacing: 0.5px;
+            font-weight: 300;
+        }
+
+        .step-content {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--gold-border);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ============================================================
+           FORM ELEMENTS
+           ============================================================ */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--faint);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: var(--surface2);
+            box-shadow: 0 0 0 3px rgba(181,162,100,0.1);
+        }
+
+        /* Zip code chips */
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1rem;
+            background: rgba(181,162,100,0.08);
+            border: 1px solid var(--gold-border);
+            border-radius: 20px;
+            color: var(--ink);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chip:hover {
+            background: rgba(181,162,100,0.12);
+            border-color: rgba(181,162,100,0.3);
+        }
+
+        .chip.selected {
+            background: rgba(181,162,100,0.2);
+            border-color: var(--gold);
+        }
+
+        .chip-remove {
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .chip-remove:hover {
+            opacity: 1;
+        }
+
+        /* Market analyzing animation */
+        .market-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 1.5rem;
+            font-style: italic;
+            padding: 1rem;
+            background: rgba(181,162,100,0.04);
+            border-radius: 8px;
+            border-left: 2px solid var(--gold);
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ============================================================
+           UPLOAD ZONES
+           ============================================================ */
+        .upload-zone {
+            border: 2px dashed var(--gold-border);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(181,162,100,0.02);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--gold);
+            background: rgba(181,162,100,0.06);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .upload-zone:hover .upload-icon {
+            opacity: 1;
+        }
+
+        .upload-text {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.8rem;
+            color: var(--faint);
+        }
+
+        /* ============================================================
+           PROFILE CIRCLE WITH BORDER
+           ============================================================ */
+        .profile-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            background: var(--surface3);
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-circle.empty {
+            color: var(--muted);
+            font-size: 3rem;
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ============================================================
+           COLOR PALETTE
+           ============================================================ */
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .color-swatch {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-swatch-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .color-swatch.selected .color-swatch-circle {
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(181,162,100,0.3);
+            transform: scale(1.1);
+        }
+
+        /* ============================================================
+           PHOTO GRID
+           ============================================================ */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .photo-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+            background: var(--surface3);
+        }
+
+        .photo-item:hover {
+            border-color: var(--gold-border);
+        }
+
+        .photo-item.selected {
+            border-color: var(--gold);
+            box-shadow: 0 0 12px rgba(181,162,100,0.25);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--muted);
+        }
+
+        .photo-category {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: var(--ink);
+            font-size: 0.7rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* ============================================================
+           REFERENCE SECTION
+           ============================================================ */
+        .reference-section {
+            margin-bottom: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .reference-title {
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .reference-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface3);
+        }
+
+        .reference-label {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(181,162,100,0.9);
+            color: #111;
+            font-size: 0.65rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+            font-weight: 600;
             text-transform: uppercase;
         }
 
         /* ============================================================
-           STEP CONTENT
+           COACHING TIP
            ============================================================ */
-        .step-content {
-            display: none;
+        .coaching-tip {
+            background: rgba(181,162,100,0.05);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        /* ============================================================
+           IN-BROWSER VIDEO RECORDER
+           ============================================================ */
+        .recorder-section {
+            margin-bottom: 2rem;
+        }
+
+        .camera-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #0A0A0A;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .camera-preview::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+        }
+
+        .camera-preview.recording::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            animation: recording-pulse 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes recording-pulse {
+            0%, 100% { background: rgba(192,57,43,0); }
+            50% { background: rgba(192,57,43,0.05); }
+        }
+
+        .rec-indicator {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 20;
+        }
+
+        .rec-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: rec-blink 1s ease-in-out infinite;
+        }
+
+        @keyframes rec-blink {
+            0%, 49%, 100% { opacity: 1; }
+            50%, 99% { opacity: 0.3; }
+        }
+
+        .rec-label {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .timer {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--ink);
+            background: rgba(0,0,0,0.5);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            z-index: 20;
+        }
+
+        .teleprompter {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+            z-index: 15;
+        }
+
+        .teleprompter-content {
+            width: 100%;
+            text-align: center;
+            color: var(--ink);
+            font-size: 1rem;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .teleprompter-label {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Controls below camera */
+        .recorder-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: var(--surface2);
+            color: var(--ink);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .control-btn:hover {
+            border-color: var(--gold-border);
+            background: var(--surface3);
+        }
+
+        .record-btn {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 50%;
+            color: #111;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: shimmer 3s ease infinite;
+            box-shadow: 0 0 24px rgba(181,162,100,0.2);
+        }
+
+        .record-btn:hover {
+            box-shadow: 0 0 32px rgba(181,162,100,0.35);
+            transform: scale(1.05);
+        }
+
+        .record-btn.idle {
+            animation: pulse-record 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-record {
+            0%, 100% { box-shadow: 0 0 24px rgba(181,162,100,0.2); }
+            50% { box-shadow: 0 0 32px rgba(181,162,100,0.35); }
+        }
+
+        .target-indicator {
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .recorder-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-use {
+            flex: 1;
+            max-width: 200px;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
+            background-size: 200% 200%;
+            animation: shimmer 3s ease infinite;
+            color: #111;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-use:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(181,162,100,0.25);
+        }
+
+        .btn-rerecord {
+            flex: 1;
+            max-width: 200px;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--ink);
+            border-radius: 8px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-rerecord:hover {
+            border-color: var(--gold-border);
+            color: var(--gold);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ============================================================
+           BUTTONS & ACTIONS
+           ============================================================ */
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .btn-gold {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
+            background-size: 200% 200%;
+            animation: shimmer 3s ease infinite;
+            color: #111;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(181,162,100,0.15);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(181,162,100,0.25);
+        }
+
+        .btn-skip {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--muted);
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-skip:hover {
+            color: var(--ink);
+        }
+
+        .skip-text {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        /* ============================================================
+           TRANSITION SCREEN (BUILDING)
+           ============================================================ */
+        .transition-screen {
             opacity: 0;
-            animation: fadeIn 0.4s ease forwards;
+            visibility: hidden;
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 100%);
+            z-index: 1000;
+            transition: all 0.6s ease;
         }
 
-        .step-content.active {
-            display: block;
+        .transition-screen.active {
             opacity: 1;
+            visibility: visible;
         }
 
-        @keyframes fadeIn {
+        .transition-content {
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .transition-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .signature-line {
+            height: 2px;
+            background: var(--gold);
+            max-width: 200px;
+            margin: 1.5rem auto 2.5rem;
+            position: relative;
+            animation: draw-line 1.5s ease forwards;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        @keyframes draw-line {
+            from { max-width: 0; }
+            to { max-width: 200px; }
+        }
+
+        .checklist {
+            text-align: left;
+            display: inline-block;
+            margin: 2rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: slide-in 0.6s ease forwards;
+        }
+
+        .checklist-item:nth-child(1) { animation-delay: 0.3s; }
+        .checklist-item:nth-child(2) { animation-delay: 1.1s; }
+        .checklist-item:nth-child(3) { animation-delay: 1.9s; }
+
+        @keyframes slide-in {
             from {
                 opacity: 0;
                 transform: translateY(10px);
@@ -170,1835 +924,563 @@
             }
         }
 
-        /* ============================================================
-           STEP 1: ACCOUNT SETUP
-           ============================================================ */
-        .step-1 {
-            animation-delay: 0s;
-        }
-
-        .step-header {
-            margin-bottom: 2.5rem;
-        }
-
-        .step-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--black);
-            margin-bottom: 0.75rem;
-        }
-
-        .step-subtitle {
-            font-size: 1rem;
-            color: var(--muted);
-            font-weight: 300;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .form-row.full {
-            grid-template-columns: 1fr;
-        }
-
-        label {
-            display: block;
-            font-size: 0.95rem;
-            color: var(--black);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="number"] {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 1px solid var(--border2);
-            border-radius: 6px;
-            background: var(--white);
-            color: var(--ink);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(181, 162, 100, 0.1);
-        }
-
-        input::placeholder {
-            color: var(--faint);
-        }
-
-        /* Target Zip Codes Autocomplete */
-        .zip-code-container {
-            position: relative;
-        }
-
-        .zip-code-input {
-            width: 100%;
-        }
-
-        .zip-code-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--white);
-            border: 1px solid var(--border2);
-            border-top: none;
-            border-radius: 0 0 6px 6px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            z-index: 10;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .zip-code-suggestions.show {
-            display: block;
-        }
-
-        .suggestion-item {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s ease;
-            font-size: 0.9rem;
-        }
-
-        .suggestion-item:hover {
-            background: var(--gold-l);
-        }
-
-        .zip-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            min-height: 2.5rem;
-        }
-
-        .chip {
-            background: var(--gold-l);
-            border: 1px solid var(--gold);
-            color: var(--black);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .chip-remove {
-            cursor: pointer;
-            font-weight: bold;
-            opacity: 0.7;
-            transition: opacity 0.2s ease;
-        }
-
-        .chip-remove:hover {
-            opacity: 1;
-        }
-
-        /* Animated Market Analysis Indicator */
-        .market-analysis-indicator {
-            position: absolute;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.85rem;
-            color: var(--gold);
-            font-weight: 500;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
-        }
-
-        /* ============================================================
-           STEP 2: BRAND ASSETS
-           ============================================================ */
-        .step-2 {
-            animation-delay: 0.1s;
-        }
-
-        .upload-section {
-            margin-bottom: 3rem;
-        }
-
-        .upload-section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Drag and Drop Zone */
-        .drop-zone {
-            border: 2px dashed var(--gold);
-            border-radius: 10px;
-            padding: 3rem 2rem;
-            text-align: center;
-            background: var(--gold-l);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .drop-zone:hover {
-            background: rgba(181, 162, 100, 0.15);
-            border-color: var(--gold-d);
-        }
-
-        .drop-zone.dragover {
-            background: rgba(181, 162, 100, 0.2);
-            border-color: var(--gold-d);
-            transform: scale(1.02);
-        }
-
-        .drop-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-
-        .drop-text {
-            font-size: 1rem;
-            color: var(--black);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .drop-subtext {
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
-
-        /* Logo Preview */
-        .logo-preview {
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            margin-top: 1.5rem;
-            display: none;
-        }
-
-        .logo-preview.active {
-            display: block;
-        }
-
-        .logo-preview-img {
-            max-width: 200px;
-            max-height: 150px;
-            object-fit: contain;
-            margin-bottom: 1rem;
-        }
-
-        .logo-preview-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            font-size: 0.85rem;
-        }
-
-        .logo-preview-actions button {
-            background: var(--gold-l);
-            border: 1px solid var(--gold);
-            color: var(--black);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .logo-preview-actions button:hover {
-            background: var(--gold);
-            color: var(--white);
-        }
-
-        /* Headshot Upload - Circle Crop */
-        .headshot-container {
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-        }
-
-        .headshot-upload {
-            flex: 1;
-        }
-
-        .headshot-preview {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 2px solid var(--border2);
-            background: var(--gold-l);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1.5rem 0;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .headshot-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .headshot-preview.empty {
-            background: var(--gold-l);
-            color: var(--muted);
-            font-size: 3rem;
-        }
-
-        .face-detect-outline {
-            position: absolute;
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 180px;
-            height: 180px;
-            pointer-events: none;
-            display: none;
-        }
-
-        .face-detect-outline.active {
-            display: block;
-            animation: detectionPulse 2s infinite;
-        }
-
-        @keyframes detectionPulse {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* Brand Colors */
-        .brand-colors {
-            margin-top: 2rem;
-        }
-
-        .color-swatches {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .color-swatch {
-            aspect-ratio: 1;
-            border-radius: 10px;
-            border: 2px solid var(--border2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .color-swatch:hover {
-            transform: scale(1.05);
-            border-color: var(--gold);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .color-swatch.selected::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--white);
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: rgba(0, 0, 0, 0.4);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .color-code {
-            font-size: 0.7rem;
-            color: var(--muted);
-            margin-top: 0.5rem;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Optional Guidelines Link */
-        .optional-link {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .optional-link a {
-            color: var(--gold);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: opacity 0.3s ease;
-        }
-
-        .optional-link a:hover {
-            opacity: 0.7;
-        }
-
-        /* ============================================================
-           STEP 3: CONTENT ASSETS (Photos + Video)
-           ============================================================ */
-        .step-3 {
-            animation-delay: 0.2s;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .photo-item {
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .photo-item:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .photo-item img {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-        }
-
-        .photo-item-label {
-            padding: 0.75rem;
-            background: var(--white);
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.25rem;
-        }
-
-        .category-chip {
-            display: inline-block;
-            background: var(--blue-l);
-            color: var(--blue);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .category-chip.office {
-            background: var(--blue-l);
-            color: var(--blue);
-        }
-
-        .category-chip.outdoor {
-            background: var(--green-l);
-            color: var(--green);
-        }
-
-        .category-chip.casual {
-            background: var(--gold-l);
-            color: var(--gold-d);
-        }
-
-        .category-chip.listing {
-            background: var(--red-l);
-            color: var(--red);
-        }
-
-        .category-chip.lifestyle {
-            background: #F0E6FF;
-            color: #6B4A9C;
-        }
-
-        /* Reference Examples */
-        .reference-examples {
-            background: var(--cream);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .reference-title {
-            font-size: 0.9rem;
-            color: var(--muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 1rem;
-        }
-
-        .reference-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-        }
-
-        .reference-item {
-            position: relative;
-            cursor: pointer;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .reference-item:hover {
-            border-color: var(--gold);
-        }
-
-        .reference-item img {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-        }
-
-        .reference-label {
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.6);
-            color: var(--white);
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        /* Coaching Tip */
-        .coaching-tip {
-            background: var(--surface);
-            border-left: 4px solid var(--gold);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .coaching-tip-label {
-            font-size: 0.75rem;
-            color: var(--gold);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .coaching-tip-text {
-            font-size: 1rem;
-            color: var(--black);
-            line-height: 1.6;
-        }
-
-        /* Video Recording Section */
-        .video-section {
-            margin-top: 2rem;
-        }
-
-        .video-preview {
-            background: var(--black-m);
-            border-radius: 10px;
-            aspect-ratio: 16 / 9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-
-        .video-preview.recording {
-            background: #1a1a1a;
-        }
-
-        .play-icon {
-            font-size: 3rem;
-            color: var(--gold);
-            opacity: 0.7;
-        }
-
-        .play-icon.recording {
-            display: none;
-        }
-
-        .recording-indicator {
-            display: none;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--red);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            animation: blink 1s infinite;
-        }
-
-        .recording-indicator.active {
-            display: block;
-        }
-
-        @keyframes blink {
-            0%, 50% {
-                opacity: 1;
-            }
-            51%, 100% {
-                opacity: 0.5;
-            }
-        }
-
-        .teleprompter {
-            position: absolute;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            max-width: 80%;
-            text-align: center;
-            line-height: 1.6;
-            border: 1px solid rgba(181, 162, 100, 0.3);
-            display: none;
-        }
-
-        .teleprompter.active {
-            display: block;
-        }
-
-        .countdown {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            background: rgba(0, 0, 0, 0.7);
-            color: var(--gold);
-            padding: 0.75rem 1.25rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: none;
-        }
-
-        .countdown.active {
-            display: block;
-        }
-
-        /* Video Controls */
-        .video-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .record-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--gold);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(181, 162, 100, 0.3);
-        }
-
-        .record-button:hover:not(:disabled) {
-            background: var(--gold-d);
-            transform: scale(1.05);
-        }
-
-        .record-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .record-button.recording {
-            background: var(--red);
-            animation: recordPulse 1s infinite;
-        }
-
-        @keyframes recordPulse {
-            0%, 100% {
-                box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
-            }
-            50% {
-                box-shadow: 0 4px 20px rgba(192, 57, 43, 0.5);
-            }
-        }
-
-        .secondary-button {
-            background: transparent;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .secondary-button:hover {
-            background: var(--gold-l);
-        }
-
-        /* Video Preview After Recording */
-        .video-preview-recorded {
-            display: none;
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .video-preview-recorded.active {
-            display: block;
-        }
-
-        .video-preview-recorded-thumbnail {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: var(--black-m);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--gold);
-        }
-
-        .video-preview-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .primary-action-button {
-            background: var(--gold);
-            color: var(--white);
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .primary-action-button:hover {
-            background: var(--gold-d);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(181, 162, 100, 0.3);
-        }
-
-        .skip-link {
-            display: block;
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.85rem;
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .skip-link:hover {
-            color: var(--black);
-        }
-
-        /* ============================================================
-           STEP 4: INTEGRATION CHECK
-           ============================================================ */
-        .step-4 {
-            animation-delay: 0.3s;
-        }
-
-        .integration-card {
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-        }
-
-        .integration-icon {
-            font-size: 2.5rem;
-            flex-shrink: 0;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gold-l);
-            border-radius: 10px;
-        }
-
-        .integration-content {
-            flex: 1;
-        }
-
-        .integration-label {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .integration-title {
-            font-size: 1.1rem;
-            color: var(--black);
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .integration-input-wrapper {
-            position: relative;
-            display: flex;
-        }
-
-        .integration-input {
-            flex: 1;
-            padding: 0.875rem 1rem 0.875rem 2.5rem;
-            border: 1px solid var(--border2);
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-        }
-
-        .integration-checkmark {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gold);
-            font-size: 1.25rem;
-        }
-
-        .integration-note {
-            font-size: 0.85rem;
-            color: var(--muted);
-            margin-top: 1rem;
-            line-height: 1.6;
-        }
-
-        /* ============================================================
-           TRANSITION SCREEN (POST-ONBOARDING)
-           ============================================================ */
-        .transition-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
-            z-index: 1000;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .transition-screen.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .transition-content {
-            max-width: 600px;
-        }
-
-        .transition-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--black);
-            margin-bottom: 1rem;
-        }
-
-        .transition-subtitle {
-            font-size: 1.1rem;
-            color: var(--muted);
-            margin-bottom: 3rem;
-            line-height: 1.6;
-        }
-
-        .transition-checklist {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            margin-bottom: 3rem;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 1rem;
-            color: var(--black);
-            opacity: 0;
-            animation: slideIn 0.5s ease forwards;
-        }
-
-        .checklist-item:nth-child(1) {
-            animation-delay: 0.2s;
-        }
-
-        .checklist-item:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        .checklist-item:nth-child(3) {
-            animation-delay: 0.8s;
-        }
-
-        .checklist-item:nth-child(4) {
-            animation-delay: 1.1s;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .checklist-icon {
+        .check-icon {
             width: 24px;
             height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.1rem;
             flex-shrink: 0;
         }
 
-        .checklist-icon.completed {
-            background: var(--green);
-            color: var(--white);
-        }
-
-        .checklist-icon.in-progress {
+        .check-icon.completed {
             background: var(--gold);
-            color: var(--white);
-            animation: spin 2s linear infinite;
+            color: #111;
+            font-size: 0.8rem;
+            animation: check-draw 0.6s ease forwards;
         }
 
-        .checklist-icon.pending {
-            background: var(--border);
-            color: var(--muted);
+        .check-icon.pending {
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .transition-footer {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            justify-content: center;
-            font-size: 0.95rem;
-            color: var(--muted);
-        }
-
-        .email-icon {
-            font-size: 1.2rem;
-        }
-
-        /* ============================================================
-           ACTION BUTTONS (Footer)
-           ============================================================ */
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .button-group button {
-            padding: 0.875rem 1.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            border: none;
-        }
-
-        .btn-back {
+        .check-icon.in-progress {
             background: transparent;
-            color: var(--muted);
-            border: 1px solid var(--border2);
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        .btn-back:hover {
-            color: var(--black);
-            border-color: var(--muted);
-        }
-
-        .btn-continue {
+        .check-icon.in-progress::before {
+            content: '';
+            width: 6px;
+            height: 6px;
             background: var(--gold);
-            color: var(--white);
-            margin-left: auto;
-            box-shadow: 0 4px 12px rgba(181, 162, 100, 0.3);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        .btn-continue:hover:not(:disabled) {
-            background: var(--gold-d);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(181, 162, 100, 0.4);
+        @keyframes check-draw {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        .btn-continue:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .checklist-text {
+            font-size: 0.95rem;
+            color: var(--muted);
+            letter-spacing: 0.02em;
+        }
+
+        .transition-subtitle {
+            margin-top: 2.5rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+            font-style: italic;
         }
 
         /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
+            .step-title {
+                font-size: 1.8rem;
             }
 
-            .headshot-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .color-swatches {
-                grid-template-columns: repeat(3, 1fr);
+            .step-content {
+                padding: 1.5rem;
             }
 
             .photo-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .button-group {
-                flex-direction: column-reverse;
+            .reference-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .btn-continue {
-                margin-left: 0;
-                width: 100%;
+            .button-row {
+                flex-direction: column;
+            }
+
+            .recorder-controls {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wizard-container {
+                padding: 1.5rem 1rem;
             }
 
             .step-title {
                 font-size: 1.5rem;
             }
 
-            .transition-title {
-                font-size: 1.75rem;
+            .step-content {
+                padding: 1.2rem;
+                border-radius: 8px;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .color-palette {
+                gap: 1rem;
+            }
+
+            .color-swatch-circle {
+                width: 50px;
+                height: 50px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header with Logo -->
     <div class="header">
-        <div class="logo">
-            Prop<span>IQ</span>
-        </div>
-        <div class="header-spacer"></div>
+        <div class="logo">Prop<span>IQ</span></div>
     </div>
 
-    <!-- Wizard Container -->
     <div class="wizard-container">
-        <!-- Progress Indicator -->
+        <!-- PROGRESS -->
         <div class="progress-section">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
             </div>
-            <div class="step-dots" id="stepDots"></div>
+            <div class="progress-dots">
+                <div class="progress-dot active" data-step="0"></div>
+                <div class="progress-dot" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+            </div>
         </div>
 
-        <!-- STEP 1: Account Setup -->
-        <div class="step-content active step-1" data-step="1">
+        <!-- STEP 1: ACCOUNT SETUP -->
+        <div class="step active" data-step="0">
             <div class="step-header">
-                <h1 class="step-title">Account Setup</h1>
-                <p class="step-subtitle">Tell us a bit about yourself to get started</p>
+                <span class="step-label">Step 01</span>
+                <h1 class="step-title">Set Up Your Account</h1>
+                <p class="step-subtitle">Let's start with your market location and basic info</p>
             </div>
 
-            <form id="step1Form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Sarah Johnson" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="sarah@example.com" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="brokerage">Brokerage</label>
-                        <input type="text" id="brokerage" name="brokerage" placeholder="Coldwell Banker" required>
-                    </div>
-                </div>
-
-                <div class="form-row full">
-                    <div class="form-group">
-                        <label for="licenseNumber">Real Estate License Number</label>
-                        <input type="text" id="licenseNumber" name="licenseNumber" placeholder="CA #1234567" required>
-                    </div>
+            <div class="step-content">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="Your full name" id="fullName">
                 </div>
 
                 <div class="form-group">
-                    <label>Target Zip Codes (Max 5)</label>
-                    <div class="zip-code-container">
-                        <input type="text" class="zip-code-input" id="zipCodeInput" placeholder="Type zip code and press Enter" maxlength="5">
-                        <div class="zip-code-suggestions" id="zipSuggestions"></div>
-                    </div>
-                    <div class="zip-chips" id="zipChips"></div>
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="your@email.com" id="email">
                 </div>
-            </form>
 
-            <!-- Market Analysis Indicator -->
-            <div class="market-analysis-indicator">
-                <span class="pulse-dot"></span>
-                <span>Analyzing your market...</span>
+                <div class="form-group">
+                    <label class="form-label">Market Location</label>
+                    <input type="text" class="form-input" placeholder="City, State or ZIP code" id="location">
+                    <div class="chip-group" id="zipChips"></div>
+                </div>
+
+                <div class="market-hint">
+                    <span class="pulse-dot"></span>
+                    <span>Analyzing your market...</span>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
 
-        <!-- STEP 2: Brand Assets -->
-        <div class="step-content step-2" data-step="2">
+        <!-- STEP 2: BRAND ASSETS -->
+        <div class="step" data-step="1">
             <div class="step-header">
-                <h1 class="step-title">Brand Assets</h1>
-                <p class="step-subtitle">Upload your logo and headshot to personalize your content</p>
+                <span class="step-label">Step 02</span>
+                <h1 class="step-title">Your Brand</h1>
+                <p class="step-subtitle">Upload your brand essentials</p>
             </div>
 
-            <div class="upload-section">
-                <div class="upload-section-title">Logo</div>
-                <div class="drop-zone" id="logoDropZone">
-                    <div class="drop-icon">📸</div>
-                    <div class="drop-text">Drop your logo here or browse</div>
-                    <div class="drop-subtext">PNG, JPG, or SVG (max 5MB)</div>
-                </div>
-                <div class="logo-preview" id="logoPreview">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Crect fill='%23B5A264' width='200' height='100' rx='8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='24' font-weight='bold'%3ELOGO%3C/text%3E%3C/svg%3E" alt="Logo Preview" class="logo-preview-img">
-                    <div class="logo-preview-actions">
-                        <button type="button" onclick="document.getElementById('logoInput').click()">Change Logo</button>
-                        <button type="button" onclick="removeLogo()">Remove</button>
+            <div class="step-content">
+                <!-- Logo -->
+                <div class="form-group">
+                    <label class="form-label">Logo</label>
+                    <div class="upload-zone" onclick="document.getElementById('logoInput').click()">
+                        <div class="upload-icon">🎨</div>
+                        <div class="upload-text">Drag your logo or click to upload</div>
+                        <div class="upload-subtext">PNG, JPG, or SVG • Max 5MB</div>
+                        <input type="file" id="logoInput" style="display: none;" accept="image/*">
                     </div>
                 </div>
-                <input type="file" id="logoInput" style="display: none;" accept="image/*">
-            </div>
 
-            <div class="upload-section">
-                <div class="upload-section-title">Professional Headshot</div>
-                <div class="headshot-container">
-                    <div class="headshot-upload">
-                        <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 1rem;">Clear face, shoulders visible, professional attire</p>
-                        <div class="drop-zone" id="headshotDropZone" style="padding: 2rem 1rem;">
-                            <div class="drop-icon">📷</div>
-                            <div class="drop-text">Upload Headshot</div>
-                            <div class="drop-subtext">JPG or PNG (max 5MB)</div>
-                        </div>
+                <!-- Headshot -->
+                <div class="form-group">
+                    <label class="form-label">Your Headshot</label>
+                    <div style="text-align: center;">
+                        <div class="profile-circle empty" id="profileCircle">👤</div>
+                        <button class="btn-rerecord" onclick="document.getElementById('headshotInput').click()">Upload Photo</button>
                         <input type="file" id="headshotInput" style="display: none;" accept="image/*">
                     </div>
-                    <div class="headshot-preview" id="headshotPreview">
-                        <div class="face-detect-outline" id="faceDetectOutline"></div>
+                </div>
+
+                <!-- Color Palette -->
+                <div class="form-group">
+                    <label class="form-label">Brand Colors</label>
+                    <div class="color-palette" id="colorPalette">
+                        <div class="color-swatch selected" data-color="0">
+                            <div class="color-swatch-circle" style="background: #2E5C8A;"></div>
+                        </div>
+                        <div class="color-swatch" data-color="1">
+                            <div class="color-swatch-circle" style="background: #D4AF37;"></div>
+                        </div>
+                        <div class="color-swatch" data-color="2">
+                            <div class="color-swatch-circle" style="background: #8B4513;"></div>
+                        </div>
+                        <div class="color-swatch" data-color="3">
+                            <div class="color-swatch-circle" style="background: #C0504D;"></div>
+                        </div>
+                        <div class="color-swatch" data-color="4">
+                            <div class="color-swatch-circle" style="background: #70AD47;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="upload-section">
-                <div class="upload-section-title">Brand Colors</div>
-                <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 1rem;">Colors extracted from your logo</p>
-                <div class="color-swatches" id="colorSwatches"></div>
-            </div>
-
-            <div class="optional-link">
-                <a href="#">Upload brand guidelines PDF (optional)</a>
+            <div class="button-row">
+                <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
 
-        <!-- STEP 3: Content Assets -->
-        <div class="step-content step-3" data-step="3">
+        <!-- STEP 3: CONTENT ASSETS -->
+        <div class="step" data-step="2">
             <div class="step-header">
-                <h1 class="step-title">Content Assets</h1>
-                <p class="step-subtitle">Photos and video clips that will power your content generation</p>
+                <span class="step-label">Step 03</span>
+                <h1 class="step-title">Your Content</h1>
+                <p class="step-subtitle">Photos, video, and prompts</p>
             </div>
 
-            <!-- Photo Upload Section -->
-            <div class="upload-section">
-                <div class="upload-section-title">Reference Photos</div>
-                <div class="drop-zone" id="photoDropZone" style="padding: 2rem;">
-                    <div class="drop-icon">🖼️</div>
-                    <div class="drop-text">Upload Your Photos</div>
-                    <div class="drop-subtext">JPG or PNG (organize by category)</div>
+            <div class="step-content">
+                <!-- Photo Grid -->
+                <div class="form-group">
+                    <label class="form-label">Market Photos</label>
+                    <div class="photo-grid" id="photoGrid">
+                        <div class="photo-item" data-photo="0">
+                            <div class="photo-placeholder">+</div>
+                            <div class="photo-category">Listings</div>
+                        </div>
+                        <div class="photo-item" data-photo="1">
+                            <div class="photo-placeholder">+</div>
+                            <div class="photo-category">Neighborhoods</div>
+                        </div>
+                        <div class="photo-item" data-photo="2">
+                            <div class="photo-placeholder">+</div>
+                            <div class="photo-category">Lifestyle</div>
+                        </div>
+                        <div class="photo-item" data-photo="3">
+                            <div class="photo-placeholder">+</div>
+                            <div class="photo-category">Sold Results</div>
+                        </div>
+                        <div class="photo-item" data-photo="4">
+                            <div class="photo-placeholder">+</div>
+                            <div class="photo-category">Testimonials</div>
+                        </div>
+                        <div class="photo-item" data-photo="5">
+                            <div class="photo-placeholder">+</div>
+                            <div class="photo-category">Events</div>
+                        </div>
+                    </div>
                 </div>
-                <input type="file" id="photoInput" style="display: none;" accept="image/*" multiple>
 
-                <div class="photo-grid" id="photoGrid">
-                    <!-- Sample photos -->
-                    <div class="photo-item">
-                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect fill="#b5a264" width="150" height="150"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#fff" font-size="12">Office</text></svg>
-                        <div class="photo-item-label">
-                            <span class="category-chip office">Office</span>
+                <!-- Reference Examples -->
+                <div class="reference-section">
+                    <span class="reference-title">Reference Examples</span>
+                    <div class="reference-grid">
+                        <div class="reference-item">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);"></div>
+                            <div class="reference-label">Like this</div>
+                        </div>
+                        <div class="reference-item">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);"></div>
+                            <div class="reference-label">Like this</div>
+                        </div>
+                        <div class="reference-item">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #059669 0%, #10B981 100%);"></div>
+                            <div class="reference-label">Like this</div>
                         </div>
                     </div>
-                    <div class="photo-item">
-                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect fill="#4a7c59" width="150" height="150"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#fff" font-size="12">Outdoor</text></svg>
-                        <div class="photo-item-label">
-                            <span class="category-chip outdoor">Outdoor</span>
+                </div>
+
+                <!-- Coaching Tip -->
+                <div class="coaching-tip">
+                    Change your shirt between recordings — it gives us more content variety to work with and makes your content series feel more dynamic.
+                </div>
+
+                <!-- In-Browser Recorder -->
+                <div class="recorder-section">
+                    <label class="form-label" style="margin-bottom: 1rem;">Record Your Intro</label>
+
+                    <div class="camera-preview" id="cameraPreview">
+                        <div class="rec-indicator" id="recIndicator" style="display: none;">
+                            <div class="rec-dot"></div>
+                            <div class="rec-label">REC</div>
                         </div>
-                    </div>
-                    <div class="photo-item">
-                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect fill="#c0392b" width="150" height="150"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#fff" font-size="12">Listing</text></svg>
-                        <div class="photo-item-label">
-                            <span class="category-chip listing">Listing</span>
+                        <div class="timer" id="timer" style="display: none;">00:00 / 01:00</div>
+                        <div class="teleprompter">
+                            <div class="teleprompter-label">TELEPROMPTER</div>
+                            <div class="teleprompter-content" id="teleprompterText">
+                                Talk about what makes your market special...
+                            </div>
                         </div>
+                        <span id="cameraPlaceholder">No camera access</span>
                     </div>
-                    <div class="photo-item">
-                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect fill="#8c8c8c" width="150" height="150"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#fff" font-size="12">Casual</text></svg>
-                        <div class="photo-item-label">
-                            <span class="category-chip casual">Casual</span>
-                        </div>
+
+                    <div class="recorder-controls">
+                        <button class="control-btn" title="Flip Camera">🔄</button>
+                        <button class="record-btn idle" id="recordBtn" onclick="toggleRecord()"></button>
+                        <div class="target-indicator">Target: 60s</div>
                     </div>
-                    <div class="photo-item">
-                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect fill="#3b6fa0" width="150" height="150"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#fff" font-size="12">Lifestyle</text></svg>
-                        <div class="photo-item-label">
-                            <span class="category-chip lifestyle">Lifestyle</span>
-                        </div>
+
+                    <div class="recorder-actions" id="recorderActions" style="display: none;">
+                        <button class="btn-use" onclick="useRecording()">Use This</button>
+                        <button class="btn-rerecord" onclick="rerecord()">Re-Record</button>
                     </div>
+                </div>
+
+                <div class="skip-text">
+                    <button class="btn-skip" onclick="skipRecorder()">Skip for now →</button>
                 </div>
             </div>
 
-            <!-- Reference Examples -->
-            <div class="reference-examples">
-                <div class="reference-title">Reference Examples</div>
-                <div class="reference-grid">
-                    <div class="reference-item">
-                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect fill="#F5F0E0" width="120" height="120"/><circle cx="60" cy="45" r="15" fill="#B5A264"/><rect x="40" y="65" width="40" height="35" fill="#B5A264" opacity="0.7"/></svg>
-                        <div class="reference-label">Like this</div>
-                    </div>
-                    <div class="reference-item">
-                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect fill="#EDF5F0" width="120" height="120"/><circle cx="60" cy="45" r="15" fill="#4A7C59"/><rect x="40" y="65" width="40" height="35" fill="#4A7C59" opacity="0.7"/></svg>
-                        <div class="reference-label">Like this</div>
-                    </div>
-                    <div class="reference-item">
-                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect fill="#EBF3FA" width="120" height="120"/><circle cx="60" cy="45" r="15" fill="#3B6FA0"/><rect x="40" y="65" width="40" height="35" fill="#3B6FA0" opacity="0.7"/></svg>
-                        <div class="reference-label">Like this</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Coaching Tip -->
-            <div class="coaching-tip">
-                <div class="coaching-tip-label">💡 Pro Tip</div>
-                <div class="coaching-tip-text">Change your shirt between recordings for more content variety. Mix office backgrounds with outdoor settings to keep your content dynamic and engaging.</div>
-            </div>
-
-            <!-- Video Recording Section -->
-            <div class="video-section">
-                <div class="upload-section-title">Your Video Clip</div>
-                <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem;">Record a 60-second introduction or market insight</p>
-
-                <div class="video-preview" id="videoPreview">
-                    <div class="play-icon" id="playIcon">▶</div>
-                    <div class="recording-indicator" id="recordingIndicator">● RECORDING</div>
-                    <div class="teleprompter" id="teleprompter">
-                        Talk about your favorite part of your market. What makes you different as an agent?
-                    </div>
-                    <div class="countdown" id="countdown">Target: 60s</div>
-                </div>
-
-                <div class="video-controls">
-                    <button class="record-button" id="recordButton" title="Start Recording">🎥</button>
-                    <button class="secondary-button" id="rerRecordButton" style="display: none;">Re-Record</button>
-                </div>
-
-                <div class="video-preview-recorded" id="videoRecorded">
-                    <div class="video-preview-recorded-thumbnail">
-                        ✓
-                    </div>
-                    <div class="video-preview-actions">
-                        <button class="primary-action-button">Use This</button>
-                        <button class="secondary-button">Re-Record</button>
-                    </div>
-                </div>
-
-                <a href="#" class="skip-link">Skip for now</a>
+            <div class="button-row">
+                <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
 
-        <!-- STEP 4: Integration Check -->
-        <div class="step-content step-4" data-step="4">
+        <!-- STEP 4: INTEGRATION CHECK -->
+        <div class="step" data-step="3">
             <div class="step-header">
+                <span class="step-label">Step 04</span>
                 <h1 class="step-title">Integration Check</h1>
-                <p class="step-subtitle">Connect your AI avatar and voice, or we'll create them for you</p>
+                <p class="step-subtitle">Connect your content production tools</p>
             </div>
 
-            <div class="integration-card">
-                <div class="integration-icon">🤖</div>
-                <div class="integration-content">
-                    <div class="integration-label">Optional</div>
-                    <div class="integration-title">HeyGen Avatar</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Already have a custom avatar created?</p>
-                    <div class="integration-input-wrapper">
-                        <div class="integration-checkmark">✓</div>
-                        <input type="text" class="integration-input" placeholder="Paste HeyGen API key or avatar ID">
-                    </div>
-                    <div class="integration-note">We'll use your existing avatar for a consistent look across all content.</div>
+            <div class="step-content">
+                <div class="form-group">
+                    <label class="form-label">HeyGen API Key (Optional)</label>
+                    <input type="password" class="form-input" placeholder="We'll create content without this" id="heygenKey">
+                    <p class="upload-subtext" style="margin-top: 0.5rem;">We can auto-generate videos if you provide your HeyGen API key. Not required.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ElevenLabs API Key (Optional)</label>
+                    <input type="password" class="form-input" placeholder="We'll create voiceovers without this" id="elevenLabsKey">
+                    <p class="upload-subtext" style="margin-top: 0.5rem;">For premium voice generation. We'll use defaults if you skip this.</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(181,162,100,0.05); border-radius: 8px;">
+                    <p style="font-size: 0.95rem; color: var(--muted); font-style: italic;">
+                        We'll create these integrations for you automatically. No action needed right now.
+                    </p>
                 </div>
             </div>
 
-            <div class="integration-card">
-                <div class="integration-icon">🎤</div>
-                <div class="integration-content">
-                    <div class="integration-label">Optional</div>
-                    <div class="integration-title">ElevenLabs Voice Clone</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Already trained a voice clone?</p>
-                    <div class="integration-input-wrapper">
-                        <div class="integration-checkmark">✓</div>
-                        <input type="text" class="integration-input" placeholder="Paste ElevenLabs API key or voice ID">
-                    </div>
-                    <div class="integration-note">Your unique voice will narrate all generated content for maximum authenticity.</div>
-                </div>
+            <div class="button-row">
+                <button class="btn-gold" onclick="completeOnboarding()">Complete Setup</button>
             </div>
-
-            <div class="coaching-tip">
-                <div class="coaching-tip-label">✨ Smart Setup</div>
-                <div class="coaching-tip-text">Don't have these yet? No problem. We'll create a professional avatar and voice clone from your headshot and a short voice sample. It takes just 24 hours and you'll have a perfect digital clone.</div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="button-group">
-            <button class="btn-back" id="btnBack" style="display: none;">Back</button>
-            <button class="btn-continue" id="btnContinue">Continue</button>
         </div>
     </div>
 
-    <!-- Transition Screen (Post-Onboarding) -->
+    <!-- TRANSITION SCREEN -->
     <div class="transition-screen" id="transitionScreen">
         <div class="transition-content">
-            <h1 class="transition-title">We're building your content engine now.</h1>
-            <p class="transition-subtitle">Your first content will be ready within 24 hours.</p>
+            <h2 class="transition-title">Building Your Content Engine</h2>
+            <div class="signature-line"></div>
 
-            <div class="transition-checklist">
+            <div class="checklist">
                 <div class="checklist-item">
-                    <div class="checklist-icon completed">✓</div>
-                    <span>Analyzing your market</span>
+                    <div class="check-icon completed">✓</div>
+                    <div class="checklist-text">Analyzing your market</div>
                 </div>
                 <div class="checklist-item">
-                    <div class="checklist-icon in-progress">⊛</div>
-                    <span>Creating your digital avatar</span>
+                    <div class="check-icon in-progress"></div>
+                    <div class="checklist-text">Processing your assets</div>
                 </div>
                 <div class="checklist-item">
-                    <div class="checklist-icon pending">○</div>
-                    <span>Generating your first content batch</span>
-                </div>
-                <div class="checklist-item">
-                    <div class="checklist-icon pending">○</div>
-                    <span>Scheduling across your channels</span>
+                    <div class="check-icon pending"></div>
+                    <div class="checklist-text">Creating first content</div>
                 </div>
             </div>
 
-            <div class="transition-footer">
-                <div class="email-icon">📧</div>
-                <span>We'll notify you when it's ready</span>
-            </div>
+            <p class="transition-subtitle">We'll notify you when your first content is ready.</p>
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        // ============================================================
-        // WIZARD STATE MANAGEMENT
-        // ============================================================
-        let currentStep = 1;
+        let currentStep = 0;
         const totalSteps = 4;
-        let zipCodes = [];
-        let selectedColors = [];
+        let isRecording = false;
+        let recordingTime = 0;
 
-        // Sample brand colors for Step 2
-        const brandColorSamples = [
-            { name: 'Gold', code: '#B5A264' },
-            { name: 'Navy', code: '#1a2d4d' },
-            { name: 'Forest', code: '#2d5a3d' },
-            { name: 'Charcoal', code: '#3a3a3a' },
-            { name: 'Sage', code: '#7a8d7e' }
-        ];
-
-        // Sample zip code suggestions
-        const zipCodeSuggestions = [
-            '90210', '90211', '90212', '91423', '91436', '90240',
-            '92121', '92122', '92123', '92131', '92134', '92139'
-        ];
-
-        // ============================================================
-        // INITIALIZATION
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeStepDots();
-            initializeEventListeners();
-            initializeColorSwatches();
-            updateProgressBar();
+        // Color palette selection
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', () => {
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                swatch.classList.add('selected');
+            });
         });
 
-        function initializeStepDots() {
-            const dotsContainer = document.getElementById('stepDots');
-            for (let i = 1; i <= totalSteps; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'step-dot' + (i === 1 ? ' active' : '');
-                dot.onclick = () => goToStep(i);
-                dotsContainer.appendChild(dot);
+        // Photo selection
+        document.querySelectorAll('.photo-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('selected');
+            });
+        });
+
+        // Zip code chip functionality
+        function addZipChip(value) {
+            const chips = document.getElementById('zipChips');
+            const chip = document.createElement('div');
+            chip.className = 'chip selected';
+            chip.innerHTML = `
+                ${value}
+                <span class="chip-remove">×</span>
+            `;
+            chip.querySelector('.chip-remove').addEventListener('click', (e) => {
+                e.stopPropagation();
+                chip.remove();
+            });
+            chips.appendChild(chip);
+        }
+
+        document.getElementById('location').addEventListener('change', function() {
+            if (this.value.match(/^\d{5}$/)) {
+                addZipChip(this.value);
+                this.value = '';
+            }
+        });
+
+        // Logo upload
+        document.getElementById('logoInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                console.log('Logo uploaded:', e.target.files[0].name);
+            }
+        });
+
+        // Headshot upload
+        document.getElementById('headshotInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const profileCircle = document.getElementById('profileCircle');
+                    profileCircle.classList.remove('empty');
+                    profileCircle.innerHTML = `<img src="${event.target.result}" alt="Headshot">`;
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // Record button
+        function toggleRecord() {
+            const btn = document.getElementById('recordBtn');
+            const preview = document.getElementById('cameraPreview');
+            const recIndicator = document.getElementById('recIndicator');
+            const timer = document.getElementById('timer');
+
+            isRecording = !isRecording;
+
+            if (isRecording) {
+                btn.classList.remove('idle');
+                btn.textContent = '⏹';
+                preview.classList.add('recording');
+                recIndicator.style.display = 'flex';
+                timer.style.display = 'block';
+
+                recordingTime = 0;
+                const interval = setInterval(() => {
+                    recordingTime++;
+                    const sec = String(Math.floor(recordingTime / 10)).padStart(2, '0');
+                    const ms = String(recordingTime % 10).padStart(2, '0');
+                    timer.textContent = `00:${sec} / 01:00`;
+                    if (recordingTime >= 600) {
+                        clearInterval(interval);
+                        toggleRecord();
+                    }
+                }, 100);
+            } else {
+                btn.classList.add('idle');
+                btn.textContent = '⏺';
+                preview.classList.remove('recording');
+                recIndicator.style.display = 'none';
+                timer.style.display = 'none';
+                document.getElementById('recorderActions').style.display = 'flex';
             }
         }
 
-        function initializeEventListeners() {
-            // Navigation
-            document.getElementById('btnContinue').addEventListener('click', nextStep);
-            document.getElementById('btnBack').addEventListener('click', previousStep);
+        function useRecording() {
+            document.getElementById('recorderActions').style.display = 'none';
+            alert('Recording saved!');
+        }
 
-            // Step 1: Zip Code Input
-            const zipInput = document.getElementById('zipCodeInput');
-            zipInput.addEventListener('input', handleZipCodeInput);
-            zipInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addZipCode(zipInput.value);
-                    zipInput.value = '';
+        function rerecord() {
+            document.getElementById('recorderActions').style.display = 'none';
+            document.getElementById('recordBtn').classList.add('idle');
+            document.getElementById('recordBtn').textContent = '⏺';
+        }
+
+        function skipRecorder() {
+            console.log('Skipping recorder');
+        }
+
+        // Step navigation
+        function updateStep() {
+            document.querySelectorAll('.step').forEach((step, idx) => {
+                if (idx === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('exit-left');
+                } else if (idx < currentStep) {
+                    step.classList.remove('active');
+                    step.classList.add('exit-left');
+                } else {
+                    step.classList.remove('active', 'exit-left');
                 }
             });
 
-            // Step 2: Logo Upload
-            const logoDropZone = document.getElementById('logoDropZone');
-            logoDropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                logoDropZone.classList.add('dragover');
-            });
-            logoDropZone.addEventListener('dragleave', () => {
-                logoDropZone.classList.remove('dragover');
-            });
-            logoDropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                logoDropZone.classList.remove('dragover');
-                handleLogoUpload(e.dataTransfer.files[0]);
-            });
-            logoDropZone.addEventListener('click', () => {
-                document.getElementById('logoInput').click();
-            });
-            document.getElementById('logoInput').addEventListener('change', (e) => {
-                if (e.target.files[0]) handleLogoUpload(e.target.files[0]);
-            });
+            // Update progress bar
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.width = ((currentStep + 1) / totalSteps) * 100 + '%';
 
-            // Step 2: Headshot Upload
-            const headshotDropZone = document.getElementById('headshotDropZone');
-            headshotDropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                headshotDropZone.classList.add('dragover');
-            });
-            headshotDropZone.addEventListener('dragleave', () => {
-                headshotDropZone.classList.remove('dragover');
-            });
-            headshotDropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                headshotDropZone.classList.remove('dragover');
-                handleHeadshotUpload(e.dataTransfer.files[0]);
-            });
-            headshotDropZone.addEventListener('click', () => {
-                document.getElementById('headshotInput').click();
-            });
-            document.getElementById('headshotInput').addEventListener('change', (e) => {
-                if (e.target.files[0]) handleHeadshotUpload(e.target.files[0]);
-            });
-
-            // Step 3: Photo Upload
-            const photoDropZone = document.getElementById('photoDropZone');
-            photoDropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                photoDropZone.classList.add('dragover');
-            });
-            photoDropZone.addEventListener('dragleave', () => {
-                photoDropZone.classList.remove('dragover');
-            });
-            photoDropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                photoDropZone.classList.remove('dragover');
-            });
-            photoDropZone.addEventListener('click', () => {
-                document.getElementById('photoInput').click();
-            });
-
-            // Step 3: Video Recording
-            const recordButton = document.getElementById('recordButton');
-            recordButton.addEventListener('click', toggleVideoRecording);
-        }
-
-        function initializeColorSwatches() {
-            const container = document.getElementById('colorSwatches');
-            brandColorSamples.forEach((color, idx) => {
-                const swatch = document.createElement('div');
-                swatch.className = 'color-swatch' + (idx === 0 ? ' selected' : '');
-                swatch.style.backgroundColor = color.code;
-                swatch.onclick = () => toggleColorSelection(swatch, color);
-
-                const code = document.createElement('div');
-                code.className = 'color-code';
-                code.textContent = color.code;
-
-                const wrapper = document.createElement('div');
-                wrapper.style.cursor = 'pointer';
-                wrapper.appendChild(swatch);
-                wrapper.appendChild(code);
-
-                container.appendChild(wrapper);
-            });
-            selectedColors = [brandColorSamples[0].code];
-        }
-
-        // ============================================================
-        // ZIP CODE HANDLING
-        // ============================================================
-        function handleZipCodeInput(e) {
-            const value = e.target.value.trim();
-            const suggestions = document.getElementById('zipSuggestions');
-
-            if (value.length === 0) {
-                suggestions.classList.remove('show');
-                return;
-            }
-
-            const filtered = zipCodeSuggestions.filter(z => z.startsWith(value));
-            suggestions.innerHTML = '';
-
-            if (filtered.length > 0) {
-                filtered.forEach(zip => {
-                    const item = document.createElement('div');
-                    item.className = 'suggestion-item';
-                    item.textContent = zip;
-                    item.onclick = () => {
-                        addZipCode(zip);
-                        document.getElementById('zipCodeInput').value = '';
-                        suggestions.classList.remove('show');
-                    };
-                    suggestions.appendChild(item);
-                });
-                suggestions.classList.add('show');
-            }
-        }
-
-        function addZipCode(zip) {
-            if (zipCodes.length >= 5 || zipCodes.includes(zip)) return;
-
-            zipCodes.push(zip);
-            renderZipChips();
-        }
-
-        function removeZipCode(zip) {
-            zipCodes = zipCodes.filter(z => z !== zip);
-            renderZipChips();
-        }
-
-        function renderZipChips() {
-            const container = document.getElementById('zipChips');
-            container.innerHTML = '';
-
-            zipCodes.forEach(zip => {
-                const chip = document.createElement('div');
-                chip.className = 'chip';
-                chip.innerHTML = `
-                    ${zip}
-                    <span class="chip-remove" onclick="removeZipCode('${zip}')">×</span>
-                `;
-                container.appendChild(chip);
-            });
-        }
-
-        // ============================================================
-        // LOGO UPLOAD
-        // ============================================================
-        function handleLogoUpload(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const preview = document.getElementById('logoPreview');
-                preview.querySelector('.logo-preview-img').src = e.target.result;
-                preview.classList.add('active');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeLogo() {
-            document.getElementById('logoPreview').classList.remove('active');
-            document.getElementById('logoInput').value = '';
-        }
-
-        // ============================================================
-        // HEADSHOT UPLOAD
-        // ============================================================
-        function handleHeadshotUpload(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const preview = document.getElementById('headshotPreview');
-                preview.innerHTML = `
-                    <img src="${e.target.result}" alt="Headshot">
-                    <div class="face-detect-outline active" id="faceDetectOutline"></div>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ============================================================
-        // COLOR SELECTION
-        // ============================================================
-        function toggleColorSelection(swatchElement, color) {
-            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
-            swatchElement.classList.add('selected');
-            selectedColors = [color.code];
-        }
-
-        // ============================================================
-        // VIDEO RECORDING
-        // ============================================================
-        let isRecording = false;
-        let recordingTime = 0;
-        let recordingInterval;
-
-        function toggleVideoRecording() {
-            isRecording = !isRecording;
-            const recordButton = document.getElementById('recordButton');
-            const teleprompter = document.getElementById('teleprompter');
-            const countdown = document.getElementById('countdown');
-            const recordingIndicator = document.getElementById('recordingIndicator');
-            const playIcon = document.getElementById('playIcon');
-
-            if (isRecording) {
-                recordButton.classList.add('recording');
-                recordButton.textContent = '⏹';
-                teleprompter.classList.add('active');
-                countdown.classList.add('active');
-                recordingIndicator.classList.add('active');
-                playIcon.style.display = 'none';
-                recordingTime = 0;
-
-                recordingInterval = setInterval(() => {
-                    recordingTime++;
-                    countdown.textContent = `${recordingTime}s`;
-                    if (recordingTime >= 60) {
-                        stopRecording();
-                    }
-                }, 1000);
-            } else {
-                stopRecording();
-            }
-        }
-
-        function stopRecording() {
-            isRecording = false;
-            clearInterval(recordingInterval);
-
-            const recordButton = document.getElementById('recordButton');
-            const teleprompter = document.getElementById('teleprompter');
-            const countdown = document.getElementById('countdown');
-            const recordingIndicator = document.getElementById('recordingIndicator');
-            const videoRecorded = document.getElementById('videoRecorded');
-            const playIcon = document.getElementById('playIcon');
-
-            recordButton.classList.remove('recording');
-            recordButton.textContent = '🎥';
-            teleprompter.classList.remove('active');
-            countdown.classList.remove('active');
-            recordingIndicator.classList.remove('active');
-            playIcon.style.display = 'flex';
-
-            videoRecorded.classList.add('active');
-
-            // Reshow record button and add re-record button
-            document.getElementById('rerRecordButton').style.display = 'inline-block';
-            document.getElementById('rerRecordButton').onclick = () => {
-                videoRecorded.classList.remove('active');
-                document.getElementById('rerRecordButton').style.display = 'none';
-                recordButton.textContent = '🎥';
-            };
-        }
-
-        // ============================================================
-        // STEP NAVIGATION
-        // ============================================================
-        function nextStep() {
-            if (currentStep < totalSteps) {
-                goToStep(currentStep + 1);
-            } else {
-                // Complete onboarding
-                showTransitionScreen();
-            }
-        }
-
-        function previousStep() {
-            if (currentStep > 1) {
-                goToStep(currentStep - 1);
-            }
-        }
-
-        function goToStep(step) {
-            if (step < 1 || step > totalSteps) return;
-
-            // Hide current step
-            document.querySelectorAll('.step-content').forEach(el => {
-                el.classList.remove('active');
-            });
-
-            // Show new step
-            currentStep = step;
-            document.querySelector(`[data-step="${step}"]`).classList.add('active');
-
-            // Update progress
-            updateProgressBar();
-            updateStepDots();
-            updateBackButton();
-            updateContinueButton();
-
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
-
-        function updateProgressBar() {
-            const progress = (currentStep / totalSteps) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-
-        function updateStepDots() {
-            document.querySelectorAll('.step-dot').forEach((dot, idx) => {
-                const stepNum = idx + 1;
+            // Update progress dots
+            document.querySelectorAll('.progress-dot').forEach((dot, idx) => {
                 dot.classList.remove('active', 'completed');
-
-                if (stepNum === currentStep) {
+                if (idx === currentStep) {
                     dot.classList.add('active');
-                } else if (stepNum < currentStep) {
+                } else if (idx < currentStep) {
                     dot.classList.add('completed');
                 }
             });
         }
 
-        function updateBackButton() {
-            const backBtn = document.getElementById('btnBack');
-            backBtn.style.display = currentStep === 1 ? 'none' : 'block';
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                updateStep();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
-        function updateContinueButton() {
-            const continueBtn = document.getElementById('btnContinue');
-            continueBtn.textContent = currentStep === totalSteps ? 'Complete Setup' : 'Continue';
-        }
-
-        // ============================================================
-        // TRANSITION SCREEN
-        // ============================================================
-        function showTransitionScreen() {
-            document.querySelector('.wizard-container').style.display = 'none';
+        function completeOnboarding() {
             document.getElementById('transitionScreen').classList.add('active');
-
-            // Animate checklist items (delays already in CSS)
-            // Just trigger the animation by adding active class
+            setTimeout(() => {
+                alert('Onboarding complete! Your content engine is being built.');
+            }, 3000);
         }
 
-        // ============================================================
-        // UTILITY
-        // ============================================================
-        function updateContinueButton() {
-            const continueBtn = document.getElementById('btnContinue');
-            continueBtn.textContent = currentStep === totalSteps ? 'Complete Setup' : 'Continue';
-        }
+        // Initialize
+        updateStep();
     </script>
 </body>
 </html>
