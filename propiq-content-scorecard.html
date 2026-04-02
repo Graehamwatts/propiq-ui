@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropIQ Content Engine — Market Score Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Epilogue:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Design System */
+        :root {
+            --gold: #B5A264;
+            --gold-l: #F5F0E0;
+            --gold-d: #9A8A55;
+            --black: #111111;
+            --black-l: #1a1a1a;
+            --black-m: #2a2a2a;
+            --white: #FFFFFF;
+            --off-white: #FAFAF8;
+            --cream: #F5F3EE;
+            --muted: #8C8C8C;
+            --faint: #B5B5B5;
+            --border: rgba(0, 0, 0, 0.08);
+            --border2: rgba(0, 0, 0, 0.12);
+            --ink: #111111;
+            --surface: #FFFFFF;
+            --bg: #FAFAF8;
+            --green: #4A7C59;
+            --green-l: #EDF5F0;
+            --red: #C0392B;
+            --red-l: #FDF0F0;
+            --blue: #3B6FA0;
+            --blue-l: #EBF3FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Epilogue', sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--black);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            flex: 1;
+            justify-content: center;
+            margin-left: 4rem;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--ink);
+        }
+
+        .nav a.active {
+            color: var(--gold);
+        }
+
+        .nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--gold);
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .icon-button:hover {
+            color: var(--ink);
+        }
+
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: var(--gold);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section 1: Competitiveness Score (Hero) */
+        .section-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 2rem;
+        }
+
+        .gauge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .circular-gauge {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--gold) 0deg,
+                var(--gold) 244.8deg,
+                var(--border2) 244.8deg,
+                var(--border2) 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            position: relative;
+            animation: fillGauge 2s ease-out;
+        }
+
+        @keyframes fillGauge {
+            from {
+                background: conic-gradient(
+                    var(--gold) 0deg,
+                    var(--gold) 0deg,
+                    var(--border2) 0deg,
+                    var(--border2) 360deg
+                );
+            }
+            to {
+                background: conic-gradient(
+                    var(--gold) 0deg,
+                    var(--gold) 244.8deg,
+                    var(--border2) 244.8deg,
+                    var(--border2) 360deg
+                );
+            }
+        }
+
+        .gauge-inner {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-score {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .gauge-label {
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .score-explanation {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--black);
+        }
+
+        /* Section 2: Your Output vs. Recommended */
+        .section-comparison {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .comparison-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+        }
+
+        .comparison-row {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .comparison-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .comparison-label {
+            min-width: 180px;
+            font-weight: 500;
+            color: var(--black);
+            font-size: 0.9rem;
+        }
+
+        .bar-wrapper {
+            flex: 1;
+            height: 24px;
+            background-color: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background-color: var(--gold);
+            border-radius: 4px;
+            transition: width 1.5s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+        }
+
+        .bar-fill.current {
+            width: 71%;
+        }
+
+        .bar-fill.target {
+            width: 100%;
+            background-color: rgba(181, 162, 100, 0.4);
+        }
+
+        .bar-fill.leader {
+            width: 100%;
+            background-color: transparent;
+            border: 2px solid var(--gold);
+        }
+
+        .comparison-value {
+            min-width: 80px;
+            text-align: right;
+            font-weight: 500;
+            color: var(--black);
+            font-size: 0.9rem;
+        }
+
+        /* Section 3: Content Type Breakdown */
+        .section-breakdown {
+            margin-bottom: 4rem;
+        }
+
+        .breakdown-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .content-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-category {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 1rem;
+        }
+
+        .card-count {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .mini-gauge {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--white);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            animation: fillMiniGauge 2s ease-out;
+        }
+
+        @keyframes fillMiniGauge {
+            from {
+                opacity: 0.8;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .mini-gauge.on-track {
+            background: conic-gradient(
+                var(--green) 0deg,
+                var(--green) 259.2deg,
+                var(--border2) 259.2deg,
+                var(--border2) 360deg
+            );
+        }
+
+        .mini-gauge.warning {
+            background: conic-gradient(
+                var(--gold) 0deg,
+                var(--gold) 190.8deg,
+                var(--border2) 190.8deg,
+                var(--border2) 360deg
+            );
+        }
+
+        .mini-gauge.strong {
+            background: conic-gradient(
+                var(--green) 0deg,
+                var(--green) 288deg,
+                var(--border2) 288deg,
+                var(--border2) 360deg
+            );
+        }
+
+        .mini-gauge.attention {
+            background: conic-gradient(
+                var(--red) 0deg,
+                var(--red) 72deg,
+                var(--border2) 72deg,
+                var(--border2) 360deg
+            );
+        }
+
+        .card-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .status-on-track {
+            background-color: var(--green-l);
+            color: var(--green);
+        }
+
+        .status-warning {
+            background-color: var(--gold-l);
+            color: var(--gold-d);
+        }
+
+        .status-strong {
+            background-color: var(--green-l);
+            color: var(--green);
+        }
+
+        .status-attention {
+            background-color: var(--red-l);
+            color: var(--red);
+        }
+
+        /* Section 4: How to Close the Gap */
+        .section-recommendations {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .recommendations-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .recommendation-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-top: 0.2rem;
+            min-width: 24px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--gold);
+        }
+
+        .recommendation-content {
+            flex: 1;
+        }
+
+        .recommendation-text {
+            color: var(--black);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-link {
+            display: inline-block;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .action-link:hover {
+            color: var(--gold-d);
+            border-bottom-color: var(--gold);
+        }
+
+        .recommendation-summary {
+            background-color: var(--gold-l);
+            border: 1px solid rgba(181, 162, 100, 0.3);
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: var(--black);
+            text-align: center;
+        }
+
+        /* Section 5: Market Comparison */
+        .section-market {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .market-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+        }
+
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .market-table thead {
+            background-color: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .market-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .market-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--black);
+        }
+
+        .market-table tr.your-row {
+            background-color: var(--gold-l);
+        }
+
+        .market-table tr.your-row td {
+            font-weight: 600;
+            color: var(--gold-d);
+        }
+
+        .rank-badge {
+            background-color: var(--gold);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-label {
+                min-width: 120px;
+                font-size: 0.8rem;
+            }
+
+            .comparison-value {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="logo">PropertyIQ</div>
+        <nav class="nav">
+            <a href="#dashboard">Dashboard</a>
+            <a href="#content">Content</a>
+            <a href="#assets">Assets</a>
+            <a href="#analytics" class="active">Analytics</a>
+            <a href="#settings">Settings</a>
+        </nav>
+        <div class="top-bar-right">
+            <button class="icon-button">🔔</button>
+            <div class="avatar">GW</div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Competitiveness Score -->
+        <div class="section-hero">
+            <h1 class="section-title">Market Competitiveness Analysis</h1>
+
+            <div class="gauge-container">
+                <div class="circular-gauge">
+                    <div class="gauge-inner">
+                        <div class="gauge-score">6.8</div>
+                        <div class="gauge-label">out of 10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; color: var(--black);">Moderate Competition</div>
+
+            <div class="score-explanation">
+                <p>Your market (East Palo Alto, 94303) has <strong>47 agents</strong> actively posting video content. You're currently in the <strong>top 35%</strong> for content output. To break into the top 10%, we recommend <strong>45+ content pieces per month</strong>.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Your Output vs. Recommended -->
+        <div class="section-comparison">
+            <h2 class="comparison-title">Your Output vs. Recommended</h2>
+
+            <div class="comparison-row">
+                <div class="comparison-label">Your current output</div>
+                <div class="bar-wrapper">
+                    <div class="bar-fill current"></div>
+                </div>
+                <div class="comparison-value">32/mo</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-label">Recommended target</div>
+                <div class="bar-wrapper">
+                    <div class="bar-fill target"></div>
+                </div>
+                <div class="comparison-value">45/mo</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-label">Market leader</div>
+                <div class="bar-wrapper">
+                    <div class="bar-fill leader"></div>
+                </div>
+                <div class="comparison-value">67/mo</div>
+            </div>
+        </div>
+
+        <!-- Section 3: Content Type Breakdown -->
+        <div class="section-breakdown">
+            <h2 class="breakdown-title">Content Type Breakdown</h2>
+
+            <div class="cards-grid">
+                <div class="content-card">
+                    <div class="card-category">Video Content</div>
+                    <div class="card-count">18</div>
+                    <div class="mini-gauge on-track">72%</div>
+                    <span class="card-status status-on-track">On track</span>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-category">Market Updates</div>
+                    <div class="card-count">8</div>
+                    <div class="mini-gauge warning">53%</div>
+                    <span class="card-status status-warning">Below target</span>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-category">Listing Content</div>
+                    <div class="card-count">4</div>
+                    <div class="mini-gauge strong">80%</div>
+                    <span class="card-status status-strong">Strong</span>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-category">Authority/Education</div>
+                    <div class="card-count">2</div>
+                    <div class="mini-gauge attention">20%</div>
+                    <span class="card-status status-attention">Needs attention</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: How to Close the Gap -->
+        <div class="section-recommendations">
+            <h2 class="recommendations-title">How to Close the Gap</h2>
+            <p style="color: var(--black); margin-bottom: 1.5rem;">Here's how to reach your target of <strong>45 pieces/month</strong>:</p>
+
+            <div class="recommendation-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="rec1" aria-label="Add 2 new avatar variations">
+                </div>
+                <div class="recommendation-content">
+                    <div class="recommendation-text">Add 2 new avatar variations → <strong>+8 pieces/month</strong></div>
+                    <a href="#" class="action-link">Record Now</a>
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="rec2" aria-label="Upload 3 new listing photos">
+                </div>
+                <div class="recommendation-content">
+                    <div class="recommendation-text">Upload 3 new listing photos → <strong>+4 pieces/month</strong></div>
+                    <a href="#" class="action-link">Upload</a>
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="rec3" aria-label="Record 1 market update script">
+                </div>
+                <div class="recommendation-content">
+                    <div class="recommendation-text">Record 1 market update script → <strong>+3 pieces/month</strong></div>
+                    <a href="#" class="action-link">Record</a>
+                </div>
+            </div>
+
+            <div class="recommendation-summary">
+                Total potential: <strong>+15 pieces/month = 47 pieces</strong> (exceeds target)
+            </div>
+        </div>
+
+        <!-- Section 5: Market Comparison -->
+        <div class="section-market">
+            <h2 class="market-title">Top Agents in Your Market</h2>
+
+            <table class="market-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Agent</th>
+                        <th>Content/Month</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1</td>
+                        <td>Agent A</td>
+                        <td><strong>67</strong></td>
+                        <td><span class="rank-badge">Market Leader</span></td>
+                    </tr>
+                    <tr>
+                        <td>#2</td>
+                        <td>Agent B</td>
+                        <td><strong>52</strong></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>#3</td>
+                        <td>Agent C</td>
+                        <td><strong>38</strong></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>#4</td>
+                        <td>Agent D</td>
+                        <td><strong>28</strong></td>
+                        <td></td>
+                    </tr>
+                    <tr class="your-row">
+                        <td>#12</td>
+                        <td><strong>You</strong></td>
+                        <td><strong>32</strong></td>
+                        <td><span class="rank-badge" style="background-color: var(--gold-d);">Your Position</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Last updated: April 2, 2026 | Data refreshes weekly</p>
+    </div>
+
+    <script>
+        // Animate circular gauges on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main gauge is already animated via CSS
+            // Additional interactive features can be added here
+
+            // Make checkboxes interactive with visual feedback
+            const checkboxes = document.querySelectorAll('.checkbox-wrapper input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const recommendationItem = this.closest('.recommendation-item');
+                    if (this.checked) {
+                        recommendationItem.style.opacity = '0.7';
+                    } else {
+                        recommendationItem.style.opacity = '1';
+                    }
+                });
+            });
+
+            // Add click handlers for action links
+            document.querySelectorAll('.action-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const action = this.textContent.trim();
+                    console.log('Action triggered:', action);
+                    // In a real implementation, this would navigate or trigger a modal
+                });
+            });
+        });
+    </script>
+</body>
+</html>
