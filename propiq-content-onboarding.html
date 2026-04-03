@@ -227,22 +227,23 @@
         .form-label {
             display: block;
             font-size: 11px;
-            letter-spacing: 0.1em;
             text-transform: uppercase;
+            letter-spacing: 0.12em;
             color: var(--gold);
-            margin-bottom: 0.8rem;
+            margin-bottom: 8px;
             font-weight: 500;
         }
 
         .form-input {
             width: 100%;
-            padding: 1rem 1.2rem;
+            height: 48px;
+            padding: 12px 16px;
             background: var(--surface2);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border2);
             border-radius: 8px;
             color: var(--ink);
             font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
@@ -254,7 +255,20 @@
             outline: none;
             border-color: var(--gold);
             background: var(--surface2);
-            box-shadow: 0 0 0 3px rgba(181,162,100,0.1);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 3px rgba(181,162,100,0.1);
+            position: relative;
+        }
+
+        .form-input::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold);
+            opacity: 0;
+            animation: slideInUnderline 0.3s ease;
         }
 
         /* Zip code chips */
@@ -328,6 +342,11 @@
             50% { opacity: 0.4; }
         }
 
+        @keyframes slideInUnderline {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
         /* ============================================================
            UPLOAD ZONES
            ============================================================ */
@@ -372,8 +391,8 @@
            PROFILE CIRCLE WITH BORDER
            ============================================================ */
         .profile-circle {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             border: 3px solid var(--gold);
             background: var(--surface3);
@@ -383,6 +402,24 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .profile-circle:hover {
+            box-shadow: 0 0 24px rgba(181,162,100,0.2);
+        }
+
+        .profile-circle::after {
+            content: '📷';
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .profile-circle:hover::after {
+            opacity: 1;
         }
 
         .profile-circle.empty {
@@ -424,6 +461,279 @@
             border-color: var(--gold);
             box-shadow: 0 0 16px rgba(181,162,100,0.3);
             transform: scale(1.1);
+        }
+
+        /* ============================================================
+           BRAND TYPE TOGGLE
+           ============================================================ */
+        .brand-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .brand-pill {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            text-align: center;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .brand-pill:hover {
+            border-color: var(--gold-border);
+            background: rgba(181,162,100,0.04);
+        }
+
+        .brand-pill.active {
+            border-color: var(--gold);
+            background: rgba(181,162,100,0.08);
+            box-shadow: 0 0 20px rgba(181,162,100,0.1);
+        }
+
+        .brand-pill-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .brand-pill-desc {
+            font-size: 0.75rem;
+            color: var(--faint);
+            line-height: 1.3;
+        }
+
+        /* ============================================================
+           COLOR EXTRACTION
+           ============================================================ */
+        .color-extraction {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(181,162,100,0.04);
+            border: 1px solid var(--gold-border);
+            border-radius: 12px;
+        }
+
+        .color-extraction.visible {
+            display: block;
+            animation: fadeUp 0.5s ease;
+        }
+
+        .extracted-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .extracted-swatches {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .extracted-swatch {
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .extracted-swatch-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .extracted-swatch-circle:hover {
+            border-color: var(--gold);
+            transform: scale(1.08);
+        }
+
+        .extracted-swatch-circle::after {
+            content: '✏';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+        }
+
+        .extracted-swatch-circle:hover::after {
+            opacity: 1;
+        }
+
+        .extracted-hex {
+            font-size: 10px;
+            font-family: 'SF Mono', monospace;
+            color: var(--faint);
+            margin-top: 6px;
+            letter-spacing: 0.05em;
+        }
+
+        .add-color-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px dashed var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--faint);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .add-color-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           ANALYZING STATE
+           ============================================================ */
+        .analyzing-state {
+            text-align: center;
+            padding: 2rem 0;
+            display: none;
+        }
+
+        .analyzing-state.visible {
+            display: block;
+        }
+
+        .analyzing-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .analyzing-text {
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================================
+           BROKERAGE SELECT
+           ============================================================ */
+        .brokerage-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238C8C8C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .brokerage-select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .brokerage-section {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .brokerage-section.visible {
+            display: block;
+        }
+
+        .logo-upload-section {
+            display: none;
+        }
+
+        .logo-upload-section.visible {
+            display: block;
+        }
+
+        /* ============================================================
+           BRAND PREVIEW
+           ============================================================ */
+        .brand-preview {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .brand-preview-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--faint);
+            margin-bottom: 1rem;
+        }
+
+        .brand-preview-card {
+            background: var(--surface2);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .brand-preview-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--surface3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--faint);
+        }
+
+        .brand-preview-text .preview-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .brand-preview-text .preview-agent {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 2px;
         }
 
         /* ============================================================
@@ -474,388 +784,230 @@
             background: rgba(0,0,0,0.7);
             color: var(--ink);
             font-size: 0.7rem;
-            padding: 0.4rem 0.6rem;
-            border-radius: 4px;
-            letter-spacing: 0.05em;
             text-transform: uppercase;
-            text-align: center;
+            letter-spacing: 0.08em;
+            padding: 6px 8px;
+            border-radius: 4px;
         }
 
         /* ============================================================
-           REFERENCE SECTION
+           INTEGRATION CARDS
            ============================================================ */
-        .reference-section {
-            margin-bottom: 2rem;
-            padding-top: 2rem;
+        .integration-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .integration-card:hover {
+            border-color: var(--gold-border);
+        }
+
+        .integration-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: var(--surface3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .integration-info {
+            flex: 1;
+        }
+
+        .integration-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .integration-desc {
+            font-size: 0.75rem;
+            color: var(--faint);
+            margin-top: 2px;
+        }
+
+        .integration-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .integration-toggle input {
+            display: none;
+        }
+
+        .integration-toggle .toggle-track {
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            background: var(--surface3);
+            border: 1px solid var(--border2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .integration-toggle input:checked + .toggle-track {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .integration-toggle input:checked + .toggle-track .toggle-knob {
+            left: 22px;
+        }
+
+        .integration-api-field {
+            display: none;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
             border-top: 1px solid var(--border);
         }
 
-        .reference-title {
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1.2rem;
+        .integration-api-field.visible {
             display: block;
-            font-weight: 500;
-        }
-
-        .reference-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .reference-item {
-            position: relative;
-            aspect-ratio: 4/3;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: var(--surface3);
-        }
-
-        .reference-label {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(181,162,100,0.9);
-            color: #111;
-            font-size: 0.65rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 3px;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            text-transform: uppercase;
         }
 
         /* ============================================================
-           COACHING TIP
+           SOCIAL ACCOUNTS
            ============================================================ */
-        .coaching-tip {
-            background: rgba(181,162,100,0.05);
-            border-left: 3px solid var(--gold);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-style: italic;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--muted);
+        .social-platform-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
         }
 
-        /* ============================================================
-           IN-BROWSER VIDEO RECORDER
-           ============================================================ */
-        .recorder-section {
-            margin-bottom: 2rem;
-        }
-
-        .camera-preview {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #0A0A0A;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 1.5rem;
+        .social-connect-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 8px;
+            margin-top: 0.75rem;
+        }
+
+        .social-connect-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border2);
+            background: rgba(255,255,255,0.03);
             color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .camera-preview::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
-            pointer-events: none;
-        }
-
-        .camera-preview.recording::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            animation: recording-pulse 2s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        @keyframes recording-pulse {
-            0%, 100% { background: rgba(192,57,43,0); }
-            50% { background: rgba(192,57,43,0.05); }
-        }
-
-        .rec-indicator {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            z-index: 20;
-        }
-
-        .rec-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--red);
-            animation: rec-blink 1s ease-in-out infinite;
-        }
-
-        @keyframes rec-blink {
-            0%, 49%, 100% { opacity: 1; }
-            50%, 99% { opacity: 0.3; }
-        }
-
-        .rec-label {
             font-size: 11px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--red);
-            font-weight: 600;
-        }
-
-        .timer {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: var(--ink);
-            background: rgba(0,0,0,0.5);
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            z-index: 20;
-        }
-
-        .teleprompter {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 30%;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-            display: flex;
-            align-items: flex-end;
-            padding: 1rem;
-            z-index: 15;
-        }
-
-        .teleprompter-content {
-            width: 100%;
             text-align: center;
-            color: var(--ink);
-            font-size: 1rem;
-            line-height: 1.5;
-            font-weight: 400;
-        }
-
-        .teleprompter-label {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            font-size: 9px;
-            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
             text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* Controls below camera */
-        .recorder-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .control-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: none;
-            background: var(--surface2);
-            color: var(--ink);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border);
-        }
-
-        .control-btn:hover {
-            border-color: var(--gold-border);
-            background: var(--surface3);
-        }
-
-        .record-btn {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
-            background-size: 200% 200%;
-            border: none;
-            border-radius: 50%;
-            color: #111;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: shimmer 3s ease infinite;
-            box-shadow: 0 0 24px rgba(181,162,100,0.2);
-        }
-
-        .record-btn:hover {
-            box-shadow: 0 0 32px rgba(181,162,100,0.35);
-            transform: scale(1.05);
-        }
-
-        .record-btn.idle {
-            animation: pulse-record 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-record {
-            0%, 100% { box-shadow: 0 0 24px rgba(181,162,100,0.2); }
-            50% { box-shadow: 0 0 32px rgba(181,162,100,0.35); }
-        }
-
-        .target-indicator {
-            font-size: 0.8rem;
-            color: var(--muted);
-            font-weight: 500;
-            letter-spacing: 0.05em;
-        }
-
-        .recorder-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn-use {
-            flex: 1;
-            max-width: 200px;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
-            background-size: 200% 200%;
-            animation: shimmer 3s ease infinite;
-            color: #111;
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
             letter-spacing: 0.08em;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .btn-use:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(181,162,100,0.25);
-        }
-
-        .btn-rerecord {
-            flex: 1;
-            max-width: 200px;
-            padding: 1rem;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--ink);
-            border-radius: 8px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-rerecord:hover {
+        .social-connect-btn:hover {
             border-color: var(--gold-border);
-            color: var(--gold);
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            color: var(--ink);
         }
 
         /* ============================================================
-           BUTTONS & ACTIONS
+           REASSURANCE MESSAGE
+           ============================================================ */
+        .reassurance-message {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(181,162,100,0.04);
+            border-left: 2px solid var(--gold);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        /* ============================================================
+           BUTTON STYLING
            ============================================================ */
         .button-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 1rem;
+            justify-content: flex-end;
         }
 
         .btn-gold {
-            flex: 1;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
-            background-size: 200% 200%;
-            animation: shimmer 3s ease infinite;
-            color: #111;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 100%);
             border: none;
             border-radius: 8px;
+            color: #000;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            font-size: 0.85rem;
+            letter-spacing: 0.05em;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(181,162,100,0.15);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            text-transform: uppercase;
         }
 
         .btn-gold:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(181,162,100,0.25);
+            box-shadow: 0 12px 24px rgba(181,162,100,0.25);
         }
 
-        .btn-skip {
-            padding: 1rem 2rem;
+        .btn-gold:active {
+            transform: translateY(0);
+        }
+
+        .btn-rerecord {
+            padding: 0.75rem 1.5rem;
             background: transparent;
-            color: var(--muted);
-            border: none;
-            cursor: pointer;
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            color: var(--gold);
+            font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-skip:hover {
-            color: var(--ink);
-        }
-
-        .skip-text {
-            text-align: center;
             margin-top: 1.5rem;
         }
 
+        .btn-rerecord:hover {
+            background: rgba(181,162,100,0.1);
+            box-shadow: 0 0 12px rgba(181,162,100,0.2);
+        }
+
         /* ============================================================
-           TRANSITION SCREEN (BUILDING)
+           TRANSITION SCREEN
            ============================================================ */
         .transition-screen {
-            opacity: 0;
-            visibility: hidden;
             position: fixed;
             inset: 0;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 100%);
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
             transition: all 0.6s ease;
         }
 
@@ -874,122 +1026,229 @@
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--ink);
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
         }
 
         .signature-line {
+            width: 60px;
             height: 2px;
-            background: var(--gold);
-            max-width: 200px;
-            margin: 1.5rem auto 2.5rem;
-            position: relative;
-            animation: draw-line 1.5s ease forwards;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        }
-
-        @keyframes draw-line {
-            from { max-width: 0; }
-            to { max-width: 200px; }
+            margin: 0 auto 2rem;
         }
 
         .checklist {
-            text-align: left;
-            display: inline-block;
-            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .checklist-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: slide-in 0.6s ease forwards;
-        }
-
-        .checklist-item:nth-child(1) { animation-delay: 0.3s; }
-        .checklist-item:nth-child(2) { animation-delay: 1.1s; }
-        .checklist-item:nth-child(3) { animation-delay: 1.9s; }
-
-        @keyframes slide-in {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            gap: 1.5rem;
         }
 
         .check-icon {
-            width: 24px;
-            height: 24px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
             flex-shrink: 0;
         }
 
         .check-icon.completed {
-            background: var(--gold);
-            color: #111;
-            font-size: 0.8rem;
-            animation: check-draw 0.6s ease forwards;
+            background: rgba(107,158,122,0.2);
+            border: 1px solid var(--green);
+            color: var(--green);
+        }
+
+        .check-icon.in-progress {
+            background: rgba(181,162,100,0.2);
+            border: 1px solid var(--gold);
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
         .check-icon.pending {
             background: var(--surface3);
             border: 1px solid var(--border);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .check-icon.in-progress {
-            background: transparent;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .check-icon.in-progress::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes check-draw {
-            0% { transform: scale(0.8); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         .checklist-text {
-            font-size: 0.95rem;
-            color: var(--muted);
-            letter-spacing: 0.02em;
+            font-size: 1rem;
+            color: var(--ink);
         }
 
         .transition-subtitle {
-            margin-top: 2.5rem;
             font-size: 0.95rem;
             color: var(--muted);
             font-style: italic;
         }
 
         /* ============================================================
-           RESPONSIVE
+           REFERENCE SECTION
+           ============================================================ */
+        .reference-section {
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .reference-title {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+
+        .reference-card {
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reference-card:hover {
+            border-color: var(--gold-border);
+            transform: scale(1.02);
+        }
+
+        .reference-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--faint);
+        }
+
+        /* ============================================================
+           VIDEO RECORDER
+           ============================================================ */
+        .recorder-section {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .camera-preview {
+            flex: 1;
+        }
+
+        .camera-frame {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: var(--surface3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .camera-frame.recording {
+            border-color: var(--red);
+            box-shadow: 0 0 16px rgba(192,57,43,0.2);
+        }
+
+        .camera-placeholder {
+            font-size: 3rem;
+        }
+
+        .rec-indicator {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: pulse 0.6s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .timer {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            font-size: 0.75rem;
+            font-family: 'SF Mono', monospace;
+            color: var(--ink);
+            background: rgba(0,0,0,0.6);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .recorder-controls {
+            flex: 0 0 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .record-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .record-btn:hover {
+            background: rgba(181,162,100,0.1);
+            box-shadow: 0 0 16px rgba(181,162,100,0.2);
+        }
+
+        .record-btn.idle {
+            opacity: 0.6;
+        }
+
+        .hint-text {
+            font-size: 0.8rem;
+            color: var(--faint);
+            text-align: center;
+        }
+
+        /* ============================================================
+           RESPONSIVE DESIGN
            ============================================================ */
         @media (max-width: 768px) {
-            .step-title {
-                font-size: 1.8rem;
-            }
-
             .step-content {
                 padding: 1.5rem;
+            }
+
+            .step-title {
+                font-size: 2rem;
             }
 
             .photo-grid {
@@ -997,7 +1256,7 @@
             }
 
             .reference-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
 
             .button-row {
@@ -1006,6 +1265,14 @@
 
             .recorder-controls {
                 gap: 1rem;
+            }
+
+            .brand-toggle {
+                flex-direction: column;
+            }
+
+            .brand-pill {
+                min-width: auto;
             }
         }
 
@@ -1038,6 +1305,21 @@
             .color-swatch-circle {
                 width: 50px;
                 height: 50px;
+            }
+
+            .extracted-swatches {
+                gap: 0.8rem;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -1081,9 +1363,22 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label">Brokerage Name</label>
+                    <input type="text" class="form-input" placeholder="Your brokerage" id="brokerageName">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">License #</label>
+                    <input type="text" class="form-input" placeholder="Your license number" id="licenseNum" style="max-width: 300px;">
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">Market Location</label>
                     <input type="text" class="form-input" placeholder="City, State or ZIP code" id="location">
-                    <div class="chip-group" id="zipChips"></div>
+                    <div class="chip-group" id="zipChips">
+                        <div class="chip selected">95014 <span class="chip-remove">×</span></div>
+                        <div class="chip selected">95070 <span class="chip-remove">×</span></div>
+                    </div>
                 </div>
 
                 <div class="market-hint">
@@ -1106,14 +1401,78 @@
             </div>
 
             <div class="step-content">
-                <!-- Logo -->
-                <div class="form-group">
-                    <label class="form-label">Logo</label>
-                    <div class="upload-zone" onclick="document.getElementById('logoInput').click()">
-                        <div class="upload-icon">🎨</div>
-                        <div class="upload-text">Drag your logo or click to upload</div>
-                        <div class="upload-subtext">PNG, JPG, or SVG • Max 5MB</div>
-                        <input type="file" id="logoInput" style="display: none;" accept="image/*">
+                <!-- Brand Type Toggle -->
+                <div class="brand-toggle">
+                    <div class="brand-pill" onclick="selectBrandType('brokerage')">
+                        <div class="brand-pill-title">Brokerage Brand</div>
+                        <div class="brand-pill-desc">Use your brokerage's official colors and logo</div>
+                    </div>
+                    <div class="brand-pill" onclick="selectBrandType('personal')">
+                        <div class="brand-pill-title">Personal Brand</div>
+                        <div class="brand-pill-desc">Use your own custom branding</div>
+                    </div>
+                    <div class="brand-pill" onclick="selectBrandType('both')">
+                        <div class="brand-pill-title">Both</div>
+                        <div class="brand-pill-desc">We'll use both for different content types</div>
+                    </div>
+                </div>
+
+                <!-- Brokerage Dropdown -->
+                <div class="brokerage-section" id="brokerageSection">
+                    <div class="form-group">
+                        <label class="form-label">Select Your Brokerage</label>
+                        <select class="brokerage-select" id="brokerageSelect">
+                            <option value="">Choose a brokerage...</option>
+                            <option value="intero">Intero Real Estate</option>
+                            <option value="compass">Compass</option>
+                            <option value="kw">Keller Williams</option>
+                            <option value="c21">Century 21</option>
+                            <option value="remax">RE/MAX</option>
+                            <option value="exp">eXp Realty</option>
+                            <option value="cb">Coldwell Banker</option>
+                            <option value="sothebys">Sotheby's International</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Logo Upload -->
+                <div class="logo-upload-section" id="logoUploadSection">
+                    <div class="form-group">
+                        <label class="form-label">Logo</label>
+                        <div class="upload-zone" onclick="document.getElementById('logoInput').click()">
+                            <div class="upload-icon">🎨</div>
+                            <div class="upload-text">Drag your logo or click to upload</div>
+                            <div class="upload-subtext">PNG, JPG, or SVG • Max 5MB</div>
+                            <input type="file" id="logoInput" style="display: none;" accept="image/*">
+                        </div>
+                    </div>
+
+                    <!-- Analyzing State -->
+                    <div class="analyzing-state" id="analyzingState">
+                        <div class="analyzing-spinner"></div>
+                        <div class="analyzing-text">Extracting brand colors...</div>
+                    </div>
+
+                    <!-- Color Extraction -->
+                    <div class="color-extraction" id="colorExtraction">
+                        <div class="extracted-label">Detected Colors</div>
+                        <div class="extracted-swatches" id="extractedSwatches">
+                            <div class="extracted-swatch">
+                                <div class="extracted-swatch-circle" style="background: #2E5C8A;"></div>
+                                <div class="extracted-hex">#2E5C8A</div>
+                            </div>
+                            <div class="extracted-swatch">
+                                <div class="extracted-swatch-circle" style="background: #D4AF37;"></div>
+                                <div class="extracted-hex">#D4AF37</div>
+                            </div>
+                            <div class="extracted-swatch">
+                                <div class="extracted-swatch-circle" style="background: #8B4513;"></div>
+                                <div class="extracted-hex">#8B4513</div>
+                            </div>
+                            <button class="add-color-btn" onclick="addColorSwatch()">+</button>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--faint); margin-top: 1rem;">We extracted these from your logo. Adjust any that don't look right.</p>
                     </div>
                 </div>
 
@@ -1127,24 +1486,14 @@
                     </div>
                 </div>
 
-                <!-- Color Palette -->
-                <div class="form-group">
-                    <label class="form-label">Brand Colors</label>
-                    <div class="color-palette" id="colorPalette">
-                        <div class="color-swatch selected" data-color="0">
-                            <div class="color-swatch-circle" style="background: #2E5C8A;"></div>
-                        </div>
-                        <div class="color-swatch" data-color="1">
-                            <div class="color-swatch-circle" style="background: #D4AF37;"></div>
-                        </div>
-                        <div class="color-swatch" data-color="2">
-                            <div class="color-swatch-circle" style="background: #8B4513;"></div>
-                        </div>
-                        <div class="color-swatch" data-color="3">
-                            <div class="color-swatch-circle" style="background: #C0504D;"></div>
-                        </div>
-                        <div class="color-swatch" data-color="4">
-                            <div class="color-swatch-circle" style="background: #70AD47;"></div>
+                <!-- Brand Preview -->
+                <div class="brand-preview" id="brandPreview" style="display: none;">
+                    <div class="brand-preview-header">Brand Preview</div>
+                    <div class="brand-preview-card">
+                        <div class="brand-preview-logo">Logo</div>
+                        <div class="brand-preview-text">
+                            <div class="preview-title" id="previewTitle">Just Listed</div>
+                            <div class="preview-agent" id="previewAgent">Your agent name</div>
                         </div>
                     </div>
                 </div>
@@ -1199,59 +1548,13 @@
                 <div class="reference-section">
                     <span class="reference-title">Reference Examples</span>
                     <div class="reference-grid">
-                        <div class="reference-item">
-                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);"></div>
-                            <div class="reference-label">Like this</div>
+                        <div class="reference-card">
+                            <span class="reference-label">Video Style 1</span>
                         </div>
-                        <div class="reference-item">
-                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);"></div>
-                            <div class="reference-label">Like this</div>
-                        </div>
-                        <div class="reference-item">
-                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #059669 0%, #10B981 100%);"></div>
-                            <div class="reference-label">Like this</div>
+                        <div class="reference-card">
+                            <span class="reference-label">Video Style 2</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Coaching Tip -->
-                <div class="coaching-tip">
-                    Change your shirt between recordings — it gives us more content variety to work with and makes your content series feel more dynamic.
-                </div>
-
-                <!-- In-Browser Recorder -->
-                <div class="recorder-section">
-                    <label class="form-label" style="margin-bottom: 1rem;">Record Your Intro</label>
-
-                    <div class="camera-preview" id="cameraPreview">
-                        <div class="rec-indicator" id="recIndicator" style="display: none;">
-                            <div class="rec-dot"></div>
-                            <div class="rec-label">REC</div>
-                        </div>
-                        <div class="timer" id="timer" style="display: none;">00:00 / 01:00</div>
-                        <div class="teleprompter">
-                            <div class="teleprompter-label">TELEPROMPTER</div>
-                            <div class="teleprompter-content" id="teleprompterText">
-                                Talk about what makes your market special...
-                            </div>
-                        </div>
-                        <span id="cameraPlaceholder">No camera access</span>
-                    </div>
-
-                    <div class="recorder-controls">
-                        <button class="control-btn" title="Flip Camera">🔄</button>
-                        <button class="record-btn idle" id="recordBtn" onclick="toggleRecord()"></button>
-                        <div class="target-indicator">Target: 60s</div>
-                    </div>
-
-                    <div class="recorder-actions" id="recorderActions" style="display: none;">
-                        <button class="btn-use" onclick="useRecording()">Use This</button>
-                        <button class="btn-rerecord" onclick="rerecord()">Re-Record</button>
-                    </div>
-                </div>
-
-                <div class="skip-text">
-                    <button class="btn-skip" onclick="skipRecorder()">Skip for now →</button>
                 </div>
             </div>
 
@@ -1269,22 +1572,62 @@
             </div>
 
             <div class="step-content">
-                <div class="form-group">
-                    <label class="form-label">HeyGen API Key (Optional)</label>
-                    <input type="password" class="form-input" placeholder="We'll create content without this" id="heygenKey">
-                    <p class="upload-subtext" style="margin-top: 0.5rem;">We can auto-generate videos if you provide your HeyGen API key. Not required.</p>
+                <!-- HeyGen Integration -->
+                <div class="integration-card">
+                    <div class="integration-icon">🎬</div>
+                    <div class="integration-info">
+                        <div class="integration-name">HeyGen</div>
+                        <div class="integration-desc">AI Video Avatars</div>
+                    </div>
+                    <div class="integration-toggle">
+                        <input type="checkbox" id="heygenToggle" onchange="toggleIntegration('heygen')">
+                        <div class="toggle-track">
+                            <div class="toggle-knob"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="integration-api-field" id="heygenField">
+                    <input type="password" class="form-input" placeholder="Paste your HeyGen API key" id="heygenKey">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">ElevenLabs API Key (Optional)</label>
-                    <input type="password" class="form-input" placeholder="We'll create voiceovers without this" id="elevenLabsKey">
-                    <p class="upload-subtext" style="margin-top: 0.5rem;">For premium voice generation. We'll use defaults if you skip this.</p>
+                <!-- ElevenLabs Integration -->
+                <div class="integration-card">
+                    <div class="integration-icon">🎙️</div>
+                    <div class="integration-info">
+                        <div class="integration-name">ElevenLabs</div>
+                        <div class="integration-desc">AI Voice Clone</div>
+                    </div>
+                    <div class="integration-toggle">
+                        <input type="checkbox" id="elevenToggle" onchange="toggleIntegration('eleven')">
+                        <div class="toggle-track">
+                            <div class="toggle-knob"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="integration-api-field" id="elevenField">
+                    <input type="password" class="form-input" placeholder="Paste your ElevenLabs API key" id="elevenLabsKey">
                 </div>
 
-                <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(181,162,100,0.05); border-radius: 8px;">
-                    <p style="font-size: 0.95rem; color: var(--muted); font-style: italic;">
-                        We'll create these integrations for you automatically. No action needed right now.
-                    </p>
+                <!-- Social Accounts -->
+                <div class="social-platform-card">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="font-size: 1.2rem;">📱</div>
+                        <div>
+                            <div class="integration-name">Social Accounts</div>
+                            <div class="integration-desc">Connect your social media platforms</div>
+                        </div>
+                    </div>
+                    <div class="social-connect-grid">
+                        <button class="social-connect-btn">Instagram</button>
+                        <button class="social-connect-btn">Facebook</button>
+                        <button class="social-connect-btn">YouTube</button>
+                        <button class="social-connect-btn">TikTok</button>
+                    </div>
+                </div>
+
+                <!-- Reassurance Message -->
+                <div class="reassurance-message">
+                    You can always configure these later in Settings
                 </div>
             </div>
 
@@ -1324,6 +1667,84 @@
         const totalSteps = 4;
         let isRecording = false;
         let recordingTime = 0;
+        let selectedBrandType = null;
+
+        // Brand type selection
+        function selectBrandType(type) {
+            selectedBrandType = type;
+
+            // Update pill states
+            document.querySelectorAll('.brand-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            event.target.closest('.brand-pill').classList.add('active');
+
+            // Show/hide sections based on selection
+            const brokerageSection = document.getElementById('brokerageSection');
+            const logoUploadSection = document.getElementById('logoUploadSection');
+
+            if (type === 'brokerage') {
+                brokerageSection.classList.add('visible');
+                logoUploadSection.classList.remove('visible');
+            } else if (type === 'personal') {
+                brokerageSection.classList.remove('visible');
+                logoUploadSection.classList.add('visible');
+            } else if (type === 'both') {
+                brokerageSection.classList.add('visible');
+                logoUploadSection.classList.add('visible');
+            }
+        }
+
+        // Logo upload with color extraction simulation
+        document.getElementById('logoInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                simulateLogoUpload();
+            }
+        });
+
+        function simulateLogoUpload() {
+            const analyzingState = document.getElementById('analyzingState');
+            const colorExtraction = document.getElementById('colorExtraction');
+            const brandPreview = document.getElementById('brandPreview');
+
+            // Show analyzing state
+            analyzingState.classList.add('visible');
+            colorExtraction.classList.remove('visible');
+
+            // Simulate extraction after 1.5 seconds
+            setTimeout(() => {
+                analyzingState.classList.remove('visible');
+                colorExtraction.classList.add('visible');
+                brandPreview.style.display = 'block';
+            }, 1500);
+        }
+
+        // Add color swatch
+        function addColorSwatch() {
+            const swatches = document.getElementById('extractedSwatches');
+            const newSwatch = document.createElement('div');
+            newSwatch.className = 'extracted-swatch';
+            newSwatch.innerHTML = `
+                <div class="extracted-swatch-circle" style="background: #999999;"></div>
+                <div class="extracted-hex">#999999</div>
+            `;
+            swatches.insertBefore(newSwatch, swatches.lastElementChild);
+        }
+
+        // Integration toggle
+        function toggleIntegration(id) {
+            let fieldId = '';
+            if (id === 'heygen') {
+                fieldId = 'heygenField';
+            } else if (id === 'eleven') {
+                fieldId = 'elevenField';
+            }
+
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.classList.toggle('visible');
+            }
+        }
 
         // Color palette selection
         document.querySelectorAll('.color-swatch').forEach(swatch => {
@@ -1363,13 +1784,6 @@
             }
         });
 
-        // Logo upload
-        document.getElementById('logoInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                console.log('Logo uploaded:', e.target.files[0].name);
-            }
-        });
-
         // Headshot upload
         document.getElementById('headshotInput').addEventListener('change', function(e) {
             if (e.target.files.length > 0) {
@@ -1383,104 +1797,47 @@
             }
         });
 
-        // Record button
-        function toggleRecord() {
-            const btn = document.getElementById('recordBtn');
-            const preview = document.getElementById('cameraPreview');
-            const recIndicator = document.getElementById('recIndicator');
-            const timer = document.getElementById('timer');
-
-            isRecording = !isRecording;
-
-            if (isRecording) {
-                btn.classList.remove('idle');
-                btn.textContent = '⏹';
-                preview.classList.add('recording');
-                recIndicator.style.display = 'flex';
-                timer.style.display = 'block';
-
-                recordingTime = 0;
-                const interval = setInterval(() => {
-                    recordingTime++;
-                    const sec = String(Math.floor(recordingTime / 10)).padStart(2, '0');
-                    const ms = String(recordingTime % 10).padStart(2, '0');
-                    timer.textContent = `00:${sec} / 01:00`;
-                    if (recordingTime >= 600) {
-                        clearInterval(interval);
-                        toggleRecord();
-                    }
-                }, 100);
-            } else {
-                btn.classList.add('idle');
-                btn.textContent = '⏺';
-                preview.classList.remove('recording');
-                recIndicator.style.display = 'none';
-                timer.style.display = 'none';
-                document.getElementById('recorderActions').style.display = 'flex';
-            }
-        }
-
-        function useRecording() {
-            document.getElementById('recorderActions').style.display = 'none';
-            alert('Recording saved!');
-        }
-
-        function rerecord() {
-            document.getElementById('recorderActions').style.display = 'none';
-            document.getElementById('recordBtn').classList.add('idle');
-            document.getElementById('recordBtn').textContent = '⏺';
-        }
-
-        function skipRecorder() {
-            console.log('Skipping recorder');
-        }
-
-        // Step navigation
-        function updateStep() {
-            document.querySelectorAll('.step').forEach((step, idx) => {
-                if (idx === currentStep) {
-                    step.classList.add('active');
-                    step.classList.remove('exit-left');
-                } else if (idx < currentStep) {
-                    step.classList.remove('active');
-                    step.classList.add('exit-left');
-                } else {
-                    step.classList.remove('active', 'exit-left');
-                }
-            });
-
-            // Update progress bar
-            const progressBar = document.querySelector('.progress-bar');
-            progressBar.style.width = ((currentStep + 1) / totalSteps) * 100 + '%';
-
-            // Update progress dots
-            document.querySelectorAll('.progress-dot').forEach((dot, idx) => {
-                dot.classList.remove('active', 'completed');
-                if (idx === currentStep) {
-                    dot.classList.add('active');
-                } else if (idx < currentStep) {
-                    dot.classList.add('completed');
-                }
-            });
-        }
-
+        // Navigation
         function nextStep() {
             if (currentStep < totalSteps - 1) {
+                const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+                currentStepEl.classList.remove('active');
+                currentStepEl.classList.add('exit-left');
+
                 currentStep++;
-                updateStep();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                const nextStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+                nextStepEl.classList.add('active');
+
+                // Update progress
+                updateProgress();
             }
+        }
+
+        function updateProgress() {
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
+            progressBar.style.width = progressPercentage + '%';
+
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < currentStep) {
+                    dot.classList.add('completed');
+                } else if (index === currentStep) {
+                    dot.classList.add('active');
+                }
+            });
         }
 
         function completeOnboarding() {
-            document.getElementById('transitionScreen').classList.add('active');
+            const transitionScreen = document.getElementById('transitionScreen');
+            transitionScreen.classList.add('active');
+
+            // Simulate completion
             setTimeout(() => {
-                alert('Onboarding complete! Your content engine is being built.');
+                alert('Onboarding complete! Your content engine is ready.');
             }, 3000);
         }
-
-        // Initialize
-        updateStep();
     </script>
 </body>
 </html>
