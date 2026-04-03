@@ -985,10 +985,172 @@
         }
 
         /* ============================================================
+           WIDE LAYOUT FOR STEPS 4-6
+           ============================================================ */
+        .wizard-container.wide { max-width: 1080px; }
+
+        /* ============================================================
+           KEYWORD BAR CHART STYLING
+           ============================================================ */
+        .kw-bar-cell { position: relative; width: 100%; }
+        .kw-bar {
+            height: 20px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, rgba(181,162,100,0.3), rgba(181,162,100,0.15));
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+        }
+        .kw-bar-label { font-size: 0.7rem; color: var(--ink); font-weight: 500; position: relative; z-index: 1; }
+
+        /* ============================================================
+           COMPARISON SECTION (STEP 4)
+           ============================================================ */
+        .comparison-section { margin-top: 1.5rem; }
+        .comparison-row { margin-bottom: 1.5rem; }
+        .comparison-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .comparison-bars { display: flex; flex-direction: column; gap: 6px; }
+        .comparison-bar-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 60px;
+            gap: 10px;
+            align-items: center;
+        }
+        .comparison-bar-name {
+            font-size: 0.72rem;
+            color: var(--faint);
+        }
+        .comparison-bar-name.you { color: var(--gold); font-weight: 500; }
+        .comparison-bar-track {
+            height: 22px;
+            background: var(--surface2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .comparison-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+        }
+        .comparison-bar-fill.competitor { background: rgba(255,255,255,0.08); }
+        .comparison-bar-fill.you {
+            background: linear-gradient(90deg, rgba(181,162,100,0.4), rgba(181,162,100,0.2));
+            border: 1px dashed var(--gold-border);
+        }
+        .comparison-bar-value {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-align: right;
+        }
+        .comparison-bar-value.you { color: var(--gold); }
+
+        /* ============================================================
+           RECOMMENDATIONS SECTION (STEP 4)
+           ============================================================ */
+        .recommendations-section { margin-top: 1.5rem; }
+
+        /* ============================================================
+           CALENDAR EXPAND BUTTON (STEP 5)
+           ============================================================ */
+        .calendar-expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            float: right;
+        }
+        .calendar-expand-btn:hover { border-color: var(--gold-border); color: var(--ink); }
+        .calendar-preview.expanded .calendar-cell { min-height: 90px; }
+        .calendar-preview.expanded .calendar-tag { white-space: normal; font-size: 0.58rem; line-height: 1.3; padding: 4px 6px; }
+
+        /* ============================================================
+           TIME ESTIMATE BAR (STEP 6)
+           ============================================================ */
+        .time-estimate {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(107,158,122,0.08);
+            border: 1px solid rgba(107,158,122,0.2);
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+        }
+        .time-estimate-inner { display: flex; align-items: center; gap: 0.8rem; }
+        .time-icon { font-size: 1.1rem; }
+        .time-text { font-size: 0.82rem; color: var(--muted); }
+        .time-text strong { color: var(--green); }
+
+        /* ============================================================
+           GUIDE STEPS (STEP 6)
+           ============================================================ */
+        .guide-step { display: grid; grid-template-columns: 48px 1fr; gap: 1rem; margin-bottom: 0; }
+        .guide-step + .guide-step { margin-top: 1.5rem; }
+        .guide-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(181,162,100,0.1);
+            border: 2px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+        .guide-connector {
+            width: 2px;
+            height: 24px;
+            background: var(--gold-border);
+            margin: 4px auto;
+        }
+
+        /* ============================================================
+           TELEPROMPTER SECTION (STEP 6)
+           ============================================================ */
+        .teleprompter-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+        .teleprompter-option {
+            padding: 1.5rem;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .teleprompter-option:hover { border-color: rgba(200,100,255,0.3); }
+
+        /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 640px) {
             .wizard-container { padding: 1.5rem 1rem 2rem; }
+            .wizard-container.wide { max-width: 100%; }
             .step-title { font-size: 2rem; }
             .form-row { grid-template-columns: 1fr; }
             .bucket-grid { grid-template-columns: 1fr; }
@@ -999,6 +1161,8 @@
             .competitor-grid { grid-template-columns: 1fr; }
             .roadmap { grid-template-columns: 1fr; }
             .projection-grid { grid-template-columns: 1fr; }
+            .comparison-bar-row { grid-template-columns: 80px 1fr 50px; }
+            .teleprompter-options { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -1344,6 +1508,116 @@
                 </div>
             </div>
 
+            <!-- How You'll Stack Up Comparison -->
+            <div class="step-content fade-up" style="margin-top:1.5rem;">
+                <div class="section-label">How You'll Stack Up</div>
+                <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1.5rem;">After just 90 days of following this plan, here's where you'll be compared to your top competitors.</p>
+
+                <div class="comparison-section">
+                    <div class="comparison-row">
+                        <div class="comparison-title">Instagram Followers</div>
+                        <div class="comparison-bars">
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Sarah Chen</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 100%;"></div></div>
+                                <div class="comparison-bar-value">12.4K</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Michael Torres</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 70%;"></div></div>
+                                <div class="comparison-bar-value">8.7K</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Jennifer Liu</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 42%;"></div></div>
+                                <div class="comparison-bar-value">5.2K</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name you">YOU (90 days)</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill you" style="width: 22%;"></div></div>
+                                <div class="comparison-bar-value you">2-3K</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-title">Content Output / Week</div>
+                        <div class="comparison-bars">
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Sarah Chen</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 100%;"></div></div>
+                                <div class="comparison-bar-value">5x</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Michael Torres</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 80%;"></div></div>
+                                <div class="comparison-bar-value">4x</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Jennifer Liu</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 40%;"></div></div>
+                                <div class="comparison-bar-value">2x</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name you">YOU (automated)</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill you" style="width: 100%;"></div></div>
+                                <div class="comparison-bar-value you">4-6x</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-title">YouTube Presence</div>
+                        <div class="comparison-bars">
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Sarah Chen</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 100%;"></div></div>
+                                <div class="comparison-bar-value">2.1K</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Michael Torres</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 0%;"></div></div>
+                                <div class="comparison-bar-value">—</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name">Jennifer Liu</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill competitor" style="width: 42%;"></div></div>
+                                <div class="comparison-bar-value">890</div>
+                            </div>
+                            <div class="comparison-bar-row">
+                                <div class="comparison-bar-name you">YOU (starting fresh)</div>
+                                <div class="comparison-bar-track"><div class="comparison-bar-fill you" style="width: 60%; border: 1px dashed var(--gold-border);"></div></div>
+                                <div class="comparison-bar-value you">Fast track →</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Section -->
+            <div class="step-content fade-up recommendations-section" style="margin-top:1.5rem;">
+                <div class="section-label">Our Recommendations</div>
+                <p style="font-size:0.8rem; color:var(--muted); margin-bottom:1.5rem;">Based on your market analysis, here's where we'd focus first:</p>
+
+                <div class="competitor-grid">
+                    <div class="competitor-card" style="border-color: var(--gold-border); background: rgba(181,162,100,0.04);">
+                        <div style="font-size:1.2rem; margin-bottom:0.8rem;">🥇</div>
+                        <div class="competitor-name">Quick Wins (Week 1–2)</div>
+                        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6; margin-top:0.8rem;">Publish 2 neighborhood guides targeting "best neighborhoods saratoga" and "cupertino school ratings". These have high volume with almost no competition.</div>
+                    </div>
+                    <div class="competitor-card" style="border-color: var(--gold-border); background: rgba(181,162,100,0.04);">
+                        <div style="font-size:1.2rem; margin-bottom:0.8rem;">🚀</div>
+                        <div class="competitor-name">Growth Plays (Month 1–2)</div>
+                        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6; margin-top:0.8rem;">Launch weekly market update videos and SEO blog posts targeting "homes for sale in cupertino". This is your highest-volume keyword at 8,400/mo.</div>
+                    </div>
+                    <div class="competitor-card" style="border-color: var(--gold-border); background: rgba(181,162,100,0.04);">
+                        <div style="font-size:1.2rem; margin-bottom:0.8rem;">🏆</div>
+                        <div class="competitor-name">Authority Builders (Month 2–3)</div>
+                        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6; margin-top:0.8rem;">Build a consistent email nurture sequence and client testimonial library. None of your top 3 competitors do this — massive differentiation.</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Content Gap Analysis -->
             <div class="step-content fade-up" style="margin-top:1.5rem;">
                 <div class="section-label">Content Gap Analysis</div>
@@ -1354,43 +1628,43 @@
                     <div class="gap-header">Your Plan</div>
                     <div class="gap-row">
                         <div class="gap-cell">Listing Posts</div>
-                        <div class="gap-cell gap-check">✓</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-check"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">Neighborhood Guides</div>
-                        <div class="gap-cell gap-miss">—</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-miss"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(192,57,43,0.3);border:1px solid rgba(192,57,43,0.4);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">Market Reports</div>
-                        <div class="gap-cell gap-check">✓</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-check"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">Video Tours</div>
-                        <div class="gap-cell gap-check">✓</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-check"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">Talking-Head Tips</div>
-                        <div class="gap-cell gap-miss">—</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-miss"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(192,57,43,0.3);border:1px solid rgba(192,57,43,0.4);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">SEO Blog Articles</div>
-                        <div class="gap-cell gap-miss">—</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-miss"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(192,57,43,0.3);border:1px solid rgba(192,57,43,0.4);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">Email Nurture</div>
-                        <div class="gap-cell gap-miss">—</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-miss"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(192,57,43,0.3);border:1px solid rgba(192,57,43,0.4);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                     <div class="gap-row">
                         <div class="gap-cell">Client Testimonials</div>
-                        <div class="gap-cell gap-check">✓</div>
-                        <div class="gap-cell gap-you">★</div>
+                        <div class="gap-cell gap-check"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);"></span></div>
+                        <div class="gap-cell gap-you"><span style="display:inline-block;width:14px;height:14px;background:var(--gold);border-radius:50%;position:relative;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#1a1a1a;">★</span></span></div>
                     </div>
                 </div>
             </div>
@@ -1456,56 +1730,56 @@
                     <tbody>
                         <tr>
                             <td>homes for sale in cupertino</td>
-                            <td class="kw-vol">8,400</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 100%"><span class="kw-bar-label">8,400</span></div></div></td>
                             <td class="kw-comp-low">Low</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-high">HIGH</span></td>
                         </tr>
                         <tr>
                             <td>cupertino real estate agent</td>
-                            <td class="kw-vol">2,900</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 35%"><span class="kw-bar-label">2,900</span></div></div></td>
                             <td class="kw-comp-med">Medium</td>
                             <td class="kw-pos">Page 3</td>
                             <td><span class="kw-opp kw-opp-high">HIGH</span></td>
                         </tr>
                         <tr>
                             <td>best neighborhoods saratoga</td>
-                            <td class="kw-vol">1,800</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 21%"><span class="kw-bar-label">1,800</span></div></div></td>
                             <td class="kw-comp-low">Low</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-high">HIGH</span></td>
                         </tr>
                         <tr>
                             <td>silicon valley housing market 2026</td>
-                            <td class="kw-vol">3,200</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 38%"><span class="kw-bar-label">3,200</span></div></div></td>
                             <td class="kw-comp-med">Medium</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-med">MEDIUM</span></td>
                         </tr>
                         <tr>
                             <td>selling a home in 95014</td>
-                            <td class="kw-vol">720</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 9%"><span class="kw-bar-label">720</span></div></div></td>
                             <td class="kw-comp-low">Low</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-high">HIGH</span></td>
                         </tr>
                         <tr>
                             <td>cupertino school ratings</td>
-                            <td class="kw-vol">4,100</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 49%"><span class="kw-bar-label">4,100</span></div></div></td>
                             <td class="kw-comp-low">Low</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-high">HIGH</span></td>
                         </tr>
                         <tr>
                             <td>sunnyvale vs cupertino</td>
-                            <td class="kw-vol">1,200</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 14%"><span class="kw-bar-label">1,200</span></div></div></td>
                             <td class="kw-comp-low">Low</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-high">HIGH</span></td>
                         </tr>
                         <tr>
                             <td>home value cupertino</td>
-                            <td class="kw-vol">2,100</td>
+                            <td><div class="kw-bar-cell"><div class="kw-bar" style="width: 25%"><span class="kw-bar-label">2,100</span></div></div></td>
                             <td class="kw-comp-med">Medium</td>
                             <td class="kw-pos">Not ranking</td>
                             <td><span class="kw-opp kw-opp-med">MEDIUM</span></td>
@@ -1692,8 +1966,13 @@
 
         <!-- Calendar Preview -->
         <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Month 1 Preview</div>
-            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Here's a snapshot of your first month. Each piece is tailored to your market, your voice, and your brand.</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                <div>
+                    <div class="section-label" style="margin-bottom: 0;">Month 1 Preview</div>
+                    <p style="font-size:0.82rem; color:var(--muted); margin-top:0.5rem;">Here's a snapshot of your first month. Each piece is tailored to your market, your voice, and your brand.</p>
+                </div>
+                <button class="calendar-expand-btn" onclick="toggleCalendar()">↕ Expand Calendar</button>
+            </div>
 
             <div class="calendar-preview">
                 <div class="calendar-header">
@@ -1767,7 +2046,7 @@
 
         <div class="button-row">
             <button class="btn-back" onclick="goToStep(4)">← Back</button>
-            <button class="btn-primary" onclick="goToStep(6)">NEXT: ADD YOUR PHOTOS</button>
+            <button class="btn-primary" onclick="goToStep(6)">LET'S MAKE IT YOURS →</button>
         </div>
     </div>
 
@@ -1778,17 +2057,23 @@
         <div class="step-header">
             <span class="step-label">Step 06 of 06</span>
             <h1 class="step-title">Make It Yours</h1>
-            <p class="step-subtitle">Last step. Based on your content plan, here's what we need to make everything look and sound like you. The more you give us, the less we rely on stock — and the better your content performs.</p>
+            <p class="step-subtitle">You're almost there. Give us 15 minutes, and we'll give you 3 months of content. The more photos you share, the more authentic your content looks — but even the minimums get incredible results.</p>
+
+            <div class="time-estimate">
+                <div class="time-estimate-inner">
+                    <span class="time-icon">⚡</span>
+                    <span class="time-text">This step takes <strong>~10 minutes</strong> — just upload a few photos and you're done</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Brand Assets -->
-        <div class="step-content">
-            <div class="section-label">Your Brand</div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <!-- Guide Step 1: Upload Headshot -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="guide-step">
+                <div class="guide-number">1</div>
                 <div>
-                    <label class="form-label">Your Headshot</label>
-                    <div class="form-hint" style="margin-bottom:10px;">Goes on every post, video thumbnail, and email. Use a professional headshot — it builds trust fast.</div>
+                    <label class="form-label">Upload Your Headshot</label>
+                    <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Goes on every post, video thumbnail, and email. Use a professional headshot — it builds trust fast.</p>
                     <div class="headshot-row">
                         <div class="headshot-circle" onclick="document.getElementById('headshotInput').click()">👤</div>
                         <div>
@@ -1797,9 +2082,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;">
+            <div class="guide-connector"></div>
+        </div>
+
+        <!-- Guide Step 2: Upload Logo -->
+        <div class="step-content">
+            <div class="guide-step">
+                <div class="guide-number">2</div>
                 <div>
-                    <label class="form-label">Your Logo</label>
-                    <div class="form-hint" style="margin-bottom:10px;">Personal brand or brokerage logo. We'll add it to your content templates.</div>
+                    <label class="form-label">Add Your Logo</label>
+                    <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Personal brand or brokerage logo. We'll add it to your content templates.</p>
                     <div class="logo-upload-row">
                         <div class="logo-preview" onclick="document.getElementById('logoInput').click()">🏢</div>
                         <div>
@@ -1812,70 +2108,111 @@
             </div>
         </div>
 
-        <!-- Photo Requirements -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">What We Need From You</div>
-            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.5rem;">Based on your content plan, here are the minimums. You can always add more later.</p>
+        <div style="text-align:center;">
+            <div class="guide-connector"></div>
+        </div>
 
-            <div class="requirement-list">
-                <div class="requirement-item">
-                    <span class="req-status">📸</span>
-                    <div class="req-text"><strong>3 front-facing headshots</strong> — Professional or casual, well-lit, clear face. These become your avatar and thumbnail photos. <span class="req-badge req-min">Minimum</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">📐</span>
-                    <div class="req-text"><strong>1 side-profile or 3/4 angle photo</strong> — Gives your avatar a natural look when turned. <span class="req-badge req-min">Minimum</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">🎥</span>
-                    <div class="req-text"><strong>1 talking-head video (30–60 sec)</strong> — Just talk to your phone camera. Say anything — we need your voice and mannerisms for the AI clone. <span class="req-badge req-min">Minimum</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">🏡</span>
-                    <div class="req-text"><strong>Property photos</strong> — Active listings, sold homes, or local landmarks. More is better. <span class="req-badge req-rec">Recommended</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">🤝</span>
-                    <div class="req-text"><strong>You with clients, at events, open houses</strong> — Builds trust and shows you in action. <span class="req-badge req-rec">Recommended</span></div>
+        <!-- Guide Step 3: Share Photos & Videos + Teleprompter -->
+        <div class="step-content">
+            <div class="guide-step">
+                <div class="guide-number">3</div>
+                <div>
+                    <label class="form-label">Share Your Photos & Videos</label>
+                    <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Upload everything you've got. Based on your content plan, here are the minimums:</p>
+
+                    <div class="requirement-list" style="margin-bottom:1.5rem;">
+                        <div class="requirement-item">
+                            <span class="req-status">📸</span>
+                            <div class="req-text"><strong>3 front-facing headshots</strong> — Professional or casual, well-lit, clear face. <span class="req-badge req-min">Minimum</span></div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-status">📐</span>
+                            <div class="req-text"><strong>1 side-profile or 3/4 angle photo</strong> — Gives your avatar a natural look. <span class="req-badge req-min">Minimum</span></div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-status">🎥</span>
+                            <div class="req-text"><strong>1 talking-head video (30–60 sec)</strong> — Just talk to your phone camera. <span class="req-badge req-min">Minimum</span></div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-status">🏡</span>
+                            <div class="req-text"><strong>Property photos</strong> — Active listings, sold homes, or local landmarks. <span class="req-badge req-rec">Recommended</span></div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-status">🤝</span>
+                            <div class="req-text"><strong>You with clients, at events, open houses</strong> — Builds trust. <span class="req-badge req-rec">Recommended</span></div>
+                        </div>
+                    </div>
+
+                    <div class="upload-zone" id="assetUploadZone" onclick="document.getElementById('assetInput').click()" style="margin-bottom:1.5rem;">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Drag photos & videos here or click to browse</div>
+                        <div class="upload-subtext">JPG, PNG, HEIC, MP4 — Upload as many as you want</div>
+                        <input type="file" id="assetInput" style="display:none;" accept="image/*,video/*" multiple>
+                    </div>
+
+                    <div style="text-align:center; margin-bottom:1.5rem;">
+                        <button class="btn-text" style="font-size:0.78rem;">📱 Or take photos right now with your phone camera</button>
+                    </div>
+
+                    <!-- Teleprompter Section -->
+                    <div style="background: rgba(200,100,255,0.04); border-color: rgba(200,100,255,0.15); border: 1px solid rgba(200,100,255,0.15); border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem;">
+                        <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:#D4A5FF; margin-bottom:1rem;">Record a Quick Video</div>
+                        <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Want to create your AI avatar? Just record 30–60 seconds of yourself talking. We'll handle the rest. You can use our built-in teleprompter or just wing it.</p>
+
+                        <div class="teleprompter-options">
+                            <div class="teleprompter-option" onmouseover="this.style.borderColor='rgba(200,100,255,0.3)'" onmouseout="this.style.borderColor='var(--border2)'">
+                                <div style="font-size:2rem; margin-bottom:0.5rem;">🎤</div>
+                                <div style="font-size:0.82rem; font-weight:500; color:var(--ink); margin-bottom:4px;">Free Talk</div>
+                                <div style="font-size:0.7rem; color:var(--faint);">Just talk naturally about your business for 30–60 seconds</div>
+                            </div>
+                            <div class="teleprompter-option" onmouseover="this.style.borderColor='rgba(200,100,255,0.3)'" onmouseout="this.style.borderColor='var(--border2)'">
+                                <div style="font-size:2rem; margin-bottom:0.5rem;">📋</div>
+                                <div style="font-size:0.82rem; font-weight:500; color:var(--ink); margin-bottom:4px;">Use Teleprompter</div>
+                                <div style="font-size:0.7rem; color:var(--faint);">We'll give you a script to read — just follow along</div>
+                            </div>
+                        </div>
+
+                        <div id="teleprompterPreview" style="background:var(--surface); border:1px solid rgba(200,100,255,0.15); border-radius:10px; padding:1.5rem; text-align:center;">
+                            <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:#D4A5FF; margin-bottom:8px;">Teleprompter Preview</div>
+                            <div style="width:100%; aspect-ratio:16/9; background:#0a0a0f; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; position:relative; overflow:hidden;">
+                                <div style="position:absolute; inset:0; border:2px solid rgba(200,100,255,0.2); border-radius:8px;"></div>
+                                <div style="text-align:center;">
+                                    <div style="font-size:1.5rem; margin-bottom:0.5rem; opacity:0.5;">📹</div>
+                                    <div style="font-size:0.78rem; color:var(--faint);">Camera preview will appear here</div>
+                                </div>
+                            </div>
+                            <div style="background:rgba(200,100,255,0.06); border:1px solid rgba(200,100,255,0.1); border-radius:8px; padding:1rem;">
+                                <div style="font-size:0.88rem; color:var(--ink); line-height:1.8; font-style:italic;">"Hi, I'm [Your Name], and I help families find their perfect home in the Cupertino area. Whether you're buying your first home or selling to move up, I'll make sure you get the best deal possible..."</div>
+                            </div>
+                            <div style="font-size:0.68rem; color:var(--faint); margin-top:8px;">This script will scroll automatically when you start recording</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Upload Zone -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Upload Everything You've Got</div>
-            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Don't worry about organizing — just dump it all here. Our AI will sort through everything, categorize it, and match each photo to the right type of content.</p>
-
-            <div class="upload-zone" id="assetUploadZone" onclick="document.getElementById('assetInput').click()">
-                <div class="upload-icon">📸</div>
-                <div class="upload-text">Drag photos & videos here or click to browse</div>
-                <div class="upload-subtext">JPG, PNG, HEIC, MP4 — Upload as many as you want</div>
-                <input type="file" id="assetInput" style="display:none;" accept="image/*,video/*" multiple>
-            </div>
-
-            <div style="text-align:center; margin-top:1.2rem;">
-                <button class="btn-text" style="font-size:0.78rem;">📱 Or take photos right now with your phone camera</button>
-            </div>
-
-            <div class="market-hint" style="margin-top:1.5rem;">
-                <div class="pulse-dot"></div>
-                <span>Green screen or white background shots are perfect for avatar creation — we can swap in any background. But regular photos work great too.</span>
-            </div>
+        <div style="text-align:center;">
+            <div class="guide-connector"></div>
         </div>
 
-        <!-- Launch CTA -->
-        <div class="step-content" style="margin-top:1.5rem; text-align:center; padding:2.5rem 2rem;">
-            <div style="font-size:2rem; margin-bottom:1rem;">🚀</div>
-            <div style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:600; color:var(--ink); margin-bottom:0.8rem;">Ready to Go?</div>
-            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.5rem; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.7;">Hit the button and we'll start generating your content. You can always come back to upload more photos, adjust your plan, or expand later.</p>
-            <div style="font-size:0.78rem; color:var(--faint); margin-bottom:2rem;">Let's get started now — you can add the rest later.</div>
+        <!-- Guide Step 4: Launch -->
+        <div class="step-content" style="text-align:center; padding:2.5rem 2rem;">
+            <div class="guide-step" style="display: block; text-align: center;">
+                <div class="guide-number" style="margin: 0 auto 1rem;">4</div>
+                <div>
+                    <div style="font-size:2rem; margin-bottom:0.8rem;">🚀</div>
+                    <div style="font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:600; color:var(--ink); margin-bottom:0.5rem;">3 Months of Content.<br>15 Minutes of Your Time.</div>
+                    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.5rem; max-width:520px; margin-left:auto; margin-right:auto; line-height:1.7;">Hit the button and we'll start generating your personalized content plan. Everything is customized to your market, your voice, and your brand.</p>
+                    <div style="font-size:0.78rem; color:var(--faint); margin-bottom:2rem;">You can always come back to add more photos or adjust your plan later.</div>
 
-            <button class="btn-primary" style="padding:1rem 3.5rem; font-size:0.9rem;" onclick="launchEngine()">GENERATE MY CONTENT</button>
+                    <button class="btn-primary" style="padding:1rem 3.5rem; font-size:0.9rem;" onclick="launchEngine()">LAUNCH MY CONTENT ENGINE</button>
+                </div>
+            </div>
         </div>
 
         <div class="button-row" style="border-top:none; margin-top:0.5rem;">
             <button class="btn-back" onclick="goToStep(5)">← Back</button>
-            <button class="btn-text" onclick="launchEngine()">Skip photos — generate with stock imagery</button>
+            <button class="btn-text" onclick="launchEngine()">Skip for now — I'll add photos later</button>
         </div>
     </div>
 
@@ -1903,6 +2240,14 @@
             if (i + 1 === step) dot.classList.add('active');
             if (i + 1 < step) dot.classList.add('completed');
         });
+
+        // Toggle wide layout for Steps 4, 5, 6
+        const container = document.querySelector('.wizard-container');
+        if (step >= 4) {
+            container.classList.add('wide');
+        } else {
+            container.classList.remove('wide');
+        }
 
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2001,6 +2346,14 @@
             document.getElementById('planMinimum').style.display = 'none';
             document.getElementById('planRecommended').style.display = 'block';
         }
+    }
+
+    // Step 5: Toggle calendar expand/compact
+    function toggleCalendar() {
+        const cal = document.querySelector('.calendar-preview');
+        const btn = document.querySelector('.calendar-expand-btn');
+        cal.classList.toggle('expanded');
+        btn.textContent = cal.classList.contains('expanded') ? '↕ Compact View' : '↕ Expand Calendar';
     }
 
     // Final CTA
