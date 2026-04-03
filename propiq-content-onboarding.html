@@ -686,6 +686,305 @@
         .headshot-circle:hover { box-shadow: 0 0 24px rgba(181,162,100,0.2); }
 
         /* ============================================================
+           COMPREHENSIVE MARKET INTELLIGENCE & CONTENT PLAN
+           ============================================================ */
+
+        /* Stat Cards Grid (Step 4 Market Snapshot) */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .stat-card {
+            padding: 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-card-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+        .stat-card-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .stat-card-trend {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        .trend-up {
+            color: var(--green);
+        }
+        .trend-down {
+            color: #E74C3C;
+        }
+        .trend-neutral {
+            color: var(--muted);
+        }
+
+        /* Competitor Cards Grid (Step 4) */
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .competitor-card {
+            padding: 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+        }
+        .competitor-rank {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--faint);
+            margin-bottom: 6px;
+        }
+        .competitor-name {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+        .competitor-brokerage {
+            font-size: 0.72rem;
+            color: var(--faint);
+            margin-bottom: 10px;
+        }
+        .competitor-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .competitor-stat {
+            font-size: 0.72rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+        }
+        .competitor-stat span {
+            color: var(--ink);
+            font-weight: 500;
+        }
+        .competitor-gap {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            font-size: 0.7rem;
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* Content Gap Analysis Table */
+        .gap-grid {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 0;
+        }
+        .gap-row {
+            display: contents;
+        }
+        .gap-cell {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.78rem;
+        }
+        .gap-cell:first-child {
+            color: var(--muted);
+        }
+        .gap-header {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--faint);
+            padding: 0.5rem 0.8rem;
+            border-bottom: 1px solid var(--border2);
+            text-align: center;
+        }
+        .gap-header:first-child {
+            text-align: left;
+        }
+        .gap-check {
+            text-align: center;
+            color: var(--green);
+        }
+        .gap-miss {
+            text-align: center;
+            color: var(--faint);
+        }
+        .gap-you {
+            text-align: center;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Keyword Table (Step 4) */
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .keyword-table th {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--faint);
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border2);
+            text-align: left;
+            font-weight: 500;
+        }
+        .keyword-table td {
+            font-size: 0.78rem;
+            color: var(--muted);
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .keyword-table td:first-child {
+            color: var(--ink);
+            font-weight: 400;
+        }
+        .kw-vol {
+            color: var(--ink);
+            font-weight: 500;
+        }
+        .kw-comp-low {
+            color: var(--green);
+        }
+        .kw-comp-med {
+            color: var(--gold);
+        }
+        .kw-comp-high {
+            color: #E74C3C;
+        }
+        .kw-pos {
+            font-weight: 500;
+        }
+        .kw-opp {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+        .kw-opp-high {
+            background: var(--green-l);
+            color: var(--green);
+        }
+        .kw-opp-med {
+            background: rgba(181,162,100,0.12);
+            color: var(--gold);
+        }
+
+        /* Strategy Items (Step 5) */
+        .strategy-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+            align-items: flex-start;
+        }
+        .strategy-item:last-child {
+            border-bottom: none;
+        }
+        .strategy-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .strategy-text {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .strategy-text strong {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        /* Roadmap (Step 5) */
+        .roadmap {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .roadmap-month {
+            padding: 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+        }
+        .roadmap-month.current {
+            border-color: var(--gold);
+            background: rgba(181,162,100,0.06);
+        }
+        .roadmap-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .roadmap-title {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .roadmap-items {
+            font-size: 0.72rem;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+        .roadmap-items span {
+            display: block;
+        }
+
+        /* Calendar Tag Improvements */
+        .calendar-tag {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Projection Cards (Step 5) */
+        .projection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .projection-card {
+            padding: 1rem 1.2rem;
+            background: rgba(107,158,122,0.06);
+            border: 1px solid rgba(107,158,122,0.15);
+            border-radius: 10px;
+        }
+        .projection-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .projection-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+        .projection-note {
+            font-size: 0.68rem;
+            color: var(--faint);
+            margin-top: 2px;
+        }
+
+        /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 640px) {
@@ -696,6 +995,10 @@
             .example-grid { grid-template-columns: 1fr; }
             .pill-grid { grid-template-columns: 1fr; }
             .calendar-header, .calendar-week { grid-template-columns: repeat(3, 1fr); }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .competitor-grid { grid-template-columns: 1fr; }
+            .roadmap { grid-template-columns: 1fr; }
+            .projection-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -941,8 +1244,35 @@
         <!-- Results (shown after loading) -->
         <div class="analysis-results" id="analysisResults">
 
-            <!-- Key Insights -->
+            <!-- Market Snapshot -->
             <div class="step-content fade-up">
+                <div class="section-label">Market Snapshot</div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">Median Home Price</div>
+                        <div class="stat-card-value">$2.84M</div>
+                        <div class="stat-card-trend trend-up">↑ 4.2% YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Days on Market</div>
+                        <div class="stat-card-value">14</div>
+                        <div class="stat-card-trend trend-down">↓ 3 from last month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Active Inventory</div>
+                        <div class="stat-card-value">47</div>
+                        <div class="stat-card-trend trend-neutral">0.8 mo. supply</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Price per Sq Ft</div>
+                        <div class="stat-card-value">$1,420</div>
+                        <div class="stat-card-trend trend-up">↑ 2.1% YoY</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="step-content fade-up" style="margin-top:1.5rem;">
                 <div class="section-label">Key Findings</div>
                 <div class="insight-card">
                     <span class="insight-icon">🎯</span>
@@ -955,6 +1285,113 @@
                 <div class="insight-card">
                     <span class="insight-icon">⚡</span>
                     <div class="insight-text"><strong>3 competitors using AI-generated content</strong> that could be improved. Their videos get views but have no personal brand — your avatar content will outperform.</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-icon">🔍</span>
+                    <div class="insight-text"><strong>Your website ranks on page 3+ for 'Cupertino real estate agent'</strong> — You're invisible for the most valuable local search term. Our SEO content will fix this within 90 days.</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-icon">📱</span>
+                    <div class="insight-text"><strong>Competitors average 4.2 posts/week on Instagram</strong> — You're currently posting 1.5x/week. We'll close this gap with a consistent content calendar that doesn't require your daily input.</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-icon">⭐</span>
+                    <div class="insight-text"><strong>Your Google Business Profile has 23 reviews (4.8★)</strong> — Top competitor has 89 reviews. We'll create a review generation campaign to close this gap.</div>
+                </div>
+            </div>
+
+            <!-- Competitor Landscape -->
+            <div class="step-content fade-up" style="margin-top:1.5rem;">
+                <div class="section-label">Competitor Landscape</div>
+                <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">Here's how you stack up. Notice the gaps — that's where you win.</p>
+                <div class="competitor-grid">
+                    <div class="competitor-card">
+                        <div class="competitor-rank">Rank #1</div>
+                        <div class="competitor-name">Sarah Chen</div>
+                        <div class="competitor-brokerage">Compass</div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">IG Followers <span>12.4K</span></div>
+                            <div class="competitor-stat">Posts/Week <span>5x</span></div>
+                            <div class="competitor-stat">YouTube Subs <span>2.1K</span></div>
+                            <div class="competitor-stat">Website Keywords <span>Page 1 for 3</span></div>
+                        </div>
+                        <div class="competitor-gap">Gap: No neighborhood content — your biggest opportunity</div>
+                    </div>
+                    <div class="competitor-card">
+                        <div class="competitor-rank">Rank #2</div>
+                        <div class="competitor-name">Michael Torres</div>
+                        <div class="competitor-brokerage">Keller Williams</div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">IG Followers <span>8.7K</span></div>
+                            <div class="competitor-stat">Posts/Week <span>4x</span></div>
+                            <div class="competitor-stat">YouTube Subs <span>None</span></div>
+                            <div class="competitor-stat">Website Keywords <span>Page 1 for 1</span></div>
+                        </div>
+                        <div class="competitor-gap">Gap: Weak video presence — avatar content will dominate</div>
+                    </div>
+                    <div class="competitor-card">
+                        <div class="competitor-rank">Rank #3</div>
+                        <div class="competitor-name">Jennifer Liu</div>
+                        <div class="competitor-brokerage">Intero</div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">IG Followers <span>5.2K</span></div>
+                            <div class="competitor-stat">Posts/Week <span>2x</span></div>
+                            <div class="competitor-stat">YouTube Subs <span>890</span></div>
+                            <div class="competitor-stat">Website Blog <span>Inactive since 2024</span></div>
+                        </div>
+                        <div class="competitor-gap">Gap: Inconsistent posting — consistency wins here</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Gap Analysis -->
+            <div class="step-content fade-up" style="margin-top:1.5rem;">
+                <div class="section-label">Content Gap Analysis</div>
+                <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">What competitors cover vs. what they don't. ★ = your plan includes it.</p>
+                <div class="gap-grid">
+                    <div class="gap-header">Content Type</div>
+                    <div class="gap-header">Competitors</div>
+                    <div class="gap-header">Your Plan</div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Listing Posts</div>
+                        <div class="gap-cell gap-check">✓</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Neighborhood Guides</div>
+                        <div class="gap-cell gap-miss">—</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Market Reports</div>
+                        <div class="gap-cell gap-check">✓</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Video Tours</div>
+                        <div class="gap-cell gap-check">✓</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Talking-Head Tips</div>
+                        <div class="gap-cell gap-miss">—</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">SEO Blog Articles</div>
+                        <div class="gap-cell gap-miss">—</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Email Nurture</div>
+                        <div class="gap-cell gap-miss">—</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
+                    <div class="gap-row">
+                        <div class="gap-cell">Client Testimonials</div>
+                        <div class="gap-cell gap-check">✓</div>
+                        <div class="gap-cell gap-you">★</div>
+                    </div>
                 </div>
             </div>
 
@@ -1002,20 +1439,79 @@
                 </div>
             </div>
 
-            <!-- Target Keywords -->
+            <!-- Priority Keywords Table -->
             <div class="step-content fade-up" style="margin-top:1.5rem;">
                 <div class="section-label">Priority Keywords</div>
                 <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">These are the search terms with the best opportunity based on volume, competition, and your market position.</p>
-                <div class="keyword-tags">
-                    <span class="keyword-tag">homes for sale in cupertino</span>
-                    <span class="keyword-tag">cupertino real estate agent</span>
-                    <span class="keyword-tag">best neighborhoods saratoga</span>
-                    <span class="keyword-tag">silicon valley housing market 2026</span>
-                    <span class="keyword-tag">selling a home in 95014</span>
-                    <span class="keyword-tag">cupertino school ratings</span>
-                    <span class="keyword-tag">sunnyvale vs cupertino</span>
-                    <span class="keyword-tag">home value cupertino</span>
-                </div>
+                <table class="keyword-table">
+                    <thead>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Monthly Volume</th>
+                            <th>Competition</th>
+                            <th>Your Position</th>
+                            <th>Opportunity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>homes for sale in cupertino</td>
+                            <td class="kw-vol">8,400</td>
+                            <td class="kw-comp-low">Low</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>cupertino real estate agent</td>
+                            <td class="kw-vol">2,900</td>
+                            <td class="kw-comp-med">Medium</td>
+                            <td class="kw-pos">Page 3</td>
+                            <td><span class="kw-opp kw-opp-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>best neighborhoods saratoga</td>
+                            <td class="kw-vol">1,800</td>
+                            <td class="kw-comp-low">Low</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>silicon valley housing market 2026</td>
+                            <td class="kw-vol">3,200</td>
+                            <td class="kw-comp-med">Medium</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-med">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td>selling a home in 95014</td>
+                            <td class="kw-vol">720</td>
+                            <td class="kw-comp-low">Low</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>cupertino school ratings</td>
+                            <td class="kw-vol">4,100</td>
+                            <td class="kw-comp-low">Low</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>sunnyvale vs cupertino</td>
+                            <td class="kw-vol">1,200</td>
+                            <td class="kw-comp-low">Low</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>home value cupertino</td>
+                            <td class="kw-vol">2,100</td>
+                            <td class="kw-comp-med">Medium</td>
+                            <td class="kw-pos">Not ranking</td>
+                            <td><span class="kw-opp kw-opp-med">MEDIUM</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="button-row">
@@ -1062,6 +1558,29 @@
             <div class="voice-preview" id="voicePreview" style="display:none;">
                 <div class="voice-preview-label">Content Preview</div>
                 <div class="voice-preview-text" id="voicePreviewText"></div>
+            </div>
+        </div>
+
+        <!-- Strategy Rationale -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">Why This Plan</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Every piece of content in your plan is backed by the market data we just analyzed. Here's the strategy:</p>
+
+            <div class="strategy-item">
+                <div class="strategy-icon">🎯</div>
+                <div class="strategy-text"><strong>Dominate neighborhood content</strong> — Only 2 of 14 competitors create local guides. We're leading with 2 neighborhood articles/month to own this space within 60 days.</div>
+            </div>
+            <div class="strategy-item">
+                <div class="strategy-icon">📈</div>
+                <div class="strategy-text"><strong>Capture high-volume search traffic</strong> — 'Homes for sale in Cupertino' gets 8,400 searches/month with weak competition. Your SEO blog posts and market updates will target this and 7 other keywords.</div>
+            </div>
+            <div class="strategy-item">
+                <div class="strategy-icon">🎬</div>
+                <div class="strategy-text"><strong>Out-produce competitors on video</strong> — Sarah Chen has no video, Michael Torres has no YouTube. Your avatar-powered talking-head videos will make you the video authority in your market.</div>
+            </div>
+            <div class="strategy-item">
+                <div class="strategy-icon">📧</div>
+                <div class="strategy-text"><strong>Nurture your sphere automatically</strong> — None of the top 3 competitors are running email campaigns. A monthly market update email positions you as the data expert to your existing database.</div>
             </div>
         </div>
 
@@ -1129,6 +1648,48 @@
             </div>
         </div>
 
+        <!-- 3-Month Roadmap -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">3-Month Roadmap</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Here's what happens each month. We start strong and keep building momentum.</p>
+
+            <div class="roadmap">
+                <div class="roadmap-month current">
+                    <div class="roadmap-label">Month 1</div>
+                    <div class="roadmap-title">Foundation</div>
+                    <div class="roadmap-items">
+                        <span>• Launch SEO blog</span>
+                        <span>• Start 2x/week IG posting</span>
+                        <span>• First neighborhood guide</span>
+                        <span>• First market update video</span>
+                        <span>• Email welcome sequence</span>
+                    </div>
+                </div>
+                <div class="roadmap-month">
+                    <div class="roadmap-label">Month 2</div>
+                    <div class="roadmap-title">Momentum</div>
+                    <div class="roadmap-items">
+                        <span>• Increase to 4x/week posting</span>
+                        <span>• 2 neighborhood guides</span>
+                        <span>• Weekly market shorts</span>
+                        <span>• Launch review generation</span>
+                        <span>• First client testimonial video</span>
+                    </div>
+                </div>
+                <div class="roadmap-month">
+                    <div class="roadmap-label">Month 3</div>
+                    <div class="roadmap-title">Authority</div>
+                    <div class="roadmap-items">
+                        <span>• Full content calendar active</span>
+                        <span>• Targeting all 8 keywords</span>
+                        <span>• Monthly market report series</span>
+                        <span>• Video library growing</span>
+                        <span>• Email nurture on autopilot</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Calendar Preview -->
         <div class="step-content" style="margin-top:1.5rem;">
             <div class="section-label">Month 1 Preview</div>
@@ -1143,34 +1704,65 @@
                     <div class="calendar-header-cell">Fri</div>
                 </div>
                 <div class="calendar-week">
-                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Post</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">Why 95014 Schools Drive Home Values</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-market">Market Update</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-market">March Market: Cupertino Prices Up 4.2%</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Reel</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">Home Staging Tips: 5 Days to Sell</span></div>
                 </div>
                 <div class="calendar-week">
-                    <div class="calendar-cell"><span class="calendar-tag tag-listing">Listing Post</span></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-video">Avatar Video</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-listing">New Listing: Saratoga Modern Home</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-video">Best Parks in Saratoga</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-lifestyle">Local Guide</span></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Post</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-lifestyle">Guide: Best Parks in Saratoga</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">Tech Workers Moving to Silicon Valley</span></div>
                 </div>
                 <div class="calendar-week">
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Carousel</span></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-market">Email Campaign</span></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-video">Talking Head</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">What $2.8M Buys You in Cupertino</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-market">Monthly Email: March Market Update</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-video">How to Get Offers Fast</span></div>
                     <div class="calendar-cell"></div>
                 </div>
                 <div class="calendar-week">
-                    <div class="calendar-cell"><span class="calendar-tag tag-lifestyle">Neighborhood</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-lifestyle">Cupertino vs Sunnyvale: Where to Invest</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-listing">Sold Story</span></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Post</span></div>
-                    <div class="calendar-cell"><span class="calendar-tag tag-market">Month Review</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-listing">Sold: Historic Victorian Charm</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">Is It Time to Buy or Rent?</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-market">March Recap: What Changed</span></div>
                 </div>
             </div>
+        </div>
+
+        <!-- Growth Projections -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">90-Day Growth Projections</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">What you can expect after following this plan for 90 days:</p>
+
+            <div class="projection-grid">
+                <div class="projection-card">
+                    <div class="projection-label">Estimated Monthly Reach</div>
+                    <div class="projection-value">12,000–18,000</div>
+                    <div class="projection-note">impressions based on your market size and posting frequency</div>
+                </div>
+                <div class="projection-card">
+                    <div class="projection-label">Keywords on Page 1</div>
+                    <div class="projection-value">3–5 of 8</div>
+                    <div class="projection-note">within 90 days of consistent content</div>
+                </div>
+                <div class="projection-card">
+                    <div class="projection-label">Content Library Created</div>
+                    <div class="projection-value">85+ pieces</div>
+                    <div class="projection-note">posts, videos, articles, and emails ready to go</div>
+                </div>
+                <div class="projection-card">
+                    <div class="projection-label">Time Saved Monthly</div>
+                    <div class="projection-value">~40 hours</div>
+                    <div class="projection-note">vs. creating all this content manually</div>
+                </div>
+            </div>
+
+            <p style="font-size:0.7rem; color:var(--faint); margin-top:1.2rem; font-style:italic;">Projections based on typical results for agents in similar markets. Individual results may vary.</p>
         </div>
 
         <div class="button-row">
