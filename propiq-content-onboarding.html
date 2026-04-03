@@ -152,39 +152,113 @@
         }
 
         /* ============================================================
-           HEADER & BRANDING
+        /* ============================================================
+           TOP NAVIGATION BAR
            ============================================================ */
-        .header {
+        .topnav {
+            height: 52px;
             background: var(--surface);
-            padding: 2rem;
             border-bottom: 1px solid var(--gold-border);
             display: flex;
-            justify-content: center;
             align-items: center;
-            position: relative;
-            z-index: 100;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
-        .logo {
+        .topnav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .topnav-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--ink);
             letter-spacing: -0.5px;
         }
 
-        .logo span {
+        .topnav-logo span {
             color: var(--gold);
+        }
+
+        .topnav-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border2);
+        }
+
+        .topnav-section {
+            font-size: 0.8rem;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .topnav-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            height: 100%;
+        }
+
+        .topnav-tab {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 1.1rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .topnav-tab:hover {
+            color: var(--ink);
+        }
+
+        .topnav-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .topnav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .topnav-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface3);
+            border: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.05em;
         }
 
         /* ============================================================
            WIZARD CONTAINER
            ============================================================ */
-        .wizard-container {
-            max-width: 900px;
+           WIZARD CONTAINER
+           ============================================================ */
+                .wizard-container {
+            max-width: 680px;
             margin: 0 auto;
-            padding: 3rem 2rem 4rem;
-            min-height: 100vh;
+            padding: 2.5rem 2rem 3rem;
             position: relative;
             z-index: 1;
         }
@@ -192,8 +266,8 @@
         /* ============================================================
            PROGRESS INDICATOR
            ============================================================ */
-        .progress-section {
-            margin-bottom: 4rem;
+                .progress-section {
+            margin-bottom: 2rem;
         }
 
         .progress-bar-container {
@@ -241,30 +315,16 @@
            STEP CARD STYLING
            ============================================================ */
         .step {
-            opacity: 0;
-            visibility: hidden;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            transform: translateX(40px);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-            pointer-events: none;
+            display: none;
         }
 
         .step.active {
-            opacity: 1;
-            visibility: visible;
-            position: relative;
-            transform: translateX(0);
-            pointer-events: auto;
+            display: block;
         }
 
         .step.exit-left {
-            opacity: 0;
-            transform: translateX(-40px);
+            display: none;
         }
-
         .step-header {
             margin-bottom: 2.5rem;
         }
@@ -294,13 +354,13 @@
             font-weight: 300;
         }
 
-        .step-content {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--gold-border);
-            backdrop-filter: blur(4px);
-            border-radius: 12px;
-            padding: 3rem;
-            margin-bottom: 2rem;
+                .step-content {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         /* ============================================================
@@ -1505,9 +1565,22 @@
         <div class="orb orb-4"></div>
     </div>
 
-    <div class="header">
-        <div class="logo">Prop<span>IQ</span></div>
-    </div>
+    <nav class="topnav">
+        <div class="topnav-left">
+            <div class="topnav-logo">Prop<span>IQ</span></div>
+            <div class="topnav-divider"></div>
+            <span class="topnav-section">Content Engine</span>
+        </div>
+        <div class="topnav-tabs">
+            <a class="topnav-tab active" href="propiq-content-onboarding.html">Setup</a>
+            <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
+            <a class="topnav-tab" href="propiq-content-nudge.html">Content</a>
+            <a class="topnav-tab" href="propiq-content-scorecard.html">Scorecard</a>
+        </div>
+        <div class="topnav-right">
+            <div class="topnav-avatar">GW</div>
+        </div>
+    </nav>
 
     <div class="wizard-container">
         <!-- PROGRESS -->

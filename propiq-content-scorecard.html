@@ -146,109 +146,7 @@
             80% { transform: translate(50px, -30px) scale(0.98); }
         }
 
-        /* Top Bar */
-        .top-bar {
-            background-color: var(--surface);
-            border-bottom: 1px solid var(--border2);
-            padding: 1.5rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--gold);
-            letter-spacing: 0.03em;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-d));
-        }
-
-        .nav {
-            display: flex;
-            gap: 2.5rem;
-            flex: 1;
-            justify-content: center;
-            margin-left: 4rem;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .nav a:hover {
-            color: var(--gold-l);
-        }
-
-        .nav a.active {
-            color: var(--gold);
-        }
-
-        .nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--gold), transparent);
-        }
-
-        .top-bar-right {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .icon-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--muted);
-            transition: color 0.3s ease;
-        }
-
-        .icon-button:hover {
-            color: var(--gold);
-        }
-
-        .avatar {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-d));
-            color: var(--ink-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-        }
+        
 
         /* Main Container */
         .container {
@@ -863,6 +761,21 @@
                 padding: 0.75rem;
             }
         }
+    
+        /* Top Navigation Bar */
+        .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+        .topnav-left { display:flex; align-items:center; gap:1rem; }
+        .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
+        .topnav-logo span { color:var(--gold); }
+        .topnav-divider { width:1px; height:20px; background:var(--border2); }
+        .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+        .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
+        .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
+        .topnav-tab:hover { color:var(--ink); }
+        .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+        .topnav-right { display:flex; align-items:center; }
+        .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); letter-spacing:0.05em; }
+
     </style>
 </head>
 <body>
@@ -873,21 +786,23 @@
         <div class="orb orb-4"></div>
     </div>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="logo">PropertyIQ</div>
-        <nav class="nav">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#content">Content</a>
-            <a href="#assets">Assets</a>
-            <a href="#analytics" class="active">Analytics</a>
-            <a href="#settings">Settings</a>
-        </nav>
-        <div class="top-bar-right">
-            <button class="icon-button">🔔</button>
-            <div class="avatar">GW</div>
+    <!-- Top Navigation -->
+    <nav class="topnav">
+        <div class="topnav-left">
+            <div class="topnav-logo">Prop<span>IQ</span></div>
+            <div class="topnav-divider"></div>
+            <span class="topnav-section">Content Engine</span>
         </div>
-    </div>
+        <div class="topnav-tabs">
+            <a class="topnav-tab" href="propiq-content-onboarding.html">Setup</a>
+            <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
+            <a class="topnav-tab" href="propiq-content-nudge.html">Content</a>
+            <a class="topnav-tab active" href="propiq-content-scorecard.html">Scorecard</a>
+        </div>
+        <div class="topnav-right">
+            <div class="topnav-avatar">GW</div>
+        </div>
+    </nav>
 
     <!-- Main Container -->
     <div class="container">

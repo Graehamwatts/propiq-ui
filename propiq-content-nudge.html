@@ -1046,7 +1046,22 @@
                 font-size: 1.8rem;
             }
         }
-    </style>
+    
+        /* TOPNAV */
+        .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+        .topnav-left { display:flex; align-items:center; gap:1rem; }
+        .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
+        .topnav-logo span { color:var(--gold); }
+        .topnav-divider { width:1px; height:20px; background:var(--border2); }
+        .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+        .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
+        .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
+        .topnav-tab:hover { color:var(--ink); }
+        .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+        .topnav-right { display:flex; align-items:center; }
+        .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); letter-spacing:0.05em; }
+
+        </style>
 </head>
 <body>
     <div class="orb-container" aria-hidden="true">
@@ -1055,19 +1070,22 @@
         <div class="orb orb-3"></div>
         <div class="orb orb-4"></div>
     </div>
-    <div class="top-bar">
-        <div class="logo">PropertyIQ</div>
-        <div class="nav-links">
-            <a href="#" class="active">Dashboard</a>
-            <a href="#">Campaigns</a>
-            <a href="#">Analytics</a>
-            <a href="#">Settings</a>
+    <nav class="topnav">
+        <div class="topnav-left">
+            <div class="topnav-logo">Prop<span>IQ</span></div>
+            <div class="topnav-divider"></div>
+            <span class="topnav-section">Content Engine</span>
         </div>
-        <div class="top-bar-right">
-            <div class="bell-icon">🔔</div>
-            <div class="avatar">GW</div>
+        <div class="topnav-tabs">
+            <a class="topnav-tab" href="propiq-content-onboarding.html">Setup</a>
+            <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
+            <a class="topnav-tab active" href="propiq-content-nudge.html">Content</a>
+            <a class="topnav-tab" href="propiq-content-scorecard.html">Scorecard</a>
         </div>
-    </div>
+        <div class="topnav-right">
+            <div class="topnav-avatar">GW</div>
+        </div>
+    </nav>
 
     <div style="display: flex; flex-direction: column; height: calc(100vh - 65px);">
         <div class="view-tabs">
