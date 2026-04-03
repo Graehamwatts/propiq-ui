@@ -561,6 +561,131 @@
         .fade-up { animation: fadeUp 0.5s ease; }
 
         /* ============================================================
+           SPECIALTY CHIPS (Step 2)
+           ============================================================ */
+        .specialty-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.8rem;
+        }
+        .specialty-chip {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            font-size: 0.78rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .specialty-chip:hover { border-color: var(--gold-border); background: rgba(181,162,100,0.04); }
+        .specialty-chip.active { border-color: var(--gold); background: rgba(181,162,100,0.1); color: var(--ink); }
+
+        /* ============================================================
+           TOGGLEABLE BUCKET CARDS (Step 4)
+           ============================================================ */
+        .bucket-card.toggleable { cursor: pointer; position: relative; }
+        .bucket-card.toggleable::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border2);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .bucket-card.toggleable.active::after {
+            background: var(--gold);
+            border-color: var(--gold);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='3'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+            background-size: 14px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .bucket-card.toggleable.active { border-color: var(--gold); background: rgba(181,162,100,0.06); }
+        .bucket-card.toggleable.dimmed { opacity: 0.4; }
+
+        /* ============================================================
+           TONE SELECTOR (Brand Voice)
+           ============================================================ */
+        .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .tone-pill {
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .tone-pill:hover { border-color: var(--gold-border); background: rgba(181,162,100,0.04); }
+        .tone-pill.active { border-color: var(--gold); background: rgba(181,162,100,0.08); box-shadow: 0 0 16px rgba(181,162,100,0.08); }
+        .tone-title { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+        .tone-desc { font-size: 0.7rem; color: var(--faint); line-height: 1.3; }
+
+        .voice-preview {
+            background: rgba(181,162,100,0.04);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+        .voice-preview-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 8px; }
+        .voice-preview-text { font-size: 0.82rem; color: var(--muted); line-height: 1.6; font-style: italic; }
+
+        /* ============================================================
+           BRAND ASSETS (Logo upload in Photo step)
+           ============================================================ */
+        .logo-upload-row {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .logo-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            border: 2px dashed var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(181,162,100,0.02);
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        .logo-preview:hover { border-color: var(--gold); background: rgba(181,162,100,0.06); }
+
+        /* Headshot circle */
+        .headshot-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .headshot-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            background: var(--surface3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            font-size: 2rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .headshot-circle:hover { box-shadow: 0 0 24px rgba(181,162,100,0.2); }
+
+        /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 640px) {
@@ -687,6 +812,9 @@
         </div>
 
         <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">Or Use Structured Fields</div>
+            <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1.2rem;">Prefer to fill in fields? These work the same way — we'll combine everything.</p>
+
             <div class="form-group">
                 <label class="form-label">Target ZIP Codes</label>
                 <input type="text" class="form-input" id="zipInput" placeholder="Enter ZIP codes for your farm areas" onkeydown="handleZipEntry(event)">
@@ -694,6 +822,23 @@
                 <div class="chip-group" id="zipChips">
                     <div class="chip">95014 <span class="chip-remove" onclick="this.parentElement.remove()">×</span></div>
                     <div class="chip">95070 <span class="chip-remove" onclick="this.parentElement.remove()">×</span></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Your Specialties</label>
+                <div class="form-hint" style="margin-top:0; margin-bottom:8px;">Select all that apply — this shapes what kind of content we create.</div>
+                <div class="specialty-grid">
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Luxury</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">First-Time Buyers</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">FSBO / Expired</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Investment Properties</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Relocation</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">New Construction</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Condos / Townhomes</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Senior / Downsizing</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Divorce / Probate</div>
+                    <div class="specialty-chip" onclick="this.classList.toggle('active')">Multi-Family</div>
                 </div>
             </div>
 
@@ -813,41 +958,42 @@
                 </div>
             </div>
 
-            <!-- Content Buckets -->
+            <!-- Content Buckets (toggleable) -->
             <div class="step-content fade-up" style="margin-top:1.5rem;">
                 <div class="section-label">Content Buckets We've Identified</div>
+                <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">Click to toggle buckets on or off. We'll only create content for the buckets you select.</p>
                 <div class="bucket-grid">
-                    <div class="bucket-card">
+                    <div class="bucket-card toggleable active" onclick="this.classList.toggle('active'); this.classList.toggle('dimmed')">
                         <div class="bucket-emoji">🏠</div>
                         <div class="bucket-name">Real Estate & Listings</div>
                         <div class="bucket-count">18 content ideas</div>
                         <div class="bucket-desc">Market updates, listing showcases, price analyses, buyer guides</div>
                     </div>
-                    <div class="bucket-card">
+                    <div class="bucket-card toggleable active" onclick="this.classList.toggle('active'); this.classList.toggle('dimmed')">
                         <div class="bucket-emoji">🌳</div>
                         <div class="bucket-name">Neighborhood & Lifestyle</div>
                         <div class="bucket-count">12 content ideas</div>
                         <div class="bucket-desc">Local guides, restaurant spotlights, school reviews, parks & recreation</div>
                     </div>
-                    <div class="bucket-card">
+                    <div class="bucket-card toggleable active" onclick="this.classList.toggle('active'); this.classList.toggle('dimmed')">
                         <div class="bucket-emoji">📊</div>
                         <div class="bucket-name">Market Data & Authority</div>
                         <div class="bucket-count">8 content ideas</div>
                         <div class="bucket-desc">Monthly market reports, trend analysis, interest rate commentary</div>
                     </div>
-                    <div class="bucket-card">
+                    <div class="bucket-card toggleable active" onclick="this.classList.toggle('active'); this.classList.toggle('dimmed')">
                         <div class="bucket-emoji">🎬</div>
                         <div class="bucket-name">Video & Personal Brand</div>
                         <div class="bucket-count">10 content ideas</div>
                         <div class="bucket-desc">Talking head tips, property tours, client testimonials, behind-the-scenes</div>
                     </div>
-                    <div class="bucket-card">
+                    <div class="bucket-card toggleable active" onclick="this.classList.toggle('active'); this.classList.toggle('dimmed')">
                         <div class="bucket-emoji">🔑</div>
                         <div class="bucket-name">Seller-Focused</div>
                         <div class="bucket-count">9 content ideas</div>
                         <div class="bucket-desc">Home prep tips, pricing strategy, FSBO outreach, staging advice</div>
                     </div>
-                    <div class="bucket-card">
+                    <div class="bucket-card toggleable active" onclick="this.classList.toggle('active'); this.classList.toggle('dimmed')">
                         <div class="bucket-emoji">💡</div>
                         <div class="bucket-name">Low-Hanging Fruit</div>
                         <div class="bucket-count">6 content ideas</div>
@@ -880,89 +1026,47 @@
     </div>
 
     <!-- ================================================================
-         STEP 5 — UPLOAD YOUR ASSETS
+         STEP 5 — YOUR CONTENT PLAN (now before photos)
          ================================================================ -->
     <div class="step" id="step5">
         <div class="step-header">
             <span class="step-label">Step 05 of 06</span>
-            <h1 class="step-title">Your Photos & Video</h1>
-            <p class="step-subtitle">Based on your content plan, here's what we need from you. The more you give us, the less we rely on stock imagery — and the more your content looks like <em>you</em>.</p>
-        </div>
-
-        <!-- Minimum Requirements -->
-        <div class="step-content">
-            <div class="section-label">What We Need</div>
-            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.5rem;">These are the minimums to generate your first month of content. You can always add more later.</p>
-
-            <div class="requirement-list">
-                <div class="requirement-item">
-                    <span class="req-status">📸</span>
-                    <div class="req-text"><strong>3 front-facing headshots</strong> — Professional or casual, well-lit, clear face. These become your avatar and thumbnail photos. <span class="req-badge req-min">Minimum</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">📐</span>
-                    <div class="req-text"><strong>1 side-profile or 3/4 angle photo</strong> — Gives your avatar a natural look when turned. <span class="req-badge req-min">Minimum</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">🎥</span>
-                    <div class="req-text"><strong>1 talking-head video (30–60 sec)</strong> — Just talk to your phone camera. Say anything — we need your voice and mannerisms for the AI clone. <span class="req-badge req-min">Minimum</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">🏡</span>
-                    <div class="req-text"><strong>Property photos</strong> — Active listings, sold homes, or local landmarks. More is better. <span class="req-badge req-rec">Recommended</span></div>
-                </div>
-                <div class="requirement-item">
-                    <span class="req-status">🤝</span>
-                    <div class="req-text"><strong>You with clients, at events, open houses</strong> — Builds trust and shows you in action. <span class="req-badge req-rec">Recommended</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Upload Zone -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Upload Everything You've Got</div>
-            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Don't worry about organizing — just dump it all here. Our AI will sort through everything, categorize it, and match each photo to the right type of content.</p>
-
-            <div class="upload-zone" id="assetUploadZone" onclick="document.getElementById('assetInput').click()">
-                <div class="upload-icon">📸</div>
-                <div class="upload-text">Drag photos & videos here or click to browse</div>
-                <div class="upload-subtext">JPG, PNG, HEIC, MP4 — Upload as many as you want</div>
-                <input type="file" id="assetInput" style="display:none;" accept="image/*,video/*" multiple>
-            </div>
-
-            <div style="text-align:center; margin-top:1.2rem;">
-                <button class="btn-text" style="font-size:0.78rem;">📱 Or take photos right now with your phone camera</button>
-            </div>
-
-            <div class="market-hint" style="margin-top:1.5rem;">
-                <div class="pulse-dot"></div>
-                <span>Green screen or white background shots are perfect for avatar creation — we can swap in any background. But regular photos work great too.</span>
-            </div>
-        </div>
-
-        <div style="text-align:center; margin-top:1rem;">
-            <button class="btn-text" onclick="goToStep(6)">Skip for now — I'll add photos later</button>
-            <div style="font-size:0.72rem; color:var(--faint); margin-top:4px;">We'll use stock imagery to get started and ask for specific photos as we create content.</div>
-        </div>
-
-        <div class="button-row">
-            <button class="btn-back" onclick="goToStep(4)">← Back</button>
-            <button class="btn-primary" onclick="goToStep(6)">CONTINUE</button>
-        </div>
-    </div>
-
-    <!-- ================================================================
-         STEP 6 — YOUR CONTENT PLAN (Step 5.5)
-         ================================================================ -->
-    <div class="step" id="step6">
-        <div class="step-header">
-            <span class="step-label">Step 06 of 06</span>
             <h1 class="step-title">Your Content Plan</h1>
-            <p class="step-subtitle">Here's your personalized 3-month content calendar. We've built this based on your market research, competitor gaps, and the assets you provided.</p>
+            <p class="step-subtitle">Here's your personalized 3-month content calendar built from your market research and competitor gaps. Before we generate it, let's make sure it sounds like you.</p>
+        </div>
+
+        <!-- Brand Voice -->
+        <div class="step-content">
+            <div class="section-label">How Should Your Content Sound?</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">This is the secret sauce. Pick the tone that sounds most like you — we'll write all your captions, scripts, and market updates in this style. You can always adjust later.</p>
+
+            <div class="tone-grid">
+                <div class="tone-pill" onclick="selectTone(this, 'luxury')">
+                    <div class="tone-title">Luxury & Refined</div>
+                    <div class="tone-desc">Elegant, sophisticated, premium positioning</div>
+                </div>
+                <div class="tone-pill" onclick="selectTone(this, 'warm')">
+                    <div class="tone-title">Warm & Personal</div>
+                    <div class="tone-desc">Friendly, approachable, community-focused</div>
+                </div>
+                <div class="tone-pill" onclick="selectTone(this, 'data')">
+                    <div class="tone-title">Data & Authority</div>
+                    <div class="tone-desc">Market expert, analytical, confident</div>
+                </div>
+                <div class="tone-pill" onclick="selectTone(this, 'modern')">
+                    <div class="tone-title">Modern & Bold</div>
+                    <div class="tone-desc">Contemporary, energetic, trend-forward</div>
+                </div>
+            </div>
+
+            <div class="voice-preview" id="voicePreview" style="display:none;">
+                <div class="voice-preview-label">Content Preview</div>
+                <div class="voice-preview-text" id="voicePreviewText"></div>
+            </div>
         </div>
 
         <!-- Plan Summary -->
-        <div class="step-content">
+        <div class="step-content" style="margin-top:1.5rem;">
             <div class="section-label">Content Summary</div>
 
             <div class="plan-toggle">
@@ -1039,79 +1143,147 @@
                     <div class="calendar-header-cell">Fri</div>
                 </div>
                 <div class="calendar-week">
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-social">IG Post</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Post</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-market">Market Update</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-market">Market Update</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-social">IG Reel</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Reel</span></div>
                 </div>
                 <div class="calendar-week">
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-listing">Listing Post</span>
-                    </div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-video">Avatar Video</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-listing">Listing Post</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-video">Avatar Video</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-lifestyle">Local Guide</span>
-                    </div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-social">IG Post</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-lifestyle">Local Guide</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Post</span></div>
                 </div>
                 <div class="calendar-week">
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-social">IG Carousel</span>
-                    </div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-market">Email Campaign</span>
-                    </div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-video">Talking Head</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Carousel</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-market">Email Campaign</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-video">Talking Head</span></div>
                     <div class="calendar-cell"></div>
                 </div>
                 <div class="calendar-week">
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-lifestyle">Neighborhood</span>
-                    </div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-lifestyle">Neighborhood</span></div>
                     <div class="calendar-cell"></div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-listing">Sold Story</span>
+                    <div class="calendar-cell"><span class="calendar-tag tag-listing">Sold Story</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-social">IG Post</span></div>
+                    <div class="calendar-cell"><span class="calendar-tag tag-market">Month Review</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="btn-back" onclick="goToStep(4)">← Back</button>
+            <button class="btn-primary" onclick="goToStep(6)">NEXT: ADD YOUR PHOTOS</button>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         STEP 6 — YOUR PHOTOS, BRAND & LAUNCH
+         ================================================================ -->
+    <div class="step" id="step6">
+        <div class="step-header">
+            <span class="step-label">Step 06 of 06</span>
+            <h1 class="step-title">Make It Yours</h1>
+            <p class="step-subtitle">Last step. Based on your content plan, here's what we need to make everything look and sound like you. The more you give us, the less we rely on stock — and the better your content performs.</p>
+        </div>
+
+        <!-- Brand Assets -->
+        <div class="step-content">
+            <div class="section-label">Your Brand</div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+                <div>
+                    <label class="form-label">Your Headshot</label>
+                    <div class="form-hint" style="margin-bottom:10px;">Goes on every post, video thumbnail, and email. Use a professional headshot — it builds trust fast.</div>
+                    <div class="headshot-row">
+                        <div class="headshot-circle" onclick="document.getElementById('headshotInput').click()">👤</div>
+                        <div>
+                            <button class="btn-secondary" style="font-size:0.75rem; padding:0.5rem 1rem;" onclick="document.getElementById('headshotInput').click()">Upload Photo</button>
+                            <input type="file" id="headshotInput" style="display:none;" accept="image/*">
+                        </div>
                     </div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-social">IG Post</span>
-                    </div>
-                    <div class="calendar-cell">
-                        <span class="calendar-tag tag-market">Month Review</span>
+                </div>
+                <div>
+                    <label class="form-label">Your Logo</label>
+                    <div class="form-hint" style="margin-bottom:10px;">Personal brand or brokerage logo. We'll add it to your content templates.</div>
+                    <div class="logo-upload-row">
+                        <div class="logo-preview" onclick="document.getElementById('logoInput').click()">🏢</div>
+                        <div>
+                            <button class="btn-secondary" style="font-size:0.75rem; padding:0.5rem 1rem;" onclick="document.getElementById('logoInput').click()">Upload Logo</button>
+                            <div class="form-hint" style="margin-top:4px;">PNG or SVG, transparent background preferred</div>
+                            <input type="file" id="logoInput" style="display:none;" accept="image/*">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CTA -->
+        <!-- Photo Requirements -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">What We Need From You</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.5rem;">Based on your content plan, here are the minimums. You can always add more later.</p>
+
+            <div class="requirement-list">
+                <div class="requirement-item">
+                    <span class="req-status">📸</span>
+                    <div class="req-text"><strong>3 front-facing headshots</strong> — Professional or casual, well-lit, clear face. These become your avatar and thumbnail photos. <span class="req-badge req-min">Minimum</span></div>
+                </div>
+                <div class="requirement-item">
+                    <span class="req-status">📐</span>
+                    <div class="req-text"><strong>1 side-profile or 3/4 angle photo</strong> — Gives your avatar a natural look when turned. <span class="req-badge req-min">Minimum</span></div>
+                </div>
+                <div class="requirement-item">
+                    <span class="req-status">🎥</span>
+                    <div class="req-text"><strong>1 talking-head video (30–60 sec)</strong> — Just talk to your phone camera. Say anything — we need your voice and mannerisms for the AI clone. <span class="req-badge req-min">Minimum</span></div>
+                </div>
+                <div class="requirement-item">
+                    <span class="req-status">🏡</span>
+                    <div class="req-text"><strong>Property photos</strong> — Active listings, sold homes, or local landmarks. More is better. <span class="req-badge req-rec">Recommended</span></div>
+                </div>
+                <div class="requirement-item">
+                    <span class="req-status">🤝</span>
+                    <div class="req-text"><strong>You with clients, at events, open houses</strong> — Builds trust and shows you in action. <span class="req-badge req-rec">Recommended</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Zone -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">Upload Everything You've Got</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Don't worry about organizing — just dump it all here. Our AI will sort through everything, categorize it, and match each photo to the right type of content.</p>
+
+            <div class="upload-zone" id="assetUploadZone" onclick="document.getElementById('assetInput').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Drag photos & videos here or click to browse</div>
+                <div class="upload-subtext">JPG, PNG, HEIC, MP4 — Upload as many as you want</div>
+                <input type="file" id="assetInput" style="display:none;" accept="image/*,video/*" multiple>
+            </div>
+
+            <div style="text-align:center; margin-top:1.2rem;">
+                <button class="btn-text" style="font-size:0.78rem;">📱 Or take photos right now with your phone camera</button>
+            </div>
+
+            <div class="market-hint" style="margin-top:1.5rem;">
+                <div class="pulse-dot"></div>
+                <span>Green screen or white background shots are perfect for avatar creation — we can swap in any background. But regular photos work great too.</span>
+            </div>
+        </div>
+
+        <!-- Launch CTA -->
         <div class="step-content" style="margin-top:1.5rem; text-align:center; padding:2.5rem 2rem;">
             <div style="font-size:2rem; margin-bottom:1rem;">🚀</div>
             <div style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:600; color:var(--ink); margin-bottom:0.8rem;">Ready to Go?</div>
-            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.5rem; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.7;">Hit the button and we'll start generating your content. You can always come back to upload more photos, adjust your plan, or expand to the recommended calendar later.</p>
+            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.5rem; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.7;">Hit the button and we'll start generating your content. You can always come back to upload more photos, adjust your plan, or expand later.</p>
             <div style="font-size:0.78rem; color:var(--faint); margin-bottom:2rem;">Let's get started now — you can add the rest later.</div>
 
-            <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
-                <button class="btn-primary" style="padding:1rem 3.5rem; font-size:0.9rem;" onclick="launchEngine()">GENERATE MY CONTENT</button>
-                <button class="btn-secondary" onclick="goToStep(5)">← Go Back & Add More Assets</button>
-            </div>
+            <button class="btn-primary" style="padding:1rem 3.5rem; font-size:0.9rem;" onclick="launchEngine()">GENERATE MY CONTENT</button>
         </div>
 
-        <div class="button-row" style="border-top:none; margin-top:1rem;">
+        <div class="button-row" style="border-top:none; margin-top:0.5rem;">
             <button class="btn-back" onclick="goToStep(5)">← Back</button>
+            <button class="btn-text" onclick="launchEngine()">Skip photos — generate with stock imagery</button>
         </div>
     </div>
 
@@ -1208,7 +1380,24 @@
         }, 1200);
     }
 
-    // Step 6: Toggle minimum vs recommended plan
+    // Step 5: Brand voice selection
+    const voicePreviews = {
+        luxury: '"Introducing an extraordinary estate nestled in the heart of Pacific Heights. This architectural masterpiece redefines luxury living with panoramic bay views and impeccable finishes throughout."',
+        warm: '"Just listed a beautiful home in our neighborhood! If you know anyone who\'s been dreaming about tree-lined streets and top-rated schools, send them my way — I\'d love to help them find their perfect fit."',
+        data: '"Cupertino median home prices rose 4.2% month-over-month to $2.8M, outpacing county averages by 1.7 points. Inventory remains tight at 0.8 months of supply. Here\'s what that means for your buying power."',
+        modern: '"Hot take: the best time to buy in Silicon Valley isn\'t when rates drop — it\'s when everyone else is waiting for rates to drop. Here\'s the data that proves it. 👇"'
+    };
+
+    function selectTone(el, tone) {
+        document.querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        const preview = document.getElementById('voicePreview');
+        const text = document.getElementById('voicePreviewText');
+        text.textContent = voicePreviews[tone];
+        preview.style.display = 'block';
+    }
+
+    // Step 5: Toggle minimum vs recommended plan
     function togglePlan(plan, btn) {
         document.querySelectorAll('.plan-toggle-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
