@@ -1,1030 +1,474 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropIQ Content Engine — Market Score Card</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Epilogue:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <style>
-        /* Luxury Color System */
-        :root {
-            --gold: #B5A264;
-            --gold-l: #D4C27A;
-            --gold-d: #9A8A55;
-            --gold-glow: rgba(181, 162, 100, 0.12);
-            --gold-border: rgba(181, 162, 100, 0.2);
-            --bg: #12111A;
-            --surface: #1B1926;
-            --surface2: #232131;
-            --surface3: #2C2A3B;
-            --plum: rgba(120, 80, 160, 0.15);
-            --plum-glow: rgba(120, 80, 160, 0.08);
-            --bg-light: #FAFAF8;
-            --surface-light: #FFFFFF;
-            --border-light: rgba(0, 0, 0, 0.08);
-            --border: rgba(255, 255, 255, 0.08);
-            --border2: rgba(255, 255, 255, 0.13);
-            --ink: #EEECEA;
-            --ink-dark: #111111;
-            --muted: #8C8C8C;
-            --faint: #555555;
-            --green: #6B9E7A;
-            --green-l: rgba(107, 158, 122, 0.15);
-            --red: #C0392B;
-            --red-l: rgba(192, 57, 43, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Epilogue', sans-serif;
-            background-color: var(--bg);
-            color: var(--ink);
-            line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Film grain overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' fill='%23000' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 1000;
-            mix-blend-mode: overlay;
-        }
-
-        /* Animated Floating Orbs */
-        .orb-container {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            will-change: transform;
-        }
-
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(181, 162, 100, 0.25) 0%, transparent 70%);
-            top: -10%;
-            right: -5%;
-            animation: float1 20s ease-in-out infinite;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(120, 80, 160, 0.2) 0%, transparent 70%);
-            bottom: -5%;
-            left: -8%;
-            animation: float2 25s ease-in-out infinite;
-        }
-
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(181, 162, 100, 0.15) 0%, transparent 70%);
-            top: 40%;
-            left: 50%;
-            animation: float3 22s ease-in-out infinite;
-        }
-
-        .orb-4 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(100, 70, 140, 0.18) 0%, transparent 70%);
-            top: 20%;
-            right: 20%;
-            animation: float4 28s ease-in-out infinite;
-        }
-
-        @keyframes float1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(-40px, 60px) scale(1.05); }
-            50% { transform: translate(-80px, 30px) scale(0.95); }
-            75% { transform: translate(-20px, -40px) scale(1.02); }
-        }
-
-        @keyframes float2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -30px) scale(1.08); }
-            50% { transform: translate(30px, -70px) scale(0.96); }
-            75% { transform: translate(70px, -20px) scale(1.03); }
-        }
-
-        @keyframes float3 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-60px, 40px) scale(1.06); }
-            66% { transform: translate(40px, -50px) scale(0.94); }
-        }
-
-        @keyframes float4 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            20% { transform: translate(30px, 50px) scale(1.04); }
-            40% { transform: translate(-40px, 20px) scale(0.97); }
-            60% { transform: translate(-20px, -60px) scale(1.06); }
-            80% { transform: translate(50px, -30px) scale(0.98); }
-        }
-
-        
-
-        /* Main Container */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Section 1: Competitiveness Score (Hero) */
-        .section-hero {
-            text-align: center;
-            margin-bottom: 5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        .gauge-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .circular-gauge {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: conic-gradient(
-                var(--gold) 0deg,
-                var(--gold) 244.8deg,
-                var(--border2) 244.8deg,
-                var(--border2) 360deg
-            );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 40px var(--gold-glow), inset 0 0 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: fillGauge 2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes fillGauge {
-            from {
-                background: conic-gradient(
-                    var(--gold) 0deg,
-                    var(--gold) 0deg,
-                    var(--border2) 0deg,
-                    var(--border2) 360deg
-                );
-            }
-            to {
-                background: conic-gradient(
-                    var(--gold) 0deg,
-                    var(--gold) 244.8deg,
-                    var(--border2) 244.8deg,
-                    var(--border2) 360deg
-                );
-            }
-        }
-
-        .gauge-inner {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(135deg at 30% 30%, rgba(255, 255, 255, 0.08), transparent);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gauge-score {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--gold);
-            letter-spacing: -0.02em;
-        }
-
-        .gauge-label {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            margin-top: 0.3rem;
-        }
-
-        .score-status {
-            font-size: 1rem;
-            color: var(--ink);
-            margin-top: 2rem;
-            letter-spacing: 0.01em;
-        }
-
-        .score-explanation {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 2.5rem;
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: var(--ink);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Section 2: Your Output vs. Recommended */
-        .section-comparison {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .comparison-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
-
-        .comparison-row {
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .comparison-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .comparison-label {
-            min-width: 140px;
-            font-weight: 500;
-            color: var(--ink);
-            font-size: 0.9rem;
-            letter-spacing: 0.01em;
-        }
-
-        .bar-wrapper {
-            flex: 1;
-            height: 32px;
-            background-color: rgba(255, 255, 255, 0.04);
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--border);
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--gold-l));
-            border-radius: 6px;
-            transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 1rem;
-            font-weight: 600;
-            color: var(--ink-dark);
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bar-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .bar-fill.current {
-            width: 71%;
-        }
-
-        .bar-fill.target {
-            width: 100%;
-            background: rgba(181, 162, 100, 0.3);
-            border: 1px solid var(--gold-border);
-        }
-
-        .bar-fill.leader {
-            width: 100%;
-            background: transparent;
-            border: 2px solid var(--gold);
-        }
-
-        .comparison-value {
-            min-width: 70px;
-            text-align: right;
-            font-weight: 600;
-            color: var(--gold);
-            font-size: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        /* Section 3: Content Type Breakdown */
-        .section-breakdown {
-            margin-bottom: 5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .breakdown-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .content-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .content-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--gold-glow), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .content-card:hover {
-            border-color: var(--gold);
-            box-shadow: 0 12px 48px var(--gold-glow);
-        }
-
-        .content-card:hover::before {
-            opacity: 1;
-        }
-
-        .card-category {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 1rem;
-            letter-spacing: 0.01em;
-        }
-
-        .card-count {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .mini-gauge {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--ink);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.2);
-            animation: fillMiniGauge 2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid var(--border);
-        }
-
-        @keyframes fillMiniGauge {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .mini-gauge.on-track {
-            background: conic-gradient(
-                var(--green) 0deg,
-                var(--green) 259.2deg,
-                var(--border2) 259.2deg,
-                var(--border2) 360deg
-            );
-        }
-
-        .mini-gauge.warning {
-            background: conic-gradient(
-                var(--gold) 0deg,
-                var(--gold) 190.8deg,
-                var(--border2) 190.8deg,
-                var(--border2) 360deg
-            );
-        }
-
-        .mini-gauge.strong {
-            background: conic-gradient(
-                var(--green) 0deg,
-                var(--green) 288deg,
-                var(--border2) 288deg,
-                var(--border2) 360deg
-            );
-        }
-
-        .mini-gauge.attention {
-            background: conic-gradient(
-                var(--red) 0deg,
-                var(--red) 72deg,
-                var(--border2) 72deg,
-                var(--border2) 360deg
-            );
-        }
-
-        .card-status {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            display: inline-block;
-            letter-spacing: 0.05em;
-            backdrop-filter: blur(10px);
-        }
-
-        .status-on-track {
-            background-color: var(--green-l);
-            color: var(--green);
-            border: 1px solid rgba(107, 158, 122, 0.3);
-        }
-
-        .status-warning {
-            background-color: rgba(181, 162, 100, 0.15);
-            color: var(--gold-l);
-            border: 1px solid var(--gold-border);
-        }
-
-        .status-strong {
-            background-color: var(--green-l);
-            color: var(--green);
-            border: 1px solid rgba(107, 158, 122, 0.3);
-        }
-
-        .status-attention {
-            background-color: var(--red-l);
-            color: var(--red);
-            border: 1px solid rgba(192, 57, 43, 0.3);
-        }
-
-        /* Section 4: How to Close the Gap */
-        .section-recommendations {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-border);
-            border-left: 3px solid var(--gold);
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .recommendations-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
-
-        .recommendation-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .recommendation-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .recommendation-item.checked {
-            opacity: 0.6;
-        }
-
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            margin-top: 0.2rem;
-            min-width: 24px;
-        }
-
-        .checkbox-wrapper input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--gold);
-        }
-
-        .recommendation-content {
-            flex: 1;
-        }
-
-        .recommendation-text {
-            color: var(--ink);
-            font-weight: 500;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.01em;
-        }
-
-        .action-link {
-            display: inline-block;
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .action-link:hover {
-            color: var(--gold-l);
-            border-bottom-color: var(--gold-l);
-        }
-
-        .recommendation-summary {
-            background: linear-gradient(135deg, rgba(181, 162, 100, 0.15), rgba(181, 162, 100, 0.05));
-            border: 1px solid var(--gold-border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            font-weight: 600;
-            color: var(--gold-l);
-            text-align: center;
-            letter-spacing: 0.01em;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Section 5: Market Ranking */
-        .section-market {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 4rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .market-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
-
-        .market-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .market-table th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--muted);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .market-table td {
-            padding: 1.25rem 1rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--ink);
-            letter-spacing: 0.01em;
-        }
-
-        .market-table tr.your-row {
-            background-color: var(--gold-glow);
-        }
-
-        .market-table tr.your-row td {
-            font-weight: 600;
-            color: var(--gold);
-        }
-
-        .rank-badge {
-            background: linear-gradient(135deg, var(--gold), var(--gold-d));
-            color: var(--ink-dark);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            box-shadow: 0 4px 16px var(--gold-glow);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--muted);
-            font-size: 0.8rem;
-            border-top: 1px solid var(--border);
-            letter-spacing: 0.02em;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav {
-                gap: 1rem;
-                font-size: 0.8rem;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .comparison-label {
-                min-width: 100px;
-                font-size: 0.85rem;
-            }
-
-            .comparison-value {
-                font-size: 0.9rem;
-            }
-
-            .gauge-score {
-                font-size: 3rem;
-            }
-
-            .market-table {
-                font-size: 0.9rem;
-            }
-
-            .market-table td {
-                padding: 0.75rem;
-            }
-        }
-    
-        /* Top Navigation Bar */
-        .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
-        .topnav-left { display:flex; align-items:center; gap:1rem; }
-        .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
-        .topnav-logo span { color:var(--gold); }
-        .topnav-divider { width:1px; height:20px; background:var(--border2); }
-        .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-        .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
-        .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
-        .topnav-tab:hover { color:var(--ink); }
-        .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
-        .topnav-right { display:flex; align-items:center; }
-        .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); letter-spacing:0.05em; }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropIQ Content Engine — Scorecard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #B5A264; --gold-l: #D4C27A; --gold-d: #9A8A55;
+      --gold-glow: rgba(181,162,100,0.12); --gold-border: rgba(181,162,100,0.2);
+      --bg: #12111A; --surface: #1B1926; --surface2: #232131; --surface3: #2C2A3B;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.13);
+      --ink: #EEECEA; --ink-dark: #111111; --muted: #8C8C8C; --faint: #555555;
+      --plum: rgba(120,80,160,0.15); --plum-glow: rgba(120,80,160,0.08);
+      --green: #6B9E7A; --green-l: rgba(107,158,122,0.15);
+      --red: #C0392B; --red-l: rgba(192,57,43,0.15);
+      --blue: #4B7BA7; --blue-l: rgba(75,123,167,0.15);
+      --orange: #D4923A; --orange-l: rgba(212,146,58,0.15);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:"Inter",sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; overflow-x:hidden; }
+
+    /* ORBS */
+    .orb-container { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.35; will-change:transform; }
+    .orb-1 { width:500px; height:500px; background:radial-gradient(circle, rgba(181,162,100,0.25) 0%, transparent 70%); top:-10%; right:-5%; animation:float1 20s ease-in-out infinite; }
+    .orb-2 { width:400px; height:400px; background:radial-gradient(circle, rgba(120,80,160,0.2) 0%, transparent 70%); bottom:-5%; left:-8%; animation:float2 25s ease-in-out infinite; }
+    .orb-3 { width:350px; height:350px; background:radial-gradient(circle, rgba(181,162,100,0.15) 0%, transparent 70%); top:40%; left:50%; animation:float3 22s ease-in-out infinite; }
+    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-80px,30px) scale(0.95)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(50px,-70px) scale(1.08)} }
+    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.06)} 66%{transform:translate(40px,-50px) scale(0.94)} }
+
+    /* GRAIN */
+    body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; opacity:0.04; z-index:0; }
+
+    @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fillGauge { from{background:conic-gradient(var(--gold) 0deg,var(--gold) 0deg,var(--border2) 0deg,var(--border2) 360deg)} }
+
+    /* TOPNAV */
+    .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); }
+    .topnav-left { display:flex; align-items:center; gap:1rem; }
+    .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
+    .topnav-logo span { color:var(--gold); }
+    .topnav-divider { width:1px; height:20px; background:var(--border2); }
+    .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+    .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
+    .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
+    .topnav-tab:hover { color:var(--ink); }
+    .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+    .topnav-right { display:flex; align-items:center; }
+    .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); }
+
+    /* MAIN */
+    .sc { max-width:1200px; margin:0 auto; padding:2rem 2rem 4rem; position:relative; z-index:1; }
+
+    /* SECTION LABELS */
+    .sec-label { font-size:0.6rem; font-weight:700; letter-spacing:1.5px; color:var(--gold); text-transform:uppercase; }
+    .sec-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:600; color:var(--ink); letter-spacing:-0.3px; margin-top:2px; }
+
+    /* CARD */
+    .card { background:rgba(255,255,255,0.03); border:1px solid var(--border2); border-radius:12px; padding:1.4rem; backdrop-filter:blur(6px); }
+
+    /* HERO: SCORE + SUB-SCORES */
+    .hero { text-align:center; margin-bottom:2rem; animation:slideUp 0.6s ease-out; }
+    .gauge-wrap { display:flex; flex-direction:column; align-items:center; margin:1.5rem 0; }
+    .gauge { width:180px; height:180px; border-radius:50%; background:conic-gradient(var(--gold) 0deg,var(--gold) 244.8deg,var(--border2) 244.8deg,var(--border2) 360deg); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px var(--gold-glow); animation:fillGauge 2s cubic-bezier(0.34,1.56,0.64,1); }
+    .gauge-inner { width:162px; height:162px; border-radius:50%; background:radial-gradient(135deg at 30% 30%,rgba(255,255,255,0.08),transparent); border:1px solid var(--gold-border); display:flex; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(10px); }
+    .gauge-score { font-family:'Playfair Display',serif; font-size:3.2rem; font-weight:700; color:var(--gold); letter-spacing:-0.02em; }
+    .gauge-lbl { font-size:0.78rem; color:var(--muted); margin-top:2px; }
+    .score-status { font-size:0.9rem; color:var(--ink); margin-top:1rem; font-weight:500; }
+    .score-detail { max-width:700px; margin:1rem auto 0; font-size:0.82rem; color:var(--muted); line-height:1.7; }
+
+    /* SUB-SCORES ROW */
+    .sub-scores { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:2rem; animation:slideUp 0.7s ease-out; }
+    .sub-card { padding:1rem; text-align:center; }
+    .sub-label { font-size:0.58rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px; }
+    .sub-val { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--ink); }
+    .sub-bar { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; margin-top:6px; overflow:hidden; }
+    .sub-fill { height:100%; border-radius:2px; }
+    .sub-trend { font-size:0.6rem; font-weight:600; margin-top:4px; }
+    .trend-up { color:var(--green); }
+    .trend-down { color:var(--red); }
+
+    /* TWO-COL */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:2rem; }
+
+    /* COMPARISON BARS */
+    .comp-row { display:flex; align-items:center; gap:12px; padding:0.6rem 0; border-bottom:1px solid var(--border); }
+    .comp-row:last-child { border-bottom:none; }
+    .comp-label { min-width:110px; font-size:0.78rem; font-weight:500; color:var(--ink); }
+    .comp-bar-bg { flex:1; height:24px; background:rgba(255,255,255,0.04); border-radius:4px; overflow:hidden; position:relative; }
+    .comp-bar { height:100%; border-radius:4px; transition:width 2s cubic-bezier(0.34,1.56,0.64,1); position:relative; overflow:hidden; }
+    .comp-bar::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent); animation:shimmer 2.5s infinite; }
+    @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+    .comp-bar.yours { background:linear-gradient(90deg,var(--gold),var(--gold-l)); }
+    .comp-bar.target { background:rgba(181,162,100,0.25); border:1px solid var(--gold-border); }
+    .comp-bar.leader { background:transparent; border:1.5px solid var(--gold); }
+    .comp-val { min-width:55px; text-align:right; font-size:0.82rem; font-weight:600; color:var(--gold); }
+
+    /* CONTENT MIX */
+    .mix-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .mix-card { padding:1rem; text-align:center; transition:all 0.3s; }
+    .mix-card:hover { border-color:var(--gold-border); }
+    .mix-name { font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:6px; }
+    .mix-count { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--gold); margin-bottom:8px; }
+    .mini-gauge { width:80px; height:80px; margin:0 auto 8px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--ink); box-shadow:0 0 20px rgba(0,0,0,0.3); border:1px solid var(--border); }
+    .mini-gauge.on-track { background:conic-gradient(var(--green) 0deg,var(--green) 259deg,var(--border2) 259deg,var(--border2) 360deg); }
+    .mini-gauge.warning { background:conic-gradient(var(--gold) 0deg,var(--gold) 190deg,var(--border2) 190deg,var(--border2) 360deg); }
+    .mini-gauge.strong { background:conic-gradient(var(--green) 0deg,var(--green) 288deg,var(--border2) 288deg,var(--border2) 360deg); }
+    .mini-gauge.attention { background:conic-gradient(var(--red) 0deg,var(--red) 72deg,var(--border2) 72deg,var(--border2) 360deg); }
+    .mini-gauge.good { background:conic-gradient(var(--green) 0deg,var(--green) 230deg,var(--border2) 230deg,var(--border2) 360deg); }
+    .mini-gauge.fair { background:conic-gradient(var(--gold) 0deg,var(--gold) 144deg,var(--border2) 144deg,var(--border2) 360deg); }
+    .mix-status { font-size:0.62rem; font-weight:600; padding:3px 8px; border-radius:4px; display:inline-block; }
+    .s-green { background:var(--green-l); color:var(--green); }
+    .s-gold { background:rgba(181,162,100,0.15); color:var(--gold); }
+    .s-red { background:var(--red-l); color:var(--red); }
+
+    /* PLATFORM SCORES */
+    .plat-row { display:grid; grid-template-columns:100px 1fr 60px 60px 60px; gap:10px; align-items:center; padding:0.6rem 0; border-bottom:1px solid var(--border); font-size:0.75rem; }
+    .plat-row:last-child { border-bottom:none; }
+    .plat-row.header { border-bottom:1px solid var(--border2); }
+    .plat-row.header span { font-size:0.55rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+    .plat-name { font-weight:600; color:var(--ink); display:flex; align-items:center; gap:6px; }
+    .plat-icon { width:20px; height:20px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:0.65rem; }
+    .plat-icon.ig { background:rgba(193,53,132,0.15); }
+    .plat-icon.yt { background:rgba(255,0,0,0.12); }
+    .plat-icon.fb { background:rgba(66,103,178,0.15); }
+    .plat-icon.gbp { background:var(--green-l); }
+    .plat-bar-bg { height:14px; background:rgba(255,255,255,0.04); border-radius:3px; overflow:hidden; }
+    .plat-bar { height:100%; border-radius:3px; background:linear-gradient(90deg,rgba(181,162,100,0.4),rgba(181,162,100,0.2)); }
+    .plat-score { font-weight:600; color:var(--ink); text-align:center; }
+    .plat-change { font-size:0.65rem; font-weight:600; text-align:center; }
+
+    /* RECOMMENDATIONS */
+    .rec-item { display:flex; align-items:flex-start; gap:12px; padding:0.7rem 0; border-bottom:1px solid var(--border); transition:all 0.3s; }
+    .rec-item:last-child { border-bottom:none; }
+    .rec-item.checked { opacity:0.5; }
+    .rec-check { width:18px; height:18px; cursor:pointer; accent-color:var(--gold); margin-top:2px; flex-shrink:0; }
+    .rec-text { font-size:0.82rem; color:var(--ink); font-weight:500; }
+    .rec-impact { font-size:0.72rem; color:var(--gold); font-weight:600; }
+    .rec-link { color:var(--gold); text-decoration:none; font-size:0.72rem; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; }
+    .rec-summary { background:linear-gradient(135deg,rgba(181,162,100,0.12),rgba(181,162,100,0.04)); border:1px solid var(--gold-border); border-radius:8px; padding:1rem; margin-top:1rem; text-align:center; font-weight:600; color:var(--gold-l); font-size:0.85rem; }
+
+    /* MARKET RANKING TABLE */
+    .rank-table { width:100%; border-collapse:collapse; }
+    .rank-table th { padding:0.7rem 0.8rem; text-align:left; font-weight:700; color:var(--muted); font-size:0.58rem; text-transform:uppercase; letter-spacing:0.8px; border-bottom:1px solid var(--border2); }
+    .rank-table td { padding:0.7rem 0.8rem; border-bottom:1px solid var(--border); font-size:0.78rem; color:var(--ink); }
+    .rank-table tr.you { background:var(--gold-glow); }
+    .rank-table tr.you td { font-weight:600; color:var(--gold); }
+    .rank-badge { background:linear-gradient(135deg,var(--gold),var(--gold-d)); color:var(--ink-dark); padding:3px 8px; border-radius:4px; font-size:0.62rem; font-weight:700; letter-spacing:0.3px; }
+
+    /* SCORE TREND (CSS bar chart) */
+    .trend-chart { display:flex; align-items:flex-end; gap:8px; height:100px; margin-top:10px; }
+    .trend-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .trend-bar { width:100%; border-radius:3px 3px 0 0; background:linear-gradient(180deg,rgba(181,162,100,0.4),rgba(181,162,100,0.15)); transition:height 1s ease; }
+    .trend-bar.current { background:linear-gradient(180deg,var(--gold),rgba(181,162,100,0.4)); }
+    .trend-month { font-size:0.55rem; color:var(--muted); }
+    .trend-val { font-size:0.58rem; font-weight:600; color:var(--ink); }
+
+    /* THREE COL */
+    .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:2rem; }
+
+    /* FOOTER */
+    .footer { text-align:center; padding:1.5rem; color:var(--muted); font-size:0.72rem; border-top:1px solid var(--border); margin-top:1rem; }
+
+    @media (max-width:1100px) { .two-col,.three-col { grid-template-columns:1fr; } .sub-scores { grid-template-columns:repeat(3,1fr); } .mix-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:768px) { .sub-scores { grid-template-columns:repeat(2,1fr); } .mix-grid { grid-template-columns:1fr; } .plat-row { grid-template-columns:80px 1fr 50px 50px; } }
+  </style>
 </head>
 <body>
-    <div class="orb-container" aria-hidden="true">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
+<div class="orb-container" aria-hidden="true">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+</div>
+
+<nav class="topnav">
+  <div class="topnav-left">
+    <div class="topnav-logo">Prop<span>IQ</span></div>
+    <div class="topnav-divider"></div>
+    <span class="topnav-section">Content Engine</span>
+  </div>
+  <div class="topnav-tabs">
+    <a class="topnav-tab" href="propiq-content-onboarding.html">Setup</a>
+    <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
+    <a class="topnav-tab" href="propiq-content-nudge.html">Content</a>
+    <a class="topnav-tab active" href="propiq-content-scorecard.html">Scorecard</a>
+  </div>
+  <div class="topnav-right"><div class="topnav-avatar">GW</div></div>
+</nav>
+
+<div class="sc">
+
+  <!-- HERO: COMPETITIVENESS SCORE -->
+  <div class="hero">
+    <div class="sec-label">Your Market Score</div>
+    <div class="gauge-wrap">
+      <div class="gauge"><div class="gauge-inner"><div class="gauge-score">6.8</div><div class="gauge-lbl">/10</div></div></div>
+    </div>
+    <div class="score-status">Moderate Competition — Top 35%</div>
+    <div class="score-detail">Your market <strong>(East Palo Alto, 94303)</strong> has <strong>47 agents</strong> actively posting video content. You're currently ranked <strong>#12</strong>. To break into the top 10%, we recommend <strong>45+ pieces per month</strong> with a strong video-first mix.</div>
+  </div>
+
+  <!-- SUB-SCORES -->
+  <div class="sub-scores">
+    <div class="card sub-card">
+      <div class="sub-label">Content Volume</div>
+      <div class="sub-val">7.1</div>
+      <div class="sub-bar"><div class="sub-fill" style="width:71%;background:var(--green);"></div></div>
+      <div class="sub-trend trend-up">↑ +0.4 vs last month</div>
+    </div>
+    <div class="card sub-card">
+      <div class="sub-label">Engagement Rate</div>
+      <div class="sub-val">7.8</div>
+      <div class="sub-bar"><div class="sub-fill" style="width:78%;background:var(--green);"></div></div>
+      <div class="sub-trend trend-up">↑ +0.6</div>
+    </div>
+    <div class="card sub-card">
+      <div class="sub-label">Content Variety</div>
+      <div class="sub-val">5.4</div>
+      <div class="sub-bar"><div class="sub-fill" style="width:54%;background:var(--gold);"></div></div>
+      <div class="sub-trend trend-down">↓ -0.2</div>
+    </div>
+    <div class="card sub-card">
+      <div class="sub-label">Consistency</div>
+      <div class="sub-val">8.2</div>
+      <div class="sub-bar"><div class="sub-fill" style="width:82%;background:var(--green);"></div></div>
+      <div class="sub-trend trend-up">↑ +1.1</div>
+    </div>
+    <div class="card sub-card">
+      <div class="sub-label">Audience Growth</div>
+      <div class="sub-val">5.9</div>
+      <div class="sub-bar"><div class="sub-fill" style="width:59%;background:var(--gold);"></div></div>
+      <div class="sub-trend trend-up">↑ +0.3</div>
+    </div>
+  </div>
+
+  <!-- OUTPUT COMPARISON + SCORE TREND -->
+  <div class="two-col" style="animation:slideUp 0.8s ease-out;">
+
+    <!-- YOUR OUTPUT -->
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:12px;">Your Output vs. Benchmarks</div>
+      <div class="comp-row">
+        <div class="comp-label">Your current</div>
+        <div class="comp-bar-bg"><div class="comp-bar yours" style="width:71%;"></div></div>
+        <div class="comp-val">32/mo</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-label">Recommended</div>
+        <div class="comp-bar-bg"><div class="comp-bar target" style="width:100%;"></div></div>
+        <div class="comp-val">45/mo</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-label">Market leader</div>
+        <div class="comp-bar-bg"><div class="comp-bar leader" style="width:100%;"></div></div>
+        <div class="comp-val">67/mo</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-label">Market average</div>
+        <div class="comp-bar-bg"><div class="comp-bar" style="width:42%;background:rgba(255,255,255,0.1);"></div></div>
+        <div class="comp-val" style="color:var(--muted);">19/mo</div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--green-l);border-radius:6px;font-size:0.72rem;color:var(--green);font-weight:500;text-align:center;">
+        You're producing <strong>68% more</strong> content than the market average
+      </div>
     </div>
 
-    <!-- Top Navigation -->
-    <nav class="topnav">
-        <div class="topnav-left">
-            <div class="topnav-logo">Prop<span>IQ</span></div>
-            <div class="topnav-divider"></div>
-            <span class="topnav-section">Content Engine</span>
-        </div>
-        <div class="topnav-tabs">
-            <a class="topnav-tab" href="propiq-content-onboarding.html">Setup</a>
-            <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
-            <a class="topnav-tab" href="propiq-content-nudge.html">Content</a>
-            <a class="topnav-tab active" href="propiq-content-scorecard.html">Scorecard</a>
-        </div>
-        <div class="topnav-right">
-            <div class="topnav-avatar">GW</div>
-        </div>
-    </nav>
+    <!-- SCORE TREND -->
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:12px;">Score Trend (Last 6 Months)</div>
+      <div class="trend-chart">
+        <div class="trend-bar-wrap"><div class="trend-val">4.2</div><div class="trend-bar" style="height:42%;"></div><div class="trend-month">Nov</div></div>
+        <div class="trend-bar-wrap"><div class="trend-val">4.8</div><div class="trend-bar" style="height:48%;"></div><div class="trend-month">Dec</div></div>
+        <div class="trend-bar-wrap"><div class="trend-val">5.5</div><div class="trend-bar" style="height:55%;"></div><div class="trend-month">Jan</div></div>
+        <div class="trend-bar-wrap"><div class="trend-val">6.1</div><div class="trend-bar" style="height:61%;"></div><div class="trend-month">Feb</div></div>
+        <div class="trend-bar-wrap"><div class="trend-val">6.5</div><div class="trend-bar" style="height:65%;"></div><div class="trend-month">Mar</div></div>
+        <div class="trend-bar-wrap"><div class="trend-val">6.8</div><div class="trend-bar current" style="height:68%;"></div><div class="trend-month">Apr</div></div>
+      </div>
+      <div style="margin-top:12px;font-size:0.68rem;color:var(--green);font-weight:600;text-align:center;">↑ +2.6 points gained in 6 months — you're on a strong upward trajectory</div>
+    </div>
+  </div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Section 1: Competitiveness Score -->
-        <div class="section-hero">
-            <div class="section-label">Your Market Score</div>
+  <!-- CONTENT MIX -->
+  <div style="margin-bottom:2rem;animation:slideUp 0.9s ease-out;">
+    <div class="sec-label" style="margin-bottom:12px;">Content Mix Breakdown</div>
+    <div class="mix-grid">
+      <div class="card mix-card">
+        <div class="mix-name">Video</div>
+        <div class="mix-count">18</div>
+        <div class="mini-gauge on-track">72%</div>
+        <span class="mix-status s-green">On Track</span>
+      </div>
+      <div class="card mix-card">
+        <div class="mix-name">Market Updates</div>
+        <div class="mix-count">8</div>
+        <div class="mini-gauge warning">53%</div>
+        <span class="mix-status s-gold">Below Target</span>
+      </div>
+      <div class="card mix-card">
+        <div class="mix-name">Listings</div>
+        <div class="mix-count">4</div>
+        <div class="mini-gauge strong">80%</div>
+        <span class="mix-status s-green">Strong</span>
+      </div>
+      <div class="card mix-card">
+        <div class="mix-name">Authority/Tips</div>
+        <div class="mix-count">2</div>
+        <div class="mini-gauge attention">20%</div>
+        <span class="mix-status s-red">Needs Attention</span>
+      </div>
+      <div class="card mix-card">
+        <div class="mix-name">Reels/Shorts</div>
+        <div class="mix-count">6</div>
+        <div class="mini-gauge good">64%</div>
+        <span class="mix-status s-green">Good</span>
+      </div>
+      <div class="card mix-card">
+        <div class="mix-name">Community</div>
+        <div class="mix-count">3</div>
+        <div class="mini-gauge fair">40%</div>
+        <span class="mix-status s-gold">Grow This</span>
+      </div>
+    </div>
+  </div>
 
-            <div class="gauge-container">
-                <div class="circular-gauge">
-                    <div class="gauge-inner">
-                        <div class="gauge-score">6.8</div>
-                        <div class="gauge-label">/10</div>
-                    </div>
-                </div>
-            </div>
+  <!-- PLATFORM SCORES + RECOMMENDATIONS -->
+  <div class="two-col" style="animation:slideUp 1s ease-out;">
 
-            <div class="score-status">Moderate Competition</div>
-
-            <div class="score-explanation">
-                <p>Your market <strong>(East Palo Alto, 94303)</strong> has <strong>47 agents</strong> actively posting video content. You're in the <strong>top 35%</strong> for content output. To break into the top 10%, we recommend <strong>45+ pieces per month.</strong></p>
-            </div>
-        </div>
-
-        <!-- Section 2: Your Output vs. Recommended -->
-        <div class="section-comparison">
-            <h2 class="comparison-title">Your Output</h2>
-
-            <div class="comparison-row">
-                <div class="comparison-label">Your current</div>
-                <div class="bar-wrapper">
-                    <div class="bar-fill current"></div>
-                </div>
-                <div class="comparison-value">32/mo</div>
-            </div>
-
-            <div class="comparison-row">
-                <div class="comparison-label">Recommended</div>
-                <div class="bar-wrapper">
-                    <div class="bar-fill target"></div>
-                </div>
-                <div class="comparison-value">45/mo</div>
-            </div>
-
-            <div class="comparison-row">
-                <div class="comparison-label">Market leader</div>
-                <div class="bar-wrapper">
-                    <div class="bar-fill leader"></div>
-                </div>
-                <div class="comparison-value">67/mo</div>
-            </div>
-        </div>
-
-        <!-- Section 3: Content Type Breakdown -->
-        <div class="section-breakdown">
-            <h2 class="breakdown-title">Content Mix</h2>
-
-            <div class="cards-grid">
-                <div class="content-card">
-                    <div class="card-category">Video</div>
-                    <div class="card-count">18</div>
-                    <div class="mini-gauge on-track">72%</div>
-                    <span class="card-status status-on-track">On Track</span>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-category">Market Updates</div>
-                    <div class="card-count">8</div>
-                    <div class="mini-gauge warning">53%</div>
-                    <span class="card-status status-warning">Below Target</span>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-category">Listings</div>
-                    <div class="card-count">4</div>
-                    <div class="mini-gauge strong">80%</div>
-                    <span class="card-status status-strong">Strong</span>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-category">Authority</div>
-                    <div class="card-count">2</div>
-                    <div class="mini-gauge attention">20%</div>
-                    <span class="card-status status-attention">Needs Attention</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 4: How to Close the Gap -->
-        <div class="section-recommendations">
-            <h2 class="recommendations-title">How to Close the Gap</h2>
-
-            <div class="recommendation-item">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="rec1" aria-label="Add 2 new avatar variations">
-                </div>
-                <div class="recommendation-content">
-                    <div class="recommendation-text">Add 2 avatar variations <strong>→ +8 pieces/mo</strong></div>
-                    <a href="#" class="action-link">Record Now</a>
-                </div>
-            </div>
-
-            <div class="recommendation-item">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="rec2" aria-label="Upload 3 new listing photos">
-                </div>
-                <div class="recommendation-content">
-                    <div class="recommendation-text">Upload 3 listing photos <strong>→ +4 pieces/mo</strong></div>
-                    <a href="#" class="action-link">Upload</a>
-                </div>
-            </div>
-
-            <div class="recommendation-item">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="rec3" aria-label="Record 1 market update script">
-                </div>
-                <div class="recommendation-content">
-                    <div class="recommendation-text">Record 1 market script <strong>→ +3 pieces/mo</strong></div>
-                    <a href="#" class="action-link">Record</a>
-                </div>
-            </div>
-
-            <div class="recommendation-summary">
-                Total potential: <strong>+15 pieces/mo = 47</strong> (exceeds target)
-            </div>
-        </div>
-
-        <!-- Section 5: Market Ranking -->
-        <div class="section-market">
-            <h2 class="market-title">Your Ranking</h2>
-
-            <table class="market-table">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">Rank</th>
-                        <th>Agent</th>
-                        <th style="text-align: right; padding-right: 2rem;">Content/Month</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#1</td>
-                        <td>Agent A</td>
-                        <td style="text-align: right; padding-right: 2rem;"><strong>67</strong></td>
-                    </tr>
-                    <tr>
-                        <td>#2</td>
-                        <td>Agent B</td>
-                        <td style="text-align: right; padding-right: 2rem;"><strong>52</strong></td>
-                    </tr>
-                    <tr>
-                        <td>#3</td>
-                        <td>Agent C</td>
-                        <td style="text-align: right; padding-right: 2rem;"><strong>38</strong></td>
-                    </tr>
-                    <tr class="your-row">
-                        <td>#12</td>
-                        <td><strong>You</strong></td>
-                        <td style="text-align: right; padding-right: 2rem;"><strong>32</strong></td>
-                    </tr>
-                    <tr>
-                        <td>#13</td>
-                        <td>Agent D</td>
-                        <td style="text-align: right; padding-right: 2rem;"><strong>28</strong></td>
-                    </tr>
-                    <tr>
-                        <td>#14</td>
-                        <td>Agent E</td>
-                        <td style="text-align: right; padding-right: 2rem;"><strong>22</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <!-- PLATFORM SCORES -->
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:12px;">Platform Scores</div>
+      <div class="plat-row header">
+        <span>Platform</span><span>Score</span><span>Posts</span><span>Eng.</span><span>Change</span>
+      </div>
+      <div class="plat-row">
+        <div class="plat-name"><div class="plat-icon ig">📷</div>Instagram</div>
+        <div class="plat-bar-bg"><div class="plat-bar" style="width:78%;"></div></div>
+        <div class="plat-score">7.8</div>
+        <div class="plat-score">18</div>
+        <div class="plat-change trend-up">↑ +0.9</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-name"><div class="plat-icon yt">▶</div>YouTube</div>
+        <div class="plat-bar-bg"><div class="plat-bar" style="width:72%;"></div></div>
+        <div class="plat-score">7.2</div>
+        <div class="plat-score">12</div>
+        <div class="plat-change trend-up">↑ +0.5</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-name"><div class="plat-icon fb">f</div>Facebook</div>
+        <div class="plat-bar-bg"><div class="plat-bar" style="width:55%;"></div></div>
+        <div class="plat-score">5.5</div>
+        <div class="plat-score">8</div>
+        <div class="plat-change trend-down">↓ -0.3</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-name"><div class="plat-icon gbp">G</div>Google BP</div>
+        <div class="plat-bar-bg"><div class="plat-bar" style="width:82%;"></div></div>
+        <div class="plat-score">8.2</div>
+        <div class="plat-score">4</div>
+        <div class="plat-change trend-up">↑ +0.2</div>
+      </div>
+      <div style="margin-top:12px;font-size:0.68rem;color:var(--muted);">Scores based on engagement rate, follower growth, posting consistency, and content quality relative to market competitors.</div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>Last updated: April 2, 2026</p>
+    <!-- RECOMMENDATIONS -->
+    <div class="card" style="border-left:3px solid var(--gold);">
+      <div class="sec-label" style="margin-bottom:12px;">How to Close the Gap</div>
+      <div class="rec-item">
+        <input type="checkbox" class="rec-check" onchange="this.closest('.rec-item').classList.toggle('checked')">
+        <div>
+          <div class="rec-text">Add 2 avatar variations <span class="rec-impact">→ +8 pieces/mo</span></div>
+          <a href="#" class="rec-link">Record Now</a>
+        </div>
+      </div>
+      <div class="rec-item">
+        <input type="checkbox" class="rec-check" onchange="this.closest('.rec-item').classList.toggle('checked')">
+        <div>
+          <div class="rec-text">Upload 3 listing photos <span class="rec-impact">→ +4 pieces/mo</span></div>
+          <a href="#" class="rec-link">Upload</a>
+        </div>
+      </div>
+      <div class="rec-item">
+        <input type="checkbox" class="rec-check" onchange="this.closest('.rec-item').classList.toggle('checked')">
+        <div>
+          <div class="rec-text">Record 1 market update script <span class="rec-impact">→ +3 pieces/mo</span></div>
+          <a href="#" class="rec-link">Record</a>
+        </div>
+      </div>
+      <div class="rec-item">
+        <input type="checkbox" class="rec-check" onchange="this.closest('.rec-item').classList.toggle('checked')">
+        <div>
+          <div class="rec-text">Post 2 community/local event posts <span class="rec-impact">→ +2 pieces/mo</span></div>
+          <a href="#" class="rec-link">Create Post</a>
+        </div>
+      </div>
+      <div class="rec-item">
+        <input type="checkbox" class="rec-check" onchange="this.closest('.rec-item').classList.toggle('checked')">
+        <div>
+          <div class="rec-text">Add authority tips content <span class="rec-impact">→ +4 pieces/mo</span></div>
+          <a href="#" class="rec-link">Start Script</a>
+        </div>
+      </div>
+      <div class="rec-summary">Total potential: <strong>+21 pieces/mo = 53</strong> (exceeds 45 target)</div>
+    </div>
+  </div>
+
+  <!-- MARKET RANKING + ENGAGEMENT QUALITY -->
+  <div class="two-col" style="animation:slideUp 1.1s ease-out;">
+
+    <!-- MARKET RANKING -->
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:12px;">Market Ranking — East Palo Alto</div>
+      <table class="rank-table">
+        <thead>
+          <tr><th style="width:45px;">Rank</th><th>Agent</th><th style="text-align:right;">Content/Mo</th><th style="text-align:right;">Eng. Rate</th><th style="text-align:right;">Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="rank-badge">#1</span></td><td>Agent A</td><td style="text-align:right;font-weight:600;">67</td><td style="text-align:right;">9.2%</td><td style="text-align:right;font-weight:600;">9.4</td></tr>
+          <tr><td>#2</td><td>Agent B</td><td style="text-align:right;font-weight:600;">52</td><td style="text-align:right;">7.8%</td><td style="text-align:right;font-weight:600;">8.6</td></tr>
+          <tr><td>#3</td><td>Agent C</td><td style="text-align:right;font-weight:600;">38</td><td style="text-align:right;">6.4%</td><td style="text-align:right;font-weight:600;">7.2</td></tr>
+          <tr><td>...</td><td colspan="4" style="color:var(--faint);font-size:0.7rem;">8 agents</td></tr>
+          <tr class="you"><td>#12</td><td><strong>You (Graeham Watts)</strong></td><td style="text-align:right;font-weight:600;">32</td><td style="text-align:right;">4.2%</td><td style="text-align:right;font-weight:600;">6.8</td></tr>
+          <tr><td>#13</td><td>Agent D</td><td style="text-align:right;font-weight:600;">28</td><td style="text-align:right;">3.9%</td><td style="text-align:right;font-weight:600;">6.1</td></tr>
+          <tr><td>#14</td><td>Agent E</td><td style="text-align:right;font-weight:600;">22</td><td style="text-align:right;">3.1%</td><td style="text-align:right;font-weight:600;">5.3</td></tr>
+          <tr><td>...</td><td colspan="4" style="color:var(--faint);font-size:0.7rem;">33 more agents</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:0.68rem;color:var(--muted);text-align:center;">47 total agents in your market · Updated weekly</div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate bars on page load with staggered timing
-            const barFills = document.querySelectorAll('.bar-fill.current, .bar-fill.target');
-            barFills.forEach((bar, index) => {
-                setTimeout(() => {
-                    bar.style.transition = 'width 2s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                }, index * 200);
-            });
+    <!-- ENGAGEMENT QUALITY -->
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:12px;">Engagement Quality Breakdown</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:4px;"><span style="color:var(--muted);">Comments (High Value)</span><span style="font-weight:600;">312</span></div>
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(107,158,122,0.5),rgba(107,158,122,0.25));"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:4px;"><span style="color:var(--muted);">Saves / Bookmarks</span><span style="font-weight:600;">187</span></div>
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;"><div style="width:72%;height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(181,162,100,0.5),rgba(181,162,100,0.25));"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:4px;"><span style="color:var(--muted);">Shares</span><span style="font-weight:600;">94</span></div>
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;"><div style="width:58%;height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(75,123,167,0.5),rgba(75,123,167,0.25));"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:4px;"><span style="color:var(--muted);">Likes</span><span style="font-weight:600;">1,254</span></div>
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;"><div style="width:92%;height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(255,255,255,0.12),rgba(255,255,255,0.06));"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:4px;"><span style="color:var(--muted);">DMs / Inquiries</span><span style="font-weight:600;">23</span></div>
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;"><div style="width:35%;height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(212,146,58,0.5),rgba(212,146,58,0.25));"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:4px;"><span style="color:var(--muted);">Website Clicks</span><span style="font-weight:600;">84</span></div>
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;"><div style="width:48%;height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(120,80,160,0.4),rgba(120,80,160,0.2));"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:10px;background:rgba(181,162,100,0.06);border:1px solid var(--gold-border);border-radius:6px;font-size:0.7rem;color:var(--ink);">
+        <strong style="color:var(--gold);">Quality Signal:</strong> Your comment-to-like ratio (24.9%) is <strong>above average</strong> — your audience is genuinely engaging, not just scrolling.
+      </div>
+    </div>
+  </div>
 
-            // Interactive checkboxes
-            const checkboxes = document.querySelectorAll('.checkbox-wrapper input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const recommendationItem = this.closest('.recommendation-item');
-                    if (this.checked) {
-                        recommendationItem.classList.add('checked');
-                    } else {
-                        recommendationItem.classList.remove('checked');
-                    }
-                });
-            });
+  <!-- FOOTER -->
+  <div class="footer">Last updated: April 2, 2026 · Scores refresh weekly</div>
 
-            // Action link click handlers
-            document.querySelectorAll('.action-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const action = this.textContent.trim();
-                    console.log('Action triggered:', action);
-                });
-            });
-
-            // Smooth scroll
-            document.querySelectorAll('a[href^="#"]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href !== '#' && document.querySelector(href)) {
-                        e.preventDefault();
-                        document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-        });
-    </script>
+</div>
 </body>
 </html>

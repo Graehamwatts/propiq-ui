@@ -1,1507 +1,526 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropertyIQ Content Engine — Nudge System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Epilogue:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --gold: #B5A264;
-            --gold-l: #D4C27A;
-            --gold-d: #9A8A55;
-            --gold-glow: rgba(181, 162, 100, 0.12);
-            --gold-border: rgba(181, 162, 100, 0.2);
-            --bg: #12111A;
-            --surface: #1B1926;
-            --surface2: #232131;
-            --surface3: #2C2A3B;
-            --plum: rgba(120, 80, 160, 0.15);
-            --plum-glow: rgba(120, 80, 160, 0.08);
-            --bg-light: #FAFAF8;
-            --surface-light: #FFFFFF;
-            --border-light: rgba(0, 0, 0, 0.08);
-            --border: rgba(255, 255, 255, 0.08);
-            --border2: rgba(255, 255, 255, 0.13);
-            --ink: #EEECEA;
-            --ink-dark: #111111;
-            --muted: #8C8C8C;
-            --faint: #555555;
-            --green: #6B9E7A;
-            --green-l: rgba(107, 158, 122, 0.15);
-            --red: #C0392B;
-            --red-l: rgba(192, 57, 43, 0.15);
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Epilogue', sans-serif;
-            background-color: var(--bg);
-            color: var(--ink);
-            line-height: 1.6;
-            overflow: hidden;
-            background-image:
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255, 255, 255, 0.02) 2px,
-                    rgba(255, 255, 255, 0.02) 4px
-                );
-        }
-
-        /* FLOATING ORBS */
-        .orb-container { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
-        .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.35; will-change:transform; }
-        .orb-1 { width:500px; height:500px; background:radial-gradient(circle, rgba(181,162,100,0.25) 0%, transparent 70%); top:-10%; right:-5%; animation:float1 20s ease-in-out infinite; }
-        .orb-2 { width:400px; height:400px; background:radial-gradient(circle, rgba(120,80,160,0.2) 0%, transparent 70%); bottom:-5%; left:-8%; animation:float2 25s ease-in-out infinite; }
-        .orb-3 { width:350px; height:350px; background:radial-gradient(circle, rgba(181,162,100,0.15) 0%, transparent 70%); top:40%; left:50%; animation:float3 22s ease-in-out infinite; }
-        .orb-4 { width:300px; height:300px; background:radial-gradient(circle, rgba(100,70,140,0.18) 0%, transparent 70%); top:20%; right:20%; animation:float4 28s ease-in-out infinite; }
-        @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(-40px,60px) scale(1.05)} 50%{transform:translate(-80px,30px) scale(0.95)} 75%{transform:translate(-20px,-40px) scale(1.02)} }
-        @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(50px,-30px) scale(1.08)} 50%{transform:translate(30px,-70px) scale(0.96)} 75%{transform:translate(70px,-20px) scale(1.03)} }
-        @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.06)} 66%{transform:translate(40px,-50px) scale(0.94)} }
-        @keyframes float4 { 0%,100%{transform:translate(0,0) scale(1)} 20%{transform:translate(30px,50px) scale(1.04)} 40%{transform:translate(-40px,20px) scale(0.97)} 60%{transform:translate(-20px,-60px) scale(1.06)} 80%{transform:translate(50px,-30px) scale(0.98)} }
-        /* TOP BAR */
-        .top-bar {
-            background-color: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--gold);
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            flex: 1;
-            margin-left: 4rem;
-        }
-
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-
-        .nav-links a.active {
-            color: var(--gold);
-        }
-
-        .top-bar-right {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .bell-icon, .avatar {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .bell-icon {
-            font-size: 1.5rem;
-            color: var(--muted);
-        }
-
-        .bell-icon:hover {
-            color: var(--gold);
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-l));
-            border: 2px solid var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--ink-dark);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* VIEW TABS */
-        .view-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            background-color: var(--surface);
-            padding: 0 2rem;
-            gap: 3rem;
-        }
-
-        .view-tab {
-            padding: 1.2rem 0;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
-
-        .view-tab:hover {
-            color: var(--gold);
-        }
-
-        .view-tab.active {
-            color: var(--gold);
-            border-bottom-color: var(--gold);
-        }
-
-        /* VIEWS */
-        .views-container {
-            flex: 1;
-        position: relative;
-        z-index: 1;
-            overflow: hidden;
-        }
-
-        .view {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        z-index: 1;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .view.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* VIEW 1: CONTENT PREVIEW */
-        .content-preview {
-        position: relative;
-        z-index: 1;
-            padding: 3rem 2rem;
-            background-color: var(--bg);
-        }
-
-        .preview-header {
-            margin-bottom: 3rem;
-        }
-
-        .preview-label {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .preview-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--ink);
-            margin-bottom: 0.8rem;
-            letter-spacing: 0.5px;
-        }
-
-        .preview-subtitle {
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        /* CONTENT GRID */
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .content-card {
-            background-color: var(--surface2);
-            border: 1px solid var(--border2);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .content-card:hover {
-            border-color: var(--gold-border);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(181, 162, 100, 0.1);
-        }
-
-        .card-thumbnail {
-            background: linear-gradient(135deg, #23212A 0%, #0a0a0a 100%);
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--faint);
-            position: relative;
-        }
-
-        .card-thumbnail::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-        }
-
-        .card-content {
-            padding: 1.2rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-type-label {
-            display: inline-block;
-            background-color: var(--gold-glow);
-            color: var(--gold);
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            width: fit-content;
-        }
-
-        .card-platforms {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .platform-pill {
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.35rem 0.7rem;
-            border-radius: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .platform-pill.yt {
-            background-color: rgba(192, 57, 43, 0.2);
-            color: #FF4444;
-        }
-
-        .platform-pill.ig {
-            background: linear-gradient(135deg, rgba(217, 82, 120, 0.2), rgba(252, 84, 154, 0.2));
-            color: #FC549F;
-        }
-
-        .platform-pill.tt {
-            background-color: rgba(26, 26, 26, 0.5);
-            color: var(--ink);
-            border: 1px solid var(--border2);
-        }
-
-        .platform-pill.fb {
-            background-color: rgba(59, 111, 160, 0.2);
-            color: #4267B2;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border2);
-            font-size: 0.85rem;
-        }
-
-        .card-date {
-            color: var(--muted);
-        }
-
-        .card-reach {
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* SUMMARY BAR */
-        .summary-bar {
-            background-color: var(--surface2);
-            border: 1px solid var(--gold-border);
-            border-left: 3px solid var(--gold);
-            padding: 1.5rem 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-
-        .summary-text {
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .summary-highlight {
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* ACTION BUTTONS */
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-transform: uppercase;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 100%);
-            color: var(--ink-dark);
-            height: 48px;
-            padding: 0 3rem;
-            font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 15px 40px rgba(181, 162, 100, 0.3);
-            transform: translateY(-2px);
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--gold);
-            border: 1.5px solid var(--gold);
-            height: 44px;
-            padding: 0 2.5rem;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gold-glow);
-            box-shadow: 0 10px 30px rgba(181, 162, 100, 0.2);
-        }
-
-        .btn-tertiary {
-            background: transparent;
-            color: var(--muted);
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        .btn-tertiary:hover {
-            color: var(--gold);
-        }
-
-        /* VIEW 2: STUDIO RECORDER */
-        .studio-recorder {
-            display: flex;
-            flex-direction: column;
-            padding: 2rem;
-            gap: 1.5rem;
-            height: 100%;
-            background-color: var(--bg);
-        }
-
-        .recording-tip {
-            background-color: var(--gold-glow);
-            border: 1px solid var(--gold-border);
-            border-left: 3px solid var(--gold);
-            padding: 1rem 1.5rem;
-            border-radius: 6px;
-            color: var(--gold);
-            font-size: 0.9rem;
-            font-style: italic;
-            letter-spacing: 0.3px;
-        }
-
-        .camera-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .camera-preview {
-            background-color: #0A0A0A;
-            border-radius: 12px;
-            aspect-ratio: 16 / 9;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .camera-preview::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .camera-idle {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            gap: 1rem;
-            color: var(--muted);
-            z-index: 1;
-        }
-
-        .camera-idle-icon {
-            font-size: 5rem;
-            opacity: 0.5;
-        }
-
-        .camera-idle-text {
-            font-size: 1.2rem;
-            letter-spacing: 0.5px;
-        }
-
-        .camera-recording {
-            display: none;
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
-
-        .camera-recording.active {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .recording-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            position: relative;
-            z-index: 3;
-        }
-
-        .recording-indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-family: 'Courier New', monospace;
-            color: var(--red);
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .recording-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--red);
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .recording-timer {
-            font-family: 'Courier New', monospace;
-            color: var(--ink);
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .teleprompter {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 35%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5));
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-            z-index: 10;
-            overflow: hidden;
-        }
-
-        .teleprompter-label {
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .teleprompter-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            color: var(--ink);
-            position: relative;
-        }
-
-        .teleprompter-line {
-            line-height: 1.8;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .teleprompter-line.current {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--ink);
-            letter-spacing: 0.5px;
-        }
-
-        .teleprompter-line.next {
-            color: rgba(245, 245, 240, 0.6);
-            font-size: 1rem;
-        }
-
-        .teleprompter-line.following {
-            color: rgba(245, 245, 240, 0.3);
-            font-size: 0.95rem;
-        }
-
-        .teleprompter-dots {
-            display: flex;
-            gap: 0.5rem;
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .teleprompter-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--gold);
-            opacity: 0.3;
-            transition: all 0.3s ease;
-        }
-
-        .teleprompter-dot.active {
-            opacity: 1;
-        }
-
-        /* CONTROLS BAR */
-        .controls-bar {
-            background-color: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 8px;
-        }
-
-        .control-btn {
-            background-color: transparent;
-            border: 1px solid var(--border2);
-            color: var(--muted);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .control-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .record-button {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-l));
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(181, 162, 100, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .record-button.idle {
-            animation: recordPulse 2s infinite;
-        }
-
-        @keyframes recordPulse {
-            0%, 100% {
-                box-shadow: 0 10px 30px rgba(181, 162, 100, 0.2);
-            }
-            50% {
-                box-shadow: 0 10px 40px rgba(181, 162, 100, 0.4);
-            }
-        }
-
-        .record-button.recording {
-            background: linear-gradient(135deg, #C0392B, #E74C3C);
-            box-shadow: 0 10px 40px rgba(192, 57, 43, 0.3);
-        }
-
-        .record-button.idle::before {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-radius: 3px;
-            background-color: var(--ink-dark);
-        }
-
-        .record-button.recording::before {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            background-color: var(--ink-dark);
-        }
-
-        .record-label {
-            font-size: 0.8rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* REVIEW STATE */
-        .review-state {
-            display: none;
-            position: absolute;
-            inset: 0;
-            z-index: 5;
-        }
-
-        .review-state.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .review-play-button {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 3rem;
-            color: var(--ink-dark);
-            transition: all 0.3s ease;
-            box-shadow: 0 20px 60px rgba(181, 162, 100, 0.3);
-        }
-
-        .review-play-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 25px 70px rgba(181, 162, 100, 0.4);
-        }
-
-        .review-label {
-            color: var(--gold);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .review-buttons {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        /* CONFIRMATION STATE */
-        .confirmation-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 200;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .confirmation-overlay.active {
-            display: flex;
-        }
-
-        .checkmark {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--ink-dark);
-            animation: scaleIn 0.5s ease-out;
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .confirmation-text {
-            text-align: center;
-        }
-
-        .confirmation-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--ink);
-            margin-bottom: 0.8rem;
-            letter-spacing: 0.5px;
-        }
-
-        .confirmation-subtitle {
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        .confirmation-link {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            display: inline-block;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .confirmation-link:hover {
-            text-decoration: underline;
-        }
-
-        /* VIEW 3: NOTIFICATION REFERENCE */
-        .notification-reference {
-            padding: 3rem 2rem;
-            background-color: var(--bg);
-            overflow-y: auto;
-        }
-
-        .notification-header {
-            margin-bottom: 2rem;
-        }
-
-        .notification-label {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
-
-        .notification-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .notification-card {
-            background-color: var(--surface2);
-            border: 1px solid var(--border2);
-            border-radius: 12px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .notification-card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: var(--ink);
-            border-bottom: 1px solid var(--border2);
-            padding-bottom: 1rem;
-        }
-
-        /* IN-APP BANNER MOCKUP */
-        .banner-mockup {
-            background-color: var(--surface3);
-            border-left: 4px solid var(--gold);
-            padding: 1.2rem;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .banner-diagnosis {
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        .banner-ask {
-            color: var(--ink);
-            font-weight: 500;
-        }
-
-        .banner-cta {
-            background-color: var(--gold);
-            color: var(--ink-dark);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-
-        /* EMAIL MOCKUP */
-        .email-mockup {
-            background-color: var(--surface3);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .email-header {
-            background-color: var(--surface);
-            padding: 1rem;
-            border-bottom: 1px solid var(--border2);
-        }
-
-        .email-subject {
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 0.5rem;
-        }
-
-        .email-from {
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
-
-        .email-body {
-            padding: 1rem;
-            color: var(--muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .email-cta {
-            background: linear-gradient(135deg, var(--gold), var(--gold-l));
-            color: var(--ink-dark);
-            padding: 0.6rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 600;
-            display: inline-block;
-            text-align: center;
-            font-size: 0.85rem;
-            margin-top: 1rem;
-        }
-
-        /* SMS MOCKUP */
-        .sms-mockup {
-            background-color: var(--surface3);
-            border-radius: 8px;
-            width: 100%;
-            max-width: 280px;
-            margin: 0 auto;
-            border: 1px solid var(--border2);
-            overflow: hidden;
-        }
-
-        .phone-header {
-            background-color: var(--surface);
-            padding: 0.8rem;
-            border-bottom: 1px solid var(--border2);
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .phone-body {
-            padding: 1.2rem;
-        }
-
-        .sms-message {
-            background-color: rgba(181, 162, 100, 0.2);
-            color: var(--ink);
-            padding: 0.8rem 1rem;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
-            word-wrap: break-word;
-        }
-
-        .sms-link {
-            color: var(--gold);
-            text-decoration: underline;
-            font-weight: 600;
-        }
-
-        @media (max-width: 1200px) {
-            .content-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .notification-cards {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            .content-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .preview-title {
-                font-size: 1.8rem;
-            }
-        }
-    
-        /* TOPNAV */
-        .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
-        .topnav-left { display:flex; align-items:center; gap:1rem; }
-        .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
-        .topnav-logo span { color:var(--gold); }
-        .topnav-divider { width:1px; height:20px; background:var(--border2); }
-        .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-        .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
-        .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
-        .topnav-tab:hover { color:var(--ink); }
-        .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
-        .topnav-right { display:flex; align-items:center; }
-        .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); letter-spacing:0.05em; }
-
-        </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropIQ Content Engine — Content</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #B5A264; --gold-l: #D4C27A; --gold-d: #9A8A55;
+      --gold-glow: rgba(181,162,100,0.12); --gold-border: rgba(181,162,100,0.2);
+      --bg: #12111A; --surface: #1B1926; --surface2: #232131; --surface3: #2C2A3B;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.13);
+      --ink: #EEECEA; --ink-dark: #111111; --muted: #8C8C8C; --faint: #555555;
+      --plum: rgba(120,80,160,0.15); --plum-glow: rgba(120,80,160,0.08);
+      --green: #6B9E7A; --green-l: rgba(107,158,122,0.15);
+      --red: #C0392B; --red-l: rgba(192,57,43,0.15);
+      --blue: #4B7BA7; --blue-l: rgba(75,123,167,0.15);
+      --orange: #D4923A; --orange-l: rgba(212,146,58,0.15);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; height:100%; }
+    body { font-family:"Inter",sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; overflow:hidden; }
+
+    /* ORBS */
+    .orb-container { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.35; will-change:transform; }
+    .orb-1 { width:500px; height:500px; background:radial-gradient(circle, rgba(181,162,100,0.25) 0%, transparent 70%); top:-10%; right:-5%; animation:float1 20s ease-in-out infinite; }
+    .orb-2 { width:400px; height:400px; background:radial-gradient(circle, rgba(120,80,160,0.2) 0%, transparent 70%); bottom:-5%; left:-8%; animation:float2 25s ease-in-out infinite; }
+    .orb-3 { width:350px; height:350px; background:radial-gradient(circle, rgba(181,162,100,0.15) 0%, transparent 70%); top:40%; left:50%; animation:float3 22s ease-in-out infinite; }
+    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-80px,30px) scale(0.95)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(50px,-70px) scale(1.08)} }
+    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.06)} 66%{transform:translate(40px,-50px) scale(0.94)} }
+
+    /* TOPNAV */
+    .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); }
+    .topnav-left { display:flex; align-items:center; gap:1rem; }
+    .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
+    .topnav-logo span { color:var(--gold); }
+    .topnav-divider { width:1px; height:20px; background:var(--border2); }
+    .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+    .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
+    .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
+    .topnav-tab:hover { color:var(--ink); }
+    .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+    .topnav-right { display:flex; align-items:center; }
+    .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); }
+
+    /* VIEW TABS */
+    .view-tabs { display:flex; border-bottom:1px solid var(--border); background:var(--surface); padding:0 2rem; gap:2rem; position:relative; z-index:1; }
+    .view-tab { padding:0.9rem 0; color:var(--muted); cursor:pointer; font-size:0.82rem; font-weight:500; letter-spacing:0.3px; transition:all 0.2s; border-bottom:2px solid transparent; }
+    .view-tab:hover { color:var(--gold); }
+    .view-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+
+    /* VIEWS */
+    .views-container { flex:1; position:relative; z-index:1; overflow:hidden; }
+    .view { position:absolute; width:100%; height:100%; z-index:1; opacity:0; pointer-events:none; transition:opacity 0.3s ease; overflow-y:auto; }
+    .view.active { opacity:1; pointer-events:auto; }
+
+    /* CONTENT PREVIEW */
+    .content-area { padding:2rem; background:var(--bg); position:relative; z-index:1; }
+
+    /* HEADER + CONTROLS */
+    .content-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:1.5rem; }
+    .header-left {}
+    .header-label { font-size:0.62rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:4px; font-weight:600; }
+    .header-title { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--ink); letter-spacing:-0.3px; }
+    .header-sub { color:var(--muted); font-size:0.82rem; margin-top:4px; }
+
+    .header-controls { display:flex; gap:10px; align-items:center; }
+    .view-toggle { display:flex; gap:0; background:rgba(255,255,255,0.04); border:1px solid var(--border2); border-radius:6px; overflow:hidden; }
+    .v-btn { padding:6px 14px; font-size:0.68rem; font-weight:600; cursor:pointer; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; transition:all 0.2s; background:none; border:none; border-right:1px solid var(--border2); }
+    .v-btn:last-child { border-right:none; }
+    .v-btn.active { background:rgba(255,255,255,0.08); color:var(--ink); }
+    .filter-btn { padding:6px 14px; font-size:0.68rem; font-weight:600; cursor:pointer; color:var(--muted); background:rgba(255,255,255,0.04); border:1px solid var(--border2); border-radius:6px; transition:all 0.2s; }
+    .filter-btn:hover { color:var(--gold); border-color:var(--gold-border); }
+    .filter-btn.active { color:var(--gold); border-color:var(--gold); background:rgba(181,162,100,0.06); }
+
+    /* SUMMARY BAR */
+    .summary-bar { background:rgba(255,255,255,0.03); border:1px solid var(--gold-border); border-left:3px solid var(--gold); padding:0.8rem 1.2rem; border-radius:6px; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; }
+    .summary-text { color:var(--muted); }
+    .summary-hl { color:var(--gold); font-weight:600; }
+
+    /* FILTERS ROW */
+    .filters-row { display:flex; gap:8px; margin-bottom:1.5rem; flex-wrap:wrap; }
+
+    /* CONTENT GRID */
+    .content-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; margin-bottom:2rem; }
+    .content-card { background:var(--surface2); border:1px solid var(--border2); border-radius:10px; overflow:hidden; transition:all 0.3s; cursor:pointer; display:flex; flex-direction:column; }
+    .content-card:hover { border-color:var(--gold-border); transform:translateY(-3px); box-shadow:0 16px 40px rgba(181,162,100,0.08); }
+    .card-thumb { background:linear-gradient(135deg,#23212A,#0a0a0a); height:150px; display:flex; align-items:center; justify-content:center; font-size:2.2rem; position:relative; }
+    .card-thumb::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center, transparent, rgba(0,0,0,0.4)); }
+    .card-status { position:absolute; top:8px; right:8px; font-size:0.55rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; padding:3px 8px; border-radius:3px; z-index:1; }
+    .card-status.published { background:var(--green-l); color:var(--green); }
+    .card-status.scheduled { background:rgba(181,162,100,0.15); color:var(--gold); }
+    .card-status.draft { background:rgba(255,255,255,0.08); color:var(--muted); }
+    .card-status.ready { background:var(--blue-l); color:var(--blue); }
+    .card-body { padding:1rem; flex:1; display:flex; flex-direction:column; }
+    .card-type { display:inline-block; background:var(--gold-glow); color:var(--gold); font-size:0.6rem; letter-spacing:0.8px; text-transform:uppercase; padding:3px 8px; border-radius:12px; font-weight:600; margin-bottom:0.6rem; width:fit-content; }
+    .card-title { font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:0.5rem; line-height:1.3; }
+    .card-platforms { display:flex; gap:4px; margin-bottom:0.6rem; flex-wrap:wrap; }
+    .pill { font-size:0.58rem; font-weight:600; padding:2px 6px; border-radius:10px; letter-spacing:0.3px; }
+    .pill.yt { background:rgba(192,57,43,0.2); color:#FF4444; }
+    .pill.ig { background:rgba(193,53,132,0.2); color:#FC549F; }
+    .pill.tt { background:rgba(255,255,255,0.06); color:var(--ink); border:1px solid var(--border2); }
+    .pill.fb { background:rgba(66,103,178,0.2); color:#6B8EC9; }
+    .card-meta { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:0.6rem; border-top:1px solid var(--border2); font-size:0.72rem; }
+    .card-date { color:var(--muted); }
+    .card-reach { color:var(--gold); font-weight:600; }
+
+    /* LIST VIEW */
+    .content-list { display:none; margin-bottom:2rem; }
+    .content-list.active { display:block; }
+    .content-grid.active { display:grid; }
+    .list-header { display:grid; grid-template-columns:40px 1fr 100px 110px 80px 90px 80px; gap:12px; align-items:center; padding:0.6rem 1rem; border-bottom:1px solid var(--border2); }
+    .list-header span { font-size:0.58rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+    .list-row { display:grid; grid-template-columns:40px 1fr 100px 110px 80px 90px 80px; gap:12px; align-items:center; padding:0.7rem 1rem; border-bottom:1px solid var(--border); transition:all 0.2s; cursor:pointer; }
+    .list-row:hover { background:rgba(255,255,255,0.03); }
+    .list-icon { font-size:1.2rem; text-align:center; }
+    .list-title-col {}
+    .list-title { font-size:0.78rem; font-weight:600; color:var(--ink); }
+    .list-sub { font-size:0.62rem; color:var(--muted); }
+    .list-type { font-size:0.58rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; padding:2px 8px; border-radius:3px; display:inline-block; }
+    .list-type.video { background:rgba(181,162,100,0.15); color:var(--gold); }
+    .list-type.carousel { background:var(--blue-l); color:var(--blue); }
+    .list-type.reel { background:var(--orange-l); color:var(--orange); }
+    .list-type.market { background:var(--green-l); color:var(--green); }
+    .list-type.social { background:rgba(255,255,255,0.08); color:var(--muted); }
+    .list-platforms { display:flex; gap:3px; flex-wrap:wrap; }
+    .list-reach { font-size:0.75rem; font-weight:600; color:var(--gold); }
+    .list-date { font-size:0.72rem; color:var(--muted); }
+    .list-status { font-size:0.55rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; padding:3px 8px; border-radius:3px; }
+    .list-status.published { background:var(--green-l); color:var(--green); }
+    .list-status.scheduled { background:rgba(181,162,100,0.15); color:var(--gold); }
+    .list-status.draft { background:rgba(255,255,255,0.08); color:var(--muted); }
+    .list-status.ready { background:var(--blue-l); color:var(--blue); }
+
+    /* ACTION BUTTONS */
+    .action-row { display:flex; gap:12px; justify-content:center; align-items:center; }
+    .btn { padding:0.6rem 1.8rem; border:none; border-radius:6px; font-size:0.82rem; font-weight:600; letter-spacing:0.3px; cursor:pointer; transition:all 0.3s; text-transform:uppercase; }
+    .btn-primary { background:linear-gradient(90deg,var(--gold),var(--gold-l)); color:var(--ink-dark); position:relative; overflow:hidden; }
+    .btn-primary::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); animation:shimmer 3s infinite; }
+    @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+    .btn-primary:hover { box-shadow:0 12px 30px rgba(181,162,100,0.25); transform:translateY(-2px); }
+    .btn-secondary { background:transparent; color:var(--gold); border:1px solid var(--gold-border); }
+    .btn-secondary:hover { background:var(--gold-glow); }
+    .btn-tertiary { background:transparent; color:var(--muted); border:none; font-size:0.78rem; }
+    .btn-tertiary:hover { color:var(--gold); }
+
+    /* STUDIO RECORDER */
+    .studio { display:flex; flex-direction:column; padding:2rem; gap:1.2rem; height:100%; background:var(--bg); }
+    .rec-tip { background:var(--gold-glow); border:1px solid var(--gold-border); border-left:3px solid var(--gold); padding:0.8rem 1.2rem; border-radius:6px; color:var(--gold); font-size:0.8rem; font-style:italic; }
+    .camera-preview { background:#0A0A0A; border-radius:12px; aspect-ratio:16/9; position:relative; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.8); }
+    .camera-preview::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center, transparent, rgba(0,0,0,0.6)); z-index:2; pointer-events:none; }
+    .cam-idle { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:0.8rem; color:var(--muted); z-index:1; }
+    .cam-idle-icon { font-size:3.5rem; opacity:0.5; }
+    .cam-idle-text { font-size:1rem; }
+    .cam-rec { display:none; position:absolute; inset:0; z-index:1; }
+    .cam-rec.active { display:flex; flex-direction:column; justify-content:space-between; }
+    .rec-header { display:flex; justify-content:space-between; align-items:center; padding:1.2rem; position:relative; z-index:3; }
+    .rec-indicator { display:flex; align-items:center; gap:0.6rem; font-family:'Courier New',monospace; color:var(--red); font-weight:700; font-size:0.9rem; }
+    .rec-dot { width:10px; height:10px; border-radius:50%; background:var(--red); animation:pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .rec-timer { font-family:'Courier New',monospace; color:var(--ink); font-size:0.9rem; font-weight:600; letter-spacing:1px; }
+    .teleprompter { position:absolute; bottom:0; left:0; right:0; height:35%; background:linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.5)); display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem; z-index:10; }
+    .teleprompter-label { font-size:0.6rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.8rem; }
+    .prompt-line { line-height:1.7; font-size:0.95rem; transition:all 0.3s; }
+    .prompt-line.current { font-size:1.1rem; font-weight:600; color:var(--ink); }
+    .prompt-line.next { color:rgba(245,245,240,0.6); font-size:0.9rem; }
+    .prompt-line.following { color:rgba(245,245,240,0.3); font-size:0.85rem; }
+    .review-state { display:none; position:absolute; inset:0; z-index:5; }
+    .review-state.active { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.2rem; background:rgba(0,0,0,0.8); }
+    .review-play { width:80px; height:80px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:2.5rem; color:var(--ink-dark); transition:all 0.3s; box-shadow:0 16px 40px rgba(181,162,100,0.3); }
+    .review-play:hover { transform:scale(1.1); }
+    .review-label { color:var(--gold); font-size:0.78rem; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; }
+    .controls-bar { background:var(--surface); border-top:1px solid var(--border); padding:1.2rem; display:flex; align-items:center; justify-content:space-between; border-radius:8px; }
+    .ctrl-btn { background:transparent; border:1px solid var(--border2); color:var(--muted); width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:all 0.3s; }
+    .ctrl-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .rec-button { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-l)); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s; box-shadow:0 8px 24px rgba(181,162,100,0.2); position:relative; }
+    .rec-button.idle { animation:recPulse 2s infinite; }
+    @keyframes recPulse { 0%,100%{box-shadow:0 8px 24px rgba(181,162,100,0.2)} 50%{box-shadow:0 8px 32px rgba(181,162,100,0.4)} }
+    .rec-button.recording { background:linear-gradient(135deg,#C0392B,#E74C3C); box-shadow:0 8px 30px rgba(192,57,43,0.3); }
+    .rec-button.idle::before { content:''; position:absolute; width:14px; height:14px; border-radius:3px; background:var(--ink-dark); }
+    .rec-button.recording::before { content:''; position:absolute; width:10px; height:10px; border-radius:2px; background:var(--ink-dark); }
+    .rec-label { font-size:0.68rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:600; }
+
+    /* NOTIFICATION REFERENCE */
+    .notif-area { padding:2rem; background:var(--bg); }
+    .notif-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    .notif-card { background:var(--surface2); border:1px solid var(--border2); border-radius:10px; padding:1.2rem; }
+    .notif-card-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--ink); margin-bottom:1rem; padding-bottom:0.8rem; border-bottom:1px solid var(--border2); }
+    .banner-mock { background:var(--surface3); border-left:3px solid var(--gold); padding:1rem; border-radius:4px; }
+    .banner-diag { color:var(--muted); font-size:0.82rem; margin-bottom:4px; }
+    .banner-ask { color:var(--ink); font-weight:500; font-size:0.85rem; margin-bottom:8px; }
+    .banner-cta { background:var(--gold); color:var(--ink-dark); padding:6px 12px; border-radius:4px; font-weight:600; text-align:center; font-size:0.75rem; display:inline-block; }
+    .email-mock { background:var(--surface3); border-radius:6px; overflow:hidden; }
+    .email-head { background:var(--surface); padding:0.8rem; border-bottom:1px solid var(--border2); }
+    .email-subj { font-weight:600; color:var(--ink); font-size:0.82rem; margin-bottom:4px; }
+    .email-from { font-size:0.72rem; color:var(--muted); }
+    .email-body { padding:0.8rem; color:var(--muted); font-size:0.78rem; line-height:1.5; }
+    .email-cta { background:linear-gradient(135deg,var(--gold),var(--gold-l)); color:var(--ink-dark); padding:5px 12px; border-radius:4px; font-weight:600; display:inline-block; font-size:0.72rem; margin-top:8px; }
+    .sms-mock { background:var(--surface3); border-radius:8px; max-width:260px; margin:0 auto; border:1px solid var(--border2); overflow:hidden; }
+    .phone-head { background:var(--surface); padding:0.6rem; border-bottom:1px solid var(--border2); text-align:center; font-size:0.72rem; color:var(--muted); }
+    .phone-body { padding:1rem; }
+    .sms-msg { background:rgba(181,162,100,0.2); color:var(--ink); padding:0.7rem 0.9rem; border-radius:14px; font-size:0.78rem; }
+    .sms-link { color:var(--gold); text-decoration:underline; font-weight:600; }
+
+    /* CONFIRMATION */
+    .confirm-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:200; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; }
+    .confirm-overlay.active { display:flex; }
+    .checkmark { width:100px; height:100px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; font-size:3rem; color:var(--ink-dark); animation:scaleIn 0.5s ease-out; }
+    @keyframes scaleIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .confirm-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--ink); }
+    .confirm-sub { color:var(--muted); font-size:0.9rem; }
+    .confirm-link { color:var(--gold); text-decoration:none; font-weight:600; letter-spacing:0.3px; cursor:pointer; }
+
+    @media (max-width:1100px) { .content-grid { grid-template-columns:repeat(3,1fr); } .notif-grid { grid-template-columns:1fr; } }
+    @media (max-width:768px) { .content-grid { grid-template-columns:repeat(2,1fr); } .list-header,.list-row { grid-template-columns:40px 1fr 80px 80px; } }
+  </style>
 </head>
 <body>
-    <div class="orb-container" aria-hidden="true">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
-    </div>
-    <nav class="topnav">
-        <div class="topnav-left">
-            <div class="topnav-logo">Prop<span>IQ</span></div>
-            <div class="topnav-divider"></div>
-            <span class="topnav-section">Content Engine</span>
-        </div>
-        <div class="topnav-tabs">
-            <a class="topnav-tab" href="propiq-content-onboarding.html">Setup</a>
-            <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
-            <a class="topnav-tab active" href="propiq-content-nudge.html">Content</a>
-            <a class="topnav-tab" href="propiq-content-scorecard.html">Scorecard</a>
-        </div>
-        <div class="topnav-right">
-            <div class="topnav-avatar">GW</div>
-        </div>
-    </nav>
+<div class="orb-container" aria-hidden="true">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+</div>
 
-    <div style="display: flex; flex-direction: column; height: calc(100vh - 65px);">
-        <div class="view-tabs">
-            <div class="view-tab active" onclick="switchView(0)">Content Preview</div>
-            <div class="view-tab" onclick="switchView(1)">Record Video</div>
-            <div class="view-tab" onclick="switchView(2)">Notification Reference</div>
-        </div>
+<nav class="topnav">
+  <div class="topnav-left">
+    <div class="topnav-logo">Prop<span>IQ</span></div>
+    <div class="topnav-divider"></div>
+    <span class="topnav-section">Content Engine</span>
+  </div>
+  <div class="topnav-tabs">
+    <a class="topnav-tab" href="propiq-content-onboarding.html">Setup</a>
+    <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
+    <a class="topnav-tab active" href="propiq-content-nudge.html">Content</a>
+    <a class="topnav-tab" href="propiq-content-scorecard.html">Scorecard</a>
+  </div>
+  <div class="topnav-right"><div class="topnav-avatar">GW</div></div>
+</nav>
 
-        <div class="views-container">
-            <div class="view active" id="view-0">
-                <div class="content-preview">
-                    <div class="preview-header">
-                        <div class="preview-label">With 2 New Videos</div>
-                        <h1 class="preview-title">Here's What We'll Build For You</h1>
-                        <p class="preview-subtitle">Based on your East Palo Alto market and current content strategy</p>
-                    </div>
+<div style="display:flex;flex-direction:column;height:calc(100vh - 52px);">
+  <div class="view-tabs">
+    <div class="view-tab active" onclick="switchView(0)">Content Preview</div>
+    <div class="view-tab" onclick="switchView(1)">Record Video</div>
+    <div class="view-tab" onclick="switchView(2)">Notification Reference</div>
+  </div>
 
-                    <div class="content-grid">
-                        <div class="content-card">
-                            <div class="card-thumbnail">📽️</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Market Explainer</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill yt">YT</span>
-                                    <span class="platform-pill ig">IG</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 3, 2026</div>
-                                    <div class="card-reach">~1,200 views</div>
-                                </div>
-                            </div>
-                        </div>
+  <div class="views-container">
 
-                        <div class="content-card">
-                            <div class="card-thumbnail">🎬</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Neighborhood Spotlight</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill yt">YT</span>
-                                    <span class="platform-pill tt">TT</span>
-                                    <span class="platform-pill ig">IG</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 5, 2026</div>
-                                    <div class="card-reach">~950 views</div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- VIEW 0: CONTENT PREVIEW -->
+    <div class="view active" id="view-0">
+      <div class="content-area">
 
-                        <div class="content-card">
-                            <div class="card-thumbnail">🎤</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Authority Clip</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill ig">IG</span>
-                                    <span class="platform-pill fb">FB</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 7, 2026</div>
-                                    <div class="card-reach">~750 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">🏠</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Just Listed</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill yt">YT</span>
-                                    <span class="platform-pill ig">IG</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 10, 2026</div>
-                                    <div class="card-reach">~1,100 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">💰</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Investment Tip</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill tt">TT</span>
-                                    <span class="platform-pill ig">IG</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 12, 2026</div>
-                                    <div class="card-reach">~820 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">🎬</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Client Testimonial</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill yt">YT</span>
-                                    <span class="platform-pill fb">FB</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 15, 2026</div>
-                                    <div class="card-reach">~680 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">📊</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Market Stats</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill ig">IG</span>
-                                    <span class="platform-pill tt">TT</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 18, 2026</div>
-                                    <div class="card-reach">~920 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">👥</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Behind the Scenes</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill ig">IG</span>
-                                    <span class="platform-pill fb">FB</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 20, 2026</div>
-                                    <div class="card-reach">~1,050 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">🎥</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Market Explainer</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill yt">YT</span>
-                                    <span class="platform-pill ig">IG</span>
-                                    <span class="platform-pill tt">TT</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 22, 2026</div>
-                                    <div class="card-reach">~1,300 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">🏘️</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Neighborhood Spotlight</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill yt">YT</span>
-                                    <span class="platform-pill ig">IG</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 25, 2026</div>
-                                    <div class="card-reach">~1,080 views</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <div class="card-thumbnail">🎙️</div>
-                            <div class="card-content">
-                                <div class="card-type-label">Authority Clip</div>
-                                <div class="card-platforms">
-                                    <span class="platform-pill ig">IG</span>
-                                    <span class="platform-pill tt">TT</span>
-                                </div>
-                                <div class="card-meta">
-                                    <div class="card-date">May 28, 2026</div>
-                                    <div class="card-reach">~850 views</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="summary-bar">
-                        <div>
-                            <span class="summary-text"><span class="summary-highlight">12 new content pieces</span> | Est. reach: <span class="summary-highlight">8,400</span> | Scheduled through June 2026</span>
-                        </div>
-                    </div>
-
-                    <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="switchView(1)">Record Now</button>
-                        <button class="btn btn-secondary">Upload from Camera Roll</button>
-                        <button class="btn btn-tertiary">Remind Me Later</button>
-                    </div>
-                </div>
+        <div class="content-header">
+          <div class="header-left">
+            <div class="header-label">With 2 New Videos</div>
+            <h1 class="header-title">Here's What We'll Build For You</h1>
+            <p class="header-sub">Based on your East Palo Alto market and current content strategy</p>
+          </div>
+          <div class="header-controls">
+            <div class="view-toggle">
+              <button class="v-btn active" onclick="setContentView('grid')">Grid</button>
+              <button class="v-btn" onclick="setContentView('list')">List</button>
             </div>
-
-            <div class="view" id="view-1">
-                <div class="studio-recorder">
-                    <div class="recording-tip">
-                        Recording Tip: We recommend your desk or office. Wear a different outfit than your current avatar.
-                    </div>
-
-                    <div class="camera-section">
-                        <div class="camera-preview">
-                            <div class="camera-idle" id="cameraIdle">
-                                <div class="camera-idle-icon">📹</div>
-                                <div class="camera-idle-text">Click Record to Begin</div>
-                            </div>
-
-                            <div class="camera-recording" id="cameraRecording">
-                                <div class="recording-header">
-                                    <div class="recording-indicator">
-                                        <div class="recording-dot"></div>
-                                        REC
-                                    </div>
-                                    <div class="recording-timer" id="recordingTimer">00:00 / 01:00</div>
-                                </div>
-                            </div>
-
-                            <div class="teleprompter">
-                                <div class="teleprompter-label">Teleprompter</div>
-                                <div class="teleprompter-content">
-                                    <div class="teleprompter-line current" id="promptCurrent">Talk about what makes East Palo Alto special for investors</div>
-                                    <div class="teleprompter-line next" id="promptNext">Mention the ADU potential and rental income opportunities</div>
-                                    <div class="teleprompter-line following" id="promptFollowing">Share your most recent success story</div>
-                                </div>
-                                <div class="teleprompter-dots">
-                                    <div class="teleprompter-dot active"></div>
-                                    <div class="teleprompter-dot"></div>
-                                    <div class="teleprompter-dot"></div>
-                                </div>
-                            </div>
-
-                            <div class="review-state" id="reviewState">
-                                <div class="review-play-button">▶</div>
-                                <div class="review-label">Review Your Recording</div>
-                                <div class="review-buttons">
-                                    <button class="btn btn-primary" onclick="useRecording()">Use This Recording</button>
-                                    <button class="btn btn-secondary" onclick="reRecord()">Re-Record</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="controls-bar">
-                        <button class="control-btn" title="Flip Camera">🔄</button>
-                        <button class="record-button idle" id="recordButton" onclick="toggleRecord()"></button>
-                        <div class="record-label">TARGET: 60 SECONDS</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="view" id="view-2">
-                <div class="notification-reference">
-                    <div class="notification-header">
-                        <div class="notification-label">Notification Channels</div>
-                    </div>
-
-                    <div class="notification-cards">
-                        <div class="notification-card">
-                            <div class="notification-card-title">In-App Banner</div>
-                            <div class="banner-mockup">
-                                <div class="banner-diagnosis">Your content engine has 12 new pieces ready to build.</div>
-                                <div class="banner-ask">Just needs a 60-second video from you to get started.</div>
-                                <div class="banner-cta">Record Now</div>
-                            </div>
-                        </div>
-
-                        <div class="notification-card">
-                            <div class="notification-card-title">Email</div>
-                            <div class="email-mockup">
-                                <div class="email-header">
-                                    <div class="email-subject">Your content engine has 12 pieces ready to build</div>
-                                    <div class="email-from">PropertyIQ Content Team</div>
-                                </div>
-                                <div class="email-body">
-                                    <p>Your East Palo Alto content strategy has generated 12 new pieces across YouTube, Instagram, and TikTok. All we need is a 60-second video intro from you.</p>
-                                    <div class="email-cta">Record Now</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="notification-card">
-                            <div class="notification-card-title">SMS</div>
-                            <div class="sms-mockup">
-                                <div class="phone-header">PropertyIQ</div>
-                                <div class="phone-body">
-                                    <div class="sms-message">Your Property IQ engine has 12 new pieces ready — just needs a 60-sec video. <span class="sms-link">[Link]</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <!-- FILTERS -->
+        <div class="filters-row">
+          <button class="filter-btn active" onclick="filterContent('all',this)">All (14)</button>
+          <button class="filter-btn" onclick="filterContent('video',this)">Video (5)</button>
+          <button class="filter-btn" onclick="filterContent('carousel',this)">Carousel (3)</button>
+          <button class="filter-btn" onclick="filterContent('reel',this)">Reels (3)</button>
+          <button class="filter-btn" onclick="filterContent('market',this)">Market (2)</button>
+          <button class="filter-btn" onclick="filterContent('social',this)">Social (1)</button>
+        </div>
+
+        <!-- SUMMARY BAR -->
+        <div class="summary-bar">
+          <div class="summary-text"><span class="summary-hl">14 new content pieces</span> &nbsp;|&nbsp; Est. reach: <span class="summary-hl">12,400</span> &nbsp;|&nbsp; Scheduled through June 2026</div>
+          <div style="font-size:0.68rem;color:var(--muted);">Auto-scheduled by PropIQ</div>
+        </div>
+
+        <!-- GRID VIEW -->
+        <div class="content-grid active" id="gridView"></div>
+
+        <!-- LIST VIEW -->
+        <div class="content-list" id="listView">
+          <div class="list-header">
+            <span></span><span>Content</span><span>Type</span><span>Platforms</span><span>Reach</span><span>Date</span><span>Status</span>
+          </div>
+          <div id="listRows"></div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="switchView(1)">Record Now</button>
+          <button class="btn btn-secondary">Upload from Camera Roll</button>
+          <button class="btn btn-tertiary">Remind Me Later</button>
+        </div>
+
+      </div>
     </div>
 
-    <div class="confirmation-overlay" id="confirmationOverlay">
-        <div class="checkmark">✓</div>
-        <div class="confirmation-text">
-            <div class="confirmation-title">Got it!</div>
-            <div class="confirmation-subtitle">Your 12 new content pieces will be ready within 24 hours.</div>
+    <!-- VIEW 1: STUDIO RECORDER -->
+    <div class="view" id="view-1">
+      <div class="studio">
+        <div class="rec-tip">Recording Tip: We recommend your desk or office. Wear a different outfit than your current avatar.</div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:1.2rem;">
+          <div class="camera-preview">
+            <div class="cam-idle" id="camIdle">
+              <div class="cam-idle-icon">📹</div>
+              <div class="cam-idle-text">Click Record to Begin</div>
+            </div>
+            <div class="cam-rec" id="camRec">
+              <div class="rec-header">
+                <div class="rec-indicator"><div class="rec-dot"></div>REC</div>
+                <div class="rec-timer" id="recTimer">00:00 / 01:00</div>
+              </div>
+            </div>
+            <div class="teleprompter">
+              <div class="teleprompter-label">Teleprompter</div>
+              <div class="prompt-line current" id="pCurrent">Talk about what makes East Palo Alto special for investors</div>
+              <div class="prompt-line next" id="pNext">Mention the ADU potential and rental income opportunities</div>
+              <div class="prompt-line following" id="pFollowing">Share your most recent success story</div>
+            </div>
+            <div class="review-state" id="reviewState">
+              <div class="review-play">▶</div>
+              <div class="review-label">Review Your Recording</div>
+              <div style="display:flex;gap:12px;margin-top:8px;">
+                <button class="btn btn-primary" onclick="useRecording()">Use This Recording</button>
+                <button class="btn btn-secondary" onclick="reRecord()">Re-Record</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <a class="confirmation-link" onclick="returnToDashboard()">← Return to Dashboard</a>
+        <div class="controls-bar">
+          <button class="ctrl-btn" title="Flip Camera">🔄</button>
+          <button class="rec-button idle" id="recButton" onclick="toggleRecord()"></button>
+          <div class="rec-label">TARGET: 60 SECONDS</div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        let isRecording = false;
-        let recordingTime = 0;
-        let recordingInterval = null;
-        const maxRecordingTime = 60;
-        const prompts = [
-            "Talk about what makes East Palo Alto special for investors",
-            "Mention the ADU potential and rental income opportunities",
-            "Share your most recent success story",
-            "Discuss current market trends in the area",
-            "Highlight your recent sales successes"
-        ];
+    <!-- VIEW 2: NOTIFICATION REFERENCE -->
+    <div class="view" id="view-2">
+      <div class="notif-area">
+        <div style="margin-bottom:1.5rem;">
+          <div class="header-label">Notification Channels</div>
+          <div class="header-title" style="font-size:1.4rem;">How We'll Reach You</div>
+        </div>
+        <div class="notif-grid">
+          <div class="notif-card">
+            <div class="notif-card-title">In-App Banner</div>
+            <div class="banner-mock">
+              <div class="banner-diag">Your content engine has 14 new pieces ready to build.</div>
+              <div class="banner-ask">Just needs a 60-second video from you to get started.</div>
+              <div class="banner-cta">Record Now</div>
+            </div>
+          </div>
+          <div class="notif-card">
+            <div class="notif-card-title">Email</div>
+            <div class="email-mock">
+              <div class="email-head">
+                <div class="email-subj">Your content engine has 14 pieces ready</div>
+                <div class="email-from">PropIQ Content Team</div>
+              </div>
+              <div class="email-body">
+                <p>Your East Palo Alto content strategy has generated 14 new pieces across YouTube, Instagram, and TikTok. All we need is a 60-second video intro from you.</p>
+                <div class="email-cta">Record Now</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-card">
+            <div class="notif-card-title">SMS</div>
+            <div class="sms-mock">
+              <div class="phone-head">PropIQ</div>
+              <div class="phone-body">
+                <div class="sms-msg">Your PropIQ engine has 14 new pieces ready — just needs a 60-sec video. <span class="sms-link">[Link]</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function switchView(viewIndex) {
-            const views = document.querySelectorAll('.view');
-            const tabs = document.querySelectorAll('.view-tab');
-            views.forEach(v => v.classList.remove('active'));
-            tabs.forEach(t => t.classList.remove('active'));
-            views[viewIndex].classList.add('active');
-            tabs[viewIndex].classList.add('active');
-            if (viewIndex === 1) resetRecorder();
-        }
+  </div>
+</div>
 
-        function toggleRecord() {
-            isRecording ? stopRecording() : startRecording();
-        }
+<!-- CONFIRMATION OVERLAY -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="checkmark">✓</div>
+  <div style="text-align:center;">
+    <div class="confirm-title">Got it!</div>
+    <div class="confirm-sub">Your 14 new content pieces will be ready within 24 hours.</div>
+  </div>
+  <a class="confirm-link" onclick="returnToDash()">← Return to Dashboard</a>
+</div>
 
-        function startRecording() {
-            isRecording = true;
-            recordingTime = 0;
-            const recordButton = document.getElementById('recordButton');
-            const cameraIdle = document.getElementById('cameraIdle');
-            const cameraRecording = document.getElementById('cameraRecording');
-            recordButton.classList.remove('idle');
-            recordButton.classList.add('recording');
-            cameraIdle.style.display = 'none';
-            cameraRecording.classList.add('active');
-            recordingInterval = setInterval(() => {
-                recordingTime++;
-                updateTimer();
-                updateTeleprompter();
-                if (recordingTime >= maxRecordingTime) stopRecording();
-            }, 1000);
-        }
+<script>
+const contentItems = [
+  { icon:'📽️', title:'EPA Market Update — Q1 Wrap', type:'video', typeLbl:'Market Explainer', platforms:['yt','ig'], date:'May 3, 2026', reach:'~1,200', status:'scheduled' },
+  { icon:'🎬', title:'Neighborhood Spotlight: Palo Alto Gardens', type:'video', typeLbl:'Neighborhood Spotlight', platforms:['yt','tt','ig'], date:'May 5, 2026', reach:'~950', status:'scheduled' },
+  { icon:'🎤', title:'3 Things Sellers Get Wrong in 2026', type:'reel', typeLbl:'Authority Clip', platforms:['ig','fb'], date:'May 7, 2026', reach:'~750', status:'ready' },
+  { icon:'🏠', title:'Just Listed: 172 Portola Drive', type:'carousel', typeLbl:'Just Listed', platforms:['yt','ig'], date:'May 10, 2026', reach:'~1,100', status:'scheduled' },
+  { icon:'💰', title:'ADU Investment Math — Is It Worth It?', type:'video', typeLbl:'Investment Tip', platforms:['tt','ig'], date:'May 12, 2026', reach:'~820', status:'draft' },
+  { icon:'🎬', title:'Client Testimonial: The Garcia Family', type:'video', typeLbl:'Client Testimonial', platforms:['yt','fb'], date:'May 15, 2026', reach:'~680', status:'draft' },
+  { icon:'📊', title:'East Palo Alto: May Market Snapshot', type:'market', typeLbl:'Market Stats', platforms:['ig','tt'], date:'May 18, 2026', reach:'~920', status:'draft' },
+  { icon:'👥', title:'Behind the Scenes: Open House Prep', type:'reel', typeLbl:'Behind the Scenes', platforms:['ig','fb'], date:'May 20, 2026', reach:'~1,050', status:'draft' },
+  { icon:'🎥', title:'Spring Buyer Mistakes to Avoid', type:'video', typeLbl:'Market Explainer', platforms:['yt','ig','tt'], date:'May 22, 2026', reach:'~1,300', status:'draft' },
+  { icon:'🏘️', title:'Neighborhood Guide: Belle Haven', type:'carousel', typeLbl:'Neighborhood Spotlight', platforms:['yt','ig'], date:'May 25, 2026', reach:'~1,080', status:'draft' },
+  { icon:'🎙️', title:'Rate Lock Strategy for Buyers', type:'reel', typeLbl:'Authority Clip', platforms:['ig','tt'], date:'May 28, 2026', reach:'~850', status:'draft' },
+  { icon:'📈', title:'Mid-Year Market Forecast 2026', type:'market', typeLbl:'Market Report', platforms:['yt','ig','fb'], date:'May 30, 2026', reach:'~1,400', status:'draft' },
+  { icon:'🏡', title:'Virtual Tour: 489 Weeks Street', type:'carousel', typeLbl:'Listing Tour', platforms:['yt','ig'], date:'Jun 2, 2026', reach:'~960', status:'draft' },
+  { icon:'✨', title:'Community Event Spotlight: EPA Farmers Market', type:'social', typeLbl:'Community Post', platforms:['ig','fb'], date:'Jun 4, 2026', reach:'~540', status:'draft' },
+];
 
-        function stopRecording() {
-            isRecording = false;
-            clearInterval(recordingInterval);
-            const recordButton = document.getElementById('recordButton');
-            const cameraRecording = document.getElementById('cameraRecording');
-            const reviewState = document.getElementById('reviewState');
-            recordButton.classList.remove('recording');
-            cameraRecording.classList.remove('active');
-            reviewState.classList.add('active');
-        }
+function renderGrid(filter='all') {
+  const grid = document.getElementById('gridView');
+  grid.innerHTML = '';
+  contentItems.filter(c => filter==='all' || c.type===filter).forEach(c => {
+    grid.innerHTML += `<div class="content-card">
+      <div class="card-thumb"><span class="card-status ${c.status}">${c.status}</span>${c.icon}</div>
+      <div class="card-body">
+        <div class="card-type">${c.typeLbl}</div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-platforms">${c.platforms.map(p=>`<span class="pill ${p}">${p.toUpperCase()}</span>`).join('')}</div>
+        <div class="card-meta"><div class="card-date">${c.date}</div><div class="card-reach">${c.reach} views</div></div>
+      </div>
+    </div>`;
+  });
+}
 
-        function updateTimer() {
-            const mins = Math.floor(recordingTime / 60);
-            const secs = recordingTime % 60;
-            document.getElementById('recordingTimer').textContent = 
-                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} / 01:00`;
-        }
+function renderList(filter='all') {
+  const rows = document.getElementById('listRows');
+  rows.innerHTML = '';
+  contentItems.filter(c => filter==='all' || c.type===filter).forEach(c => {
+    rows.innerHTML += `<div class="list-row">
+      <div class="list-icon">${c.icon}</div>
+      <div class="list-title-col"><div class="list-title">${c.title}</div><div class="list-sub">${c.typeLbl}</div></div>
+      <div><span class="list-type ${c.type}">${c.type}</span></div>
+      <div class="list-platforms">${c.platforms.map(p=>`<span class="pill ${p}">${p.toUpperCase()}</span>`).join('')}</div>
+      <div class="list-reach">${c.reach}</div>
+      <div class="list-date">${c.date}</div>
+      <div><span class="list-status ${c.status}">${c.status}</span></div>
+    </div>`;
+  });
+}
 
-        function updateTeleprompter() {
-            const promptIndex = Math.floor(recordingTime / 15) % prompts.length;
-            document.getElementById('promptCurrent').textContent = prompts[promptIndex];
-            document.getElementById('promptNext').textContent = prompts[(promptIndex + 1) % prompts.length];
-            document.getElementById('promptFollowing').textContent = prompts[(promptIndex + 2) % prompts.length];
-            const dots = document.querySelectorAll('.teleprompter-dot');
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === promptIndex));
-        }
+let currentFilter = 'all';
 
-        function reRecord() {
-            resetRecorder();
-        }
+function setContentView(v) {
+  const btns = document.querySelectorAll('.v-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  if(v==='grid') { btns[0].classList.add('active'); document.getElementById('gridView').style.display='grid'; document.getElementById('listView').style.display='none'; }
+  else { btns[1].classList.add('active'); document.getElementById('gridView').style.display='none'; document.getElementById('listView').style.display='block'; }
+}
 
-        function resetRecorder() {
-            isRecording = false;
-            recordingTime = 0;
-            clearInterval(recordingInterval);
-            const recordButton = document.getElementById('recordButton');
-            const cameraIdle = document.getElementById('cameraIdle');
-            const cameraRecording = document.getElementById('cameraRecording');
-            const reviewState = document.getElementById('reviewState');
-            recordButton.classList.add('idle');
-            recordButton.classList.remove('recording');
-            cameraIdle.style.display = 'flex';
-            cameraRecording.classList.remove('active');
-            reviewState.classList.remove('active');
-            document.getElementById('recordingTimer').textContent = '00:00 / 01:00';
-            document.getElementById('promptCurrent').textContent = prompts[0];
-            document.getElementById('promptNext').textContent = prompts[1];
-            document.getElementById('promptFollowing').textContent = prompts[2];
-        }
+function filterContent(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid(type);
+  renderList(type);
+}
 
-        function useRecording() {
-            document.getElementById('confirmationOverlay').classList.add('active');
-        }
+function switchView(i) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view')[i].classList.add('active');
+  document.querySelectorAll('.view-tab')[i].classList.add('active');
+  if(i===1) resetRec();
+}
 
-        function returnToDashboard() {
-            document.getElementById('confirmationOverlay').classList.remove('active');
-            switchView(0);
-            resetRecorder();
-        }
+// RECORDER
+let isRec=false, recTime=0, recInt=null;
+const maxRec=60;
+const prompts=["Talk about what makes East Palo Alto special for investors","Mention the ADU potential and rental income opportunities","Share your most recent success story","Discuss current market trends in the area","Highlight your recent sales successes"];
 
-        resetRecorder();
-    </script>
+function toggleRecord(){ isRec ? stopRec() : startRec(); }
+function startRec(){
+  isRec=true; recTime=0;
+  document.getElementById('recButton').classList.remove('idle');
+  document.getElementById('recButton').classList.add('recording');
+  document.getElementById('camIdle').style.display='none';
+  document.getElementById('camRec').classList.add('active');
+  recInt=setInterval(()=>{ recTime++; updTimer(); updPrompt(); if(recTime>=maxRec) stopRec(); },1000);
+}
+function stopRec(){
+  isRec=false; clearInterval(recInt);
+  document.getElementById('recButton').classList.remove('recording');
+  document.getElementById('camRec').classList.remove('active');
+  document.getElementById('reviewState').classList.add('active');
+}
+function updTimer(){
+  const m=Math.floor(recTime/60),s=recTime%60;
+  document.getElementById('recTimer').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} / 01:00`;
+}
+function updPrompt(){
+  const i=Math.floor(recTime/15)%prompts.length;
+  document.getElementById('pCurrent').textContent=prompts[i];
+  document.getElementById('pNext').textContent=prompts[(i+1)%prompts.length];
+  document.getElementById('pFollowing').textContent=prompts[(i+2)%prompts.length];
+}
+function reRecord(){ resetRec(); }
+function resetRec(){
+  isRec=false; recTime=0; clearInterval(recInt);
+  const b=document.getElementById('recButton'); b.classList.add('idle'); b.classList.remove('recording');
+  document.getElementById('camIdle').style.display='flex';
+  document.getElementById('camRec').classList.remove('active');
+  document.getElementById('reviewState').classList.remove('active');
+  document.getElementById('recTimer').textContent='00:00 / 01:00';
+  document.getElementById('pCurrent').textContent=prompts[0];
+  document.getElementById('pNext').textContent=prompts[1];
+  document.getElementById('pFollowing').textContent=prompts[2];
+}
+function useRecording(){ document.getElementById('confirmOverlay').classList.add('active'); }
+function returnToDash(){ document.getElementById('confirmOverlay').classList.remove('active'); switchView(0); resetRec(); }
+
+// Init
+renderGrid(); renderList(); resetRec();
+</script>
 </body>
 </html>
