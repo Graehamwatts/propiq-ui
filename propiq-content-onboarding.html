@@ -1812,60 +1812,56 @@
             <div class="step-header">
                 <span class="step-label">Step 03 of 04</span>
                 <h1 class="step-title">Feed the Machine</h1>
-                <p class="step-subtitle">The more photos you give us, the better your content looks. We'll use these to create social posts, video backgrounds, listing promos, and market updates — all without stock photos.</p>
+                <p class="step-subtitle">Your content engine can start working with just your market data and brand voice. But the more photos you give us, the less we rely on stock imagery — and the more your content looks like <em>you</em>.</p>
             </div>
 
             <div class="step-content">
-                <!-- Photo Grid -->
+                <!-- Bulk Upload Zone -->
                 <div class="form-group">
-                    <label class="form-label">Upload Photos by Category</label>
-                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">Tap any category to upload 3-10 photos. Don't have all of these? No problem — upload what you have now and add more anytime from your dashboard.</p>
-                    <div class="photo-grid" id="photoGrid">
-                        <div class="photo-item" data-photo="0">
-                            <div class="photo-placeholder">+</div>
-                            <div class="photo-category">Listings</div>
-                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Active or recent properties</div>
-                        </div>
-                        <div class="photo-item" data-photo="1">
-                            <div class="photo-placeholder">+</div>
-                            <div class="photo-category">Neighborhoods</div>
-                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Streets, parks, local spots</div>
-                        </div>
-                        <div class="photo-item" data-photo="2">
-                            <div class="photo-placeholder">+</div>
-                            <div class="photo-category">Lifestyle</div>
-                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Coffee shops, trails, events</div>
-                        </div>
-                        <div class="photo-item" data-photo="3">
-                            <div class="photo-placeholder">+</div>
-                            <div class="photo-category">Sold Results</div>
-                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Sold signs, happy closings</div>
-                        </div>
-                        <div class="photo-item" data-photo="4">
-                            <div class="photo-placeholder">+</div>
-                            <div class="photo-category">Testimonials</div>
-                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Client photos with permission</div>
-                        </div>
-                        <div class="photo-item" data-photo="5">
-                            <div class="photo-placeholder">+</div>
-                            <div class="photo-category">You at Work</div>
-                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Open houses, showings, team</div>
-                        </div>
+                    <label class="form-label">Drop Your Photos Here</label>
+                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">Don't worry about organizing — just upload everything you've got. Our AI will sort through them and match each photo to the right type of content automatically.</p>
+
+                    <div class="upload-zone" id="bulkUploadZone" style="padding:3.5rem 2rem; min-height:180px;">
+                        <div class="upload-icon" style="font-size:2.5rem;">📸</div>
+                        <div class="upload-text" style="font-size:1rem; margin-bottom:0.4rem;">Drag photos here or click to browse</div>
+                        <div class="upload-subtext">JPG, PNG, HEIC • Upload as many as you want</div>
+                        <input type="file" id="bulkPhotoInput" style="display:none;" accept="image/*" multiple>
+                    </div>
+
+                    <!-- Upload counter (shown after upload) -->
+                    <div id="uploadCounter" style="display:none; text-align:center; margin-top:1rem; padding:0.75rem; background:rgba(107,158,122,0.1); border:1px solid rgba(107,158,122,0.2); border-radius:8px;">
+                        <span style="color:var(--green); font-weight:500;">✓ <span id="photoCount">0</span> photos uploaded</span>
+                        <span style="color:var(--faint); font-size:0.8rem; margin-left:0.5rem;">— we'll analyze these while you finish setup</span>
                     </div>
                 </div>
 
+                <!-- What helps most -->
+                <div style="margin-top:0.5rem; padding:1.25rem; background:rgba(181,162,100,0.04); border:1px solid var(--gold-border); border-radius:10px;">
+                    <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:10px;">What makes the best content?</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">📷 Property photos (active + sold)</div>
+                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">🏘️ Neighborhood & lifestyle shots</div>
+                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">🤝 You with clients (with permission)</div>
+                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">🏡 Open houses, events, your team</div>
+                    </div>
+                    <p style="font-size:0.72rem; color:var(--faint); margin-top:10px;">Don't have these yet? Skip this step — we'll use stock imagery to start and ask you for specific photos later when we need them.</p>
+                </div>
+
+                <!-- Divider -->
+                <div style="border-top:1px solid var(--border2); margin:2rem 0;"></div>
+
                 <!-- Video Style Reference -->
-                <div class="reference-section">
-                    <span class="reference-title">What Style of Video Do You Like?</span>
-                    <p style="font-size:0.8rem; color:var(--faint); margin:0.5rem 0 1rem;">Pick the style closest to what you want. We'll generate your videos to match this feel.</p>
-                    <div class="reference-grid">
-                        <div class="reference-card">
-                            <span class="reference-label">Cinematic & Polished</span>
-                            <span style="font-size:0.65rem; color:var(--faint); margin-top:4px;">Drone shots, slow pans, music</span>
+                <div class="form-group">
+                    <label class="form-label">What Style of Video Do You Like?</label>
+                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">This shapes how your video content looks and feels. Pick the one that fits your brand.</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                        <div class="tone-pill" onclick="this.classList.toggle('active'); document.getElementById('videoStyleCasual').classList.remove('active');" id="videoStyleCinematic">
+                            <div class="tone-pill-title">Cinematic & Polished</div>
+                            <div class="tone-pill-desc">Drone shots, slow pans, music overlays, text animations</div>
                         </div>
-                        <div class="reference-card">
-                            <span class="reference-label">Casual & Authentic</span>
-                            <span style="font-size:0.65rem; color:var(--faint); margin-top:4px;">Talking to camera, real and raw</span>
+                        <div class="tone-pill" onclick="this.classList.toggle('active'); document.getElementById('videoStyleCinematic').classList.remove('active');" id="videoStyleCasual">
+                            <div class="tone-pill-title">Casual & Authentic</div>
+                            <div class="tone-pill-desc">Talking to camera, real moments, behind-the-scenes feel</div>
                         </div>
                     </div>
                 </div>
@@ -2069,11 +2065,21 @@
             });
         });
 
-        // Photo selection
-        document.querySelectorAll('.photo-item').forEach(item => {
-            item.addEventListener('click', () => {
-                item.classList.toggle('selected');
-            });
+        // Bulk photo upload
+        document.getElementById('bulkUploadZone').addEventListener('click', () => {
+            document.getElementById('bulkPhotoInput').click();
+        });
+        document.getElementById('bulkPhotoInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const counter = document.getElementById('uploadCounter');
+                document.getElementById('photoCount').textContent = e.target.files.length;
+                counter.style.display = 'block';
+                document.getElementById('bulkUploadZone').innerHTML = `
+                    <div style="font-size:2rem; margin-bottom:0.5rem;">✅</div>
+                    <div class="upload-text" style="font-size:0.95rem;">${e.target.files.length} photos selected</div>
+                    <div class="upload-subtext">Click to add more</div>
+                `;
+            }
         });
 
         // Zip code chip functionality
