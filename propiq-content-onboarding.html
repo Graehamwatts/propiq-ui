@@ -1597,15 +1597,16 @@
         <!-- STEP 1: ACCOUNT SETUP -->
         <div class="step active" data-step="0">
             <div class="step-header">
-                <span class="step-label">Step 01</span>
-                <h1 class="step-title">Set Up Your Account</h1>
-                <p class="step-subtitle">Let's start with your market location and basic info</p>
+                <span class="step-label">Step 01 of 04</span>
+                <h1 class="step-title">Welcome to Your Content Engine</h1>
+                <p class="step-subtitle">We're going to build you a personalized content machine — social posts, market videos, and listing content, all written in your voice and branded to you. This takes about 3 minutes.</p>
             </div>
 
             <div class="step-content">
                 <div class="form-group">
                     <label class="form-label">Full Name</label>
-                    <input type="text" class="form-input" placeholder="Your full name" id="fullName">
+                    <input type="text" class="form-input" placeholder="As you'd like it on your content" id="fullName">
+                    <p style="font-size:0.72rem; color:var(--faint); margin-top:5px;">This is how your name appears on every piece of content we create for you</p>
                 </div>
 
                 <div class="form-group">
@@ -1613,19 +1614,21 @@
                     <input type="email" class="form-input" placeholder="your@email.com" id="email">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Brokerage Name</label>
-                    <input type="text" class="form-input" placeholder="Your brokerage" id="brokerageName">
+                <div style="display:flex; gap:1rem;">
+                    <div class="form-group" style="flex:2;">
+                        <label class="form-label">Brokerage</label>
+                        <input type="text" class="form-input" placeholder="e.g., Intero Real Estate" id="brokerageName">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">License #</label>
+                        <input type="text" class="form-input" placeholder="DRE #" id="licenseNum">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">License #</label>
-                    <input type="text" class="form-input" placeholder="Your license number" id="licenseNum" style="max-width: 300px;">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Market Location</label>
-                    <input type="text" class="form-input" placeholder="City, State or ZIP code" id="location">
+                    <label class="form-label">Where Do You Farm?</label>
+                    <input type="text" class="form-input" placeholder="Enter ZIP codes for your market areas" id="location">
+                    <p style="font-size:0.72rem; color:var(--faint); margin-top:5px;">Add the ZIP codes where you do most of your business — we'll tailor your content to these neighborhoods</p>
                     <div class="chip-group" id="zipChips">
                         <div class="chip selected">95014 <span class="chip-remove">×</span></div>
                         <div class="chip selected">95070 <span class="chip-remove">×</span></div>
@@ -1634,7 +1637,7 @@
 
                 <div class="market-hint">
                     <span class="pulse-dot"></span>
-                    <span>Analyzing your market...</span>
+                    <span>We'll pull local market data, school info, and neighborhood stats for these areas</span>
                 </div>
             </div>
 
@@ -1646,26 +1649,28 @@
         <!-- STEP 2: BRAND ASSETS -->
         <div class="step" data-step="1">
             <div class="step-header">
-                <span class="step-label">Step 02</span>
-                <h1 class="step-title">Your Brand</h1>
-                <p class="step-subtitle">Upload your brand essentials</p>
+                <span class="step-label">Step 02 of 04</span>
+                <h1 class="step-title">Make It Yours</h1>
+                <p class="step-subtitle">Every piece of content we generate will carry your branding — your colors, your logo, your face. This is how we make sure nothing looks generic.</p>
             </div>
 
             <div class="step-content">
                 <!-- VISUAL IDENTITY SECTION -->
+                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Do you want content branded to your brokerage, your own personal brand, or a mix of both? Most top producers use "Both" — brokerage branding on compliance materials, personal brand on social.</p>
+
                 <!-- Brand Type Toggle -->
                 <div class="brand-toggle">
                     <div class="brand-pill" onclick="selectBrandType('brokerage')">
                         <div class="brand-pill-title">Brokerage Brand</div>
-                        <div class="brand-pill-desc">Use your brokerage's official colors and logo</div>
+                        <div class="brand-pill-desc">We'll pull your brokerage's official colors and logo</div>
                     </div>
                     <div class="brand-pill" onclick="selectBrandType('personal')">
-                        <div class="brand-pill-title">Personal Brand</div>
-                        <div class="brand-pill-desc">Use your own custom branding</div>
+                        <div class="brand-pill-title">My Own Brand</div>
+                        <div class="brand-pill-desc">Upload your logo — we'll extract your colors from it</div>
                     </div>
                     <div class="brand-pill" onclick="selectBrandType('both')">
                         <div class="brand-pill-title">Both</div>
-                        <div class="brand-pill-desc">We'll use both for different content types</div>
+                        <div class="brand-pill-desc">Brokerage for compliance, personal for social media</div>
                     </div>
                 </div>
 
@@ -1731,6 +1736,7 @@
                 <!-- Headshot -->
                 <div class="form-group">
                     <label class="form-label">Your Headshot</label>
+                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">This goes on every post, video thumbnail, and email we generate. Use a professional headshot — it builds trust fast.</p>
                     <div style="text-align: center;">
                         <div class="profile-circle empty" id="profileCircle">👤</div>
                         <button class="btn-rerecord" onclick="document.getElementById('headshotInput').click()">Upload Photo</button>
@@ -1756,9 +1762,11 @@
                 </div>
 
                 <!-- BRAND VOICE SECTION -->
+                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">This is the secret sauce. Pick the tone that sounds most like you — we'll write all your captions, scripts, and market updates in this style. You can always adjust it later.</p>
+
                 <!-- Tone Selector -->
                 <div class="form-group">
-                    <label class="form-label">Communication Tone</label>
+                    <label class="form-label">How Do You Talk to Clients?</label>
                     <div class="tone-grid">
                         <div class="tone-pill" onclick="selectTone(this)" data-tone="luxury">
                             <div class="tone-pill-title">Luxury & Refined</div>
@@ -1802,52 +1810,62 @@
         <!-- STEP 3: CONTENT ASSETS -->
         <div class="step" data-step="2">
             <div class="step-header">
-                <span class="step-label">Step 03</span>
-                <h1 class="step-title">Your Content</h1>
-                <p class="step-subtitle">Photos, video, and prompts</p>
+                <span class="step-label">Step 03 of 04</span>
+                <h1 class="step-title">Feed the Machine</h1>
+                <p class="step-subtitle">The more photos you give us, the better your content looks. We'll use these to create social posts, video backgrounds, listing promos, and market updates — all without stock photos.</p>
             </div>
 
             <div class="step-content">
                 <!-- Photo Grid -->
                 <div class="form-group">
-                    <label class="form-label">Market Photos</label>
+                    <label class="form-label">Upload Photos by Category</label>
+                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">Tap any category to upload 3-10 photos. Don't have all of these? No problem — upload what you have now and add more anytime from your dashboard.</p>
                     <div class="photo-grid" id="photoGrid">
                         <div class="photo-item" data-photo="0">
                             <div class="photo-placeholder">+</div>
                             <div class="photo-category">Listings</div>
+                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Active or recent properties</div>
                         </div>
                         <div class="photo-item" data-photo="1">
                             <div class="photo-placeholder">+</div>
                             <div class="photo-category">Neighborhoods</div>
+                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Streets, parks, local spots</div>
                         </div>
                         <div class="photo-item" data-photo="2">
                             <div class="photo-placeholder">+</div>
                             <div class="photo-category">Lifestyle</div>
+                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Coffee shops, trails, events</div>
                         </div>
                         <div class="photo-item" data-photo="3">
                             <div class="photo-placeholder">+</div>
                             <div class="photo-category">Sold Results</div>
+                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Sold signs, happy closings</div>
                         </div>
                         <div class="photo-item" data-photo="4">
                             <div class="photo-placeholder">+</div>
                             <div class="photo-category">Testimonials</div>
+                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Client photos with permission</div>
                         </div>
                         <div class="photo-item" data-photo="5">
                             <div class="photo-placeholder">+</div>
-                            <div class="photo-category">Events</div>
+                            <div class="photo-category">You at Work</div>
+                            <div style="font-size:0.65rem; color:var(--faint); padding:2px 6px;">Open houses, showings, team</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Reference Examples -->
+                <!-- Video Style Reference -->
                 <div class="reference-section">
-                    <span class="reference-title">Reference Examples</span>
+                    <span class="reference-title">What Style of Video Do You Like?</span>
+                    <p style="font-size:0.8rem; color:var(--faint); margin:0.5rem 0 1rem;">Pick the style closest to what you want. We'll generate your videos to match this feel.</p>
                     <div class="reference-grid">
                         <div class="reference-card">
-                            <span class="reference-label">Video Style 1</span>
+                            <span class="reference-label">Cinematic & Polished</span>
+                            <span style="font-size:0.65rem; color:var(--faint); margin-top:4px;">Drone shots, slow pans, music</span>
                         </div>
                         <div class="reference-card">
-                            <span class="reference-label">Video Style 2</span>
+                            <span class="reference-label">Casual & Authentic</span>
+                            <span style="font-size:0.65rem; color:var(--faint); margin-top:4px;">Talking to camera, real and raw</span>
                         </div>
                     </div>
                 </div>
@@ -1862,9 +1880,9 @@
         <!-- STEP 4: INTEGRATION CHECK -->
         <div class="step" data-step="3">
             <div class="step-header">
-                <span class="step-label">Step 04</span>
-                <h1 class="step-title">Integration Check</h1>
-                <p class="step-subtitle">Connect your content production tools</p>
+                <span class="step-label">Step 04 of 04 — Almost done!</span>
+                <h1 class="step-title">Power Up Your Engine</h1>
+                <p class="step-subtitle">These optional connections let us do more for you — AI-generated videos with your face, voiceovers that sound like you, and auto-posting to your social accounts. None of these are required to get started.</p>
             </div>
 
             <div class="step-content">
@@ -1872,8 +1890,8 @@
                 <div class="integration-card">
                     <div class="integration-icon">🎬</div>
                     <div class="integration-info">
-                        <div class="integration-name">HeyGen</div>
-                        <div class="integration-desc">AI Video Avatars</div>
+                        <div class="integration-name">HeyGen — AI Video</div>
+                        <div class="integration-desc">Creates videos with a digital avatar that looks and talks like you. No filming required.</div>
                     </div>
                     <div class="integration-toggle">
                         <input type="checkbox" id="heygenToggle" onchange="toggleIntegration('heygen')">
@@ -1890,8 +1908,8 @@
                 <div class="integration-card">
                     <div class="integration-icon">🎙️</div>
                     <div class="integration-info">
-                        <div class="integration-name">ElevenLabs</div>
-                        <div class="integration-desc">AI Voice Clone</div>
+                        <div class="integration-name">ElevenLabs — AI Voice</div>
+                        <div class="integration-desc">Clones your voice so we can add narration to videos and market updates that actually sounds like you.</div>
                     </div>
                     <div class="integration-toggle">
                         <input type="checkbox" id="elevenToggle" onchange="toggleIntegration('eleven')">
@@ -1910,7 +1928,7 @@
                         <div style="font-size: 1.2rem;">📱</div>
                         <div>
                             <div class="integration-name">Social Accounts</div>
-                            <div class="integration-desc">Connect your social media platforms</div>
+                            <div class="integration-desc">Connect these so we can post directly for you — or skip and copy/paste from your dashboard.</div>
                         </div>
                     </div>
                     <div class="social-connect-grid">
@@ -1923,7 +1941,7 @@
 
                 <!-- Reassurance Message -->
                 <div class="reassurance-message">
-                    You can always configure these later in Settings
+                    Don't have these yet? No worries — you can set all of this up later in Settings. Your content engine works without any of them.
                 </div>
             </div>
 
