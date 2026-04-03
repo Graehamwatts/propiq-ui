@@ -37,17 +37,8 @@
             --plum-glow: rgba(120, 80, 160, 0.08);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -57,7 +48,6 @@
             position: relative;
         }
 
-        /* Ambient grain texture overlay */
         body::after {
             content: '';
             position: fixed;
@@ -71,190 +61,39 @@
         /* ============================================================
            ANIMATED BACKGROUND ORBS
            ============================================================ */
-        .orb-container {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }
+        .orb-container { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; will-change: transform; }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(181,162,100,0.25) 0%, transparent 70%); top: -10%; right: -5%; animation: float1 20s ease-in-out infinite; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(120,80,160,0.2) 0%, transparent 70%); bottom: -5%; left: -8%; animation: float2 25s ease-in-out infinite; }
+        .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(181,162,100,0.15) 0%, transparent 70%); top: 40%; left: 50%; animation: float3 22s ease-in-out infinite; }
+        .orb-4 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(100,70,140,0.18) 0%, transparent 70%); top: 20%; right: 20%; animation: float4 28s ease-in-out infinite; }
 
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            will-change: transform;
-        }
+        @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(-40px,60px) scale(1.05)} 50%{transform:translate(-80px,30px) scale(0.95)} 75%{transform:translate(-20px,-40px) scale(1.02)} }
+        @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(50px,-30px) scale(1.08)} 50%{transform:translate(30px,-70px) scale(0.96)} 75%{transform:translate(70px,-20px) scale(1.03)} }
+        @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.06)} 66%{transform:translate(40px,-50px) scale(0.94)} }
+        @keyframes float4 { 0%,100%{transform:translate(0,0) scale(1)} 20%{transform:translate(30px,50px) scale(1.04)} 40%{transform:translate(-40px,20px) scale(0.97)} 60%{transform:translate(-20px,-60px) scale(1.06)} 80%{transform:translate(50px,-30px) scale(0.98)} }
 
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(181, 162, 100, 0.25) 0%, transparent 70%);
-            top: -10%;
-            right: -5%;
-            animation: float1 20s ease-in-out infinite;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(120, 80, 160, 0.2) 0%, transparent 70%);
-            bottom: -5%;
-            left: -8%;
-            animation: float2 25s ease-in-out infinite;
-        }
-
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(181, 162, 100, 0.15) 0%, transparent 70%);
-            top: 40%;
-            left: 50%;
-            animation: float3 22s ease-in-out infinite;
-        }
-
-        .orb-4 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(100, 70, 140, 0.18) 0%, transparent 70%);
-            top: 20%;
-            right: 20%;
-            animation: float4 28s ease-in-out infinite;
-        }
-
-        @keyframes float1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(-40px, 60px) scale(1.05); }
-            50% { transform: translate(-80px, 30px) scale(0.95); }
-            75% { transform: translate(-20px, -40px) scale(1.02); }
-        }
-
-        @keyframes float2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -30px) scale(1.08); }
-            50% { transform: translate(30px, -70px) scale(0.96); }
-            75% { transform: translate(70px, -20px) scale(1.03); }
-        }
-
-        @keyframes float3 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-60px, 40px) scale(1.06); }
-            66% { transform: translate(40px, -50px) scale(0.94); }
-        }
-
-        @keyframes float4 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            20% { transform: translate(30px, 50px) scale(1.04); }
-            40% { transform: translate(-40px, 20px) scale(0.97); }
-            60% { transform: translate(-20px, -60px) scale(1.06); }
-            80% { transform: translate(50px, -30px) scale(0.98); }
-        }
-
-        /* ============================================================
         /* ============================================================
            TOP NAVIGATION BAR
            ============================================================ */
-        .topnav {
-            height: 52px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--gold-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-
-        .topnav-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .topnav-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--ink);
-            letter-spacing: -0.5px;
-        }
-
-        .topnav-logo span {
-            color: var(--gold);
-        }
-
-        .topnav-divider {
-            width: 1px;
-            height: 20px;
-            background: var(--border2);
-        }
-
-        .topnav-section {
-            font-size: 0.8rem;
-            color: var(--muted);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .topnav-tabs {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            height: 100%;
-        }
-
-        .topnav-tab {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding: 0 1.1rem;
-            font-size: 0.8rem;
-            color: var(--muted);
-            text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
-            letter-spacing: 0.02em;
-        }
-
-        .topnav-tab:hover {
-            color: var(--ink);
-        }
-
-        .topnav-tab.active {
-            color: var(--gold);
-            border-bottom-color: var(--gold);
-        }
-
-        .topnav-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .topnav-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--surface3);
-            border: 1px solid var(--gold-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--gold);
-            letter-spacing: 0.05em;
-        }
+        .topnav { height: 52px; background: var(--surface); border-bottom: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 200; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .topnav-left { display: flex; align-items: center; gap: 1rem; }
+        .topnav-logo { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; }
+        .topnav-logo span { color: var(--gold); }
+        .topnav-divider { width: 1px; height: 20px; background: var(--border2); }
+        .topnav-section { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+        .topnav-tabs { display: flex; align-items: center; gap: 0; height: 100%; }
+        .topnav-tab { height: 100%; display: flex; align-items: center; padding: 0 1.1rem; font-size: 0.8rem; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.2s ease; letter-spacing: 0.02em; }
+        .topnav-tab:hover { color: var(--ink); }
+        .topnav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+        .topnav-right { display: flex; align-items: center; }
+        .topnav-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--surface3); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; color: var(--gold); letter-spacing: 0.05em; }
 
         /* ============================================================
            WIZARD CONTAINER
            ============================================================ */
         .wizard-container {
-            max-width: 680px;
+            max-width: 720px;
             margin: 0 auto;
             padding: 2.5rem 2rem 3rem;
             position: relative;
@@ -264,95 +103,26 @@
         /* ============================================================
            PROGRESS INDICATOR
            ============================================================ */
-        .progress-section {
-            margin-bottom: 2rem;
-        }
-
-        .progress-bar-container {
-            position: relative;
-            height: 2px;
-            background: var(--surface3);
-            border-radius: 1px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
-            border-radius: 1px;
-            width: 25%;
-            transition: width 0.8s cubic-bezier(0.23, 1, 0.320, 1);
-        }
-
-        .progress-dots {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .progress-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--surface3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .progress-dot.active {
-            background: var(--gold);
-            box-shadow: 0 0 12px rgba(181,162,100,0.4);
-        }
-
-        .progress-dot.completed {
-            background: var(--gold);
-        }
+        .progress-section { margin-bottom: 2rem; }
+        .progress-bar-container { position: relative; height: 2px; background: var(--surface3); border-radius: 1px; margin-bottom: 2rem; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%); border-radius: 1px; width: 16.6%; transition: width 0.8s cubic-bezier(0.23, 1, 0.320, 1); }
+        .progress-dots { display: flex; justify-content: space-between; gap: 1rem; }
+        .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--surface3); cursor: pointer; transition: all 0.3s ease; }
+        .progress-dot.active { background: var(--gold); box-shadow: 0 0 12px rgba(181,162,100,0.4); }
+        .progress-dot.completed { background: var(--gold); }
 
         /* ============================================================
-           STEP CARD STYLING
+           STEP STYLING
            ============================================================ */
-        .step {
-            display: none;
-        }
+        .step { display: none; }
+        .step.active { display: block; }
 
-        .step.active {
-            display: block;
-        }
+        .step-header { margin-bottom: 2.5rem; }
+        .step-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 1.2rem; display: block; }
+        .step-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+        .step-subtitle { font-size: 0.95rem; color: var(--muted); font-weight: 300; line-height: 1.7; }
 
-        .step.exit-left {
-            display: none;
-        }
-        .step-header {
-            margin-bottom: 2.5rem;
-        }
-
-        .step-label {
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 500;
-            margin-bottom: 1.2rem;
-            display: block;
-        }
-
-        .step-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .step-subtitle {
-            font-size: 0.95rem;
-            color: var(--muted);
-            font-weight: 300;
-        }
-
-                .step-content {
+        .step-content {
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border2);
             border-radius: 16px;
@@ -361,313 +131,126 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
+        .step-content + .step-content { margin-top: 1.5rem; }
+
         /* ============================================================
            FORM ELEMENTS
            ============================================================ */
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--gold);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
+        .form-group { margin-bottom: 1.8rem; }
+        .form-group:last-child { margin-bottom: 0; }
+        .form-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 8px; font-weight: 500; }
+        .form-hint { font-size: 0.8rem; color: var(--faint); margin-top: 6px; line-height: 1.5; }
 
         .form-input {
+            width: 100%; height: 48px; padding: 12px 16px;
+            background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px;
+            color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .form-input::placeholder { color: var(--faint); }
+        .form-input:focus { outline: none; border-color: var(--gold); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 3px rgba(181,162,100,0.1); }
+
+        textarea.form-input { height: auto; min-height: 80px; resize: vertical; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        /* Big prompt input (Step 2) */
+        .prompt-input {
             width: 100%;
-            height: 48px;
-            padding: 12px 16px;
+            min-height: 120px;
+            padding: 1.5rem;
             background: var(--surface2);
             border: 1px solid var(--border2);
-            border-radius: 8px;
+            border-radius: 12px;
             color: var(--ink);
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            resize: vertical;
             transition: all 0.3s ease;
         }
+        .prompt-input::placeholder { color: var(--faint); font-size: 1rem; }
+        .prompt-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(181,162,100,0.1), 0 4px 20px rgba(0,0,0,0.3); }
 
-        .form-input::placeholder {
-            color: var(--faint);
-        }
+        /* Chips */
+        .chip-group { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; }
+        .chip { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1rem; background: rgba(181,162,100,0.08); border: 1px solid var(--gold-border); border-radius: 20px; color: var(--ink); font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; }
+        .chip:hover { background: rgba(181,162,100,0.12); border-color: rgba(181,162,100,0.3); }
+        .chip-remove { font-size: 0.8rem; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+        .chip-remove:hover { opacity: 1; }
 
-        .form-input:focus {
-            outline: none;
-            border-color: var(--gold);
-            background: var(--surface2);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 3px rgba(181,162,100,0.1);
-            position: relative;
-        }
-
-        .form-input::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gold);
-            opacity: 0;
-            animation: slideInUnderline 0.3s ease;
-        }
-
-        /* Zip code chips */
-        .chip-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1rem;
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.6rem 1rem;
-            background: rgba(181,162,100,0.08);
-            border: 1px solid var(--gold-border);
-            border-radius: 20px;
-            color: var(--ink);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chip:hover {
-            background: rgba(181,162,100,0.12);
-            border-color: rgba(181,162,100,0.3);
-        }
-
-        .chip.selected {
-            background: rgba(181,162,100,0.2);
-            border-color: var(--gold);
-        }
-
-        .chip-remove {
-            font-size: 0.8rem;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .chip-remove:hover {
-            opacity: 1;
-        }
-
-        /* Market analyzing animation */
-        .market-hint {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 0.85rem;
-            color: var(--muted);
-            margin-top: 1.5rem;
-            font-style: italic;
-            padding: 1rem;
-            background: rgba(181,162,100,0.04);
-            border-radius: 8px;
-            border-left: 2px solid var(--gold);
-        }
-
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gold);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        @keyframes slideInUnderline {
-            from { width: 0; }
-            to { width: 100%; }
-        }
+        /* Market hint */
+        .market-hint { display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; color: var(--muted); margin-top: 1.5rem; font-style: italic; padding: 1rem; background: rgba(181,162,100,0.04); border-radius: 8px; border-left: 2px solid var(--gold); }
+        .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
         /* ============================================================
-           UPLOAD ZONES
+           SLIDER (Buyer/Seller Split)
            ============================================================ */
-        .upload-zone {
-            border: 2px dashed var(--gold-border);
-            border-radius: 12px;
-            padding: 3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(181,162,100,0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
+        .slider-container { margin: 1.5rem 0; }
+        .slider-labels { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .slider-label-text { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+        .slider-label-text span { color: var(--gold); font-weight: 600; }
 
-        .upload-zone:hover {
-            border-color: var(--gold);
-            background: rgba(181,162,100,0.06);
-        }
-
-        .upload-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .upload-zone:hover .upload-icon {
-            opacity: 1;
-        }
-
-        .upload-text {
-            font-size: 0.95rem;
-            color: var(--muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-subtext {
-            font-size: 0.8rem;
-            color: var(--faint);
-        }
-
-        /* ============================================================
-           PROFILE CIRCLE WITH BORDER
-           ============================================================ */
-        .profile-circle {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            border: 3px solid var(--gold);
-            background: var(--surface3);
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .profile-circle:hover {
-            box-shadow: 0 0 24px rgba(181,162,100,0.2);
-        }
-
-        .profile-circle::after {
-            content: '📷';
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 10;
-        }
-
-        .profile-circle:hover::after {
-            opacity: 1;
-        }
-
-        .profile-circle.empty {
-            color: var(--muted);
-            font-size: 3rem;
-        }
-
-        .profile-circle img {
+        .split-slider {
+            -webkit-appearance: none;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ============================================================
-           COLOR PALETTE
-           ============================================================ */
-        .color-palette {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .color-swatch {
-            position: relative;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold) var(--val, 50%), var(--surface3) var(--val, 50%), var(--surface3) 100%);
+            outline: none;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
-
-        .color-swatch-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .color-swatch.selected .color-swatch-circle {
-            border-color: var(--gold);
-            box-shadow: 0 0 16px rgba(181,162,100,0.3);
-            transform: scale(1.1);
-        }
-
-        /* ============================================================
-           BRAND TYPE TOGGLE
-           ============================================================ */
-        .brand-toggle {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .brand-pill {
-            flex: 1;
-            min-width: 150px;
-            padding: 1rem;
-            text-align: center;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border2);
-            border-radius: 12px;
+        .split-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--gold);
+            border: 3px solid var(--bg);
+            box-shadow: 0 0 10px rgba(181,162,100,0.4);
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            transition: box-shadow 0.2s;
         }
-
-        .brand-pill:hover {
-            border-color: var(--gold-border);
-            background: rgba(181,162,100,0.04);
-        }
-
-        .brand-pill.active {
-            border-color: var(--gold);
-            background: rgba(181,162,100,0.08);
-            box-shadow: 0 0 20px rgba(181,162,100,0.1);
-        }
-
-        .brand-pill-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 4px;
-        }
-
-        .brand-pill-desc {
-            font-size: 0.75rem;
-            color: var(--faint);
-            line-height: 1.3;
+        .split-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 18px rgba(181,162,100,0.6); }
+        .split-slider::-moz-range-thumb {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--gold); border: 3px solid var(--bg);
+            box-shadow: 0 0 10px rgba(181,162,100,0.4);
+            cursor: pointer;
         }
 
         /* ============================================================
-           TONE SELECTOR
+           EXAMPLE CHIPS (Step 2 prompt examples)
            ============================================================ */
-        .tone-grid {
+        .example-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .example-chip {
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--faint);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1.4;
+        }
+        .example-chip:hover {
+            border-color: var(--gold-border);
+            color: var(--muted);
+            background: rgba(181,162,100,0.04);
         }
 
-        .tone-pill {
+        /* ============================================================
+           SELECTABLE PILL GRIDS
+           ============================================================ */
+        .pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+        .pill-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+        .pill-option {
             padding: 1rem;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border2);
@@ -676,491 +259,258 @@
             transition: all 0.3s ease;
             text-align: center;
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
         }
-
-        .tone-pill:hover {
-            border-color: var(--gold-border);
-            background: rgba(181,162,100,0.04);
-        }
-
-        .tone-pill.active {
-            border-color: var(--gold);
-            background: rgba(181,162,100,0.08);
-            box-shadow: 0 0 16px rgba(181,162,100,0.08);
-        }
-
-        .tone-pill-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 3px;
-        }
-
-        .tone-pill-desc {
-            font-size: 0.7rem;
-            color: var(--faint);
-            line-height: 1.3;
-        }
-
-        .voice-preview {
-            background: rgba(181,162,100,0.04);
-            border: 1px solid var(--gold-border);
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin-top: 1rem;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
+        .pill-option:hover { border-color: var(--gold-border); background: rgba(181,162,100,0.04); }
+        .pill-option.active { border-color: var(--gold); background: rgba(181,162,100,0.08); box-shadow: 0 0 16px rgba(181,162,100,0.08); }
+        .pill-title { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+        .pill-desc { font-size: 0.7rem; color: var(--faint); line-height: 1.3; }
 
         /* ============================================================
-           COLOR EXTRACTION
+           UPLOAD ZONE
            ============================================================ */
-        .color-extraction {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(181,162,100,0.04);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
+        .upload-zone {
+            border: 2px dashed var(--gold-border); border-radius: 12px;
+            padding: 3rem 2rem; text-align: center; cursor: pointer;
+            transition: all 0.3s ease; background: rgba(181,162,100,0.02);
         }
-
-        .color-extraction.visible {
-            display: block;
-            animation: fadeUp 0.5s ease;
-        }
-
-        .extracted-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--gold);
-            margin-bottom: 1rem;
-        }
-
-        .extracted-swatches {
-            display: flex;
-            gap: 1.2rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .extracted-swatch {
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .extracted-swatch-circle {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .extracted-swatch-circle:hover {
-            border-color: var(--gold);
-            transform: scale(1.08);
-        }
-
-        .extracted-swatch-circle::after {
-            content: '✏';
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.2s;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-        }
-
-        .extracted-swatch-circle:hover::after {
-            opacity: 1;
-        }
-
-        .extracted-hex {
-            font-size: 10px;
-            font-family: 'SF Mono', monospace;
-            color: var(--faint);
-            margin-top: 6px;
-            letter-spacing: 0.05em;
-        }
-
-        .add-color-btn {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 2px dashed var(--border2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--faint);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            background: transparent;
-        }
-
-        .add-color-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
+        .upload-zone:hover { border-color: var(--gold); background: rgba(181,162,100,0.06); }
+        .upload-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.7; transition: opacity 0.3s; }
+        .upload-zone:hover .upload-icon { opacity: 1; }
+        .upload-text { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; }
+        .upload-subtext { font-size: 0.8rem; color: var(--faint); }
 
         /* ============================================================
-           ANALYZING STATE
+           ANALYSIS RESULTS (Step 4)
            ============================================================ */
-        .analyzing-state {
+        .analysis-loading {
             text-align: center;
-            padding: 2rem 0;
-            display: none;
+            padding: 3rem 2rem;
         }
+        .analysis-loading.hidden { display: none; }
 
-        .analyzing-state.visible {
-            display: block;
-        }
-
-        .analyzing-spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--border);
+        .spinner-ring {
+            width: 60px; height: 60px; margin: 0 auto 1.5rem;
+            border: 3px solid var(--surface3);
             border-top-color: var(--gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .loading-text { font-size: 1rem; color: var(--muted); margin-bottom: 0.5rem; }
+        .loading-subtext { font-size: 0.8rem; color: var(--faint); }
+
+        .analysis-results { display: none; }
+        .analysis-results.visible { display: block; }
+
+        .bucket-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
+        .bucket-card {
+            padding: 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .bucket-card:hover { border-color: var(--gold-border); }
+        .bucket-emoji { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .bucket-name { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+        .bucket-count { font-size: 0.75rem; color: var(--gold); margin-bottom: 4px; }
+        .bucket-desc { font-size: 0.7rem; color: var(--faint); line-height: 1.4; }
 
-        .analyzing-text {
-            font-size: 0.85rem;
-            color: var(--gold);
-            letter-spacing: 0.05em;
+        .insight-card {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: rgba(181,162,100,0.04);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+        .insight-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+        .insight-text { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+        .insight-text strong { color: var(--ink); font-weight: 500; }
+
+        /* Keyword tags */
+        .keyword-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.8rem; }
+        .keyword-tag {
+            padding: 4px 12px;
+            background: rgba(181,162,100,0.06);
+            border: 1px solid var(--gold-border);
+            border-radius: 16px;
+            font-size: 0.72rem;
+            color: var(--muted);
         }
 
         /* ============================================================
-           BROKERAGE SELECT
+           CONTENT CALENDAR PREVIEW (Step 6)
            ============================================================ */
-        .brokerage-select {
-            width: 100%;
-            padding: 12px 16px;
+        .calendar-preview {
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background: rgba(181,162,100,0.06);
+            border-bottom: 1px solid var(--border2);
+        }
+        .calendar-header-cell {
+            padding: 0.6rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            text-align: center;
+            font-weight: 500;
+        }
+        .calendar-week {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-bottom: 1px solid var(--border);
+        }
+        .calendar-week:last-child { border-bottom: none; }
+        .calendar-cell {
+            padding: 0.6rem;
+            min-height: 60px;
+            border-right: 1px solid var(--border);
+        }
+        .calendar-cell:last-child { border-right: none; }
+        .calendar-tag {
+            display: block;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            margin-bottom: 3px;
+            line-height: 1.3;
+            font-weight: 500;
+        }
+        .tag-social { background: rgba(100,150,255,0.15); color: #7FB5FF; }
+        .tag-video { background: rgba(200,100,255,0.15); color: #D4A5FF; }
+        .tag-market { background: rgba(107,158,122,0.15); color: var(--green); }
+        .tag-listing { background: rgba(181,162,100,0.12); color: var(--gold-l); }
+        .tag-lifestyle { background: rgba(255,150,100,0.15); color: #FFB088; }
+
+        /* Min / Recommended toggle */
+        .plan-toggle {
+            display: flex;
             background: var(--surface2);
             border: 1px solid var(--border2);
             border-radius: 8px;
-            color: var(--ink);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            appearance: none;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .plan-toggle-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-align: center;
             cursor: pointer;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238C8C8C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
+        }
+        .plan-toggle-btn.active {
+            background: rgba(181,162,100,0.12);
+            color: var(--gold);
         }
 
-        .brokerage-select:focus {
-            outline: none;
-            border-color: var(--gold);
+        .plan-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
         }
-
-        .brokerage-section {
-            display: none;
-            margin-bottom: 2rem;
-        }
-
-        .brokerage-section.visible {
-            display: block;
-        }
-
-        .logo-upload-section {
-            display: none;
-        }
-
-        .logo-upload-section.visible {
-            display: block;
-        }
+        .plan-stat:last-child { border-bottom: none; }
+        .plan-stat-label { font-size: 0.82rem; color: var(--muted); }
+        .plan-stat-value { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+        .plan-stat-value.gold { color: var(--gold); }
 
         /* ============================================================
-           BRAND PREVIEW
+           PHOTO REQUIREMENTS (Step 5)
            ============================================================ */
-        .brand-preview {
-            margin-top: 2rem;
-            padding: 1.25rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
+        .requirement-list { margin-top: 1rem; }
+        .requirement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .requirement-item:last-child { border-bottom: none; }
+        .req-status { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+        .req-text { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+        .req-text strong { color: var(--ink); font-weight: 500; }
+        .req-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .req-min { background: rgba(192,57,43,0.15); color: #E74C3C; }
+        .req-rec { background: rgba(181,162,100,0.12); color: var(--gold); }
+
+        /* ============================================================
+           SECTION DIVIDER
+           ============================================================ */
+        .section-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 2rem 0;
         }
 
-        .brand-preview-header {
+        .section-label {
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.12em;
-            color: var(--faint);
-            margin-bottom: 1rem;
-        }
-
-        .brand-preview-card {
-            background: var(--surface2);
-            border-radius: 8px;
-            padding: 1rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .brand-preview-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: var(--surface3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: var(--faint);
-        }
-
-        .brand-preview-text .preview-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .brand-preview-text .preview-agent {
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-top: 2px;
-        }
-
-        /* ============================================================
-           PHOTO GRID
-           ============================================================ */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .photo-item {
-            position: relative;
-            aspect-ratio: 4/3;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid var(--border);
-            transition: all 0.3s ease;
-            background: var(--surface3);
-        }
-
-        .photo-item:hover {
-            border-color: var(--gold-border);
-        }
-
-        .photo-item.selected {
-            border-color: var(--gold);
-            box-shadow: 0 0 12px rgba(181,162,100,0.25);
-        }
-
-        .photo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--muted);
-        }
-
-        .photo-category {
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.7);
-            color: var(--ink);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 6px 8px;
-            border-radius: 4px;
-        }
-
-        /* ============================================================
-           INTEGRATION CARDS
-           ============================================================ */
-        .integration-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border2);
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .integration-card:hover {
-            border-color: var(--gold-border);
-        }
-
-        .integration-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: var(--surface3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .integration-info {
-            flex: 1;
-        }
-
-        .integration-name {
-            font-size: 0.9rem;
+            color: var(--gold);
             font-weight: 500;
-            color: var(--ink);
-        }
-
-        .integration-desc {
-            font-size: 0.75rem;
-            color: var(--faint);
-            margin-top: 2px;
-        }
-
-        .integration-toggle {
-            position: relative;
-            width: 44px;
-            height: 24px;
-        }
-
-        .integration-toggle input {
-            display: none;
-        }
-
-        .integration-toggle .toggle-track {
-            width: 44px;
-            height: 24px;
-            border-radius: 12px;
-            background: var(--surface3);
-            border: 1px solid var(--border2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .integration-toggle input:checked + .toggle-track {
-            background: var(--gold);
-            border-color: var(--gold);
-        }
-
-        .toggle-knob {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .integration-toggle input:checked + .toggle-track .toggle-knob {
-            left: 22px;
-        }
-
-        .integration-api-field {
-            display: none;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .integration-api-field.visible {
-            display: block;
+            margin-bottom: 0.8rem;
         }
 
         /* ============================================================
-           SOCIAL ACCOUNTS
-           ============================================================ */
-        .social-platform-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border2);
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .social-connect-grid {
-            display: flex;
-            gap: 8px;
-            margin-top: 0.75rem;
-        }
-
-        .social-connect-btn {
-            flex: 1;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid var(--border2);
-            background: rgba(255,255,255,0.03);
-            color: var(--muted);
-            font-size: 11px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .social-connect-btn:hover {
-            border-color: var(--gold-border);
-            color: var(--ink);
-        }
-
-        /* ============================================================
-           REASSURANCE MESSAGE
-           ============================================================ */
-        .reassurance-message {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(181,162,100,0.04);
-            border-left: 2px solid var(--gold);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-style: italic;
-        }
-
-        /* ============================================================
-           BUTTON STYLING
+           BUTTONS
            ============================================================ */
         .button-row {
             display: flex;
-            gap: 1rem;
             justify-content: center;
-            align-items: center;
+            gap: 1rem;
             margin-top: 2.5rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border);
         }
+
+        .btn-primary {
+            padding: 0.85rem 3rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 100%);
+            border: none;
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover { box-shadow: 0 4px 20px rgba(181,162,100,0.3); transform: translateY(-1px); }
+        .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 200%; height: 100%; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%); animation: shimmer 3s ease-in-out infinite; }
+        @keyframes shimmer { 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
 
         .btn-back {
             background: rgba(255,255,255,0.05);
@@ -1170,1022 +520,751 @@
             border-radius: 8px;
             font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            letter-spacing: 0.04em;
-        }
-        .btn-back:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: var(--gold-border);
-            color: var(--gold-l);
-        }
-
-        .btn-gold {
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 100%);
-            border: none;
-            border-radius: 8px;
-            color: #000;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-            text-transform: uppercase;
-        }
-
-        .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(181,162,100,0.25);
-        }
-
-        .btn-gold:active {
-            transform: translateY(0);
-        }
-
-        .btn-rerecord {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: 1px solid var(--gold);
-            border-radius: 8px;
-            color: var(--gold);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 1.5rem;
+            letter-spacing: 0.03em;
         }
+        .btn-back:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); }
 
-        .btn-rerecord:hover {
-            background: rgba(181,162,100,0.1);
-            box-shadow: 0 0 12px rgba(181,162,100,0.2);
-        }
-
-        /* ============================================================
-           TRANSITION SCREEN
-           ============================================================ */
-        .transition-screen {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(145deg, #12111A 0%, #1A1728 50%, #151320 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.6s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .transition-screen.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .transition-content {
-            text-align: center;
-            max-width: 500px;
-        }
-
-        .transition-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
-        }
-
-        .signature-line {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 0 auto 2rem;
-        }
-
-        .checklist {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .check-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .check-icon.completed {
-            background: rgba(107,158,122,0.2);
-            border: 1px solid var(--green);
-            color: var(--green);
-        }
-
-        .check-icon.in-progress {
-            background: rgba(181,162,100,0.2);
-            border: 1px solid var(--gold);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .check-icon.pending {
-            background: var(--surface3);
-            border: 1px solid var(--border);
-        }
-
-        .checklist-text {
-            font-size: 1rem;
-            color: var(--ink);
-        }
-
-        .transition-subtitle {
-            font-size: 0.95rem;
-            color: var(--muted);
-            font-style: italic;
-        }
-
-        /* ============================================================
-           REFERENCE SECTION
-           ============================================================ */
-        .reference-section {
-            margin-top: 2.5rem;
-            padding-top: 2.5rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .reference-title {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-        }
-
-        .reference-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
-        }
-
-        .reference-card {
-            background: var(--surface3);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.2rem;
-            aspect-ratio: 16/9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .reference-card:hover {
-            border-color: var(--gold-border);
-            transform: scale(1.02);
-        }
-
-        .reference-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--faint);
-        }
-
-        /* ============================================================
-           VIDEO RECORDER
-           ============================================================ */
-        .recorder-section {
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-        }
-
-        .camera-preview {
-            flex: 1;
-        }
-
-        .camera-frame {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            background: var(--surface3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            color: var(--muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .camera-frame.recording {
-            border-color: var(--red);
-            box-shadow: 0 0 16px rgba(192,57,43,0.2);
-        }
-
-        .camera-placeholder {
-            font-size: 3rem;
-        }
-
-        .rec-indicator {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--red);
-            animation: pulse 0.6s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            display: none;
-        }
-
-        .timer {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            font-size: 0.75rem;
-            font-family: 'SF Mono', monospace;
-            color: var(--ink);
-            background: rgba(0,0,0,0.6);
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: none;
-        }
-
-        .recorder-controls {
-            flex: 0 0 200px;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .record-btn {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 2px solid var(--gold);
+        .btn-secondary {
+            padding: 0.75rem 2rem;
             background: transparent;
+            border: 1px solid var(--gold-border);
+            border-radius: 8px;
             color: var(--gold);
             font-family: 'Inter', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 0.82rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
         }
+        .btn-secondary:hover { background: rgba(181,162,100,0.08); border-color: var(--gold); }
 
-        .record-btn:hover {
-            background: rgba(181,162,100,0.1);
-            box-shadow: 0 0 16px rgba(181,162,100,0.2);
-        }
-
-        .record-btn.idle {
-            opacity: 0.6;
-        }
-
-        .hint-text {
-            font-size: 0.8rem;
+        .btn-text {
+            background: none;
+            border: none;
             color: var(--faint);
-            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
+        .btn-text:hover { color: var(--muted); }
 
         /* ============================================================
-           RESPONSIVE DESIGN
+           ANIMATIONS
            ============================================================ */
-        @media (max-width: 768px) {
-            .step-content {
-                padding: 1.5rem;
-            }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        .fade-up { animation: fadeUp 0.5s ease; }
 
-            .step-title {
-                font-size: 2rem;
-            }
-
-            .photo-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .reference-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .button-row {
-                flex-direction: column;
-            }
-
-            .recorder-controls {
-                gap: 1rem;
-            }
-
-            .brand-toggle {
-                flex-direction: column;
-            }
-
-            .brand-pill {
-                min-width: auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .wizard-container {
-                padding: 1.5rem 1rem;
-            }
-
-            .step-title {
-                font-size: 1.5rem;
-            }
-
-            .step-content {
-                padding: 1.2rem;
-                border-radius: 8px;
-            }
-
-            .photo-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .reference-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .color-palette {
-                gap: 1rem;
-            }
-
-            .color-swatch-circle {
-                width: 50px;
-                height: 50px;
-            }
-
-            .extracted-swatches {
-                gap: 0.8rem;
-            }
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 640px) {
+            .wizard-container { padding: 1.5rem 1rem 2rem; }
+            .step-title { font-size: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .bucket-grid { grid-template-columns: 1fr; }
+            .example-grid { grid-template-columns: 1fr; }
+            .pill-grid { grid-template-columns: 1fr; }
+            .calendar-header, .calendar-week { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
 <body>
-    <div class="orb-container" aria-hidden="true">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
+
+<div class="orb-container" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+</div>
+
+<nav class="topnav">
+    <div class="topnav-left">
+        <div class="topnav-logo">Prop<span>IQ</span></div>
+        <div class="topnav-divider"></div>
+        <span class="topnav-section">Content Engine</span>
+    </div>
+    <div class="topnav-tabs">
+        <a class="topnav-tab active" href="propiq-content-onboarding.html">Setup</a>
+        <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
+        <a class="topnav-tab" href="propiq-content-nudge.html">Content</a>
+        <a class="topnav-tab" href="propiq-content-scorecard.html">Scorecard</a>
+    </div>
+    <div class="topnav-right">
+        <div class="topnav-avatar">GW</div>
+    </div>
+</nav>
+
+<div class="wizard-container">
+
+    <!-- Progress -->
+    <div class="progress-section">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-dots">
+            <div class="progress-dot active" data-step="1"></div>
+            <div class="progress-dot" data-step="2"></div>
+            <div class="progress-dot" data-step="3"></div>
+            <div class="progress-dot" data-step="4"></div>
+            <div class="progress-dot" data-step="5"></div>
+            <div class="progress-dot" data-step="6"></div>
+        </div>
     </div>
 
-    <nav class="topnav">
-        <div class="topnav-left">
-            <div class="topnav-logo">Prop<span>IQ</span></div>
-            <div class="topnav-divider"></div>
-            <span class="topnav-section">Content Engine</span>
-        </div>
-        <div class="topnav-tabs">
-            <a class="topnav-tab active" href="propiq-content-onboarding.html">Setup</a>
-            <a class="topnav-tab" href="propiq-content-dashboard.html">Dashboard</a>
-            <a class="topnav-tab" href="propiq-content-nudge.html">Content</a>
-            <a class="topnav-tab" href="propiq-content-scorecard.html">Scorecard</a>
-        </div>
-        <div class="topnav-right">
-            <div class="topnav-avatar">GW</div>
-        </div>
-    </nav>
-
-    <div class="wizard-container">
-        <!-- PROGRESS -->
-        <div class="progress-section">
-            <div class="progress-bar-container">
-                <div class="progress-bar"></div>
-            </div>
-            <div class="progress-dots">
-                <div class="progress-dot active" data-step="0"></div>
-                <div class="progress-dot" data-step="1"></div>
-                <div class="progress-dot" data-step="2"></div>
-                <div class="progress-dot" data-step="3"></div>
-            </div>
+    <!-- ================================================================
+         STEP 1 — REGISTRATION
+         ================================================================ -->
+    <div class="step active" id="step1">
+        <div class="step-header">
+            <span class="step-label">Step 01 of 06</span>
+            <h1 class="step-title">Create Your Account</h1>
+            <p class="step-subtitle">Your content engine starts here. This takes about 5 minutes — at the end, you'll have a personalized content strategy and calendar ready to go.</p>
         </div>
 
-        <!-- STEP 1: ACCOUNT SETUP -->
-        <div class="step active" data-step="0">
-            <div class="step-header">
-                <span class="step-label">Step 01 of 04</span>
-                <h1 class="step-title">Welcome to Your Content Engine</h1>
-                <p class="step-subtitle">We're going to build you a personalized content machine — social posts, market videos, and listing content, all written in your voice and branded to you. This takes about 3 minutes.</p>
+        <div class="step-content">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" placeholder="As you'd like it on your content">
+                <div class="form-hint">This is how your name appears on every piece of content we create for you.</div>
             </div>
 
-            <div class="step-content">
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" placeholder="your@email.com">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Create Password</label>
+                <input type="password" class="form-input" placeholder="Min 8 characters">
+            </div>
+
+            <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-input" placeholder="As you'd like it on your content" id="fullName">
-                    <p style="font-size:0.72rem; color:var(--faint); margin-top:5px;">This is how your name appears on every piece of content we create for you</p>
+                    <label class="form-label">Brokerage</label>
+                    <input type="text" class="form-input" placeholder="e.g., Intero Real Estate">
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" placeholder="your@email.com" id="email">
+                    <label class="form-label">License #</label>
+                    <input type="text" class="form-input" placeholder="DRE #">
                 </div>
+            </div>
+        </div>
 
-                <div style="display:flex; gap:1rem;">
-                    <div class="form-group" style="flex:2;">
-                        <label class="form-label">Brokerage</label>
-                        <input type="text" class="form-input" placeholder="e.g., Intero Real Estate" id="brokerageName">
-                    </div>
-                    <div class="form-group" style="flex:1;">
-                        <label class="form-label">License #</label>
-                        <input type="text" class="form-input" placeholder="DRE #" id="licenseNum">
-                    </div>
+        <div class="button-row">
+            <button class="btn-primary" onclick="goToStep(2)">GET STARTED</button>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         STEP 2 — DEFINE YOUR MARKET
+         ================================================================ -->
+    <div class="step" id="step2">
+        <div class="step-header">
+            <span class="step-label">Step 02 of 06</span>
+            <h1 class="step-title">Define Your Market</h1>
+            <p class="step-subtitle">Tell us who you serve and where. This is the foundation of everything — your content, your strategy, and your search rankings all start here.</p>
+        </div>
+
+        <div class="step-content">
+            <div class="form-group">
+                <label class="form-label">What's your market?</label>
+                <textarea class="prompt-input" id="marketPrompt" placeholder="Describe your target market in your own words..."></textarea>
+                <div class="form-hint">Be as specific or as broad as you want. We'll figure out the rest.</div>
+            </div>
+
+            <div class="example-grid">
+                <div class="example-chip" onclick="fillPrompt(this)">"I'm a luxury listing specialist in Pacific Heights, San Francisco"</div>
+                <div class="example-chip" onclick="fillPrompt(this)">"FSBO specialist targeting homeowners in Asheville, TN"</div>
+                <div class="example-chip" onclick="fillPrompt(this)">"First-time buyers in Silicon Valley — mostly tech workers relocating"</div>
+                <div class="example-chip" onclick="fillPrompt(this)">"Full-service agent covering all of Santa Clara County"</div>
+            </div>
+        </div>
+
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="form-group">
+                <label class="form-label">Target ZIP Codes</label>
+                <input type="text" class="form-input" id="zipInput" placeholder="Enter ZIP codes for your farm areas" onkeydown="handleZipEntry(event)">
+                <div class="form-hint">Press Enter after each ZIP code. We'll pull local market data, schools, and neighborhood stats.</div>
+                <div class="chip-group" id="zipChips">
+                    <div class="chip">95014 <span class="chip-remove" onclick="this.parentElement.remove()">×</span></div>
+                    <div class="chip">95070 <span class="chip-remove" onclick="this.parentElement.remove()">×</span></div>
                 </div>
+            </div>
 
+            <div class="section-divider"></div>
+
+            <div class="form-group">
+                <label class="form-label">Content Focus — Buyers vs. Sellers</label>
+                <div class="form-hint" style="margin-top:0; margin-bottom:12px;">Slide to match your business mix. This shapes the type of content we create for you.</div>
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span class="slider-label-text">Buyers <span id="buyerPct">50%</span></span>
+                        <span class="slider-label-text">Sellers <span id="sellerPct">50%</span></span>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="split-slider" id="splitSlider" oninput="updateSplit(this.value)">
+                </div>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="btn-back" onclick="goToStep(1)">← Back</button>
+            <button class="btn-primary" onclick="goToStep(3)">CONTINUE</button>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         STEP 3 — YOUR DIGITAL FOOTPRINT
+         ================================================================ -->
+    <div class="step" id="step3">
+        <div class="step-header">
+            <span class="step-label">Step 03 of 06</span>
+            <h1 class="step-title">Your Digital Footprint</h1>
+            <p class="step-subtitle">Give us the links to your existing online presence. We'll analyze your current positioning, your competitors, and find the gaps where you can win.</p>
+        </div>
+
+        <div class="step-content">
+            <div class="form-group">
+                <label class="form-label">Your Website</label>
+                <input type="url" class="form-input" placeholder="https://yoursite.com">
+                <div class="form-hint">Your main real estate website — we'll analyze your current brand, listings, and SEO.</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Instagram Handle</label>
+                <input type="text" class="form-input" placeholder="@yourhandle">
+                <div class="form-hint">We'll review your content style, engagement, and posting frequency.</div>
+            </div>
+
+            <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">Where Do You Farm?</label>
-                    <input type="text" class="form-input" placeholder="Enter ZIP codes for your market areas" id="location">
-                    <p style="font-size:0.72rem; color:var(--faint); margin-top:5px;">Add the ZIP codes where you do most of your business — we'll tailor your content to these neighborhoods</p>
-                    <div class="chip-group" id="zipChips">
-                        <div class="chip selected">95014 <span class="chip-remove">×</span></div>
-                        <div class="chip selected">95070 <span class="chip-remove">×</span></div>
+                    <label class="form-label">Facebook Page</label>
+                    <input type="url" class="form-input" placeholder="facebook.com/yourpage">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">YouTube Channel</label>
+                    <input type="url" class="form-input" placeholder="youtube.com/@yourchannel">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Google Business Profile</label>
+                <input type="url" class="form-input" placeholder="Your Google Business listing URL">
+                <div class="form-hint">This helps us analyze your reviews, local SEO ranking, and search visibility.</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Any Other Links</label>
+                <textarea class="form-input" rows="2" placeholder="Zillow profile, Realtor.com, TikTok, LinkedIn, etc."></textarea>
+                <div class="form-hint">The more we know, the better our competitive analysis. But nothing here is required — add what you have.</div>
+            </div>
+        </div>
+
+        <div class="market-hint" style="margin-top:1.5rem;">
+            <div class="pulse-dot"></div>
+            <span>When you click Analyze, we'll scan your market, research your competitors, and build your content strategy. This takes about 30–60 seconds.</span>
+        </div>
+
+        <div class="button-row">
+            <button class="btn-back" onclick="goToStep(2)">← Back</button>
+            <button class="btn-primary" onclick="startAnalysis()">ANALYZE MY MARKET</button>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         STEP 4 — MARKET ANALYSIS RESULTS
+         ================================================================ -->
+    <div class="step" id="step4">
+        <div class="step-header">
+            <span class="step-label">Step 04 of 06</span>
+            <h1 class="step-title">Your Market Intelligence</h1>
+            <p class="step-subtitle">Here's what we found. We've analyzed your market, your competitors, and identified the best content opportunities to make you omnipresent in your area.</p>
+        </div>
+
+        <!-- Loading state -->
+        <div class="analysis-loading" id="analysisLoading">
+            <div class="spinner-ring"></div>
+            <div class="loading-text">Analyzing your market...</div>
+            <div class="loading-subtext" id="loadingStatus">Scanning competitor content in 95014, 95070...</div>
+        </div>
+
+        <!-- Results (shown after loading) -->
+        <div class="analysis-results" id="analysisResults">
+
+            <!-- Key Insights -->
+            <div class="step-content fade-up">
+                <div class="section-label">Key Findings</div>
+                <div class="insight-card">
+                    <span class="insight-icon">🎯</span>
+                    <div class="insight-text"><strong>Low competition in neighborhood guides.</strong> Only 2 of 14 competitors in your ZIP codes are creating local neighborhood content. This is your biggest opportunity.</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-icon">📈</span>
+                    <div class="insight-text"><strong>High search volume for "homes for sale in Cupertino"</strong> — 8,400 monthly searches with weak content from competitors. You can rank for this within 90 days.</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-icon">⚡</span>
+                    <div class="insight-text"><strong>3 competitors using AI-generated content</strong> that could be improved. Their videos get views but have no personal brand — your avatar content will outperform.</div>
+                </div>
+            </div>
+
+            <!-- Content Buckets -->
+            <div class="step-content fade-up" style="margin-top:1.5rem;">
+                <div class="section-label">Content Buckets We've Identified</div>
+                <div class="bucket-grid">
+                    <div class="bucket-card">
+                        <div class="bucket-emoji">🏠</div>
+                        <div class="bucket-name">Real Estate & Listings</div>
+                        <div class="bucket-count">18 content ideas</div>
+                        <div class="bucket-desc">Market updates, listing showcases, price analyses, buyer guides</div>
+                    </div>
+                    <div class="bucket-card">
+                        <div class="bucket-emoji">🌳</div>
+                        <div class="bucket-name">Neighborhood & Lifestyle</div>
+                        <div class="bucket-count">12 content ideas</div>
+                        <div class="bucket-desc">Local guides, restaurant spotlights, school reviews, parks & recreation</div>
+                    </div>
+                    <div class="bucket-card">
+                        <div class="bucket-emoji">📊</div>
+                        <div class="bucket-name">Market Data & Authority</div>
+                        <div class="bucket-count">8 content ideas</div>
+                        <div class="bucket-desc">Monthly market reports, trend analysis, interest rate commentary</div>
+                    </div>
+                    <div class="bucket-card">
+                        <div class="bucket-emoji">🎬</div>
+                        <div class="bucket-name">Video & Personal Brand</div>
+                        <div class="bucket-count">10 content ideas</div>
+                        <div class="bucket-desc">Talking head tips, property tours, client testimonials, behind-the-scenes</div>
+                    </div>
+                    <div class="bucket-card">
+                        <div class="bucket-emoji">🔑</div>
+                        <div class="bucket-name">Seller-Focused</div>
+                        <div class="bucket-count">9 content ideas</div>
+                        <div class="bucket-desc">Home prep tips, pricing strategy, FSBO outreach, staging advice</div>
+                    </div>
+                    <div class="bucket-card">
+                        <div class="bucket-emoji">💡</div>
+                        <div class="bucket-name">Low-Hanging Fruit</div>
+                        <div class="bucket-count">6 content ideas</div>
+                        <div class="bucket-desc">Competitor content gaps, high-volume/low-competition keywords to target now</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="market-hint">
-                    <span class="pulse-dot"></span>
-                    <span>We'll pull local market data, school info, and neighborhood stats for these areas</span>
+            <!-- Target Keywords -->
+            <div class="step-content fade-up" style="margin-top:1.5rem;">
+                <div class="section-label">Priority Keywords</div>
+                <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">These are the search terms with the best opportunity based on volume, competition, and your market position.</p>
+                <div class="keyword-tags">
+                    <span class="keyword-tag">homes for sale in cupertino</span>
+                    <span class="keyword-tag">cupertino real estate agent</span>
+                    <span class="keyword-tag">best neighborhoods saratoga</span>
+                    <span class="keyword-tag">silicon valley housing market 2026</span>
+                    <span class="keyword-tag">selling a home in 95014</span>
+                    <span class="keyword-tag">cupertino school ratings</span>
+                    <span class="keyword-tag">sunnyvale vs cupertino</span>
+                    <span class="keyword-tag">home value cupertino</span>
                 </div>
             </div>
 
             <div class="button-row">
-                <button class="btn-gold" onclick="nextStep()">Continue</button>
-            </div>
-        </div>
-
-        <!-- STEP 2: BRAND ASSETS -->
-        <div class="step" data-step="1">
-            <div class="step-header">
-                <span class="step-label">Step 02 of 04</span>
-                <h1 class="step-title">Make It Yours</h1>
-                <p class="step-subtitle">Every piece of content we generate will carry your branding — your colors, your logo, your face. This is how we make sure nothing looks generic.</p>
-            </div>
-
-            <div class="step-content">
-                <!-- VISUAL IDENTITY SECTION -->
-                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Do you want content branded to your brokerage, your own personal brand, or a mix of both? Most top producers use "Both" — brokerage branding on compliance materials, personal brand on social.</p>
-
-                <!-- Brand Type Toggle -->
-                <div class="brand-toggle">
-                    <div class="brand-pill" onclick="selectBrandType('brokerage')">
-                        <div class="brand-pill-title">Brokerage Brand</div>
-                        <div class="brand-pill-desc">We'll pull your brokerage's official colors and logo</div>
-                    </div>
-                    <div class="brand-pill" onclick="selectBrandType('personal')">
-                        <div class="brand-pill-title">My Own Brand</div>
-                        <div class="brand-pill-desc">Upload your logo — we'll extract your colors from it</div>
-                    </div>
-                    <div class="brand-pill" onclick="selectBrandType('both')">
-                        <div class="brand-pill-title">Both</div>
-                        <div class="brand-pill-desc">Brokerage for compliance, personal for social media</div>
-                    </div>
-                </div>
-
-                <!-- Brokerage Dropdown -->
-                <div class="brokerage-section" id="brokerageSection">
-                    <div class="form-group">
-                        <label class="form-label">Select Your Brokerage</label>
-                        <select class="brokerage-select" id="brokerageSelect">
-                            <option value="">Choose a brokerage...</option>
-                            <option value="intero">Intero Real Estate</option>
-                            <option value="compass">Compass</option>
-                            <option value="kw">Keller Williams</option>
-                            <option value="c21">Century 21</option>
-                            <option value="remax">RE/MAX</option>
-                            <option value="exp">eXp Realty</option>
-                            <option value="cb">Coldwell Banker</option>
-                            <option value="sothebys">Sotheby's International</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Logo Upload -->
-                <div class="logo-upload-section" id="logoUploadSection">
-                    <div class="form-group">
-                        <label class="form-label">Logo</label>
-                        <div class="upload-zone" onclick="document.getElementById('logoInput').click()">
-                            <div class="upload-icon">🎨</div>
-                            <div class="upload-text">Drag your logo or click to upload</div>
-                            <div class="upload-subtext">PNG, JPG, or SVG • Max 5MB</div>
-                            <input type="file" id="logoInput" style="display: none;" accept="image/*">
-                        </div>
-                    </div>
-
-                    <!-- Analyzing State -->
-                    <div class="analyzing-state" id="analyzingState">
-                        <div class="analyzing-spinner"></div>
-                        <div class="analyzing-text">Extracting brand colors...</div>
-                    </div>
-
-                    <!-- Color Extraction -->
-                    <div class="color-extraction" id="colorExtraction">
-                        <div class="extracted-label">Detected Colors</div>
-                        <div class="extracted-swatches" id="extractedSwatches">
-                            <div class="extracted-swatch">
-                                <div class="extracted-swatch-circle" style="background: #2E5C8A;"></div>
-                                <div class="extracted-hex">#2E5C8A</div>
-                            </div>
-                            <div class="extracted-swatch">
-                                <div class="extracted-swatch-circle" style="background: #D4AF37;"></div>
-                                <div class="extracted-hex">#D4AF37</div>
-                            </div>
-                            <div class="extracted-swatch">
-                                <div class="extracted-swatch-circle" style="background: #8B4513;"></div>
-                                <div class="extracted-hex">#8B4513</div>
-                            </div>
-                            <button class="add-color-btn" onclick="addColorSwatch()">+</button>
-                        </div>
-                        <p style="font-size: 0.8rem; color: var(--faint); margin-top: 1rem;">We extracted these from your logo. Adjust any that don't look right.</p>
-                    </div>
-                </div>
-
-                <!-- Headshot -->
-                <div class="form-group">
-                    <label class="form-label">Your Headshot</label>
-                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">This goes on every post, video thumbnail, and email we generate. Use a professional headshot — it builds trust fast.</p>
-                    <div style="text-align: center;">
-                        <div class="profile-circle empty" id="profileCircle">👤</div>
-                        <button class="btn-rerecord" onclick="document.getElementById('headshotInput').click()">Upload Photo</button>
-                        <input type="file" id="headshotInput" style="display: none;" accept="image/*">
-                    </div>
-                </div>
-
-                <!-- Brand Preview -->
-                <div class="brand-preview" id="brandPreview" style="display: none;">
-                    <div class="brand-preview-header">Brand Preview</div>
-                    <div class="brand-preview-card">
-                        <div class="brand-preview-logo">Logo</div>
-                        <div class="brand-preview-text">
-                            <div class="preview-title" id="previewTitle">Just Listed</div>
-                            <div class="preview-agent" id="previewAgent">Your agent name</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section divider -->
-                <div style="border-top:1px solid var(--border2); margin:2.5rem 0; position:relative;">
-                    <span style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--bg); padding:0 1rem; font-size:11px; text-transform:uppercase; letter-spacing:0.15em; color:var(--gold);">Brand Voice</span>
-                </div>
-
-                <!-- BRAND VOICE SECTION -->
-                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">This is the secret sauce. Pick the tone that sounds most like you — we'll write all your captions, scripts, and market updates in this style. You can always adjust it later.</p>
-
-                <!-- Tone Selector -->
-                <div class="form-group">
-                    <label class="form-label">How Do You Talk to Clients?</label>
-                    <div class="tone-grid">
-                        <div class="tone-pill" onclick="selectTone(this)" data-tone="luxury">
-                            <div class="tone-pill-title">Luxury & Refined</div>
-                            <div class="tone-pill-desc">Elegant, sophisticated, premium positioning</div>
-                        </div>
-                        <div class="tone-pill" onclick="selectTone(this)" data-tone="warm">
-                            <div class="tone-pill-title">Warm & Personal</div>
-                            <div class="tone-pill-desc">Friendly, approachable, community-focused</div>
-                        </div>
-                        <div class="tone-pill" onclick="selectTone(this)" data-tone="data">
-                            <div class="tone-pill-title">Data & Authority</div>
-                            <div class="tone-pill-desc">Market expert, analytical, confident</div>
-                        </div>
-                        <div class="tone-pill" onclick="selectTone(this)" data-tone="modern">
-                            <div class="tone-pill-title">Modern & Bold</div>
-                            <div class="tone-pill-desc">Contemporary, energetic, trend-forward</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Target Audience -->
-                <div class="form-group">
-                    <label class="form-label">Who Do You Help?</label>
-                    <textarea class="form-input" style="height:80px; resize:none;" placeholder="e.g., First-time buyers in Silicon Valley, luxury sellers in Los Gatos, relocating tech professionals..."></textarea>
-                    <p style="font-size:0.75rem; color:var(--faint); margin-top:6px;">This helps us match your content tone to your audience</p>
-                </div>
-
-                <!-- Content Personality Sample -->
-                <div class="voice-preview" id="voicePreview">
-                    <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:8px;">Content Preview</div>
-                    <p id="voicePreviewText" style="font-size:0.85rem; color:var(--muted); font-style:italic; line-height:1.6;">Select a tone above to see a sample...</p>
-                </div>
-            </div>
-
-            <div class="button-row">
-                <button class="btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn-gold" onclick="nextStep()">Continue</button>
-            </div>
-        </div>
-
-        <!-- STEP 3: CONTENT ASSETS -->
-        <div class="step" data-step="2">
-            <div class="step-header">
-                <span class="step-label">Step 03 of 04</span>
-                <h1 class="step-title">Feed the Machine</h1>
-                <p class="step-subtitle">Your content engine can start working with just your market data and brand voice. But the more photos you give us, the less we rely on stock imagery — and the more your content looks like <em>you</em>.</p>
-            </div>
-
-            <div class="step-content">
-                <!-- Bulk Upload Zone -->
-                <div class="form-group">
-                    <label class="form-label">Drop Your Photos Here</label>
-                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">Don't worry about organizing — just upload everything you've got. Our AI will sort through them and match each photo to the right type of content automatically.</p>
-
-                    <div class="upload-zone" id="bulkUploadZone" style="padding:3.5rem 2rem; min-height:180px;">
-                        <div class="upload-icon" style="font-size:2.5rem;">📸</div>
-                        <div class="upload-text" style="font-size:1rem; margin-bottom:0.4rem;">Drag photos here or click to browse</div>
-                        <div class="upload-subtext">JPG, PNG, HEIC • Upload as many as you want</div>
-                        <input type="file" id="bulkPhotoInput" style="display:none;" accept="image/*" multiple>
-                    </div>
-
-                    <!-- Upload counter (shown after upload) -->
-                    <div id="uploadCounter" style="display:none; text-align:center; margin-top:1rem; padding:0.75rem; background:rgba(107,158,122,0.1); border:1px solid rgba(107,158,122,0.2); border-radius:8px;">
-                        <span style="color:var(--green); font-weight:500;">✓ <span id="photoCount">0</span> photos uploaded</span>
-                        <span style="color:var(--faint); font-size:0.8rem; margin-left:0.5rem;">— we'll analyze these while you finish setup</span>
-                    </div>
-                </div>
-
-                <!-- What helps most -->
-                <div style="margin-top:0.5rem; padding:1.25rem; background:rgba(181,162,100,0.04); border:1px solid var(--gold-border); border-radius:10px;">
-                    <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:10px;">What makes the best content?</div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">📷 Property photos (active + sold)</div>
-                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">🏘️ Neighborhood & lifestyle shots</div>
-                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">🤝 You with clients (with permission)</div>
-                        <div style="font-size:0.8rem; color:var(--muted); padding:6px 0;">🏡 Open houses, events, your team</div>
-                    </div>
-                    <p style="font-size:0.72rem; color:var(--faint); margin-top:10px;">Don't have these yet? Skip this step — we'll use stock imagery to start and ask you for specific photos later when we need them.</p>
-                </div>
-
-                <!-- Divider -->
-                <div style="border-top:1px solid var(--border2); margin:2rem 0;"></div>
-
-                <!-- Video Style Reference -->
-                <div class="form-group">
-                    <label class="form-label">What Style of Video Do You Like?</label>
-                    <p style="font-size:0.8rem; color:var(--faint); margin-bottom:1rem;">This shapes how your video content looks and feels. Pick the one that fits your brand.</p>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                        <div class="tone-pill" onclick="this.classList.toggle('active'); document.getElementById('videoStyleCasual').classList.remove('active');" id="videoStyleCinematic">
-                            <div class="tone-pill-title">Cinematic & Polished</div>
-                            <div class="tone-pill-desc">Drone shots, slow pans, music overlays, text animations</div>
-                        </div>
-                        <div class="tone-pill" onclick="this.classList.toggle('active'); document.getElementById('videoStyleCinematic').classList.remove('active');" id="videoStyleCasual">
-                            <div class="tone-pill-title">Casual & Authentic</div>
-                            <div class="tone-pill-desc">Talking to camera, real moments, behind-the-scenes feel</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-row">
-                <button class="btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn-gold" onclick="nextStep()">Continue</button>
-            </div>
-        </div>
-
-        <!-- STEP 4: INTEGRATION CHECK -->
-        <div class="step" data-step="3">
-            <div class="step-header">
-                <span class="step-label">Step 04 of 04 — Almost done!</span>
-                <h1 class="step-title">Power Up Your Engine</h1>
-                <p class="step-subtitle">These optional connections let us do more for you — AI-generated videos with your face, voiceovers that sound like you, and auto-posting to your social accounts. None of these are required to get started.</p>
-            </div>
-
-            <div class="step-content">
-                <!-- HeyGen Integration -->
-                <div class="integration-card">
-                    <div class="integration-icon">🎬</div>
-                    <div class="integration-info">
-                        <div class="integration-name">HeyGen — AI Video</div>
-                        <div class="integration-desc">Creates videos with a digital avatar that looks and talks like you. No filming required.</div>
-                    </div>
-                    <div class="integration-toggle">
-                        <input type="checkbox" id="heygenToggle" onchange="toggleIntegration('heygen')">
-                        <div class="toggle-track">
-                            <div class="toggle-knob"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="integration-api-field" id="heygenField">
-                    <input type="password" class="form-input" placeholder="Paste your HeyGen API key" id="heygenKey">
-                </div>
-
-                <!-- ElevenLabs Integration -->
-                <div class="integration-card">
-                    <div class="integration-icon">🎙️</div>
-                    <div class="integration-info">
-                        <div class="integration-name">ElevenLabs — AI Voice</div>
-                        <div class="integration-desc">Clones your voice so we can add narration to videos and market updates that actually sounds like you.</div>
-                    </div>
-                    <div class="integration-toggle">
-                        <input type="checkbox" id="elevenToggle" onchange="toggleIntegration('eleven')">
-                        <div class="toggle-track">
-                            <div class="toggle-knob"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="integration-api-field" id="elevenField">
-                    <input type="password" class="form-input" placeholder="Paste your ElevenLabs API key" id="elevenLabsKey">
-                </div>
-
-                <!-- Social Accounts -->
-                <div class="social-platform-card">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="font-size: 1.2rem;">📱</div>
-                        <div>
-                            <div class="integration-name">Social Accounts</div>
-                            <div class="integration-desc">Connect these so we can post directly for you — or skip and copy/paste from your dashboard.</div>
-                        </div>
-                    </div>
-                    <div class="social-connect-grid">
-                        <button class="social-connect-btn">Instagram</button>
-                        <button class="social-connect-btn">Facebook</button>
-                        <button class="social-connect-btn">YouTube</button>
-                        <button class="social-connect-btn">TikTok</button>
-                    </div>
-                </div>
-
-                <!-- Reassurance Message -->
-                <div class="reassurance-message">
-                    Don't have these yet? No worries — you can set all of this up later in Settings. Your content engine works without any of them.
-                </div>
-            </div>
-
-            <div class="button-row">
-                <button class="btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn-gold" onclick="completeOnboarding()">Complete Setup</button>
+                <button class="btn-back" onclick="goToStep(3)">← Back</button>
+                <button class="btn-primary" onclick="goToStep(5)">BUILD MY CONTENT PLAN</button>
             </div>
         </div>
     </div>
 
-    <!-- TRANSITION SCREEN -->
-    <div class="transition-screen" id="transitionScreen">
-        <div class="transition-content">
-            <h2 class="transition-title">Building Your Content Engine</h2>
-            <div class="signature-line"></div>
+    <!-- ================================================================
+         STEP 5 — UPLOAD YOUR ASSETS
+         ================================================================ -->
+    <div class="step" id="step5">
+        <div class="step-header">
+            <span class="step-label">Step 05 of 06</span>
+            <h1 class="step-title">Your Photos & Video</h1>
+            <p class="step-subtitle">Based on your content plan, here's what we need from you. The more you give us, the less we rely on stock imagery — and the more your content looks like <em>you</em>.</p>
+        </div>
 
-            <div class="checklist">
-                <div class="checklist-item">
-                    <div class="check-icon completed">✓</div>
-                    <div class="checklist-text">Analyzing your market</div>
+        <!-- Minimum Requirements -->
+        <div class="step-content">
+            <div class="section-label">What We Need</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.5rem;">These are the minimums to generate your first month of content. You can always add more later.</p>
+
+            <div class="requirement-list">
+                <div class="requirement-item">
+                    <span class="req-status">📸</span>
+                    <div class="req-text"><strong>3 front-facing headshots</strong> — Professional or casual, well-lit, clear face. These become your avatar and thumbnail photos. <span class="req-badge req-min">Minimum</span></div>
                 </div>
-                <div class="checklist-item">
-                    <div class="check-icon in-progress"></div>
-                    <div class="checklist-text">Processing your assets</div>
+                <div class="requirement-item">
+                    <span class="req-status">📐</span>
+                    <div class="req-text"><strong>1 side-profile or 3/4 angle photo</strong> — Gives your avatar a natural look when turned. <span class="req-badge req-min">Minimum</span></div>
                 </div>
-                <div class="checklist-item">
-                    <div class="check-icon pending"></div>
-                    <div class="checklist-text">Creating first content</div>
+                <div class="requirement-item">
+                    <span class="req-status">🎥</span>
+                    <div class="req-text"><strong>1 talking-head video (30–60 sec)</strong> — Just talk to your phone camera. Say anything — we need your voice and mannerisms for the AI clone. <span class="req-badge req-min">Minimum</span></div>
+                </div>
+                <div class="requirement-item">
+                    <span class="req-status">🏡</span>
+                    <div class="req-text"><strong>Property photos</strong> — Active listings, sold homes, or local landmarks. More is better. <span class="req-badge req-rec">Recommended</span></div>
+                </div>
+                <div class="requirement-item">
+                    <span class="req-status">🤝</span>
+                    <div class="req-text"><strong>You with clients, at events, open houses</strong> — Builds trust and shows you in action. <span class="req-badge req-rec">Recommended</span></div>
                 </div>
             </div>
+        </div>
 
-            <p class="transition-subtitle">We'll notify you when your first content is ready.</p>
+        <!-- Upload Zone -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">Upload Everything You've Got</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Don't worry about organizing — just dump it all here. Our AI will sort through everything, categorize it, and match each photo to the right type of content.</p>
+
+            <div class="upload-zone" id="assetUploadZone" onclick="document.getElementById('assetInput').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Drag photos & videos here or click to browse</div>
+                <div class="upload-subtext">JPG, PNG, HEIC, MP4 — Upload as many as you want</div>
+                <input type="file" id="assetInput" style="display:none;" accept="image/*,video/*" multiple>
+            </div>
+
+            <div style="text-align:center; margin-top:1.2rem;">
+                <button class="btn-text" style="font-size:0.78rem;">📱 Or take photos right now with your phone camera</button>
+            </div>
+
+            <div class="market-hint" style="margin-top:1.5rem;">
+                <div class="pulse-dot"></div>
+                <span>Green screen or white background shots are perfect for avatar creation — we can swap in any background. But regular photos work great too.</span>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:1rem;">
+            <button class="btn-text" onclick="goToStep(6)">Skip for now — I'll add photos later</button>
+            <div style="font-size:0.72rem; color:var(--faint); margin-top:4px;">We'll use stock imagery to get started and ask for specific photos as we create content.</div>
+        </div>
+
+        <div class="button-row">
+            <button class="btn-back" onclick="goToStep(4)">← Back</button>
+            <button class="btn-primary" onclick="goToStep(6)">CONTINUE</button>
         </div>
     </div>
 
-    <script>
-        let currentStep = 0;
-        const totalSteps = 4;
-        let isRecording = false;
-        let recordingTime = 0;
-        let selectedBrandType = null;
+    <!-- ================================================================
+         STEP 6 — YOUR CONTENT PLAN (Step 5.5)
+         ================================================================ -->
+    <div class="step" id="step6">
+        <div class="step-header">
+            <span class="step-label">Step 06 of 06</span>
+            <h1 class="step-title">Your Content Plan</h1>
+            <p class="step-subtitle">Here's your personalized 3-month content calendar. We've built this based on your market research, competitor gaps, and the assets you provided.</p>
+        </div>
 
-        // Brand type selection
-        function selectBrandType(type) {
-            selectedBrandType = type;
+        <!-- Plan Summary -->
+        <div class="step-content">
+            <div class="section-label">Content Summary</div>
 
-            // Update pill states
-            document.querySelectorAll('.brand-pill').forEach(pill => {
-                pill.classList.remove('active');
-            });
-            event.target.closest('.brand-pill').classList.add('active');
+            <div class="plan-toggle">
+                <button class="plan-toggle-btn active" onclick="togglePlan('minimum', this)">Minimum to Start</button>
+                <button class="plan-toggle-btn" onclick="togglePlan('recommended', this)">Recommended</button>
+            </div>
 
-            // Show/hide sections based on selection
-            const brokerageSection = document.getElementById('brokerageSection');
-            const logoUploadSection = document.getElementById('logoUploadSection');
+            <div id="planMinimum">
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Social Posts (3 months)</span>
+                    <span class="plan-stat-value">24 posts</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Market Update Videos</span>
+                    <span class="plan-stat-value">3 videos</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Neighborhood Guides</span>
+                    <span class="plan-stat-value">2 articles</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Email Campaigns</span>
+                    <span class="plan-stat-value">6 emails</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Estimated Time to Generate</span>
+                    <span class="plan-stat-value gold">~15 minutes</span>
+                </div>
+            </div>
 
-            if (type === 'brokerage') {
-                brokerageSection.classList.add('visible');
-                logoUploadSection.classList.remove('visible');
-            } else if (type === 'personal') {
-                brokerageSection.classList.remove('visible');
-                logoUploadSection.classList.add('visible');
-            } else if (type === 'both') {
-                brokerageSection.classList.add('visible');
-                logoUploadSection.classList.add('visible');
-            }
-        }
+            <div id="planRecommended" style="display:none;">
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Social Posts (3 months)</span>
+                    <span class="plan-stat-value">72 posts</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Market Update Videos</span>
+                    <span class="plan-stat-value">12 videos</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Neighborhood Guides</span>
+                    <span class="plan-stat-value">6 articles</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Email Campaigns</span>
+                    <span class="plan-stat-value">12 emails</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Talking-Head Videos</span>
+                    <span class="plan-stat-value">6 videos</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Blog / SEO Articles</span>
+                    <span class="plan-stat-value">9 articles</span>
+                </div>
+                <div class="plan-stat">
+                    <span class="plan-stat-label">Estimated Time to Generate</span>
+                    <span class="plan-stat-value gold">~45 minutes</span>
+                </div>
+            </div>
+        </div>
 
-        // Logo upload with color extraction simulation
-        document.getElementById('logoInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                simulateLogoUpload();
-            }
+        <!-- Calendar Preview -->
+        <div class="step-content" style="margin-top:1.5rem;">
+            <div class="section-label">Month 1 Preview</div>
+            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Here's a snapshot of your first month. Each piece is tailored to your market, your voice, and your brand.</p>
+
+            <div class="calendar-preview">
+                <div class="calendar-header">
+                    <div class="calendar-header-cell">Mon</div>
+                    <div class="calendar-header-cell">Tue</div>
+                    <div class="calendar-header-cell">Wed</div>
+                    <div class="calendar-header-cell">Thu</div>
+                    <div class="calendar-header-cell">Fri</div>
+                </div>
+                <div class="calendar-week">
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-social">IG Post</span>
+                    </div>
+                    <div class="calendar-cell"></div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-market">Market Update</span>
+                    </div>
+                    <div class="calendar-cell"></div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-social">IG Reel</span>
+                    </div>
+                </div>
+                <div class="calendar-week">
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-listing">Listing Post</span>
+                    </div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-video">Avatar Video</span>
+                    </div>
+                    <div class="calendar-cell"></div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-lifestyle">Local Guide</span>
+                    </div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-social">IG Post</span>
+                    </div>
+                </div>
+                <div class="calendar-week">
+                    <div class="calendar-cell"></div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-social">IG Carousel</span>
+                    </div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-market">Email Campaign</span>
+                    </div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-video">Talking Head</span>
+                    </div>
+                    <div class="calendar-cell"></div>
+                </div>
+                <div class="calendar-week">
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-lifestyle">Neighborhood</span>
+                    </div>
+                    <div class="calendar-cell"></div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-listing">Sold Story</span>
+                    </div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-social">IG Post</span>
+                    </div>
+                    <div class="calendar-cell">
+                        <span class="calendar-tag tag-market">Month Review</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="step-content" style="margin-top:1.5rem; text-align:center; padding:2.5rem 2rem;">
+            <div style="font-size:2rem; margin-bottom:1rem;">🚀</div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:600; color:var(--ink); margin-bottom:0.8rem;">Ready to Go?</div>
+            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.5rem; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.7;">Hit the button and we'll start generating your content. You can always come back to upload more photos, adjust your plan, or expand to the recommended calendar later.</p>
+            <div style="font-size:0.78rem; color:var(--faint); margin-bottom:2rem;">Let's get started now — you can add the rest later.</div>
+
+            <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
+                <button class="btn-primary" style="padding:1rem 3.5rem; font-size:0.9rem;" onclick="launchEngine()">GENERATE MY CONTENT</button>
+                <button class="btn-secondary" onclick="goToStep(5)">← Go Back & Add More Assets</button>
+            </div>
+        </div>
+
+        <div class="button-row" style="border-top:none; margin-top:1rem;">
+            <button class="btn-back" onclick="goToStep(5)">← Back</button>
+        </div>
+    </div>
+
+</div><!-- /wizard-container -->
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    function goToStep(step) {
+        // Hide current
+        document.getElementById('step' + currentStep).classList.remove('active');
+
+        // Show new
+        currentStep = step;
+        document.getElementById('step' + currentStep).classList.add('active');
+
+        // Update progress bar
+        const pct = ((step) / totalSteps) * 100;
+        document.getElementById('progressBar').style.width = pct + '%';
+
+        // Update dots
+        document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+            dot.classList.remove('active', 'completed');
+            if (i + 1 === step) dot.classList.add('active');
+            if (i + 1 < step) dot.classList.add('completed');
         });
 
-        function simulateLogoUpload() {
-            const analyzingState = document.getElementById('analyzingState');
-            const colorExtraction = document.getElementById('colorExtraction');
-            const brandPreview = document.getElementById('brandPreview');
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-            // Show analyzing state
-            analyzingState.classList.add('visible');
-            colorExtraction.classList.remove('visible');
+    // Step 2: Fill prompt with example
+    function fillPrompt(el) {
+        const text = el.textContent.replace(/"/g, '');
+        document.getElementById('marketPrompt').value = text;
+        document.getElementById('marketPrompt').focus();
+    }
 
-            // Simulate extraction after 1.5 seconds
-            setTimeout(() => {
-                analyzingState.classList.remove('visible');
-                colorExtraction.classList.add('visible');
-                brandPreview.style.display = 'block';
-            }, 1500);
-        }
-
-        // Add color swatch
-        function addColorSwatch() {
-            const swatches = document.getElementById('extractedSwatches');
-            const newSwatch = document.createElement('div');
-            newSwatch.className = 'extracted-swatch';
-            newSwatch.innerHTML = `
-                <div class="extracted-swatch-circle" style="background: #999999;"></div>
-                <div class="extracted-hex">#999999</div>
-            `;
-            swatches.insertBefore(newSwatch, swatches.lastElementChild);
-        }
-
-        // Integration toggle
-        function toggleIntegration(id) {
-            let fieldId = '';
-            if (id === 'heygen') {
-                fieldId = 'heygenField';
-            } else if (id === 'eleven') {
-                fieldId = 'elevenField';
-            }
-
-            const field = document.getElementById(fieldId);
-            if (field) {
-                field.classList.toggle('visible');
+    // Step 2: ZIP code entry
+    function handleZipEntry(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const val = e.target.value.trim();
+            if (val && /^\d{5}$/.test(val)) {
+                const chip = document.createElement('div');
+                chip.className = 'chip';
+                chip.innerHTML = val + ' <span class="chip-remove" onclick="this.parentElement.remove()">×</span>';
+                document.getElementById('zipChips').appendChild(chip);
+                e.target.value = '';
             }
         }
+    }
 
-        // Color palette selection
-        document.querySelectorAll('.color-swatch').forEach(swatch => {
-            swatch.addEventListener('click', () => {
-                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
-                swatch.classList.add('selected');
-            });
+    // Step 2: Buyer/Seller slider
+    function updateSplit(val) {
+        const buyerPct = 100 - parseInt(val);
+        const sellerPct = parseInt(val);
+        document.getElementById('buyerPct').textContent = buyerPct + '%';
+        document.getElementById('sellerPct').textContent = sellerPct + '%';
+        document.getElementById('splitSlider').style.setProperty('--val', val + '%');
+    }
+
+    // Step 3 → 4: Analysis simulation
+    function startAnalysis() {
+        goToStep(4);
+
+        const loading = document.getElementById('analysisLoading');
+        const results = document.getElementById('analysisResults');
+        const status = document.getElementById('loadingStatus');
+
+        loading.classList.remove('hidden');
+        results.classList.remove('visible');
+
+        const messages = [
+            'Scanning competitor content in 95014, 95070...',
+            'Analyzing local search volume and keywords...',
+            'Reviewing your digital footprint...',
+            'Identifying content gaps and opportunities...',
+            'Building your content buckets...',
+            'Finalizing your market intelligence report...'
+        ];
+
+        let i = 0;
+        const interval = setInterval(() => {
+            i++;
+            if (i < messages.length) {
+                status.textContent = messages[i];
+            } else {
+                clearInterval(interval);
+                loading.classList.add('hidden');
+                results.classList.add('visible');
+            }
+        }, 1200);
+    }
+
+    // Step 6: Toggle minimum vs recommended plan
+    function togglePlan(plan, btn) {
+        document.querySelectorAll('.plan-toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (plan === 'minimum') {
+            document.getElementById('planMinimum').style.display = 'block';
+            document.getElementById('planRecommended').style.display = 'none';
+        } else {
+            document.getElementById('planMinimum').style.display = 'none';
+            document.getElementById('planRecommended').style.display = 'block';
+        }
+    }
+
+    // Final CTA
+    function launchEngine() {
+        alert('🚀 Content Engine is generating your personalized content! You\'ll be redirected to your dashboard.');
+        // In production: redirect to dashboard
+        // window.location.href = 'propiq-content-dashboard.html';
+    }
+
+    // Init slider visual
+    updateSplit(50);
+
+    // Drag and drop for upload zone
+    const uploadZone = document.getElementById('assetUploadZone');
+    if (uploadZone) {
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = 'var(--gold)';
+            uploadZone.style.background = 'rgba(181,162,100,0.08)';
         });
-
-        // Bulk photo upload
-        document.getElementById('bulkUploadZone').addEventListener('click', () => {
-            document.getElementById('bulkPhotoInput').click();
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.style.borderColor = '';
+            uploadZone.style.background = '';
         });
-        document.getElementById('bulkPhotoInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const counter = document.getElementById('uploadCounter');
-                document.getElementById('photoCount').textContent = e.target.files.length;
-                counter.style.display = 'block';
-                document.getElementById('bulkUploadZone').innerHTML = `
-                    <div style="font-size:2rem; margin-bottom:0.5rem;">✅</div>
-                    <div class="upload-text" style="font-size:0.95rem;">${e.target.files.length} photos selected</div>
-                    <div class="upload-subtext">Click to add more</div>
-                `;
-            }
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = '';
+            uploadZone.style.background = '';
+            const count = e.dataTransfer.files.length;
+            uploadZone.querySelector('.upload-text').textContent = count + ' file' + (count > 1 ? 's' : '') + ' selected — ready to upload';
+            uploadZone.querySelector('.upload-icon').textContent = '✅';
         });
+    }
 
-        // Zip code chip functionality
-        function addZipChip(value) {
-            const chips = document.getElementById('zipChips');
-            const chip = document.createElement('div');
-            chip.className = 'chip selected';
-            chip.innerHTML = `
-                ${value}
-                <span class="chip-remove">×</span>
-            `;
-            chip.querySelector('.chip-remove').addEventListener('click', (e) => {
-                e.stopPropagation();
-                chip.remove();
-            });
-            chips.appendChild(chip);
-        }
-
-        document.getElementById('location').addEventListener('change', function() {
-            if (this.value.match(/^\d{5}$/)) {
-                addZipChip(this.value);
-                this.value = '';
+    const assetInput = document.getElementById('assetInput');
+    if (assetInput) {
+        assetInput.addEventListener('change', () => {
+            const count = assetInput.files.length;
+            if (count > 0) {
+                uploadZone.querySelector('.upload-text').textContent = count + ' file' + (count > 1 ? 's' : '') + ' selected — ready to upload';
+                uploadZone.querySelector('.upload-icon').textContent = '✅';
             }
         });
+    }
+</script>
 
-        // Headshot upload
-        document.getElementById('headshotInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const profileCircle = document.getElementById('profileCircle');
-                    profileCircle.classList.remove('empty');
-                    profileCircle.innerHTML = `<img src="${event.target.result}" alt="Headshot">`;
-                };
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
-
-        // Navigation
-        function nextStep() {
-            if (currentStep < totalSteps - 1) {
-                const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
-                currentStepEl.classList.remove('active');
-                currentStepEl.classList.add('exit-left');
-
-                currentStep++;
-
-                const nextStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
-                nextStepEl.classList.add('active');
-
-                // Update progress
-                updateProgress();
-            }
-        }
-
-        function updateProgress() {
-            const progressBar = document.querySelector('.progress-bar');
-            const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
-            progressBar.style.width = progressPercentage + '%';
-
-            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
-                dot.classList.remove('active', 'completed');
-                if (index < currentStep) {
-                    dot.classList.add('completed');
-                } else if (index === currentStep) {
-                    dot.classList.add('active');
-                }
-            });
-        }
-
-        function completeOnboarding() {
-            const transitionScreen = document.getElementById('transitionScreen');
-            transitionScreen.classList.add('active');
-
-            // Simulate completion
-            setTimeout(() => {
-                alert('Onboarding complete! Your content engine is ready.');
-            }, 3000);
-        }
-    
-const toneSamples = {
-            luxury: "Presenting an extraordinary residence in the heart of Los Gatos — where refined living meets Silicon Valley prestige.",
-            warm: "Just helped the Johnsons find their dream home in Campbell! Nothing beats that moment when the keys hit their hands.",
-            data: "Los Gatos inventory is down 23% YoY while median price is up 8.2%. Here's what that means for sellers right now.",
-            modern: "New listing drop. 4BR in Willow Glen. Chef's kitchen. Insane backyard. This one won't last. Link in bio."
-        };
-
-        function selectTone(el) {
-            document.querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
-            el.classList.add('active');
-            const tone = el.dataset.tone;
-            const preview = document.getElementById('voicePreviewText');
-            if (toneSamples[tone]) {
-                preview.textContent = toneSamples[tone];
-                preview.style.color = 'var(--ink)';
-            }
-        }
-
-                function prevStep() {
-            if (currentStep > 0) {
-                currentStep--;
-                updateStep();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        </script>
 </body>
 </html>
