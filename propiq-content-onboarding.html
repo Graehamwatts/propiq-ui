@@ -16,15 +16,15 @@
             --gold-glow: rgba(181,162,100,0.12);
             --gold-border: rgba(181,162,100,0.2);
 
-            --bg: #0F0F0F;
-            --surface: #161616;
-            --surface2: #1C1C1C;
-            --surface3: #242424;
+            --bg: #1A1920;
+            --surface: #211F27;
+            --surface2: #28262E;
+            --surface3: #302E37;
 
-            --border: rgba(255,255,255,0.06);
-            --border2: rgba(255,255,255,0.1);
+            --border: rgba(255,255,255,0.08);
+            --border2: rgba(255,255,255,0.13);
 
-            --ink: #F5F5F0;
+            --ink: #EEECEA;
             --muted: #8C8C8C;
             --faint: #555555;
 
@@ -48,7 +48,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #1A1920 0%, #23212A 100%);
             color: var(--ink);
             line-height: 1.6;
             position: relative;
@@ -510,6 +510,58 @@
         }
 
         /* ============================================================
+           TONE SELECTOR
+           ============================================================ */
+        .tone-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tone-pill {
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tone-pill:hover {
+            border-color: var(--gold-border);
+            background: rgba(181,162,100,0.04);
+        }
+
+        .tone-pill.active {
+            border-color: var(--gold);
+            background: rgba(181,162,100,0.08);
+            box-shadow: 0 0 16px rgba(181,162,100,0.08);
+        }
+
+        .tone-pill-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 3px;
+        }
+
+        .tone-pill-desc {
+            font-size: 0.7rem;
+            color: var(--faint);
+            line-height: 1.3;
+        }
+
+        .voice-preview {
+            background: rgba(181,162,100,0.04);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        /* ============================================================
            COLOR EXTRACTION
            ============================================================ */
         .color-extraction {
@@ -949,7 +1001,24 @@
         .button-row {
             display: flex;
             gap: 1rem;
-            justify-content: flex-end;
+            justify-content: center;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid var(--border2);
+            color: var(--muted);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.03em;
+        }
+        .btn-back:hover {
+            border-color: var(--gold-border);
+            color: var(--ink);
         }
 
         .btn-gold {
@@ -1001,7 +1070,7 @@
         .transition-screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #1A1920 0%, #23212A 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1401,6 +1470,7 @@
             </div>
 
             <div class="step-content">
+                <!-- VISUAL IDENTITY SECTION -->
                 <!-- Brand Type Toggle -->
                 <div class="brand-toggle">
                     <div class="brand-pill" onclick="selectBrandType('brokerage')">
@@ -1497,9 +1567,52 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Section divider -->
+                <div style="border-top:1px solid var(--border2); margin:2.5rem 0; position:relative;">
+                    <span style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--bg); padding:0 1rem; font-size:11px; text-transform:uppercase; letter-spacing:0.15em; color:var(--gold);">Brand Voice</span>
+                </div>
+
+                <!-- BRAND VOICE SECTION -->
+                <!-- Tone Selector -->
+                <div class="form-group">
+                    <label class="form-label">Communication Tone</label>
+                    <div class="tone-grid">
+                        <div class="tone-pill" onclick="selectTone(this)" data-tone="luxury">
+                            <div class="tone-pill-title">Luxury & Refined</div>
+                            <div class="tone-pill-desc">Elegant, sophisticated, premium positioning</div>
+                        </div>
+                        <div class="tone-pill" onclick="selectTone(this)" data-tone="warm">
+                            <div class="tone-pill-title">Warm & Personal</div>
+                            <div class="tone-pill-desc">Friendly, approachable, community-focused</div>
+                        </div>
+                        <div class="tone-pill" onclick="selectTone(this)" data-tone="data">
+                            <div class="tone-pill-title">Data & Authority</div>
+                            <div class="tone-pill-desc">Market expert, analytical, confident</div>
+                        </div>
+                        <div class="tone-pill" onclick="selectTone(this)" data-tone="modern">
+                            <div class="tone-pill-title">Modern & Bold</div>
+                            <div class="tone-pill-desc">Contemporary, energetic, trend-forward</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target Audience -->
+                <div class="form-group">
+                    <label class="form-label">Who Do You Help?</label>
+                    <textarea class="form-input" style="height:80px; resize:none;" placeholder="e.g., First-time buyers in Silicon Valley, luxury sellers in Los Gatos, relocating tech professionals..."></textarea>
+                    <p style="font-size:0.75rem; color:var(--faint); margin-top:6px;">This helps us match your content tone to your audience</p>
+                </div>
+
+                <!-- Content Personality Sample -->
+                <div class="voice-preview" id="voicePreview">
+                    <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:8px;">Content Preview</div>
+                    <p id="voicePreviewText" style="font-size:0.85rem; color:var(--muted); font-style:italic; line-height:1.6;">Select a tone above to see a sample...</p>
+                </div>
+            </div></div>
 
             <div class="button-row">
+                <button class="btn-back" onclick="prevStep()">Back</button>
                 <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
@@ -1559,6 +1672,7 @@
             </div>
 
             <div class="button-row">
+                <button class="btn-back" onclick="prevStep()">Back</button>
                 <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
@@ -1632,6 +1746,7 @@
             </div>
 
             <div class="button-row">
+                <button class="btn-back" onclick="prevStep()">Back</button>
                 <button class="btn-gold" onclick="completeOnboarding()">Complete Setup</button>
             </div>
         </div>
@@ -1838,6 +1953,33 @@
                 alert('Onboarding complete! Your content engine is ready.');
             }, 3000);
         }
-    </script>
+    
+const toneSamples = {
+            luxury: "Presenting an extraordinary residence in the heart of Los Gatos — where refined living meets Silicon Valley prestige.",
+            warm: "Just helped the Johnsons find their dream home in Campbell! Nothing beats that moment when the keys hit their hands.",
+            data: "Los Gatos inventory is down 23% YoY while median price is up 8.2%. Here's what that means for sellers right now.",
+            modern: "New listing drop. 4BR in Willow Glen. Chef's kitchen. Insane backyard. This one won't last. Link in bio."
+        };
+
+        function selectTone(el) {
+            document.querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            const tone = el.dataset.tone;
+            const preview = document.getElementById('voicePreviewText');
+            if (toneSamples[tone]) {
+                preview.textContent = toneSamples[tone];
+                preview.style.color = 'var(--ink)';
+            }
+        }
+
+                function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStep();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        </script>
 </body>
 </html>
