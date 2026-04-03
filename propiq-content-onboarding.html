@@ -16,10 +16,10 @@
             --gold-glow: rgba(181,162,100,0.12);
             --gold-border: rgba(181,162,100,0.2);
 
-            --bg: #1A1920;
-            --surface: #211F27;
-            --surface2: #28262E;
-            --surface3: #302E37;
+            --bg: #12111A;
+            --surface: #1B1926;
+            --surface2: #232131;
+            --surface3: #2C2A3B;
 
             --border: rgba(255,255,255,0.08);
             --border2: rgba(255,255,255,0.13);
@@ -32,6 +32,9 @@
             --green-l: rgba(107,158,122,0.15);
             --red: #C0392B;
             --red-l: rgba(192,57,43,0.15);
+
+            --plum: rgba(120, 80, 160, 0.15);
+            --plum-glow: rgba(120, 80, 160, 0.08);
         }
 
         * {
@@ -48,7 +51,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1A1920 0%, #23212A 100%);
+            background: linear-gradient(145deg, #12111A 0%, #1A1728 50%, #151320 100%);
             color: var(--ink);
             line-height: 1.6;
             position: relative;
@@ -63,6 +66,89 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0.4;
+        }
+
+        /* ============================================================
+           ANIMATED BACKGROUND ORBS
+           ============================================================ */
+        .orb-container {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            will-change: transform;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(181, 162, 100, 0.25) 0%, transparent 70%);
+            top: -10%;
+            right: -5%;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(120, 80, 160, 0.2) 0%, transparent 70%);
+            bottom: -5%;
+            left: -8%;
+            animation: float2 25s ease-in-out infinite;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(181, 162, 100, 0.15) 0%, transparent 70%);
+            top: 40%;
+            left: 50%;
+            animation: float3 22s ease-in-out infinite;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(100, 70, 140, 0.18) 0%, transparent 70%);
+            top: 20%;
+            right: 20%;
+            animation: float4 28s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-40px, 60px) scale(1.05); }
+            50% { transform: translate(-80px, 30px) scale(0.95); }
+            75% { transform: translate(-20px, -40px) scale(1.02); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.08); }
+            50% { transform: translate(30px, -70px) scale(0.96); }
+            75% { transform: translate(70px, -20px) scale(1.03); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-60px, 40px) scale(1.06); }
+            66% { transform: translate(40px, -50px) scale(0.94); }
+        }
+
+        @keyframes float4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            20% { transform: translate(30px, 50px) scale(1.04); }
+            40% { transform: translate(-40px, 20px) scale(0.97); }
+            60% { transform: translate(-20px, -60px) scale(1.06); }
+            80% { transform: translate(50px, -30px) scale(0.98); }
         }
 
         /* ============================================================
@@ -100,7 +186,7 @@
             padding: 3rem 2rem 4rem;
             min-height: 100vh;
             position: relative;
-            z-index: 10;
+            z-index: 1;
         }
 
         /* ============================================================
@@ -358,6 +444,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             background: rgba(181,162,100,0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .upload-zone:hover {
@@ -483,6 +571,8 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .brand-pill:hover {
@@ -527,6 +617,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .tone-pill:hover {
@@ -559,6 +651,8 @@
             border-radius: 10px;
             padding: 1.25rem;
             margin-top: 1rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         /* ============================================================
@@ -855,6 +949,8 @@
             align-items: center;
             gap: 1rem;
             transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .integration-card:hover {
@@ -1002,23 +1098,29 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
+            align-items: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
         }
 
         .btn-back {
-            background: transparent;
-            border: 1px solid var(--border2);
-            color: var(--muted);
-            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--ink);
+            padding: 0.85rem 2rem;
             border-radius: 8px;
             font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
+            font-weight: 400;
             cursor: pointer;
             transition: all 0.25s ease;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.04em;
         }
         .btn-back:hover {
+            background: rgba(255,255,255,0.08);
             border-color: var(--gold-border);
-            color: var(--ink);
+            color: var(--gold-l);
         }
 
         .btn-gold {
@@ -1070,7 +1172,7 @@
         .transition-screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #1A1920 0%, #23212A 100%);
+            background: linear-gradient(145deg, #12111A 0%, #1A1728 50%, #151320 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1078,6 +1180,8 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.6s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .transition-screen.active {
@@ -1394,6 +1498,13 @@
     </style>
 </head>
 <body>
+    <div class="orb-container" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
     <div class="header">
         <div class="logo">Prop<span>IQ</span></div>
     </div>
@@ -1612,7 +1723,7 @@
             </div></div>
 
             <div class="button-row">
-                <button class="btn-back" onclick="prevStep()">Back</button>
+                <button class="btn-back" onclick="prevStep()">← Back</button>
                 <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
@@ -1672,7 +1783,7 @@
             </div>
 
             <div class="button-row">
-                <button class="btn-back" onclick="prevStep()">Back</button>
+                <button class="btn-back" onclick="prevStep()">← Back</button>
                 <button class="btn-gold" onclick="nextStep()">Continue</button>
             </div>
         </div>
@@ -1746,7 +1857,7 @@
             </div>
 
             <div class="button-row">
-                <button class="btn-back" onclick="prevStep()">Back</button>
+                <button class="btn-back" onclick="prevStep()">← Back</button>
                 <button class="btn-gold" onclick="completeOnboarding()">Complete Setup</button>
             </div>
         </div>

@@ -15,16 +15,18 @@
       --gold-d: #9A8A55;
       --gold-glow: rgba(181, 162, 100, 0.12);
       --gold-border: rgba(181, 162, 100, 0.2);
-      --bg: #1A1920;
-      --surface: #211F27;
-      --surface2: #28262E;
-      --surface3: #302E37;
+      --bg: #12111A;
+      --surface: #1B1926;
+      --surface2: #232131;
+      --surface3: #2C2A3B;
       --bg-light: #FAFAF8;
       --surface-light: #FFFFFF;
       --border-light: rgba(0, 0, 0, 0.08);
       --border: rgba(255, 255, 255, 0.08);
       --border2: rgba(255, 255, 255, 0.13);
       --ink: #EEECEA;
+      --plum: rgba(120, 80, 160, 0.15);
+      --plum-glow: rgba(120, 80, 160, 0.08);
       --ink-dark: #111111;
       --muted: #8C8C8C;
       --faint: #555555;
@@ -49,6 +51,16 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
+    .orb-container { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.35; will-change:transform; }
+    .orb-1 { width:500px; height:500px; background:radial-gradient(circle, rgba(181,162,100,0.25) 0%, transparent 70%); top:-10%; right:-5%; animation:float1 20s ease-in-out infinite; }
+    .orb-2 { width:400px; height:400px; background:radial-gradient(circle, rgba(120,80,160,0.2) 0%, transparent 70%); bottom:-5%; left:-8%; animation:float2 25s ease-in-out infinite; }
+    .orb-3 { width:350px; height:350px; background:radial-gradient(circle, rgba(181,162,100,0.15) 0%, transparent 70%); top:40%; left:50%; animation:float3 22s ease-in-out infinite; }
+    .orb-4 { width:300px; height:300px; background:radial-gradient(circle, rgba(100,70,140,0.18) 0%, transparent 70%); top:20%; right:20%; animation:float4 28s ease-in-out infinite; }
+    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(-40px,60px) scale(1.05)} 50%{transform:translate(-80px,30px) scale(0.95)} 75%{transform:translate(-20px,-40px) scale(1.02)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(50px,-30px) scale(1.08)} 50%{transform:translate(30px,-70px) scale(0.96)} 75%{transform:translate(70px,-20px) scale(1.03)} }
+    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.06)} 66%{transform:translate(40px,-50px) scale(0.94)} }
+    @keyframes float4 { 0%,100%{transform:translate(0,0) scale(1)} 20%{transform:translate(30px,50px) scale(1.04)} 40%{transform:translate(-40px,20px) scale(0.97)} 60%{transform:translate(-20px,-60px) scale(1.06)} 80%{transform:translate(50px,-30px) scale(0.98)} }
 
     /* NOISE/GRAIN TEXTURE SVG */
     @keyframes fadeIn {
@@ -201,13 +213,16 @@
       max-width: 1600px;
       margin: 0 auto;
       padding: 0;
+      position: relative;
+      z-index: 1;
     }
 
     /* ===== DARK SECTION (NUDGE + HERO) ===== */
     .dark-section {
-      background: linear-gradient(135deg, #1A1920 0%, #23212A 100%);
+      background: linear-gradient(135deg, #12111A 0%, #1A1728 100%);
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
 
     .dark-section::before {
@@ -381,6 +396,8 @@
     .light-section {
       background-color: var(--bg-light);
       padding: 40px;
+      position: relative;
+      z-index: 1;
     }
 
     /* ===== CONTENT CALENDAR SECTION ===== */
@@ -830,6 +847,8 @@
       padding: 32px;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
       animation: fadeIn 0.7s ease-out;
+      position: relative;
+      z-index: 1;
     }
 
     .perf-header {
@@ -977,6 +996,8 @@
         padding: 16px 20px;
         flex-direction: column;
         gap: 16px;
+      position: relative;
+      z-index: 1;
       }
 
       .nav-container {
@@ -1005,6 +1026,8 @@
 
       .light-section {
         padding: 24px 20px;
+      position: relative;
+      z-index: 1;
       }
 
       .metrics-grid {
@@ -1042,6 +1065,12 @@
   </style>
 </head>
 <body>
+<div class="orb-container" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+</div>
 
 <!-- TOP BAR -->
 <div class="top-bar">
