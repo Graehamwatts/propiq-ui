@@ -1,710 +1,1139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropIQ Content Engine — Agent Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --gold: #B5A264; --gold-l: #D4C27A; --gold-d: #9A8A55;
-      --gold-glow: rgba(181,162,100,0.12); --gold-border: rgba(181,162,100,0.2);
-      --bg: #12111A; --surface: #1B1926; --surface2: #232131; --surface3: #2C2A3B;
-      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.13);
-      --ink: #EEECEA; --muted: #8C8C8C; --faint: #555555;
-      --plum: rgba(120,80,160,0.15); --plum-glow: rgba(120,80,160,0.08);
-      --green: #6B9E7A; --green-l: rgba(107,158,122,0.15);
-      --red: #C0392B; --red-l: rgba(192,57,43,0.15);
-      --blue: #4B7BA7; --blue-l: rgba(75,123,167,0.15);
-      --orange: #D4923A; --orange-l: rgba(212,146,58,0.15);
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:"Inter",sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; overflow-x:hidden; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropCast Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-teal: #00C2A8;
+            --color-teal-dark: #00A890;
+            --color-teal-light: #1FD4BA;
+            --color-navy: #060F1E;
+            --color-navy-light: #0D1929;
+            --color-navy-lighter: #1A2638;
+            --color-navy-card: #0F1B2E;
+            --color-gray-dark: #2A3A4F;
+            --color-gray-light: #E8F0FF;
+            --color-white: #FFFFFF;
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #B8C5D6;
+            --color-success: #10B981;
+            --color-warning: #F59E0B;
+            --color-error: #EF4444;
+            --color-chart-1: #00C2A8;
+            --color-chart-2: #5B21B6;
+            --color-chart-3: #0EA5E9;
+            --color-chart-4: #F97316;
+            
+            --font-syne: 'Syne', sans-serif;
+            --font-dm-sans: 'DM Sans', sans-serif;
+            
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+        }
 
-    /* ORBS */
-    .orb-container { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
-    .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.35; will-change:transform; }
-    .orb-1 { width:500px; height:500px; background:radial-gradient(circle, rgba(181,162,100,0.25) 0%, transparent 70%); top:-10%; right:-5%; animation:float1 20s ease-in-out infinite; }
-    .orb-2 { width:400px; height:400px; background:radial-gradient(circle, rgba(120,80,160,0.2) 0%, transparent 70%); bottom:-5%; left:-8%; animation:float2 25s ease-in-out infinite; }
-    .orb-3 { width:350px; height:350px; background:radial-gradient(circle, rgba(181,162,100,0.15) 0%, transparent 70%); top:40%; left:50%; animation:float3 22s ease-in-out infinite; }
-    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-80px,30px) scale(0.95)} }
-    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(50px,-70px) scale(1.08)} }
-    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.06)} 66%{transform:translate(40px,-50px) scale(0.94)} }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* GRAIN */
-    body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; opacity:0.04; z-index:0; }
+        body {
+            font-family: var(--font-dm-sans);
+            background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        /* Animated background orbs */
+        .background-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    /* TOPNAV */
-    .topnav { height:52px; background:var(--surface); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; position:sticky; top:0; z-index:200; backdrop-filter:blur(16px); }
-    .topnav-left { display:flex; align-items:center; gap:1rem; }
-    .topnav-logo { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
-    .topnav-logo span { color:var(--gold); }
-    .topnav-divider { width:1px; height:20px; background:var(--border2); }
-    .topnav-section { font-size:0.8rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-    .topnav-tabs { display:flex; align-items:center; gap:0; height:100%; }
-    .topnav-tab { height:100%; display:flex; align-items:center; padding:0 1.1rem; font-size:0.8rem; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.2s; letter-spacing:0.02em; }
-    .topnav-tab:hover { color:var(--ink); }
-    .topnav-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
-    .topnav-right { display:flex; align-items:center; }
-    .topnav-avatar { width:32px; height:32px; border-radius:50%; background:var(--surface3); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:500; color:var(--gold); }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(80px);
+        }
 
-    /* MAIN */
-    .dash { max-width:1200px; margin:0 auto; padding:2rem 2rem 4rem; position:relative; z-index:1; }
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--color-teal), transparent);
+            top: -200px;
+            left: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
 
-    /* NUDGE BANNER */
-    .nudge { background:rgba(255,255,255,0.03); border:1px solid var(--gold-border); border-left:3px solid var(--gold); border-radius:8px; padding:1rem 1.4rem; margin-bottom:2rem; display:flex; justify-content:space-between; align-items:center; backdrop-filter:blur(4px); animation:slideUp 0.5s ease-out; }
-    .nudge-badge { font-size:0.6rem; font-weight:700; letter-spacing:1.5px; color:var(--gold); text-transform:uppercase; margin-bottom:4px; }
-    .nudge-title { font-size:0.9rem; font-weight:600; color:var(--ink); }
-    .nudge-sub { font-size:0.78rem; color:var(--muted); }
-    .nudge-actions { display:flex; gap:12px; align-items:center; flex-shrink:0; margin-left:1.5rem; }
-    .nudge-cta { background:linear-gradient(90deg,var(--gold),var(--gold-l)); color:#111; border:none; padding:8px 18px; border-radius:4px; font-size:0.72rem; font-weight:700; cursor:pointer; letter-spacing:0.3px; }
-    .nudge-dismiss { background:none; border:none; cursor:pointer; font-size:1.1rem; color:var(--muted); }
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #5B21B6, transparent);
+            bottom: -150px;
+            right: -100px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
 
-    /* HERO STATS ROW */
-    .hero-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-bottom:2rem; animation:slideUp 0.6s ease-out; }
-    .hero-card { padding:1.2rem; background:rgba(255,255,255,0.03); border:1px solid var(--border2); border-radius:12px; text-align:center; transition:all 0.3s; }
-    .hero-card:hover { border-color:var(--gold-border); background:rgba(255,255,255,0.05); }
-    .hero-card.featured { border-color:var(--gold-border); background:rgba(181,162,100,0.06); }
-    .hero-label { font-size:0.62rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
-    .hero-val { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--ink); line-height:1.1; }
-    .hero-card.featured .hero-val { color:var(--gold); font-size:2.6rem; }
-    .hero-trend { font-size:0.68rem; font-weight:600; margin-top:4px; }
-    .hero-trend.up { color:var(--green); }
-    .hero-trend.down { color:var(--red); }
-    .hero-sub { font-size:0.68rem; color:var(--muted); margin-top:2px; }
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--color-teal), transparent);
+            top: 50%;
+            right: 10%;
+            animation: float 30s ease-in-out infinite;
+        }
 
-    /* SECTION HEADERS */
-    .sec-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
-    .sec-label { font-size:0.6rem; font-weight:700; letter-spacing:1.5px; color:var(--gold); text-transform:uppercase; }
-    .sec-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:600; color:var(--ink); letter-spacing:-0.3px; margin-top:2px; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(30px, -50px); }
+            66% { transform: translate(-20px, 20px); }
+        }
 
-    /* GLASS CARD */
-    .card { background:rgba(255,255,255,0.03); border:1px solid var(--border2); border-radius:12px; padding:1.4rem; backdrop-filter:blur(6px); }
+        /* Film grain overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2' /%3E%3C/filter%3E%3Crect width='400' height='400' fill='%23060F1E' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            z-index: 1;
+        }
 
-    /* TWO-COL LAYOUT */
-    .two-col { display:grid; grid-template-columns:1fr 360px; gap:20px; margin-bottom:2rem; }
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
 
-    /* CALENDAR */
-    .cal-head { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:8px; }
-    .cal-day { text-align:center; font-size:0.6rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; padding:6px 0; }
-    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
-    .cal-cell { aspect-ratio:1; border:1px solid var(--border); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:0.75rem; cursor:pointer; transition:all 0.2s; background:rgba(255,255,255,0.02); position:relative; }
-    .cal-cell:hover { border-color:var(--gold-border); background:rgba(181,162,100,0.06); }
-    .cal-cell.empty { background:transparent; border:none; cursor:default; }
-    .cal-cell.empty:hover { background:transparent; border:none; }
-    .cal-cell.today { border-color:var(--gold); background:rgba(181,162,100,0.08); }
-    .cal-num { font-weight:600; color:var(--ink); margin-bottom:3px; }
-    .cal-dots { display:flex; gap:3px; }
-    .cal-dot { width:5px; height:5px; border-radius:50%; }
-    .cal-dot.video { background:var(--gold); }
-    .cal-dot.image { background:var(--blue); }
-    .cal-dot.market { background:var(--green); }
-    .cal-dot.social { background:var(--orange); }
+        /* Navigation */
+        nav {
+            background: rgba(6, 15, 30, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-bottom: var(--spacing-xl);
+        }
 
-    /* LEGEND */
-    .legend { display:flex; gap:14px; margin-top:10px; flex-wrap:wrap; }
-    .legend-item { display:flex; align-items:center; gap:5px; font-size:0.62rem; color:var(--muted); }
-    .legend-dot { width:6px; height:6px; border-radius:50%; }
+        nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-md) var(--spacing-xl);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    /* SIDEBAR MODULES */
-    .sidebar-stack { display:flex; flex-direction:column; gap:16px; }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            font-size: 20px;
+            font-weight: 700;
+            font-family: var(--font-syne);
+            text-decoration: none;
+            color: var(--color-text-primary);
+        }
 
-    /* PIPELINE */
-    .pipeline-row { display:flex; align-items:center; gap:10px; padding:0.6rem 0; border-bottom:1px solid var(--border); }
-    .pipeline-row:last-child { border-bottom:none; }
-    .pipeline-status { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-    .pipeline-status.draft { background:var(--muted); }
-    .pipeline-status.ready { background:var(--blue); }
-    .pipeline-status.scheduled { background:var(--gold); }
-    .pipeline-status.published { background:var(--green); }
-    .pipeline-title { font-size:0.75rem; font-weight:500; color:var(--ink); flex:1; }
-    .pipeline-date { font-size:0.65rem; color:var(--muted); flex-shrink:0; }
-    .pipeline-type { font-size:0.58rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; padding:2px 6px; border-radius:3px; flex-shrink:0; }
-    .pipeline-type.vid { background:rgba(181,162,100,0.15); color:var(--gold); }
-    .pipeline-type.img { background:var(--blue-l); color:var(--blue); }
-    .pipeline-type.mkt { background:var(--green-l); color:var(--green); }
-    .pipeline-type.soc { background:var(--orange-l); color:var(--orange); }
+        .nav-brand:hover {
+            opacity: 0.8;
+        }
 
-    /* AI ACTIVITY */
-    .ai-row { display:flex; gap:10px; padding:0.55rem 0; border-bottom:1px solid var(--border); align-items:flex-start; }
-    .ai-row:last-child { border-bottom:none; }
-    .ai-icon { font-size:0.9rem; flex-shrink:0; margin-top:1px; }
-    .ai-text { font-size:0.72rem; color:var(--ink); line-height:1.4; }
-    .ai-time { font-size:0.6rem; color:var(--faint); margin-top:1px; }
+        .nav-brand-prop {
+            color: var(--color-text-primary);
+        }
 
-    /* PLATFORM METRICS */
-    .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:2rem; }
-    .platform-card { padding:1.2rem; }
-    .platform-head { display:flex; align-items:center; gap:8px; margin-bottom:1rem; }
-    .platform-icon { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.85rem; }
-    .platform-icon.ig { background:rgba(193,53,132,0.15); }
-    .platform-icon.yt { background:rgba(255,0,0,0.12); }
-    .platform-icon.fb { background:rgba(66,103,178,0.15); }
-    .platform-name { font-size:0.78rem; font-weight:600; color:var(--ink); }
-    .platform-stat { display:flex; justify-content:space-between; align-items:center; padding:0.4rem 0; border-bottom:1px solid var(--border); }
-    .platform-stat:last-child { border-bottom:none; }
-    .platform-stat-label { font-size:0.68rem; color:var(--muted); }
-    .platform-stat-val { font-size:0.78rem; font-weight:600; color:var(--ink); }
-    .platform-stat-trend { font-size:0.62rem; font-weight:600; }
+        .nav-brand-cast {
+            color: var(--color-teal);
+        }
 
-    /* ENGAGEMENT CHART (CSS bars) */
-    .chart-row { display:grid; grid-template-columns:60px 1fr 50px; gap:8px; align-items:center; padding:0.35rem 0; }
-    .chart-label { font-size:0.65rem; color:var(--muted); text-align:right; }
-    .chart-bar-bg { height:16px; background:rgba(255,255,255,0.04); border-radius:3px; overflow:hidden; }
-    .chart-bar { height:100%; border-radius:3px; transition:width 0.8s ease; }
-    .chart-val { font-size:0.65rem; color:var(--ink); font-weight:500; }
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+        }
 
-    /* ASSET LIBRARY */
-    .asset-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-    .asset-thumb { position:relative; aspect-ratio:1; background:rgba(255,255,255,0.04); border:1px solid var(--border2); border-radius:8px; cursor:pointer; transition:all 0.2s; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-    .asset-thumb:hover { border-color:var(--gold-border); }
-    .asset-thumb .indicator { position:absolute; top:6px; right:6px; width:8px; height:8px; border-radius:50%; }
-    .indicator.fresh { background:var(--green); }
-    .indicator.moderate { background:var(--gold); }
-    .indicator.fatigued { background:var(--red); animation:pulse 2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-    .asset-usage { font-size:0.58rem; color:var(--muted); text-align:center; margin-top:4px; }
-    .asset-placeholder { font-size:1.4rem; opacity:0.3; }
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            font-family: var(--font-dm-sans);
+        }
 
-    /* TOP CONTENT TABLE */
-    .top-table { width:100%; }
-    .top-row { display:grid; grid-template-columns:32px 1fr 90px 80px 70px; gap:10px; align-items:center; padding:0.55rem 0; border-bottom:1px solid var(--border); }
-    .top-row.header { border-bottom:1px solid var(--border2); }
-    .top-row.header span { font-size:0.58rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
-    .top-rank { font-family:'Playfair Display',serif; font-size:0.9rem; font-weight:700; color:var(--gold); text-align:center; }
-    .top-title { font-size:0.75rem; font-weight:500; color:var(--ink); }
-    .top-title-sub { font-size:0.6rem; color:var(--muted); }
-    .top-metric { font-size:0.75rem; font-weight:600; color:var(--ink); }
-    .top-eng { font-size:0.72rem; font-weight:600; color:var(--green); }
-    .top-type-pill { font-size:0.55rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; padding:2px 6px; border-radius:3px; display:inline-block; }
+        .nav-links a:hover {
+            color: var(--color-teal);
+        }
 
-    /* POSTING HEATMAP */
-    .heatmap { display:grid; grid-template-columns:50px repeat(7,1fr); gap:3px; }
-    .heatmap-label { font-size:0.55rem; color:var(--muted); display:flex; align-items:center; justify-content:flex-end; padding-right:6px; }
-    .heatmap-header { font-size:0.55rem; color:var(--muted); text-align:center; font-weight:600; text-transform:uppercase; }
-    .heatmap-cell { aspect-ratio:1.4; border-radius:3px; background:rgba(255,255,255,0.03); }
-    .heatmap-cell.l1 { background:rgba(107,158,122,0.15); }
-    .heatmap-cell.l2 { background:rgba(107,158,122,0.3); }
-    .heatmap-cell.l3 { background:rgba(107,158,122,0.5); }
-    .heatmap-cell.l4 { background:rgba(107,158,122,0.7); }
+        /* Header */
+        .header {
+            margin-bottom: var(--spacing-xl);
+        }
 
-    /* AUDIENCE GROWTH */
-    .growth-bar-row { display:grid; grid-template-columns:90px 1fr 60px; gap:8px; align-items:center; padding:0.4rem 0; }
-    .growth-label { font-size:0.68rem; color:var(--muted); }
-    .growth-bar-bg { height:12px; background:rgba(255,255,255,0.04); border-radius:3px; overflow:hidden; }
-    .growth-bar { height:100%; border-radius:3px; background:linear-gradient(90deg,rgba(181,162,100,0.4),rgba(181,162,100,0.2)); }
-    .growth-val { font-size:0.68rem; font-weight:600; color:var(--ink); }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: var(--font-syne);
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    /* BOTTOM GRID */
-    .bottom-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:2rem; }
+        .header-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 16px;
+        }
 
-    /* VIEW TOGGLE */
-    .view-toggle { display:flex; gap:4px; background:rgba(255,255,255,0.04); border-radius:4px; padding:3px; }
-    .toggle-btn { background:none; border:none; padding:4px 10px; font-size:0.62rem; font-weight:600; cursor:pointer; border-radius:3px; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; transition:all 0.2s; }
-    .toggle-btn.active { background:rgba(255,255,255,0.08); color:var(--ink); }
+        /* Grid Layouts */
+        .hero-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
 
-    /* FOOTER ACTIONS */
-    .footer-actions { display:flex; gap:12px; justify-content:center; margin-top:2rem; padding-top:2rem; border-top:1px solid var(--border); }
-    .footer-btn { padding:10px 24px; border-radius:6px; font-size:0.75rem; font-weight:600; cursor:pointer; transition:all 0.2s; letter-spacing:0.3px; }
-    .footer-btn.primary { background:linear-gradient(90deg,var(--gold),var(--gold-l)); color:#111; border:none; }
-    .footer-btn.secondary { background:transparent; border:1px solid var(--border2); color:var(--ink); }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
 
-    /* POPUP */
-    .popup-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; display:none; backdrop-filter:blur(2px); }
-    .popup-overlay.active { display:block; }
-    .popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(135deg,var(--surface),var(--surface2)); border:1px solid var(--gold-border); border-radius:10px; padding:1.8rem; box-shadow:0 20px 60px rgba(0,0,0,0.4); z-index:1000; min-width:340px; max-width:440px; display:none; }
-    .popup.active { display:block; animation:popIn 0.3s ease-out; }
-    @keyframes popIn { from{opacity:0;transform:translate(-50%,-48%) scale(0.95)} to{opacity:1;transform:translate(-50%,-50%) scale(1)} }
-    .popup-close { position:absolute; top:12px; right:12px; background:none; border:none; font-size:1.1rem; cursor:pointer; color:var(--muted); }
-    .popup-thumb { width:100%; height:160px; background:linear-gradient(135deg,var(--surface2),var(--surface3)); border:1px solid var(--gold-border); border-radius:6px; margin-bottom:1rem; display:flex; align-items:center; justify-content:center; font-size:2.5rem; }
-    .popup-title { font-size:0.95rem; font-weight:700; color:var(--ink); margin-bottom:8px; }
-    .popup-meta { display:flex; gap:10px; font-size:0.75rem; color:var(--muted); }
-    .popup-badge { display:inline-block; padding:4px 10px; background:var(--blue-l); color:var(--blue); border-radius:4px; font-weight:600; font-size:0.68rem; }
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
 
-    @media (max-width:1100px) { .two-col { grid-template-columns:1fr; } .three-col { grid-template-columns:1fr; } .bottom-grid { grid-template-columns:1fr; } }
-    @media (max-width:768px) { .hero-row { grid-template-columns:repeat(2,1fr); } .hero-card.featured { grid-column:1/-1; } }
-  </style>
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(15, 27, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 194, 168, 0.1);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 194, 168, 0.3);
+            background: rgba(15, 27, 46, 0.95);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: var(--font-syne);
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: var(--color-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            background: rgba(0, 194, 168, 0.1);
+            padding: 4px 8px;
+            border-radius: var(--border-radius-sm);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background: rgba(15, 27, 46, 0.6);
+            border: 1px solid rgba(0, 194, 168, 0.1);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: var(--font-syne);
+            color: var(--color-teal);
+            margin-bottom: 4px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: var(--color-success);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-family: var(--font-dm-sans);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--color-teal);
+            color: var(--color-navy);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-teal-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 194, 168, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-teal);
+            border: 2px solid var(--color-teal);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 194, 168, 0.1);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            text-align: left;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid rgba(0, 194, 168, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(0, 194, 168, 0.05);
+        }
+
+        /* Chart placeholders */
+        .chart {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0, 194, 168, 0.1), rgba(91, 33, 182, 0.1));
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            margin: var(--spacing-md) 0;
+            font-size: 14px;
+        }
+
+        /* Heatmap */
+        .heatmap {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: var(--border-radius-sm);
+            background: rgba(0, 194, 168, 0.1);
+            border: 1px solid rgba(0, 194, 168, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .heatmap-cell:hover {
+            border-color: var(--color-teal);
+            box-shadow: 0 0 12px rgba(0, 194, 168, 0.3);
+        }
+
+        .heatmap-cell.active {
+            background: var(--color-teal);
+        }
+
+        /* Asset Grid */
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .asset-card {
+            background: rgba(15, 27, 46, 0.6);
+            border: 1px solid rgba(0, 194, 168, 0.1);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .asset-card:hover {
+            border-color: var(--color-teal);
+            background: rgba(15, 27, 46, 0.9);
+        }
+
+        .asset-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(0, 194, 168, 0.2), rgba(91, 33, 182, 0.1));
+            border-radius: var(--border-radius-sm);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .asset-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--color-text-primary);
+        }
+
+        .asset-price {
+            font-size: 12px;
+            color: var(--color-teal);
+        }
+
+        /* Calendar */
+        .calendar-wrapper {
+            margin: var(--spacing-md) 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .calendar-header button {
+            background: transparent;
+            border: 1px solid rgba(0, 194, 168, 0.2);
+            color: var(--color-teal);
+            padding: 6px 12px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-header button:hover {
+            border-color: var(--color-teal);
+            background: rgba(0, 194, 168, 0.1);
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            padding: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 194, 168, 0.1);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+        }
+
+        .calendar-day:hover {
+            border-color: var(--color-teal);
+            background: rgba(0, 194, 168, 0.1);
+        }
+
+        .calendar-day.today {
+            background: var(--color-teal);
+            color: var(--color-navy);
+            font-weight: 600;
+        }
+
+        .calendar-day.event {
+            background: rgba(0, 194, 168, 0.2);
+            border-color: var(--color-teal);
+        }
+
+        .calendar-day.other-month {
+            color: var(--color-gray-dark);
+        }
+
+        /* Modal/Popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 15, 30, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+        }
+
+        .popup {
+            background: var(--color-navy-card);
+            border: 1px solid rgba(0, 194, 168, 0.2);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 194, 168, 0.2);
+        }
+
+        .popup-header {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: var(--font-syne);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-close {
+            background: transparent;
+            border: none;
+            color: var(--color-text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .popup-close:hover {
+            color: var(--color-teal);
+        }
+
+        .popup-content {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .popup-footer {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: flex-end;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .three-col {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-row {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: var(--spacing-md);
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .header-title {
+                font-size: 32px;
+            }
+
+            .two-col,
+            .three-col {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .container {
+                padding: var(--spacing-lg);
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="orb-container" aria-hidden="true">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-
-<nav class="topnav">
-  <div class="topnav-left">
-    <a href="index.html" class="topnav-logo" style="text-decoration:none;">Prop<span>Cast</span></a>
-    <div class="topnav-divider"></div>
-    <span class="topnav-section">Content Engine</span>
-  </div>
-  <div class="topnav-tabs">
-    <a class="topnav-tab" href="propcast-onboarding.html">Setup</a>
-    <a class="topnav-tab active" href="propcast-dashboard.html">Dashboard</a>
-    <a class="topnav-tab" href="propcast-nudge.html">Content</a>
-    <a class="topnav-tab" href="propcast-scorecard.html">Scorecard</a>
-  </div>
-  <div class="topnav-right">
-    <div class="topnav-avatar">GW</div>
-  </div>
-</nav>
-
-<div class="dash">
-
-  <!-- NUDGE BANNER -->
-  <div class="nudge" id="nudgeBanner">
-    <div>
-      <div class="nudge-badge">Smart Recommendation</div>
-      <div class="nudge-title">Your market update videos are approaching avatar fatigue.</div>
-      <div class="nudge-sub">We recommend recording 2 new 60-second videos to keep engagement high.</div>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
-    <div class="nudge-actions">
-      <button class="nudge-cta">See What We'll Create →</button>
-      <button class="nudge-dismiss" onclick="this.closest('.nudge').style.display='none'">✕</button>
-    </div>
-  </div>
+    <div class="grain-overlay"></div>
 
-  <!-- HERO STATS ROW -->
-  <div class="hero-row">
-    <div class="hero-card">
-      <div class="hero-label">Total Reach</div>
-      <div class="hero-val">24.3K</div>
-      <div class="hero-trend up">↑ 18% vs last month</div>
-    </div>
-    <div class="hero-card featured">
-      <div class="hero-label">Content Created</div>
-      <div class="hero-val">47</div>
-      <div class="hero-sub">from 5 photos &amp; 2 videos</div>
-      <div class="hero-trend up">↑ 12% vs last month</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-label">Engagement</div>
-      <div class="hero-val">1,847</div>
-      <div class="hero-trend up">↑ 22%</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-label">Avg Eng. Rate</div>
-      <div class="hero-val">4.2%</div>
-      <div class="hero-trend up">↑ 0.8pp</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-label">Posting Streak</div>
-      <div class="hero-val" style="display:flex;align-items:center;justify-content:center;gap:6px;">14 <span style="font-size:1.4rem;">🔥</span></div>
-      <div class="hero-sub">Best: 21 days</div>
-    </div>
-  </div>
+    <nav>
+        <nav-content>
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-prop">Prop</span><span class="nav-brand-cast">Cast</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="propcast-onboarding.html">Onboarding</a></li>
+                <li><a href="propcast-dashboard.html">Dashboard</a></li>
+                <li><a href="propcast-nudge.html">Nudge</a></li>
+                <li><a href="propcast-scorecard.html">Scorecard</a></li>
+            </ul>
+        </nav-content>
+    </nav>
 
-  <!-- CALENDAR + PIPELINE / AI ACTIVITY -->
-  <div class="two-col" style="animation:slideUp 0.7s ease-out;">
+    <div class="container">
+        <div class="header">
+            <h1 class="header-title">Dashboard</h1>
+            <p class="header-subtitle">Real-time property insights and performance metrics</p>
+        </div>
 
-    <!-- CALENDAR -->
-    <div class="card">
-      <div class="sec-head">
-        <div>
-          <div class="sec-label">Content Calendar</div>
-          <div class="sec-title">April 2026</div>
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Properties</div>
+                <div class="stat-value">247</div>
+                <div class="stat-change">+12 this month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg ROI</div>
+                <div class="stat-value">8.3%</div>
+                <div class="stat-change">+1.2% vs last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Value</div>
+                <div class="stat-value">$42.5M</div>
+                <div class="stat-change">+$3.2M growth</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Occupancy Rate</div>
+                <div class="stat-value">94.2%</div>
+                <div class="stat-change">Excellent</div>
+            </div>
         </div>
-        <div class="view-toggle">
-          <button class="toggle-btn active" onclick="toggleCalView('cal')">Calendar</button>
-          <button class="toggle-btn" onclick="toggleCalView('list')">List</button>
-        </div>
-      </div>
-      <div id="calendarView">
-        <div class="cal-head">
-          <div class="cal-day">Sun</div><div class="cal-day">Mon</div><div class="cal-day">Tue</div><div class="cal-day">Wed</div><div class="cal-day">Thu</div><div class="cal-day">Fri</div><div class="cal-day">Sat</div>
-        </div>
-        <div class="cal-grid" id="calGrid"></div>
-        <div class="legend">
-          <div class="legend-item"><div class="legend-dot cal-dot video"></div>Video</div>
-          <div class="legend-item"><div class="legend-dot cal-dot image"></div>Image</div>
-          <div class="legend-item"><div class="legend-dot cal-dot market"></div>Market Update</div>
-          <div class="legend-item"><div class="legend-dot cal-dot social"></div>Social Post</div>
-        </div>
-      </div>
-      <div id="listView" style="display:none;">
-        <div id="listContent"></div>
-      </div>
-    </div>
 
-    <!-- RIGHT SIDEBAR -->
-    <div class="sidebar-stack">
+        <!-- Hero Section with Chart and Metrics -->
+        <div class="hero-row">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Revenue Trend</h2>
+                    <span class="card-label">Q1 2024</span>
+                </div>
+                <div class="chart">Interactive revenue chart placeholder</div>
+                <p style="color: var(--color-text-secondary); font-size: 13px;">
+                    Your properties generated consistent revenue growth with a peak in March. Current performance is 18% above target.
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Portfolio Health</h2>
+                </div>
+                <div style="text-align: center; padding: var(--spacing-lg) 0;">
+                    <div style="font-size: 48px; color: var(--color-teal); margin-bottom: var(--spacing-md);">●</div>
+                    <div style="font-size: 24px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Excellent</div>
+                    <div style="color: var(--color-text-secondary); margin-bottom: var(--spacing-md);">All properties performing well</div>
+                    <div style="background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md); padding: var(--spacing-md);">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); font-size: 13px;">
+                            <div>
+                                <div style="color: var(--color-text-secondary); margin-bottom: 4px;">Risk Level</div>
+                                <div style="color: var(--color-success);">Low</div>
+                            </div>
+                            <div>
+                                <div style="color: var(--color-text-secondary); margin-bottom: 4px;">Alerts</div>
+                                <div style="color: var(--color-teal);">2 warnings</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      <!-- CONTENT PIPELINE -->
-      <div class="card">
-        <div class="sec-label" style="margin-bottom:10px;">Content Pipeline</div>
-        <div class="pipeline-row">
-          <div class="pipeline-status published"></div>
-          <div class="pipeline-title">EPA Market Update</div>
-          <span class="pipeline-type vid">Video</span>
-          <div class="pipeline-date">Apr 2</div>
-        </div>
-        <div class="pipeline-row">
-          <div class="pipeline-status published"></div>
-          <div class="pipeline-title">Just Listed: 172 Portola</div>
-          <span class="pipeline-type img">Image</span>
-          <div class="pipeline-date">Apr 4</div>
-        </div>
-        <div class="pipeline-row">
-          <div class="pipeline-status scheduled"></div>
-          <div class="pipeline-title">ADU ROI Analysis</div>
-          <span class="pipeline-type mkt">Market</span>
-          <div class="pipeline-date">Apr 6</div>
-        </div>
-        <div class="pipeline-row">
-          <div class="pipeline-status scheduled"></div>
-          <div class="pipeline-title">Open House Recap</div>
-          <span class="pipeline-type vid">Video</span>
-          <div class="pipeline-date">Apr 8</div>
-        </div>
-        <div class="pipeline-row">
-          <div class="pipeline-status ready"></div>
-          <div class="pipeline-title">New Construction Walk</div>
-          <span class="pipeline-type vid">Video</span>
-          <div class="pipeline-date">Apr 12</div>
-        </div>
-        <div class="pipeline-row">
-          <div class="pipeline-status draft"></div>
-          <div class="pipeline-title">Q2 Market Trends</div>
-          <span class="pipeline-type mkt">Market</span>
-          <div class="pipeline-date">Apr 14</div>
-        </div>
-        <div class="pipeline-row">
-          <div class="pipeline-status draft"></div>
-          <div class="pipeline-title">Staging Tips & Tricks</div>
-          <span class="pipeline-type soc">Social</span>
-          <div class="pipeline-date">Apr 16</div>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:10px;">
-          <div class="legend-item"><div class="pipeline-status published" style="width:6px;height:6px;"></div>Published</div>
-          <div class="legend-item"><div class="pipeline-status scheduled" style="width:6px;height:6px;"></div>Scheduled</div>
-          <div class="legend-item"><div class="pipeline-status ready" style="width:6px;height:6px;"></div>Ready</div>
-          <div class="legend-item"><div class="pipeline-status draft" style="width:6px;height:6px;"></div>Draft</div>
-        </div>
-      </div>
+        <!-- Top Properties and Market Analysis -->
+        <div class="two-col">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Top Properties</h2>
+                    <span class="card-label">By Revenue</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Revenue</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sunset Plaza</td>
+                            <td>$45,200</td>
+                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                        </tr>
+                        <tr>
+                            <td>Marina Heights</td>
+                            <td>$38,900</td>
+                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                        </tr>
+                        <tr>
+                            <td>Downtown Lofts</td>
+                            <td>$36,500</td>
+                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                        </tr>
+                        <tr>
+                            <td>Park Avenue</td>
+                            <td>$34,100</td>
+                            <td><span style="color: var(--color-warning);">●</span> Maintenance</td>
+                        </tr>
+                        <tr>
+                            <td>Riverside Villas</td>
+                            <td>$32,800</td>
+                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-      <!-- AI ACTIVITY LOG -->
-      <div class="card">
-        <div class="sec-label" style="margin-bottom:10px;">PropIQ Activity</div>
-        <div class="ai-row">
-          <div class="ai-icon">✨</div>
-          <div><div class="ai-text">Created 3 Instagram carousel variations from your listing photos</div><div class="ai-time">2 hours ago</div></div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Market Analysis</h2>
+                </div>
+                <div class="chart">Market trends visualization</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                    <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md);">
+                        <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Market Growth</div>
+                        <div style="color: var(--color-teal); font-size: 20px; font-weight: 700;">+6.2%</div>
+                    </div>
+                    <div style="padding: var(--spacing-md); background: rgba(91, 33, 182, 0.1); border-radius: var(--border-radius-md);">
+                        <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Avg Price</div>
+                        <div style="color: var(--color-text-primary); font-size: 20px; font-weight: 700;">$485K</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="ai-row">
-          <div class="ai-icon">📊</div>
-          <div><div class="ai-text">Refreshed market data for 94303 — median up 2.4%</div><div class="ai-time">5 hours ago</div></div>
-        </div>
-        <div class="ai-row">
-          <div class="ai-icon">🎬</div>
-          <div><div class="ai-text">Generated new avatar video from your "Spring Market" script</div><div class="ai-time">Yesterday</div></div>
-        </div>
-        <div class="ai-row">
-          <div class="ai-icon">📅</div>
-          <div><div class="ai-text">Auto-scheduled 8 posts for next week across all channels</div><div class="ai-time">Yesterday</div></div>
-        </div>
-        <div class="ai-row">
-          <div class="ai-icon">🔄</div>
-          <div><div class="ai-text">Swapped Photo #4 (fatigued) for a fresh crop variation</div><div class="ai-time">2 days ago</div></div>
-        </div>
-      </div>
 
-    </div>
-  </div>
+        <!-- Featured Properties -->
+        <div class="card" style="margin-bottom: var(--spacing-lg);">
+            <div class="card-header">
+                <h2 class="card-title">Featured Properties</h2>
+                <span class="card-label">Highlighted</span>
+            </div>
+            <div class="asset-grid">
+                <div class="asset-card" onclick="openPropertyDetails('sunset-plaza')">
+                    <div class="asset-image">Property Image</div>
+                    <div class="asset-name">Sunset Plaza</div>
+                    <div class="asset-price">$1.2M</div>
+                </div>
+                <div class="asset-card" onclick="openPropertyDetails('marina-heights')">
+                    <div class="asset-image">Property Image</div>
+                    <div class="asset-name">Marina Heights</div>
+                    <div class="asset-price">$980K</div>
+                </div>
+                <div class="asset-card" onclick="openPropertyDetails('downtown-lofts')">
+                    <div class="asset-image">Property Image</div>
+                    <div class="asset-name">Downtown Lofts</div>
+                    <div class="asset-price">$750K</div>
+                </div>
+                <div class="asset-card" onclick="openPropertyDetails('park-avenue')">
+                    <div class="asset-image">Property Image</div>
+                    <div class="asset-name">Park Avenue</div>
+                    <div class="asset-price">$1.45M</div>
+                </div>
+                <div class="asset-card" onclick="openPropertyDetails('riverside-villas')">
+                    <div class="asset-image">Property Image</div>
+                    <div class="asset-name">Riverside Villas</div>
+                    <div class="asset-price">$2.1M</div>
+                </div>
+                <div class="asset-card" onclick="openPropertyDetails('oak-ridge')">
+                    <div class="asset-image">Property Image</div>
+                    <div class="asset-name">Oak Ridge Estates</div>
+                    <div class="asset-price">$1.8M</div>
+                </div>
+            </div>
+        </div>
 
-  <!-- PLATFORM BREAKDOWN -->
-  <div class="three-col" style="animation:slideUp 0.8s ease-out;">
-    <div class="card platform-card">
-      <div class="platform-head">
-        <div class="platform-icon ig">📷</div>
-        <div class="platform-name">Instagram</div>
-      </div>
-      <div class="platform-stat"><span class="platform-stat-label">Followers</span><span class="platform-stat-val">2,847</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Reach</span><span class="platform-stat-val">12.4K</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Eng. Rate</span><span class="platform-stat-val">5.1%</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Posts This Month</span><span class="platform-stat-val">18</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Best Post</span><span class="platform-stat-val" style="color:var(--gold);">Listing Tour</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Profile Views</span><span class="platform-stat-val">342</span></div>
-      <div style="margin-top:10px;"><span class="platform-stat-trend" style="color:var(--green);font-size:0.65rem;font-weight:600;">↑ 24% growth this month</span></div>
-    </div>
-    <div class="card platform-card">
-      <div class="platform-head">
-        <div class="platform-icon yt">▶</div>
-        <div class="platform-name">YouTube</div>
-      </div>
-      <div class="platform-stat"><span class="platform-stat-label">Subscribers</span><span class="platform-stat-val">483</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Views</span><span class="platform-stat-val">8.2K</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Watch Time</span><span class="platform-stat-val">142 hrs</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Shorts Views</span><span class="platform-stat-val">3.8K</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Best Video</span><span class="platform-stat-val" style="color:var(--gold);">Market Update</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">CTR</span><span class="platform-stat-val">6.8%</span></div>
-      <div style="margin-top:10px;"><span class="platform-stat-trend" style="color:var(--green);font-size:0.65rem;font-weight:600;">↑ 31% views vs last month</span></div>
-    </div>
-    <div class="card platform-card">
-      <div class="platform-head">
-        <div class="platform-icon fb">f</div>
-        <div class="platform-name">Facebook + GBP</div>
-      </div>
-      <div class="platform-stat"><span class="platform-stat-label">Page Likes</span><span class="platform-stat-val">1,124</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Reach</span><span class="platform-stat-val">3.7K</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Post Clicks</span><span class="platform-stat-val">289</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">GBP Views</span><span class="platform-stat-val">1.2K</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">GBP Reviews</span><span class="platform-stat-val">47 ★ 4.9</span></div>
-      <div class="platform-stat"><span class="platform-stat-label">Website Clicks</span><span class="platform-stat-val">84</span></div>
-      <div style="margin-top:10px;"><span class="platform-stat-trend" style="color:var(--green);font-size:0.65rem;font-weight:600;">↑ 12% reach this month</span></div>
-    </div>
-  </div>
+        <!-- Bottom Section: Activity and Calendar -->
+        <div class="bottom-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Activity</h2>
+                    <span class="card-label">Updates</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+                    <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(0, 194, 168, 0.1);">
+                        <div style="width: 8px; height: 8px; background: var(--color-teal); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                        <div>
+                            <div style="color: var(--color-text-primary); font-weight: 500;">New tenant moved in</div>
+                            <div style="color: var(--color-text-secondary); font-size: 12px;">Marina Heights • 2 hours ago</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(0, 194, 168, 0.1);">
+                        <div style="width: 8px; height: 8px; background: var(--color-warning); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                        <div>
+                            <div style="color: var(--color-text-primary); font-weight: 500;">Maintenance scheduled</div>
+                            <div style="color: var(--color-text-secondary); font-size: 12px;">Park Avenue • 1 day ago</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(0, 194, 168, 0.1);">
+                        <div style="width: 8px; height: 8px; background: var(--color-teal); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                        <div>
+                            <div style="color: var(--color-text-primary); font-weight: 500;">Rent collected</div>
+                            <div style="color: var(--color-text-secondary); font-size: 12px;">Sunset Plaza • 3 days ago</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-md);">
+                        <div style="width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                        <div>
+                            <div style="color: var(--color-text-primary); font-weight: 500;">Lease renewed</div>
+                            <div style="color: var(--color-text-secondary); font-size: 12px;">Downtown Lofts • 1 week ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <!-- BOTTOM GRID: TOP CONTENT + ENGAGEMENT CHART -->
-  <div class="bottom-grid" style="animation:slideUp 0.9s ease-out;">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Calendar</h2>
+                </div>
+                <div class="calendar-wrapper">
+                    <div class="calendar-header">
+                        <button onclick="previousMonth()">&lt; Prev</button>
+                        <span id="currentMonth" style="font-weight: 600;">April 2024</span>
+                        <button onclick="nextMonth()">Next &gt;</button>
+                    </div>
+                    <div class="calendar" id="calendarGrid"></div>
+                </div>
+                <div style="margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(0, 194, 168, 0.1); font-size: 12px;">
+                    <div style="color: var(--color-text-secondary); margin-bottom: 8px;">Upcoming Events</div>
+                    <div style="color: var(--color-teal);">2 inspections scheduled</div>
+                </div>
+            </div>
+        </div>
 
-    <!-- TOP PERFORMING CONTENT -->
-    <div class="card">
-      <div class="sec-label" style="margin-bottom:12px;">Top Performing Content</div>
-      <div class="top-table">
-        <div class="top-row header">
-          <span>#</span><span>Content</span><span>Reach</span><span>Eng.</span><span>Rate</span>
+        <!-- View Full Analytics Button -->
+        <div style="margin-top: var(--spacing-xl); text-align: center;">
+            <a href="propcast-scorecard.html" class="btn btn-primary">View Full Analytics</a>
         </div>
-        <div class="top-row">
-          <div class="top-rank">1</div>
-          <div><div class="top-title">EPA Market Update — Q1 Recap</div><div class="top-title-sub"><span class="top-type-pill" style="background:rgba(181,162,100,0.15);color:var(--gold);">Video</span> Instagram · Apr 2</div></div>
-          <div class="top-metric">3,247</div>
-          <div class="top-eng">287</div>
-          <div class="top-metric">8.8%</div>
-        </div>
-        <div class="top-row">
-          <div class="top-rank">2</div>
-          <div><div class="top-title">Just Listed: 172 Portola Drive</div><div class="top-title-sub"><span class="top-type-pill" style="background:var(--blue-l);color:var(--blue);">Carousel</span> Instagram · Apr 4</div></div>
-          <div class="top-metric">2,891</div>
-          <div class="top-eng">214</div>
-          <div class="top-metric">7.4%</div>
-        </div>
-        <div class="top-row">
-          <div class="top-rank">3</div>
-          <div><div class="top-title">Why ADUs Are the Best Investment</div><div class="top-title-sub"><span class="top-type-pill" style="background:var(--green-l);color:var(--green);">Shorts</span> YouTube · Apr 6</div></div>
-          <div class="top-metric">2,443</div>
-          <div class="top-eng">198</div>
-          <div class="top-metric">8.1%</div>
-        </div>
-        <div class="top-row">
-          <div class="top-rank">4</div>
-          <div><div class="top-title">Spring Market Predictions 2026</div><div class="top-title-sub"><span class="top-type-pill" style="background:rgba(181,162,100,0.15);color:var(--gold);">Video</span> YouTube · Apr 8</div></div>
-          <div class="top-metric">1,987</div>
-          <div class="top-eng">156</div>
-          <div class="top-metric">7.9%</div>
-        </div>
-        <div class="top-row">
-          <div class="top-rank">5</div>
-          <div><div class="top-title">Client Testimonial: The Garcia Family</div><div class="top-title-sub"><span class="top-type-pill" style="background:var(--orange-l);color:var(--orange);">Reel</span> Facebook · Apr 10</div></div>
-          <div class="top-metric">1,654</div>
-          <div class="top-eng">132</div>
-          <div class="top-metric">8.0%</div>
-        </div>
-      </div>
     </div>
 
-    <!-- ENGAGEMENT BY CONTENT TYPE + AUDIENCE GROWTH -->
-    <div class="sidebar-stack">
-      <div class="card">
-        <div class="sec-label" style="margin-bottom:10px;">Engagement by Content Type</div>
-        <div class="chart-row"><div class="chart-label">Video</div><div class="chart-bar-bg"><div class="chart-bar" style="width:88%;background:linear-gradient(90deg,rgba(181,162,100,0.5),rgba(181,162,100,0.25));"></div></div><div class="chart-val">8.8%</div></div>
-        <div class="chart-row"><div class="chart-label">Carousel</div><div class="chart-bar-bg"><div class="chart-bar" style="width:74%;background:linear-gradient(90deg,rgba(75,123,167,0.5),rgba(75,123,167,0.25));"></div></div><div class="chart-val">7.4%</div></div>
-        <div class="chart-row"><div class="chart-label">Shorts</div><div class="chart-bar-bg"><div class="chart-bar" style="width:81%;background:linear-gradient(90deg,rgba(107,158,122,0.5),rgba(107,158,122,0.25));"></div></div><div class="chart-val">8.1%</div></div>
-        <div class="chart-row"><div class="chart-label">Reels</div><div class="chart-bar-bg"><div class="chart-bar" style="width:80%;background:linear-gradient(90deg,rgba(212,146,58,0.5),rgba(212,146,58,0.25));"></div></div><div class="chart-val">8.0%</div></div>
-        <div class="chart-row"><div class="chart-label">Static</div><div class="chart-bar-bg"><div class="chart-bar" style="width:42%;background:linear-gradient(90deg,rgba(255,255,255,0.15),rgba(255,255,255,0.06));"></div></div><div class="chart-val">4.2%</div></div>
-        <div class="chart-row"><div class="chart-label">Market</div><div class="chart-bar-bg"><div class="chart-bar" style="width:65%;background:linear-gradient(90deg,rgba(120,80,160,0.4),rgba(120,80,160,0.2));"></div></div><div class="chart-val">6.5%</div></div>
-      </div>
-
-      <div class="card">
-        <div class="sec-label" style="margin-bottom:10px;">Audience Growth (Last 4 Weeks)</div>
-        <div class="growth-bar-row"><div class="growth-label">Week 1</div><div class="growth-bar-bg"><div class="growth-bar" style="width:45%;"></div></div><div class="growth-val">+38</div></div>
-        <div class="growth-bar-row"><div class="growth-label">Week 2</div><div class="growth-bar-bg"><div class="growth-bar" style="width:62%;"></div></div><div class="growth-val">+52</div></div>
-        <div class="growth-bar-row"><div class="growth-label">Week 3</div><div class="growth-bar-bg"><div class="growth-bar" style="width:78%;"></div></div><div class="growth-val">+65</div></div>
-        <div class="growth-bar-row"><div class="growth-label">Week 4</div><div class="growth-bar-bg"><div class="growth-bar" style="width:94%;"></div></div><div class="growth-val">+79</div></div>
-        <div style="margin-top:8px;font-size:0.65rem;color:var(--green);font-weight:600;">Total: +234 new followers across all channels</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ASSET LIBRARY + POSTING HEATMAP -->
-  <div class="bottom-grid" style="animation:slideUp 1s ease-out;">
-
-    <!-- ASSET LIBRARY -->
-    <div class="card">
-      <div class="sec-head">
-        <div>
-          <div class="sec-label">Asset Library</div>
-          <div class="sec-title" style="font-size:1.1rem;">Photo &amp; Video Assets</div>
+    <!-- Property Details Popup -->
+    <div class="popup-overlay" id="propertyPopup">
+        <div class="popup">
+            <div class="popup-header">
+                <span id="popupPropertyName">Property Details</span>
+                <button class="popup-close" onclick="closePropertyDetails()">&times;</button>
+            </div>
+            <div class="popup-content" id="popupContent">
+                <p>Loading property details...</p>
+            </div>
+            <div class="popup-footer">
+                <button class="btn btn-secondary" onclick="closePropertyDetails()">Close</button>
+                <button class="btn btn-primary">View Full Details</button>
+            </div>
         </div>
-        <button class="footer-btn secondary" style="padding:6px 14px;font-size:0.65rem;">Upload New</button>
-      </div>
-      <div class="asset-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px;">
-        <div><div class="asset-thumb"><div class="indicator fresh"></div><div class="asset-placeholder">📸</div></div><div class="asset-usage">Used 2x · Fresh</div></div>
-        <div><div class="asset-thumb"><div class="indicator moderate"></div><div class="asset-placeholder">📸</div></div><div class="asset-usage">Used 4x · Moderate</div></div>
-        <div><div class="asset-thumb"><div class="indicator fresh"></div><div class="asset-placeholder">📸</div></div><div class="asset-usage">Used 1x · Fresh</div></div>
-        <div><div class="asset-thumb"><div class="indicator fatigued"></div><div class="asset-placeholder">📸</div></div><div class="asset-usage">Used 7x · Refresh</div></div>
-        <div><div class="asset-thumb"><div class="indicator moderate"></div><div class="asset-placeholder">📸</div></div><div class="asset-usage">Used 5x · Moderate</div></div>
-        <div><div class="asset-thumb"><div class="indicator fresh"></div><div class="asset-placeholder">📸</div></div><div class="asset-usage">Used 0x · New</div></div>
-        <div><div class="asset-thumb"><div class="indicator fresh"></div><div class="asset-placeholder">🎬</div></div><div class="asset-usage">Video · 2:30</div></div>
-        <div><div class="asset-thumb"><div class="indicator moderate"></div><div class="asset-placeholder">🎬</div></div><div class="asset-usage">Video · 1:45</div></div>
-      </div>
-      <div style="display:flex;gap:14px;margin-top:8px;">
-        <div class="legend-item"><div class="indicator fresh" style="width:6px;height:6px;position:static;"></div>Fresh</div>
-        <div class="legend-item"><div class="indicator moderate" style="width:6px;height:6px;position:static;"></div>Moderate</div>
-        <div class="legend-item"><div class="indicator fatigued" style="width:6px;height:6px;position:static;animation:none;"></div>Needs Refresh</div>
-      </div>
-      <div style="margin-top:14px;padding:10px 14px;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.15);border-radius:6px;font-size:0.7rem;color:var(--ink);">
-        <strong style="color:var(--red);">1 asset needs attention</strong> — Photo #4 has been used 7 times. Upload a replacement or let PropIQ generate a fresh crop variation.
-      </div>
     </div>
 
-    <!-- BEST TIMES TO POST (Heatmap) -->
-    <div class="card">
-      <div class="sec-label" style="margin-bottom:12px;">Best Times to Post</div>
-      <div class="heatmap">
-        <div></div>
-        <div class="heatmap-header">Sun</div><div class="heatmap-header">Mon</div><div class="heatmap-header">Tue</div><div class="heatmap-header">Wed</div><div class="heatmap-header">Thu</div><div class="heatmap-header">Fri</div><div class="heatmap-header">Sat</div>
-        <div class="heatmap-label">8 AM</div><div class="heatmap-cell l1"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l1"></div><div class="heatmap-cell l1"></div>
-        <div class="heatmap-label">10 AM</div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l2"></div>
-        <div class="heatmap-label">12 PM</div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l3"></div>
-        <div class="heatmap-label">2 PM</div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l2"></div>
-        <div class="heatmap-label">4 PM</div><div class="heatmap-cell l1"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l1"></div>
-        <div class="heatmap-label">6 PM</div><div class="heatmap-cell l3"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l4"></div>
-        <div class="heatmap-label">8 PM</div><div class="heatmap-cell l4"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l1"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l1"></div><div class="heatmap-cell l3"></div>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:12px;align-items:center;">
-        <span style="font-size:0.58rem;color:var(--muted);">Low</span>
-        <div style="width:12px;height:8px;border-radius:2px;background:rgba(107,158,122,0.15);"></div>
-        <div style="width:12px;height:8px;border-radius:2px;background:rgba(107,158,122,0.3);"></div>
-        <div style="width:12px;height:8px;border-radius:2px;background:rgba(107,158,122,0.5);"></div>
-        <div style="width:12px;height:8px;border-radius:2px;background:rgba(107,158,122,0.7);"></div>
-        <span style="font-size:0.58rem;color:var(--muted);">High</span>
-        <span style="font-size:0.6rem;color:var(--faint);margin-left:auto;">Based on your audience's last 90 days of activity</span>
-      </div>
+    <script>
+        // Calendar functionality
+        let currentDate = new Date(2024, 3, 1); // April 2024
 
-      <!-- AVATAR VARIATIONS -->
-      <div style="margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--border);">
-        <div class="sec-label" style="margin-bottom:10px;">Avatar Variations</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-          <div style="padding:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(181,162,100,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.13)'">
-            <div style="font-size:1.8rem;margin-bottom:4px;">👔</div>
-            <div style="font-size:0.65rem;color:var(--muted);">Professional</div>
-            <div style="font-size:0.58rem;color:var(--faint);margin-top:2px;">Used 12x</div>
-          </div>
-          <div style="padding:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(181,162,100,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.13)'">
-            <div style="font-size:1.8rem;margin-bottom:4px;">😎</div>
-            <div style="font-size:0.65rem;color:var(--muted);">Casual</div>
-            <div style="font-size:0.58rem;color:var(--faint);margin-top:2px;">Used 8x</div>
-          </div>
-          <div style="padding:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(181,162,100,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.13)'">
-            <div style="font-size:1.8rem;margin-bottom:4px;">🏡</div>
-            <div style="font-size:0.65rem;color:var(--muted);">On-Location</div>
-            <div style="font-size:0.58rem;color:var(--faint);margin-top:2px;">Used 3x</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        const propertyDetails = {
+            'sunset-plaza': {
+                name: 'Sunset Plaza',
+                price: '$1,200,000',
+                location: 'Beverly Hills, CA',
+                beds: 8,
+                baths: 6,
+                sqft: '12,500',
+                roi: '8.2%',
+                occupancy: '98%'
+            },
+            'marina-heights': {
+                name: 'Marina Heights',
+                price: '$980,000',
+                location: 'Marina Del Rey, CA',
+                beds: 6,
+                baths: 4,
+                sqft: '9,200',
+                roi: '7.9%',
+                occupancy: '96%'
+            },
+            'downtown-lofts': {
+                name: 'Downtown Lofts',
+                price: '$750,000',
+                location: 'Downtown LA, CA',
+                beds: 4,
+                baths: 3,
+                sqft: '6,800',
+                roi: '9.1%',
+                occupancy: '94%'
+            },
+            'park-avenue': {
+                name: 'Park Avenue',
+                price: '$1,450,000',
+                location: 'New York, NY',
+                beds: 10,
+                baths: 7,
+                sqft: '14,100',
+                roi: '7.5%',
+                occupancy: '92%'
+            },
+            'riverside-villas': {
+                name: 'Riverside Villas',
+                price: '$2,100,000',
+                location: 'San Diego, CA',
+                beds: 12,
+                baths: 8,
+                sqft: '18,500',
+                roi: '8.7%',
+                occupancy: '95%'
+            },
+            'oak-ridge': {
+                name: 'Oak Ridge Estates',
+                price: '$1,800,000',
+                location: 'Austin, TX',
+                beds: 10,
+                baths: 7,
+                sqft: '16,200',
+                roi: '9.3%',
+                occupancy: '97%'
+            }
+        };
 
-  <!-- FOOTER ACTIONS -->
-  <div class="footer-actions">
-    <button class="footer-btn primary">Upload New Assets</button>
-    <a href="propcast-scorecard.html" class="footer-btn secondary" style="text-decoration:none;display:inline-flex;align-items:center;">View Full Analytics</a>
-    <button class="footer-btn secondary">Export Report</button>
-  </div>
+        function renderCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthYear = document.getElementById('currentMonth');
+            calendarGrid.innerHTML = '';
 
-</div>
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
 
-<!-- POPUP -->
-<div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
-<div class="popup" id="contentPopup">
-  <button class="popup-close" onclick="closePopup()">✕</button>
-  <div class="popup-thumb" id="popupThumb">📸</div>
-  <div class="popup-title" id="popupTitle"></div>
-  <div class="popup-meta" id="popupMeta"></div>
-</div>
+            // Month and year header
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            monthYear.textContent = monthNames[month] + ' ' + year;
 
-<script>
-  const calData = {
-    1:['social'],2:['video','image'],3:['social'],4:['image'],5:['social'],6:['market'],
-    7:['social'],8:['video'],9:['image'],10:['social'],11:['video'],12:['video','image'],
-    13:['social'],14:['market'],15:['image'],16:['image','social'],17:['video'],18:['video','market'],
-    20:['social'],21:['image'],22:['image'],23:['video'],24:['video'],25:['social'],
-    26:['market'],27:['image'],28:['video','image'],29:['social'],30:['video']
-  };
-  const titles = {
-    1:'Community Poll: Favorite Neighborhood',2:'East Palo Alto Market Update',3:'Homeowner Tip of the Day',
-    4:'Just Listed: 172 Portola Dr',5:'Did You Know? EPA History',6:'ADU ROI Analysis',
-    7:'Weekend Open House Teaser',8:'Open House Walkthrough',9:'Before & After: Kitchen Reno',
-    10:'Client Spotlight: The Garcias',11:'Mortgage Rate Update',12:'New Construction Walk',
-    13:'Ask Me Anything Post',14:'Q2 Market Trends',15:'Staging Tips Gallery',
-    16:'Home Staging Tips & Tricks',17:'Client Testimonial Video',18:'Spring Market Deep Dive',
-    20:'Neighborhood Guide: Palo Alto',21:'Property Photography Tips',22:'Virtual Tour Preview',
-    23:'Investment Property Analysis',24:'Spring Market Predictions',25:'Community Event Roundup',
-    26:'Buyer First-Time Guide',27:'Luxury Home Showcase',28:'Portfolio Highlight Reel',
-    29:'Weekend Market Snapshot',30:'Monthly Recap Video'
-  };
+            // Day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                header.textContent = day;
+                calendarGrid.appendChild(header);
+            });
 
-  function genCal(){
-    const g=document.getElementById('calGrid');
-    g.innerHTML='';
-    for(let i=0;i<3;i++){const c=document.createElement('div');c.className='cal-cell empty';g.appendChild(c);}
-    for(let d=1;d<=30;d++){
-      const c=document.createElement('div');
-      c.className='cal-cell'+(d===2?' today':'');
-      c.onclick=()=>openPopup(d);
-      c.innerHTML=`<div class="cal-num">${d}</div>`;
-      if(calData[d]){
-        let dots='<div class="cal-dots">';
-        calData[d].forEach(t=>dots+=`<div class="cal-dot ${t}"></div>`);
-        dots+='</div>';
-        c.innerHTML+=dots;
-      }
-      g.appendChild(c);
-    }
-  }
+            // Empty cells before month starts
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day other-month';
+                calendarGrid.appendChild(emptyCell);
+            }
 
-  function genList(){
-    const el=document.getElementById('listContent');
-    let html='';
-    for(let d=1;d<=30;d++){
-      if(!calData[d])continue;
-      const types=calData[d].map(t=>t.charAt(0).toUpperCase()+t.slice(1)).join(', ');
-      html+=`<div style="display:flex;align-items:center;gap:12px;padding:0.65rem 0;border-bottom:1px solid var(--border);cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'">
-        <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--gold);width:32px;text-align:center;">Apr<br>${d}</div>
-        <div style="flex:1;"><div style="font-size:0.78rem;font-weight:600;color:var(--ink);">${titles[d]||'Content'}</div><div style="font-size:0.65rem;color:var(--muted);">${types}</div></div>
-        <div style="font-size:0.6rem;color:var(--muted);">10:${(d%4+1)*15} AM</div>
-      </div>`;
-    }
-    el.innerHTML=html;
-  }
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                dayCell.textContent = day;
 
-  function toggleCalView(v){
-    const btns=document.querySelectorAll('.view-toggle .toggle-btn');
-    document.getElementById('calendarView').style.display=v==='cal'?'block':'none';
-    document.getElementById('listView').style.display=v==='list'?'block':'none';
-    btns[0].classList.toggle('active',v==='cal');
-    btns[1].classList.toggle('active',v==='list');
-  }
+                // Today highlight
+                const today = new Date();
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dayCell.classList.add('today');
+                }
 
-  function openPopup(d){
-    if(!calData[d])return;
-    document.getElementById('popupTitle').textContent=titles[d]||`Content for April ${d}`;
-    const t=calData[d][0];
-    const label=t==='video'?'Video':t==='image'?'Image Carousel':t==='market'?'Market Update':'Social Post';
-    document.getElementById('popupMeta').innerHTML=`<span class="popup-badge">${label}</span><span style="color:var(--muted);font-size:0.72rem;">April ${d}, 2026</span>`;
-    document.getElementById('contentPopup').classList.add('active');
-    document.getElementById('popupOverlay').classList.add('active');
-  }
-  function closePopup(){
-    document.getElementById('contentPopup').classList.remove('active');
-    document.getElementById('popupOverlay').classList.remove('active');
-  }
+                // Event highlight
+                if ([5, 12, 19, 26].includes(day)) {
+                    dayCell.classList.add('event');
+                }
 
-  window.addEventListener('load',()=>{genCal();genList();});
-</script>
+                dayCell.onclick = () => selectDate(day, month, year);
+                calendarGrid.appendChild(dayCell);
+            }
+
+            // Empty cells after month ends
+            const totalCells = calendarGrid.children.length;
+            const remainingCells = (7 - (totalCells % 7)) % 7;
+            for (let i = 0; i < remainingCells; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day other-month';
+                calendarGrid.appendChild(emptyCell);
+            }
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        function selectDate(day, month, year) {
+            console.log('Selected:', day + '/' + (month + 1) + '/' + year);
+        }
+
+        function openPropertyDetails(propertyId) {
+            const details = propertyDetails[propertyId];
+            if (!details) return;
+
+            const popup = document.getElementById('propertyPopup');
+            const popupName = document.getElementById('popupPropertyName');
+            const popupContent = document.getElementById('popupContent');
+
+            popupName.textContent = details.name;
+            popupContent.innerHTML = `
+                <div style="display: grid; gap: var(--spacing-md);">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                        <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md);">
+                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Price</div>
+                            <div style="color: var(--color-text-primary); font-weight: 700;">${details.price}</div>
+                        </div>
+                        <div style="padding: var(--spacing-md); background: rgba(91, 33, 182, 0.1); border-radius: var(--border-radius-md);">
+                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Location</div>
+                            <div style="color: var(--color-text-primary); font-size: 13px; font-weight: 600;">${details.location}</div>
+                        </div>
+                    </div>
+                    <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.05); border-radius: var(--border-radius-md);">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+                            <div>
+                                <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Bedrooms</div>
+                                <div style="color: var(--color-text-primary); font-weight: 700;">${details.beds}</div>
+                            </div>
+                            <div>
+                                <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Bathrooms</div>
+                                <div style="color: var(--color-text-primary); font-weight: 700;">${details.baths}</div>
+                            </div>
+                            <div>
+                                <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Sq Ft</div>
+                                <div style="color: var(--color-text-primary); font-weight: 700;">${details.sqft}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                        <div style="padding: var(--spacing-md); background: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius-md);">
+                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">ROI</div>
+                            <div style="color: var(--color-success); font-weight: 700; font-size: 18px;">${details.roi}</div>
+                        </div>
+                        <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md);">
+                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Occupancy</div>
+                            <div style="color: var(--color-teal); font-weight: 700; font-size: 18px;">${details.occupancy}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            popup.classList.add('active');
+        }
+
+        function closePropertyDetails() {
+            const popup = document.getElementById('propertyPopup');
+            popup.classList.remove('active');
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('propertyPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePropertyDetails();
+            }
+        });
+
+        // Initialize calendar on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCalendar();
+        });
+    </script>
 </body>
 </html>

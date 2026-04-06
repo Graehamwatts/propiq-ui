@@ -6,6 +6,7 @@
     <title>PropCast — Content Engine Onboarding</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <style>
         /* ============================================================
            PROPCAST DESIGN SYSTEM — Navy/Teal Dark Mode
@@ -77,1503 +78,2101 @@
            TOP NAV
            ============================================================ */
         .topnav {
-            height: 52px;
+            height: 56px;
             background: rgba(11,31,58,0.85);
             border-bottom: 1px solid var(--teal-border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             position: sticky; top: 0; z-index: 200;
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-        .topnav-left { display: flex; align-items: center; gap: 1rem; }
+        .topnav-left { display: flex; align-items: center; gap: 1.5rem; }
         .topnav-logo {
-            font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800;
+            font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800;
             color: var(--ink); letter-spacing: -0.5px; text-decoration: none;
         }
         .topnav-logo span { color: var(--teal); }
-        .topnav-divider { width: 1px; height: 20px; background: var(--border2); }
-        .topnav-section { font-size: 0.75rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; }
-        .topnav-right { display: flex; align-items: center; }
         .topnav-avatar {
-            width: 32px; height: 32px; border-radius: 50%;
-            background: var(--navy-l); border: 1px solid var(--teal-border);
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #00C2A8, #009e88);
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; font-weight: 600; color: var(--teal);
+            font-size: 0.85rem; font-weight: 700; color: #060F1E;
+            cursor: pointer;
         }
 
         /* ============================================================
-           WIZARD CONTAINER
+           MAIN LAYOUT & STEP CONTAINER
            ============================================================ */
-        .wizard-container {
-            max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 3rem;
-            position: relative; z-index: 1;
-            transition: max-width 0.4s ease;
+        .wrapper { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+        .step-container { flex: 1; padding: 3rem 2rem; max-width: 1200px; width: 100%; margin: 0 auto; }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 3px; background: rgba(255,255,255,0.05);
+            position: fixed; top: 56px; left: 0; right: 0; z-index: 150;
         }
-        .wizard-container.wide { max-width: 920px; }
-
-        /* ============================================================
-           PROGRESS BAR
-           ============================================================ */
-        .progress-section { margin-bottom: 2rem; }
-        .progress-bar-container { position: relative; height: 3px; background: var(--navy-l); border-radius: 2px; margin-bottom: 2rem; overflow: hidden; }
-        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--teal) 0%, var(--teal-d) 100%); border-radius: 2px; width: 20%; transition: width 0.8s cubic-bezier(0.23,1,0.32,1); }
-        .progress-dots { display: flex; justify-content: space-between; gap: 1rem; }
-        .progress-dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            background: var(--navy-l); border: 2px solid var(--faint);
-            cursor: pointer; transition: all 0.3s ease;
+        .progress-bar-fill {
+            height: 100%; background: linear-gradient(90deg, var(--teal), #00C2A8);
+            transition: width 0.6s ease;
         }
-        .progress-dot.active { background: var(--teal); border-color: var(--teal); box-shadow: 0 0 12px rgba(0,194,168,0.4); }
-        .progress-dot.completed { background: var(--teal); border-color: var(--teal); }
-        .progress-labels { display: flex; justify-content: space-between; margin-top: 8px; }
-        .progress-label { font-size: 0.6rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; text-align: center; width: 80px; transition: color 0.3s; }
-        .progress-label.active { color: var(--teal); }
-        .progress-label.completed { color: var(--gray); }
 
-        /* ============================================================
-           STEP STYLING
-           ============================================================ */
-        .step { display: none; }
-        .step.active { display: block; animation: fadeUp 0.4s ease; }
+        /* Step dots and labels */
+        .step-nav {
+            display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            display: flex; flex-direction: column; align-items: center; gap: 0.75rem; cursor: pointer;
+        }
+        .step-dot-circle {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--navy-card);
+            border: 2px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            color: var(--gray); font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active .step-dot-circle {
+            background: var(--teal); color: var(--bg); border-color: var(--teal);
+        }
+        .step-dot.completed .step-dot-circle {
+            background: var(--green); color: var(--bg); border-color: var(--green);
+        }
+        .step-dot-label {
+            font-size: 0.85rem; color: var(--gray); text-align: center; max-width: 80px;
+            transition: color 0.3s ease;
+        }
+        .step-dot.active .step-dot-label { color: var(--teal); }
 
-        .step-header { margin-bottom: 2.5rem; }
-        .step-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); font-weight: 600; margin-bottom: 1.2rem; display: block; }
-        .step-title { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--ink); margin-bottom: 0.5rem; letter-spacing: -0.02em; line-height: 1.15; }
-        .step-subtitle { font-size: 0.95rem; color: var(--gray); font-weight: 400; line-height: 1.7; }
-
+        /* Step content */
         .step-content {
-            background: rgba(11,31,58,0.5);
-            border: 1px solid var(--border2);
-            border-radius: 14px;
+            display: none; animation: fadeIn 0.4s ease;
+        }
+        .step-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Common heading styles */
+        .step-title {
+            font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
+            color: var(--ink); margin-bottom: 0.5rem;
+        }
+        .step-subtitle {
+            font-size: 1.1rem; color: var(--gray); margin-bottom: 2.5rem;
+        }
+
+        /* ============================================================
+           STEP 1: AGENT INFO
+           ============================================================ */
+        .agent-info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
+        }
+        .agent-form-col { display: flex; flex-direction: column; gap: 1.5rem; }
+        .agent-preview-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .form-group {
+            display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .form-group label {
+            font-size: 0.95rem; color: var(--gray-l); font-weight: 500;
+        }
+        .form-group input {
+            padding: 0.875rem 1rem;
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--teal);
+            background: var(--navy);
+            box-shadow: 0 0 0 3px var(--teal-glow);
+        }
+
+        .agent-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--teal-border);
+            border-radius: 12px;
             padding: 2rem;
-            backdrop-filter: blur(12px);
-        }
-        .step-content + .step-content { margin-top: 1.5rem; }
-
-        /* ============================================================
-           FORM ELEMENTS
-           ============================================================ */
-        .form-group { margin-bottom: 1.8rem; }
-        .form-group:last-child { margin-bottom: 0; }
-        .form-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal); margin-bottom: 8px; font-weight: 600; }
-        .form-hint { font-size: 0.78rem; color: var(--faint); margin-top: 6px; line-height: 1.5; }
-
-        .form-input {
-            width: 100%; height: 48px; padding: 12px 16px;
-            background: var(--navy); border: 1px solid var(--border2); border-radius: 8px;
-            color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        .form-input::placeholder { color: var(--faint); }
-        .form-input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,194,168,0.1); }
-        textarea.form-input { height: auto; min-height: 80px; resize: vertical; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-        /* ============================================================
-           SECTION LABELS & DIVIDERS
-           ============================================================ */
-        .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal); font-weight: 600; margin-bottom: 0.8rem; }
-        .section-divider { height: 1px; background: var(--border); margin: 2rem 0; }
-
-        /* ============================================================
-           SCANNING ANIMATION (Step 1)
-           ============================================================ */
-        .scan-overlay {
-            display: none; position: fixed; inset: 0; z-index: 500;
-            background: rgba(6,15,30,0.95); backdrop-filter: blur(20px);
-            flex-direction: column; align-items: center; justify-content: center;
-        }
-        .scan-overlay.active { display: flex; }
-
-        .scan-ring {
-            width: 120px; height: 120px; border-radius: 50%;
-            border: 3px solid var(--navy-l); border-top-color: var(--teal);
-            animation: spin 1s linear infinite; margin-bottom: 2rem;
-            position: relative;
-        }
-        .scan-ring::after {
-            content: ''; position: absolute; inset: 8px; border-radius: 50%;
-            border: 2px solid var(--navy-l); border-top-color: var(--teal);
-            animation: spin 0.7s linear infinite reverse;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .scan-status { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; text-align: center; }
-        .scan-detail { font-size: 0.82rem; color: var(--gray); text-align: center; max-width: 400px; }
-
-        .scan-agents {
-            display: flex; gap: 1.5rem; margin-top: 2rem;
-            flex-wrap: wrap; justify-content: center; max-width: 500px;
-        }
-        .scan-agent {
-            display: flex; align-items: center; gap: 8px;
-            padding: 6px 14px; background: var(--navy);
-            border: 1px solid var(--border2); border-radius: 20px;
-            font-size: 0.75rem; color: var(--gray); transition: all 0.4s;
-        }
-        .scan-agent.active { border-color: var(--teal); color: var(--teal); }
-        .scan-agent.done { border-color: var(--green); color: var(--green); }
-        .scan-agent-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); transition: background 0.4s; }
-        .scan-agent.active .scan-agent-dot { background: var(--teal); animation: pulse 1s infinite; }
-        .scan-agent.done .scan-agent-dot { background: var(--green); }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-        /* ============================================================
-           COMPETITOR INTEL CARDS (Step 1 results)
-           ============================================================ */
-        .intel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1rem; }
-        .intel-card {
-            padding: 1.2rem; background: var(--navy);
-            border: 1px solid var(--border2); border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-        .intel-card:hover { border-color: var(--teal-border); }
-        .intel-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-        .intel-brokerage { font-size: 0.72rem; color: var(--faint); margin-bottom: 8px; }
-        .intel-stat { display: flex; justify-content: space-between; font-size: 0.72rem; padding: 3px 0; }
-        .intel-stat-label { color: var(--gray); }
-        .intel-stat-value { color: var(--ink); font-weight: 600; }
-        .intel-weakness { font-size: 0.7rem; color: var(--amber); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
-
-        /* Content gap cards */
-        .gap-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 1rem; }
-        .gap-card {
-            padding: 1rem; background: rgba(0,194,168,0.04);
-            border: 1px solid var(--teal-border); border-radius: 10px;
+            backdrop-filter: blur(8px);
             text-align: center;
         }
-        .gap-emoji { font-size: 1.5rem; margin-bottom: 6px; }
-        .gap-label { font-size: 0.75rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
-        .gap-desc { font-size: 0.65rem; color: var(--gray); }
-
-        /* Sample content tabs */
-        .content-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border2); margin-bottom: 1rem; }
-        .content-tab {
-            padding: 0.6rem 1.2rem; font-size: 0.78rem; color: var(--gray);
-            border: none; background: none; cursor: pointer; font-family: 'DM Sans';
-            border-bottom: 2px solid transparent; transition: all 0.2s;
-        }
-        .content-tab:hover { color: var(--ink); }
-        .content-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
-        .content-panel { display: none; }
-        .content-panel.active { display: block; }
-
-        .sample-post {
-            background: var(--navy); border: 1px solid var(--border2); border-radius: 10px;
-            padding: 1.2rem; margin-bottom: 10px;
-        }
-        .sample-post-type { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 6px; font-weight: 600; }
-        .sample-post-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-        .sample-post-desc { font-size: 0.78rem; color: var(--gray); line-height: 1.5; }
-
-        /* Map container */
-        .map-container { width: 100%; height: 250px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border2); margin-top: 1rem; }
-
-        /* ============================================================
-           AGENT PROFILE CARD (Step 2)
-           ============================================================ */
-        .profile-preview {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-l) 100%);
-            border: 1px solid var(--teal-border); border-radius: 14px;
-            padding: 2rem; text-align: center; margin-top: 1.5rem;
-        }
-        .profile-avatar {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: var(--navy-card); border: 3px solid var(--teal);
+        .agent-avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-d));
+            margin: 0 auto 1rem;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; margin: 0 auto 1rem; color: var(--teal);
+            font-size: 2rem; font-weight: 800; color: var(--bg);
         }
-        .profile-name { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--ink); margin-bottom: 2px; }
-        .profile-brokerage { font-size: 0.82rem; color: var(--gray); margin-bottom: 4px; }
-        .profile-dre { font-size: 0.72rem; color: var(--faint); }
-        .profile-website { font-size: 0.78rem; color: var(--teal); margin-top: 6px; text-decoration: none; }
-
-        /* ============================================================
-           SLIDER (Buyer/Seller Split — Step 3)
-           ============================================================ */
-        .slider-container { margin: 1.5rem 0; }
-        .slider-labels { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .slider-label-text { font-size: 0.8rem; color: var(--gray); font-weight: 500; }
-        .slider-label-text span { color: var(--teal); font-weight: 700; }
-
-        .split-slider {
-            -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px;
-            background: linear-gradient(90deg, var(--teal) 0%, var(--teal) var(--val,50%), var(--navy-l) var(--val,50%), var(--navy-l) 100%);
-            outline: none; cursor: pointer;
+        .agent-name {
+            font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+            color: var(--ink); margin-bottom: 0.25rem;
         }
-        .split-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
-            background: var(--teal); border: 3px solid var(--bg);
-            box-shadow: 0 0 10px rgba(0,194,168,0.4); cursor: pointer;
+        .agent-company {
+            font-size: 0.95rem; color: var(--gray); margin-bottom: 1rem;
         }
-        .split-slider::-moz-range-thumb {
-            width: 22px; height: 22px; border-radius: 50%;
-            background: var(--teal); border: 3px solid var(--bg);
-            box-shadow: 0 0 10px rgba(0,194,168,0.4); cursor: pointer;
+        .agent-meta {
+            display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;
+            color: var(--gray);
         }
-
-        /* ============================================================
-           TONE SELECTOR (Step 3)
-           ============================================================ */
-        .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .tone-pill {
-            padding: 1.2rem; background: var(--navy);
-            border: 1px solid var(--border2); border-radius: 12px;
-            cursor: pointer; transition: all 0.3s ease; text-align: center;
-        }
-        .tone-pill:hover { border-color: var(--teal-border); background: rgba(0,194,168,0.04); }
-        .tone-pill.active { border-color: var(--teal); background: rgba(0,194,168,0.08); box-shadow: 0 0 20px rgba(0,194,168,0.08); }
-        .tone-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-        .tone-desc { font-size: 0.72rem; color: var(--gray); line-height: 1.4; }
-
-        .voice-preview {
-            background: rgba(0,194,168,0.04); border: 1px solid var(--teal-border);
-            border-radius: 10px; padding: 1.25rem; margin-top: 1rem; display: none;
-        }
-        .voice-preview-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); margin-bottom: 8px; }
-        .voice-preview-text { font-size: 0.82rem; color: var(--gray); line-height: 1.6; font-style: italic; }
-
-        /* Differentiator */
-        .diff-input {
-            width: 100%; min-height: 100px; padding: 1.2rem;
-            background: var(--navy); border: 1px solid var(--border2); border-radius: 10px;
-            color: var(--ink); font-family: 'DM Sans'; font-size: 0.9rem;
-            line-height: 1.7; resize: vertical; transition: all 0.3s;
-        }
-        .diff-input::placeholder { color: var(--faint); }
-        .diff-input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,194,168,0.1); }
-
-        .ai-suggestions { margin-top: 1rem; }
-        .ai-suggestion {
-            display: flex; align-items: flex-start; gap: 10px;
-            padding: 0.8rem 1rem; background: rgba(0,194,168,0.04);
-            border: 1px solid var(--teal-border); border-radius: 8px;
-            margin-bottom: 8px; cursor: pointer; transition: all 0.2s;
-        }
-        .ai-suggestion:hover { background: rgba(0,194,168,0.08); }
-        .ai-suggestion-icon { color: var(--teal); font-size: 0.85rem; margin-top: 2px; }
-        .ai-suggestion-text { font-size: 0.8rem; color: var(--gray-l); line-height: 1.4; }
-
-        /* ============================================================
-           ACCOUNT LINKING (Step 4)
-           ============================================================ */
-        .oauth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .oauth-card {
-            display: flex; align-items: center; gap: 12px;
-            padding: 1.2rem; background: var(--navy);
-            border: 1px solid var(--border2); border-radius: 12px;
-            cursor: pointer; transition: all 0.3s;
-        }
-        .oauth-card:hover { border-color: var(--teal-border); }
-        .oauth-card.connected { border-color: var(--green); background: rgba(52,211,153,0.04); }
-        .oauth-icon { font-size: 1.5rem; flex-shrink: 0; }
-        .oauth-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
-        .oauth-status { font-size: 0.7rem; color: var(--faint); }
-        .oauth-card.connected .oauth-status { color: var(--green); }
-        .oauth-connect-btn {
-            margin-left: auto; padding: 4px 14px; font-size: 0.7rem;
-            background: transparent; border: 1px solid var(--teal-border);
-            border-radius: 16px; color: var(--teal); cursor: pointer;
-            font-family: 'DM Sans'; font-weight: 600; transition: all 0.2s;
-        }
-        .oauth-connect-btn:hover { background: rgba(0,194,168,0.1); }
-        .oauth-card.connected .oauth-connect-btn { border-color: var(--green); color: var(--green); pointer-events: none; }
-
-        /* Posting frequency */
-        .freq-card {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem; background: var(--navy); border: 1px solid var(--border2);
-            border-radius: 10px; margin-bottom: 8px;
-        }
-        .freq-platform { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
-        .freq-schedule { font-size: 0.78rem; color: var(--teal); font-weight: 600; }
-        .freq-note { font-size: 0.68rem; color: var(--gray); }
-
-        /* Approval workflow */
-        .approval-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .approval-option {
-            padding: 1.2rem; background: var(--navy);
-            border: 1px solid var(--border2); border-radius: 12px;
-            cursor: pointer; transition: all 0.3s; text-align: center;
-        }
-        .approval-option:hover { border-color: var(--teal-border); }
-        .approval-option.active { border-color: var(--teal); background: rgba(0,194,168,0.06); }
-        .approval-emoji { font-size: 1.5rem; margin-bottom: 8px; }
-        .approval-title { font-size: 0.82rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-        .approval-desc { font-size: 0.68rem; color: var(--gray); line-height: 1.4; }
-
-        /* ============================================================
-           BRAND & UPLOAD (Step 5)
-           ============================================================ */
-        .color-swatches { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem; }
-        .color-swatch {
-            width: 48px; height: 48px; border-radius: 10px; border: 2px solid transparent;
-            cursor: pointer; transition: all 0.2s; position: relative;
-        }
-        .color-swatch.active { border-color: var(--ink); box-shadow: 0 0 12px rgba(255,255,255,0.15); }
-        .color-swatch.active::after {
-            content: '✓'; position: absolute; inset: 0; display: flex;
-            align-items: center; justify-content: center; font-size: 1rem;
-            color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-        .color-hex-input {
-            display: flex; align-items: center; gap: 8px; margin-top: 10px;
-        }
-        .color-hex-input input {
-            width: 100px; height: 36px; padding: 0 10px;
-            background: var(--navy); border: 1px solid var(--border2);
-            border-radius: 6px; color: var(--ink); font-family: 'DM Sans';
-            font-size: 0.82rem;
-        }
-        .color-hex-input input:focus { outline: none; border-color: var(--teal); }
-
-        /* Upload zones */
-        .upload-zone {
-            border: 2px dashed var(--teal-border); border-radius: 12px;
-            padding: 2.5rem 2rem; text-align: center; cursor: pointer;
-            transition: all 0.3s; background: rgba(0,194,168,0.02);
-        }
-        .upload-zone:hover { border-color: var(--teal); background: rgba(0,194,168,0.06); }
-        .upload-icon { font-size: 2rem; margin-bottom: 0.8rem; opacity: 0.7; }
-        .upload-text { font-size: 0.88rem; color: var(--gray); margin-bottom: 4px; }
-        .upload-subtext { font-size: 0.75rem; color: var(--faint); }
-
-        /* Video clip slots */
-        .clip-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 1rem; }
-        .clip-slot {
-            aspect-ratio: 9/16; background: var(--navy);
-            border: 2px dashed var(--border2); border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; cursor: pointer; transition: all 0.3s;
-        }
-        .clip-slot:hover { border-color: var(--teal-border); }
-        .clip-slot.filled { border-style: solid; border-color: var(--green); background: rgba(52,211,153,0.04); }
-        .clip-slot-icon { font-size: 1.5rem; margin-bottom: 6px; opacity: 0.5; }
-        .clip-slot-label { font-size: 0.7rem; color: var(--faint); text-align: center; padding: 0 0.5rem; }
-        .clip-slot.filled .clip-slot-label { color: var(--green); }
-
-        /* Teleprompter */
-        .teleprompter-box {
-            background: var(--navy); border: 1px solid rgba(0,194,168,0.15);
-            border-radius: 12px; padding: 1.5rem; margin-top: 1rem;
-        }
-        .teleprompter-screen {
-            width: 100%; aspect-ratio: 16/9; background: #020810;
-            border-radius: 8px; display: flex; align-items: center;
-            justify-content: center; margin-bottom: 1rem;
-            border: 1px solid var(--border2); position: relative;
-        }
-        .teleprompter-text {
-            background: rgba(0,194,168,0.06); border: 1px solid rgba(0,194,168,0.1);
-            border-radius: 8px; padding: 1rem; font-size: 0.85rem;
-            color: var(--gray-l); line-height: 1.8; font-style: italic;
-        }
-
-        /* Photo dump upload */
-        .dump-upload {
-            border: 2px dashed var(--teal-border); border-radius: 12px;
-            padding: 3rem 2rem; text-align: center; cursor: pointer;
-            transition: all 0.3s; background: rgba(0,194,168,0.02);
-            position: relative;
-        }
-        .dump-upload:hover { border-color: var(--teal); }
-        .dump-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .dump-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-        .dump-desc { font-size: 0.82rem; color: var(--gray); margin-bottom: 8px; }
-        .dump-types { font-size: 0.72rem; color: var(--faint); }
-
-        /* Progress bars for uploads */
-        .upload-progress { margin-top: 1rem; display: none; }
-        .upload-progress.visible { display: block; }
-        .progress-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .progress-item-name { font-size: 0.75rem; color: var(--gray); flex: 0 0 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .progress-item-bar { flex: 1; height: 4px; background: var(--navy-l); border-radius: 2px; overflow: hidden; }
-        .progress-item-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.3s; }
-        .progress-item-pct { font-size: 0.7rem; color: var(--teal); font-weight: 600; flex: 0 0 36px; text-align: right; }
-
-        /* ============================================================
-           SUCCESS SCREEN
-           ============================================================ */
-        .success-screen { display: none; text-align: center; padding: 3rem 2rem; }
-        .success-screen.active { display: block; }
-        .success-check {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: rgba(0,194,168,0.12); border: 3px solid var(--teal);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2.5rem; margin: 0 auto 1.5rem;
-            animation: successPop 0.5s ease;
-        }
-        @keyframes successPop { 0%{transform:scale(0)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
-        .success-title { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--ink); margin-bottom: 0.5rem; }
-        .success-subtitle { font-size: 1rem; color: var(--gray); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
-
-        .timeline-card {
-            background: var(--navy); border: 1px solid var(--border2);
-            border-radius: 14px; padding: 2rem; text-align: left;
-            max-width: 550px; margin: 0 auto 2rem;
-        }
-        .timeline-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; position: relative; }
-        .timeline-item:last-child { margin-bottom: 0; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: 15px; top: 32px;
-            width: 1px; height: calc(100% - 8px); background: var(--border2);
-        }
-        .timeline-item:last-child::before { display: none; }
-        .timeline-dot {
-            width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-            background: rgba(0,194,168,0.1); border: 2px solid var(--teal);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem; color: var(--teal); font-weight: 700;
-        }
-        .timeline-content { flex: 1; }
-        .timeline-when { font-size: 0.7rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-        .timeline-what { font-size: 0.88rem; color: var(--ink); font-weight: 600; margin: 2px 0; }
-        .timeline-detail { font-size: 0.78rem; color: var(--gray); }
-
-        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; max-width: 550px; margin-left: auto; margin-right: auto; }
-        .summary-card { background: var(--navy); border: 1px solid var(--border2); border-radius: 10px; padding: 1rem; text-align: center; }
-        .summary-value { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--teal); }
-        .summary-label { font-size: 0.72rem; color: var(--gray); margin-top: 2px; }
 
         /* ============================================================
            BUTTONS
            ============================================================ */
-        .button-row { display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
-
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
         .btn-primary {
-            padding: 0.85rem 3rem; background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
-            border: none; border-radius: 8px; color: #0a1628;
-            font-family: 'DM Sans'; font-size: 0.85rem; font-weight: 700;
-            letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
-            transition: all 0.3s; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, var(--teal), var(--teal-d));
+            color: var(--bg);
         }
-        .btn-primary:hover { box-shadow: 0 4px 24px rgba(0,194,168,0.3); transform: translateY(-1px); }
-        .btn-primary::after { content:''; position:absolute; top:0; left:-100%; width:200%; height:100%; background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%); animation:shimmer 3s ease-in-out infinite; }
-        @keyframes shimmer { 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
-
-        .btn-back {
-            background: rgba(255,255,255,0.04); border: 1px solid var(--border2);
-            color: var(--ink); padding: 0.85rem 2rem; border-radius: 8px;
-            font-family: 'DM Sans'; font-size: 0.85rem; font-weight: 500;
-            cursor: pointer; transition: all 0.3s;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,194,168,0.3);
         }
-        .btn-back:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
-
         .btn-secondary {
-            padding: 0.6rem 1.5rem; background: transparent;
-            border: 1px solid var(--teal-border); border-radius: 8px;
-            color: var(--teal); font-family: 'DM Sans'; font-size: 0.8rem;
-            font-weight: 600; cursor: pointer; transition: all 0.3s;
+            background: var(--navy-card);
+            color: var(--ink);
+            border: 1px solid var(--teal-border);
         }
-        .btn-secondary:hover { background: rgba(0,194,168,0.08); border-color: var(--teal); }
-
-        .btn-text {
-            background: none; border: none; color: var(--faint);
-            font-family: 'DM Sans'; font-size: 0.78rem; cursor: pointer;
-            transition: color 0.2s; text-decoration: underline; text-underline-offset: 3px;
+        .btn-secondary:hover {
+            background: var(--navy);
+            border-color: var(--teal);
         }
-        .btn-text:hover { color: var(--gray); }
+        .btn-nav {
+            display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem;
+        }
 
         /* ============================================================
-           ANIMATIONS
+           STEP 2: TARGET AREA / MAP
            ============================================================ */
-        @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        #leafletContainer {
+            width: 100%;
+            height: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--teal-border);
+            margin-bottom: 2rem;
+        }
+
+        .zipcode-input-area {
+            display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;
+        }
+        .zipcode-input-area input {
+            flex: 1; min-width: 200px;
+            padding: 0.875rem 1rem;
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--ink);
+            font-size: 1rem;
+        }
+        .zipcode-input-area button {
+            padding: 0.875rem 1.5rem;
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--teal);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .zipcode-input-area button:hover {
+            border-color: var(--teal);
+            background: var(--navy);
+        }
+
+        .zipcode-chips {
+            display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;
+        }
+        .chip {
+            background: var(--navy-card);
+            border: 1px solid var(--teal-border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: var(--ink);
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .chip .chip-remove {
+            cursor: pointer; color: var(--gray);
+        }
+
+        .strategy-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem; margin-bottom: 2rem;
+        }
+        .strategy-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .strategy-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-4px);
+        }
+        .strategy-card.selected {
+            background: linear-gradient(135deg, rgba(0,194,168,0.15), rgba(0,194,168,0.05));
+            border-color: var(--teal);
+            box-shadow: 0 0 20px var(--teal-glow);
+        }
+        .strategy-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+        .strategy-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .strategy-desc { font-size: 0.9rem; color: var(--gray); }
 
         /* ============================================================
-           RESPONSIVE
+           STEP 3: MARKET ANALYSIS REPORT
            ============================================================ */
-        @media(max-width:768px) {
-            .wizard-container { padding: 1.5rem 1rem 2rem; }
-            .step-title { font-size: 1.8rem; }
-            .intel-grid, .oauth-grid, .tone-grid, .form-row { grid-template-columns: 1fr; }
-            .gap-grid { grid-template-columns: 1fr 1fr; }
-            .approval-grid { grid-template-columns: 1fr; }
-            .clip-grid { grid-template-columns: 1fr 1fr; }
-            .scan-agents { flex-direction: column; align-items: center; }
-            .progress-labels { display: none; }
-            .summary-grid { grid-template-columns: 1fr; }
+
+        /* Scanning overlay */
+        .scan-overlay {
+            position: fixed; inset: 0; background: rgba(6, 15, 30, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 500; backdrop-filter: blur(8px);
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .scan-overlay.active {
+            opacity: 1; pointer-events: all;
+        }
+
+        .scan-content {
+            text-align: center;
+        }
+        .scan-ring-container {
+            position: relative;
+            width: 200px; height: 200px;
+            margin: 0 auto 2rem;
+        }
+        .scan-ring {
+            position: absolute; inset: 0;
+            border: 3px solid var(--teal-glow);
+            border-radius: 50%;
+            animation: scanSpin 4s linear infinite;
+        }
+        .scan-ring-inner {
+            position: absolute; inset: 10px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--teal);
+            border-right: 3px solid var(--teal);
+            border-radius: 50%;
+            animation: scanSpinReverse 3s linear infinite;
+        }
+        @keyframes scanSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes scanSpinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        .scan-counter {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem; font-weight: 800;
+            color: var(--teal);
+            margin-bottom: 1rem;
+        }
+        .scan-label {
+            font-size: 1.1rem; color: var(--gray); margin-bottom: 2rem;
+        }
+
+        .scan-agents {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; max-width: 600px; margin: 0 auto;
+        }
+        .scan-agent {
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-align: center;
+            opacity: 0.4; transition: all 0.4s ease;
+        }
+        .scan-agent.active {
+            opacity: 1;
+            border-color: var(--teal);
+            background: rgba(0, 194, 168, 0.1);
+            color: var(--teal);
+            box-shadow: 0 0 12px var(--teal-glow);
+        }
+        .scan-agent-name {
+            font-weight: 600; margin-bottom: 0.25rem;
+        }
+
+        /* Market report sections */
+        .report-section { margin-bottom: 3rem; }
+        .report-section-title {
+            font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+            margin-bottom: 1.5rem; color: var(--ink);
+        }
+
+        /* Stats bar */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--teal-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+        .stat-number {
+            font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+            color: var(--teal); margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            font-size: 0.85rem; color: var(--gray);
+        }
+
+        /* Competitor grid */
+        .competitors-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .competitor-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .competitor-card:hover {
+            border-color: var(--teal-border);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px var(--teal-glow);
+        }
+        .competitor-header {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+        }
+        .competitor-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-d));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--bg); font-size: 0.9rem; flex-shrink: 0;
+        }
+        .competitor-info { flex: 1; }
+        .competitor-name {
+            font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;
+        }
+        .competitor-company {
+            font-size: 0.85rem; color: var(--gray);
+        }
+        .competitor-threat {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .threat-low { background: var(--green-l); }
+        .threat-med { background: var(--amber-l); }
+        .threat-high { background: var(--red-l); }
+
+        .competitor-chart {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            gap: 0.5rem; height: 40px; margin: 1rem 0;
+        }
+        .chart-bar {
+            flex: 1;
+            background: var(--navy-card);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            position: relative;
+            min-height: 20px;
+        }
+        .chart-bar-fill {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(180deg, var(--teal), var(--teal-d));
+            border-radius: 4px;
+            transition: height 0.4s ease;
+        }
+        .chart-label {
+            font-size: 0.65rem; color: var(--gray); text-align: center; margin-top: 0.25rem;
+        }
+
+        .competitor-stats {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 1rem; font-size: 0.9rem; margin: 1rem 0;
+        }
+        .stat-item {
+            display: flex; flex-direction: column;
+        }
+        .stat-item-label {
+            color: var(--gray); font-size: 0.8rem; margin-bottom: 0.25rem;
+        }
+        .stat-item-value {
+            color: var(--ink); font-weight: 600;
+        }
+
+        .weakness-tag {
+            display: inline-block;
+            background: var(--amber-l);
+            color: var(--amber);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+        }
+
+        /* Content gap chart */
+        .gap-chart {
+            display: flex; flex-direction: column; gap: 1.5rem;
+        }
+        .gap-row {
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .gap-label {
+            min-width: 160px; font-size: 0.95rem; color: var(--ink); font-weight: 500;
+        }
+        .gap-bars {
+            flex: 1;
+            display: flex; gap: 0.5rem; height: 36px;
+        }
+        .gap-bar-segment {
+            flex: 1; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 600; color: var(--bg);
+            transition: all 0.6s ease;
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+        }
+        .gap-bar-segment.covered {
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            color: var(--gray);
+        }
+        .gap-bar-segment.opportunity {
+            background: linear-gradient(90deg, var(--teal), var(--teal-d));
+        }
+        .gap-percent {
+            min-width: 60px; text-align: right; font-size: 0.9rem;
+            color: var(--ink); font-weight: 600;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; width: 0; }
+            to { opacity: 1; width: auto; }
+        }
+
+        /* Keywords table */
+        .keywords-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .keywords-table thead th {
+            background: var(--navy-card);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--gray);
+            border-bottom: 1px solid var(--border);
+        }
+        .keywords-table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+        .keywords-table tbody tr:hover {
+            background: var(--navy-card);
+        }
+        .keyword-name {
+            color: var(--ink); font-weight: 500;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .difficulty-easy { background: var(--green-l); color: var(--green); }
+        .difficulty-medium { background: var(--amber-l); color: var(--amber); }
+        .difficulty-hard { background: var(--red-l); color: var(--red); }
+
+        /* Opportunity score */
+        .opportunity-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--teal-border);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .score-gauge {
+            width: 180px; height: 180px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        .gauge-bg {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 180deg, var(--teal) 0deg, var(--teal) 100deg, var(--navy-card) 100deg, var(--navy-card) 360deg);
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--teal-border);
+        }
+        .gauge-inner {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: var(--navy-card);
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column;
+        }
+        .gauge-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem; font-weight: 800; color: var(--teal);
+        }
+        .gauge-label {
+            font-size: 0.85rem; color: var(--gray);
+        }
+
+        .quick-wins-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem; margin-top: 2rem;
+        }
+        .quick-win-card {
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .quick-win-title {
+            font-family: 'Syne', sans-serif; font-weight: 700; color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        .quick-win-items {
+            display: flex; flex-direction: column; gap: 0.75rem;
+            font-size: 0.9rem; color: var(--gray);
+            text-align: left;
+        }
+        .quick-win-item::before {
+            content: '▪ ';
+            color: var(--teal); font-weight: 700; margin-right: 0.5rem;
+        }
+
+        .projection-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;
+        }
+        .projection-card {
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .projection-title {
+            font-weight: 700; color: var(--gray); font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .projection-metric {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 1rem;
+            padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+        }
+        .projection-label {
+            font-size: 0.9rem; color: var(--gray);
+        }
+        .projection-value {
+            font-weight: 700; color: var(--teal);
+        }
+        .projection-sparkline {
+            width: 100%; height: 30px;
+            background: linear-gradient(90deg, var(--navy) 0%, transparent 50%, var(--teal) 100%);
+            border-radius: 4px;
+        }
+
+        /* ============================================================
+           STEP 4: CONTENT PROFILE
+           ============================================================ */
+        .content-profile-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+        }
+
+        .buyer-seller-section {
+            margin-bottom: 2rem;
+        }
+        .section-label {
+            font-size: 0.9rem; color: var(--gray); margin-bottom: 1rem; font-weight: 600;
+        }
+        .slider-container {
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .slider-track {
+            flex: 1;
+            height: 6px;
+            background: var(--navy-card);
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        .slider-fill {
+            position: absolute; height: 100%;
+            background: linear-gradient(90deg, var(--teal), var(--teal-d));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        .slider-thumb {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 24px; height: 24px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-d));
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 12px var(--teal-glow);
+        }
+        .slider-label {
+            font-size: 0.85rem; color: var(--gray); min-width: 50px;
+        }
+
+        .tone-cards {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 1rem; margin-bottom: 2rem;
+        }
+        .tone-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .tone-card:hover {
+            border-color: var(--teal-border);
+            transform: translateY(-2px);
+        }
+        .tone-card.selected {
+            background: linear-gradient(135deg, rgba(0,194,168,0.15), rgba(0,194,168,0.05));
+            border-color: var(--teal);
+            box-shadow: 0 0 20px var(--teal-glow);
+        }
+        .tone-name {
+            font-family: 'Syne', sans-serif; font-weight: 700; color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        .tone-desc {
+            font-size: 0.85rem; color: var(--gray);
+        }
+
+        .differentiator-input {
+            position: relative;
+        }
+        .differentiator-input label {
+            display: block; margin-bottom: 0.75rem; color: var(--gray-l); font-weight: 500;
+        }
+        .differentiator-input input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--ink);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .differentiator-input input:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px var(--teal-glow);
+        }
+
+        .ai-suggestions {
+            display: flex; flex-wrap: wrap; gap: 0.75rem;
+        }
+        .suggestion-chip {
+            background: var(--navy-card);
+            border: 1px solid var(--teal-border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: var(--teal);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        .suggestion-chip:hover {
+            background: rgba(0,194,168,0.1);
+        }
+
+        .content-preview {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--teal-border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(8px);
+        }
+        .preview-title {
+            font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .preview-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .preview-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .preview-label {
+            font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .preview-content {
+            color: var(--ink); font-size: 0.95rem; line-height: 1.5;
+        }
+
+        /* ============================================================
+           STEP 5: CHANNELS & BRAND
+           ============================================================ */
+        .channels-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+        }
+
+        .oauth-cards {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+        }
+        .oauth-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .oauth-card:hover {
+            border-color: var(--teal-border);
+            transform: translateY(-2px);
+        }
+        .oauth-card.connected {
+            background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(52,211,153,0.05));
+            border-color: var(--green);
+        }
+        .oauth-icon {
+            font-size: 2rem; margin-bottom: 0.75rem;
+        }
+        .oauth-name {
+            font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;
+        }
+        .oauth-status {
+            font-size: 0.8rem; color: var(--gray);
+        }
+        .oauth-card.connected .oauth-status {
+            color: var(--green);
+        }
+
+        .approval-section label {
+            display: block; margin-bottom: 1rem; color: var(--gray-l); font-weight: 500;
+        }
+        .approval-options {
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        .approval-option {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .approval-option:hover {
+            border-color: var(--teal-border);
+        }
+        .approval-option input[type="radio"] {
+            cursor: pointer; accent-color: var(--teal);
+        }
+        .approval-option-text {
+            color: var(--ink); font-size: 0.95rem;
+        }
+
+        .brand-colors {
+            margin-bottom: 2rem;
+        }
+        .color-row {
+            display: flex; gap: 1rem; margin-bottom: 1rem;
+        }
+        .color-swatch {
+            width: 60px; height: 60px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .color-swatch.selected {
+            box-shadow: 0 0 12px var(--teal-glow);
+            border-color: var(--teal);
+        }
+        .color-input-group {
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .color-input-group input {
+            padding: 0.5rem;
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .upload-zone {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 2px dashed var(--teal-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        .upload-zone:hover {
+            border-color: var(--teal);
+            background: linear-gradient(135deg, rgba(0,194,168,0.05), rgba(0,194,168,0.02));
+        }
+        .upload-icon {
+            font-size: 2.5rem; margin-bottom: 0.75rem;
+        }
+        .upload-text {
+            color: var(--gray); font-size: 0.95rem;
+        }
+        .upload-text strong {
+            color: var(--teal);
+        }
+
+        .video-slots {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+        }
+        .video-slot {
+            aspect-ratio: 9/16;
+            background: var(--navy-card);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .video-slot:hover {
+            border-color: var(--teal-border);
+        }
+        .video-slot-label {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* ============================================================
+           SUCCESS SCREEN
+           ============================================================ */
+        .success-screen {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .checkmark-container {
+            margin-bottom: 3rem;
+        }
+        .checkmark {
+            width: 120px; height: 120px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green), #1a9b6e);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem;
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .success-heading {
+            font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800;
+            color: var(--ink); margin-bottom: 1rem;
+        }
+        .success-subtext {
+            font-size: 1.1rem; color: var(--gray); margin-bottom: 3rem;
+        }
+
+        .timeline-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--teal-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: left;
+            max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .timeline-title {
+            font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 1.5rem;
+        }
+        .timeline-item {
+            display: flex; gap: 1.5rem; margin-bottom: 1.5rem;
+        }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-d));
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.8rem; color: var(--bg); font-weight: 700;
+        }
+        .timeline-content {
+            flex: 1;
+        }
+        .timeline-when {
+            font-size: 0.85rem; color: var(--gray); font-weight: 600; margin-bottom: 0.25rem;
+        }
+        .timeline-what {
+            color: var(--ink); font-size: 0.95rem;
+        }
+
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem; margin-bottom: 2.5rem;
+        }
+        .summary-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%);
+            border: 1px solid var(--teal-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .summary-value {
+            font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+            color: var(--teal); margin-bottom: 0.5rem;
+        }
+        .summary-label {
+            font-size: 0.85rem; color: var(--gray);
+        }
+
+        /* ============================================================
+           RESPONSIVE DESIGN
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .agent-info-grid,
+            .content-profile-grid,
+            .projection-grid {
+                grid-template-columns: 1fr;
+            }
+            .channels-grid {
+                grid-template-columns: 1fr;
+            }
+            .tone-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .step-container {
+                padding: 2rem 1rem;
+            }
+            .step-title {
+                font-size: 1.8rem;
+            }
+            .topnav {
+                padding: 0 1rem;
+            }
+            .strategy-cards {
+                grid-template-columns: 1fr;
+            }
+            .competitors-grid {
+                grid-template-columns: 1fr;
+            }
+            .oauth-cards {
+                grid-template-columns: 1fr;
+            }
+            .video-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .scan-agents {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-
-<!-- Ambient orbs -->
-<div class="orb-container">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-</div>
-
-<!-- Scan overlay -->
-<div class="scan-overlay" id="scanOverlay">
-    <div class="scan-ring"></div>
-    <div class="scan-status" id="scanStatus">Scanning Your Market...</div>
-    <div class="scan-detail" id="scanDetail">Analyzing competitor content, local search volume, and content gaps in 94303</div>
-    <div class="scan-agents" id="scanAgents">
-        <div class="scan-agent" data-agent="scout"><div class="scan-agent-dot"></div>Scout Agent</div>
-        <div class="scan-agent" data-agent="analyst"><div class="scan-agent-dot"></div>Market Analyst</div>
-        <div class="scan-agent" data-agent="content"><div class="scan-agent-dot"></div>Content Strategist</div>
-        <div class="scan-agent" data-agent="seo"><div class="scan-agent-dot"></div>SEO Crawler</div>
-    </div>
-</div>
-
-<!-- Top nav -->
-<nav class="topnav">
-    <div class="topnav-left">
-        <a href="index.html" class="topnav-logo">Prop<span>Cast</span></a>
-        <div class="topnav-divider"></div>
-        <span class="topnav-section">Content Engine Setup</span>
-    </div>
-    <div class="topnav-right">
-        <div class="topnav-avatar">GW</div>
-    </div>
-</nav>
-
-<div class="wizard-container" id="wizardContainer">
-
-    <!-- Progress Bar -->
-    <div class="progress-section">
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="progress-dots">
-            <div class="progress-dot active" onclick="goToStep(1)"></div>
-            <div class="progress-dot" onclick="goToStep(2)"></div>
-            <div class="progress-dot" onclick="goToStep(3)"></div>
-            <div class="progress-dot" onclick="goToStep(4)"></div>
-            <div class="progress-dot" onclick="goToStep(5)"></div>
-        </div>
-        <div class="progress-labels">
-            <div class="progress-label active">Market</div>
-            <div class="progress-label">Profile</div>
-            <div class="progress-label">Content</div>
-            <div class="progress-label">Accounts</div>
-            <div class="progress-label">Brand</div>
-        </div>
+    <div class="orb-container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
 
-    <!-- ================================================================
-         STEP 1 — MARKET ANALYSIS
-         ================================================================ -->
-    <div class="step active" id="step1">
-        <div class="step-header">
-            <span class="step-label">Step 01 of 05</span>
-            <h1 class="step-title">Your Market, Decoded</h1>
-            <p class="step-subtitle">We've already started scanning your area. PropCast deploys four AI agents to analyze your local market, competitors, and content gaps — all before you type a word.</p>
+    <nav class="topnav">
+        <div class="topnav-left">
+            <a href="index.html" class="topnav-logo">Prop<span>Cast</span></a>
         </div>
-
-        <!-- Auto-populated ZIP -->
-        <div class="step-content">
-            <div class="form-group">
-                <label class="form-label">Primary Market ZIP</label>
-                <div style="display:flex; gap:10px; align-items:center;">
-                    <input type="text" class="form-input" id="primaryZip" value="94303" style="max-width:140px; font-size:1.1rem; font-weight:700; text-align:center;">
-                    <button class="btn-secondary" onclick="runMarketScan()" style="white-space:nowrap;">Scan Market</button>
-                </div>
-                <div class="form-hint">Auto-detected from your profile. Change it or add more below.</div>
-            </div>
-            <div class="form-group" style="margin-bottom:0;">
-                <label class="form-label">Additional ZIPs <span style="color:var(--faint); text-transform:none; letter-spacing:0;">(optional)</span></label>
-                <input type="text" class="form-input" placeholder="Enter ZIP and press Enter" onkeydown="handleZipEntry(event)" style="max-width:200px;">
-                <div id="zipChips" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;"></div>
-            </div>
+        <div class="topnav-right">
+            <div class="topnav-avatar">GW</div>
         </div>
+    </nav>
 
-        <!-- Results (hidden until scan completes) -->
-        <div id="marketResults" style="display:none;">
-
-            <!-- Competitor Intel -->
-            <div class="step-content" style="margin-top:1.5rem;">
-                <div class="section-label">Competitor Intelligence</div>
-                <p style="font-size:0.82rem; color:var(--gray); margin-bottom:0.8rem;">We found 11 active agents in your market. Here are your top competitors and their weaknesses:</p>
-                <div class="intel-grid">
-                    <div class="intel-card">
-                        <div class="intel-name">Sarah Chen</div>
-                        <div class="intel-brokerage">Compass — Palo Alto</div>
-                        <div class="intel-stat"><span class="intel-stat-label">Monthly Posts</span><span class="intel-stat-value">12</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Video Content</span><span class="intel-stat-value">None</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Engagement Rate</span><span class="intel-stat-value">1.2%</span></div>
-                        <div class="intel-weakness">⚡ Weakness: Zero video presence, no YouTube</div>
-                    </div>
-                    <div class="intel-card">
-                        <div class="intel-name">Michael Torres</div>
-                        <div class="intel-brokerage">Keller Williams — Menlo Park</div>
-                        <div class="intel-stat"><span class="intel-stat-label">Monthly Posts</span><span class="intel-stat-value">18</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Video Content</span><span class="intel-stat-value">3/mo</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Engagement Rate</span><span class="intel-stat-value">2.4%</span></div>
-                        <div class="intel-weakness">⚡ Weakness: No neighborhood content, generic captions</div>
-                    </div>
-                    <div class="intel-card">
-                        <div class="intel-name">Linda Park</div>
-                        <div class="intel-brokerage">Sereno Group — Atherton</div>
-                        <div class="intel-stat"><span class="intel-stat-label">Monthly Posts</span><span class="intel-stat-value">6</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Video Content</span><span class="intel-stat-value">1/mo</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Engagement Rate</span><span class="intel-stat-value">0.8%</span></div>
-                        <div class="intel-weakness">⚡ Weakness: Inconsistent posting, no email campaigns</div>
-                    </div>
-                    <div class="intel-card">
-                        <div class="intel-name">David Huang</div>
-                        <div class="intel-brokerage">Coldwell Banker — Mountain View</div>
-                        <div class="intel-stat"><span class="intel-stat-label">Monthly Posts</span><span class="intel-stat-value">22</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Video Content</span><span class="intel-stat-value">8/mo</span></div>
-                        <div class="intel-stat"><span class="intel-stat-label">Engagement Rate</span><span class="intel-stat-value">3.1%</span></div>
-                        <div class="intel-weakness">⚡ Weakness: No market data content, all listings-focused</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Gaps -->
-            <div class="step-content" style="margin-top:1.5rem;">
-                <div class="section-label">Content Gaps We Found</div>
-                <p style="font-size:0.82rem; color:var(--gray); margin-bottom:0.8rem;">These are the content categories your competitors are NOT covering. Your opportunity to dominate:</p>
-                <div class="gap-grid">
-                    <div class="gap-card">
-                        <div class="gap-emoji">🏘️</div>
-                        <div class="gap-label">Neighborhood Guides</div>
-                        <div class="gap-desc">Only 1 of 11 agents covers this</div>
-                    </div>
-                    <div class="gap-card">
-                        <div class="gap-emoji">📊</div>
-                        <div class="gap-label">Market Data Videos</div>
-                        <div class="gap-desc">0 agents produce data-driven video</div>
-                    </div>
-                    <div class="gap-card">
-                        <div class="gap-emoji">📧</div>
-                        <div class="gap-label">Email Nurture</div>
-                        <div class="gap-desc">2 of 11 run email campaigns</div>
-                    </div>
-                    <div class="gap-card">
-                        <div class="gap-emoji">🎓</div>
-                        <div class="gap-label">Buyer Education</div>
-                        <div class="gap-desc">No one creates educational series</div>
-                    </div>
-                    <div class="gap-card">
-                        <div class="gap-emoji">🏠</div>
-                        <div class="gap-label">Local SEO Content</div>
-                        <div class="gap-desc">3 agents have blogs, none optimized</div>
-                    </div>
-                    <div class="gap-card">
-                        <div class="gap-emoji">💬</div>
-                        <div class="gap-label">Client Testimonials</div>
-                        <div class="gap-desc">Only 2 post video testimonials</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sample Content -->
-            <div class="step-content" style="margin-top:1.5rem;">
-                <div class="section-label">Sample Content We'd Create for You</div>
-                <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">Based on the gaps we found, here's a taste of what PropCast would produce:</p>
-
-                <div class="content-tabs">
-                    <button class="content-tab active" onclick="switchTab('social')">Social Posts</button>
-                    <button class="content-tab" onclick="switchTab('video')">Video Scripts</button>
-                    <button class="content-tab" onclick="switchTab('email')">Email Campaigns</button>
-                </div>
-
-                <div class="content-panel active" id="panel-social">
-                    <div class="sample-post">
-                        <div class="sample-post-type">Instagram Carousel</div>
-                        <div class="sample-post-title">5 Things You Didn't Know About Living in Palo Alto</div>
-                        <div class="sample-post-desc">A neighborhood deep-dive covering walkability scores, hidden parks, school ratings, and the best coffee spots — tailored to your market.</div>
-                    </div>
-                    <div class="sample-post">
-                        <div class="sample-post-type">Market Update Post</div>
-                        <div class="sample-post-title">94303 Market Pulse: April 2026</div>
-                        <div class="sample-post-desc">Median price, days on market, inventory levels — all visualized in a branded graphic with your face and logo.</div>
-                    </div>
-                </div>
-
-                <div class="content-panel" id="panel-video">
-                    <div class="sample-post">
-                        <div class="sample-post-type">YouTube Short / Reel</div>
-                        <div class="sample-post-title">Is Now the Right Time to Buy in Palo Alto?</div>
-                        <div class="sample-post-desc">45-second talking-head video using your AI avatar, with market data overlays and branded lower thirds.</div>
-                    </div>
-                    <div class="sample-post">
-                        <div class="sample-post-type">Neighborhood Tour</div>
-                        <div class="sample-post-title">Walk With Me: Downtown Palo Alto</div>
-                        <div class="sample-post-desc">2-minute narrated tour combining stock footage, map animations, and your avatar commentary.</div>
-                    </div>
-                </div>
-
-                <div class="content-panel" id="panel-email">
-                    <div class="sample-post">
-                        <div class="sample-post-type">Monthly Newsletter</div>
-                        <div class="sample-post-title">Your April Market Briefing</div>
-                        <div class="sample-post-desc">Data-rich email with median prices, interest rate context, and a personal note from you — sent automatically to your sphere.</div>
-                    </div>
-                    <div class="sample-post">
-                        <div class="sample-post-type">Buyer Drip Sequence</div>
-                        <div class="sample-post-title">Email 1: What $1.8M Actually Buys in 94303</div>
-                        <div class="sample-post-desc">First in a 5-part educational series for buyers, customized to your price point and neighborhoods.</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Map -->
-            <div class="step-content" style="margin-top:1.5rem;">
-                <div class="section-label">Your Market Coverage Area</div>
-                <div class="map-container" id="marketMap"></div>
-            </div>
-        </div>
-
-        <div class="button-row">
-            <button class="btn-primary" onclick="goToStep(2)">CONTINUE →</button>
-        </div>
+    <div class="progress-bar">
+        <div class="progress-bar-fill"></div>
     </div>
 
-    <!-- ================================================================
-         STEP 2 — AGENT PROFILE
-         ================================================================ -->
-    <div class="step" id="step2">
-        <div class="step-header">
-            <span class="step-label">Step 02 of 05</span>
-            <h1 class="step-title">Tell Us About You</h1>
-            <p class="step-subtitle">This info powers your branded content — every post, video, and email will carry your identity. Takes about 60 seconds.</p>
-        </div>
-
-        <div class="step-content">
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-input" id="agentName" placeholder="e.g. Graeham Watts" oninput="updateProfilePreview()">
+    <div class="wrapper">
+        <div class="step-container">
+            <!-- STEP NAVIGATION -->
+            <div class="step-nav">
+                <div class="step-dot active" data-step="0">
+                    <div class="step-dot-circle">1</div>
+                    <div class="step-dot-label">Agent Info</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Brokerage</label>
-                    <input type="text" class="form-input" id="agentBrokerage" placeholder="e.g. eXp Realty" oninput="updateProfilePreview()">
+                <div class="step-dot" data-step="1">
+                    <div class="step-dot-circle">2</div>
+                    <div class="step-dot-label">Target Area</div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">DRE License #</label>
-                    <input type="text" class="form-input" id="agentDre" placeholder="e.g. 02012345" oninput="updateProfilePreview()">
+                <div class="step-dot" data-step="2">
+                    <div class="step-dot-circle">3</div>
+                    <div class="step-dot-label">Market Report</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Website</label>
-                    <input type="text" class="form-input" id="agentWebsite" placeholder="e.g. graehamwatts.com" oninput="updateProfilePreview()">
+                <div class="step-dot" data-step="3">
+                    <div class="step-dot-circle">4</div>
+                    <div class="step-dot-label">Content DNA</div>
+                </div>
+                <div class="step-dot" data-step="4">
+                    <div class="step-dot-circle">5</div>
+                    <div class="step-dot-label">Connect Brand</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Live Preview Card -->
-        <div class="profile-preview" id="profilePreview">
-            <div class="profile-avatar">👤</div>
-            <div class="profile-name" id="previewName">Your Name</div>
-            <div class="profile-brokerage" id="previewBrokerage">Your Brokerage</div>
-            <div class="profile-dre" id="previewDre">DRE #</div>
-            <a class="profile-website" id="previewWebsite" href="#"></a>
-        </div>
+            <!-- STEP 1: AGENT INFO -->
+            <div class="step-content active">
+                <h1 class="step-title">Let's Get Started</h1>
+                <p class="step-subtitle">Tell us a bit about yourself so we can personalize your market analysis.</p>
 
-        <div class="button-row">
-            <button class="btn-back" onclick="goToStep(1)">← Back</button>
-            <button class="btn-primary" onclick="goToStep(3)">CONTINUE →</button>
-        </div>
-    </div>
+                <div class="agent-info-grid">
+                    <div class="agent-form-col">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id="firstName" placeholder="Your first name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label>Brokerage / Company</label>
+                            <input type="text" id="brokerage" placeholder="Your brokerage">
+                        </div>
+                        <div class="form-group">
+                            <label>DRE License #</label>
+                            <input type="text" id="dre" placeholder="DRE License Number">
+                        </div>
+                    </div>
 
-    <!-- ================================================================
-         STEP 3 — CONTENT PROFILE
-         ================================================================ -->
-    <div class="step" id="step3">
-        <div class="step-header">
-            <span class="step-label">Step 03 of 05</span>
-            <h1 class="step-title">Your Content DNA</h1>
-            <p class="step-subtitle">This shapes what PropCast creates for you. Pick your split, your voice, and what makes you different — then we handle the rest.</p>
-        </div>
-
-        <!-- Buyer/Seller Split -->
-        <div class="step-content">
-            <div class="section-label">Buyer / Seller Split</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">This determines the ratio of buyer vs. seller content we produce. Slide to match your business.</p>
-            <div class="slider-container">
-                <div class="slider-labels">
-                    <div class="slider-label-text">Buyers <span id="buyerPct">50%</span></div>
-                    <div class="slider-label-text">Sellers <span id="sellerPct">50%</span></div>
+                    <div class="agent-preview-col">
+                        <div class="agent-card">
+                            <div class="agent-avatar" id="previewAvatar">GW</div>
+                            <div class="agent-name" id="previewName">Your Name</div>
+                            <div class="agent-company" id="previewCompany">Your Company</div>
+                            <div class="agent-meta">
+                                <span id="previewEmail">email@example.com</span>
+                                <span id="previewPhone">+1 (555) 000-0000</span>
+                                <span id="previewDRE">License: —</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <input type="range" class="split-slider" id="splitSlider" min="0" max="100" value="50" oninput="updateSplit(this.value)">
-            </div>
-        </div>
 
-        <!-- Tone Selector -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Content Tone</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">How should your content sound? This shapes every caption, script, and email we write.</p>
-            <div class="tone-grid">
-                <div class="tone-pill" onclick="selectTone(this, 'luxury')">
-                    <div class="tone-title">Luxury & Refined</div>
-                    <div class="tone-desc">Elegant, sophisticated, premium positioning</div>
-                </div>
-                <div class="tone-pill" onclick="selectTone(this, 'warm')">
-                    <div class="tone-title">Warm & Personal</div>
-                    <div class="tone-desc">Friendly, approachable, community-focused</div>
-                </div>
-                <div class="tone-pill" onclick="selectTone(this, 'data')">
-                    <div class="tone-title">Data & Authority</div>
-                    <div class="tone-desc">Market expert, analytical, confident</div>
-                </div>
-                <div class="tone-pill" onclick="selectTone(this, 'modern')">
-                    <div class="tone-title">Modern & Bold</div>
-                    <div class="tone-desc">Contemporary, energetic, trend-forward</div>
+                <div class="btn-nav">
+                    <div></div>
+                    <button class="btn btn-primary" onclick="nextStep()">Analyze My Market →</button>
                 </div>
             </div>
-            <div class="voice-preview" id="voicePreview">
-                <div class="voice-preview-label">Content Preview</div>
-                <div class="voice-preview-text" id="voicePreviewText"></div>
+
+            <!-- STEP 2: TARGET AREA / MAP -->
+            <div class="step-content">
+                <h1 class="step-title">Define Your Territory</h1>
+                <p class="step-subtitle">Draw your farming area, select your strategy, and we'll deploy our AI agents to scan the competition.</p>
+
+                <div id="leafletContainer"></div>
+
+                <div class="zipcode-input-area">
+                    <input type="text" id="zipcodeInput" placeholder="Enter ZIP code (e.g., 94303)" >
+                    <button onclick="addZipcode()">+ Add ZIP</button>
+                </div>
+
+                <div class="zipcode-chips" id="zipchips"></div>
+
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Select Your Farming Strategy</p>
+                <div class="strategy-cards">
+                    <div class="strategy-card" onclick="toggleStrategy(this)">
+                        <div class="strategy-icon">🏡</div>
+                        <div class="strategy-name">Geographic Farming</div>
+                        <div class="strategy-desc">Dominate a specific neighborhood</div>
+                    </div>
+                    <div class="strategy-card" onclick="toggleStrategy(this)">
+                        <div class="strategy-icon">📋</div>
+                        <div class="strategy-name">Expired Listings</div>
+                        <div class="strategy-desc">Target listings that failed to sell</div>
+                    </div>
+                    <div class="strategy-card" onclick="toggleStrategy(this)">
+                        <div class="strategy-icon">🔑</div>
+                        <div class="strategy-name">FSBOs</div>
+                        <div class="strategy-desc">Convert For-Sale-By-Owners</div>
+                    </div>
+                    <div class="strategy-card" onclick="toggleStrategy(this)">
+                        <div class="strategy-icon">🌐</div>
+                        <div class="strategy-name">Omnipresent</div>
+                        <div class="strategy-desc">Be everywhere in your market</div>
+                    </div>
+                </div>
+
+                <div class="btn-nav">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="triggerScanning()">Deploy Scouts →</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Differentiator -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">What Makes You Different?</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">Tell us in your own words — or let our AI extract it for you. This becomes the heart of your content strategy.</p>
-            <textarea class="diff-input" id="diffInput" placeholder="e.g. I specialize in helping tech professionals relocate to the Peninsula. I've closed 40+ deals in Palo Alto in the last 3 years and I know every school district by heart..." oninput="checkDiffLength()"></textarea>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                <div class="form-hint" id="diffHint">Or pick from our AI suggestions below</div>
-                <button class="btn-secondary" style="font-size:0.72rem; padding:4px 14px;" onclick="analyzeDiff()">✨ AI Analyze</button>
+            <!-- STEP 3: MARKET ANALYSIS REPORT -->
+            <div class="step-content">
+                <h1 class="step-title">Your Market Intelligence Report</h1>
+                <p class="step-subtitle">Comprehensive analysis of your competitive landscape and opportunities.</p>
+
+                <!-- SECTION A: STATS -->
+                <div class="report-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">11</div>
+                            <div class="stat-label">Total Agents</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">14</div>
+                            <div class="stat-label">Avg Posts/Mo</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">72</div>
+                            <div class="stat-label">Content Gap %</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">23</div>
+                            <div class="stat-label">Keywords to Own</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">Med</div>
+                            <div class="stat-label">Difficulty Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">8.4</div>
+                            <div class="stat-label">Your Advantage</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION B: COMPETITORS -->
+                <div class="report-section">
+                    <h2 class="report-section-title">Competitor Analysis</h2>
+                    <div class="competitors-grid" id="competitorGrid"></div>
+                </div>
+
+                <!-- SECTION C: CONTENT GAP -->
+                <div class="report-section">
+                    <h2 class="report-section-title">Content Gap Opportunities</h2>
+                    <div class="gap-chart" id="gapChart"></div>
+                </div>
+
+                <!-- SECTION D: KEYWORDS -->
+                <div class="report-section">
+                    <h2 class="report-section-title">Keyword Opportunities</h2>
+                    <table class="keywords-table">
+                        <thead>
+                            <tr>
+                                <th>Keyword</th>
+                                <th>Monthly Searches</th>
+                                <th>Competition</th>
+                                <th>Difficulty</th>
+                                <th>Your Potential Rank</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keywordsTable">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SECTION E: OPPORTUNITY SCORE -->
+                <div class="report-section">
+                    <div class="opportunity-section">
+                        <h2 class="report-section-title" style="margin-bottom: 2rem;">Your Opportunity Score</h2>
+                        <div class="score-gauge">
+                            <div class="gauge-bg">
+                                <div class="gauge-inner">
+                                    <div class="gauge-number">8.4</div>
+                                    <div class="gauge-label">out of 10</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quick-wins-grid">
+                            <div class="quick-win-card">
+                                <div class="quick-win-title">Quick Wins</div>
+                                <div class="quick-win-items">
+                                    <div class="quick-win-item">Local SEO optimization</div>
+                                    <div class="quick-win-item">Neighborhood guides</div>
+                                    <div class="quick-win-item">GMB optimization</div>
+                                </div>
+                            </div>
+                            <div class="quick-win-card">
+                                <div class="quick-win-title">Growth Plays</div>
+                                <div class="quick-win-items">
+                                    <div class="quick-win-item">Video content series</div>
+                                    <div class="quick-win-item">Email nurture workflows</div>
+                                    <div class="quick-win-item">Market data reports</div>
+                                </div>
+                            </div>
+                            <div class="quick-win-card">
+                                <div class="quick-win-title">Long Game</div>
+                                <div class="quick-win-items">
+                                    <div class="quick-win-item">Thought leadership blog</div>
+                                    <div class="quick-win-item">Community partnerships</div>
+                                    <div class="quick-win-item">Brand authority build</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION F: PROJECTION -->
+                <div class="report-section">
+                    <h2 class="report-section-title">Your Projected Growth at 90 Days</h2>
+                    <div class="projection-grid">
+                        <div class="projection-card">
+                            <div class="projection-title">Current State (Competitor Avg)</div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Followers</div>
+                                <div class="projection-value">1,240</div>
+                            </div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Engagement Rate</div>
+                                <div class="projection-value">1.8%</div>
+                            </div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Posts/Month</div>
+                                <div class="projection-value">12</div>
+                            </div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Keyword Rankings</div>
+                                <div class="projection-value">3</div>
+                            </div>
+                        </div>
+                        <div class="projection-card">
+                            <div class="projection-title">Your Projected State</div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Followers</div>
+                                <div class="projection-value">3,840</div>
+                            </div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Engagement Rate</div>
+                                <div class="projection-value">4.2%</div>
+                            </div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Posts/Month</div>
+                                <div class="projection-value">32</div>
+                            </div>
+                            <div class="projection-metric">
+                                <div class="projection-label">Keyword Rankings</div>
+                                <div class="projection-value">18</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-nav">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Let's Build Your Strategy →</button>
+                </div>
             </div>
 
-            <div class="ai-suggestions" id="aiSuggestions">
-                <div class="ai-suggestion" onclick="useSuggestion(this)">
-                    <div class="ai-suggestion-icon">✨</div>
-                    <div class="ai-suggestion-text">Deep local expertise — you know every street, every school, every hidden gem in your market.</div>
-                </div>
-                <div class="ai-suggestion" onclick="useSuggestion(this)">
-                    <div class="ai-suggestion-icon">✨</div>
-                    <div class="ai-suggestion-text">Tech-savvy approach — you leverage data, market analytics, and modern tools that other agents don't.</div>
-                </div>
-                <div class="ai-suggestion" onclick="useSuggestion(this)">
-                    <div class="ai-suggestion-icon">✨</div>
-                    <div class="ai-suggestion-text">Relocation specialist — you help out-of-state buyers navigate a new city with confidence.</div>
-                </div>
-                <div class="ai-suggestion" onclick="useSuggestion(this)">
-                    <div class="ai-suggestion-icon">✨</div>
-                    <div class="ai-suggestion-text">Investment-focused — you help clients build wealth through real estate, not just buy houses.</div>
-                </div>
-            </div>
-        </div>
+            <!-- STEP 4: CONTENT PROFILE -->
+            <div class="step-content">
+                <h1 class="step-title">Your Content DNA</h1>
+                <p class="step-subtitle">Define your unique voice, style, and approach to content.</p>
 
-        <div class="button-row">
-            <button class="btn-back" onclick="goToStep(2)">← Back</button>
-            <button class="btn-primary" onclick="goToStep(4)">CONTINUE →</button>
-        </div>
-    </div>
-
-    <!-- ================================================================
-         STEP 4 — ACCOUNT LINKING
-         ================================================================ -->
-    <div class="step" id="step4">
-        <div class="step-header">
-            <span class="step-label">Step 04 of 05</span>
-            <h1 class="step-title">Connect Your Channels</h1>
-            <p class="step-subtitle">Link your social accounts so PropCast can publish directly. No manual copy-pasting. You can always add more later.</p>
-        </div>
-
-        <!-- OAuth Cards -->
-        <div class="step-content">
-            <div class="section-label">Social Accounts</div>
-            <div class="oauth-grid">
-                <div class="oauth-card" id="oauth-ig" onclick="toggleOAuth('ig')">
-                    <div class="oauth-icon">📸</div>
+                <div class="content-profile-grid">
                     <div>
-                        <div class="oauth-name">Instagram</div>
-                        <div class="oauth-status" id="oauth-ig-status">Not connected</div>
-                    </div>
-                    <button class="oauth-connect-btn" id="oauth-ig-btn">Connect</button>
-                </div>
-                <div class="oauth-card" id="oauth-fb" onclick="toggleOAuth('fb')">
-                    <div class="oauth-icon">📘</div>
-                    <div>
-                        <div class="oauth-name">Facebook</div>
-                        <div class="oauth-status" id="oauth-fb-status">Not connected</div>
-                    </div>
-                    <button class="oauth-connect-btn" id="oauth-fb-btn">Connect</button>
-                </div>
-                <div class="oauth-card" id="oauth-yt" onclick="toggleOAuth('yt')">
-                    <div class="oauth-icon">▶️</div>
-                    <div>
-                        <div class="oauth-name">YouTube</div>
-                        <div class="oauth-status" id="oauth-yt-status">Not connected</div>
-                    </div>
-                    <button class="oauth-connect-btn" id="oauth-yt-btn">Connect</button>
-                </div>
-                <div class="oauth-card" id="oauth-gbp" onclick="toggleOAuth('gbp')">
-                    <div class="oauth-icon">📍</div>
-                    <div>
-                        <div class="oauth-name">Google Business</div>
-                        <div class="oauth-status" id="oauth-gbp-status">Not connected</div>
-                    </div>
-                    <button class="oauth-connect-btn" id="oauth-gbp-btn">Connect</button>
-                </div>
-            </div>
-        </div>
+                        <!-- Buyer/Seller Split -->
+                        <div class="buyer-seller-section">
+                            <div class="section-label">Buyer/Seller Focus</div>
+                            <div class="slider-container">
+                                <span style="color: var(--gray); font-size: 0.9rem;">Buyer</span>
+                                <div class="slider-track">
+                                    <div class="slider-fill" id="buyerSliderFill" style="width: 50%;"></div>
+                                    <div class="slider-thumb" id="buyerSlider" style="left: 50%; width: 24px; height: 24px; background: linear-gradient(135deg, var(--teal), var(--teal-d)); border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px var(--teal-glow);" draggable="true"></div>
+                                </div>
+                                <span style="color: var(--gray); font-size: 0.9rem;">Seller</span>
+                            </div>
+                            <div class="slider-label" id="buyerLabel">50% / 50%</div>
+                        </div>
 
-        <!-- Posting Frequency -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Recommended Posting Frequency</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">Based on your market analysis and competitor gaps, here's what we recommend:</p>
-            <div class="freq-card">
-                <div>
-                    <div class="freq-platform">Instagram</div>
-                    <div class="freq-note">Feed + Stories + Reels</div>
-                </div>
-                <div class="freq-schedule">4x / week</div>
-            </div>
-            <div class="freq-card">
-                <div>
-                    <div class="freq-platform">Facebook</div>
-                    <div class="freq-note">Page posts + Groups</div>
-                </div>
-                <div class="freq-schedule">3x / week</div>
-            </div>
-            <div class="freq-card">
-                <div>
-                    <div class="freq-platform">YouTube</div>
-                    <div class="freq-note">Shorts + Long-form</div>
-                </div>
-                <div class="freq-schedule">2x / week</div>
-            </div>
-            <div class="freq-card">
-                <div>
-                    <div class="freq-platform">Google Business</div>
-                    <div class="freq-note">Posts + Updates</div>
-                </div>
-                <div class="freq-schedule">1x / week</div>
-            </div>
-        </div>
+                        <!-- Tone Selection -->
+                        <div style="margin-bottom: 2rem;">
+                            <div class="section-label">Select Your Tone</div>
+                            <div class="tone-cards">
+                                <div class="tone-card" onclick="selectTone(this, 'luxury')">
+                                    <div class="tone-name">Luxury</div>
+                                    <div class="tone-desc">Premium, sophisticated</div>
+                                </div>
+                                <div class="tone-card" onclick="selectTone(this, 'warm')">
+                                    <div class="tone-name">Warm</div>
+                                    <div class="tone-desc">Friendly, approachable</div>
+                                </div>
+                                <div class="tone-card" onclick="selectTone(this, 'data')">
+                                    <div class="tone-name">Data-Driven</div>
+                                    <div class="tone-desc">Facts, analytics</div>
+                                </div>
+                                <div class="tone-card" onclick="selectTone(this, 'modern')">
+                                    <div class="tone-name">Modern</div>
+                                    <div class="tone-desc">Trendy, energetic</div>
+                                </div>
+                            </div>
+                        </div>
 
-        <!-- Approval Workflow -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Approval Workflow</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">How much control do you want over what gets posted?</p>
-            <div class="approval-grid">
-                <div class="approval-option" onclick="selectApproval(this, 'auto')">
-                    <div class="approval-emoji">🚀</div>
-                    <div class="approval-title">Full Auto</div>
-                    <div class="approval-desc">PropCast publishes on schedule. You review anytime in the dashboard.</div>
+                        <!-- Differentiator -->
+                        <div class="differentiator-input">
+                            <label>Your Differentiator</label>
+                            <input type="text" id="differentiator" placeholder="What makes you unique?">
+                            <div class="section-label" style="margin-top: 1rem;">AI Suggestions</div>
+                            <div class="ai-suggestions" id="aiSuggestions">
+                                <div class="suggestion-chip" onclick="addDifferentiator('Luxury home specialist')">+ Luxury specialist</div>
+                                <div class="suggestion-chip" onclick="addDifferentiator('First-time buyer expert')">+ First-time buyer expert</div>
+                                <div class="suggestion-chip" onclick="addDifferentiator('Investment property focus')">+ Investment focus</div>
+                                <div class="suggestion-chip" onclick="addDifferentiator('Tech-forward approach')">+ Tech-forward</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="content-preview">
+                            <div class="preview-title">Live Preview</div>
+
+                            <div class="preview-item">
+                                <div class="preview-label">Instagram Post Caption</div>
+                                <div class="preview-content" id="previewCaption">Discover the perfect home in your neighborhood. We're here to guide every step of your journey. 🏡✨</div>
+                            </div>
+
+                            <div class="preview-item">
+                                <div class="preview-label">Email Subject Line</div>
+                                <div class="preview-content" id="previewEmail">Your Personalized Market Update for April 2026</div>
+                            </div>
+
+                            <div class="preview-item">
+                                <div class="preview-label">Video Script Snippet</div>
+                                <div class="preview-content" id="previewVideo">Today we're diving into market trends that could impact your next move. Let's explore what's happening in your neighborhood...</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="approval-option active" onclick="selectApproval(this, 'review')">
-                    <div class="approval-emoji">👀</div>
-                    <div class="approval-title">Review First</div>
-                    <div class="approval-desc">Content is queued for your approval before publishing. One-tap approve.</div>
-                </div>
-                <div class="approval-option" onclick="selectApproval(this, 'manual')">
-                    <div class="approval-emoji">✋</div>
-                    <div class="approval-title">Manual Only</div>
-                    <div class="approval-desc">Content is drafted. You copy, customize, and post yourself.</div>
+
+                <div class="btn-nav">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Connect & Customize →</button>
                 </div>
             </div>
-        </div>
 
-        <div class="button-row">
-            <button class="btn-back" onclick="goToStep(3)">← Back</button>
-            <button class="btn-primary" onclick="goToStep(5)">CONTINUE →</button>
+            <!-- STEP 5: CHANNELS & BRAND -->
+            <div class="step-content">
+                <h1 class="step-title">Connect & Customize</h1>
+                <p class="step-subtitle">Connect your channels and define your brand identity.</p>
+
+                <div class="channels-grid">
+                    <!-- Column 1: OAuth Connections -->
+                    <div>
+                        <div class="section-label" style="margin-bottom: 1rem;">Connected Channels</div>
+                        <div class="oauth-cards">
+                            <div class="oauth-card" id="oauth-ig" onclick="toggleOAuth(this)">
+                                <div class="oauth-icon">📷</div>
+                                <div class="oauth-name">Instagram</div>
+                                <div class="oauth-status">Click to connect</div>
+                            </div>
+                            <div class="oauth-card" id="oauth-fb" onclick="toggleOAuth(this)">
+                                <div class="oauth-icon">f</div>
+                                <div class="oauth-name">Facebook</div>
+                                <div class="oauth-status">Click to connect</div>
+                            </div>
+                            <div class="oauth-card" id="oauth-yt" onclick="toggleOAuth(this)">
+                                <div class="oauth-icon">📺</div>
+                                <div class="oauth-name">YouTube</div>
+                                <div class="oauth-status">Click to connect</div>
+                            </div>
+                            <div class="oauth-card" id="oauth-gm" onclick="toggleOAuth(this)">
+                                <div class="oauth-icon">🏪</div>
+                                <div class="oauth-name">Google Business</div>
+                                <div class="oauth-status">Click to connect</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Approval Workflow -->
+                    <div>
+                        <div class="section-label">Posting Frequency & Approval</div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div class="section-label" style="font-size: 0.85rem; margin-bottom: 0.75rem;">How often to post?</div>
+                            <div style="padding: 1rem; background: var(--navy-card); border: 1px solid var(--border); border-radius: 8px; color: var(--ink);">Daily (optimized)</div>
+                        </div>
+                        <div class="section-label" style="margin-bottom: 0.75rem;">Content Approval</div>
+                        <div class="approval-options">
+                            <label class="approval-option">
+                                <input type="radio" name="approval" value="auto" checked>
+                                <span class="approval-option-text">Auto-publish</span>
+                            </label>
+                            <label class="approval-option">
+                                <input type="radio" name="approval" value="review">
+                                <span class="approval-option-text">Review & approve</span>
+                            </label>
+                            <label class="approval-option">
+                                <input type="radio" name="approval" value="manual">
+                                <span class="approval-option-text">Manual posting</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Brand & Uploads -->
+                    <div>
+                        <div class="section-label" style="margin-bottom: 1rem;">Brand Colors</div>
+                        <div class="brand-colors">
+                            <div class="color-row">
+                                <div class="color-swatch selected" style="background-color: #00C2A8;" onclick="selectColor(this, '#00C2A8')"></div>
+                                <div class="color-swatch" style="background-color: #1A56DB;" onclick="selectColor(this, '#1A56DB')"></div>
+                                <div class="color-swatch" style="background-color: #7C3AED;" onclick="selectColor(this, '#7C3AED')"></div>
+                            </div>
+                            <div class="color-input-group">
+                                <span style="font-size: 0.85rem; color: var(--gray);">Custom hex:</span>
+                                <input type="text" id="hexInput" value="#00C2A8" style="max-width: 100px;">
+                            </div>
+                        </div>
+
+                        <div class="section-label" style="margin-bottom: 1rem; margin-top: 1.5rem;">Logo Upload</div>
+                        <div class="upload-zone" onclick="document.getElementById('logoUpload').click()">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">Drag or <strong>click to upload</strong> logo</div>
+                            <input type="file" id="logoUpload" style="display: none;" accept="image/*">
+                        </div>
+
+                        <div class="section-label" style="margin-bottom: 1rem;">Video Clips (9:16)</div>
+                        <div class="video-slots">
+                            <div class="video-slot" onclick="document.getElementById('video1').click()">
+                                <div class="video-slot-label">📹<br>Clip 1</div>
+                                <input type="file" id="video1" style="display: none;" accept="video/*">
+                            </div>
+                            <div class="video-slot" onclick="document.getElementById('video2').click()">
+                                <div class="video-slot-label">📹<br>Clip 2</div>
+                                <input type="file" id="video2" style="display: none;" accept="video/*">
+                            </div>
+                            <div class="video-slot" onclick="document.getElementById('video3').click()">
+                                <div class="video-slot-label">📹<br>Clip 3</div>
+                                <input type="file" id="video3" style="display: none;" accept="video/*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-nav">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="completeOnboarding()">Complete Onboarding →</button>
+                </div>
+            </div>
+
+            <!-- SUCCESS SCREEN -->
+            <div class="step-content">
+                <div class="success-screen">
+                    <div class="checkmark-container">
+                        <div class="checkmark">✓</div>
+                    </div>
+                    <h1 class="success-heading" id="successName">You're Live, Graeham!</h1>
+                    <p class="success-subtext">Your content engine is ready to deploy.</p>
+
+                    <div class="timeline-section">
+                        <div class="timeline-title">What Happens Next</div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">1</div>
+                            <div class="timeline-content">
+                                <div class="timeline-when">Next 15 minutes</div>
+                                <div class="timeline-what">Your first set of auto-generated content is being created and queued for approval</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">2</div>
+                            <div class="timeline-content">
+                                <div class="timeline-when">Within 1 hour</div>
+                                <div class="timeline-what">Notifications will alert you as content is ready for review or auto-posting begins</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">3</div>
+                            <div class="timeline-content">
+                                <div class="timeline-when">Tomorrow morning</div>
+                                <div class="timeline-what">First wave of posts goes live across your connected channels</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">4</div>
+                            <div class="timeline-content">
+                                <div class="timeline-when">End of week</div>
+                                <div class="timeline-what">Performance dashboard shows engagement metrics and trending content</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-value" id="summaryZip">94303</div>
+                            <div class="summary-label">Market ZIP</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value">32/mo</div>
+                            <div class="summary-label">Content Output</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value">4</div>
+                            <div class="summary-label">Channels Live</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value">12+h</div>
+                            <div class="summary-label">Time Saved</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="window.location.href='propcast-dashboard.html'" style="margin-top: 2rem;">Go To My Dashboard →</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- ================================================================
-         STEP 5 — BRAND & UPLOAD
-         ================================================================ -->
-    <div class="step" id="step5">
-        <div class="step-header">
-            <span class="step-label">Step 05 of 05</span>
-            <h1 class="step-title">Make It Yours</h1>
-            <p class="step-subtitle">Final step — give us your brand colors, logo, and raw footage. The more you upload, the more authentic your content. Even the minimums produce incredible results.</p>
-        </div>
-
-        <!-- Brand Colors -->
-        <div class="step-content">
-            <div class="section-label">Brand Colors</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:0.8rem;">Pick your primary and accent colors, or enter a hex code.</p>
-            <div class="color-swatches" id="colorSwatches">
-                <div class="color-swatch active" style="background:#00C2A8;" onclick="selectColor(this,'#00C2A8')"></div>
-                <div class="color-swatch" style="background:#3B82F6;" onclick="selectColor(this,'#3B82F6')"></div>
-                <div class="color-swatch" style="background:#8B5CF6;" onclick="selectColor(this,'#8B5CF6')"></div>
-                <div class="color-swatch" style="background:#EF4444;" onclick="selectColor(this,'#EF4444')"></div>
-                <div class="color-swatch" style="background:#F59E0B;" onclick="selectColor(this,'#F59E0B')"></div>
-                <div class="color-swatch" style="background:#10B981;" onclick="selectColor(this,'#10B981')"></div>
-                <div class="color-swatch" style="background:#EC4899;" onclick="selectColor(this,'#EC4899')"></div>
-                <div class="color-swatch" style="background:#1E293B;" onclick="selectColor(this,'#1E293B')"></div>
+    <!-- SCANNING OVERLAY -->
+    <div class="scan-overlay" id="scanOverlay">
+        <div class="scan-content">
+            <div class="scan-ring-container">
+                <div class="scan-ring"></div>
+                <div class="scan-ring-inner"></div>
             </div>
-            <div class="color-hex-input">
-                <span style="font-size:0.78rem; color:var(--gray);">Custom:</span>
-                <input type="text" id="hexInput" value="#00C2A8" placeholder="#000000" oninput="updateCustomColor(this.value)">
-            </div>
-        </div>
-
-        <!-- Logo Upload -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Your Logo</div>
-            <div class="upload-zone" onclick="document.getElementById('logoInput').click()" id="logoUploadZone">
-                <div class="upload-icon">🏢</div>
-                <div class="upload-text">Upload your logo</div>
-                <div class="upload-subtext">PNG or SVG, transparent background preferred</div>
-                <input type="file" id="logoInput" style="display:none;" accept="image/*">
-            </div>
-        </div>
-
-        <!-- Video Clips (9:16) -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Video Clips <span style="color:var(--gray); text-transform:none; letter-spacing:0; font-weight:400;">(9:16 vertical)</span></div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:0.8rem;">Upload 30–60 second clips of yourself talking. These power your AI avatar for market updates and talking-head videos.</p>
-            <div class="clip-grid">
-                <div class="clip-slot" onclick="document.getElementById('clip1').click()">
-                    <div class="clip-slot-icon">🎬</div>
-                    <div class="clip-slot-label">Clip 1: Intro<br><small>30–60 sec</small></div>
-                    <input type="file" id="clip1" style="display:none;" accept="video/*" onchange="markClipFilled(this, 0)">
+            <div class="scan-counter" id="scanCounter">0</div>
+            <div class="scan-label" id="scanLabel">Initializing Scout Agent...</div>
+            <div class="scan-agents" id="scanAgents">
+                <div class="scan-agent" data-agent="Scout">
+                    <div class="scan-agent-name">Scout Agent</div>
+                    <div class="scan-agent-status">Analyzing territory...</div>
                 </div>
-                <div class="clip-slot" onclick="document.getElementById('clip2').click()">
-                    <div class="clip-slot-icon">🎬</div>
-                    <div class="clip-slot-label">Clip 2: Market Talk<br><small>30–60 sec</small></div>
-                    <input type="file" id="clip2" style="display:none;" accept="video/*" onchange="markClipFilled(this, 1)">
+                <div class="scan-agent" data-agent="Analyst">
+                    <div class="scan-agent-name">Market Analyst</div>
+                    <div class="scan-agent-status">Gathering data...</div>
                 </div>
-                <div class="clip-slot" onclick="document.getElementById('clip3').click()">
-                    <div class="clip-slot-icon">🎬</div>
-                    <div class="clip-slot-label">Clip 3: Personal<br><small>30–60 sec</small></div>
-                    <input type="file" id="clip3" style="display:none;" accept="video/*" onchange="markClipFilled(this, 2)">
+                <div class="scan-agent" data-agent="Strategist">
+                    <div class="scan-agent-name">Content Strategist</div>
+                    <div class="scan-agent-status">Building strategy...</div>
+                </div>
+                <div class="scan-agent" data-agent="SEO">
+                    <div class="scan-agent-name">SEO Crawler</div>
+                    <div class="scan-agent-status">Mapping keywords...</div>
+                </div>
+                <div class="scan-agent" data-agent="Social">
+                    <div class="scan-agent-name">Social Auditor</div>
+                    <div class="scan-agent-status">Scanning platforms...</div>
+                </div>
+                <div class="scan-agent" data-agent="Engine">
+                    <div class="scan-agent-name">Opportunity Engine</div>
+                    <div class="scan-agent-status">Calculating wins...</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Teleprompter -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Need Help Recording?</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">Use our built-in teleprompter. We give you the script — you just talk to your phone.</p>
-            <div class="teleprompter-box">
-                <div class="teleprompter-screen">
-                    <div style="text-align:center;">
-                        <div style="font-size:1.5rem; margin-bottom:0.5rem; opacity:0.4;">📹</div>
-                        <div style="font-size:0.78rem; color:var(--faint);">Camera preview appears here</div>
-                    </div>
-                </div>
-                <div class="teleprompter-text">
-                    "Hi, I'm <span id="teleprompterName" style="color:var(--teal);">[Your Name]</span>, and I help families find their perfect home in the Palo Alto area. Whether you're buying your first home or selling to move up, I'll make sure you get the best deal possible..."
-                </div>
-                <div style="font-size:0.68rem; color:var(--faint); margin-top:8px; text-align:center;">Script scrolls automatically when you start recording</div>
-            </div>
-        </div>
-
-        <!-- Photo Dump -->
-        <div class="step-content" style="margin-top:1.5rem;">
-            <div class="section-label">Photo Dump</div>
-            <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem;">Drop everything you've got — headshots, property photos, client photos, events, open houses. We'll sort and use the best ones.</p>
-            <div class="dump-upload" onclick="document.getElementById('photoDump').click()" id="photoDumpZone">
-                <div class="dump-icon">🚚</div>
-                <div class="dump-title">Dump Your Photos Here</div>
-                <div class="dump-desc">The more you give us, the more authentic your content looks</div>
-                <div class="dump-types">JPG, PNG, HEIC, MP4 — No limit</div>
-                <input type="file" id="photoDump" style="display:none;" accept="image/*,video/*" multiple onchange="handlePhotoDump(this)">
-            </div>
-            <div class="upload-progress" id="dumpProgress"></div>
-        </div>
-
-        <div class="button-row">
-            <button class="btn-back" onclick="goToStep(4)">← Back</button>
-            <button class="btn-primary" onclick="launchEngine()" style="padding:1rem 3rem; font-size:0.9rem;">🚀 LAUNCH MY CONTENT ENGINE</button>
         </div>
     </div>
 
-    <!-- ================================================================
-         SUCCESS SCREEN
-         ================================================================ -->
-    <div class="success-screen" id="successScreen">
-        <div class="success-check">✓</div>
-        <h1 class="success-title">You're Live!</h1>
-        <p class="success-subtitle">PropCast is building your first batch of content right now. Here's what happens next:</p>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 
-        <div class="timeline-card">
-            <div class="timeline-item">
-                <div class="timeline-dot">1</div>
-                <div class="timeline-content">
-                    <div class="timeline-when">Next 15 minutes</div>
-                    <div class="timeline-what">First content batch generating</div>
-                    <div class="timeline-detail">Your first 8 social posts, 2 video scripts, and 1 email campaign are being created right now.</div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot">2</div>
-                <div class="timeline-content">
-                    <div class="timeline-when">Within 1 hour</div>
-                    <div class="timeline-what">Content ready for review</div>
-                    <div class="timeline-detail">Everything will appear in your dashboard. Review, tweak, or approve with one tap.</div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot">3</div>
-                <div class="timeline-content">
-                    <div class="timeline-when">Tomorrow morning</div>
-                    <div class="timeline-what">First post goes live</div>
-                    <div class="timeline-detail">Your first scheduled post will publish to your connected accounts automatically.</div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot">4</div>
-                <div class="timeline-content">
-                    <div class="timeline-when">By end of week</div>
-                    <div class="timeline-what">Full content calendar active</div>
-                    <div class="timeline-detail">Your 3-month content plan will be fully populated and running on autopilot.</div>
-                </div>
-            </div>
-        </div>
+    <script>
+        // ============================================================
+        // STATE MANAGEMENT
+        // ============================================================
+        let currentStep = 0;
+        const totalSteps = 6; // 5 steps + success screen
 
-        <div class="summary-grid">
-            <div class="summary-card">
-                <div class="summary-value">94303</div>
-                <div class="summary-label">Primary Market</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-value">10x/wk</div>
-                <div class="summary-label">Content Output</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-value">4</div>
-                <div class="summary-label">Channels Connected</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-value">~40 hrs</div>
-                <div class="summary-label">Saved Monthly</div>
-            </div>
-        </div>
+        const state = {
+            firstName: '',
+            email: '',
+            phone: '',
+            brokerage: '',
+            dre: '',
+            selectedZipcodes: ['94303'],
+            selectedStrategies: [],
+            tone: 'warm',
+            differentiator: '',
+            buyerSplit: 50,
+            connectedChannels: [],
+            brandColor: '#00C2A8',
+            tone: null
+        };
 
-        <div style="margin-top:2rem;">
-            <button class="btn-primary" onclick="window.location.href='propcast-dashboard.html'" style="padding:1rem 3rem;">GO TO MY DASHBOARD →</button>
-        </div>
-        <div style="margin-top:1rem;">
-            <button class="btn-text" onclick="window.location.href='index.html'">Return to home</button>
-        </div>
-    </div>
-
-</div><!-- /wizard-container -->
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<script>
-    let currentStep = 1;
-    const totalSteps = 5;
-    let mapInitialized = false;
-
-    // ========== NAVIGATION ==========
-    function goToStep(step) {
-        if (step < 1 || step > totalSteps) return;
-
-        document.getElementById('step' + currentStep).classList.remove('active');
-        currentStep = step;
-        document.getElementById('step' + currentStep).classList.add('active');
-
-        // Progress bar
-        const pct = (step / totalSteps) * 100;
-        document.getElementById('progressBar').style.width = pct + '%';
-
-        // Dots & labels
-        document.querySelectorAll('.progress-dot').forEach((dot, i) => {
-            dot.classList.remove('active', 'completed');
-            if (i + 1 === step) dot.classList.add('active');
-            if (i + 1 < step) dot.classList.add('completed');
-        });
-        document.querySelectorAll('.progress-label').forEach((lbl, i) => {
-            lbl.classList.remove('active', 'completed');
-            if (i + 1 === step) lbl.classList.add('active');
-            if (i + 1 < step) lbl.classList.add('completed');
-        });
-
-        // Wide layout for steps 4, 5
-        const container = document.getElementById('wizardContainer');
-        if (step >= 4) { container.classList.add('wide'); } else { container.classList.remove('wide'); }
-
-        // Update teleprompter name
-        if (step === 5) {
-            const name = document.getElementById('agentName').value || '[Your Name]';
-            document.getElementById('teleprompterName').textContent = name;
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ========== STEP 1: MARKET SCAN ==========
-    function runMarketScan() {
-        const overlay = document.getElementById('scanOverlay');
-        overlay.classList.add('active');
-
-        const agents = ['scout', 'analyst', 'content', 'seo'];
-        const statusEl = document.getElementById('scanStatus');
-        const detailEl = document.getElementById('scanDetail');
-
-        const phases = [
-            { status: 'Deploying Scout Agent...', detail: 'Crawling competitor social profiles in 94303', agent: 'scout', state: 'active' },
-            { status: 'Scout Agent Complete', detail: 'Found 11 active agents, 47 social profiles analyzed', agent: 'scout', state: 'done' },
-            { status: 'Market Analyst Running...', detail: 'Pulling MLS data, pricing trends, and inventory levels', agent: 'analyst', state: 'active' },
-            { status: 'Market Analyst Complete', detail: 'Median price $2.4M, inventory 0.9 months, 4.1% YoY growth', agent: 'analyst', state: 'done' },
-            { status: 'Content Strategist Analyzing...', detail: 'Mapping content gaps across 6 categories', agent: 'content', state: 'active' },
-            { status: 'Content Strategist Complete', detail: 'Found 6 major content gaps — your opportunity map is ready', agent: 'content', state: 'done' },
-            { status: 'SEO Crawler Scanning...', detail: 'Analyzing local search volume and keyword competition', agent: 'seo', state: 'active' },
-            { status: 'All Agents Complete', detail: 'Your market intelligence report is ready', agent: 'seo', state: 'done' },
-        ];
-
-        let i = 0;
-        const interval = setInterval(() => {
-            if (i < phases.length) {
-                const p = phases[i];
-                statusEl.textContent = p.status;
-                detailEl.textContent = p.detail;
-                const agentEl = document.querySelector(`.scan-agent[data-agent="${p.agent}"]`);
-                if (agentEl) {
-                    agentEl.classList.remove('active');
-                    agentEl.classList.add(p.state);
-                }
-                i++;
-            } else {
-                clearInterval(interval);
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    document.getElementById('marketResults').style.display = 'block';
-                    // Reset agents for next scan
-                    document.querySelectorAll('.scan-agent').forEach(a => { a.classList.remove('active', 'done'); });
-                    initMap();
-                }, 600);
-            }
-        }, 1000);
-    }
-
-    function handleZipEntry(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const val = e.target.value.trim();
-            if (val && /^\d{5}$/.test(val)) {
-                const chip = document.createElement('div');
-                chip.style.cssText = 'display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(0,194,168,0.08);border:1px solid rgba(0,194,168,0.2);border-radius:20px;color:var(--ink);font-size:0.82rem;';
-                chip.innerHTML = val + ' <span style="cursor:pointer;opacity:0.6;font-size:0.78rem;" onclick="this.parentElement.remove()">×</span>';
-                document.getElementById('zipChips').appendChild(chip);
-                e.target.value = '';
-            }
-        }
-    }
-
-    // Content tabs
-    function switchTab(tab) {
-        document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
-        event.target.classList.add('active');
-        document.getElementById('panel-' + tab).classList.add('active');
-    }
-
-    // Leaflet map
-    function initMap() {
-        if (mapInitialized) return;
-        mapInitialized = true;
-        const map = L.map('marketMap', { zoomControl: false, attributionControl: false }).setView([37.4419, -122.1430], 13);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
-        // Market area circle
-        L.circle([37.4419, -122.1430], { radius: 3000, color: '#00C2A8', fillColor: '#00C2A8', fillOpacity: 0.08, weight: 2 }).addTo(map);
-        // Competitor markers
+        // ============================================================
+        // COMPETITOR & REPORT DATA
+        // ============================================================
         const competitors = [
-            [37.4448, -122.1600, 'Sarah Chen'],
-            [37.4520, -122.1820, 'Michael Torres'],
-            [37.4610, -122.2000, 'Linda Park'],
-            [37.3861, -122.0839, 'David Huang']
+            { name: 'Sarah Chen', company: 'Compass', posts: 12, engagement: 1.2, weakness: 'No video', threat: 'med', social: 8, video: 2, blog: 1, email: 1 },
+            { name: 'Michael Torres', company: 'KW', posts: 18, engagement: 2.4, weakness: 'No neighborhood content', threat: 'high', social: 12, video: 3, blog: 2, email: 1 },
+            { name: 'Linda Park', company: 'Sereno', posts: 6, engagement: 0.8, weakness: 'Inconsistent', threat: 'low', social: 4, video: 1, blog: 1, email: 0 },
+            { name: 'David Huang', company: 'Coldwell Banker', posts: 22, engagement: 3.1, weakness: 'No market data', threat: 'high', social: 14, video: 4, blog: 3, email: 1 },
+            { name: 'Jennifer Wu', company: 'Redfin', posts: 8, engagement: 1.5, weakness: 'Template content', threat: 'med', social: 5, video: 1, blog: 2, email: 0 },
+            { name: 'Robert Kim', company: 'RE/MAX', posts: 15, engagement: 1.8, weakness: 'No email nurture', threat: 'med', social: 10, video: 2, blog: 2, email: 1 },
+            { name: 'Amanda Foster', company: 'Sotheby\'s', posts: 10, engagement: 2.8, weakness: 'Luxury only niche', threat: 'med', social: 6, video: 2, blog: 1, email: 1 },
+            { name: 'James Rodriguez', company: 'Century 21', posts: 4, engagement: 0.5, weakness: 'Nearly inactive', threat: 'low', social: 3, video: 0, blog: 1, email: 0 },
+            { name: 'Priya Patel', company: 'eXp Realty', posts: 20, engagement: 2.1, weakness: 'No video shorts', threat: 'high', social: 14, video: 3, blog: 2, email: 1 },
+            { name: 'Kevin O\'Brien', company: 'Intero', posts: 7, engagement: 0.9, weakness: 'No social strategy', threat: 'low', social: 5, video: 1, blog: 1, email: 0 }
         ];
-        competitors.forEach(c => {
-            L.circleMarker([c[0], c[1]], { radius: 6, color: '#F59E0B', fillColor: '#F59E0B', fillOpacity: 0.6, weight: 1 }).addTo(map).bindPopup('<strong>' + c[2] + '</strong>');
+
+        const contentGaps = [
+            { name: 'Neighborhood Guides', covered: 9, opportunity: 91 },
+            { name: 'Market Data Videos', covered: 0, opportunity: 100 },
+            { name: 'Email Nurture', covered: 18, opportunity: 82 },
+            { name: 'Buyer Education', covered: 5, opportunity: 95 },
+            { name: 'Local SEO/Blog', covered: 27, opportunity: 73 },
+            { name: 'Client Testimonials', covered: 18, opportunity: 82 },
+            { name: 'Short-Form Video', covered: 36, opportunity: 64 },
+            { name: 'Community Events', covered: 9, opportunity: 91 }
+        ];
+
+        const keywords = [
+            { name: 'homes for sale in palo alto', searches: 2400, competition: 'High', difficulty: 'hard', rank: '—' },
+            { name: 'palo alto real estate agent', searches: 1800, competition: 'High', difficulty: 'hard', rank: '—' },
+            { name: '94303 homes for sale', searches: 890, competition: 'Medium', difficulty: 'medium', rank: '—' },
+            { name: 'palo alto property values', searches: 520, competition: 'Medium', difficulty: 'medium', rank: '—' },
+            { name: 'buy home palo alto', searches: 1200, competition: 'High', difficulty: 'hard', rank: '—' },
+            { name: 'palo alto market report', searches: 340, competition: 'Low', difficulty: 'easy', rank: '1' },
+            { name: 'sell house palo alto', searches: 890, competition: 'High', difficulty: 'hard', rank: '—' },
+            { name: 'neighborhood guide palo alto', searches: 210, competition: 'Low', difficulty: 'easy', rank: '2' },
+            { name: 'palo alto school districts', searches: 1100, competition: 'Medium', difficulty: 'medium', rank: '—' },
+            { name: 'luxury homes palo alto', searches: 640, competition: 'High', difficulty: 'hard', rank: '—' }
+        ];
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMap();
+            renderCompetitors();
+            renderContentGaps();
+            renderKeywords();
+            updateProgressBar();
+            setupInputListeners();
         });
-        // Your marker
-        L.circleMarker([37.4419, -122.1430], { radius: 8, color: '#00C2A8', fillColor: '#00C2A8', fillOpacity: 1, weight: 2 }).addTo(map).bindPopup('<strong>Your Market Center</strong>');
-    }
 
-    // ========== STEP 2: PROFILE PREVIEW ==========
-    function updateProfilePreview() {
-        const name = document.getElementById('agentName').value || 'Your Name';
-        const brokerage = document.getElementById('agentBrokerage').value || 'Your Brokerage';
-        const dre = document.getElementById('agentDre').value;
-        const website = document.getElementById('agentWebsite').value;
-
-        document.getElementById('previewName').textContent = name;
-        document.getElementById('previewBrokerage').textContent = brokerage;
-        document.getElementById('previewDre').textContent = dre ? 'DRE #' + dre : '';
-        const websiteEl = document.getElementById('previewWebsite');
-        websiteEl.textContent = website || '';
-        websiteEl.href = website ? (website.startsWith('http') ? website : 'https://' + website) : '#';
-    }
-
-    // ========== STEP 3: CONTENT PROFILE ==========
-    function updateSplit(val) {
-        const buyerPct = 100 - parseInt(val);
-        const sellerPct = parseInt(val);
-        document.getElementById('buyerPct').textContent = buyerPct + '%';
-        document.getElementById('sellerPct').textContent = sellerPct + '%';
-        document.getElementById('splitSlider').style.setProperty('--val', val + '%');
-    }
-
-    const voicePreviews = {
-        luxury: '"Introducing an extraordinary estate nestled in the heart of Palo Alto. This architectural masterpiece redefines luxury living with panoramic views and impeccable finishes throughout."',
-        warm: '"Just listed a beautiful home in our neighborhood! If you know anyone who\'s been dreaming about tree-lined streets and top-rated schools, send them my way — I\'d love to help them find their perfect fit."',
-        data: '"94303 median home prices rose 4.1% month-over-month to $2.4M, outpacing county averages by 1.8 points. Inventory remains tight at 0.9 months of supply. Here\'s what that means for buyers."',
-        modern: '"Hot take: the best time to buy on the Peninsula isn\'t when rates drop — it\'s when everyone else is waiting. Here\'s the data that proves it. 👇"'
-    };
-
-    function selectTone(el, tone) {
-        document.querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
-        el.classList.add('active');
-        const preview = document.getElementById('voicePreview');
-        document.getElementById('voicePreviewText').textContent = voicePreviews[tone];
-        preview.style.display = 'block';
-    }
-
-    function checkDiffLength() {
-        const val = document.getElementById('diffInput').value;
-        if (val.length > 20) {
-            document.getElementById('diffHint').textContent = 'Great — we\'ll weave this into your content strategy';
-            document.getElementById('diffHint').style.color = 'var(--teal)';
-        }
-    }
-
-    function analyzeDiff() {
-        const input = document.getElementById('diffInput');
-        if (!input.value.trim()) {
-            input.placeholder = 'Type a few words about yourself and click AI Analyze...';
-            input.focus();
-            return;
-        }
-        // Simulate AI analysis
-        document.getElementById('diffHint').textContent = '✨ Analyzing with Claude...';
-        document.getElementById('diffHint').style.color = 'var(--teal)';
-        setTimeout(() => {
-            document.getElementById('diffHint').innerHTML = '✅ Analysis complete — your differentiator has been extracted and will shape all content.';
-        }, 1500);
-    }
-
-    function useSuggestion(el) {
-        const text = el.querySelector('.ai-suggestion-text').textContent;
-        document.getElementById('diffInput').value = text;
-        checkDiffLength();
-        // Visual feedback
-        el.style.borderColor = 'var(--teal)';
-        el.style.background = 'rgba(0,194,168,0.12)';
-    }
-
-    // ========== STEP 4: ACCOUNT LINKING ==========
-    function toggleOAuth(platform) {
-        const card = document.getElementById('oauth-' + platform);
-        const status = document.getElementById('oauth-' + platform + '-status');
-        const btn = document.getElementById('oauth-' + platform + '-btn');
-
-        if (card.classList.contains('connected')) {
-            card.classList.remove('connected');
-            status.textContent = 'Not connected';
-            btn.textContent = 'Connect';
-        } else {
-            card.classList.add('connected');
-            status.textContent = 'Connected ✓';
-            btn.textContent = '✓';
-        }
-    }
-
-    function selectApproval(el, mode) {
-        document.querySelectorAll('.approval-option').forEach(o => o.classList.remove('active'));
-        el.classList.add('active');
-    }
-
-    // ========== STEP 5: BRAND & UPLOAD ==========
-    function selectColor(el, hex) {
-        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-        el.classList.add('active');
-        document.getElementById('hexInput').value = hex;
-    }
-
-    function updateCustomColor(hex) {
-        if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-        }
-    }
-
-    function markClipFilled(input, index) {
-        if (input.files.length > 0) {
-            const slots = document.querySelectorAll('.clip-slot');
-            slots[index].classList.add('filled');
-            slots[index].querySelector('.clip-slot-icon').textContent = '✅';
-            slots[index].querySelector('.clip-slot-label').innerHTML = 'Uploaded!';
-        }
-    }
-
-    function handlePhotoDump(input) {
-        if (input.files.length === 0) return;
-        const zone = document.getElementById('photoDumpZone');
-        const progress = document.getElementById('dumpProgress');
-        progress.classList.add('visible');
-        progress.innerHTML = '';
-
-        const count = Math.min(input.files.length, 6);
-        for (let i = 0; i < count; i++) {
-            const item = document.createElement('div');
-            item.className = 'progress-item';
-            const name = input.files[i].name.length > 18 ? input.files[i].name.substring(0, 15) + '...' : input.files[i].name;
-            item.innerHTML = `
-                <div class="progress-item-name">${name}</div>
-                <div class="progress-item-bar"><div class="progress-item-fill" style="width:0%" id="pf-${i}"></div></div>
-                <div class="progress-item-pct" id="pp-${i}">0%</div>
-            `;
-            progress.appendChild(item);
-        }
-
-        // Simulate upload progress
-        for (let i = 0; i < count; i++) {
-            simulateProgress(i, Math.random() * 1500 + 500);
-        }
-
-        zone.querySelector('.dump-icon').textContent = '✅';
-        zone.querySelector('.dump-title').textContent = input.files.length + ' files selected';
-        zone.querySelector('.dump-desc').textContent = 'Uploading...';
-    }
-
-    function simulateProgress(index, duration) {
-        const fill = document.getElementById('pf-' + index);
-        const pct = document.getElementById('pp-' + index);
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += Math.random() * 15 + 5;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
-                pct.style.color = 'var(--green)';
+        // ============================================================
+        // STEP NAVIGATION
+        // ============================================================
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                updateStepDisplay();
             }
-            fill.style.width = Math.min(progress, 100) + '%';
-            pct.textContent = Math.round(Math.min(progress, 100)) + '%';
-        }, duration / 6);
-    }
-
-    // Logo upload handler
-    document.getElementById('logoInput').addEventListener('change', function() {
-        if (this.files.length > 0) {
-            const zone = document.getElementById('logoUploadZone');
-            zone.querySelector('.upload-icon').textContent = '✅';
-            zone.querySelector('.upload-text').textContent = this.files[0].name;
-            zone.querySelector('.upload-subtext').textContent = 'Logo uploaded successfully';
         }
-    });
 
-    // ========== LAUNCH ==========
-    function launchEngine() {
-        // Hide all steps, show success
-        for (let i = 1; i <= totalSteps; i++) {
-            document.getElementById('step' + i).classList.remove('active');
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepDisplay();
+            }
         }
-        document.querySelector('.progress-section').style.display = 'none';
-        document.getElementById('successScreen').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Update summary with actual data
-        const name = document.getElementById('agentName').value;
-        if (name) {
-            document.querySelector('.success-title').textContent = "You're Live, " + name.split(' ')[0] + '!';
+        function updateStepDisplay() {
+            // Hide all step content
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            // Show current step
+            document.querySelectorAll('.step-content')[currentStep].classList.add('active');
+
+            // Update step dots
+            document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+                dot.classList.remove('active', 'completed');
+                if (idx === currentStep) dot.classList.add('active');
+                if (idx < currentStep) dot.classList.add('completed');
+            });
+
+            updateProgressBar();
+            window.scrollTo(0, 0);
         }
-    }
 
-    // Init
-    updateSplit(50);
+        function updateProgressBar() {
+            const percentage = ((currentStep + 1) / totalSteps) * 100;
+            document.querySelector('.progress-bar-fill').style.width = percentage + '%';
+        }
 
-    // Auto-trigger market scan on load after brief delay
-    setTimeout(() => {
-        runMarketScan();
-    }, 800);
-</script>
+        // ============================================================
+        // STEP 1: AGENT INFO
+        // ============================================================
+        function setupInputListeners() {
+            const inputs = ['firstName', 'email', 'phone', 'brokerage', 'dre'];
+            inputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', updatePreview);
+            });
+        }
 
+        function updatePreview() {
+            const firstName = document.getElementById('firstName').value || 'Your Name';
+            const email = document.getElementById('email').value || 'email@example.com';
+            const phone = document.getElementById('phone').value || '+1 (555) 000-0000';
+            const brokerage = document.getElementById('brokerage').value || 'Your Company';
+            const dre = document.getElementById('dre').value || '—';
+
+            // Update preview card
+            const initials = firstName.split(' ').map(n => n[0]).join('').toUpperCase() || 'GW';
+            document.getElementById('previewAvatar').textContent = initials;
+            document.getElementById('previewName').textContent = firstName;
+            document.getElementById('previewCompany').textContent = brokerage;
+            document.getElementById('previewEmail').textContent = email;
+            document.getElementById('previewPhone').textContent = phone;
+            document.getElementById('previewDRE').textContent = dre ? `License: ${dre}` : 'License: —';
+
+            // Store in state
+            state.firstName = firstName;
+            state.email = email;
+            state.phone = phone;
+            state.brokerage = brokerage;
+            state.dre = dre;
+        }
+
+        // ============================================================
+        // STEP 2: MAP & TARGETING
+        // ============================================================
+        let map, drawnItems;
+
+        function initializeMap() {
+            map = L.map('leafletContainer').setView([37.4419, -122.1430], 12);
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors © CARTO',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(map);
+
+            drawnItems = new L.FeatureGroup();
+            map.addLayer(drawnItems);
+
+            const drawControl = new L.Control.Draw({
+                draw: {
+                    polygon: true,
+                    polyline: false,
+                    rectangle: true,
+                    circle: false,
+                    marker: false,
+                    circlemarker: false
+                },
+                edit: {
+                    featureGroup: drawnItems,
+                    remove: true
+                }
+            });
+            map.addControl(drawControl);
+
+            // Add heat map overlay (simulated with circles)
+            const heatZones = [
+                { lat: 37.4419, lng: -122.1430, intensity: 0.8, label: 'High Competition' },
+                { lat: 37.4500, lng: -122.1300, intensity: 0.5, label: 'Medium' },
+                { lat: 37.4300, lng: -122.1500, intensity: 0.3, label: 'Opportunity' },
+                { lat: 37.4600, lng: -122.1200, intensity: 0.6, label: 'High' }
+            ];
+
+            heatZones.forEach(zone => {
+                const color = zone.intensity > 0.7 ? '#EF4444' : zone.intensity > 0.4 ? '#F59E0B' : '#34D399';
+                const radius = zone.intensity * 3000;
+                L.circleMarker([zone.lat, zone.lng], {
+                    radius: 20,
+                    fillColor: color,
+                    color: color,
+                    weight: 2,
+                    opacity: 0.3,
+                    fillOpacity: 0.2
+                }).addTo(map).bindPopup(zone.label);
+            });
+
+            // Add initial zipcode
+            addZipcodeChip('94303');
+        }
+
+        function addZipcode() {
+            const zip = document.getElementById('zipcodeInput').value.trim();
+            if (zip && !state.selectedZipcodes.includes(zip)) {
+                state.selectedZipcodes.push(zip);
+                addZipcodeChip(zip);
+                document.getElementById('zipcodeInput').value = '';
+            }
+        }
+
+        function addZipcodeChip(zip) {
+            const chips = document.getElementById('zipchips');
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.innerHTML = `${zip} <span class="chip-remove" onclick="removeZipcode('${zip}')">×</span>`;
+            chips.appendChild(chip);
+        }
+
+        function removeZipcode(zip) {
+            state.selectedZipcodes = state.selectedZipcodes.filter(z => z !== zip);
+            document.getElementById('zipchips').innerHTML = '';
+            state.selectedZipcodes.forEach(z => addZipcodeChip(z));
+        }
+
+        function toggleStrategy(card) {
+            card.classList.toggle('selected');
+            const name = card.querySelector('.strategy-name').textContent;
+            if (card.classList.contains('selected')) {
+                if (!state.selectedStrategies.includes(name)) {
+                    state.selectedStrategies.push(name);
+                }
+            } else {
+                state.selectedStrategies = state.selectedStrategies.filter(s => s !== name);
+            }
+        }
+
+        // ============================================================
+        // STEP 3: SCANNING & REPORT
+        // ============================================================
+        function triggerScanning() {
+            const overlay = document.getElementById('scanOverlay');
+            overlay.classList.add('active');
+
+            const agents = ['Scout', 'Analyst', 'Strategist', 'SEO', 'Social', 'Engine'];
+            let counter = 0;
+            const interval = setInterval(() => {
+                counter++;
+                document.getElementById('scanCounter').textContent = counter;
+
+                const agentIndex = Math.floor((counter - 1) / 1.3);
+                if (agentIndex < agents.length) {
+                    document.querySelectorAll('.scan-agent').forEach((el, idx) => {
+                        if (idx === agentIndex) {
+                            el.classList.add('active');
+                        } else {
+                            el.classList.remove('active');
+                        }
+                    });
+                }
+
+                if (counter >= 8) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        overlay.classList.remove('active');
+                        nextStep();
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        function renderCompetitors() {
+            const grid = document.getElementById('competitorGrid');
+            grid.innerHTML = competitors.map(comp => `
+                <div class="competitor-card">
+                    <div class="competitor-header">
+                        <div class="competitor-avatar">${comp.name.split(' ').map(n => n[0]).join('')}</div>
+                        <div class="competitor-info">
+                            <div class="competitor-name">${comp.name}</div>
+                            <div class="competitor-company">${comp.company}</div>
+                        </div>
+                        <div class="competitor-threat threat-${comp.threat === 'low' ? 'low' : comp.threat === 'med' ? 'med' : 'high'}">●</div>
+                    </div>
+                    <div class="competitor-chart">
+                        <div class="chart-bar"><div class="chart-bar-fill" style="height: ${comp.social * 7}%;"></div><div class="chart-label">Social</div></div>
+                        <div class="chart-bar"><div class="chart-bar-fill" style="height: ${comp.video * 25}%;"></div><div class="chart-label">Video</div></div>
+                        <div class="chart-bar"><div class="chart-bar-fill" style="height: ${comp.blog * 20}%;"></div><div class="chart-label">Blog</div></div>
+                        <div class="chart-bar"><div class="chart-bar-fill" style="height: ${comp.email * 50}%;"></div><div class="chart-label">Email</div></div>
+                    </div>
+                    <div class="competitor-stats">
+                        <div class="stat-item">
+                            <div class="stat-item-label">Posts/mo</div>
+                            <div class="stat-item-value">${comp.posts}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-item-label">Engagement</div>
+                            <div class="stat-item-value">${comp.engagement}%</div>
+                        </div>
+                    </div>
+                    <div class="weakness-tag">${comp.weakness}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderContentGaps() {
+            const chart = document.getElementById('gapChart');
+            let delay = 0;
+            chart.innerHTML = contentGaps.map((gap, idx) => `
+                <div class="gap-row">
+                    <div class="gap-label">${gap.name}</div>
+                    <div class="gap-bars">
+                        <div class="gap-bar-segment covered" style="width: ${gap.covered}%; animation-delay: ${delay}ms;">${gap.covered}%</div>
+                        <div class="gap-bar-segment opportunity" style="width: ${gap.opportunity}%; animation-delay: ${delay + 100}ms;">${gap.opportunity}%</div>
+                    </div>
+                    <div class="gap-percent">91% upside</div>
+                </div>
+            `).join('');
+            delay += 150;
+        }
+
+        function renderKeywords() {
+            const table = document.getElementById('keywordsTable');
+            table.innerHTML = keywords.map(kw => {
+                const diffClass = kw.difficulty === 'easy' ? 'difficulty-easy' : kw.difficulty === 'medium' ? 'difficulty-medium' : 'difficulty-hard';
+                return `
+                    <tr>
+                        <td class="keyword-name">${kw.name}</td>
+                        <td>${kw.searches.toLocaleString()}</td>
+                        <td>${kw.competition}</td>
+                        <td><span class="difficulty-badge ${diffClass}">${kw.difficulty}</span></td>
+                        <td>${kw.rank}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // STEP 4: CONTENT PROFILE
+        // ============================================================
+        function selectTone(card, tone) {
+            document.querySelectorAll('.tone-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            state.tone = tone;
+            updateContentPreview();
+        }
+
+        function updateContentPreview() {
+            const tonePresets = {
+                luxury: {
+                    caption: 'Elevate your lifestyle in one of Silicon Valley\'s most prestigious communities. Discover luxury real estate at its finest. 🏡✨',
+                    email: 'Your Exclusive Guide to Luxury Properties in Palo Alto',
+                    video: 'Welcome to the pinnacle of luxury living. Today we\'re exploring the most coveted estates in your neighborhood...'
+                },
+                warm: {
+                    caption: 'Find your home, not just a house. We\'re here to guide every step of your journey. Let\'s make it personal. 🏡❤️',
+                    email: 'Your April Market Update - What\'s Happening in Your Neighborhood',
+                    video: 'Hey there! So much is happening in Palo Alto right now. Let\'s chat about what\'s changing in your market...'
+                },
+                data: {
+                    caption: 'Market Intel: Palo Alto home prices up 3.2% QoQ. Inventory at 2.1 months. Here\'s what it means for you. 📊',
+                    email: 'April 2026 Market Analysis: Palo Alto Real Estate Data & Insights',
+                    video: 'Let\'s break down the numbers. Here are 5 key metrics you need to know about the Palo Alto market right now...'
+                },
+                modern: {
+                    caption: 'Finding your perfect pad just got easier. Check out what\'s dropping in Palo Alto this week 🔥🏠',
+                    email: 'What\'s Hot in Palo Alto - Your Weekly Real Estate Roundup',
+                    video: 'yo, the Palo Alto market is moving! Here\'s the tea on what\'s happening this week...'
+                }
+            };
+
+            if (state.tone && tonePresets[state.tone]) {
+                const preset = tonePresets[state.tone];
+                document.getElementById('previewCaption').textContent = preset.caption;
+                document.getElementById('previewEmail').textContent = preset.email;
+                document.getElementById('previewVideo').textContent = preset.video;
+            }
+        }
+
+        function addDifferentiator(text) {
+            document.getElementById('differentiator').value = text;
+            state.differentiator = text;
+        }
+
+        // Buyer/Seller Slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('buyerSlider');
+            const fill = document.getElementById('buyerSliderFill');
+            const label = document.getElementById('buyerLabel');
+            const track = document.querySelector('.slider-track');
+
+            slider.addEventListener('mousedown', dragStart);
+            slider.addEventListener('touchstart', dragStart);
+
+            function dragStart(e) {
+                e.preventDefault();
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag);
+                document.addEventListener('mouseup', dragEnd);
+                document.addEventListener('touchend', dragEnd);
+            }
+
+            function drag(e) {
+                const rect = track.getBoundingClientRect();
+                let x = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - rect.left;
+                x = Math.max(0, Math.min(x, rect.width));
+                const percent = (x / rect.width) * 100;
+                slider.style.left = percent + '%';
+                fill.style.width = percent + '%';
+                state.buyerSplit = Math.round(percent);
+                label.textContent = `${state.buyerSplit}% Buyer / ${100 - state.buyerSplit}% Seller`;
+            }
+
+            function dragEnd() {
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('touchmove', drag);
+            }
+        });
+
+        // ============================================================
+        // STEP 5: CHANNELS & BRAND
+        // ============================================================
+        function toggleOAuth(card) {
+            card.classList.toggle('connected');
+            const channelName = card.querySelector('.oauth-name').textContent;
+            if (card.classList.contains('connected')) {
+                card.querySelector('.oauth-status').textContent = 'Connected ✓';
+                if (!state.connectedChannels.includes(channelName)) {
+                    state.connectedChannels.push(channelName);
+                }
+            } else {
+                card.querySelector('.oauth-status').textContent = 'Click to connect';
+                state.connectedChannels = state.connectedChannels.filter(c => c !== channelName);
+            }
+        }
+
+        function selectColor(swatch, hex) {
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+            swatch.classList.add('selected');
+            state.brandColor = hex;
+            document.getElementById('hexInput').value = hex;
+        }
+
+        // File uploads
+        ['logoUpload', 'video1', 'video2', 'video3'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('change', function() {
+                    const slot = document.querySelector(`[onclick="document.getElementById('${id}').click()"]`);
+                    if (slot) {
+                        slot.style.background = 'rgba(0, 194, 168, 0.1)';
+                        slot.innerHTML = '✓ Uploaded';
+                    }
+                });
+            }
+        });
+
+        // ============================================================
+        // COMPLETION
+        // ============================================================
+        function completeOnboarding() {
+            const firstName = state.firstName || 'Graeham';
+            document.getElementById('successName').textContent = `You're Live, ${firstName}!`;
+            document.getElementById('summaryZip').textContent = state.selectedZipcodes[0] || '94303';
+            nextStep();
+        }
+    </script>
 </body>
 </html>

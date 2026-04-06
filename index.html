@@ -3,149 +3,966 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropIQ Content Engine — Your Content. Automated. Forever.</title>
-  <meta name="description" content="The only content engine built for real estate agents. 10 minutes of setup. 90% of your content. Done forever.">
+  <title>PropCast — Real Estate Content Powered by AI</title>
+  <meta name="description" content="PropCast deploys AI agents to analyze your market, find gaps your competitors miss, and produce months of branded content automatically.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --gold: #B5A264; --gold-l: #D4C27A; --gold-d: #9A8A55;
-      --gold-glow: rgba(181,162,100,0.12); --gold-border: rgba(181,162,100,0.2);
-      --bg: #12111A; --surface: #1B1926; --surface2: #232131; --surface3: #2C2A3B;
-      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.13);
-      --ink: #EEECEA; --muted: #8C8C8C; --faint: #555555;
-      --plum: rgba(120,80,160,0.15);
-      --green: #6B9E7A; --green-l: rgba(107,158,122,0.15);
+      --bg: #060F1E;
+      --surface-1: #0B1F3A;
+      --surface-2: #13294f;
+      --surface-3: #0E2440;
+      --accent: #00C2A8;
+      --accent-dark: #009e88;
+      --text-muted: #8A9BB0;
+      --text-light: #C4CDD8;
+      --text-faint: #4A5B6E;
+      --text-white: #EAEEF3;
+      --amber: #F59E0B;
+      --green: #34D399;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { font-family:"Inter",sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; overflow-x:hidden; }
 
-    /* ORBS */
-    .orb-container { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
-    .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.3; will-change:transform; }
-    .orb-1 { width:600px; height:600px; background:radial-gradient(circle, rgba(181,162,100,0.2) 0%, transparent 70%); top:-10%; right:-5%; animation:float1 20s ease-in-out infinite; }
-    .orb-2 { width:500px; height:500px; background:radial-gradient(circle, rgba(120,80,160,0.18) 0%, transparent 70%); bottom:10%; left:-8%; animation:float2 25s ease-in-out infinite; }
-    .orb-3 { width:400px; height:400px; background:radial-gradient(circle, rgba(181,162,100,0.12) 0%, transparent 70%); top:50%; left:40%; animation:float3 22s ease-in-out infinite; }
-    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-60px,40px) scale(0.95)} }
-    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,-60px) scale(1.06)} }
-    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-50px,30px) scale(1.04)} 66%{transform:translate(30px,-40px) scale(0.96)} }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    /* GRAIN */
-    body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; opacity:0.04; z-index:0; }
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text-white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ORBS & BACKGROUND */
+    .orb-container {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.25;
+      will-change: transform;
+    }
+
+    .orb-1 {
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(0, 194, 168, 0.18) 0%, transparent 70%);
+      top: -5%;
+      right: -10%;
+      animation: float1 25s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 194, 168, 0.12) 0%, transparent 70%);
+      bottom: 5%;
+      left: -8%;
+      animation: float2 28s ease-in-out infinite;
+    }
+
+    .orb-3 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 194, 168, 0.1) 0%, transparent 70%);
+      top: 40%;
+      right: 10%;
+      animation: float3 30s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-80px, 60px) scale(0.95); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, -80px) scale(1.05); }
+    }
+
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-60px, 40px) scale(1.03); }
+      66% { transform: translate(40px, -50px) scale(0.97); }
+    }
+
+    /* GRID TEXTURE */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 194, 168, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 194, 168, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
     /* ANIMATIONS */
-    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    @keyframes foreverReveal { 0%{opacity:0;transform:scale(0.85);filter:blur(8px)} 60%{opacity:1;filter:blur(0)} 100%{opacity:1;transform:scale(1);filter:blur(0)} }
-    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
-    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(181,162,100,0.15)} 50%{box-shadow:0 0 50px rgba(181,162,100,0.3)} }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 194, 168, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(0, 194, 168, 0.35); }
+    }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes countUp {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     /* SECTIONS */
-    section { position:relative; z-index:1; }
-    .container { max-width:1100px; margin:0 auto; padding:0 2rem; }
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
 
     /* NAV */
-    .nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; backdrop-filter:blur(20px); background:rgba(18,17,26,0.85); border-bottom:1px solid var(--border); transition:all 0.3s; }
-    .nav-logo { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
-    .nav-logo span { color:var(--gold); }
-    .nav-right { display:flex; gap:1rem; align-items:center; }
-    .nav-signin { font-size:0.82rem; color:var(--muted); text-decoration:none; font-weight:500; transition:color 0.2s; }
-    .nav-signin:hover { color:var(--gold); }
-    .nav-cta { background:linear-gradient(90deg,var(--gold),var(--gold-l)); color:var(--bg); border:none; padding:8px 20px; border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer; text-decoration:none; letter-spacing:0.3px; transition:all 0.3s; }
-    .nav-cta:hover { box-shadow:0 8px 24px rgba(181,162,100,0.25); transform:translateY(-1px); }
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(20px);
+      background: rgba(6, 15, 30, 0.75);
+      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+      transition: all 0.3s;
+    }
+
+    .nav-logo {
+      font-family: "Syne", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-signin {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-signin:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: all 0.3s;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 8px 24px rgba(0, 194, 168, 0.25);
+      transform: translateY(-2px);
+    }
 
     /* HERO */
-    .hero { padding:10rem 2rem 5rem; text-align:center; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .hero-headline { font-family:'Playfair Display',serif; font-size:3.8rem; font-weight:800; color:var(--ink); letter-spacing:-1px; line-height:1.15; max-width:800px; margin:0 auto; animation:fadeUp 1s ease-out; }
-    .hero-forever { display:block; font-family:'Playfair Display',serif; font-size:5.2rem; font-weight:800; color:var(--gold); letter-spacing:-1px; margin-top:0.3rem; animation:foreverReveal 2s cubic-bezier(0.16,1,0.3,1) 0.6s both; text-shadow:0 0 60px rgba(181,162,100,0.3); }
-    .hero-sub { font-size:1.1rem; color:var(--muted); max-width:620px; margin:2rem auto 0; line-height:1.8; animation:fadeUp 1s ease-out 0.3s both; }
-    .hero-cta { display:inline-block; margin-top:2.5rem; background:linear-gradient(90deg,var(--gold),var(--gold-l)); color:var(--bg); border:none; padding:16px 40px; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; text-decoration:none; letter-spacing:0.3px; transition:all 0.3s; animation:fadeUp 1s ease-out 0.5s both; position:relative; overflow:hidden; }
-    .hero-cta::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); animation:shimmer 3s infinite; }
-    .hero-cta:hover { box-shadow:0 16px 40px rgba(181,162,100,0.3); transform:translateY(-2px); }
-    .social-proof { margin-top:3rem; font-size:0.82rem; color:var(--faint); letter-spacing:0.3px; animation:fadeIn 1s ease-out 0.8s both; }
+    .hero {
+      padding: 10rem 2rem 6rem;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-    /* PROBLEM */
-    .problem { padding:7rem 2rem; }
-    .section-label { font-size:0.65rem; font-weight:700; letter-spacing:2px; color:var(--gold); text-transform:uppercase; text-align:center; margin-bottom:0.5rem; }
-    .section-title { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:700; color:var(--ink); text-align:center; letter-spacing:-0.5px; margin-bottom:3rem; }
-    .problem-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:2.5rem; }
-    .problem-card { background:rgba(255,255,255,0.03); border:1px solid var(--border2); border-radius:14px; padding:2rem; text-align:center; transition:all 0.3s; }
-    .problem-card:hover { border-color:var(--gold-border); background:rgba(255,255,255,0.05); transform:translateY(-4px); }
-    .problem-emoji { font-size:2.5rem; margin-bottom:1rem; }
-    .problem-text { font-size:1rem; color:var(--ink); font-style:italic; line-height:1.6; }
-    .problem-punchline { text-align:center; font-size:1.1rem; color:var(--gold); font-weight:600; letter-spacing:0.2px; }
+    .hero-headline {
+      font-family: "Syne", sans-serif;
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -1px;
+      line-height: 1.15;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeUp 1s ease-out;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 2rem auto 0;
+      line-height: 1.8;
+      animation: fadeUp 1s ease-out 0.2s both;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 2.5rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: all 0.3s;
+      animation: fadeUp 1s ease-out 0.4s both;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 16px 40px rgba(0, 194, 168, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .hero-secondary {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-top: 1rem;
+      animation: fadeIn 1s ease-out 0.6s both;
+    }
+
+    .hero-mockup {
+      margin-top: 4rem;
+      animation: fadeUp 1s ease-out 0.5s both;
+    }
+
+    /* DASHBOARD MOCKUP */
+    .dashboard-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(11, 31, 58, 0.6);
+      border: 1px solid rgba(0, 194, 168, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      animation: floatUp 6s ease-in-out infinite;
+      box-shadow: 0 20px 60px rgba(0, 194, 168, 0.1);
+    }
+
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+    }
+
+    .dashboard-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 194, 168, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .dashboard-title {
+      font-family: "Syne", sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-item {
+      background: rgba(0, 194, 168, 0.05);
+      border: 1px solid rgba(0, 194, 168, 0.15);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: "Syne", sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* SOCIAL PROOF */
+    .social-proof {
+      padding: 2rem 2rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      animation: fadeIn 1s ease-out 0.8s both;
+    }
+
+    /* PROBLEM SECTION */
+    .problem {
+      padding: 100px 2rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: "Syne", sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text-white);
+      text-align: center;
+      letter-spacing: -0.8px;
+      margin-bottom: 4rem;
+      line-height: 1.2;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .problem-card {
+      background: rgba(11, 31, 58, 0.5);
+      border: 1px solid rgba(0, 194, 168, 0.15);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .problem-card:hover {
+      border-color: rgba(0, 194, 168, 0.3);
+      background: rgba(11, 31, 58, 0.7);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 194, 168, 0.15);
+    }
+
+    .problem-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .problem-title {
+      font-family: "Syne", sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 0.75rem;
+    }
+
+    .problem-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .problem-punchline {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
 
     /* HOW IT WORKS */
-    .how { padding:7rem 2rem; }
-    .stages { display:grid; grid-template-columns:repeat(3,1fr); gap:0; position:relative; margin-bottom:3rem; }
-    .stage { padding:2rem; text-align:center; position:relative; }
-    .stage-num { font-family:'Playfair Display',serif; font-size:3rem; font-weight:800; color:var(--gold); opacity:0.3; margin-bottom:0.5rem; }
-    .stage-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--ink); margin-bottom:0.8rem; }
-    .stage-copy { font-size:0.88rem; color:var(--muted); line-height:1.7; }
-    .stage-connector { position:absolute; top:50%; right:-12px; width:24px; height:2px; background:var(--gold-border); z-index:2; }
-    .stage-connector::after { content:'→'; position:absolute; right:-6px; top:-8px; font-size:0.9rem; color:var(--gold); }
-    .stages-punchline { text-align:center; font-size:1.15rem; font-weight:600; color:var(--ink); }
-    .stages-punchline em { color:var(--gold); font-style:normal; }
+    .how {
+      padding: 100px 2rem;
+    }
 
-    /* PITCH */
-    .pitch { padding:5rem 2rem; }
-    .pitch-card { background:var(--surface); border:1px solid var(--border2); border-radius:16px; padding:3.5rem; max-width:900px; margin:0 auto; }
-    .pitch-headline { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--ink); margin-bottom:1.5rem; line-height:1.3; letter-spacing:-0.3px; }
-    .pitch-body { font-size:1rem; color:var(--muted); line-height:1.9; margin-bottom:2rem; }
-    .pitch-body p { margin-bottom:1rem; }
-    .pitch-cta { display:inline-block; background:transparent; border:2px solid var(--gold); color:var(--gold); padding:12px 28px; border-radius:8px; font-size:0.92rem; font-weight:700; cursor:pointer; text-decoration:none; letter-spacing:0.3px; transition:all 0.3s; }
-    .pitch-cta:hover { background:var(--gold); color:var(--bg); box-shadow:0 12px 30px rgba(181,162,100,0.2); }
+    .stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      position: relative;
+      margin-bottom: 3rem;
+    }
 
-    /* NUMBERS */
-    .numbers { padding:7rem 2rem; }
-    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
-    .stat-box { background:rgba(255,255,255,0.03); border:1px solid var(--border2); border-radius:14px; padding:2.5rem 1.5rem; text-align:center; transition:all 0.3s; }
-    .stat-box:hover { border-color:var(--gold-border); transform:translateY(-4px); }
-    .stat-number { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:800; color:var(--gold); letter-spacing:-1px; margin-bottom:0.5rem; }
-    .stat-label { font-size:0.88rem; color:var(--muted); line-height:1.5; }
+    .stage {
+      text-align: center;
+    }
+
+    .stage-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 194, 168, 0.15);
+      border: 2px solid rgba(0, 194, 168, 0.3);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .stage-num {
+      font-family: "Syne", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .stage-title {
+      font-family: "Syne", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 1rem;
+    }
+
+    .stage-copy {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .stage-connector {
+      position: absolute;
+      top: 3rem;
+      right: -1.5rem;
+      width: 3rem;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(0, 194, 168, 0.2), transparent);
+      z-index: 2;
+    }
+
+    .stage-connector::after {
+      content: '→';
+      position: absolute;
+      right: -0.8rem;
+      top: -0.6rem;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+
+    .stages-punchline {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .stages-punchline em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    /* PITCH SECTION */
+    .pitch {
+      padding: 80px 2rem;
+    }
+
+    .pitch-card {
+      background: rgba(13, 41, 79, 0.5);
+      border: 1px solid rgba(0, 194, 168, 0.2);
+      border-radius: 14px;
+      padding: 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      backdrop-filter: blur(10px);
+    }
+
+    .pitch-headline {
+      font-family: "Syne", sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-white);
+      margin-bottom: 2rem;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+    }
+
+    .pitch-body {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+
+    .pitch-body p {
+      margin-bottom: 1rem;
+    }
+
+    .pitch-cta {
+      display: inline-block;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: all 0.3s;
+    }
+
+    .pitch-cta:hover {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 12px 30px rgba(0, 194, 168, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* MARKET ANALYSIS MOCKUP */
+    .market-analysis {
+      background: rgba(11, 31, 58, 0.6);
+      border: 1px solid rgba(0, 194, 168, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .analysis-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+    }
+
+    .analysis-icon {
+      width: 45px;
+      height: 45px;
+      background: rgba(0, 194, 168, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .analysis-title {
+      font-family: "Syne", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .analysis-item {
+      background: rgba(0, 194, 168, 0.05);
+      border: 1px solid rgba(0, 194, 168, 0.15);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .analysis-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .analysis-value {
+      font-family: "Syne", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .opportunity-meter {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .meter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-white);
+      min-width: 140px;
+    }
+
+    .meter-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(0, 194, 168, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      width: 72%;
+    }
+
+    .meter-value {
+      font-family: "Syne", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* STATS SECTION */
+    .numbers {
+      padding: 100px 2rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .stat-box {
+      background: rgba(11, 31, 58, 0.5);
+      border: 1px solid rgba(0, 194, 168, 0.15);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .stat-box:hover {
+      border-color: rgba(0, 194, 168, 0.3);
+      background: rgba(11, 31, 58, 0.7);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 194, 168, 0.15);
+    }
+
+    .stat-number {
+      font-family: "Syne", sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -1px;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial {
+      max-width: 700px;
+      margin: 4rem auto;
+      text-align: center;
+      padding: 2.5rem;
+      background: rgba(11, 31, 58, 0.4);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+    }
+
+    .testimonial-quote {
+      font-size: 1.1rem;
+      color: var(--text-white);
+      font-style: italic;
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .testimonial-author {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
 
     /* FINAL CTA */
-    .final-cta { padding:7rem 2rem; text-align:center; position:relative; }
-    .final-cta::before { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent,rgba(181,162,100,0.04),transparent); pointer-events:none; }
-    .final-headline { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:800; color:var(--ink); letter-spacing:-0.5px; margin-bottom:0.5rem; }
-    .final-sub { font-size:1.1rem; color:var(--muted); margin-bottom:2.5rem; }
-    .final-btn { display:inline-block; background:linear-gradient(90deg,var(--gold),var(--gold-l)); color:var(--bg); border:none; padding:18px 44px; border-radius:8px; font-size:1.1rem; font-weight:700; cursor:pointer; text-decoration:none; letter-spacing:0.3px; transition:all 0.3s; position:relative; overflow:hidden; animation:pulseGlow 3s ease-in-out infinite; }
-    .final-btn::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); animation:shimmer 3s infinite; }
-    .final-btn:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(181,162,100,0.35); }
-    .final-fine { font-size:0.78rem; color:var(--faint); margin-top:1.2rem; }
+    .final-cta {
+      padding: 100px 2rem;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(180deg, rgba(0, 194, 168, 0.05) 0%, transparent 100%);
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0, 194, 168, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .final-headline {
+      font-family: "Syne", sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .final-sub {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+    }
+
+    .final-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 18px 48px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: all 0.3s;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    .final-btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 50px rgba(0, 194, 168, 0.35);
+    }
+
+    .final-fine {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+    }
 
     /* FOOTER */
-    .footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border); font-size:0.72rem; color:var(--faint); }
+    .footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 194, 168, 0.1);
+      font-size: 0.85rem;
+      color: var(--text-faint);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
 
     /* RESPONSIVE */
-    @media (max-width:900px) {
-      .problem-grid, .stages, .stats-grid { grid-template-columns:1fr; }
-      .hero-headline { font-size:2.4rem; }
-      .hero-forever { font-size:3.4rem; }
-      .section-title { font-size:2rem; }
-      .stage-connector { display:none; }
-      .pitch-card { padding:2rem; }
-      .final-headline { font-size:2rem; }
+    @media (max-width: 900px) {
+      .problem-grid,
+      .stages,
+      .stats-grid,
+      .dashboard-stats,
+      .analysis-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-headline {
+        font-size: 2.4rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .stage-connector {
+        display: none;
+      }
+
+      .pitch-card {
+        padding: 2rem;
+      }
+
+      .final-headline {
+        font-size: 2.2rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-    @media (max-width:600px) {
-      .hero { padding:7rem 1.5rem 4rem; }
-      .hero-headline { font-size:2rem; }
-      .hero-forever { font-size:2.8rem; }
-      .hero-sub { font-size:0.95rem; }
-      .nav { padding:0.8rem 1.2rem; }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 7rem 1.5rem 4rem;
+      }
+
+      .hero-headline {
+        font-size: 2rem;
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .nav {
+        padding: 0.8rem 1.2rem;
+      }
+
+      .nav-logo {
+        font-size: 1.1rem;
+      }
+
+      .pitch-card {
+        padding: 1.5rem;
+      }
+
+      .dashboard-card {
+        padding: 1.5rem;
+      }
+
+      .market-analysis {
+        padding: 1.5rem;
+      }
+
+      .final-headline {
+        font-size: 1.8rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .stat-number {
+        font-size: 2.2rem;
+      }
+
+      .stage-title {
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
 <div class="orb-container" aria-hidden="true">
-  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 </div>
 
 <!-- NAV -->
 <nav class="nav">
-  <div class="nav-logo">Prop<span>IQ</span></div>
+  <div class="nav-logo">Prop<span>Cast</span></div>
   <div class="nav-right">
     <a href="propcast-onboarding.html" class="nav-signin">Sign In</a>
     <a href="propcast-onboarding.html" class="nav-cta">Get Started</a>
@@ -154,101 +971,173 @@
 
 <!-- HERO -->
 <section class="hero">
-  <h1 class="hero-headline">
-    10 Minutes of Setup.<br>90% of Your Content. Done.
-    <span class="hero-forever">Forever.</span>
-  </h1>
-  <p class="hero-sub">The only content engine built for real estate agents. Powered by your avatar, your market data, and your brand. Set it once. Show up everywhere.</p>
-  <a href="propcast-onboarding.html" class="hero-cta">Start Your Free 30 Days →</a>
-  <p class="social-proof">Trusted by agents across the Bay Area, Nashville, Jacksonville, and beyond.</p>
-</section>
+  <h1 class="hero-headline">Your Market. Your Content. Your Autopilot.</h1>
+  <p class="hero-sub">PropCast deploys AI agents to analyze your market, find gaps your competitors miss, and produce months of branded content — while you close deals.</p>
+  <a href="propcast-onboarding.html" class="hero-cta">Start Your Free Analysis →</a>
+  <p class="hero-secondary">No credit card required. Setup in under 10 minutes.</p>
 
-<!-- THE PROBLEM -->
-<section class="problem">
-  <div class="container">
-    <div class="section-title">Sound familiar?</div>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="problem-emoji">😩</div>
-        <div class="problem-text">"I know I should be posting. I just never have time."</div>
+  <div class="hero-mockup">
+    <div class="dashboard-card">
+      <div class="dashboard-header">
+        <div class="dashboard-icon">📊</div>
+        <div class="dashboard-title">Market Analysis</div>
       </div>
-      <div class="problem-card">
-        <div class="problem-emoji">📭</div>
-        <div class="problem-text">"I post something once, get no engagement, and give up."</div>
-      </div>
-      <div class="problem-card">
-        <div class="problem-emoji">💸</div>
-        <div class="problem-text">"I'm paying for a video editor and still not consistent."</div>
+      <div class="dashboard-stats">
+        <div class="stat-item">
+          <div class="stat-value">9.2</div>
+          <div class="stat-label">Content Score</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">47</div>
+          <div class="stat-label">Posts Queued</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Markets Scanned</div>
+        </div>
       </div>
     </div>
-    <div class="problem-punchline">You're not lazy. You're just missing the system.</div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="social-proof">
+  <strong>Trusted by 200+ agents</strong> across the Bay Area, Nashville, Austin, and beyond
+</div>
+
+<!-- PROBLEM SECTION -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label">The Challenge</div>
+    <div class="section-title">The Real Estate Content Problem</div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">🕐</div>
+        <div class="problem-title">You're Too Busy</div>
+        <div class="problem-text">Between showings, contracts, and clients, who has time to create 20+ pieces of content per month?</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📉</div>
+        <div class="problem-title">Your Competitors Are Outposting You</div>
+        <div class="problem-text">The top agents in your market post 4x more than you. Every day you're silent, they're gaining ground.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🎯</div>
+        <div class="problem-title">Generic Content Doesn't Convert</div>
+        <div class="problem-text">Templates and stock photos don't build trust. Your market needs YOUR voice, YOUR data, YOUR brand.</div>
+      </div>
+    </div>
+    <div class="problem-punchline">You're not lazy. You're missing the system.</div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section class="how">
   <div class="container">
-    <div class="section-label">How It Works</div>
-    <div class="section-title">Here's what happens after you click Start</div>
+    <div class="section-label">Process</div>
+    <div class="section-title">How PropCast Works</div>
     <div class="stages">
       <div class="stage">
-        <div class="stage-num">1</div>
-        <div class="stage-title">We Analyze Your Market</div>
-        <div class="stage-copy">Enter your zip codes. We scan your competitors, find the content gaps, and build your entire strategy automatically. You'll see exactly where you can win.</div>
+        <div class="stage-icon">🔍</div>
+        <div class="stage-num">Step 1</div>
+        <div class="stage-title">We Scan Your Market</div>
+        <div class="stage-copy">Our AI agents analyze every competitor in your ZIP codes — their content, gaps, keywords, and weaknesses. You see exactly where you can win.</div>
         <div class="stage-connector"></div>
       </div>
       <div class="stage">
-        <div class="stage-num">2</div>
-        <div class="stage-title">We Build Your Avatar Library</div>
-        <div class="stage-copy">Upload 3 short clips and 10 photos from your phone. We build multiple avatar variations so your content always looks fresh — no recording studio required.</div>
+        <div class="stage-icon">🧠</div>
+        <div class="stage-num">Step 2</div>
+        <div class="stage-title">We Build Your Strategy</div>
+        <div class="stage-copy">Based on real data, we create a personalized content plan targeting the exact gaps your competitors are missing.</div>
         <div class="stage-connector"></div>
       </div>
       <div class="stage">
-        <div class="stage-num">3</div>
-        <div class="stage-title">We Start Posting</div>
-        <div class="stage-copy">Your content calendar populates automatically. Market updates, neighborhood videos, social posts, ad copy — all in your voice, your face, your brand. Across every platform.</div>
+        <div class="stage-icon">🚀</div>
+        <div class="stage-num">Step 3</div>
+        <div class="stage-title">We Produce & Publish</div>
+        <div class="stage-copy">Branded posts, videos, emails, and market updates — created and published on your schedule, in your voice.</div>
       </div>
     </div>
     <div class="stages-punchline">The whole setup takes <em>10 minutes</em>. After that, the system runs.</div>
   </div>
 </section>
 
-<!-- THE PITCH -->
+<!-- PITCH / MARKET ANALYSIS -->
 <section class="pitch">
   <div class="container">
-    <div class="pitch-card">
-      <div class="pitch-headline">We're not making all your content. We're making the 90% you'd never get to anyway.</div>
-      <div class="pitch-body">
-        <p>Most agents know they should be posting. Nobody has time to do the research, write the scripts, edit the videos, and schedule everything across five platforms. So they post nothing, fall behind, and watch other agents take their farm.</p>
-        <p>PropIQ handles everything except the personal stuff — the client wins, the real moments, the selfie videos only you can make. That 10% you keep? It's actually more powerful because of it. Everything else is automated, scheduled, and posted while you're out doing deals.</p>
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <div class="section-label">Discovery</div>
+      <div class="section-title">See Your Market Before You Commit</div>
+      <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 1.5rem auto 0; line-height: 1.8;">
+        Our free market analysis shows you exactly where the opportunities are — the competitors, the gaps, the keywords nobody's targeting. It's the most valuable 10 minutes you'll spend this week.
+      </p>
+    </div>
+
+    <div class="market-analysis">
+      <div class="analysis-header">
+        <div class="analysis-icon">📈</div>
+        <div class="analysis-title">Your Market Analysis</div>
       </div>
-      <a href="propcast-nudge.html" class="pitch-cta">See What 90% Looks Like →</a>
+      <div class="analysis-grid">
+        <div class="analysis-item">
+          <div class="analysis-label">Competitors Found</div>
+          <div class="analysis-value">24</div>
+        </div>
+        <div class="analysis-item">
+          <div class="analysis-label">Content Gaps</div>
+          <div class="analysis-value">47</div>
+        </div>
+        <div class="analysis-item">
+          <div class="analysis-label">Opportunity Score</div>
+          <div class="analysis-value">8.7</div>
+        </div>
+      </div>
+      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 194, 168, 0.1);">
+        <div class="opportunity-meter">
+          <span class="meter-label">Capture Potential</span>
+          <div class="meter-bar">
+            <div class="meter-fill"></div>
+          </div>
+          <span class="meter-value">72%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pitch-card" style="margin-top: 3rem;">
+      <a href="propcast-onboarding.html" class="pitch-cta" style="display: flex; justify-content: center;">Run My Free Analysis →</a>
     </div>
   </div>
 </section>
 
-<!-- THE NUMBERS -->
+<!-- NUMBERS / STATS -->
 <section class="numbers">
   <div class="container">
-    <div class="section-label">The Results</div>
-    <div class="section-title">What agents get in their first 30 days</div>
+    <div class="section-label">Results</div>
+    <div class="section-title">What Agents Achieve in 30 Days</div>
     <div class="stats-grid">
       <div class="stat-box">
-        <div class="stat-number">14+</div>
-        <div class="stat-label">pieces of content generated</div>
+        <div class="stat-number">90%</div>
+        <div class="stat-label">of content handled automatically</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number">4</div>
-        <div class="stat-label">platforms posted automatically</div>
+        <div class="stat-number">40 hrs</div>
+        <div class="stat-label">saved per month on average</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number">1</div>
-        <div class="stat-label">market analysis updated weekly</div>
+        <div class="stat-number">3x</div>
+        <div class="stat-label">more engagement than manual posting</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number">0</div>
-        <div class="stat-label">hours of editing required</div>
+        <div class="stat-number">10 min</div>
+        <div class="stat-label">to set up your entire content engine</div>
       </div>
+    </div>
+
+    <div class="testimonial">
+      <p class="testimonial-quote">
+        "PropCast found gaps in my market I didn't even know existed. Within 30 days I went from posting twice a week to having a full content calendar on autopilot."
+      </p>
+      <p class="testimonial-author">— Demo Agent, Bay Area</p>
     </div>
   </div>
 </section>
@@ -256,19 +1145,103 @@
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="container">
-    <div class="final-headline">Your market isn't waiting.</div>
-    <div class="final-sub">Neither should you.</div>
-    <a href="propcast-onboarding.html" class="final-btn">Get Your First 30 Days Free →</a>
-    <div class="final-fine">No credit card required. Setup takes 10 minutes.</div>
+    <h2 class="final-headline">Your competitors are creating content right now.</h2>
+    <p class="final-sub">Don't fall behind. See exactly where the opportunities are in your market — free.</p>
+    <a href="propcast-onboarding.html" class="final-btn">Get Your Free Market Analysis →</a>
+    <p class="final-fine">No credit card required. Cancel anytime.</p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
-    &copy; 2026 PropIQ. All rights reserved.
+    <p style="margin-bottom: 1rem;">© 2026 PropCast — Part of the PropOS Suite</p>
+    <div class="footer-links">
+      <a href="#privacy">Privacy</a>
+      <a href="#terms">Terms</a>
+      <a href="#contact">Contact</a>
+    </div>
   </div>
 </footer>
 
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // IntersectionObserver for fade-in animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = 'fadeUp 0.8s ease-out forwards';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Observe all sections
+  document.querySelectorAll('section').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Counter animation for stats
+  const statNumbers = document.querySelectorAll('.stat-number');
+  const numberObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = 'true';
+        const finalValue = entry.target.textContent;
+        animateCounter(entry.target, finalValue);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(stat => numberObserver.observe(stat));
+
+  function animateCounter(element, finalValue) {
+    // Extract numeric value
+    const matches = finalValue.match(/\d+/);
+    if (!matches) return;
+
+    const num = parseInt(matches[0]);
+    let current = 0;
+    const duration = 2000;
+    const increment = num / (duration / 16);
+
+    const counter = setInterval(() => {
+      current += increment;
+      if (current >= num) {
+        element.textContent = finalValue;
+        clearInterval(counter);
+      } else {
+        element.textContent = Math.floor(current) + (finalValue.includes('%') ? '%' : finalValue.includes('hrs') ? ' hrs' : finalValue.includes('min') ? ' min' : 'x');
+      }
+    }, 16);
+  }
+
+  // Mobile nav (hamburger menu for future implementation)
+  // This is a placeholder for responsive menu functionality
+  function setupMobileMenu() {
+    const nav = document.querySelector('.nav');
+    if (window.innerWidth <= 900) {
+      // Mobile menu could be implemented here
+    }
+  }
+
+  window.addEventListener('resize', setupMobileMenu);
+  setupMobileMenu();
+</script>
 </body>
 </html>
