@@ -548,6 +548,258 @@
       font-style: normal;
     }
 
+    /* REAL OR FAKE SECTION */
+    .showcase {
+      padding: 100px 2rem;
+      background: linear-gradient(180deg, rgba(0, 194, 168, 0.03) 0%, transparent 100%);
+      border-top: 1px solid rgba(0, 194, 168, 0.1);
+      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+    }
+
+    .showcase-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .showcase-headline {
+      font-family: "Syne", sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.8px;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .showcase-subheadline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .content-card {
+      background: rgba(11, 31, 58, 0.7);
+      border: 1px solid rgba(0, 194, 168, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .content-card:hover {
+      border-color: rgba(0, 194, 168, 0.3);
+      background: rgba(11, 31, 58, 0.85);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 194, 168, 0.15);
+    }
+
+    /* INSTAGRAM CARD */
+    .ig-post {
+      background: #000;
+      padding: 1.5rem;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .ig-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .ig-avatar {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #F59E0B, #EC4899);
+      border-radius: 50%;
+    }
+
+    .ig-user-info {
+      flex: 1;
+    }
+
+    .ig-username {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 0.2rem;
+    }
+
+    .ig-location {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .ig-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, rgba(0, 194, 168, 0.3), rgba(0, 194, 168, 0.1));
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 1rem;
+      font-weight: 600;
+    }
+
+    .ig-caption {
+      font-size: 0.9rem;
+      color: var(--text-white);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .ig-engagement {
+      display: flex;
+      gap: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* EMAIL CARD */
+    .email-preview {
+      background: #1a1a1a;
+      padding: 1.5rem;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .email-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .email-from {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .email-subject {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .email-body {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* VIDEO CARD */
+    .video-frame {
+      background: #000;
+      padding: 1.5rem;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .video-preview {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, rgba(0, 194, 168, 0.2), rgba(0, 194, 168, 0.05));
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      position: relative;
+      font-size: 2rem;
+    }
+
+    .video-preview::before {
+      content: '▶';
+      position: absolute;
+      font-size: 2.5rem;
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    .video-script {
+      font-size: 0.85rem;
+      color: var(--text-white);
+      line-height: 1.6;
+      font-family: "DM Sans", monospace;
+    }
+
+    /* CARD LABELS */
+    .content-label {
+      padding: 0.75rem 1.5rem;
+      background: rgba(0, 194, 168, 0.08);
+      border-top: 1px solid rgba(0, 194, 168, 0.1);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    /* REVEAL SECTION */
+    .showcase-reveal {
+      text-align: center;
+      background: rgba(11, 31, 58, 0.4);
+      border: 1px solid rgba(0, 194, 168, 0.15);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+    }
+
+    .reveal-text {
+      font-family: "Syne", sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-white);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.3px;
+    }
+
+    .reveal-subtext {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .reveal-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: all 0.3s;
+    }
+
+    .reveal-cta:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 12px 30px rgba(0, 194, 168, 0.3);
+      transform: translateY(-2px);
+    }
+
     /* PITCH SECTION */
     .pitch {
       padding: 80px 2rem;
@@ -868,7 +1120,8 @@
       .stages,
       .stats-grid,
       .dashboard-stats,
-      .analysis-grid {
+      .analysis-grid,
+      .content-grid {
         grid-template-columns: 1fr;
       }
 
@@ -950,6 +1203,14 @@
       .stage-title {
         font-size: 1.1rem;
       }
+
+      .showcase-headline {
+        font-size: 1.8rem;
+      }
+
+      .content-grid {
+        gap: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -971,8 +1232,8 @@
 
 <!-- HERO -->
 <section class="hero">
-  <h1 class="hero-headline">Your Market. Your Content. Your Autopilot.</h1>
-  <p class="hero-sub">PropCast deploys AI agents to analyze your market, find gaps your competitors miss, and produce months of branded content — while you close deals.</p>
+  <h1 class="hero-headline">Your Market. Analyzed. Your Content. Automated.</h1>
+  <p class="hero-sub">PropCast deploys AI agents to scan your competition, find the gaps they're missing, and produce months of branded content — posts, videos, emails, market updates — all in your voice, all on autopilot.</p>
   <a href="propcast-onboarding.html" class="hero-cta">Start Your Free Analysis →</a>
   <p class="hero-secondary">No credit card required. Setup in under 10 minutes.</p>
 
@@ -1013,18 +1274,18 @@
     <div class="problem-grid">
       <div class="problem-card">
         <div class="problem-icon">🕐</div>
-        <div class="problem-title">You're Too Busy</div>
-        <div class="problem-text">Between showings, contracts, and clients, who has time to create 20+ pieces of content per month?</div>
+        <div class="problem-title">40 Hours a Month on Content</div>
+        <div class="problem-text">That's what it takes to stay visible. Between filming, writing captions, designing graphics, and scheduling — most agents give up by week two.</div>
       </div>
       <div class="problem-card">
         <div class="problem-icon">📉</div>
-        <div class="problem-title">Your Competitors Are Outposting You</div>
-        <div class="problem-text">The top agents in your market post 4x more than you. Every day you're silent, they're gaining ground.</div>
+        <div class="problem-title">Your Competitors Don't Sleep</div>
+        <div class="problem-text">The top 3 agents in your ZIP code post 4x more than you. Every day you're dark, they're stealing your next client.</div>
       </div>
       <div class="problem-card">
         <div class="problem-icon">🎯</div>
-        <div class="problem-title">Generic Content Doesn't Convert</div>
-        <div class="problem-text">Templates and stock photos don't build trust. Your market needs YOUR voice, YOUR data, YOUR brand.</div>
+        <div class="problem-title">Generic Content Gets Ignored</div>
+        <div class="problem-text">Canva templates and stock photos don't build trust. Your market needs YOUR data, YOUR face, YOUR expertise — not recycled graphics.</div>
       </div>
     </div>
     <div class="problem-punchline">You're not lazy. You're missing the system.</div>
@@ -1062,14 +1323,75 @@
   </div>
 </section>
 
+<!-- REAL OR FAKE SHOWCASE -->
+<section class="showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <h2 class="showcase-headline">Can You Tell Which Is AI?</h2>
+      <p class="showcase-subheadline">Three pieces of content. All created in under 60 seconds. One looks like it took a professional team 3 hours. Spoiler: they're all PropCast.</p>
+    </div>
+
+    <div class="content-grid">
+      <!-- INSTAGRAM POST CARD -->
+      <div class="content-card">
+        <div class="ig-post">
+          <div class="ig-header">
+            <div class="ig-avatar"></div>
+            <div class="ig-user-info">
+              <div class="ig-username">graeham.watts</div>
+              <div class="ig-location">Palo Alto, CA</div>
+            </div>
+          </div>
+          <div class="ig-image">94303 Market Pulse — April 2026</div>
+          <div class="ig-caption">Median home prices in Palo Alto hit $2.4M this month — up 4.1% YoY. But here's what most agents won't tell you: inventory dropped to 0.9 months. That means if you're a buyer, you need to move fast. If you're a seller? This is your window. 📊 Full breakdown in my bio.</div>
+          <div class="ig-engagement">
+            <span>❤️ 247</span>
+            <span>💬 34</span>
+            <span>📤 18</span>
+          </div>
+        </div>
+        <div class="content-label">Instagram Carousel</div>
+      </div>
+
+      <!-- EMAIL CARD -->
+      <div class="content-card">
+        <div class="email-preview">
+          <div class="email-header">
+            <div class="email-from">From: Graeham Watts</div>
+            <div class="email-subject">Your April Market Briefing</div>
+          </div>
+          <div class="email-body">Good morning — Here's what happened in 94303 this month: The median closed at $2.4M (+4.1% YoY), but the real story is the 23% drop in new listings. For sellers, this is the strongest position in 18 months. For buyers, strategy matters more than speed right now. Here are 3 moves I'm recommending to my clients this week...</div>
+        </div>
+        <div class="content-label">Monthly Newsletter</div>
+      </div>
+
+      <!-- VIDEO CARD -->
+      <div class="content-card">
+        <div class="video-frame">
+          <div class="video-preview"></div>
+          <div class="video-script">[TALKING HEAD] Hey, I'm Graeham Watts. If you're thinking about buying or selling in Palo Alto right now, there's one number you need to know: 0.9. That's months of inventory. It means there are more buyers than homes — significantly more. [CUT TO DATA OVERLAY] Here's what that looks like...</div>
+        </div>
+        <div class="content-label">YouTube Short / Reel</div>
+      </div>
+    </div>
+
+    <!-- REVEAL SECTION -->
+    <div class="showcase-reveal">
+      <p class="reveal-text">All three were generated by PropCast in under 60 seconds.</p>
+      <p class="reveal-subtext">No copywriter. No video editor. No marketing team. Just your market data, your voice, and our AI.</p>
+      <a href="propcast-onboarding.html" class="reveal-cta">See What PropCast Creates For You →</a>
+    </div>
+  </div>
+</section>
+
 <!-- PITCH / MARKET ANALYSIS -->
 <section class="pitch">
   <div class="container">
     <div style="text-align: center; margin-bottom: 3rem;">
       <div class="section-label">Discovery</div>
-      <div class="section-title">See Your Market Before You Commit</div>
+      <div class="section-title">See Your Competitive Landscape — Free</div>
       <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 1.5rem auto 0; line-height: 1.8;">
-        Our free market analysis shows you exactly where the opportunities are — the competitors, the gaps, the keywords nobody's targeting. It's the most valuable 10 minutes you'll spend this week.
+        Before you commit to anything, we'll show you exactly who's winning in your market, what they're doing, and where the gaps are. It's the most valuable 10 minutes you'll spend this week. No credit card required.
       </p>
     </div>
 

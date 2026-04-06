@@ -1150,10 +1150,14 @@
                 </div>
                 <div class="step-dot" data-step="3">
                     <div class="step-dot-circle">4</div>
-                    <div class="step-dot-label">Content DNA</div>
+                    <div class="step-dot-label">Pricing</div>
                 </div>
                 <div class="step-dot" data-step="4">
                     <div class="step-dot-circle">5</div>
+                    <div class="step-dot-label">Content DNA</div>
+                </div>
+                <div class="step-dot" data-step="5">
+                    <div class="step-dot-circle">6</div>
                     <div class="step-dot-label">Connect Brand</div>
                 </div>
             </div>
@@ -1201,6 +1205,35 @@
                     </div>
                 </div>
 
+                <!-- SOCIAL MEDIA HANDLES SECTION -->
+                <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                    <div style="margin-bottom: 1.5rem;">
+                        <h2 class="step-title" style="font-size: 1.3rem; margin-bottom: 0.5rem;">Your Online Presence (Optional)</h2>
+                        <p style="color: var(--gray); font-size: 0.95rem;">Share your social handles so we can analyze your existing content alongside your competitors.</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label>Instagram Handle</label>
+                            <input type="text" id="instagramHandle" placeholder="@graehamwatts">
+                        </div>
+                        <div class="form-group">
+                            <label>Facebook Page URL</label>
+                            <input type="text" id="facebookUrl" placeholder="facebook.com/yourpage">
+                        </div>
+                        <div class="form-group">
+                            <label>YouTube Channel</label>
+                            <input type="text" id="youtubeUrl" placeholder="youtube.com/@yourchannel">
+                        </div>
+                        <div class="form-group">
+                            <label>Website/Blog URL</label>
+                            <input type="text" id="websiteUrl" placeholder="graehamwatts.com">
+                        </div>
+                    </div>
+
+                    <p style="color: var(--gray); font-size: 0.85rem; font-style: italic;">We'll audit your existing content and show you exactly where you stand vs. your competition.</p>
+                </div>
+
                 <div class="btn-nav">
                     <div></div>
                     <button class="btn btn-primary" onclick="nextStep()">Analyze My Market →</button>
@@ -1243,6 +1276,15 @@
                         <div class="strategy-name">Omnipresent</div>
                         <div class="strategy-desc">Be everywhere in your market</div>
                     </div>
+                </div>
+
+                <div style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <h2 class="step-title" style="font-size: 1.3rem; margin-bottom: 0.75rem;">Tell Us In Your Own Words</h2>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem;">Describe your ideal farming strategy and market approach.</p>
+
+                    <textarea id="strategyPrompt" placeholder="Describe your ideal farming strategy... e.g. 'I want to dominate the 94303 and 94301 zip codes, targeting luxury sellers above $2M. I also want to capture expired listings in Menlo Park and be the go-to agent for tech relocations from SF to the Peninsula.'" style="width: 100%; min-height: 120px; padding: 1rem; background: var(--navy-card); border: 2px solid var(--teal-border); border-left: 4px solid var(--teal); border-radius: 8px; color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; resize: vertical; box-sizing: border-box;"></textarea>
+
+                    <p style="color: var(--gray); font-size: 0.85rem; margin-top: 0.75rem; font-style: italic;">Our AI will use this to customize your market analysis and content strategy.</p>
                 </div>
 
                 <div class="btn-nav">
@@ -1407,6 +1449,185 @@
                     <button class="btn btn-primary" onclick="nextStep()">Let's Build Your Strategy →</button>
                 </div>
             </div>
+
+                        <!-- STEP 4: PRICING & PAYMENT -->
+            <div class="step-content">
+                <h1 class="step-title">Ready to Dominate Your Market?</h1>
+                <p class="step-subtitle">You've seen the gaps. You've seen the opportunity. Now let's fill them. Choose the plan that fits your goals.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
+                    <!-- Starter Plan -->
+                    <div style="background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; backdrop-filter: blur(8px); display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--ink); margin-bottom: 0.5rem;">$197/mo</div>
+                            <div style="font-size: 1.1rem; color: var(--teal); font-weight: 600;">Get visible</div>
+                        </div>
+
+                        <div style="flex: 1; margin-bottom: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem; color: var(--ink);">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 20 social posts/month
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 2 market update videos
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 1 email campaign/month
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Basic analytics dashboard
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Single ZIP code coverage
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary" style="width: 100%;">Start with Starter</button>
+                    </div>
+
+                    <!-- Growth Plan (RECOMMENDED) -->
+                    <div style="background: linear-gradient(135deg, rgba(0,194,168,0.15), rgba(0,194,168,0.05)); border: 2px solid var(--teal); border-radius: 12px; padding: 2rem; backdrop-filter: blur(8px); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 30px var(--teal-glow);">
+                        <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--teal); color: var(--bg); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700;">MOST POPULAR</div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--teal); margin-bottom: 0.5rem;">$397/mo</div>
+                            <div style="font-size: 1.1rem; color: var(--teal); font-weight: 600;">Own your market</div>
+                        </div>
+
+                        <div style="flex: 1; margin-bottom: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem; color: var(--ink);">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 60 social posts/month
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 8 market update videos
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 4 email campaigns/month
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Full analytics + scorecard
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 3 ZIP code coverage
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Competitor monitoring
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> AI avatar videos
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Priority content queue
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%;">Start with Growth</button>
+                    </div>
+
+                    <!-- Dominate Plan -->
+                    <div style="background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; backdrop-filter: blur(8px); display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--ink); margin-bottom: 0.5rem;">$697/mo</div>
+                            <div style="font-size: 1.1rem; color: var(--teal); font-weight: 600;">Be everywhere</div>
+                        </div>
+
+                        <div style="flex: 1; margin-bottom: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem; color: var(--ink);">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Unlimited social posts
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> 20+ videos/month
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Unlimited email campaigns
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Full analytics suite
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Unlimited ZIP coverage
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Real-time competitor alerts
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> AI avatar + custom video
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> White-glove onboarding
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="color: var(--teal);">✓</span> Dedicated account manager
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary" style="width: 100%;">Start with Dominate</button>
+                    </div>
+                </div>
+
+                <!-- Pricing Info & Toggle -->
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <p style="color: var(--gray); margin-bottom: 2rem;">All plans include a 30-day free trial. No credit card required to start.</p>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 2rem;">
+                        <span style="color: var(--gray);">Monthly</span>
+                        <div style="background: var(--navy-card); border: 1px solid var(--border); border-radius: 20px; padding: 0.3rem; width: 60px; height: 32px; display: flex; align-items: center; cursor: pointer; position: relative;">
+                            <div style="width: 28px; height: 28px; background: var(--teal); border-radius: 50%; position: absolute; left: 2px; transition: left 0.3s ease;"></div>
+                        </div>
+                        <span style="color: var(--gray);">Annual (20% off)</span>
+                    </div>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div style="background: var(--navy-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <h3 style="font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 1.5rem; color: var(--ink);">Frequently Asked Questions</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                            <div style="color: var(--ink); font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                Can I change plans later?
+                                <span style="color: var(--teal);">+</span>
+                            </div>
+                            <div style="color: var(--gray); margin-top: 0.75rem; font-size: 0.9rem;">Yes, upgrade or downgrade anytime. No cancellation fees.</div>
+                        </div>
+                        
+                        <div style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                            <div style="color: var(--ink); font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                What happens after the free trial?
+                                <span style="color: var(--teal);">+</span>
+                            </div>
+                            <div style="color: var(--gray); margin-top: 0.75rem; font-size: 0.9rem;">You'll be prompted to enter payment. No surprise charges.</div>
+                        </div>
+                        
+                        <div style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                            <div style="color: var(--ink); font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                Do I own the content?
+                                <span style="color: var(--teal);">+</span>
+                            </div>
+                            <div style="color: var(--gray); margin-top: 0.75rem; font-size: 0.9rem;">100%. Everything we create is yours to use however you want.</div>
+                        </div>
+                        
+                        <div style="padding-top: 0;">
+                            <div style="color: var(--ink); font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                Can I cancel anytime?
+                                <span style="color: var(--teal);">+</span>
+                            </div>
+                            <div style="color: var(--gray); margin-top: 0.75rem; font-size: 0.9rem;">Yes. No contracts, no cancellation fees.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-nav">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continue with Growth →</button>
+                </div>
+            </div>
+
 
             <!-- STEP 4: CONTENT PROFILE -->
             <div class="step-content">
@@ -1709,7 +1930,7 @@
         // STATE MANAGEMENT
         // ============================================================
         let currentStep = 0;
-        const totalSteps = 6; // 5 steps + success screen
+        const totalSteps = 7; // 6 steps + success screen
 
         const state = {
             firstName: '',
