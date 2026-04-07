@@ -37,99 +37,75 @@
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        /* NAVBAR */
+        /* NAVIGATION */
         .navbar {
             position: sticky;
             top: 0;
-            height: 56px;
+            background: rgba(6, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-faint);
+            padding: 16px 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
-            background: rgba(6, 15, 30, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--gray-faint);
             z-index: 100;
         }
 
-        .logo {
+        .navbar-left {
             display: flex;
             align-items: center;
-            gap: 4px;
-            text-decoration: none;
-            color: var(--white-text);
+            gap: 40px;
+        }
+
+        .logo {
             font-family: 'Syne', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
+            background: linear-gradient(135deg, var(--teal), #009e88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             letter-spacing: -0.5px;
         }
 
-        .logo-cast {
-            color: var(--teal);
-        }
-
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--teal), #009e88);
+        .nav-tabs {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-main);
-            font-weight: 700;
-            font-size: 12px;
+            gap: 24px;
         }
 
-        /* MAIN CONTAINER */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-
-        /* TAB NAVIGATION */
-        .tab-nav {
-            display: flex;
-            gap: 32px;
-            border-bottom: 1px solid var(--gray-faint);
-            margin-bottom: 32px;
-            overflow-x: auto;
-        }
-
-        .tab-nav button {
-            background: none;
-            border: none;
-            color: var(--gray-text);
-            font-family: 'DM Sans', sans-serif;
+        .nav-tab {
             font-size: 14px;
             font-weight: 600;
-            padding: 12px 0;
+            color: var(--gray-text);
             cursor: pointer;
-            position: relative;
-            white-space: nowrap;
-            transition: color 0.3s ease;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
         }
 
-        .tab-nav button:hover {
+        .nav-tab.active {
+            color: var(--white-text);
+            border-bottom-color: var(--teal);
+        }
+
+        .nav-tab:hover {
             color: var(--white-text);
         }
 
-        .tab-nav button.active {
-            color: var(--teal);
+        .navbar-right {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border-radius: 50%;
         }
 
-        .tab-nav button.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--teal);
+        /* MAIN CONTENT */
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px;
         }
 
         .tab-content {
@@ -138,29 +114,60 @@
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* SECTIONS */
+        .section {
+            margin-bottom: 48px;
         }
 
-        /* ===== OVERVIEW TAB STYLES ===== */
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--white-text);
+            letter-spacing: -0.5px;
+        }
 
-        /* Health Score Section */
-        .health-section {
+        .section-subtitle {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--white-text);
+        }
+
+        /* EXECUTIVE SUMMARY */
+        .exec-summary {
             display: grid;
-            grid-template-columns: 200px 1fr;
+            grid-template-columns: 1fr 1.5fr;
             gap: 32px;
-            margin-bottom: 32px;
-            align-items: start;
+            margin-bottom: 48px;
+            align-items: center;
         }
 
-        .health-circle {
+        .health-score {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .health-gauge {
             position: relative;
-            width: 180px;
-            height: 180px;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 16px;
+        }
+
+        .gauge-ring {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             background: conic-gradient(
                 var(--green) 0deg,
@@ -173,150 +180,132 @@
             justify-content: center;
         }
 
-        .health-inner {
-            position: absolute;
-            width: 160px;
-            height: 160px;
+        .gauge-inner {
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             background: var(--bg-main);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
         }
 
-        .health-value {
+        .gauge-number {
             font-family: 'Syne', sans-serif;
             font-size: 48px;
             font-weight: 800;
-            color: var(--white-text);
+            color: var(--green);
         }
 
-        .health-label {
+        .gauge-label {
             font-size: 11px;
             color: var(--gray-text);
             text-transform: uppercase;
-            font-weight: 600;
             letter-spacing: 0.5px;
         }
 
-        .ai-summary {
+        .health-label {
+            font-size: 12px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        .summary-narrative {
             background: var(--bg-card-1);
             border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 24px;
+            border-radius: 12px;
+            padding: 32px;
         }
 
-        .ai-summary-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--white-text);
-        }
-
-        .ai-summary p {
-            font-size: 13px;
-            line-height: 1.8;
+        .summary-narrative p {
             margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.7;
             color: var(--white-text);
         }
 
-        .ai-summary p strong {
-            color: var(--green);
+        .summary-narrative strong {
+            color: var(--teal);
             font-weight: 600;
         }
 
-        /* Metrics Grid */
+        /* KEY METRICS ROW */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 16px;
-            margin-bottom: 32px;
+            margin-bottom: 48px;
         }
 
         .metric-card {
             background: var(--bg-card-1);
             border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .metric-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
         }
 
         .metric-value {
             font-family: 'Syne', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             color: var(--white-text);
+            margin-bottom: 4px;
         }
 
-        .metric-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+        .metric-change {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 11px;
             font-weight: 600;
-        }
-
-        .metric-badge.up {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--green);
-        }
-
-        .metric-badge.down {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--red);
+            margin-bottom: 8px;
         }
 
         .metric-label {
+            font-size: 11px;
             color: var(--gray-text);
-            font-size: 12px;
-            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
 
-        .metric-comparison {
+        .metric-compare {
             font-size: 11px;
             color: var(--gray-faint);
+            margin-bottom: 12px;
         }
 
-        .metric-progress {
-            height: 6px;
+        .metric-bar {
+            height: 4px;
             background: var(--gray-faint);
-            border-radius: 3px;
+            border-radius: 2px;
             overflow: hidden;
         }
 
-        .metric-progress-fill {
+        .metric-bar-fill {
             height: 100%;
             background: var(--green);
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
-        /* Content Mix + Platform Performance */
-        .dashboard-grid {
+        /* THREE COLUMN SECTION */
+        .three-column {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            margin-bottom: 32px;
+            margin-bottom: 48px;
         }
 
-        .content-mix-card {
+        .card {
             background: var(--bg-card-1);
             border: 1px solid var(--gray-faint);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 24px;
         }
 
@@ -324,10 +313,11 @@
             font-family: 'Syne', sans-serif;
             font-size: 16px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             color: var(--white-text);
         }
 
+        /* DONUT CHART */
         .donut-container {
             display: flex;
             justify-content: center;
@@ -365,34 +355,35 @@
         .legend-items {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            font-size: 12px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
-            color: var(--white-text);
+            justify-content: space-between;
         }
 
         .legend-color {
             width: 12px;
             height: 12px;
-            border-radius: 50%;
+            border-radius: 3px;
+            flex-shrink: 0;
         }
 
         .legend-label {
-            font-weight: 500;
             flex: 1;
-        }
-
-        .legend-percent {
-            font-weight: 600;
             color: var(--white-text);
         }
 
-        .mix-note {
+        .legend-percent {
+            color: var(--gray-text);
+            font-weight: 600;
+        }
+
+        .card-note {
             font-size: 11px;
             color: var(--gray-faint);
             margin-top: 16px;
@@ -401,317 +392,573 @@
             font-style: italic;
         }
 
-        .platform-perf-card {
-            background: var(--bg-card-1);
-            border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 24px;
-        }
-
-        .platform-row {
+        /* PLATFORM STATS */
+        .platform-item {
             margin-bottom: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-faint);
         }
 
-        .platform-row:last-child {
+        .platform-item:last-child {
             margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
         .platform-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-        }
-
-        .platform-info {
-            font-weight: 600;
-            color: var(--white-text);
+            margin-bottom: 6px;
             font-size: 13px;
         }
 
+        .platform-name {
+            color: var(--white-text);
+            font-weight: 600;
+        }
+
         .platform-reach {
-            font-size: 12px;
-            color: var(--gray-faint);
+            color: var(--gray-text);
         }
 
         .platform-bar-track {
-            height: 8px;
+            height: 6px;
             background: var(--gray-faint);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
         }
 
         .platform-bar-fill {
             height: 100%;
             background: var(--green);
-            border-radius: 4px;
         }
 
-        .platform-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
+        .platform-bar-fill.moderate {
+            background: var(--amber);
         }
 
-        .platform-badge {
-            padding: 2px 6px;
-            border-radius: 3px;
+        .platform-bar-fill.declining {
+            background: var(--amber);
+        }
+
+        /* COMPARISON TABLE */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .comparison-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-faint);
+            color: var(--gray-text);
+        }
+
+        .comparison-table td:first-child {
+            color: var(--white-text);
+            font-weight: 500;
+        }
+
+        .comparison-table td:nth-child(2),
+        .comparison-table td:nth-child(3) {
+            text-align: right;
+            color: var(--white-text);
             font-weight: 600;
         }
 
-        .platform-badge.good {
-            background: rgba(34, 197, 94, 0.15);
+        .comparison-table td:nth-child(4) {
+            text-align: right;
             color: var(--green);
+            font-weight: 600;
         }
 
-        .platform-badge.moderate {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--amber);
+        .comparison-table tr:last-child td {
+            border-bottom: none;
         }
 
-        /* Lead Funnel */
-        .funnel-card {
+        /* VALUE METRICS */
+        .value-metric {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-faint);
+        }
+
+        .value-metric:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .value-label {
+            font-size: 11px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .value-data {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white-text);
+            margin-bottom: 2px;
+        }
+
+        .value-compare {
+            font-size: 11px;
+            color: var(--gray-faint);
+        }
+
+        /* FUNNEL */
+        .funnel-flow {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            font-size: 11px;
+            margin-top: 12px;
+        }
+
+        .funnel-step {
+            flex: 1;
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 4px;
+            padding: 8px;
+            text-align: center;
+            color: var(--gray-text);
+        }
+
+        .funnel-step-count {
+            display: block;
+            font-weight: 600;
+            color: var(--white-text);
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+
+        .funnel-step-label {
+            display: block;
+            font-size: 9px;
+        }
+
+        /* ASSESSMENT CARD */
+        .assessment-card {
             background: var(--bg-card-1);
             border: 1px solid var(--gray-faint);
+            border-left: 4px solid var(--teal);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 48px;
+        }
+
+        .assessment-card p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: var(--white-text);
+        }
+
+        .assessment-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .assessment-card strong {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        /* CONTENT PERFORMANCE */
+        .perf-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .perf-card {
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .perf-card.strong {
+            border-left: 4px solid var(--green);
+        }
+
+        .perf-card.weak {
+            border-left: 4px solid var(--red);
+        }
+
+        .perf-thumbnail {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, var(--teal), rgba(0, 194, 168, 0.3));
             border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 32px;
-        }
-
-        .funnel-container {
             display: flex;
-            gap: 8px;
-            align-items: flex-end;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 12px;
         }
 
-        .funnel-box {
-            flex: 1;
+        .perf-title {
+            font-weight: 600;
+            color: var(--white-text);
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .perf-platform {
+            display: inline-block;
+            background: rgba(0, 194, 168, 0.15);
+            color: var(--teal);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .perf-stats {
+            font-size: 11px;
+            color: var(--gray-text);
+            margin-bottom: 8px;
+        }
+
+        .perf-why {
+            font-size: 12px;
+            color: var(--white-text);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* CALENDAR */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 11px;
+        }
+
+        .calendar-header {
+            font-weight: 600;
+            color: var(--gray-text);
+            text-align: center;
+            padding: 8px 4px;
+        }
+
+        .calendar-day {
             background: var(--bg-card-2);
             border: 1px solid var(--gray-faint);
             border-radius: 6px;
             padding: 12px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            color: var(--white-text);
+            font-weight: 500;
         }
 
-        .funnel-number {
-            font-family: 'Syne', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--green);
-        }
-
-        .funnel-label {
-            font-size: 11px;
+        .calendar-day-name {
+            display: block;
+            font-size: 9px;
             color: var(--gray-text);
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
 
-        .funnel-percent {
+        .calendar-content {
+            display: block;
             font-size: 10px;
-            color: var(--gray-faint);
+            line-height: 1.3;
         }
 
-        .funnel-arrow {
-            flex-shrink: 0;
-            color: var(--gray-faint);
-            font-size: 16px;
+        .calendar-badge {
+            display: inline-block;
+            background: rgba(0, 194, 168, 0.15);
+            color: var(--teal);
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 8px;
+            margin-top: 3px;
         }
 
-        /* Month vs Month */
-        .comparison-card {
-            background: var(--bg-card-1);
-            border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 32px;
-        }
-
-        .comparison-table {
-            width: 100%;
-        }
-
-        .comparison-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 16px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--gray-faint);
-            align-items: center;
-            font-size: 13px;
-        }
-
-        .comparison-row:first-child {
-            font-weight: 600;
-            color: var(--gray-text);
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            padding-bottom: 12px;
-        }
-
-        .comparison-row:last-child {
-            border-bottom: none;
-        }
-
-        .comparison-label {
-            font-weight: 600;
-            color: var(--white-text);
-        }
-
-        .comparison-value {
-            color: var(--white-text);
-        }
-
-        .comparison-change {
+        /* CONTENT LIBRARY */
+        .filter-bar {
             display: flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-            color: var(--green);
+            gap: 8px;
+            margin-bottom: 24px;
         }
 
-        /* ROI Section */
-        .roi-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .roi-box {
-            background: var(--bg-card-1);
+        .filter-btn {
+            background: var(--bg-card-2);
             border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 16px;
+            color: var(--gray-text);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: var(--bg-main);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        .content-library {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .roi-label {
+        .content-row {
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .content-row-header {
+            display: grid;
+            grid-template-columns: 60px 1fr 100px 100px 80px;
+            gap: 12px;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .content-row:hover .content-row-header {
+            background: var(--bg-card-1);
+        }
+
+        .content-thumbnail {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--teal), rgba(0, 194, 168, 0.3));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .content-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .content-title {
+            font-weight: 600;
+            color: var(--white-text);
+            font-size: 13px;
+            line-height: 1.3;
+        }
+
+        .content-meta {
             font-size: 11px;
             color: var(--gray-text);
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
-        .roi-main {
-            font-family: 'Syne', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--green);
+        .content-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: right;
         }
 
-        .roi-secondary {
-            font-size: 11px;
-            color: var(--gray-faint);
-        }
-
-        /* Insights */
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .insight-box {
-            border-left: 4px solid;
-            border-radius: 6px;
-            padding: 16px;
-            background: var(--bg-card-2);
-        }
-
-        .insight-box.win {
-            border-left-color: var(--green);
-        }
-
-        .insight-box.test {
-            border-left-color: var(--blue);
-        }
-
-        .insight-box.stopped {
-            border-left-color: var(--red);
-        }
-
-        .insight-box.change {
-            border-left-color: var(--amber);
-        }
-
-        .insight-label {
+        .stat-label {
             font-size: 10px;
-            font-weight: 700;
+            color: var(--gray-text);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 3px;
+            letter-spacing: 0.3px;
         }
 
-        .insight-box.win .insight-label {
-            background: rgba(34, 197, 94, 0.2);
+        .stat-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--white-text);
+        }
+
+        .perf-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .perf-badge.strong {
+            background: rgba(34, 197, 94, 0.15);
             color: var(--green);
         }
 
-        .insight-box.test .insight-label {
-            background: rgba(59, 130, 246, 0.2);
-            color: var(--blue);
-        }
-
-        .insight-box.stopped .insight-label {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--red);
-        }
-
-        .insight-box.change .insight-label {
-            background: rgba(245, 158, 11, 0.2);
+        .perf-badge.medium {
+            background: rgba(245, 158, 11, 0.15);
             color: var(--amber);
         }
 
-        .insight-text {
-            font-size: 13px;
-            color: var(--white-text);
+        .perf-badge.weak {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red);
+        }
+
+        .content-row-detail {
+            display: none;
+            padding: 24px;
+            background: var(--bg-card-1);
+            border-top: 1px solid var(--gray-faint);
+        }
+
+        .content-row.expanded .content-row-detail {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .detail-text {
+            font-size: 12px;
             line-height: 1.6;
-        }
-
-        /* What's Next */
-        .next-section {
-            margin-bottom: 32px;
-        }
-
-        .next-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
             color: var(--white-text);
         }
 
+        /* SEARCH TABLE */
+        .search-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-table thead {
+            background: var(--bg-card-2);
+        }
+
+        .search-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-text);
+            border-bottom: 1px solid var(--gray-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-size: 10px;
+        }
+
+        .search-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gray-faint);
+            color: var(--white-text);
+        }
+
+        .rank-green {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .rank-amber {
+            color: var(--amber);
+            font-weight: 600;
+        }
+
+        .rank-red {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .ctr-high {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .ctr-medium {
+            color: var(--amber);
+            font-weight: 600;
+        }
+
+        .ctr-low {
+            color: var(--gray-text);
+        }
+
+        /* MISSED OPPORTUNITIES */
+        .missed-item {
+            background: var(--bg-card-2);
+            border: 1px solid var(--red);
+            border-left: 4px solid var(--red);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .missed-query {
+            font-weight: 600;
+            color: var(--white-text);
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .missed-meta {
+            font-size: 11px;
+            color: var(--gray-text);
+        }
+
+        /* DIVIDER */
+        .divider {
+            background: var(--gray-faint);
+            height: 2px;
+            margin: 48px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .divider-text {
+            background: var(--bg-main);
+            padding: 0 12px;
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* TASKS */
         .task-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
 
         .task-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px;
-            background: var(--bg-card-1);
+            background: var(--bg-card-2);
             border: 1px solid var(--gray-faint);
-            border-radius: 6px;
+            border-radius: 8px;
+            padding: 14px;
             font-size: 13px;
             color: var(--white-text);
         }
@@ -735,1523 +982,864 @@
             background: var(--gray-faint);
         }
 
-        /* ===== CONTENT PERFORMANCE TAB ===== */
-
-        .section {
-            margin-bottom: 24px;
-        }
-
-        .section-card {
-            background: var(--bg-card-1);
-            border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--white-text);
-            padding: 16px;
-            background: var(--bg-card-2);
-            border-bottom: 1px solid var(--gray-faint);
-        }
-
-        .section-body {
-            padding: 16px;
-        }
-
-        /* Heatmap */
-        .heatmap-container {
-            overflow-x: auto;
-        }
-
-        .heatmap {
-            display: grid;
-            grid-template-columns: 60px repeat(17, 20px);
-            gap: 2px;
-        }
-
-        .heatmap-label {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 8px;
-            font-size: 11px;
-            color: var(--gray-faint);
-            font-weight: 500;
-        }
-
-        .heatmap-cell {
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
-            border: 1px solid var(--gray-faint);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .heatmap-cell:hover {
-            transform: scale(1.3);
-        }
-
-        .heatmap-cell.high {
-            background: var(--green);
-        }
-
-        .heatmap-cell.medium {
-            background: var(--amber);
-        }
-
-        .heatmap-cell.low {
-            background: var(--bg-card-2);
-        }
-
-        .heatmap-cell.none {
-            background: var(--gray-faint);
-        }
-
-        .heatmap-callouts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .heatmap-callout {
-            background: var(--bg-card-2);
-            border-left: 3px solid var(--teal);
-            border-radius: 4px;
-            padding: 12px;
-        }
-
-        .callout-label {
-            font-size: 10px;
-            color: var(--gray-text);
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .callout-value {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--teal);
-        }
-
-        /* Content Library */
-        .filter-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: var(--bg-card-2);
-            border: 1px solid var(--gray-faint);
-            color: var(--gray-text);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .filter-btn.active {
-            background: var(--teal);
-            color: var(--bg-main);
-            border-color: var(--teal);
-        }
-
-        .filter-btn:hover {
-            border-color: var(--teal);
-        }
-
-        .content-row {
-            background: var(--bg-card-2);
-            border: 1px solid var(--gray-faint);
-            border-radius: 6px;
-            margin-bottom: 8px;
-            overflow: hidden;
-        }
-
-        .content-row-header {
-            display: grid;
-            grid-template-columns: 40px 1fr 80px 80px 100px;
-            gap: 12px;
-            align-items: center;
-            padding: 12px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .content-row-header:hover {
-            background: var(--bg-card-1);
-        }
-
-        .thumbnail {
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
-            background: linear-gradient(135deg, var(--teal), #009e88);
-        }
-
-        .content-title {
-            color: var(--white-text);
-            font-weight: 600;
-            font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .content-meta {
-            font-size: 11px;
-            color: var(--gray-faint);
-        }
-
-        .reach-metric {
-            font-weight: 600;
-            color: var(--white-text);
-            font-size: 12px;
-        }
-
-        .engagement-metric {
-            font-weight: 600;
-            color: var(--white-text);
-            font-size: 12px;
-        }
-
-        .performance-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .badge-strong {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-        }
-
-        .badge-medium {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--amber);
-        }
-
-        .badge-weak {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--red);
-        }
-
-        .content-row-body {
-            display: none;
-            padding: 16px;
-            background: var(--bg-card-1);
-            border-top: 1px solid var(--gray-faint);
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .content-row-body.expanded {
-            display: block;
-        }
-
-        .detail-section {
-            margin-bottom: 12px;
-        }
-
-        .detail-label {
-            color: var(--gray-text);
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .detail-value {
-            color: var(--white-text);
-        }
-
-        /* ===== TRENDS TAB ===== */
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .data-table thead {
-            background: var(--bg-card-2);
-            border-bottom: 1px solid var(--gray-faint);
-        }
-
-        .data-table th {
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--gray-text);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .data-table td {
-            padding: 12px;
-            border-bottom: 1px solid var(--gray-faint);
-            color: var(--white-text);
-        }
-
-        .data-table tbody tr:hover {
-            background: rgba(0, 194, 168, 0.05);
-        }
-
-        .rank-green {
-            color: var(--green);
-            font-weight: 600;
-        }
-
-        .rank-amber {
-            color: var(--amber);
-            font-weight: 600;
-        }
-
-        .rank-red {
-            color: var(--red);
-            font-weight: 600;
-        }
-
-        .ctr-high {
-            color: var(--green);
-        }
-
-        .ctr-medium {
-            color: var(--white-text);
-        }
-
-        .ctr-low {
-            color: var(--amber);
-        }
-
-        /* Missed Opportunities */
-        .missed-item {
-            background: var(--bg-card-2);
-            border-left: 3px solid var(--red);
-            border-radius: 4px;
-            padding: 12px;
-            margin-bottom: 8px;
-        }
-
-        .missed-query {
-            font-weight: 600;
-            color: var(--white-text);
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .missed-meta {
-            font-size: 11px;
-            color: var(--gray-faint);
-        }
-
-        /* Trend Cards */
-        .trend-card {
-            background: var(--bg-card-2);
-            border: 1px solid var(--gray-faint);
-            border-radius: 6px;
-            margin-bottom: 8px;
-            overflow: hidden;
-        }
-
-        .trend-card-title {
-            color: var(--white-text);
-            font-weight: 600;
-            font-size: 13px;
-            padding: 12px;
-            background: var(--bg-card-2);
-        }
-
-        .trend-card-body {
-            padding: 12px;
-            background: var(--bg-card-1);
-            border-top: 1px solid var(--gray-faint);
-            font-size: 12px;
-            line-height: 1.8;
-        }
-
-        /* ===== PLATFORMS TAB ===== */
-
-        .platform-card {
-            background: var(--bg-card-1);
-            border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 8px;
-        }
-
-        .platform-card-title {
-            color: var(--white-text);
-            font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 12px;
-        }
-
-        .platform-stat {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            font-size: 12px;
-            border-bottom: 1px solid var(--gray-faint);
-        }
-
-        .platform-stat:last-child {
-            border-bottom: none;
-        }
-
-        .platform-stat-label {
-            color: var(--gray-text);
-        }
-
-        .platform-stat-value {
-            color: var(--white-text);
-            font-weight: 600;
-        }
-
-        /* ===== SETTINGS TAB ===== */
-
+        /* SETTINGS TAB */
         .settings-section {
             background: var(--bg-card-1);
             border: 1px solid var(--gray-faint);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
         }
 
         .settings-title {
             font-family: 'Syne', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
+            margin-bottom: 16px;
             color: var(--white-text);
-            margin-bottom: 12px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 12px;
+        .settings-group {
+            margin-bottom: 20px;
         }
 
-        .form-label {
+        .settings-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .settings-label {
             font-size: 12px;
-            color: var(--gray-text);
             font-weight: 600;
+            color: var(--gray-text);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .form-input,
-        .form-select {
+        .settings-input,
+        .settings-select {
+            width: 100%;
             background: var(--bg-card-2);
             border: 1px solid var(--gray-faint);
-            color: var(--white-text);
-            padding: 8px 10px;
             border-radius: 6px;
-            font-family: 'DM Sans', sans-serif;
+            padding: 10px 12px;
+            color: var(--white-text);
             font-size: 12px;
-            transition: border-color 0.2s ease;
+            font-family: 'DM Sans', sans-serif;
         }
 
-        .form-input:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: var(--teal);
-        }
-
-        .form-input::placeholder {
+        .settings-input::placeholder {
             color: var(--gray-faint);
         }
 
-        .tone-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 8px;
-        }
-
-        .tone-option {
-            background: var(--bg-card-2);
-            border: 1px solid var(--gray-faint);
-            color: var(--gray-text);
-            padding: 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .tone-option.active {
-            background: var(--teal);
+        .settings-input:focus,
+        .settings-select:focus {
+            outline: none;
             border-color: var(--teal);
+            background: rgba(0, 194, 168, 0.05);
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, var(--teal), #009e88);
             color: var(--bg-main);
-        }
-
-        .tone-option:hover {
-            border-color: var(--teal);
-        }
-
-        .sample-text {
-            background: rgba(0, 194, 168, 0.08);
-            border-left: 2px solid var(--teal);
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            color: var(--gray-text);
-            margin-top: 4px;
-            font-style: italic;
-        }
-
-        .connection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-        }
-
-        .connection-card {
-            background: var(--bg-card-2);
-            border: 1px solid var(--gray-faint);
+            padding: 12px 24px;
+            border: none;
             border-radius: 6px;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .connection-name {
+            font-weight: 600;
             font-size: 12px;
-            font-weight: 600;
-            color: var(--white-text);
-            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .connection-status {
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            font-weight: 600;
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 194, 168, 0.3);
         }
 
-        .status-connected {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-        }
-
-        .status-pending {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--amber);
-        }
-
-        /* RESPONSIVENESS */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .metrics-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .health-section {
-                grid-template-columns: 1fr;
-            }
-
-            .roi-grid {
+            .three-column {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .insights-grid {
+            .perf-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .exec-summary {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 12px;
-            }
-
-            .navbar {
-                padding: 0 12px;
-            }
-
             .metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+            }
+
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+
+            .perf-grid {
+                grid-template-columns: 1fr;
             }
 
             .content-row-header {
-                grid-template-columns: 30px 1fr 60px;
-                gap: 8px;
+                grid-template-columns: 50px 1fr;
             }
 
-            .reach-metric,
-            .engagement-metric {
+            .content-stats {
                 display: none;
             }
 
-            .tab-nav {
-                gap: 16px;
-            }
-
-            .heatmap-callouts {
-                grid-template-columns: 1fr;
-            }
-
-            .roi-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .comparison-row {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .funnel-container {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .funnel-arrow {
+            .perf-badge {
                 display: none;
             }
-        }
 
-        @media (max-width: 480px) {
-            .metrics-grid {
-                grid-template-columns: 1fr;
+            .dashboard {
+                padding: 24px 16px;
             }
 
             .navbar {
-                padding: 0 8px;
+                padding: 12px 16px;
             }
 
-            .logo {
-                font-size: 16px;
-            }
-
-            .tab-nav {
-                font-size: 12px;
-                gap: 12px;
-            }
-
-            .health-value {
-                font-size: 36px;
-            }
-
-            .metric-value {
-                font-size: 20px;
+            .nav-tabs {
+                gap: 16px;
             }
         }
     </style>
 </head>
 <body>
     <!-- NAVBAR -->
-    <nav class="navbar">
-        <a href="index.html" class="logo">
-            Prop<span class="logo-cast">Cast</span>
-        </a>
-        <div class="avatar">GW</div>
-    </nav>
-
-    <!-- MAIN CONTAINER -->
-    <div class="container">
-        <!-- TAB NAVIGATION -->
-        <div class="tab-nav">
-            <button class="tab-btn active" data-tab="overview">Overview</button>
-            <button class="tab-btn" data-tab="content-performance">Content Performance</button>
-            <button class="tab-btn" data-tab="trends">Trends & Intelligence</button>
-            <button class="tab-btn" data-tab="platforms">Platforms</button>
-            <button class="tab-btn" data-tab="settings">Settings</button>
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo">PropCast</div>
+            <div class="nav-tabs">
+                <div class="nav-tab active" onclick="switchTab('dashboard', this)">Dashboard</div>
+                <div class="nav-tab" onclick="switchTab('settings', this)">Settings</div>
+            </div>
         </div>
+        <div class="navbar-right"></div>
+    </div>
 
-        <!-- TAB 1: OVERVIEW -->
-        <div id="overview" class="tab-content active">
-            <!-- Health Score + AI Summary -->
-            <div class="health-section">
-                <div class="health-circle">
-                    <div class="health-inner">
-                        <div class="health-value">78</div>
-                        <div class="health-label">of 100</div>
+    <!-- DASHBOARD TAB -->
+    <div id="dashboard" class="tab-content active">
+        <div class="dashboard">
+
+            <!-- SECTION 1: EXECUTIVE SUMMARY -->
+            <section class="section">
+                <div class="exec-summary">
+                    <!-- Health Score -->
+                    <div class="health-score">
+                        <div class="health-gauge">
+                            <div class="gauge-ring">
+                                <div class="gauge-inner">
+                                    <div class="gauge-number">78</div>
+                                    <div class="gauge-label">Score</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="health-label">Monthly Health</div>
+                    </div>
+
+                    <!-- Narrative Summary -->
+                    <div class="summary-narrative">
+                        <p>PropCast created <strong>14 videos</strong> and <strong>52 posts</strong> this month, reaching <strong>187,400 people</strong> across Instagram, Facebook, YouTube, and Google Business Profile.</p>
+                        <p>Listing content outperforms educational content <strong>3.2-to-1</strong>. Your content mix has auto-shifted to <strong>70% market data + listings, 30% education</strong> based on 60 days of engagement data.</p>
+                        <p>Your best performer: <strong>EPA Price Drop reel</strong> — <strong>8,400 reach, 3 direct inquiries</strong> generated.</p>
+                        <p>New ADU content test proved <strong>successful</strong>. You're now running educational explainers every 10 days on YouTube.</p>
+                        <p>Publishing schedule shifted to <strong>Tue/Thu 9 AM</strong> after heatmap analysis — engagement is up <strong>18%</strong> since the change.</p>
+                        <p>You spent <strong>zero hours</strong> on content creation, editing, or posting. PropCast handled everything.</p>
                     </div>
                 </div>
-                <div class="ai-summary">
-                    <div class="ai-summary-title">AI Summary</div>
-                    <p>PropCast created <strong>14 videos</strong> and <strong>52 posts</strong> reaching <strong>187,400 people</strong> this month.</p>
-                    <p>Listing content outperformed education content <strong>3.2-to-1</strong> — mix shifted to 70/30.</p>
-                    <p>Best post: EPA Price Drop reel — <strong>8,400 reach</strong>, <strong>3 direct inquiries</strong>.</p>
-                    <p>ADU content test: <strong>Successful</strong> — now runs every 10 days automatically.</p>
-                    <p>Schedule changed to Tue/Thu 9AM — engagement up <strong>18%</strong>.</p>
-                    <p><strong>Zero hours</strong> spent on content this month.</p>
-                </div>
-            </div>
+            </section>
 
-            <!-- Metrics Cards -->
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-header">
+            <!-- SECTION 2: KEY METRICS -->
+            <section class="section">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-change">↑23%</div>
                         <div class="metric-value">187.4K</div>
-                        <div class="metric-badge up">↑ 23%</div>
+                        <div class="metric-label">Reach</div>
+                        <div class="metric-compare">vs 152K</div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 100%;"></div>
+                        </div>
                     </div>
-                    <div class="metric-label">Reach</div>
-                    <div class="metric-comparison">vs 152K last month</div>
-                    <div class="metric-progress">
-                        <div class="metric-progress-fill" style="width: 85%;"></div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-header">
+
+                    <div class="metric-card">
+                        <div class="metric-change">↑18%</div>
                         <div class="metric-value">4.2K</div>
-                        <div class="metric-badge up">↑ 18%</div>
+                        <div class="metric-label">Engagement</div>
+                        <div class="metric-compare">vs 3.6K</div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 100%;"></div>
+                        </div>
                     </div>
-                    <div class="metric-label">Engagement</div>
-                    <div class="metric-comparison">vs 3.6K last month</div>
-                    <div class="metric-progress">
-                        <div class="metric-progress-fill" style="width: 80%;"></div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-header">
+
+                    <div class="metric-card">
+                        <div class="metric-change">↑27%</div>
                         <div class="metric-value">14</div>
-                        <div class="metric-badge up">↑ 27%</div>
+                        <div class="metric-label">Videos</div>
+                        <div class="metric-compare">vs 11</div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 100%;"></div>
+                        </div>
                     </div>
-                    <div class="metric-label">Videos</div>
-                    <div class="metric-comparison">vs 11 last month</div>
-                    <div class="metric-progress">
-                        <div class="metric-progress-fill" style="width: 90%;"></div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-header">
+
+                    <div class="metric-card">
+                        <div class="metric-change">↑27%</div>
                         <div class="metric-value">52</div>
-                        <div class="metric-badge up">↑ 27%</div>
+                        <div class="metric-label">Posts</div>
+                        <div class="metric-compare">vs 41</div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 100%;"></div>
+                        </div>
                     </div>
-                    <div class="metric-label">Posts</div>
-                    <div class="metric-comparison">vs 41 last month</div>
-                    <div class="metric-progress">
-                        <div class="metric-progress-fill" style="width: 88%;"></div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-header">
+
+                    <div class="metric-card">
+                        <div class="metric-change">↑40%</div>
                         <div class="metric-value">7</div>
-                        <div class="metric-badge up">↑ 40%</div>
+                        <div class="metric-label">Leads</div>
+                        <div class="metric-compare">vs 5</div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 100%;"></div>
+                        </div>
                     </div>
-                    <div class="metric-label">Leads</div>
-                    <div class="metric-comparison">vs 5 last month</div>
-                    <div class="metric-progress">
-                        <div class="metric-progress-fill" style="width: 75%;"></div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-header">
+
+                    <div class="metric-card">
+                        <div class="metric-change">↑12%</div>
                         <div class="metric-value">2.25%</div>
-                        <div class="metric-badge up">↑ 12%</div>
-                    </div>
-                    <div class="metric-label">Engagement Rate</div>
-                    <div class="metric-comparison">vs 2.0% last month</div>
-                    <div class="metric-progress">
-                        <div class="metric-progress-fill" style="width: 78%;"></div>
+                        <div class="metric-label">Eng Rate</div>
+                        <div class="metric-compare">vs 2.0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 100%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Content Mix + Platform Performance -->
-            <div class="dashboard-grid">
-                <div class="content-mix-card">
-                    <div class="card-title">Content Type Mix</div>
-                    <div class="donut-container">
-                        <div class="donut">
-                            <div class="donut-inner"></div>
-                        </div>
-                    </div>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: var(--blue);"></div>
-                            <div class="legend-label">Reels/Video</div>
-                            <div class="legend-percent">40%</div>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: var(--green);"></div>
-                            <div class="legend-label">Carousels</div>
-                            <div class="legend-percent">25%</div>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: var(--amber);"></div>
-                            <div class="legend-label">Educational</div>
-                            <div class="legend-percent">20%</div>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: var(--purple);"></div>
-                            <div class="legend-label">Listings</div>
-                            <div class="legend-percent">15%</div>
-                        </div>
-                    </div>
-                    <div class="mix-note">Auto-optimized based on 60 days of engagement data</div>
-                </div>
-
-                <div class="platform-perf-card">
-                    <div class="card-title">Platform Performance</div>
-                    <div class="platform-row">
-                        <div class="platform-header">
-                            <div>
-                                <div class="platform-info">📱 Instagram</div>
-                                <div class="platform-reach">87,400 reach</div>
-                            </div>
-                            <div class="platform-badge good">6.2% ↑</div>
-                        </div>
-                        <div class="platform-bar-track">
-                            <div class="platform-bar-fill" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                    <div class="platform-row">
-                        <div class="platform-header">
-                            <div>
-                                <div class="platform-info">👍 Facebook</div>
-                                <div class="platform-reach">63,200 reach</div>
-                            </div>
-                            <div class="platform-badge good">4.1% →</div>
-                        </div>
-                        <div class="platform-bar-track">
-                            <div class="platform-bar-fill" style="width: 72%;"></div>
-                        </div>
-                    </div>
-                    <div class="platform-row">
-                        <div class="platform-header">
-                            <div>
-                                <div class="platform-info">📹 YouTube</div>
-                                <div class="platform-reach">24,800 reach</div>
-                            </div>
-                            <div class="platform-badge good">8.7% ↑</div>
-                        </div>
-                        <div class="platform-bar-track">
-                            <div class="platform-bar-fill" style="width: 28%;"></div>
-                        </div>
-                    </div>
-                    <div class="platform-row">
-                        <div class="platform-header">
-                            <div>
-                                <div class="platform-info">📍 GBP</div>
-                                <div class="platform-reach">12,000 reach</div>
-                            </div>
-                            <div class="platform-badge moderate">3.8% ↓</div>
-                        </div>
-                        <div class="platform-bar-track">
-                            <div class="platform-bar-fill" style="width: 14%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lead Funnel -->
-            <div class="funnel-card">
-                <div class="card-title">Lead Funnel</div>
-                <div class="funnel-container">
-                    <div class="funnel-box">
-                        <div class="funnel-number">52</div>
-                        <div class="funnel-label">Created</div>
-                        <div class="funnel-percent">100%</div>
-                    </div>
-                    <div class="funnel-arrow">→</div>
-                    <div class="funnel-box">
-                        <div class="funnel-number">187K</div>
-                        <div class="funnel-label">Reached</div>
-                        <div class="funnel-percent">100%</div>
-                    </div>
-                    <div class="funnel-arrow">→</div>
-                    <div class="funnel-box">
-                        <div class="funnel-number">4.2K</div>
-                        <div class="funnel-label">Engaged</div>
-                        <div class="funnel-percent">2.3%</div>
-                    </div>
-                    <div class="funnel-arrow">→</div>
-                    <div class="funnel-box">
-                        <div class="funnel-number">890</div>
-                        <div class="funnel-label">Clicked</div>
-                        <div class="funnel-percent">0.5%</div>
-                    </div>
-                    <div class="funnel-arrow">→</div>
-                    <div class="funnel-box">
-                        <div class="funnel-number">7</div>
-                        <div class="funnel-label">Leads</div>
-                        <div class="funnel-percent">0.004%</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Month vs Month Comparison -->
-            <div class="comparison-card">
-                <div class="card-title">This Month vs Last Month</div>
-                <div class="comparison-table">
-                    <div class="comparison-row">
-                        <div class="comparison-label">Metric</div>
-                        <div class="comparison-label">This Month</div>
-                        <div class="comparison-label">Last Month</div>
-                        <div class="comparison-label">Change</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="comparison-label">Reach</div>
-                        <div class="comparison-value">187K</div>
-                        <div class="comparison-value">152K</div>
-                        <div class="comparison-change">↑ 23%</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="comparison-label">Engagement</div>
-                        <div class="comparison-value">4,230</div>
-                        <div class="comparison-value">3,585</div>
-                        <div class="comparison-change">↑ 18%</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="comparison-label">Videos</div>
-                        <div class="comparison-value">14</div>
-                        <div class="comparison-value">11</div>
-                        <div class="comparison-change">↑ 27%</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="comparison-label">Posts</div>
-                        <div class="comparison-value">52</div>
-                        <div class="comparison-value">41</div>
-                        <div class="comparison-change">↑ 27%</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="comparison-label">Leads</div>
-                        <div class="comparison-value">7</div>
-                        <div class="comparison-value">5</div>
-                        <div class="comparison-change">↑ 40%</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ROI Section -->
-            <div class="roi-grid">
-                <div class="roi-box">
-                    <div class="roi-label">Hours Saved</div>
-                    <div class="roi-main">22 hrs</div>
-                    <div class="roi-secondary">this month / 186 total</div>
-                </div>
-                <div class="roi-box">
-                    <div class="roi-label">Value Recovered</div>
-                    <div class="roi-main">$3.3K</div>
-                    <div class="roi-secondary">this month / $27.9K total</div>
-                </div>
-                <div class="roi-box">
-                    <div class="roi-label">Content Efficiency</div>
-                    <div class="roi-main">3.6K</div>
-                    <div class="roi-secondary">reach per post (↑ from 3.1K)</div>
-                </div>
-                <div class="roi-box">
-                    <div class="roi-label">Lead Cost</div>
-                    <div class="roi-main">$0</div>
-                    <div class="roi-secondary">vs ~$45 industry avg</div>
-                </div>
-            </div>
-
-            <!-- Key Insights -->
-            <div class="next-title">Key Insights</div>
-            <div class="insights-grid">
-                <div class="insight-box win">
-                    <div class="insight-label">WIN</div>
-                    <div class="insight-text">Market data videos drive 3.2x more engagement than lifestyle content. Specific numbers and prices drive saves and shares.</div>
-                </div>
-                <div class="insight-box win">
-                    <div class="insight-label">WIN</div>
-                    <div class="insight-text">ADU content test successful after 14 days. High engagement and guide downloads. Now scaling to 3x per week production.</div>
-                </div>
-                <div class="insight-box test">
-                    <div class="insight-label">TEST RESULT</div>
-                    <div class="insight-text">First-time buyer guides generate high-intent leads. Guide downloads 42 in 10 days. Expanding to full 30-day test.</div>
-                </div>
-                <div class="insight-box test">
-                    <div class="insight-label">TEST RESULT</div>
-                    <div class="insight-text">Virtual 3D tours show 3.2x higher contact rate. Moving to production for listings $2M+. Testing on Instagram Reels.</div>
-                </div>
-                <div class="insight-box stopped">
-                    <div class="insight-label">STOPPED</div>
-                    <div class="insight-text">Mortgage rate lock content peaked early then declined. Market uncertainty caused topic fatigue. Monitoring for re-emergence.</div>
-                </div>
-                <div class="insight-box change">
-                    <div class="insight-label">SCHEDULE CHANGE</div>
-                    <div class="insight-text">Shifted posting to Tue/Thu 9AM. Engagement improved 18%. Best day: Tuesday (8.4% avg engagement). Worst time: 2-4 PM weekdays.</div>
-                </div>
-            </div>
-
-            <!-- What's Next -->
-            <div class="next-section">
-                <div class="next-title">What's Coming Next</div>
-                <div class="task-list">
-                    <div class="task-item">
-                        <div class="task-priority high"></div>
-                        Increase video output by 2 pieces next month
-                    </div>
-                    <div class="task-item">
-                        <div class="task-priority high"></div>
-                        Scale ADU & neighborhood content production
-                    </div>
-                    <div class="task-item">
-                        <div class="task-priority med"></div>
-                        Run first-time buyer content test (Google Trends spike detected)
-                    </div>
-                    <div class="task-item">
-                        <div class="task-priority low"></div>
-                        Monitor mortgage rate topic for re-emergence
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: CONTENT PERFORMANCE -->
-        <div id="content-performance" class="tab-content">
-            <!-- Posting Heatmap -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">Posting Heatmap (When to Post)</div>
-                    <div class="section-body">
-                        <div class="heatmap-container">
-                            <div class="heatmap" id="heatmap"></div>
-                        </div>
-                        <div class="heatmap-callouts">
-                            <div class="heatmap-callout">
-                                <div class="callout-label">Best Day</div>
-                                <div class="callout-value">Tuesday 8.4%</div>
-                            </div>
-                            <div class="heatmap-callout">
-                                <div class="callout-label">Best Time</div>
-                                <div class="callout-value">9-11 AM</div>
-                            </div>
-                            <div class="heatmap-callout">
-                                <div class="callout-label">Worst Time</div>
-                                <div class="callout-value">2-4 PM Weekdays</div>
+            <!-- SECTION 3: THREE COLUMN ANALYSIS -->
+            <section class="section">
+                <div class="three-column">
+                    <!-- Content Mix -->
+                    <div class="card">
+                        <div class="card-title">Content Mix</div>
+                        <div class="donut-container">
+                            <div class="donut">
+                                <div class="donut-inner"></div>
                             </div>
                         </div>
-                        <p style="margin-top: 16px; font-size: 12px; color: var(--gray-faint);">Schedule changed to Tue/Thu 9AM — engagement up 18% from last month</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Library -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">Content Library</div>
-                    <div class="section-body">
-                        <div class="filter-bar">
-                            <button class="filter-btn active" onclick="filterContent('all', this)">All</button>
-                            <button class="filter-btn" onclick="filterContent('instagram', this)">Instagram</button>
-                            <button class="filter-btn" onclick="filterContent('facebook', this)">Facebook</button>
-                            <button class="filter-btn" onclick="filterContent('youtube', this)">YouTube</button>
-                            <button class="filter-btn" onclick="filterContent('gbp', this)">GBP</button>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: var(--blue);"></div>
+                                <div class="legend-label">Reels/Video</div>
+                                <div class="legend-percent">40%</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: var(--green);"></div>
+                                <div class="legend-label">Carousels</div>
+                                <div class="legend-percent">25%</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: var(--amber);"></div>
+                                <div class="legend-label">Educational</div>
+                                <div class="legend-percent">20%</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: var(--purple);"></div>
+                                <div class="legend-label">Listings</div>
+                                <div class="legend-percent">15%</div>
+                            </div>
                         </div>
-                        <div id="contentLibrary"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <div class="card-note">Auto-optimized from 60 days of data</div>
 
-        <!-- TAB 3: TRENDS & INTELLIGENCE -->
-        <div id="trends" class="tab-content">
-            <!-- Google Search Console -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">What People Are Searching For In Your Market</div>
-                    <div class="section-body">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Query</th>
-                                    <th>Monthly Volume</th>
-                                    <th>Your Rank</th>
-                                    <th>CTR</th>
-                                    <th>Trend</th>
-                                    <th>PropCast Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>east palo alto homes for sale</td>
-                                    <td>2,400</td>
-                                    <td><span class="rank-green">#2</span></td>
-                                    <td><span class="ctr-high">18%</span></td>
-                                    <td>↑</td>
-                                    <td>Creating listing video series</td>
-                                </tr>
-                                <tr>
-                                    <td>adu california 2025</td>
-                                    <td>1,850</td>
-                                    <td><span class="rank-amber">#4</span></td>
-                                    <td><span class="ctr-medium">12%</span></td>
-                                    <td>↑</td>
-                                    <td>Running weekly guide posts</td>
-                                </tr>
-                                <tr>
-                                    <td>median home price palo alto</td>
-                                    <td>1,200</td>
-                                    <td><span class="rank-green">#1</span></td>
-                                    <td><span class="ctr-high">22%</span></td>
-                                    <td>→</td>
-                                    <td>Monthly market update</td>
-                                </tr>
-                                <tr>
-                                    <td>first time home buyer guide</td>
-                                    <td>980</td>
-                                    <td><span class="rank-red">#8</span></td>
-                                    <td><span class="ctr-low">6%</span></td>
-                                    <td>↑</td>
-                                    <td>Testing new content</td>
-                                </tr>
-                                <tr>
-                                    <td>peninsula real estate market</td>
-                                    <td>850</td>
-                                    <td><span class="rank-green">#3</span></td>
-                                    <td><span class="ctr-medium">14%</span></td>
-                                    <td>→</td>
-                                    <td>Quarterly deep dives</td>
-                                </tr>
-                                <tr>
-                                    <td>mountain view homes</td>
-                                    <td>720</td>
-                                    <td><span class="rank-amber">#6</span></td>
-                                    <td><span class="ctr-medium">10%</span></td>
-                                    <td>↓</td>
-                                    <td>Needs neighborhood focus</td>
-                                </tr>
-                                <tr>
-                                    <td>bay area property taxes</td>
-                                    <td>650</td>
-                                    <td><span class="rank-amber">#5</span></td>
-                                    <td><span class="ctr-low">9%</span></td>
-                                    <td>↑</td>
-                                    <td>Educational series</td>
-                                </tr>
-                                <tr>
-                                    <td>home inspection checklist</td>
-                                    <td>580</td>
-                                    <td><span class="rank-red">#12</span></td>
-                                    <td><span class="ctr-low">4%</span></td>
-                                    <td>↑</td>
-                                    <td>Guide download planned</td>
-                                </tr>
-                                <tr>
-                                    <td>virtual home tours east palo alto</td>
-                                    <td>420</td>
-                                    <td><span class="rank-green">#2</span></td>
-                                    <td><span class="ctr-high">16%</span></td>
-                                    <td>↑</td>
-                                    <td>3D tour content</td>
-                                </tr>
-                                <tr>
-                                    <td>real estate market forecast</td>
-                                    <td>380</td>
-                                    <td><span class="rank-amber">#7</span></td>
-                                    <td><span class="ctr-low">8%</span></td>
-                                    <td>→</td>
-                                    <td>Monthly prediction posts</td>
-                                </tr>
-                            </tbody>
+                        <!-- Platform Performance Below -->
+                        <div class="card-title" style="margin-top: 24px; margin-bottom: 16px;">Platform Performance</div>
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <span class="platform-name">📱 Instagram</span>
+                                <span class="platform-reach">87.4K reach</span>
+                            </div>
+                            <div class="platform-bar-track">
+                                <div class="platform-bar-fill" style="width: 85%;"></div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--green); margin-top: 3px;">↑6.2%</div>
+                        </div>
+
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <span class="platform-name">👍 Facebook</span>
+                                <span class="platform-reach">63.2K reach</span>
+                            </div>
+                            <div class="platform-bar-track">
+                                <div class="platform-bar-fill" style="width: 61%;"></div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--green); margin-top: 3px;">↑4.1%</div>
+                        </div>
+
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <span class="platform-name">📹 YouTube</span>
+                                <span class="platform-reach">24.8K reach</span>
+                            </div>
+                            <div class="platform-bar-track">
+                                <div class="platform-bar-fill" style="width: 24%;"></div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--green); margin-top: 3px;">↑8.7%</div>
+                        </div>
+
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <span class="platform-name">📍 GBP</span>
+                                <span class="platform-reach">12.0K reach</span>
+                            </div>
+                            <div class="platform-bar-track">
+                                <div class="platform-bar-fill moderate" style="width: 12%;"></div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--amber); margin-top: 3px;">↓3.8%</div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Table -->
+                    <div class="card">
+                        <div class="card-title">This Month vs Last Month</div>
+                        <table class="comparison-table">
+                            <tr>
+                                <td>Reach</td>
+                                <td>187K</td>
+                                <td>152K</td>
+                                <td>↑23%</td>
+                            </tr>
+                            <tr>
+                                <td>Engagement</td>
+                                <td>4,230</td>
+                                <td>3,585</td>
+                                <td>↑18%</td>
+                            </tr>
+                            <tr>
+                                <td>Videos</td>
+                                <td>14</td>
+                                <td>11</td>
+                                <td>↑27%</td>
+                            </tr>
+                            <tr>
+                                <td>Posts</td>
+                                <td>52</td>
+                                <td>41</td>
+                                <td>↑27%</td>
+                            </tr>
+                            <tr>
+                                <td>Leads</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td>↑40%</td>
+                            </tr>
+                            <tr>
+                                <td>Eng Rate</td>
+                                <td>2.25%</td>
+                                <td>2.0%</td>
+                                <td>↑12%</td>
+                            </tr>
+                            <tr>
+                                <td>Cost/Lead</td>
+                                <td>$0</td>
+                                <td>$45</td>
+                                <td>✓</td>
+                            </tr>
                         </table>
                     </div>
-                </div>
-            </div>
 
-            <!-- Missed Opportunities -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">Missed Opportunities (High Volume, Not Ranked)</div>
-                    <div class="section-body">
-                        <div class="missed-item">
-                            <div class="missed-query">luxury homes bay area under 3 million</div>
-                            <div class="missed-meta">2,100 monthly searches | Currently unranked | Opportunity: Create luxury segment content</div>
+                    <!-- Value Metrics -->
+                    <div class="card">
+                        <div class="card-title">Time & Value</div>
+                        <div class="value-metric">
+                            <div class="value-label">Hours Saved</div>
+                            <div class="value-data">22h</div>
+                            <div class="value-compare">this month / 186h total</div>
                         </div>
-                        <div class="missed-item">
-                            <div class="missed-query">new construction peninsula ca</div>
-                            <div class="missed-meta">1,680 monthly searches | Currently unranked | Opportunity: Developer partnership content</div>
+                        <div class="value-metric">
+                            <div class="value-label">Value Recovered</div>
+                            <div class="value-data">$3.3K</div>
+                            <div class="value-compare">this month / $27.9K total</div>
                         </div>
-                        <div class="missed-item">
-                            <div class="missed-query">investment property palo alto</div>
-                            <div class="missed-meta">1,240 monthly searches | Currently unranked | Opportunity: Investor-focused guides</div>
+                        <div class="value-metric">
+                            <div class="value-label">Content Efficiency</div>
+                            <div class="value-data">3.6K</div>
+                            <div class="value-compare">reach per post (↑ from 3.1K)</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Local Market Trends -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">Local Market Trends</div>
-                    <div class="section-body">
-                        <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-faint);">
-                            <div style="font-size: 12px; color: var(--gray-faint); margin-bottom: 8px;">Market Snapshot: Peninsula Real Estate — April 2026</div>
-                            <div style="font-weight: 600; color: var(--white-text);">Median: $2.85M (↓4.2% QoQ) | DOM: 28 days (↑12%) | Inventory: 3.8 mo (Balanced)</div>
+                        <div class="value-metric">
+                            <div class="value-label">Lead Cost</div>
+                            <div class="value-data">$0</div>
+                            <div class="value-compare">per lead (vs ~$45 industry)</div>
                         </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Median Home Price Trend</div>
-                            <div class="trend-card-body">
-                                <div>Prices stabilized at $2.85M median. Down 4.2% quarter-over-quarter. Seasonal patterns normalizing after winter dip. Summer market expected to show modest gains.</div>
-                            </div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Days on Market Increasing</div>
-                            <div class="trend-card-body">
-                                <div>Average DOM up to 28 days (↑12% from 25 days last month). Suggests shift to buyer's market. Homes over $3M sitting longer (35-40 days avg).</div>
-                            </div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Inventory Levels Balanced</div>
-                            <div class="trend-card-body">
-                                <div>3.8 months supply is historically balanced market. Up from 3.2 months last month. More inventory = more buyer choice = pricing pressure.</div>
-                            </div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Hottest Neighborhoods</div>
-                            <div class="trend-card-body">
-                                <div>Old Palo Alto: Most searched (+520% spike) | Median $3.2M | Median DOM 22 days. Atherton: Second most searched | Median $4.8M | Very limited inventory.</div>
-                            </div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Top Buyer Questions</div>
-                            <div class="trend-card-body">
-                                <div>1. "What are property taxes?" | 2. "Is this a good time to buy?" | 3. "ADU rental income potential" | 4. "Schools in [neighborhood]" | 5. "Home inspection costs"</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- National Trends -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">National Market Trends</div>
-                    <div class="section-body">
-                        <div class="trend-card">
-                            <div class="trend-card-title">Mortgage Rates Stabilizing</div>
-                            <div class="trend-card-body">Average 30-year fixed: 6.2%. Down 0.3% from last week. Predicted to stay 6.0-6.5% range through Q2.</div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">ADU Regulations Shifting</div>
-                            <div class="trend-card-body">California approvals up 156% nationally. Creating wealth-building opportunity for homeowners. PropCast tested ADU content = strong engagement.</div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Remote Work Still Reshaping Markets</div>
-                            <div class="trend-card-body">Coastal metros still attracting remote workers. Peninsula seeing influx from SF/Bay relocations. Supporting sustained demand despite rate environment.</div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">First-Time Buyers Struggling</div>
-                            <div class="trend-card-body">Down payment requirements and competition creating headwinds. Searching for first-time buyer programs +340% YoY. PropCast testing guide content.</div>
-                        </div>
-                        <div class="trend-card">
-                            <div class="trend-card-title">Investment Interest Softening</div>
-                            <div class="trend-card-body">Investor interest down 18% nationally. Cap rates compressing in coastal markets. Less institutional capital chasing residential deals.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- What's Getting Hits -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">What's Getting the Most Hits</div>
-                    <div class="section-body">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div>
-                                <div style="font-weight: 600; color: var(--white-text); margin-bottom: 12px;">Top 5 Topics</div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">1. Market Data Videos</div>
-                                    <div class="trend-card-body">Highest engagement 3.2x baseline</div>
+                        <div class="value-metric">
+                            <div class="value-label">Lead Funnel</div>
+                            <div class="funnel-flow">
+                                <div class="funnel-step">
+                                    <span class="funnel-step-count">52</span>
+                                    <span class="funnel-step-label">Created</span>
                                 </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">2. Neighborhood Spotlights</div>
-                                    <div class="trend-card-body">High save rate (32% avg)</div>
+                                <div class="funnel-step">
+                                    <span class="funnel-step-count">187K</span>
+                                    <span class="funnel-step-label">Reached</span>
                                 </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">3. How-To Guides</div>
-                                    <div class="trend-card-body">Highest intent leads (42 downloads)</div>
+                                <div class="funnel-step">
+                                    <span class="funnel-step-count">4.2K</span>
+                                    <span class="funnel-step-label">Engaged</span>
                                 </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">4. 3D Virtual Tours</div>
-                                    <div class="trend-card-body">3.2x higher contact rate</div>
+                                <div class="funnel-step">
+                                    <span class="funnel-step-count">890</span>
+                                    <span class="funnel-step-label">Clicked</span>
                                 </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">5. Market Forecast</div>
-                                    <div class="trend-card-body">Consistent baseline engagement</div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="font-weight: 600; color: var(--white-text); margin-bottom: 12px;">Top 5 Formats</div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">1. Short Reels (15-30s)</div>
-                                    <div class="trend-card-body">Best for reach (avg 8.2K)</div>
-                                </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">2. Carousels (5-7 slides)</div>
-                                    <div class="trend-card-body">Best for saves (28% avg)</div>
-                                </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">3. YouTube Explainers</div>
-                                    <div class="trend-card-body">Best for watch time (23% avg)</div>
-                                </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">4. 3D Tours</div>
-                                    <div class="trend-card-body">Best for CTR (16% avg)</div>
-                                </div>
-                                <div class="trend-card">
-                                    <div class="trend-card-title">5. Downloadable Guides</div>
-                                    <div class="trend-card-body">Best for lead capture (8.4%)</div>
+                                <div class="funnel-step">
+                                    <span class="funnel-step-count">7</span>
+                                    <span class="funnel-step-label">Leads</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- TAB 4: PLATFORMS -->
-        <div id="platforms" class="tab-content">
-            <!-- Trend Radar -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">Trend Radar</div>
-                    <div class="section-body">
-                        <div style="margin-bottom: 20px;">
-                            <div style="font-weight: 600; color: var(--white-text); margin-bottom: 12px;">Active Tests</div>
-                            <div class="trend-card">
-                                <div class="trend-card-title">First-Time Buyer Guides (YouTube)</div>
-                                <div class="trend-card-body">14 days in. 3,900 views | 42 guide downloads | 4.0% CTR. High intent audience. Expanding to 30-day full test.</div>
-                            </div>
-                            <div class="trend-card">
-                                <div class="trend-card-title">3D Virtual Tours (Instagram + GBP)</div>
-                                <div class="trend-card-body">Testing on listings $2M+. 3.2x higher contact rate vs static photos. Moving to production phase.</div>
-                            </div>
+            <!-- SECTION 4: HONEST ASSESSMENT -->
+            <section class="section">
+                <div class="section-title">Where You Stand — PropCast's Honest Assessment</div>
+                <div class="assessment-card">
+                    <p>You're in a strong position. Your content is reaching 187K people per month, up 23% from last month. The audience is responding — engagement is up 18% and you're generating 7 leads per month from content alone, at zero cost per lead vs the $45 industry average.</p>
+
+                    <p>The biggest win this month was the shift to data-driven content. Your listing and market data posts outperform educational content by 3.2x. PropCast has already auto-shifted your content mix to 70% market data and listings, 30% education. This is working.</p>
+
+                    <p>However, there are gaps. Your Facebook organic reach is declining industry-wide — we're getting decent engagement but the platform is becoming pay-to-play. PropCast recommends shifting Facebook effort toward community groups and local pages rather than your business page.</p>
+
+                    <p>Your YouTube channel is your highest-engagement platform at 8.7%, but volume is low (24,800 reach). The opportunity here is massive — PropCast is increasing video output by 2 pieces per month to capitalize.</p>
+
+                    <p>One thing that's NOT working: mortgage rate content. We tested it, it peaked, and it died. PropCast stopped it. We'll monitor for re-emergence but right now it's a dead topic for your audience.</p>
+
+                    <p>The biggest untapped opportunity: you're not ranking for <strong>'rent vs buy peninsula'</strong> (520 searches/month), <strong>'downpayment assistance california'</strong> (410/mo), or <strong>'remote work living palo alto'</strong> (340/mo). PropCast is creating content for these keywords starting this week.</p>
+                </div>
+            </section>
+
+            <!-- SECTION 5: CONTENT PERFORMANCE -->
+            <section class="section">
+                <div class="section-title">What PropCast Created — And How It Did</div>
+
+                <!-- Strong Performers -->
+                <div class="section-subtitle" style="color: var(--green); margin-top: 0;">Content That Crushed It</div>
+                <div class="perf-grid" style="margin-bottom: 36px;">
+                    <div class="perf-card strong">
+                        <div class="perf-thumbnail">📈</div>
+                        <div class="perf-title">East Palo Alto Price Drop</div>
+                        <div class="perf-platform">instagram</div>
+                        <div class="perf-stats">8,400 reach | 340 engagement | 3 leads</div>
+                        <div class="perf-why">Market data + specific numbers = saves and shares</div>
+                    </div>
+
+                    <div class="perf-card strong">
+                        <div class="perf-thumbnail">🎓</div>
+                        <div class="perf-title">ADU Rules Explained</div>
+                        <div class="perf-platform">youtube</div>
+                        <div class="perf-stats">6,400 views | 280 engagement</div>
+                        <div class="perf-why">Educational + trending topic = high watch time</div>
+                    </div>
+
+                    <div class="perf-card strong">
+                        <div class="perf-thumbnail">🏘️</div>
+                        <div class="perf-title">Neighborhood Spotlight: Old Palo Alto</div>
+                        <div class="perf-platform">instagram</div>
+                        <div class="perf-stats">4,800 reach | 156 saves</div>
+                        <div class="perf-why">Local guides = bookmark behavior</div>
+                    </div>
+                </div>
+
+                <!-- Weak Performers -->
+                <div class="section-subtitle" style="color: var(--red);">Content That Didn't Land</div>
+                <div class="perf-grid" style="margin-bottom: 36px;">
+                    <div class="perf-card weak">
+                        <div class="perf-thumbnail">📉</div>
+                        <div class="perf-title">Mortgage Rate Lock</div>
+                        <div class="perf-platform">instagram</div>
+                        <div class="perf-stats">2,100 reach | 62 engagement</div>
+                        <div class="perf-why"><strong>Honest take:</strong> Topic fatigue. Interest spiked then crashed. We stopped this series. Monitoring for re-emergence.</div>
+                    </div>
+
+                    <div class="perf-card weak">
+                        <div class="perf-thumbnail">🙁</div>
+                        <div class="perf-title">5 Things About Peninsula</div>
+                        <div class="perf-platform">facebook</div>
+                        <div class="perf-stats">3,200 reach | 98 engagement</div>
+                        <div class="perf-why"><strong>Honest take:</strong> Too generic. No data hook. Retesting with neighborhood-specific stats and school ratings.</div>
+                    </div>
+                </div>
+
+                <!-- Coming This Week -->
+                <div class="section-subtitle">Coming This Week</div>
+                <div class="card">
+                    <div class="calendar-grid">
+                        <div class="calendar-header"></div>
+                        <div class="calendar-header">Mon</div>
+                        <div class="calendar-header">Tue</div>
+                        <div class="calendar-header">Wed</div>
+                        <div class="calendar-header">Thu</div>
+                        <div class="calendar-header">Fri</div>
+                        <div class="calendar-header">Sat</div>
+
+                        <div class="calendar-day">
+                            <span class="calendar-day-name">Content</span>
+                            <span class="calendar-content">Market Data Reel</span>
+                            <span class="calendar-badge">IG/FB</span>
                         </div>
-                        <div style="margin-bottom: 20px;">
-                            <div style="font-weight: 600; color: var(--white-text); margin-bottom: 12px;">Recently Completed</div>
-                            <div class="trend-card">
-                                <div class="trend-card-title">ADU Content Series</div>
-                                <div class="trend-card-body">14-day test completed successfully. 6,400 views | 280 engagements | 4.4% CTR. Moving to 3x weekly production.</div>
-                            </div>
+
+                        <div class="calendar-day">
+                            <span class="calendar-day-name">Content</span>
+                            <span class="calendar-content">Neighborhood Guide</span>
+                            <span class="calendar-badge">IG</span>
+                        </div>
+
+                        <div class="calendar-day">
+                            <span class="calendar-day-name">Content</span>
+                            <span class="calendar-content">ADU Explainer</span>
+                            <span class="calendar-badge">YT</span>
+                        </div>
+
+                        <div class="calendar-day">
+                            <span class="calendar-day-name">Content</span>
+                            <span class="calendar-content">First-Time Buyer FAQ</span>
+                            <span class="calendar-badge">YT/IG</span>
+                        </div>
+
+                        <div class="calendar-day">
+                            <span class="calendar-day-name">Content</span>
+                            <span class="calendar-content">Listing Showcase</span>
+                            <span class="calendar-badge">All</span>
+                        </div>
+
+                        <div class="calendar-day">
+                            <span class="calendar-day-name">Content</span>
+                            <span class="calendar-content">Weekly Roundup</span>
+                            <span class="calendar-badge">FB/GBP</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: FULL CONTENT LIBRARY -->
+            <section class="section">
+                <div class="section-title">Every Post — Full Details</div>
+                <div class="card">
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterContent('all', this)">All</button>
+                        <button class="filter-btn" onclick="filterContent('instagram', this)">Instagram</button>
+                        <button class="filter-btn" onclick="filterContent('facebook', this)">Facebook</button>
+                        <button class="filter-btn" onclick="filterContent('youtube', this)">YouTube</button>
+                        <button class="filter-btn" onclick="filterContent('gbp', this)">GBP</button>
+                    </div>
+                    <div class="content-library" id="contentLibrary"></div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: MARKET INTELLIGENCE -->
+            <section class="section">
+                <div class="section-title">Market Intelligence</div>
+
+                <!-- Search Queries -->
+                <div class="section-subtitle">What People Are Searching For</div>
+                <div class="card" style="margin-bottom: 24px;">
+                    <table class="search-table">
+                        <thead>
+                            <tr>
+                                <th>Query</th>
+                                <th>Monthly Volume</th>
+                                <th>Your Rank</th>
+                                <th>CTR</th>
+                                <th>Trend</th>
+                                <th>PropCast Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>east palo alto homes for sale</td>
+                                <td>2,400</td>
+                                <td><span class="rank-green">#2</span></td>
+                                <td><span class="ctr-high">18%</span></td>
+                                <td>↑</td>
+                                <td>Creating listing video series</td>
+                            </tr>
+                            <tr>
+                                <td>adu california 2025</td>
+                                <td>1,850</td>
+                                <td><span class="rank-amber">#4</span></td>
+                                <td><span class="ctr-medium">12%</span></td>
+                                <td>↑</td>
+                                <td>Running weekly guide posts</td>
+                            </tr>
+                            <tr>
+                                <td>median home price palo alto</td>
+                                <td>1,200</td>
+                                <td><span class="rank-green">#1</span></td>
+                                <td><span class="ctr-high">22%</span></td>
+                                <td>→</td>
+                                <td>Monthly market update</td>
+                            </tr>
+                            <tr>
+                                <td>first time home buyer guide</td>
+                                <td>980</td>
+                                <td><span class="rank-red">#8</span></td>
+                                <td><span class="ctr-low">6%</span></td>
+                                <td>↑</td>
+                                <td>Testing new content</td>
+                            </tr>
+                            <tr>
+                                <td>peninsula real estate market</td>
+                                <td>850</td>
+                                <td><span class="rank-green">#3</span></td>
+                                <td><span class="ctr-medium">14%</span></td>
+                                <td>→</td>
+                                <td>Quarterly deep dives</td>
+                            </tr>
+                            <tr>
+                                <td>mountain view homes</td>
+                                <td>720</td>
+                                <td><span class="rank-amber">#6</span></td>
+                                <td><span class="ctr-medium">10%</span></td>
+                                <td>↓</td>
+                                <td>Needs neighborhood focus</td>
+                            </tr>
+                            <tr>
+                                <td>bay area property taxes</td>
+                                <td>650</td>
+                                <td><span class="rank-amber">#5</span></td>
+                                <td><span class="ctr-low">9%</span></td>
+                                <td>↑</td>
+                                <td>Educational series</td>
+                            </tr>
+                            <tr>
+                                <td>home inspection checklist</td>
+                                <td>580</td>
+                                <td><span class="rank-red">#12</span></td>
+                                <td><span class="ctr-low">4%</span></td>
+                                <td>↑</td>
+                                <td>Guide download planned</td>
+                            </tr>
+                            <tr>
+                                <td>virtual home tours east palo alto</td>
+                                <td>420</td>
+                                <td><span class="rank-green">#2</span></td>
+                                <td><span class="ctr-high">16%</span></td>
+                                <td>↑</td>
+                                <td>3D tour content</td>
+                            </tr>
+                            <tr>
+                                <td>real estate market forecast</td>
+                                <td>380</td>
+                                <td><span class="rank-amber">#7</span></td>
+                                <td><span class="ctr-low">8%</span></td>
+                                <td>→</td>
+                                <td>Monthly prediction posts</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Missed Opportunities -->
+                <div class="section-subtitle">Missed Opportunities (High Volume, Not Ranked)</div>
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="missed-item">
+                        <div class="missed-query">luxury homes bay area under 3 million</div>
+                        <div class="missed-meta">2,100 monthly searches | Currently unranked | Opportunity: Create luxury segment content</div>
+                    </div>
+                    <div class="missed-item">
+                        <div class="missed-query">new construction peninsula ca</div>
+                        <div class="missed-meta">1,680 monthly searches | Currently unranked | Opportunity: Developer partnership content</div>
+                    </div>
+                    <div class="missed-item">
+                        <div class="missed-query">investment property palo alto</div>
+                        <div class="missed-meta">1,240 monthly searches | Currently unranked | Opportunity: Investor-focused guides</div>
+                    </div>
+                </div>
+
+                <!-- Market Snapshot -->
+                <div class="section-subtitle">Market Snapshot</div>
+                <div class="card" style="margin-bottom: 24px;">
+                    <p style="font-size: 12px; color: var(--gray-faint); margin-bottom: 8px;">Peninsula Real Estate — April 2026</p>
+                    <p style="font-weight: 600; color: var(--white-text); margin-bottom: 16px;">Median: <strong>$2.85M</strong> (↓4.2% QoQ) | DOM: <strong>28 days</strong> (↑12%) | Inventory: <strong>3.8 months</strong> (Balanced)</p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <p style="font-weight: 600; color: var(--white-text); margin-bottom: 8px;">Median Home Price Trend</p>
+                            <p style="font-size: 12px; line-height: 1.6; color: var(--gray-text);">Prices stabilized at $2.85M median. Down 4.2% quarter-over-quarter. Seasonal patterns normalizing after winter dip. Summer market expected to show modest gains.</p>
                         </div>
                         <div>
-                            <div style="font-weight: 600; color: var(--white-text); margin-bottom: 12px;">Stopped</div>
-                            <div class="trend-card">
-                                <div class="trend-card-title">Mortgage Rate Content</div>
-                                <div class="trend-card-body">Performance peaked early then declined. Market uncertainty caused topic fatigue. Monitoring for Federal Reserve announcements.</div>
-                            </div>
+                            <p style="font-weight: 600; color: var(--white-text); margin-bottom: 8px;">Days on Market Increasing</p>
+                            <p style="font-size: 12px; line-height: 1.6; color: var(--gray-text);">Average DOM up to 28 days (↑12% from 25 days). Suggests shift to buyer's market. Homes over $3M sitting longer (35-40 days avg).</p>
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <!-- DIVIDER -->
+            <div class="divider">
+                <div class="divider-text">That's your month. Here's what's next.</div>
             </div>
 
-            <!-- Platform Breakdown -->
-            <div class="section">
-                <div class="section-card">
-                    <div class="section-title">Platform Breakdown</div>
-                    <div class="section-body">
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
-                            <div class="platform-card">
-                                <div class="platform-card-title">📱 Instagram</div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Reach This Month</span>
-                                    <span class="platform-stat-value">87,400</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Engagement Rate</span>
-                                    <span class="platform-stat-value">3.9%</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Best Post</span>
-                                    <span class="platform-stat-value">8,400 reach</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Posting Frequency</span>
-                                    <span class="platform-stat-value">3x weekly</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">PropCast Adjustment</span>
-                                    <span class="platform-stat-value">Added Reels mix</span>
-                                </div>
-                            </div>
-                            <div class="platform-card">
-                                <div class="platform-card-title">👍 Facebook</div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Reach This Month</span>
-                                    <span class="platform-stat-value">63,200</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Engagement Rate</span>
-                                    <span class="platform-stat-value">3.1%</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Best Post</span>
-                                    <span class="platform-stat-value">5,100 reach</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Posting Frequency</span>
-                                    <span class="platform-stat-value">2x weekly</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">PropCast Adjustment</span>
-                                    <span class="platform-stat-value">Testing video versions</span>
-                                </div>
-                            </div>
-                            <div class="platform-card">
-                                <div class="platform-card-title">📹 YouTube</div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Reach This Month</span>
-                                    <span class="platform-stat-value">24,800</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Avg Watch Time</span>
-                                    <span class="platform-stat-value">23%</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Best Video</span>
-                                    <span class="platform-stat-value">6,400 views</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Upload Frequency</span>
-                                    <span class="platform-stat-value">Weekly</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">PropCast Adjustment</span>
-                                    <span class="platform-stat-value">Increasing ADU content</span>
-                                </div>
-                            </div>
-                            <div class="platform-card">
-                                <div class="platform-card-title">📍 Google Business Profile</div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Profile Clicks</span>
-                                    <span class="platform-stat-value">12,000</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Tour Clicks</span>
-                                    <span class="platform-stat-value">112</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Direct Contact</span>
-                                    <span class="platform-stat-value">23</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">Update Frequency</span>
-                                    <span class="platform-stat-value">2x weekly</span>
-                                </div>
-                                <div class="platform-stat">
-                                    <span class="platform-stat-label">PropCast Adjustment</span>
-                                    <span class="platform-stat-value">Scaling 3D tours</span>
-                                </div>
-                            </div>
+            <!-- SECTION 8: WHAT'S NEXT -->
+            <section class="section">
+                <div class="section-title">What's Coming Next</div>
+                <div class="card">
+                    <div class="task-list">
+                        <div class="task-item">
+                            <div class="task-priority high"></div>
+                            Increase video output by 2 pieces per month (capitalizing on 8.7% YouTube engagement)
+                        </div>
+                        <div class="task-item">
+                            <div class="task-priority high"></div>
+                            Scale ADU & neighborhood content production based on performance data
+                        </div>
+                        <div class="task-item">
+                            <div class="task-priority high"></div>
+                            Create content for 3 missed keyword opportunities (rent vs buy, downpayment assistance, remote work living)
+                        </div>
+                        <div class="task-item">
+                            <div class="task-priority med"></div>
+                            Run first-time buyer content test (Google Trends spike detected +340% YoY)
+                        </div>
+                        <div class="task-item">
+                            <div class="task-priority med"></div>
+                            Test Facebook community group strategy to counteract organic decline
+                        </div>
+                        <div class="task-item">
+                            <div class="task-priority low"></div>
+                            Monitor mortgage rate topic for re-emergence if Fed makes announcement
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
         </div>
+    </div>
 
-        <!-- TAB 5: SETTINGS -->
-        <div id="settings" class="tab-content">
-            <!-- Content Preferences -->
-            <div class="settings-section">
-                <div class="settings-title">Content Tone & Voice</div>
-                <div class="form-group">
-                    <label class="form-label">Select Your Tone</label>
-                    <div class="tone-selector">
-                        <div class="tone-option active" onclick="selectTone(this, 'professional')">Professional</div>
-                        <div class="tone-option" onclick="selectTone(this, 'casual')">Casual & Friendly</div>
-                        <div class="tone-option" onclick="selectTone(this, 'data-driven')">Data-Driven</div>
-                        <div class="tone-option" onclick="selectTone(this, 'storytelling')">Storytelling</div>
-                    </div>
-                </div>
-                <div class="sample-text">Example: "The Peninsula market shifted to favor buyers this quarter. Here's what that means for your timing."</div>
+    <!-- SETTINGS TAB -->
+    <div id="settings" class="tab-content">
+        <div class="dashboard">
+            <div style="margin-bottom: 40px;">
+                <div class="section-title">Settings</div>
             </div>
 
-            <!-- Content Themes -->
+            <!-- Brand Voice -->
             <div class="settings-section">
-                <div class="settings-title">Content Themes & Topics</div>
-                <div class="form-group">
-                    <label class="form-label">Topics to Focus On</label>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Market Data</div>
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">✓ ADU Content</div>
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">✓ Neighborhood Guides</div>
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">✓ First-Time Buyer</div>
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Virtual Tours</div>
-                    </div>
+                <div class="settings-title">Brand Voice</div>
+                <div class="settings-group">
+                    <label class="settings-label">Tone</label>
+                    <select class="settings-select">
+                        <option>Professional & Data-Driven</option>
+                        <option>Friendly & Approachable</option>
+                        <option>Authority & Expert</option>
+                        <option>Casual & Conversational</option>
+                    </select>
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Topics to Focus On</label>
+                    <input type="text" class="settings-input" placeholder="e.g., Luxury homes, ADUs, First-time buyers" value="Market data, ADUs, Neighborhood guides, First-time buyers">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Topics to Avoid</label>
+                    <input type="text" class="settings-input" placeholder="e.g., Mortgage rates, Investment strategies" value="Mortgage rate speculation, Generic lifestyle content">
                 </div>
             </div>
 
-            <!-- Platform Connections -->
+            <!-- Connections -->
             <div class="settings-section">
-                <div class="settings-title">Platform Connections</div>
-                <div class="connection-grid">
-                    <div class="connection-card">
-                        <div class="connection-name">📱 Instagram</div>
-                        <div class="connection-status status-connected">Connected</div>
-                    </div>
-                    <div class="connection-card">
-                        <div class="connection-name">👍 Facebook</div>
-                        <div class="connection-status status-connected">Connected</div>
-                    </div>
-                    <div class="connection-card">
-                        <div class="connection-name">📹 YouTube</div>
-                        <div class="connection-status status-connected">Connected</div>
-                    </div>
-                    <div class="connection-card">
-                        <div class="connection-name">📍 Google Business</div>
-                        <div class="connection-status status-connected">Connected</div>
-                    </div>
-                    <div class="connection-card">
-                        <div class="connection-name">📧 Google Analytics</div>
-                        <div class="connection-status status-connected">Connected</div>
-                    </div>
-                    <div class="connection-card">
-                        <div class="connection-name">🔍 Google Search Console</div>
-                        <div class="connection-status status-connected">Connected</div>
-                    </div>
+                <div class="settings-title">Connected Platforms</div>
+                <div class="settings-group">
+                    <label class="settings-label">Instagram Account</label>
+                    <input type="text" class="settings-input" disabled value="@yourinstagram (Connected)">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Facebook Page</label>
+                    <input type="text" class="settings-input" disabled value="Your Real Estate Page (Connected)">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">YouTube Channel</label>
+                    <input type="text" class="settings-input" disabled value="Your Channel (Connected)">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Google Business Profile</label>
+                    <input type="text" class="settings-input" disabled value="Your Business (Connected)">
                 </div>
             </div>
 
             <!-- Publishing Schedule -->
             <div class="settings-section">
                 <div class="settings-title">Publishing Schedule</div>
-                <div class="form-group">
-                    <label class="form-label">Optimal Posting Days</label>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">✓ Tuesday</div>
-                        <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); color: var(--green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">✓ Thursday</div>
-                        <div style="display: inline-block; background: var(--gray-faint); border: 1px solid var(--gray-faint); color: var(--white-text); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Monday</div>
-                        <div style="display: inline-block; background: var(--gray-faint); border: 1px solid var(--gray-faint); color: var(--white-text); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Wednesday</div>
-                    </div>
+                <div class="settings-group">
+                    <label class="settings-label">Best Days to Publish</label>
+                    <input type="text" class="settings-input" value="Tuesday, Thursday">
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Optimal Time</label>
-                    <input type="time" class="form-input" value="09:00" />
+                <div class="settings-group">
+                    <label class="settings-label">Best Time (24-hour format)</label>
+                    <input type="text" class="settings-input" value="09:00">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Posts Per Week</label>
+                    <input type="text" class="settings-input" value="8">
                 </div>
             </div>
 
-            <!-- Reporting Preferences -->
+            <!-- Content Strategy -->
             <div class="settings-section">
-                <div class="settings-title">Reporting Preferences</div>
-                <div class="form-group">
-                    <label class="form-label">Report Frequency</label>
-                    <select class="form-select">
-                        <option>Daily Digest</option>
-                        <option selected>Weekly Summary</option>
-                        <option>Monthly Deep Dive</option>
+                <div class="settings-title">Content Strategy</div>
+                <div class="settings-group">
+                    <label class="settings-label">Primary Content Types</label>
+                    <input type="text" class="settings-input" placeholder="Reels, Carousels, Educational, Listings" value="Reels (40%), Carousels (25%), Educational (20%), Listings (15%)">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Lead Generation Focus</label>
+                    <input type="text" class="settings-input" placeholder="e.g., Schedule consultation, Download guide, Get listing alerts" value="Download guide, Schedule consultation, Direct inquiry">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Auto-Optimization</label>
+                    <select class="settings-select">
+                        <option>Enabled - PropCast learns and adjusts automatically</option>
+                        <option>Manual Review - Approve changes before publishing</option>
+                        <option>Disabled - Use fixed strategy</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Email Reports To</label>
-                    <input type="email" class="form-input" placeholder="your@email.com" value="graeham@propiq.com" />
+            </div>
+
+            <!-- Notifications -->
+            <div class="settings-section">
+                <div class="settings-title">Notifications</div>
+                <div class="settings-group">
+                    <label class="settings-label">
+                        <input type="checkbox" checked> Daily Performance Summary
+                    </label>
                 </div>
+                <div class="settings-group">
+                    <label class="settings-label">
+                        <input type="checkbox" checked> New Lead Alert
+                    </label>
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">
+                        <input type="checkbox"> Weekly Trend Report
+                    </label>
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">
+                        <input type="checkbox" checked> Content Performance Alert (when post underperforms)
+                    </label>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div style="margin-top: 32px;">
+                <button class="button-primary">Save Settings</button>
             </div>
         </div>
     </div>
@@ -2381,155 +1969,93 @@
             }
         ];
 
-        // HEATMAP GENERATION
-        function generateHeatmap() {
-            const heatmap = document.getElementById('heatmap');
-            const hours = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM'];
-            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        // TAB SWITCHING
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
 
-            // Add time labels
-            const emptyLabel = document.createElement('div');
-            emptyLabel.className = 'heatmap-label';
-            heatmap.appendChild(emptyLabel);
-
-            hours.forEach(hour => {
-                const label = document.createElement('div');
-                label.className = 'heatmap-label';
-                label.textContent = hour;
-                label.style.fontSize = '9px';
-                heatmap.appendChild(label);
-            });
-
-            // Generate heatmap data
-            days.forEach((day, dayIndex) => {
-                const dayLabel = document.createElement('div');
-                dayLabel.className = 'heatmap-label';
-                dayLabel.textContent = day;
-                heatmap.appendChild(dayLabel);
-
-                hours.forEach((hour, hourIndex) => {
-                    const cell = document.createElement('div');
-                    cell.className = 'heatmap-cell';
-
-                    // Best times: Tue/Thu 9-11 AM = high
-                    if ((dayIndex === 1 || dayIndex === 3) && (hourIndex >= 3 && hourIndex <= 5)) {
-                        cell.classList.add('high');
-                    }
-                    // Medium times
-                    else if (hourIndex >= 3 && hourIndex <= 6 && dayIndex < 5) {
-                        cell.classList.add('medium');
-                    }
-                    // Worst times: 2-4 PM weekdays
-                    else if ((dayIndex < 5) && (hourIndex >= 8 && hourIndex <= 10)) {
-                        cell.classList.add('low');
-                    }
-                    // Low engagement evenings
-                    else if (hourIndex >= 14) {
-                        cell.classList.add('none');
-                    }
-                    else {
-                        cell.classList.add('low');
-                    }
-
-                    heatmap.appendChild(cell);
-                });
-            });
+            document.getElementById(tabName).classList.add('active');
+            element.classList.add('active');
         }
 
         // CONTENT LIBRARY
+        let currentFilter = 'all';
+
+        function filterContent(platform, button) {
+            currentFilter = platform;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            loadContentLibrary();
+        }
+
         function loadContentLibrary() {
             const container = document.getElementById('contentLibrary');
             container.innerHTML = '';
 
             contentData.forEach(item => {
+                if (currentFilter !== 'all' && item.platform !== currentFilter) return;
+
                 const row = document.createElement('div');
                 row.className = 'content-row';
+
+                const performanceColor = item.performance === 'strong' ? '#22C55E' : item.performance === 'medium' ? '#F59E0B' : '#EF4444';
+
                 row.innerHTML = `
-                    <div class="content-row-header" onclick="toggleContentRow(this)">
-                        <div class="thumbnail"></div>
-                        <div>
+                    <div class="content-row-header" onclick="toggleContent(this)">
+                        <div class="content-thumbnail">📸</div>
+                        <div class="content-info">
                             <div class="content-title">${item.title}</div>
-                            <div class="content-meta">${item.platform.toUpperCase()} - ${item.date}</div>
+                            <div class="content-meta">${item.platform.toUpperCase()} • ${item.date}</div>
                         </div>
-                        <div class="reach-metric">${item.reach}</div>
-                        <div class="engagement-metric">${item.engagement}</div>
-                        <div>
-                            <span class="performance-badge ${item.performance === 'strong' ? 'badge-strong' : item.performance === 'medium' ? 'badge-medium' : 'badge-weak'}">
-                                ${item.performance.charAt(0).toUpperCase() + item.performance.slice(1)}
-                            </span>
+                        <div class="content-stats">
+                            <div class="stat-label">Reach</div>
+                            <div class="stat-value">${item.reach}</div>
                         </div>
+                        <div class="content-stats">
+                            <div class="stat-label">Engagement</div>
+                            <div class="stat-value">${item.engagement}</div>
+                        </div>
+                        <span class="perf-badge ${item.performance}">${item.performance.charAt(0).toUpperCase() + item.performance.slice(1)}</span>
                     </div>
-                    <div class="content-row-body">
+                    <div class="content-row-detail">
                         <div class="detail-section">
-                            <div class="detail-label">Post Caption</div>
-                            <div class="detail-value">"${item.caption}"</div>
+                            <div class="detail-label">Caption</div>
+                            <div class="detail-text">${item.caption}</div>
                         </div>
                         <div class="detail-section">
-                            <div class="detail-label">Why PropCast Chose This Topic</div>
-                            <div class="detail-value">${item.reason}</div>
+                            <div class="detail-label">Why PropCast Chose This</div>
+                            <div class="detail-text">${item.reason}</div>
                         </div>
                         <div class="detail-section">
-                            <div class="detail-label">Full Stats</div>
-                            <div class="detail-value">${item.stats}</div>
+                            <div class="detail-label">Complete Stats</div>
+                            <div class="detail-text">${item.stats}</div>
                         </div>
                         <div class="detail-section">
                             <div class="detail-label">Sentiment Analysis</div>
-                            <div class="detail-value">${item.sentiment}</div>
+                            <div class="detail-text">${item.sentiment}</div>
                         </div>
                         <div class="detail-section">
-                            <div class="detail-label">What PropCast Learned</div>
-                            <div class="detail-value">${item.learned}</div>
+                            <div class="detail-label">What We Learned</div>
+                            <div class="detail-text">${item.learned}</div>
                         </div>
                         <div class="detail-section">
                             <div class="detail-label">System Decision</div>
-                            <div class="detail-value">${item.decision}</div>
+                            <div class="detail-text">${item.decision}</div>
                         </div>
                     </div>
                 `;
+
                 container.appendChild(row);
             });
         }
 
-        function toggleContentRow(header) {
-            const body = header.nextElementSibling;
-            body.classList.toggle('expanded');
+        function toggleContent(headerElement) {
+            const row = headerElement.closest('.content-row');
+            row.classList.toggle('expanded');
         }
 
-        function filterContent(platform, button) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            const rows = document.querySelectorAll('.content-row');
-            rows.forEach(row => {
-                if (platform === 'all') {
-                    row.style.display = 'block';
-                } else {
-                    const header = row.querySelector('.content-row-header');
-                    const meta = header.querySelector('.content-meta').textContent;
-                    row.style.display = meta.includes(platform.toUpperCase()) ? 'block' : 'none';
-                }
-            });
-        }
-
-        // TAB SWITCHING
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-                document.getElementById(this.dataset.tab).classList.add('active');
-            });
-        });
-
-        // TONE SELECTOR
-        function selectTone(element, tone) {
-            document.querySelectorAll('.tone-option').forEach(opt => opt.classList.remove('active'));
-            element.classList.add('active');
-        }
-
-        // INIT
+        // INITIALIZE
         document.addEventListener('DOMContentLoaded', function() {
-            generateHeatmap();
             loadContentLibrary();
         });
     </script>
