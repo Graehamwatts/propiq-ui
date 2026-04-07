@@ -1480,10 +1480,169 @@
             <div class="logo">PropCast</div>
             <div class="nav-tabs">
                 <div class="nav-tab active" onclick="switchTab('dashboard', this)">Dashboard</div>
+                <div class="nav-tab" onclick="switchTab('calendar', this)">Calendar</div>
                 <div class="nav-tab" onclick="switchTab('settings', this)">Settings</div>
             </div>
         </div>
         <div class="navbar-right"></div>
+    </div>
+
+    <!-- CALENDAR TAB -->
+    <div id="calendar" class="tab-content">
+        <div class="dashboard">
+            <div style="margin-bottom: 40px;">
+                <div class="section-title">Calendar</div>
+            </div>
+
+            <!-- WEEKLY STATS BAR -->
+            <div style="background: var(--bg-card-1); border: 1px solid var(--gray-faint); border-radius: 12px; padding: 20px; margin-bottom: 40px;">
+                <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <div style="font-size: 11px; color: var(--gray-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Platform Distribution</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <span style="background: rgba(59, 130, 246, 0.15); color: var(--blue); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;">3 IG</span>
+                            <span style="background: rgba(167, 139, 250, 0.15); color: var(--purple); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;">2 FB</span>
+                            <span style="background: rgba(239, 68, 68, 0.15); color: var(--red); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;">1 YT</span>
+                            <span style="background: rgba(0, 194, 168, 0.15); color: var(--teal); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;">1 GBP</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: var(--gray-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Content Type Balance</div>
+                        <div style="display: flex; gap: 4px; align-items: center;">
+                            <div style="display: flex; height: 6px; border-radius: 3px; overflow: hidden; width: 120px; background: var(--gray-faint);">
+                                <div style="width: 40%; background: var(--blue);"></div>
+                                <div style="width: 25%; background: var(--purple);"></div>
+                                <div style="width: 20%; background: var(--teal);"></div>
+                                <div style="width: 15%; background: var(--amber);"></div>
+                            </div>
+                            <span style="font-size: 12px; color: var(--gray-text);">Reels 40% | Carousels 25% | Educational 20% | Listings 15%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: var(--gray-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Velocity Tracker</div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <div style="font-size: 12px; font-weight: 600;">12/13 posts</div>
+                            <div style="width: 80px; height: 6px; background: var(--gray-faint); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 92%; background: var(--green); height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALENDAR + QUEUE LAYOUT -->
+            <div style="display: grid; grid-template-columns: 1fr 300px; gap: 32px; margin-bottom: 40px;">
+                <!-- MONTH VIEW CALENDAR -->
+                <div>
+                    <div style="background: var(--bg-card-1); border: 1px solid var(--gray-faint); border-radius: 12px; padding: 24px;">
+                        <!-- Calendar Header -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <div style="font-size: 18px; font-weight: 700; color: var(--white-text);">April 2026</div>
+                            <div style="display: flex; gap: 12px;">
+                                <button style="background: transparent; border: 1px solid var(--gray-faint); color: var(--white-text); width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 14px;">←</button>
+                                <button style="background: transparent; border: 1px solid var(--gray-faint); color: var(--white-text); width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 14px;">→</button>
+                            </div>
+                        </div>
+
+                        <!-- Day Headers -->
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 12px;">
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Sun</div>
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Mon</div>
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Tue</div>
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Wed</div>
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Thu</div>
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Fri</div>
+                            <div style="text-align: center; font-size: 11px; font-weight: 600; color: var(--gray-text); text-transform: uppercase; padding: 8px 0;">Sat</div>
+                        </div>
+
+                        <!-- Calendar Grid -->
+                        <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 24px;"></div>
+                    </div>
+
+                    <!-- CONTENT GAP ALERTS -->
+                    <div style="margin-top: 16px; padding: 12px 16px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; font-size: 13px; color: var(--amber);">
+                        ⚠️ 2 days this month have no scheduled content. PropCast is generating fill content.
+                    </div>
+                </div>
+
+                <!-- CONTENT QUEUE SIDEBAR -->
+                <div style="background: var(--bg-card-1); border: 1px solid var(--gray-faint); border-radius: 12px; padding: 20px; display: flex; flex-direction: column;">
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--white-text); margin-bottom: 4px;">Content Queue</div>
+                        <div style="font-size: 12px; color: var(--gray-text);">Approve or Edit</div>
+                    </div>
+                    <div style="font-size: 11px; color: var(--gray-text); margin-bottom: 16px;">PropCast has prepared these for the coming week</div>
+                    <div id="contentQueue" style="display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; margin-bottom: 16px;"></div>
+                    <div style="border-top: 1px solid var(--gray-faint); padding-top: 12px; font-size: 11px; color: var(--gray-text);">
+                        ✓ Auto-approve is ON — PropCast publishes automatically unless you intervene
+                    </div>
+                </div>
+            </div>
+
+            <!-- BEST POSTING TIMES HEATMAP -->
+            <div style="background: var(--bg-card-1); border: 1px solid var(--gray-faint); border-radius: 12px; padding: 24px;">
+                <div style="margin-bottom: 16px;">
+                    <div style="font-size: 14px; font-weight: 700; color: var(--white-text); margin-bottom: 4px;">Your Audience Activity</div>
+                    <div style="font-size: 12px; color: var(--gray-text);">Best times to post based on 60 days of engagement data</div>
+                </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px; font-size: 11px; color: var(--gray-text);">
+                    <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 12px; background: #1B2838; border-radius: 2px;"></div>Low</div>
+                    <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 12px; background: var(--amber); border-radius: 2px;"></div>Medium</div>
+                    <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 12px; background: var(--green); border-radius: 2px;"></div>High</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">MON</div>
+                        <div style="background: rgba(34, 197, 94, 0.2); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.4); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.3); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.15); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--gray-text);">5-10</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">TUE</div>
+                        <div style="background: rgba(34, 197, 94, 0.4); border: 2px solid var(--teal); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.6); border: 2px solid var(--teal); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green); font-weight: 600;">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.2); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.2); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">5-10</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">WED</div>
+                        <div style="background: rgba(34, 197, 94, 0.25); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.35); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.4); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.1); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--gray-text);">5-10</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">THU</div>
+                        <div style="background: rgba(34, 197, 94, 0.3); border: 2px solid var(--teal); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.5); border: 2px solid var(--teal); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green); font-weight: 600;">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.25); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.15); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--gray-text);">5-10</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">FRI</div>
+                        <div style="background: rgba(34, 197, 94, 0.2); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.3); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.35); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.25); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">5-10</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">SAT</div>
+                        <div style="background: rgba(34, 197, 94, 0.15); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--gray-text);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.1); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--gray-text);">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.2); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.35); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">5-10</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 10px; text-align: center; font-weight: 600; color: var(--gray-text);">SUN</div>
+                        <div style="background: rgba(34, 197, 94, 0.25); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">6-9</div>
+                        <div style="background: rgba(34, 197, 94, 0.4); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">9-12</div>
+                        <div style="background: rgba(245, 158, 11, 0.3); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--amber);">12-5</div>
+                        <div style="background: rgba(34, 197, 94, 0.2); border-radius: 4px; padding: 12px 4px; text-align: center; font-size: 9px; color: var(--green);">5-10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- DASHBOARD TAB -->
@@ -2519,6 +2678,264 @@
 
             document.getElementById(tabName).classList.add('active');
             element.classList.add('active');
+
+            // Initialize calendar on first tab switch
+            if (tabName === 'calendar' && !window.calendarInitialized) {
+                initializeCalendar();
+                initializeContentQueue();
+                window.calendarInitialized = true;
+            }
+        }
+
+        // CALENDAR DATA
+        const calendarData = [
+            // April 1-4 (Past - with performance)
+            { day: 1, title: 'EPA Market Update', platform: 'instagram', time: '9:00 AM', status: 'published', performance: 'strong' },
+            { day: 1, title: 'Neighborhood Guide', platform: 'facebook', time: '2:00 PM', status: 'published', performance: 'medium' },
+            { day: 2, title: 'ADU Explainer', platform: 'youtube', time: '9:00 AM', status: 'published', performance: 'strong' },
+            { day: 3, title: 'Home Value Report', platform: 'facebook', time: '9:00 AM', status: 'published', performance: 'medium' },
+            { day: 3, title: 'Old Palo Alto Spotlight', platform: 'instagram', time: '3:00 PM', status: 'published', performance: 'medium' },
+            { day: 4, title: 'First-Time Buyer Guide', platform: 'youtube', time: '9:00 AM', status: 'published', performance: 'medium' },
+
+            // April 5-6 (Past - before today)
+            { day: 5, title: 'Property Taxes 101', platform: 'instagram', time: '9:00 AM', status: 'published', performance: 'weak' },
+            { day: 6, title: 'Virtual Tour Feature', platform: 'gbp', time: '10:00 AM', status: 'published', performance: 'strong' },
+
+            // April 7 (Today - scheduled)
+            { day: 7, title: 'Weekly Market Snapshot', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 7, title: 'New Listings Alert', platform: 'facebook', time: '12:00 PM', status: 'scheduled', performance: null },
+
+            // April 8-14
+            { day: 8, title: 'Peninsula Price Trends Q2', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 9, title: 'Interest Rate Update', platform: 'facebook', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 10, title: 'Investment Property Tips', platform: 'youtube', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 10, title: 'School District Guide', platform: 'instagram', time: '3:00 PM', status: 'scheduled', performance: null },
+            { day: 11, title: 'Market Shift Analysis', platform: 'gbp', time: '10:00 AM', status: 'scheduled', performance: null },
+            { day: 14, title: 'Weekly Wrap-Up', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+
+            // April 15 (Tax Day - no content)
+            // Deliberately empty to show content gap
+
+            // April 16-22
+            { day: 16, title: 'Buyer Financing Breakdown', platform: 'facebook', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 17, title: 'Staging Tips for Sellers', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 17, title: 'Open House Best Practices', platform: 'youtube', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 18, title: 'Home Inspection Checklist', platform: 'gbp', time: '10:00 AM', status: 'scheduled', performance: null },
+            { day: 19, title: 'New Construction Pros/Cons', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 19, title: 'Luxury Market Report', platform: 'facebook', time: '2:00 PM', status: 'scheduled', performance: null },
+
+            // April 22 (Earth Day - no content)
+            // Deliberately empty to show content gap
+
+            // April 23-30
+            { day: 23, title: 'Eco-Friendly Homes Feature', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 24, title: 'Solar Installation ROI', platform: 'facebook', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 24, title: 'Energy Efficiency Tips', platform: 'youtube', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 25, title: 'Smart Home Technology', platform: 'instagram', time: '3:00 PM', status: 'scheduled', performance: null },
+            { day: 26, title: 'Spring Market Outlook', platform: 'gbp', time: '10:00 AM', status: 'scheduled', performance: null },
+            { day: 28, title: 'End of Month Market Recap', platform: 'instagram', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 29, title: 'May Preview: What\'s Coming', platform: 'facebook', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 29, title: 'Real Estate Trends Report', platform: 'youtube', time: '9:00 AM', status: 'scheduled', performance: null },
+            { day: 30, title: 'Buyer Motivation Deep Dive', platform: 'instagram', time: '3:00 PM', status: 'scheduled', performance: null },
+        ];
+
+        // CONTENT QUEUE DATA
+        const contentQueue = [
+            { title: 'Peninsula Price Trends Q2', platform: 'instagram', scheduledFor: 'Apr 8, 9:00 AM', reason: 'Targeting "peninsula real estate" — 850 monthly searches', approved: false },
+            { title: 'Spring Market Outlook', platform: 'facebook', scheduledFor: 'Apr 9, 9:00 AM', reason: 'Seasonal content performs 2.3x better in Q2', approved: false },
+            { title: 'Investment Property Guide', platform: 'youtube', scheduledFor: 'Apr 10, 9:00 AM', reason: 'High intent audience. 34 guide downloads from last test.', approved: false },
+            { title: 'Weekly Market Snapshot', platform: 'instagram', scheduledFor: 'Apr 14, 9:00 AM', reason: 'Recurring weekly series. Established audience expectation.', approved: false },
+            { title: 'Tax Day Home Tips', platform: 'gbp', scheduledFor: 'Apr 15, 10:00 AM', reason: 'Seasonal tie-in. Local search spike expected for tax info.', approved: false },
+        ];
+
+        // Initialize Calendar
+        function initializeCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const today = new Date(2026, 3, 7); // April 7, 2026
+            const firstDay = new Date(2026, 3, 1);
+            const startingDayOfWeek = firstDay.getDay();
+
+            // Empty cells for days before April 1
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.style.opacity = '0.3';
+                grid.appendChild(emptyCell);
+            }
+
+            // Days of April
+            for (let day = 1; day <= 30; day++) {
+                const cell = document.createElement('div');
+                cell.style.cssText = `
+                    background: var(--bg-card-2);
+                    border: 1px solid var(--gray-faint);
+                    border-radius: 8px;
+                    padding: 8px;
+                    min-height: 100px;
+                    position: relative;
+                    overflow: hidden;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                `;
+
+                // Highlight today with teal border
+                if (day === 7) {
+                    cell.style.borderColor = 'var(--teal)';
+                    cell.style.borderWidth = '2px';
+                }
+
+                // Day number
+                const dayNum = document.createElement('div');
+                dayNum.style.cssText = 'font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--white-text);';
+                dayNum.textContent = day;
+                cell.appendChild(dayNum);
+
+                // Get content for this day
+                const dayContent = calendarData.filter(item => item.day === day);
+                const hasContent = dayContent.length > 0;
+
+                if (!hasContent) {
+                    // Show dashed border for days with no content
+                    cell.style.borderStyle = 'dashed';
+                    cell.style.borderColor = 'var(--amber)';
+                    cell.style.opacity = '0.7';
+                } else {
+                    dayContent.forEach(item => {
+                        const contentCard = document.createElement('div');
+                        const platformColors = {
+                            instagram: 'var(--blue)',
+                            facebook: 'var(--purple)',
+                            youtube: 'var(--red)',
+                            gbp: 'var(--teal)'
+                        };
+                        const platformShort = {
+                            instagram: 'IG',
+                            facebook: 'FB',
+                            youtube: 'YT',
+                            gbp: 'GBP'
+                        };
+
+                        contentCard.style.cssText = `
+                            background: ${platformColors[item.platform]};
+                            color: white;
+                            padding: 4px 6px;
+                            border-radius: 4px;
+                            font-size: 10px;
+                            font-weight: 600;
+                            margin-bottom: 4px;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            opacity: 0.85;
+                        `;
+
+                        const title = document.createElement('span');
+                        title.textContent = platformShort[item.platform];
+                        title.style.flex = '1';
+                        contentCard.appendChild(title);
+
+                        // Performance dot for past items
+                        if (item.performance) {
+                            const dot = document.createElement('div');
+                            const perfColor = item.performance === 'strong' ? 'var(--green)' : item.performance === 'medium' ? 'var(--amber)' : 'var(--red)';
+                            dot.style.cssText = `
+                                width: 6px;
+                                height: 6px;
+                                border-radius: 50%;
+                                background: ${perfColor};
+                                margin-left: 4px;
+                            `;
+                            contentCard.appendChild(dot);
+                        }
+
+                        cell.appendChild(contentCard);
+                    });
+                }
+
+                // Holiday markers
+                const holidays = { 15: 'Tax Day', 22: 'Earth Day' };
+                if (holidays[day]) {
+                    const badge = document.createElement('div');
+                    badge.style.cssText = `
+                        position: absolute;
+                        bottom: 4px;
+                        right: 4px;
+                        background: var(--teal);
+                        color: var(--bg-main);
+                        padding: 2px 6px;
+                        border-radius: 3px;
+                        font-size: 8px;
+                        font-weight: 700;
+                    `;
+                    badge.textContent = holidays[day];
+                    cell.appendChild(badge);
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+
+        // Initialize Content Queue
+        function initializeContentQueue() {
+            const container = document.getElementById('contentQueue');
+            container.innerHTML = '';
+
+            contentQueue.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.style.cssText = `
+                    background: var(--bg-card-2);
+                    border: 1px solid var(--gray-faint);
+                    border-radius: 8px;
+                    padding: 12px;
+                    transition: all 0.3s ease;
+                `;
+                card.className = 'queue-card';
+                card.dataset.index = idx;
+
+                const platformColors = {
+                    instagram: 'var(--blue)',
+                    facebook: 'var(--purple)',
+                    youtube: 'var(--red)',
+                    gbp: 'var(--teal)'
+                };
+
+                let html = `
+                    <div style="margin-bottom: 8px;">
+                        <div style="font-size: 12px; font-weight: 600; color: var(--white-text); margin-bottom: 4px;">${item.title}</div>
+                        <div style="font-size: 10px; color: ${platformColors[item.platform]}; font-weight: 600; background: ${platformColors[item.platform]}15; display: inline-block; padding: 2px 6px; border-radius: 3px;">${item.platform.toUpperCase()}</div>
+                    </div>
+                    <div style="font-size: 10px; color: var(--gray-text); margin-bottom: 8px;">${item.scheduledFor}</div>
+                    <div style="font-size: 11px; color: var(--gray-text); margin-bottom: 12px; line-height: 1.4;">${item.reason}</div>
+                    <div style="display: flex; gap: 6px; justify-content: flex-start;">
+                        <button class="approve-btn" style="background: var(--green); color: var(--bg-main); border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer;">✓ Approve</button>
+                        <button class="reject-btn" style="background: var(--red); color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer;">✕ Reject</button>
+                    </div>
+                `;
+
+                card.innerHTML = html;
+
+                // Add event listeners
+                const approveBtn = card.querySelector('.approve-btn');
+                const rejectBtn = card.querySelector('.reject-btn');
+
+                approveBtn.addEventListener('click', function() {
+                    card.style.borderLeftColor = 'var(--green)';
+                    card.style.borderLeftWidth = '3px';
+                    card.style.opacity = '0.6';
+                    approveBtn.style.opacity = '0.5';
+                    approveBtn.style.cursor = 'default';
+                    approveBtn.textContent = '✓ Approved';
+                });
+
+                rejectBtn.addEventListener('click', function() {
+                    card.style.opacity = '0.3';
+                    card.style.filter = 'line-through';
+                    rejectBtn.style.opacity = '0.5';
+                    rejectBtn.style.cursor = 'default';
+                    rejectBtn.textContent = '✕ Rejected';
+                });
+
+                container.appendChild(card);
+            });
         }
 
         // CONTENT LIBRARY
