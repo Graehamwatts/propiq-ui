@@ -928,6 +928,820 @@
                 gap: 12px;
             }
         }
+
+        /* OVERVIEW TAB ENHANCEMENTS */
+
+        /* Health Score Section */
+        .health-score-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+            margin-bottom: 32px;
+            align-items: start;
+        }
+
+        .health-score-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--green) 0deg,
+                var(--green) 172.8deg,
+                var(--gray-faint) 172.8deg,
+                var(--gray-faint) 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 194, 168, 0.15);
+        }
+
+        .health-score-inner {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .health-score-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .health-score-label {
+            font-size: 11px;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .health-score-detail {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .health-score-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .health-score-trend {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .quick-summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .quick-stat {
+            background: rgba(0, 194, 168, 0.05);
+            border-left: 3px solid var(--teal);
+            border-radius: 4px;
+            padding: 12px;
+        }
+
+        .quick-stat-label {
+            font-size: 11px;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .quick-stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        /* Enhanced Metrics Grid */
+        .enhanced-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .enhanced-metric-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .metric-main-value {
+            color: var(--ink);
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .metric-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .metric-badge.up {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--green);
+        }
+
+        .metric-badge.down {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red);
+        }
+
+        .metric-progress-bar {
+            height: 6px;
+            background: var(--gray-faint);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .metric-progress-fill {
+            height: 100%;
+            background: var(--teal);
+            border-radius: 3px;
+        }
+
+        .metric-comparison {
+            font-size: 11px;
+            color: var(--gray-faint);
+        }
+
+        .metric-label-small {
+            color: var(--gray);
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Two-Column Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* Content Mix Donut */
+        .content-mix-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .content-mix-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .donut-chart-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .donut-chart {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--teal) 0deg,
+                var(--teal) 144deg,
+                var(--green) 144deg,
+                var(--green) 234deg,
+                var(--amber) 234deg,
+                var(--amber) 306deg,
+                #A78BFA 306deg,
+                #A78BFA 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut-inner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--bg-main);
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .donut-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--ink);
+        }
+
+        .donut-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .donut-legend-label {
+            font-weight: 500;
+        }
+
+        .donut-legend-percent {
+            color: var(--gray-faint);
+            font-size: 11px;
+        }
+
+        .mix-note {
+            font-size: 12px;
+            color: var(--gray-faint);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--teal-border);
+            font-style: italic;
+        }
+
+        /* Platform Performance */
+        .platform-performance-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .platform-perf-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .platform-bar {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .platform-bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .platform-name {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 13px;
+        }
+
+        .platform-reach {
+            font-size: 12px;
+            color: var(--gray-faint);
+        }
+
+        .platform-bar-track {
+            height: 8px;
+            background: var(--gray-faint);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .platform-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--green));
+        }
+
+        .platform-bar-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .engagement-badge {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .engagement-badge.strong {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--green);
+        }
+
+        .engagement-badge.moderate {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--amber);
+        }
+
+        /* Funnel */
+        .funnel-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .funnel-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+
+        .funnel-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .funnel-step {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: linear-gradient(90deg, rgba(0, 194, 168, 0.1), rgba(52, 211, 153, 0.1));
+            border: 1px solid var(--teal-border);
+            position: relative;
+            min-width: 100%;
+        }
+
+        .funnel-step:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .funnel-step:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        .funnel-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 8px;
+            background: linear-gradient(180deg, rgba(0, 194, 168, 0.3), transparent);
+            z-index: 1;
+        }
+
+        .funnel-label {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 13px;
+            min-width: 120px;
+        }
+
+        .funnel-value {
+            color: var(--teal);
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+        }
+
+        .funnel-rate {
+            color: var(--gray-faint);
+            font-size: 11px;
+        }
+
+        /* Top Performing Content */
+        .top-content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .top-content-card {
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .top-content-title {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .top-content-meta {
+            font-size: 12px;
+            color: var(--gray-faint);
+        }
+
+        .top-content-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--teal-border);
+        }
+
+        .top-content-stat {
+            font-size: 12px;
+        }
+
+        .top-content-stat-label {
+            color: var(--gray-faint);
+            font-size: 10px;
+        }
+
+        .top-content-stat-value {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .top-content-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .top-content-badge.strong {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--green);
+        }
+
+        .top-content-badge.moderate {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--amber);
+        }
+
+        .top-content-why {
+            font-size: 11px;
+            color: var(--gray-faint);
+            font-style: italic;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0, 194, 168, 0.1);
+        }
+
+        /* Month-over-Month Comparison */
+        .mom-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .mom-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .mom-row {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mom-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .mom-label {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 12px;
+        }
+
+        .mom-bars {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .mom-bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mom-bar {
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            color: var(--bg-main);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .mom-bar.this-month {
+            background: var(--teal);
+        }
+
+        .mom-bar.last-month {
+            background: var(--gray-faint);
+        }
+
+        .mom-bar-label {
+            font-size: 10px;
+            color: var(--gray-faint);
+            text-align: center;
+        }
+
+        .mom-growth {
+            font-size: 11px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        /* ROI Summary */
+        .roi-card {
+            background: linear-gradient(135deg, var(--bg-card-2), var(--bg-card-3));
+            border: 1px solid var(--teal-border);
+            border-left: 3px solid var(--teal);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 194, 168, 0.1);
+        }
+
+        .roi-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .roi-main-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--teal);
+            margin-bottom: 4px;
+        }
+
+        .roi-calculation {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .roi-total {
+            font-size: 12px;
+            color: var(--gray-faint);
+            padding-top: 12px;
+            border-top: 1px solid var(--teal-border);
+        }
+
+        /* Insights Callouts */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .insight-callout {
+            border-left: 4px solid;
+            border-radius: 6px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(0, 194, 168, 0.05), rgba(0, 194, 168, 0.02));
+        }
+
+        .insight-callout.win {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.08), rgba(52, 211, 153, 0.02));
+            border-left-color: var(--green);
+        }
+
+        .insight-callout.test {
+            background: linear-gradient(135deg, rgba(0, 194, 168, 0.08), rgba(0, 194, 168, 0.02));
+            border-left-color: var(--teal);
+        }
+
+        .insight-callout.stopped {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.02));
+            border-left-color: var(--red);
+        }
+
+        .insight-callout.change {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
+            border-left-color: var(--amber);
+        }
+
+        .insight-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .insight-callout.win .insight-label {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--green);
+        }
+
+        .insight-callout.test .insight-label {
+            background: rgba(0, 194, 168, 0.2);
+            color: var(--teal);
+        }
+
+        .insight-callout.stopped .insight-label {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .insight-callout.change .insight-label {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        .insight-text {
+            font-size: 13px;
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* Action Items */
+        .actions-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .action-card {
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .action-priority {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .action-priority.high {
+            background: rgba(0, 194, 168, 0.2);
+            color: var(--teal);
+        }
+
+        .action-priority.medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        .action-priority.low {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--green);
+        }
+
+        .action-title {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .action-description {
+            font-size: 12px;
+            color: var(--gray-faint);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .health-score-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .enhanced-metrics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .top-content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .enhanced-metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .top-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -952,60 +1766,468 @@
 
         <!-- TAB 1: OVERVIEW -->
         <div id="overview" class="tab-content active">
-            <!-- Top Metrics -->
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">Videos Created</div>
-                    <div class="metric-value">14</div>
-                    <div class="metric-trend up">↑ 3 from last month</div>
+            <!-- 1. Overall Content Health Score -->
+            <div class="health-score-container">
+                <div class="health-score-circle">
+                    <div class="health-score-inner">
+                        <div class="health-score-value">78</div>
+                        <div class="health-score-label">of 100</div>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">Posts Published</div>
-                    <div class="metric-value">52</div>
-                    <div class="metric-trend up">↑ 11 from last month</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Total Reach</div>
-                    <div class="metric-value">187K</div>
-                    <div class="metric-trend up">↑ 23%</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Total Engagement</div>
-                    <div class="metric-value">4,230</div>
-                    <div class="metric-trend up">↑ 18%</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">New Leads</div>
-                    <div class="metric-value">7</div>
-                    <div class="metric-trend up">↑ 2 from last month</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Hours Saved</div>
-                    <div class="metric-value">22</div>
-                    <div class="metric-trend neutral">vs manual</div>
+                <div class="health-score-detail">
+                    <div class="health-score-title">Content Health Score</div>
+                    <div class="health-score-trend">↑ from 64 last month</div>
+                    <div class="quick-summary-grid">
+                        <div class="quick-stat">
+                            <div class="quick-stat-label">Growth Momentum</div>
+                            <div class="quick-stat-value">↑ 23%</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-label">Engagement Quality</div>
+                            <div class="quick-stat-value">Strong</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-label">Consistency Score</div>
+                            <div class="quick-stat-value">92%</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-label">Content Mix</div>
+                            <div class="quick-stat-value">Optimized</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- AI Summary -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-title">What PropCast Did This Month — And What It's Doing Next</span>
+            <!-- 2. Enhanced Metrics Grid -->
+            <div class="enhanced-metrics-grid">
+                <div class="enhanced-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-main-value">14</div>
+                        <div class="metric-badge up">↑ 27%</div>
+                    </div>
+                    <div class="metric-label-small">Videos Created</div>
+                    <div class="metric-progress-bar">
+                        <div class="metric-progress-fill" style="width: 78%;"></div>
+                    </div>
+                    <div class="metric-comparison">11 last month</div>
                 </div>
-                <div class="section-body expanded">
-                    <div class="summary-box">
-                        <p>This month PropCast created 14 videos and 52 posts reaching 187,400 people across Instagram, Facebook, YouTube, and Google Business Profile. Your real estate listing content outperformed market education content 3.2-to-1 — PropCast has shifted your content mix to 70% listing and neighborhood content, 30% market education.</p>
 
-                        <p>Your best performing post was a 45-second reel about East Palo Alto median prices dropping — it reached 8,400 people and generated 3 direct inquiries. PropCast is creating 4 more variations of this format this month.</p>
+                <div class="enhanced-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-main-value">52</div>
+                        <div class="metric-badge up">↑ 27%</div>
+                    </div>
+                    <div class="metric-label-small">Posts Published</div>
+                    <div class="metric-progress-bar">
+                        <div class="metric-progress-fill" style="width: 82%;"></div>
+                    </div>
+                    <div class="metric-comparison">41 last month</div>
+                </div>
 
-                        <p>PropCast detected a trending topic around California ADU legislation and ran a 14-day test. Results were strong — ADU content now runs every 10 days automatically.</p>
+                <div class="enhanced-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-main-value">187K</div>
+                        <div class="metric-badge up">↑ 23%</div>
+                    </div>
+                    <div class="metric-label-small">Total Reach</div>
+                    <div class="metric-progress-bar">
+                        <div class="metric-progress-fill" style="width: 88%;"></div>
+                    </div>
+                    <div class="metric-comparison">152K last month</div>
+                </div>
 
-                        <p>One test was stopped: mortgage rate lock content peaked and dropped off. PropCast is monitoring for re-emergence.</p>
+                <div class="enhanced-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-main-value">4,230</div>
+                        <div class="metric-badge up">↑ 18%</div>
+                    </div>
+                    <div class="metric-label-small">Total Engagement</div>
+                    <div class="metric-progress-bar">
+                        <div class="metric-progress-fill" style="width: 75%;"></div>
+                    </div>
+                    <div class="metric-comparison">3,585 last month</div>
+                </div>
 
-                        <p>Your posting schedule was adjusted to Tuesday and Thursday 9AM after 60 days of heatmap data. Engagement improved 18% since the change.</p>
+                <div class="enhanced-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-main-value">7</div>
+                        <div class="metric-badge up">↑ 40%</div>
+                    </div>
+                    <div class="metric-label-small">New Leads</div>
+                    <div class="metric-progress-bar">
+                        <div class="metric-progress-fill" style="width: 85%;"></div>
+                    </div>
+                    <div class="metric-comparison">5 last month</div>
+                </div>
 
-                        <p>Next month PropCast will increase video output by 2 additional pieces, scale up ADU and neighborhood content, and run a new test on first-time buyer content based on a Google Trends spike detected this week.</p>
+                <div class="enhanced-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-main-value">22 hrs</div>
+                        <div class="metric-badge up">↑ 9%</div>
+                    </div>
+                    <div class="metric-label-small">Hours Saved</div>
+                    <div class="metric-progress-bar">
+                        <div class="metric-progress-fill" style="width: 91%;"></div>
+                    </div>
+                    <div class="metric-comparison">$3,300 value</div>
+                </div>
+            </div>
 
-                        <p>You spent zero hours on content this month. PropCast handled everything.</p>
+            <!-- 3. Two-Column: Content Mix + Platform Performance -->
+            <div class="dashboard-grid">
+                <!-- Content Mix Donut -->
+                <div class="content-mix-card">
+                    <div class="content-mix-title">Content Mix Breakdown</div>
+                    <div class="donut-chart-container">
+                        <div class="donut-chart">
+                            <div class="donut-inner"></div>
+                        </div>
+                    </div>
+                    <div class="donut-legend">
+                        <div class="donut-legend-item">
+                            <div class="donut-legend-color" style="background: var(--teal);"></div>
+                            <span class="donut-legend-label">Reels/Video</span>
+                            <span class="donut-legend-percent">40%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <div class="donut-legend-color" style="background: var(--green);"></div>
+                            <span class="donut-legend-label">Carousels</span>
+                            <span class="donut-legend-percent">25%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <div class="donut-legend-color" style="background: var(--amber);"></div>
+                            <span class="donut-legend-label">Educational</span>
+                            <span class="donut-legend-percent">20%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <div class="donut-legend-color" style="background: #A78BFA;"></div>
+                            <span class="donut-legend-label">Listings</span>
+                            <span class="donut-legend-percent">15%</span>
+                        </div>
+                    </div>
+                    <div class="mix-note">PropCast auto-optimized your mix based on 60 days of data</div>
+                </div>
+
+                <!-- Platform Performance -->
+                <div class="platform-performance-card">
+                    <div class="platform-perf-title">Platform Performance</div>
+
+                    <div class="platform-bar">
+                        <div class="platform-bar-header">
+                            <span class="platform-name">Instagram</span>
+                            <span class="platform-reach">87,400 reach</span>
+                        </div>
+                        <div class="platform-bar-track">
+                            <div class="platform-bar-fill" style="width: 100%;"></div>
+                        </div>
+                        <div class="platform-bar-footer">
+                            <span></span>
+                            <span class="engagement-badge strong">6.2% Engagement</span>
+                        </div>
+                    </div>
+
+                    <div class="platform-bar">
+                        <div class="platform-bar-header">
+                            <span class="platform-name">Facebook</span>
+                            <span class="platform-reach">63,200 reach</span>
+                        </div>
+                        <div class="platform-bar-track">
+                            <div class="platform-bar-fill" style="width: 72%;"></div>
+                        </div>
+                        <div class="platform-bar-footer">
+                            <span></span>
+                            <span class="engagement-badge strong">4.1% Engagement</span>
+                        </div>
+                    </div>
+
+                    <div class="platform-bar">
+                        <div class="platform-bar-header">
+                            <span class="platform-name">YouTube</span>
+                            <span class="platform-reach">24,800 reach</span>
+                        </div>
+                        <div class="platform-bar-track">
+                            <div class="platform-bar-fill" style="width: 28%;"></div>
+                        </div>
+                        <div class="platform-bar-footer">
+                            <span></span>
+                            <span class="engagement-badge strong">8.7% Engagement</span>
+                        </div>
+                    </div>
+
+                    <div class="platform-bar">
+                        <div class="platform-bar-header">
+                            <span class="platform-name">GBP</span>
+                            <span class="platform-reach">12,000 reach</span>
+                        </div>
+                        <div class="platform-bar-track">
+                            <div class="platform-bar-fill" style="width: 14%;"></div>
+                        </div>
+                        <div class="platform-bar-footer">
+                            <span></span>
+                            <span class="engagement-badge moderate">3.8% Engagement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Lead Funnel -->
+            <div class="funnel-card">
+                <div class="funnel-title">Lead Generation Funnel</div>
+                <div class="funnel-container">
+                    <div class="funnel-step" style="width: 100%;">
+                        <div class="funnel-label">Content Created</div>
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <div class="funnel-value">52</div>
+                            <div class="funnel-rate">100%</div>
+                        </div>
+                    </div>
+                    <div class="funnel-step" style="width: 96%;">
+                        <div class="funnel-label">Total Reach</div>
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <div class="funnel-value">187K</div>
+                            <div class="funnel-rate">↓ 3600x</div>
+                        </div>
+                    </div>
+                    <div class="funnel-step" style="width: 35%;">
+                        <div class="funnel-label">Engaged Users</div>
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <div class="funnel-value">4,230</div>
+                            <div class="funnel-rate">↓ 2.3%</div>
+                        </div>
+                    </div>
+                    <div class="funnel-step" style="width: 18%;">
+                        <div class="funnel-label">Link Clicks</div>
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <div class="funnel-value">890</div>
+                            <div class="funnel-rate">↓ 21%</div>
+                        </div>
+                    </div>
+                    <div class="funnel-step" style="width: 12%;">
+                        <div class="funnel-label">New Leads</div>
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <div class="funnel-value">7</div>
+                            <div class="funnel-rate">↓ 0.8%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Top Performing Content -->
+            <h3 style="font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 16px;">Top Performing Content</h3>
+            <div class="top-content-grid">
+                <div class="top-content-card">
+                    <div class="top-content-title">East Palo Alto Price Drop</div>
+                    <div class="top-content-meta">IG Reel • 45 seconds</div>
+                    <div class="top-content-stats">
+                        <div>
+                            <div class="top-content-stat-label">Reach</div>
+                            <div class="top-content-stat-value">8,400</div>
+                        </div>
+                        <div>
+                            <div class="top-content-stat-label">Engagement</div>
+                            <div class="top-content-stat-value">4.0%</div>
+                        </div>
+                        <div class="top-content-badge strong">Strong</div>
+                    </div>
+                    <div class="top-content-why">Generated 3 direct inquiries. Format highly resonant with your audience.</div>
+                </div>
+
+                <div class="top-content-card">
+                    <div class="top-content-title">ADU Rules Explained</div>
+                    <div class="top-content-meta">YouTube Video • 8 min</div>
+                    <div class="top-content-stats">
+                        <div>
+                            <div class="top-content-stat-label">Reach</div>
+                            <div class="top-content-stat-value">6,400</div>
+                        </div>
+                        <div>
+                            <div class="top-content-stat-label">Engagement</div>
+                            <div class="top-content-stat-value">4.4%</div>
+                        </div>
+                        <div class="top-content-badge strong">Strong</div>
+                    </div>
+                    <div class="top-content-why">Trending topic with strong audience interest. Scheduled to repeat.</div>
+                </div>
+
+                <div class="top-content-card">
+                    <div class="top-content-title">Median Home Value 2025</div>
+                    <div class="top-content-meta">FB Carousel • 5 slides</div>
+                    <div class="top-content-stats">
+                        <div>
+                            <div class="top-content-stat-label">Reach</div>
+                            <div class="top-content-stat-value">5,100</div>
+                        </div>
+                        <div>
+                            <div class="top-content-stat-label">Engagement</div>
+                            <div class="top-content-stat-value">3.9%</div>
+                        </div>
+                        <div class="top-content-badge moderate">Moderate</div>
+                    </div>
+                    <div class="top-content-why">Data-driven content performs well on Facebook carousel format.</div>
+                </div>
+            </div>
+
+            <!-- 6. Month-over-Month Comparison -->
+            <div class="mom-card">
+                <div class="mom-title">This Month vs Last Month</div>
+
+                <div class="mom-row">
+                    <div class="mom-label">Reach</div>
+                    <div class="mom-bars">
+                        <div class="mom-bar-group">
+                            <div class="mom-bar this-month" style="width: 100%;">187K</div>
+                            <div class="mom-bar-label">This Month</div>
+                        </div>
+                        <div class="mom-bar-group">
+                            <div class="mom-bar last-month" style="width: 81%;">152K</div>
+                            <div class="mom-bar-label">Last Month</div>
+                        </div>
+                    </div>
+                    <div class="mom-growth">↑ 23%</div>
+                </div>
+
+                <div class="mom-row">
+                    <div class="mom-label">Engagement</div>
+                    <div class="mom-bars">
+                        <div class="mom-bar-group">
+                            <div class="mom-bar this-month" style="width: 100%;">4,230</div>
+                            <div class="mom-bar-label">This Month</div>
+                        </div>
+                        <div class="mom-bar-group">
+                            <div class="mom-bar last-month" style="width: 85%;">3,585</div>
+                            <div class="mom-bar-label">Last Month</div>
+                        </div>
+                    </div>
+                    <div class="mom-growth">↑ 18%</div>
+                </div>
+
+                <div class="mom-row">
+                    <div class="mom-label">Videos Created</div>
+                    <div class="mom-bars">
+                        <div class="mom-bar-group">
+                            <div class="mom-bar this-month" style="width: 100%;">14</div>
+                            <div class="mom-bar-label">This Month</div>
+                        </div>
+                        <div class="mom-bar-group">
+                            <div class="mom-bar last-month" style="width: 79%;">11</div>
+                            <div class="mom-bar-label">Last Month</div>
+                        </div>
+                    </div>
+                    <div class="mom-growth">↑ 27%</div>
+                </div>
+
+                <div class="mom-row">
+                    <div class="mom-label">Posts Published</div>
+                    <div class="mom-bars">
+                        <div class="mom-bar-group">
+                            <div class="mom-bar this-month" style="width: 100%;">52</div>
+                            <div class="mom-bar-label">This Month</div>
+                        </div>
+                        <div class="mom-bar-group">
+                            <div class="mom-bar last-month" style="width: 79%;">41</div>
+                            <div class="mom-bar-label">Last Month</div>
+                        </div>
+                    </div>
+                    <div class="mom-growth">↑ 27%</div>
+                </div>
+
+                <div class="mom-row">
+                    <div class="mom-label">New Leads</div>
+                    <div class="mom-bars">
+                        <div class="mom-bar-group">
+                            <div class="mom-bar this-month" style="width: 100%;">7</div>
+                            <div class="mom-bar-label">This Month</div>
+                        </div>
+                        <div class="mom-bar-group">
+                            <div class="mom-bar last-month" style="width: 71%;">5</div>
+                            <div class="mom-bar-label">Last Month</div>
+                        </div>
+                    </div>
+                    <div class="mom-growth">↑ 40%</div>
+                </div>
+            </div>
+
+            <!-- 7. ROI Summary -->
+            <div class="roi-card">
+                <div class="roi-title">Time & Value Recovered</div>
+                <div class="roi-main-value">$3,300</div>
+                <div class="roi-calculation">
+                    <strong>This Month:</strong> 22 hours saved × $150/hr estimated value<br>
+                    <span style="color: var(--gray-faint); margin-top: 8px; display: block;">PropCast handled all content creation, scheduling, and optimization.</span>
+                </div>
+                <div class="roi-total">
+                    <strong>Total Since Launch:</strong> 186 hours saved = <strong style="color: var(--teal);">$27,900</strong> in recovered time
+                </div>
+            </div>
+
+            <!-- 8. Key Insights -->
+            <h3 style="font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 16px;">Key Insights & Actions</h3>
+            <div class="insights-grid">
+                <div class="insight-callout win">
+                    <div class="insight-label">Win</div>
+                    <div class="insight-text">Listing content outperforms market education 3.2-to-1. Your content mix has shifted to 70% listings, 30% education.</div>
+                </div>
+
+                <div class="insight-callout win">
+                    <div class="insight-label">Win</div>
+                    <div class="insight-text">Best post (EPA Price Drop reel) reached 8,400 people and generated 3 direct inquiries. Creating 4 more variations.</div>
+                </div>
+
+                <div class="insight-callout test">
+                    <div class="insight-label">Test Result</div>
+                    <div class="insight-text">ADU content test successful. Now running every 10 days automatically as trending topic with strong engagement.</div>
+                </div>
+
+                <div class="insight-callout stopped">
+                    <div class="insight-label">Stopped</div>
+                    <div class="insight-text">Mortgage rate lock content peaked and dropped off. Monitoring for re-emergence in search trends.</div>
+                </div>
+
+                <div class="insight-callout change">
+                    <div class="insight-label">Schedule Change</div>
+                    <div class="insight-text">Posting shifted to Tuesday & Thursday 9AM based on 60 days of heatmap data. Engagement up 18%.</div>
+                </div>
+
+                <div class="insight-callout test">
+                    <div class="insight-label">Next Test</div>
+                    <div class="insight-text">First-time buyer content test launching. Google Trends spike detected. Running 2-week test starting next week.</div>
+                </div>
+            </div>
+
+            <!-- 9. What's Coming Next -->
+            <div style="margin-bottom: 24px;">
+                <h3 class="actions-title">What's Coming Next</h3>
+                <div class="actions-grid">
+                    <div class="action-card">
+                        <div class="action-header">
+                            <div class="action-title">Increase video output by 2 pieces</div>
+                            <div class="action-priority high">High</div>
+                        </div>
+                        <div class="action-description">Scaling up video production to capitalize on strong engagement metrics and platform algorithm preference.</div>
+                    </div>
+
+                    <div class="action-card">
+                        <div class="action-header">
+                            <div class="action-title">Scale ADU & neighborhood content</div>
+                            <div class="action-priority high">High</div>
+                        </div>
+                        <div class="action-description">Trending topic with proven engagement. Expanding frequency and content variations based on test results.</div>
+                    </div>
+
+                    <div class="action-card">
+                        <div class="action-header">
+                            <div class="action-title">First-time buyer content test</div>
+                            <div class="action-priority medium">Medium</div>
+                        </div>
+                        <div class="action-description">Google Trends spike detected this week. Running controlled 2-week test to validate audience interest.</div>
+                    </div>
+
+                    <div class="action-card">
+                        <div class="action-header">
+                            <div class="action-title">Monitor mortgage topic re-emergence</div>
+                            <div class="action-priority low">Low</div>
+                        </div>
+                        <div class="action-description">Previous content peaked and dropped. Continuously monitoring search trends and news for re-emergence signals.</div>
                     </div>
                 </div>
             </div>
