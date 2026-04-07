@@ -636,8 +636,8 @@
         /* CALENDAR */
         .calendar-grid {
             display: grid;
-            grid-template-columns: 80px repeat(7, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
             margin-top: 16px;
             font-size: 11px;
         }
@@ -646,7 +646,10 @@
             font-weight: 600;
             color: var(--gray-text);
             text-align: center;
-            padding: 8px 4px;
+            padding: 12px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 10px;
         }
 
         .calendar-day {
@@ -1057,6 +1060,348 @@
             box-shadow: 0 8px 16px rgba(0, 194, 168, 0.3);
         }
 
+        /* NUDGE BAR */
+        .nudge-bar {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--amber);
+            border-left: 4px solid var(--amber);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nudge-bar.hidden {
+            display: none;
+        }
+
+        .nudge-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .nudge-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .nudge-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--white-text);
+        }
+
+        .nudge-close {
+            background: none;
+            border: none;
+            color: var(--gray-text);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+            flex-shrink: 0;
+            transition: color 0.3s ease;
+        }
+
+        .nudge-close:hover {
+            color: var(--white-text);
+        }
+
+        /* SCORECARD - MARKET POSITION */
+        .scorecard-section {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 48px;
+        }
+
+        .scorecard-header {
+            margin-bottom: 28px;
+        }
+
+        .scorecard-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white-text);
+            margin-bottom: 8px;
+        }
+
+        .scorecard-rank {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .rank-display {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--teal);
+        }
+
+        .rank-label {
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        .rank-movement {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .leaderboard-table th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-text);
+            border-bottom: 1px solid var(--gray-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-size: 10px;
+        }
+
+        .leaderboard-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid var(--gray-faint);
+            color: var(--white-text);
+        }
+
+        .leaderboard-rank {
+            font-weight: 600;
+            color: var(--teal);
+        }
+
+        .leaderboard-agent {
+            font-weight: 500;
+        }
+
+        .leaderboard-row.current {
+            background: rgba(0, 194, 168, 0.08);
+        }
+
+        .scorecard-note {
+            font-size: 11px;
+            color: var(--gray-faint);
+            padding: 12px;
+            background: rgba(0, 194, 168, 0.05);
+            border-radius: 6px;
+            margin-top: 16px;
+            border-left: 2px solid var(--teal);
+        }
+
+        /* VELOCITY SCORE */
+        .velocity-section {
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 48px;
+        }
+
+        .velocity-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white-text);
+            margin-bottom: 16px;
+        }
+
+        .velocity-target {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--bg-card-1);
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .velocity-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--white-text);
+        }
+
+        .velocity-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--teal);
+        }
+
+        .velocity-current {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 3px solid var(--green);
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .velocity-check {
+            color: var(--green);
+            font-size: 16px;
+        }
+
+        .velocity-current-text {
+            font-size: 13px;
+            color: var(--white-text);
+        }
+
+        .velocity-note {
+            font-size: 11px;
+            color: var(--gray-faint);
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-faint);
+        }
+
+        /* PERSONAL NUDGE CARD */
+        .personal-nudge {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(0, 194, 168, 0.05));
+            border: 1px solid var(--purple);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 48px;
+        }
+
+        .personal-nudge-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 12px;
+        }
+
+        .personal-nudge-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--white-text);
+            margin-bottom: 12px;
+        }
+
+        .personal-suggestions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .suggestion {
+            font-size: 12px;
+            color: var(--gray-text);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .suggestion:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--purple);
+        }
+
+        /* AVATAR HEALTH */
+        .avatar-health {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 48px;
+        }
+
+        .avatar-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white-text);
+            margin-bottom: 20px;
+        }
+
+        .avatar-dots {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .avatar-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--teal);
+            flex-shrink: 0;
+        }
+
+        .avatar-metric {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-faint);
+        }
+
+        .avatar-metric:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .avatar-label {
+            font-size: 11px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .avatar-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white-text);
+        }
+
+        /* TREND SPARKLINE */
+        .trend-sparkline {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 20px;
+        }
+
+        .trend-bar {
+            width: 6px;
+            background: var(--green);
+            border-radius: 2px;
+        }
+
+        .trend-bar.amber {
+            background: var(--amber);
+        }
+
+        .trend-bar.red {
+            background: var(--red);
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             .metrics-grid {
@@ -1131,6 +1476,15 @@
     <!-- DASHBOARD TAB -->
     <div id="dashboard" class="tab-content active">
         <div class="dashboard">
+
+            <!-- NUDGE BAR -->
+            <div class="nudge-bar" id="nudgeBar">
+                <div class="nudge-content">
+                    <div class="nudge-icon">⚠️</div>
+                    <div class="nudge-text"><strong>Action Needed:</strong> Record 1 new avatar variation to prevent audience fatigue (due in 12 days)</div>
+                </div>
+                <button class="nudge-close" onclick="dismissNudge()">✕</button>
+            </div>
 
             <!-- SECTION 1: EXECUTIVE SUMMARY -->
             <section class="section">
@@ -1225,6 +1579,113 @@
                 </div>
             </section>
 
+            <!-- SECTION 2B: MARKET POSITION SCORECARD -->
+            <section class="section">
+                <div class="scorecard-section">
+                    <div class="scorecard-header">
+                        <div class="scorecard-title">Your Market Position</div>
+                        <div class="scorecard-rank">
+                            <div class="rank-display">#4</div>
+                            <div class="rank-label">in East Palo Alto Content Visibility</div>
+                            <div class="rank-movement">↑3 from #7 last month</div>
+                        </div>
+                    </div>
+
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Agent</th>
+                                <th>Posts/Week</th>
+                                <th>Avg Reach</th>
+                                <th>Engagement</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="leaderboard-rank">#1</td>
+                                <td class="leaderboard-agent">Agent A</td>
+                                <td>16</td>
+                                <td>12.4K</td>
+                                <td>4.1%</td>
+                                <td>→</td>
+                            </tr>
+                            <tr>
+                                <td class="leaderboard-rank">#2</td>
+                                <td class="leaderboard-agent">Agent B</td>
+                                <td>14</td>
+                                <td>10.8K</td>
+                                <td>3.9%</td>
+                                <td>↑</td>
+                            </tr>
+                            <tr>
+                                <td class="leaderboard-rank">#3</td>
+                                <td class="leaderboard-agent">Agent C</td>
+                                <td>13</td>
+                                <td>9.6K</td>
+                                <td>3.7%</td>
+                                <td>↓</td>
+                            </tr>
+                            <tr class="leaderboard-row current">
+                                <td class="leaderboard-rank">#4</td>
+                                <td class="leaderboard-agent"><strong>You</strong></td>
+                                <td>13</td>
+                                <td>8.2K</td>
+                                <td>3.6%</td>
+                                <td>↑</td>
+                            </tr>
+                            <tr>
+                                <td class="leaderboard-rank">#5</td>
+                                <td class="leaderboard-agent">Agent D</td>
+                                <td>11</td>
+                                <td>7.1K</td>
+                                <td>3.2%</td>
+                                <td>↓</td>
+                            </tr>
+                            <tr>
+                                <td class="leaderboard-rank">#6</td>
+                                <td class="leaderboard-agent">Agent E</td>
+                                <td>9</td>
+                                <td>5.4K</td>
+                                <td>2.8%</td>
+                                <td>↓</td>
+                            </tr>
+                            <tr>
+                                <td class="leaderboard-rank">#7</td>
+                                <td class="leaderboard-agent">Agent F</td>
+                                <td>7</td>
+                                <td>3.9K</td>
+                                <td>2.1%</td>
+                                <td>↓</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="scorecard-note">
+                        PropCast analyzes competitor content volume, engagement, and posting frequency in your target zip codes to calculate your position. Your rank improved 3 spots from last month by maintaining consistent posting velocity.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2C: CONTENT VELOCITY -->
+            <section class="section">
+                <div class="velocity-section">
+                    <div class="velocity-title">Your Market Target</div>
+                    <div class="velocity-target">
+                        <div class="velocity-label">Posts/Week Needed to Stay Top 5</div>
+                        <div class="velocity-value">13/week</div>
+                    </div>
+                    <div class="velocity-current">
+                        <div class="velocity-check">✓</div>
+                        <div class="velocity-current-text"><strong>You're at: 13 posts/week</strong> — Meeting your competitive target</div>
+                    </div>
+                    <div class="velocity-note">
+                        Based on competitor analysis in your zip codes, this is the content volume needed to stay competitive. PropCast auto-scales output to maintain this velocity.
+                    </div>
+                </div>
+            </section>
+
             <!-- SECTION 3: THREE COLUMN ANALYSIS -->
             <section class="section">
                 <div class="three-column">
@@ -1307,51 +1768,39 @@
                         </div>
                     </div>
 
-                    <!-- Comparison Table -->
+                    <!-- Platform Month-over-Month -->
                     <div class="card">
-                        <div class="card-title">This Month vs Last Month</div>
+                        <div class="card-title">Platform Performance This vs Last Month</div>
                         <table class="comparison-table">
                             <tr>
-                                <td>Reach</td>
-                                <td>187K</td>
-                                <td>152K</td>
-                                <td>↑23%</td>
+                                <td>📱 Instagram</td>
+                                <td>87.4K</td>
+                                <td>82.3K</td>
+                                <td>↑6.2%</td>
                             </tr>
                             <tr>
-                                <td>Engagement</td>
-                                <td>4,230</td>
-                                <td>3,585</td>
-                                <td>↑18%</td>
+                                <td>👍 Facebook</td>
+                                <td>63.2K</td>
+                                <td>60.8K</td>
+                                <td>↑4.1%</td>
                             </tr>
                             <tr>
-                                <td>Videos</td>
-                                <td>14</td>
-                                <td>11</td>
-                                <td>↑27%</td>
+                                <td>📹 YouTube</td>
+                                <td>24.8K</td>
+                                <td>22.8K</td>
+                                <td>↑8.7%</td>
                             </tr>
                             <tr>
-                                <td>Posts</td>
-                                <td>52</td>
-                                <td>41</td>
-                                <td>↑27%</td>
+                                <td>📍 GBP</td>
+                                <td>12.0K</td>
+                                <td>12.5K</td>
+                                <td>↓3.8%</td>
                             </tr>
                             <tr>
-                                <td>Leads</td>
-                                <td>7</td>
-                                <td>5</td>
-                                <td>↑40%</td>
-                            </tr>
-                            <tr>
-                                <td>Eng Rate</td>
-                                <td>2.25%</td>
-                                <td>2.0%</td>
-                                <td>↑12%</td>
-                            </tr>
-                            <tr>
-                                <td>Cost/Lead</td>
-                                <td>$0</td>
-                                <td>$45</td>
-                                <td>✓</td>
+                                <td style="border-top: 1px solid var(--gray-faint); padding-top: 12px;"><strong>Total Engagement</strong></td>
+                                <td style="border-top: 1px solid var(--gray-faint); padding-top: 12px;">4,230</td>
+                                <td style="border-top: 1px solid var(--gray-faint); padding-top: 12px;">3,585</td>
+                                <td style="border-top: 1px solid var(--gray-faint); padding-top: 12px;">↑18%</td>
                             </tr>
                         </table>
                     </div>
@@ -1482,7 +1931,6 @@
                 <div class="section-subtitle">Coming This Week</div>
                 <div class="card">
                     <div class="calendar-grid">
-                        <div class="calendar-header"></div>
                         <div class="calendar-header">Mon</div>
                         <div class="calendar-header">Tue</div>
                         <div class="calendar-header">Wed</div>
@@ -1491,39 +1939,39 @@
                         <div class="calendar-header">Sat</div>
 
                         <div class="calendar-day">
-                            <span class="calendar-day-name">Content</span>
-                            <span class="calendar-content">Market Data Reel</span>
+                            <span class="calendar-content"><strong>Market Data Reel</strong></span>
                             <span class="calendar-badge">IG/FB</span>
+                            <div style="font-size: 10px; color: var(--gray-text); margin-top: 6px;">Targeting 'east palo alto homes' — 2,400 monthly searches, rank #2</div>
                         </div>
 
                         <div class="calendar-day">
-                            <span class="calendar-day-name">Content</span>
-                            <span class="calendar-content">Neighborhood Guide</span>
+                            <span class="calendar-content"><strong>Neighborhood Guide</strong></span>
                             <span class="calendar-badge">IG</span>
+                            <div style="font-size: 10px; color: var(--gray-text); margin-top: 6px;">Neighborhood series — high save rate (156 saves last post)</div>
                         </div>
 
                         <div class="calendar-day">
-                            <span class="calendar-day-name">Content</span>
-                            <span class="calendar-content">ADU Explainer</span>
+                            <span class="calendar-content"><strong>ADU Explainer</strong></span>
                             <span class="calendar-badge">YT</span>
+                            <div style="font-size: 10px; color: var(--gray-text); margin-top: 6px;">ADU content test — scaling after 4.4% engagement rate</div>
                         </div>
 
                         <div class="calendar-day">
-                            <span class="calendar-day-name">Content</span>
-                            <span class="calendar-content">First-Time Buyer FAQ</span>
+                            <span class="calendar-content"><strong>First-Time Buyer FAQ</strong></span>
                             <span class="calendar-badge">YT/IG</span>
+                            <div style="font-size: 10px; color: var(--gray-text); margin-top: 6px;">Trending topic spike detected — 340% YoY increase</div>
                         </div>
 
                         <div class="calendar-day">
-                            <span class="calendar-day-name">Content</span>
-                            <span class="calendar-content">Listing Showcase</span>
+                            <span class="calendar-content"><strong>Listing Showcase</strong></span>
                             <span class="calendar-badge">All</span>
+                            <div style="font-size: 10px; color: var(--gray-text); margin-top: 6px;">$2.85M+ property — market median, strong visual hook</div>
                         </div>
 
                         <div class="calendar-day">
-                            <span class="calendar-day-name">Content</span>
-                            <span class="calendar-content">Weekly Roundup</span>
+                            <span class="calendar-content"><strong>Weekly Roundup</strong></span>
                             <span class="calendar-badge">FB/GBP</span>
+                            <div style="font-size: 10px; color: var(--gray-text); margin-top: 6px;">Buyer engagement test — collecting weekly interactions</div>
                         </div>
                     </div>
                 </div>
@@ -1557,8 +2005,8 @@
                                 <th>Query</th>
                                 <th>Monthly Volume</th>
                                 <th>Your Rank</th>
+                                <th>4-Month Trend</th>
                                 <th>CTR</th>
-                                <th>Trend</th>
                                 <th>PropCast Action</th>
                             </tr>
                         </thead>
@@ -1567,80 +2015,80 @@
                                 <td>east palo alto homes for sale</td>
                                 <td>2,400</td>
                                 <td><span class="rank-green">#2</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar" style="height: 40%;"></div><div class="trend-bar" style="height: 50%;"></div><div class="trend-bar" style="height: 70%;"></div><div class="trend-bar" style="height: 100%;"></div></div></td>
                                 <td><span class="ctr-high">18%</span></td>
-                                <td>↑</td>
                                 <td>Creating listing video series</td>
                             </tr>
                             <tr>
                                 <td>adu california 2025</td>
                                 <td>1,850</td>
                                 <td><span class="rank-amber">#4</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar amber" style="height: 100%;"></div><div class="trend-bar" style="height: 90%;"></div><div class="trend-bar" style="height: 80%;"></div><div class="trend-bar" style="height: 85%;"></div></div></td>
                                 <td><span class="ctr-medium">12%</span></td>
-                                <td>↑</td>
                                 <td>Running weekly guide posts</td>
                             </tr>
                             <tr>
                                 <td>median home price palo alto</td>
                                 <td>1,200</td>
                                 <td><span class="rank-green">#1</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar" style="height: 100%;"></div></div></td>
                                 <td><span class="ctr-high">22%</span></td>
-                                <td>→</td>
                                 <td>Monthly market update</td>
                             </tr>
                             <tr>
                                 <td>first time home buyer guide</td>
                                 <td>980</td>
                                 <td><span class="rank-red">#8</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar red" style="height: 30%;"></div><div class="trend-bar red" style="height: 50%;"></div><div class="trend-bar amber" style="height: 70%;"></div><div class="trend-bar" style="height: 90%;"></div></div></td>
                                 <td><span class="ctr-low">6%</span></td>
-                                <td>↑</td>
                                 <td>Testing new content</td>
                             </tr>
                             <tr>
                                 <td>peninsula real estate market</td>
                                 <td>850</td>
                                 <td><span class="rank-green">#3</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar" style="height: 100%;"></div></div></td>
                                 <td><span class="ctr-medium">14%</span></td>
-                                <td>→</td>
                                 <td>Quarterly deep dives</td>
                             </tr>
                             <tr>
                                 <td>mountain view homes</td>
                                 <td>720</td>
                                 <td><span class="rank-amber">#6</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar" style="height: 100%;"></div><div class="trend-bar amber" style="height: 70%;"></div><div class="trend-bar red" style="height: 50%;"></div><div class="trend-bar red" style="height: 40%;"></div></div></td>
                                 <td><span class="ctr-medium">10%</span></td>
-                                <td>↓</td>
                                 <td>Needs neighborhood focus</td>
                             </tr>
                             <tr>
                                 <td>bay area property taxes</td>
                                 <td>650</td>
                                 <td><span class="rank-amber">#5</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar red" style="height: 40%;"></div><div class="trend-bar red" style="height: 60%;"></div><div class="trend-bar amber" style="height: 75%;"></div><div class="trend-bar" style="height: 85%;"></div></div></td>
                                 <td><span class="ctr-low">9%</span></td>
-                                <td>↑</td>
                                 <td>Educational series</td>
                             </tr>
                             <tr>
                                 <td>home inspection checklist</td>
                                 <td>580</td>
                                 <td><span class="rank-red">#12</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar red" style="height: 50%;"></div><div class="trend-bar red" style="height: 45%;"></div><div class="trend-bar amber" style="height: 60%;"></div><div class="trend-bar amber" style="height: 75%;"></div></div></td>
                                 <td><span class="ctr-low">4%</span></td>
-                                <td>↑</td>
                                 <td>Guide download planned</td>
                             </tr>
                             <tr>
                                 <td>virtual home tours east palo alto</td>
                                 <td>420</td>
                                 <td><span class="rank-green">#2</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar" style="height: 60%;"></div><div class="trend-bar" style="height: 75%;"></div><div class="trend-bar" style="height: 90%;"></div><div class="trend-bar" style="height: 100%;"></div></div></td>
                                 <td><span class="ctr-high">16%</span></td>
-                                <td>↑</td>
                                 <td>3D tour content</td>
                             </tr>
                             <tr>
                                 <td>real estate market forecast</td>
                                 <td>380</td>
                                 <td><span class="rank-amber">#7</span></td>
+                                <td><div class="trend-sparkline"><div class="trend-bar amber" style="height: 100%;"></div><div class="trend-bar amber" style="height: 100%;"></div><div class="trend-bar amber" style="height: 100%;"></div><div class="trend-bar amber" style="height: 100%;"></div></div></td>
                                 <td><span class="ctr-low">8%</span></td>
-                                <td>→</td>
                                 <td>Monthly prediction posts</td>
                             </tr>
                         </tbody>
@@ -1679,6 +2127,51 @@
                             <p style="font-weight: 600; color: var(--white-text); margin-bottom: 8px;">Days on Market Increasing</p>
                             <p style="font-size: 12px; line-height: 1.6; color: var(--gray-text);">Average DOM up to 28 days (↑12% from 25 days). Suggests shift to buyer's market. Homes over $3M sitting longer (35-40 days avg).</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PERSONAL NUDGE CARD -->
+            <section class="section">
+                <div class="personal-nudge">
+                    <div class="personal-nudge-title">💭 Personal Post Reminder</div>
+                    <div class="personal-nudge-text">
+                        <strong>Make sure to share something personal this week!</strong> A client win, a community moment, or a behind-the-scenes look — this is the 10% only YOU can create. It keeps your audience connected to you, not just PropCast.
+                    </div>
+                    <div class="personal-suggestions">
+                        <div class="suggestion">Client win or success story from this month</div>
+                        <div class="suggestion">Community event you attended or hosted</div>
+                        <div class="suggestion">Behind-the-scenes view of your office or market knowledge</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AVATAR HEALTH -->
+            <section class="section">
+                <div class="avatar-health">
+                    <div class="avatar-title">Avatar Health & Rotation Status</div>
+                    <div style="margin-bottom: 20px;">
+                        <div class="avatar-label">Active Avatar Variations</div>
+                        <div class="avatar-dots">
+                            <div class="avatar-dot"></div>
+                            <div class="avatar-dot"></div>
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                    <div class="avatar-metric">
+                        <div class="avatar-label">Avatar Fatigue Status</div>
+                        <div class="avatar-value">Next rotation in 18 days</div>
+                        <div style="margin-top: 8px; height: 4px; background: var(--gray-faint); border-radius: 2px; overflow: hidden;">
+                            <div style="height: 100%; background: var(--amber); width: 65%;"></div>
+                        </div>
+                    </div>
+                    <div class="avatar-metric">
+                        <div class="avatar-label">Digital Wardrobe</div>
+                        <div class="avatar-value">2 wardrobe changes available</div>
+                    </div>
+                    <div class="avatar-metric">
+                        <div class="avatar-label">Action</div>
+                        <div class="avatar-value" style="color: var(--amber);">⚠️ Plan new variation (due in 12 days)</div>
                     </div>
                 </div>
             </section>
@@ -1729,6 +2222,35 @@
         <div class="dashboard">
             <div style="margin-bottom: 40px;">
                 <div class="section-title">Settings</div>
+            </div>
+
+            <!-- Agent Information -->
+            <div class="settings-section">
+                <div class="settings-title">Agent Information</div>
+                <div class="settings-group">
+                    <label class="settings-label">Agent Name</label>
+                    <input type="text" class="settings-input" placeholder="Your full name" value="Sarah Mitchell">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Brokerage Name</label>
+                    <input type="text" class="settings-input" placeholder="Your brokerage" value="Peninsula Realty Partners">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">License Number</label>
+                    <input type="text" class="settings-input" placeholder="CA license number" value="01234567">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Licensed Since (Year)</label>
+                    <input type="text" class="settings-input" placeholder="Year licensed" value="2018">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Phone Number</label>
+                    <input type="text" class="settings-input" placeholder="(555) 123-4567" value="(650) 555-0123">
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Email</label>
+                    <input type="text" class="settings-input" placeholder="your@email.com" value="sarah@peninsularealty.com">
+                </div>
             </div>
 
             <!-- Brand Voice -->
@@ -1845,6 +2367,12 @@
     </div>
 
     <script>
+        // NUDGE BAR DISMISS
+        function dismissNudge() {
+            const nudgeBar = document.getElementById('nudgeBar');
+            nudgeBar.classList.add('hidden');
+        }
+
         // DATA
         const contentData = [
             {
