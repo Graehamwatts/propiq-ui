@@ -4,731 +4,1501 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropCast Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --color-teal: #00C2A8;
-            --color-teal-dark: #00A890;
-            --color-teal-light: #1FD4BA;
-            --color-navy: #060F1E;
-            --color-navy-light: #0D1929;
-            --color-navy-lighter: #1A2638;
-            --color-navy-card: #0F1B2E;
-            --color-gray-dark: #2A3A4F;
-            --color-gray-light: #E8F0FF;
-            --color-white: #FFFFFF;
-            --color-text-primary: #FFFFFF;
-            --color-text-secondary: #B8C5D6;
-            --color-success: #10B981;
-            --color-warning: #F59E0B;
-            --color-error: #EF4444;
-            --color-chart-1: #00C2A8;
-            --color-chart-2: #5B21B6;
-            --color-chart-3: #0EA5E9;
-            --color-chart-4: #F97316;
-            
-            --font-syne: 'Syne', sans-serif;
-            --font-dm-sans: 'DM Sans', sans-serif;
-            
-            --spacing-xs: 8px;
-            --spacing-sm: 12px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
-            
-            --border-radius-sm: 8px;
-            --border-radius-md: 12px;
-            --border-radius-lg: 16px;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-main: #060F1E;
+            --bg-card-1: #0B1F3A;
+            --bg-card-2: #13294f;
+            --bg-card-3: #0E2440;
+            --teal: #00C2A8;
+            --teal-dark: #009e88;
+            --teal-glow: rgba(0, 194, 168, 0.12);
+            --teal-border: rgba(0, 194, 168, 0.2);
+            --gray: #8A9BB0;
+            --gray-light: #C4CDD8;
+            --gray-faint: #4A5B6E;
+            --ink: #EAEEF3;
+            --green: #34D399;
+            --amber: #F59E0B;
+            --red: #EF4444;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: var(--font-dm-sans);
-            background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
-            color: var(--color-text-primary);
-            min-height: 100vh;
-            position: relative;
+            background: var(--bg-main);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Animated background orbs */
-        .background-orbs {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.15;
-            filter: blur(80px);
-        }
-
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--color-teal), transparent);
-            top: -200px;
-            left: -200px;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .orb-2 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #5B21B6, transparent);
-            bottom: -150px;
-            right: -100px;
-            animation: float 25s ease-in-out infinite reverse;
-        }
-
-        .orb-3 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--color-teal), transparent);
-            top: 50%;
-            right: 10%;
-            animation: float 30s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            33% { transform: translate(30px, -50px); }
-            66% { transform: translate(-20px, 20px); }
-        }
-
-        /* Film grain overlay */
-        .grain-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2' /%3E%3C/filter%3E%3Crect width='400' height='400' fill='%23060F1E' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-            z-index: 1;
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--spacing-xl);
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(6, 15, 30, 0.7);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+        /* NAVBAR */
+        .navbar {
             position: sticky;
             top: 0;
-            z-index: 100;
-            margin-bottom: var(--spacing-xl);
-        }
-
-        nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--spacing-md) var(--spacing-xl);
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            font-size: 20px;
-            font-weight: 700;
-            font-family: var(--font-syne);
-            text-decoration: none;
-            color: var(--color-text-primary);
-        }
-
-        .nav-brand:hover {
-            opacity: 0.8;
-        }
-
-        .nav-brand-prop {
-            color: var(--color-text-primary);
-        }
-
-        .nav-brand-cast {
-            color: var(--color-teal);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--spacing-lg);
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--color-text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: color 0.3s ease;
-            font-family: var(--font-dm-sans);
-        }
-
-        .nav-links a:hover {
-            color: var(--color-teal);
-        }
-
-        /* Header */
-        .header {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .header-title {
-            font-size: 48px;
-            font-weight: 700;
-            font-family: var(--font-syne);
-            margin-bottom: var(--spacing-sm);
-            background: linear-gradient(135deg, var(--color-text-primary), var(--color-teal));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-subtitle {
-            color: var(--color-text-secondary);
-            font-size: 16px;
-        }
-
-        /* Grid Layouts */
-        .hero-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .three-col {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .bottom-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: var(--spacing-lg);
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(15, 27, 46, 0.8);
+            padding: 0 24px;
+            background: rgba(6, 15, 30, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 194, 168, 0.1);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-lg);
-            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--teal-border);
+            z-index: 100;
         }
 
-        .card:hover {
-            border-color: rgba(0, 194, 168, 0.3);
-            background: rgba(15, 27, 46, 0.95);
-        }
-
-        .card-header {
+        .logo {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            font-family: var(--font-syne);
-        }
-
-        .card-label {
-            font-size: 12px;
-            color: var(--color-teal);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            background: rgba(0, 194, 168, 0.1);
-            padding: 4px 8px;
-            border-radius: var(--border-radius-sm);
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .stat-card {
-            background: rgba(15, 27, 46, 0.6);
-            border: 1px solid rgba(0, 194, 168, 0.1);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-md);
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--color-text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            font-family: var(--font-syne);
-            color: var(--color-teal);
-            margin-bottom: 4px;
-        }
-
-        .stat-change {
-            font-size: 12px;
-            color: var(--color-success);
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: var(--border-radius-md);
-            font-family: var(--font-dm-sans);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            gap: 4px;
             text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
+            color: var(--ink);
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        .btn-primary {
-            background: var(--color-teal);
-            color: var(--color-navy);
+        .logo-cast {
+            color: var(--teal);
         }
 
-        .btn-primary:hover {
-            background: var(--color-teal-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 194, 168, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-teal);
-            border: 2px solid var(--color-teal);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 194, 168, 0.1);
-        }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        th {
-            text-align: left;
-            padding: var(--spacing-md);
-            border-bottom: 1px solid rgba(0, 194, 168, 0.1);
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            padding: var(--spacing-md);
-            border-bottom: 1px solid rgba(0, 194, 168, 0.05);
-        }
-
-        tr:hover {
-            background: rgba(0, 194, 168, 0.05);
-        }
-
-        /* Chart placeholders */
-        .chart {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(0, 194, 168, 0.1), rgba(91, 33, 182, 0.1));
-            border-radius: var(--border-radius-md);
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--color-text-secondary);
-            margin: var(--spacing-md) 0;
-            font-size: 14px;
+            color: var(--bg-main);
+            font-weight: 700;
+            font-size: 12px;
         }
 
-        /* Heatmap */
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* TAB NAVIGATION */
+        .tab-nav {
+            display: flex;
+            gap: 32px;
+            border-bottom: 1px solid var(--teal-border);
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+
+        .tab-nav button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 0;
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            transition: color 0.3s ease;
+        }
+
+        .tab-nav button:hover {
+            color: var(--ink);
+        }
+
+        .tab-nav button.active {
+            color: var(--teal);
+        }
+
+        .tab-nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--teal);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* TOP METRICS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .metric-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .metric-label {
+            color: var(--gray);
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            color: var(--ink);
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .metric-trend.up {
+            color: var(--green);
+        }
+
+        .metric-trend.down {
+            color: var(--red);
+        }
+
+        .metric-trend.neutral {
+            color: var(--gray-faint);
+        }
+
+        /* SECTION CONTAINER */
+        .section {
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .section-header:hover {
+            background: var(--bg-card-3);
+        }
+
+        .section-header.collapsed {
+            border-radius: 8px;
+        }
+
+        .section-header.expanded {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .section-toggle {
+            color: var(--gray);
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.expanded .section-toggle {
+            transform: rotate(180deg);
+        }
+
+        .section-body {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-top: none;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            padding: 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .section-body.expanded {
+            max-height: 5000px;
+        }
+
+        /* AI SUMMARY */
+        .summary-box {
+            background: linear-gradient(135deg, rgba(0, 194, 168, 0.05), rgba(0, 194, 168, 0.02));
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .summary-box p {
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        /* HEATMAP */
+        .heatmap-container {
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+
         .heatmap {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
+            grid-template-columns: 60px repeat(17, 20px);
+            gap: 2px;
+            padding: 0;
+        }
+
+        .heatmap-label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 11px;
+            color: var(--gray-faint);
+            font-weight: 500;
         }
 
         .heatmap-cell {
-            aspect-ratio: 1;
-            border-radius: var(--border-radius-sm);
-            background: rgba(0, 194, 168, 0.1);
-            border: 1px solid rgba(0, 194, 168, 0.2);
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid var(--gray-faint);
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .heatmap-cell:hover {
-            border-color: var(--color-teal);
-            box-shadow: 0 0 12px rgba(0, 194, 168, 0.3);
+            transform: scale(1.3);
         }
 
-        .heatmap-cell.active {
-            background: var(--color-teal);
+        .heatmap-cell.high {
+            background: var(--teal);
         }
 
-        /* Asset Grid */
-        .asset-grid {
+        .heatmap-cell.medium {
+            background: rgba(0, 194, 168, 0.5);
+        }
+
+        .heatmap-cell.low {
+            background: var(--bg-card-3);
+        }
+
+        .heatmap-cell.none {
+            background: var(--gray-faint);
+        }
+
+        /* CALLOUT BOXES */
+        .callout-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: var(--spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
 
-        .asset-card {
-            background: rgba(15, 27, 46, 0.6);
-            border: 1px solid rgba(0, 194, 168, 0.1);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-md);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .callout-box {
+            background: rgba(0, 194, 168, 0.08);
+            border-left: 3px solid var(--teal);
+            border-radius: 4px;
+            padding: 12px;
         }
 
-        .asset-card:hover {
-            border-color: var(--color-teal);
-            background: rgba(15, 27, 46, 0.9);
-        }
-
-        .asset-image {
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(135deg, rgba(0, 194, 168, 0.2), rgba(91, 33, 182, 0.1));
-            border-radius: var(--border-radius-sm);
-            margin-bottom: var(--spacing-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: var(--color-text-secondary);
-        }
-
-        .asset-name {
+        .callout-label {
+            font-size: 11px;
+            color: var(--gray);
+            text-transform: uppercase;
             font-weight: 600;
+            letter-spacing: 0.5px;
             margin-bottom: 4px;
-            color: var(--color-text-primary);
         }
 
-        .asset-price {
-            font-size: 12px;
-            color: var(--color-teal);
+        .callout-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--teal);
         }
 
-        /* Calendar */
-        .calendar-wrapper {
-            margin: var(--spacing-md) 0;
-        }
-
-        .calendar-header {
+        /* CONTENT LIBRARY */
+        .filter-bar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .calendar-header button {
-            background: transparent;
-            border: 1px solid rgba(0, 194, 168, 0.2);
-            color: var(--color-teal);
-            padding: 6px 12px;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .calendar-header button:hover {
-            border-color: var(--color-teal);
-            background: rgba(0, 194, 168, 0.1);
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
             gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
         }
 
-        .calendar-day-header {
-            text-align: center;
+        .filter-btn {
+            background: var(--bg-card-3);
+            border: 1px solid var(--teal-border);
+            color: var(--gray);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: var(--teal);
+            color: var(--bg-main);
+            border-color: var(--teal);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--teal);
+        }
+
+        /* CONTENT ROWS */
+        .content-row {
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .content-row-header {
+            display: grid;
+            grid-template-columns: 40px 1fr 80px 80px 100px;
+            gap: 12px;
+            align-items: center;
+            padding: 12px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .content-row-header:hover {
+            background: var(--bg-card-3);
+        }
+
+        .thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+        }
+
+        .content-title {
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .content-meta {
+            font-size: 11px;
+            color: var(--gray-faint);
+        }
+
+        .reach-metric {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 12px;
+        }
+
+        .engagement-metric {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 12px;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-strong {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--green);
+        }
+
+        .badge-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        .badge-weak {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .content-row-body {
+            display: none;
+            padding: 16px;
+            background: var(--bg-card-1);
+            border-top: 1px solid var(--teal-border);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .content-row-body.expanded {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            color: var(--gray);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: var(--ink);
+        }
+
+        /* TABLES */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: rgba(0, 194, 168, 0.05);
+            border-bottom: 1px solid var(--teal-border);
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
             font-weight: 600;
             font-size: 12px;
-            color: var(--color-text-secondary);
-            padding: var(--spacing-sm);
+            color: var(--gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0, 194, 168, 0.1);
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 13px;
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--teal-border);
+            color: var(--ink);
         }
 
-        .calendar-day:hover {
-            border-color: var(--color-teal);
-            background: rgba(0, 194, 168, 0.1);
+        .data-table tbody tr:hover {
+            background: rgba(0, 194, 168, 0.03);
         }
 
-        .calendar-day.today {
-            background: var(--color-teal);
-            color: var(--color-navy);
-            font-weight: 600;
+        /* TREND CARDS */
+        .trend-card {
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
         }
 
-        .calendar-day.event {
-            background: rgba(0, 194, 168, 0.2);
-            border-color: var(--color-teal);
-        }
-
-        .calendar-day.other-month {
-            color: var(--color-gray-dark);
-        }
-
-        /* Modal/Popup */
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(6, 15, 30, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .popup-overlay.active {
-            display: flex;
-        }
-
-        .popup {
-            background: var(--color-navy-card);
-            border: 1px solid rgba(0, 194, 168, 0.2);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 194, 168, 0.2);
-        }
-
-        .popup-header {
-            font-size: 20px;
-            font-weight: 700;
-            font-family: var(--font-syne);
-            margin-bottom: var(--spacing-md);
+        .trend-card-header {
+            padding: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .popup-close {
-            background: transparent;
-            border: none;
-            color: var(--color-text-secondary);
-            font-size: 24px;
             cursor: pointer;
-            transition: color 0.2s ease;
+            transition: background 0.2s ease;
         }
 
-        .popup-close:hover {
-            color: var(--color-teal);
+        .trend-card-header:hover {
+            background: var(--bg-card-3);
         }
 
-        .popup-content {
-            margin-bottom: var(--spacing-lg);
+        .trend-card-title {
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 13px;
         }
 
-        .popup-footer {
+        .trend-card-toggle {
+            color: var(--gray);
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .trend-card-header.expanded .trend-card-toggle {
+            transform: rotate(180deg);
+        }
+
+        .trend-card-body {
+            display: none;
+            padding: 12px;
+            background: var(--bg-card-1);
+            border-top: 1px solid var(--teal-border);
+            font-size: 12px;
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .trend-card-body.expanded {
+            display: block;
+            max-height: 2000px;
+        }
+
+        /* BADGE STYLES */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-high {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--green);
+        }
+
+        .badge-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        .badge-low {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+        }
+
+        /* PLATFORM CARDS */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .platform-card {
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .platform-card-header {
+            padding: 12px;
             display: flex;
-            gap: var(--spacing-md);
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: var(--bg-card-2);
+            transition: background 0.2s ease;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .three-col {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .hero-row {
-                grid-template-columns: 1fr;
-            }
-
-            .bottom-grid {
-                grid-template-columns: 1fr;
-            }
+        .platform-card-header:hover {
+            background: var(--bg-card-3);
         }
 
+        .platform-name {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 13px;
+        }
+
+        .platform-toggle {
+            color: var(--gray);
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .platform-card-header.expanded .platform-toggle {
+            transform: rotate(180deg);
+        }
+
+        .platform-card-body {
+            display: none;
+            padding: 12px;
+            background: var(--bg-card-1);
+            border-top: 1px solid var(--teal-border);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            font-size: 12px;
+        }
+
+        .platform-card-body.expanded {
+            display: block;
+            max-height: 1500px;
+        }
+
+        /* SETTINGS FORM */
+        .settings-section {
+            background: var(--bg-card-2);
+            border: 1px solid var(--teal-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .settings-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input,
+        .form-select {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            color: var(--ink);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--teal);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-faint);
+        }
+
+        .tone-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+        }
+
+        .tone-option {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            color: var(--gray);
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tone-option.active {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: var(--bg-main);
+        }
+
+        .tone-option:hover {
+            border-color: var(--teal);
+        }
+
+        .sample-text {
+            background: rgba(0, 194, 168, 0.08);
+            border-left: 2px solid var(--teal);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--gray);
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .color-swatches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+        }
+
+        .swatch {
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--teal-border);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .swatch-label {
+            font-size: 10px;
+            color: var(--ink);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ACCOUNT CONNECTIONS */
+        .connection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .connection-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--teal-border);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .connection-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .connection-status {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .status-connected {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--green);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            background: rgba(0, 194, 168, 0.05);
+            border: 2px dashed var(--teal-border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+        }
+
+        .upload-zone:hover {
+            background: rgba(0, 194, 168, 0.1);
+            border-color: var(--teal);
+        }
+
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .upload-text {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        /* RESPONSIVENESS */
         @media (max-width: 768px) {
-            .nav-links {
-                gap: var(--spacing-md);
+            .container {
+                padding: 12px;
             }
 
-            .nav-links a {
+            .navbar {
+                padding: 0 12px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .content-row-header {
+                grid-template-columns: 30px 1fr 60px;
+                gap: 8px;
+            }
+
+            .reach-metric,
+            .engagement-metric {
+                display: none;
+            }
+
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                gap: 16px;
+            }
+
+            .callout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 8px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .summary-box {
                 font-size: 12px;
             }
 
-            .header-title {
-                font-size: 32px;
-            }
-
-            .two-col,
-            .three-col {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .container {
-                padding: var(--spacing-lg);
+            .tab-nav {
+                font-size: 12px;
+                gap: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="background-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
-    <div class="grain-overlay"></div>
-
-    <nav>
-        <nav-content>
-            <a href="index.html" class="nav-brand">
-                <span class="nav-brand-prop">Prop</span><span class="nav-brand-cast">Cast</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="propcast-onboarding.html">Onboarding</a></li>
-                <li><a href="propcast-dashboard.html">Dashboard</a></li>
-                <li><a href="propcast-nudge.html">Nudge</a></li>
-                <li><a href="propcast-scorecard.html">Scorecard</a></li>
-            </ul>
-        </nav-content>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            Prop<span class="logo-cast">Cast</span>
+        </a>
+        <div class="avatar">GW</div>
     </nav>
 
+    <!-- MAIN CONTAINER -->
     <div class="container">
-        <div class="header">
-            <h1 class="header-title">Dashboard</h1>
-            <p class="header-subtitle">Real-time property insights and performance metrics</p>
+        <!-- TAB NAVIGATION -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="overview">Overview</button>
+            <button class="tab-btn" data-tab="content-performance">Content Performance</button>
+            <button class="tab-btn" data-tab="trends">Trends & Intelligence</button>
+            <button class="tab-btn" data-tab="platforms">Platforms</button>
+            <button class="tab-btn" data-tab="settings">Settings</button>
         </div>
 
-        <!-- Stats Overview -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Properties</div>
-                <div class="stat-value">247</div>
-                <div class="stat-change">+12 this month</div>
+        <!-- TAB 1: OVERVIEW -->
+        <div id="overview" class="tab-content active">
+            <!-- Top Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Videos Created</div>
+                    <div class="metric-value">14</div>
+                    <div class="metric-trend up">↑ 3 from last month</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Posts Published</div>
+                    <div class="metric-value">52</div>
+                    <div class="metric-trend up">↑ 11 from last month</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Total Reach</div>
+                    <div class="metric-value">187K</div>
+                    <div class="metric-trend up">↑ 23%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Total Engagement</div>
+                    <div class="metric-value">4,230</div>
+                    <div class="metric-trend up">↑ 18%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">New Leads</div>
+                    <div class="metric-value">7</div>
+                    <div class="metric-trend up">↑ 2 from last month</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Hours Saved</div>
+                    <div class="metric-value">22</div>
+                    <div class="metric-trend neutral">vs manual</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Avg ROI</div>
-                <div class="stat-value">8.3%</div>
-                <div class="stat-change">+1.2% vs last month</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Value</div>
-                <div class="stat-value">$42.5M</div>
-                <div class="stat-change">+$3.2M growth</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Occupancy Rate</div>
-                <div class="stat-value">94.2%</div>
-                <div class="stat-change">Excellent</div>
+
+            <!-- AI Summary -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">What PropCast Did This Month — And What It's Doing Next</span>
+                </div>
+                <div class="section-body expanded">
+                    <div class="summary-box">
+                        <p>This month PropCast created 14 videos and 52 posts reaching 187,400 people across Instagram, Facebook, YouTube, and Google Business Profile. Your real estate listing content outperformed market education content 3.2-to-1 — PropCast has shifted your content mix to 70% listing and neighborhood content, 30% market education.</p>
+
+                        <p>Your best performing post was a 45-second reel about East Palo Alto median prices dropping — it reached 8,400 people and generated 3 direct inquiries. PropCast is creating 4 more variations of this format this month.</p>
+
+                        <p>PropCast detected a trending topic around California ADU legislation and ran a 14-day test. Results were strong — ADU content now runs every 10 days automatically.</p>
+
+                        <p>One test was stopped: mortgage rate lock content peaked and dropped off. PropCast is monitoring for re-emergence.</p>
+
+                        <p>Your posting schedule was adjusted to Tuesday and Thursday 9AM after 60 days of heatmap data. Engagement improved 18% since the change.</p>
+
+                        <p>Next month PropCast will increase video output by 2 additional pieces, scale up ADU and neighborhood content, and run a new test on first-time buyer content based on a Google Trends spike detected this week.</p>
+
+                        <p>You spent zero hours on content this month. PropCast handled everything.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Hero Section with Chart and Metrics -->
-        <div class="hero-row">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Revenue Trend</h2>
-                    <span class="card-label">Q1 2024</span>
+        <!-- TAB 2: CONTENT PERFORMANCE -->
+        <div id="content-performance" class="tab-content">
+            <!-- Posting Heatmap -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">Best Times To Post — PropCast Auto-Optimized</span>
+                    <span class="section-toggle">▼</span>
                 </div>
-                <div class="chart">Interactive revenue chart placeholder</div>
-                <p style="color: var(--color-text-secondary); font-size: 13px;">
-                    Your properties generated consistent revenue growth with a peak in March. Current performance is 18% above target.
-                </p>
+                <div class="section-body">
+                    <div class="heatmap-container">
+                        <div class="heatmap" id="heatmapGrid"></div>
+                    </div>
+                    <div class="callout-grid">
+                        <div class="callout-box">
+                            <div class="callout-label">Best Day</div>
+                            <div class="callout-value">Tuesday 8.4%</div>
+                        </div>
+                        <div class="callout-box">
+                            <div class="callout-label">Best Time</div>
+                            <div class="callout-value">9–11 AM</div>
+                        </div>
+                        <div class="callout-box">
+                            <div class="callout-label">Worst Time</div>
+                            <div class="callout-value">2–4 PM Weekdays</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 16px; color: var(--gray-faint); font-size: 12px;">PropCast auto-shifts your posting schedule based on real engagement data. This heatmap shows your best times to post across the entire week.</p>
+                    <div style="margin-top: 16px; background: rgba(0, 194, 168, 0.05); border-left: 3px solid var(--teal); padding: 12px; border-radius: 4px; font-size: 12px;">
+                        <strong>Before schedule change:</strong> Posted daily at 2 PM. Engagement was flat.<br>
+                        <strong>After schedule change:</strong> Tuesday & Thursday 9 AM. Engagement increased 18%.
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Portfolio Health</h2>
+
+            <!-- Content Library -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">Every Post PropCast Created</span>
+                    <span class="section-toggle">▼</span>
                 </div>
-                <div style="text-align: center; padding: var(--spacing-lg) 0;">
-                    <div style="font-size: 48px; color: var(--color-teal); margin-bottom: var(--spacing-md);">●</div>
-                    <div style="font-size: 24px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Excellent</div>
-                    <div style="color: var(--color-text-secondary); margin-bottom: var(--spacing-md);">All properties performing well</div>
-                    <div style="background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md); padding: var(--spacing-md);">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); font-size: 13px;">
-                            <div>
-                                <div style="color: var(--color-text-secondary); margin-bottom: 4px;">Risk Level</div>
-                                <div style="color: var(--color-success);">Low</div>
+                <div class="section-body">
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterContent('all', this)">All Platforms</button>
+                        <button class="filter-btn" onclick="filterContent('instagram', this)">Instagram</button>
+                        <button class="filter-btn" onclick="filterContent('facebook', this)">Facebook</button>
+                        <button class="filter-btn" onclick="filterContent('youtube', this)">YouTube</button>
+                        <button class="filter-btn" onclick="filterContent('gbp', this)">GBP</button>
+                    </div>
+
+                    <div id="contentLibrary">
+                        <!-- Content rows generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TRENDS & INTELLIGENCE -->
+        <div id="trends" class="tab-content">
+            <!-- Google Search Console -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">What People Are Searching For In Your Market</span>
+                </div>
+                <div class="section-body expanded">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Query</th>
+                                <th>Monthly Volume</th>
+                                <th>Your Rank</th>
+                                <th>CTR</th>
+                                <th>Trend</th>
+                                <th>PropCast Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>east palo alto homes for sale</td>
+                                <td>2,400</td>
+                                <td>#2</td>
+                                <td>18%</td>
+                                <td><span class="metric-trend up">↑</span></td>
+                                <td>Creating listing video series</td>
+                            </tr>
+                            <tr>
+                                <td>adu california 2025</td>
+                                <td>1,850</td>
+                                <td>#4</td>
+                                <td>12%</td>
+                                <td><span class="metric-trend up">↑</span></td>
+                                <td>Running weekly guide posts</td>
+                            </tr>
+                            <tr>
+                                <td>median home price palo alto</td>
+                                <td>1,200</td>
+                                <td>#1</td>
+                                <td>22%</td>
+                                <td><span class="metric-trend neutral">→</span></td>
+                                <td>Monthly market update</td>
+                            </tr>
+                            <tr>
+                                <td>first time home buyer guide</td>
+                                <td>980</td>
+                                <td>#8</td>
+                                <td>6%</td>
+                                <td><span class="metric-trend up">↑</span></td>
+                                <td>Testing new content</td>
+                            </tr>
+                            <tr>
+                                <td>peninsula real estate market</td>
+                                <td>850</td>
+                                <td>#3</td>
+                                <td>14%</td>
+                                <td><span class="metric-trend neutral">→</span></td>
+                                <td>Quarterly deep dives</td>
+                            </tr>
+                            <tr>
+                                <td>mountain view homes</td>
+                                <td>720</td>
+                                <td>#6</td>
+                                <td>10%</td>
+                                <td><span class="metric-trend down">↓</span></td>
+                                <td>Needs neighborhood focus</td>
+                            </tr>
+                            <tr>
+                                <td>bay area property taxes</td>
+                                <td>650</td>
+                                <td>#5</td>
+                                <td>9%</td>
+                                <td><span class="metric-trend up">↑</span></td>
+                                <td>Educational series</td>
+                            </tr>
+                            <tr>
+                                <td>home inspection checklist</td>
+                                <td>580</td>
+                                <td>#12</td>
+                                <td>4%</td>
+                                <td><span class="metric-trend up">↑</span></td>
+                                <td>Guide download planned</td>
+                            </tr>
+                            <tr>
+                                <td>virtual home tours east palo alto</td>
+                                <td>420</td>
+                                <td>#2</td>
+                                <td>16%</td>
+                                <td><span class="metric-trend up">↑</span></td>
+                                <td>3D tour content</td>
+                            </tr>
+                            <tr>
+                                <td>real estate market forecast</td>
+                                <td>380</td>
+                                <td>#7</td>
+                                <td>8%</td>
+                                <td><span class="metric-trend neutral">→</span></td>
+                                <td>Monthly prediction posts</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 20px;">
+                        <h3 style="color: var(--red); font-size: 14px; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700;">Missed Opportunities</h3>
+                        <div style="display: grid; gap: 12px;">
+                            <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--red); padding: 12px; border-radius: 4px;">
+                                <div style="color: var(--red); font-weight: 600; font-size: 12px; margin-bottom: 4px;">rent vs buy peninsula (520 searches/month)</div>
+                                <div style="color: var(--gray); font-size: 11px;">No content exists. Opportunity for educational comparison post.</div>
                             </div>
-                            <div>
-                                <div style="color: var(--color-text-secondary); margin-bottom: 4px;">Alerts</div>
-                                <div style="color: var(--color-teal);">2 warnings</div>
+                            <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--red); padding: 12px; border-radius: 4px;">
+                                <div style="color: var(--red); font-weight: 600; font-size: 12px; margin-bottom: 4px;">downpayment assistance california (410 searches/month)</div>
+                                <div style="color: var(--gray); font-size: 11px;">Trending up but no buyer program content created. High lead potential.</div>
+                            </div>
+                            <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--red); padding: 12px; border-radius: 4px;">
+                                <div style="color: var(--red); font-weight: 600; font-size: 12px; margin-bottom: 4px;">remote work living palo alto (340 searches/month)</div>
+                                <div style="color: var(--gray); font-size: 11px;">Post-pandemic interest still high. No neighborhood lifestyle content.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Local Market Trends -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">What's Happening In Your Market Right Now</span>
+                    <span class="section-toggle">▼</span>
+                </div>
+                <div class="section-body">
+                    <p style="background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--amber); padding: 12px; border-radius: 4px; margin-bottom: 16px; color: var(--gray); font-size: 12px;">Low local search volume detected for East Palo Alto. PropCast pulling from broader Peninsula market data for stronger signals.</p>
+
+                    <div style="display: grid; gap: 12px;">
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Median Price Changes</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Current Median</div>
+                                    <div class="detail-value">$2,850,000</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Change from Last Quarter</div>
+                                    <div class="detail-value" style="color: var(--red);">↓ 4.2% (-$124,000)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Year-over-Year Change</div>
+                                    <div class="detail-value" style="color: var(--red);">↓ 7.8%</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Strategy</div>
+                                    <div class="detail-value">Emphasizing value positioning. Created 6 posts highlighting buyer opportunity in market softness.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Days on Market</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Average DOM</div>
+                                    <div class="detail-value">28 days</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Change from Last Quarter</div>
+                                    <div class="detail-value" style="color: var(--amber);">↑ 12% (+3 days)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Properties Selling Fastest</div>
+                                    <div class="detail-value">Homes under $2.5M (avg 19 days)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Strategy</div>
+                                    <div class="detail-value">Increasing luxury positioning content for properties $2.5M+. Testing staged photography highlights.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Inventory Levels</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Months of Inventory</div>
+                                    <div class="detail-value">3.8 months</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Market Classification</div>
+                                    <div class="detail-value">Balanced Seller's Market</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Active Listings Change</div>
+                                    <div class="detail-value" style="color: var(--green);">↑ 18% from last quarter</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Strategy</div>
+                                    <div class="detail-value">More inventory means more seller opportunities. Messaging shifted to urgency for potential sellers listing their homes.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Most Searched Neighborhoods</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div style="margin-bottom: 12px;">
+                                    <strong style="color: var(--ink); font-size: 12px;">1. Old Palo Alto</strong><span style="display: block; color: var(--gray); font-size: 11px; margin-top: 2px;">Most searched neighborhood. Tree-lined streets, historic charm.</span>
+                                </div>
+                                <div style="margin-bottom: 12px;">
+                                    <strong style="color: var(--ink); font-size: 12px;">2. Menlo Park Downtown</strong><span style="display: block; color: var(--gray); font-size: 11px; margin-top: 2px;">Growing interest in urban walkability and dining scene.</span>
+                                </div>
+                                <div style="margin-bottom: 12px;">
+                                    <strong style="color: var(--ink); font-size: 12px;">3. Los Altos Hills</strong><span style="display: block; color: var(--gray); font-size: 11px; margin-top: 2px;">Luxury estates and privacy driving search volume up 23%.</span>
+                                </div>
+                                <div class="detail-label" style="margin-top: 12px;">PropCast Strategy</div>
+                                <div class="detail-value">Creating dedicated neighborhood guides for top 3 areas. Video tours filming this week.</div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Top Buyer Questions</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div style="margin-bottom: 8px;"><strong style="color: var(--ink); font-size: 12px;">What's happening with interest rates?</strong><span style="display: block; color: var(--gray); font-size: 11px; margin-top: 2px;">Searched 42% more this month. Buyers concerned about affordability.</span></div>
+                                <div style="margin-bottom: 8px;"><strong style="color: var(--ink); font-size: 12px;">Can I get a mortgage with lower down payment?</strong><span style="display: block; color: var(--gray); font-size: 11px; margin-top: 2px;">First-time buyers searching programs. High lead potential.</span></div>
+                                <div style="margin-bottom: 8px;"><strong style="color: var(--ink); font-size: 12px;">What are ADU rules in California?</strong><span style="display: block; color: var(--gray); font-size: 11px; margin-top: 2px;">Building/renovation interest strong. PropCast running tests here.</span></div>
+                                <div class="detail-label" style="margin-top: 12px;">PropCast Strategy</div>
+                                <div class="detail-value">Q&A video series and FAQ guides created in response to these questions.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- National Trends -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">National Real Estate Trends PropCast Is Monitoring</span>
+                    <span class="section-toggle">▼</span>
+                </div>
+                <div class="section-body">
+                    <div style="display: grid; gap: 12px;">
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Fed Rate Decision</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">Rate held at 4.25-4.50% in March. Next decision April 30th.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Search Volume</div>
+                                    <div class="detail-value">Trending up 67%</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Relevance</div>
+                                    <span class="badge badge-high">High</span>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">Monthly Fed explainer videos scheduled. Direct impact on mortgage rates and buyer sentiment.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">ADU Legislation Expansion</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">California ADU rules expanding state-wide in 2025. New streamlined approval process.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Search Volume</div>
+                                    <div class="detail-value">Spiked 156% last 30 days</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Relevance</div>
+                                    <span class="badge badge-high">High</span>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">ADU content running every 10 days. Strong buyer and seller interest. 4 new variations launching this week.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">First-Time Buyer Programs</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">California expanded down payment assistance. Federal programs announced in April.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Search Volume</div>
+                                    <div class="detail-value">Trending up 43%</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Relevance</div>
+                                    <span class="badge badge-high">High</span>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">Testing new buyer program guide content starting this week. Targeting Gen Z and younger millennial demographics.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Luxury Market Shift</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">Luxury homes ($3M+) seeing longer days on market. Shift toward premium positioning.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Search Volume</div>
+                                    <div class="detail-value">Trending neutral</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Relevance</div>
+                                    <span class="badge badge-medium">Medium</span>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">Monitoring. Increased luxury property showcase content planned if trend accelerates. Currently 8% of your inventory.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Remote Work Migration</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">Remote work flexibility still strong. Suburban and semi-rural areas still seeing interest lift.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Search Volume</div>
+                                    <div class="detail-value">Trending down 12%</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Relevance</div>
+                                    <span class="badge badge-medium">Medium</span>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">Reducing frequency of remote work lifestyle content. Lifestyle neighborhood content focusing more on walkability and in-person community benefits.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What's Getting Hits -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">Content That's Working Right Now</span>
+                    <span class="section-toggle">▼</span>
+                </div>
+                <div class="section-body">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                        <div>
+                            <h3 style="color: var(--ink); font-size: 13px; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700;">Your Top 5 Performing Posts</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="background: var(--bg-card-1); border-left: 3px solid var(--green); padding: 10px; border-radius: 4px;">
+                                    <div style="color: var(--ink); font-size: 12px; font-weight: 600;">East Palo Alto Price Drop</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">8,400 reach - 340 engagement</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); border-left: 3px solid var(--green); padding: 10px; border-radius: 4px;">
+                                    <div style="color: var(--ink); font-size: 12px; font-weight: 600;">ADU Rules Explained</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">6,200 reach - 280 engagement</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); border-left: 3px solid var(--amber); padding: 10px; border-radius: 4px;">
+                                    <div style="color: var(--ink); font-size: 12px; font-weight: 600;">Median Home Value 2025</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">5,100 reach - 198 engagement</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); border-left: 3px solid var(--amber); padding: 10px; border-radius: 4px;">
+                                    <div style="color: var(--ink); font-size: 12px; font-weight: 600;">Neighborhood Spotlight</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">4,800 reach - 172 engagement</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); border-left: 3px solid var(--amber); padding: 10px; border-radius: 4px;">
+                                    <div style="color: var(--ink); font-size: 12px; font-weight: 600;">First-Time Buyer Guide</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">3,900 reach - 156 engagement</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 style="color: var(--ink); font-size: 13px; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700;">What's Working In Your Space</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="background: var(--bg-card-1); padding: 10px; border: 1px solid var(--teal-border); border-radius: 4px;">
+                                    <div style="color: var(--teal); font-size: 12px; font-weight: 600;">Market data videos (45-60 sec)</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">3.2x average engagement. Trending up.</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); padding: 10px; border: 1px solid var(--teal-border); border-radius: 4px;">
+                                    <div style="color: var(--teal); font-size: 12px; font-weight: 600;">Neighborhood guides with visuals</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">2.8x saves/shares. Very high intent.</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); padding: 10px; border: 1px solid var(--teal-border); border-radius: 4px;">
+                                    <div style="color: var(--teal); font-size: 12px; font-weight: 600;">Educational series (buyer FAQ)</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">2.1x DMs/inquiries. Lead generating.</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); padding: 10px; border: 1px solid var(--teal-border); border-radius: 4px;">
+                                    <div style="color: var(--teal); font-size: 12px; font-weight: 600;">Carousel posts (step-by-step)</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">Completion rate 78%. High retention.</div>
+                                </div>
+                                <div style="background: var(--bg-card-1); padding: 10px; border: 1px solid var(--teal-border); border-radius: 4px;">
+                                    <div style="color: var(--teal); font-size: 12px; font-weight: 600;">Behind-the-scenes agent content</div>
+                                    <div style="color: var(--gray); font-size: 10px; margin-top: 2px;">Trust building. 45% comment rate.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -736,403 +1506,743 @@
             </div>
         </div>
 
-        <!-- Top Properties and Market Analysis -->
-        <div class="two-col">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Top Properties</h2>
-                    <span class="card-label">By Revenue</span>
+        <!-- TAB 4: PLATFORMS -->
+        <div id="platforms" class="tab-content">
+            <!-- Trend Testing Engine -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">PropCast Trend Radar - Active Tests</span>
+                    <span class="section-toggle">▼</span>
                 </div>
-                <table>
+                <div class="section-body">
+                    <h3 style="color: var(--ink); font-size: 13px; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700;">Active Tests (Running Now)</h3>
+                    <div style="display: grid; gap: 12px; margin-bottom: 20px;">
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">ADU Legislation Content Series</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Test Duration</div>
+                                    <div class="detail-value">14 days (started March 24)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Content Format</div>
+                                    <div class="detail-value">60-second video + carousel breakdown</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Publishing Schedule</div>
+                                    <div class="detail-value">Every 10 days across all platforms</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Early Results</div>
+                                    <div class="detail-value" style="color: var(--green);">34% higher engagement than baseline. 2 direct ADU inquiries already.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">Continuing. Scaling to 3x per week production. Strong buyer and seller interest.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">First-Time Buyer Program Content</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Test Duration</div>
+                                    <div class="detail-value">7 days (started April 1)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Content Format</div>
+                                    <div class="detail-value">FAQ video series + downloadable guide</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Publishing Schedule</div>
+                                    <div class="detail-value">2x per week, Tuesday/Friday</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Early Results</div>
+                                    <div class="detail-value" style="color: var(--green);">Guide downloaded 42 times. High targeting relevance.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Decision</div>
+                                    <div class="detail-value">Expanding test to full 30 days. Target younger demographics (Gen Z, millennials) showing strong interest.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--ink); font-size: 13px; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700;">Recently Completed Tests</h3>
+                    <div style="display: grid; gap: 12px; margin-bottom: 20px;">
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Virtual 3D Home Tours</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Test Duration</div>
+                                    <div class="detail-value">30 days (March 1-31)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Result</div>
+                                    <div class="detail-value" style="color: var(--green);">Successful - 23% higher click-through than traditional photos</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Decision</div>
+                                    <div class="detail-value">Moving to production. Now using for all high-value listings ($2M+).</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trend-card">
+                            <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                                <span class="trend-card-title">Mortgage Rate Explainer Series</span>
+                                <span class="trend-card-toggle">▼</span>
+                            </div>
+                            <div class="trend-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Test Duration</div>
+                                    <div class="detail-value">30 days (February 15-March 15)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Result</div>
+                                    <div class="detail-value" style="color: var(--red);">Underperformed - Interest peaked then dropped off</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Decision</div>
+                                    <div class="detail-value">Stopped. PropCast is monitoring for re-emergence. Will reactivate if Fed makes rate decision.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--ink); font-size: 13px; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700;">Stopped Tests (Paused)</h3>
+                    <div class="trend-card">
+                        <div class="trend-card-header" onclick="toggleTrendCard(this)">
+                            <span class="trend-card-title">Market Rate Lock Content</span>
+                            <span class="trend-card-toggle">▼</span>
+                        </div>
+                        <div class="trend-card-body">
+                            <div class="detail-section">
+                                <div class="detail-label">Reason Stopped</div>
+                                <div class="detail-value">Peaked and dropped off. Initial interest strong but engagement fell 67% by week 2.</div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">PropCast Monitoring</div>
+                                <div class="detail-value">Watching for re-emergence signal if market conditions change or Fed makes announcement.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Platform Breakdown -->
+            <div class="section">
+                <div class="section-header collapsed" onclick="toggleSection(this)">
+                    <span class="section-title">Platform Performance Breakdown</span>
+                    <span class="section-toggle">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="platform-grid">
+                        <div class="platform-card">
+                            <div class="platform-card-header" onclick="togglePlatformCard(this)">
+                                <span class="platform-name">Instagram</span>
+                                <span class="platform-toggle">▼</span>
+                            </div>
+                            <div class="platform-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Total Reach</div>
+                                    <div class="detail-value">87,400</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Engagement Rate</div>
+                                    <div class="detail-value">6.2% (Up 1.8%)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Best Post</div>
+                                    <div class="detail-value">East Palo Alto Price Drop Reel (8,400 reach, 340 engagement)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Worst Post</div>
+                                    <div class="detail-value">Mortgage rate lock carousel (240 reach, 8 engagement) - stopped this format.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Posting Frequency</div>
+                                    <div class="detail-value">5-6 posts/week - Changed to 3-4 posts/week (focus over volume)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Adjustment</div>
+                                    <div class="detail-value">Increasing Reels output. Carousels still working but video 3.5x more engaging. More vertical video content, less static slides.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="platform-card">
+                            <div class="platform-card-header" onclick="togglePlatformCard(this)">
+                                <span class="platform-name">Facebook</span>
+                                <span class="platform-toggle">▼</span>
+                            </div>
+                            <div class="platform-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Total Reach</div>
+                                    <div class="detail-value">63,200</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Engagement Rate</div>
+                                    <div class="detail-value">4.1% (Stable)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Best Post</div>
+                                    <div class="detail-value">Neighborhood spotlight carousel (5,200 reach, 156 engagement)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Worst Post</div>
+                                    <div class="detail-value">Market forecast article link (480 reach, 3 engagement) - low organic reach.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Posting Frequency</div>
+                                    <div class="detail-value">4 posts/week. Stable performance.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Adjustment</div>
+                                    <div class="detail-value">Facebook audience older demographic. Keeping carousels and longer-form content. Video Reels also testing with older segments - seeing uptick.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="platform-card">
+                            <div class="platform-card-header" onclick="togglePlatformCard(this)">
+                                <span class="platform-name">YouTube</span>
+                                <span class="platform-toggle">▼</span>
+                            </div>
+                            <div class="platform-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Total Reach</div>
+                                    <div class="detail-value">24,800</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Engagement Rate</div>
+                                    <div class="detail-value">8.7% (Up 3.2%)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Best Post</div>
+                                    <div class="detail-value">ADU Guide Explainer (6,400 views, 23% watch time, 89 comments)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Worst Post</div>
+                                    <div class="detail-value">30-minute market deep dive (1,200 views, 4% watch time) - too long for platform.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Posting Frequency</div>
+                                    <div class="detail-value">2 videos/week (8-12 min format best performing)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Adjustment</div>
+                                    <div class="detail-value">Keeping format to 8-12 min educational content. YouTube audience loves explainers. Shorts also testing (23% higher reach than long-form).</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="platform-card">
+                            <div class="platform-card-header" onclick="togglePlatformCard(this)">
+                                <span class="platform-name">Google Business Profile</span>
+                                <span class="platform-toggle">▼</span>
+                            </div>
+                            <div class="platform-card-body">
+                                <div class="detail-section">
+                                    <div class="detail-label">Total Reach</div>
+                                    <div class="detail-value">12,000</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Engagement Rate</div>
+                                    <div class="detail-value">3.8% (Down 0.6%)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Best Post</div>
+                                    <div class="detail-value">Open house announcement photo (2,100 reach, 78 clicks to contact)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Worst Post</div>
+                                    <div class="detail-value">Generic market update (340 reach, 2 engagement) - GBP audience wants local/action info.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Posting Frequency</div>
+                                    <div class="detail-value">2 posts/week (event announcements, new listings, local news)</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">PropCast Adjustment</div>
+                                    <div class="detail-value">GBP users have high intent. Focusing on actionable content: open houses, new listings, time-sensitive opportunities. Q&A section engaging - PropCast monitoring for questions.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: SETTINGS -->
+        <div id="settings" class="tab-content">
+            <!-- Brand Voice -->
+            <div class="settings-section">
+                <div class="settings-title">Brand Voice & Tone</div>
+                <div class="form-group">
+                    <div class="form-label">Select Your Tone</div>
+                    <div class="tone-selector">
+                        <div class="tone-option active" onclick="selectTone(this, 'professional')">Professional</div>
+                        <div class="tone-option" onclick="selectTone(this, 'friendly')">Friendly</div>
+                        <div class="tone-option" onclick="selectTone(this, 'educational')">Educational</div>
+                        <div class="tone-option" onclick="selectTone(this, 'direct')">Direct</div>
+                    </div>
+                </div>
+                <div class="sample-text">Sample: "The median price in Palo Alto is $2.85M, down 4.2% from last quarter. This creates opportunity for buyers and represents smart timing for sellers."</div>
+            </div>
+
+            <!-- ZIP Codes -->
+            <div class="settings-section">
+                <div class="settings-title">ZIP Codes & Service Areas</div>
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: var(--teal); color: var(--bg-main); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;">94301 <button onclick="this.parentElement.remove()" style="background: none; border: none; color: var(--bg-main); cursor: pointer; margin-left: 6px;">×</button></div>
+                        <div style="background: var(--teal); color: var(--bg-main); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;">94025 <button onclick="this.parentElement.remove()" style="background: none; border: none; color: var(--bg-main); cursor: pointer; margin-left: 6px;">×</button></div>
+                        <div style="background: var(--teal); color: var(--bg-main); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;">94040 <button onclick="this.parentElement.remove()" style="background: none; border: none; color: var(--bg-main); cursor: pointer; margin-left: 6px;">×</button></div>
+                        <div style="background: var(--teal); color: var(--bg-main); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;">94043 <button onclick="this.parentElement.remove()" style="background: none; border: none; color: var(--bg-main); cursor: pointer; margin-left: 6px;">×</button></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Add ZIP code and press Enter">
+                </div>
+            </div>
+
+            <!-- Posting Schedule -->
+            <div class="settings-section">
+                <div class="settings-title">Posting Schedule</div>
+                <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Property</th>
-                            <th>Revenue</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Content Type</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Sunset Plaza</td>
-                            <td>$45,200</td>
-                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                            <td>Monday</td>
+                            <td>9:00 AM</td>
+                            <td>Market Data Reel</td>
+                            <td><span style="color: var(--green); font-weight: 600;">Active</span></td>
                         </tr>
                         <tr>
-                            <td>Marina Heights</td>
-                            <td>$38,900</td>
-                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                            <td>Tuesday</td>
+                            <td>9:00 AM</td>
+                            <td>Neighborhood Spotlight</td>
+                            <td><span style="color: var(--green); font-weight: 600;">Active</span></td>
                         </tr>
                         <tr>
-                            <td>Downtown Lofts</td>
-                            <td>$36,500</td>
-                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                            <td>Wednesday</td>
+                            <td>2:00 PM</td>
+                            <td>Educational Series</td>
+                            <td><span style="color: var(--gray); font-weight: 600;">Paused</span></td>
                         </tr>
                         <tr>
-                            <td>Park Avenue</td>
-                            <td>$34,100</td>
-                            <td><span style="color: var(--color-warning);">●</span> Maintenance</td>
+                            <td>Thursday</td>
+                            <td>9:00 AM</td>
+                            <td>ADU Guide Content</td>
+                            <td><span style="color: var(--green); font-weight: 600;">Active</span></td>
                         </tr>
                         <tr>
-                            <td>Riverside Villas</td>
-                            <td>$32,800</td>
-                            <td><span style="color: var(--color-success);">●</span> Active</td>
+                            <td>Friday</td>
+                            <td>3:00 PM</td>
+                            <td>Listing Showcase</td>
+                            <td><span style="color: var(--green); font-weight: 600;">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Saturday</td>
+                            <td>10:00 AM</td>
+                            <td>Weekly Roundup</td>
+                            <td><span style="color: var(--green); font-weight: 600;">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Sunday</td>
+                            <td>-</td>
+                            <td>Scheduled Post</td>
+                            <td><span style="color: var(--gray); font-weight: 600;">Paused</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Market Analysis</h2>
-                </div>
-                <div class="chart">Market trends visualization</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-top: var(--spacing-md);">
-                    <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md);">
-                        <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Market Growth</div>
-                        <div style="color: var(--color-teal); font-size: 20px; font-weight: 700;">+6.2%</div>
-                    </div>
-                    <div style="padding: var(--spacing-md); background: rgba(91, 33, 182, 0.1); border-radius: var(--border-radius-md);">
-                        <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Avg Price</div>
-                        <div style="color: var(--color-text-primary); font-size: 20px; font-weight: 700;">$485K</div>
+            <!-- Avatar & Voice -->
+            <div class="settings-section">
+                <div class="settings-title">Avatar & Voice Settings</div>
+                <div class="form-group">
+                    <div class="form-label">Agent Avatar</div>
+                    <div class="upload-zone">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Click to upload or drag & drop a professional photo</div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Featured Properties -->
-        <div class="card" style="margin-bottom: var(--spacing-lg);">
-            <div class="card-header">
-                <h2 class="card-title">Featured Properties</h2>
-                <span class="card-label">Highlighted</span>
-            </div>
-            <div class="asset-grid">
-                <div class="asset-card" onclick="openPropertyDetails('sunset-plaza')">
-                    <div class="asset-image">Property Image</div>
-                    <div class="asset-name">Sunset Plaza</div>
-                    <div class="asset-price">$1.2M</div>
-                </div>
-                <div class="asset-card" onclick="openPropertyDetails('marina-heights')">
-                    <div class="asset-image">Property Image</div>
-                    <div class="asset-name">Marina Heights</div>
-                    <div class="asset-price">$980K</div>
-                </div>
-                <div class="asset-card" onclick="openPropertyDetails('downtown-lofts')">
-                    <div class="asset-image">Property Image</div>
-                    <div class="asset-name">Downtown Lofts</div>
-                    <div class="asset-price">$750K</div>
-                </div>
-                <div class="asset-card" onclick="openPropertyDetails('park-avenue')">
-                    <div class="asset-image">Property Image</div>
-                    <div class="asset-name">Park Avenue</div>
-                    <div class="asset-price">$1.45M</div>
-                </div>
-                <div class="asset-card" onclick="openPropertyDetails('riverside-villas')">
-                    <div class="asset-image">Property Image</div>
-                    <div class="asset-name">Riverside Villas</div>
-                    <div class="asset-price">$2.1M</div>
-                </div>
-                <div class="asset-card" onclick="openPropertyDetails('oak-ridge')">
-                    <div class="asset-image">Property Image</div>
-                    <div class="asset-name">Oak Ridge Estates</div>
-                    <div class="asset-price">$1.8M</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Section: Activity and Calendar -->
-        <div class="bottom-grid">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Recent Activity</h2>
-                    <span class="card-label">Updates</span>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
-                    <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(0, 194, 168, 0.1);">
-                        <div style="width: 8px; height: 8px; background: var(--color-teal); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
-                        <div>
-                            <div style="color: var(--color-text-primary); font-weight: 500;">New tenant moved in</div>
-                            <div style="color: var(--color-text-secondary); font-size: 12px;">Marina Heights • 2 hours ago</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(0, 194, 168, 0.1);">
-                        <div style="width: 8px; height: 8px; background: var(--color-warning); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
-                        <div>
-                            <div style="color: var(--color-text-primary); font-weight: 500;">Maintenance scheduled</div>
-                            <div style="color: var(--color-text-secondary); font-size: 12px;">Park Avenue • 1 day ago</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(0, 194, 168, 0.1);">
-                        <div style="width: 8px; height: 8px; background: var(--color-teal); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
-                        <div>
-                            <div style="color: var(--color-text-primary); font-weight: 500;">Rent collected</div>
-                            <div style="color: var(--color-text-secondary); font-size: 12px;">Sunset Plaza • 3 days ago</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: var(--spacing-md);">
-                        <div style="width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
-                        <div>
-                            <div style="color: var(--color-text-primary); font-weight: 500;">Lease renewed</div>
-                            <div style="color: var(--color-text-secondary); font-size: 12px;">Downtown Lofts • 1 week ago</div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <div class="form-label">Voice Profile (AI Narrator)</div>
+                    <select class="form-select">
+                        <option>Female - Professional</option>
+                        <option>Male - Warm</option>
+                        <option>Female - Friendly</option>
+                        <option>Male - Professional</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Calendar</h2>
-                </div>
-                <div class="calendar-wrapper">
-                    <div class="calendar-header">
-                        <button onclick="previousMonth()">&lt; Prev</button>
-                        <span id="currentMonth" style="font-weight: 600;">April 2024</span>
-                        <button onclick="nextMonth()">Next &gt;</button>
+            <!-- Brand Colors -->
+            <div class="settings-section">
+                <div class="settings-title">Brand Colors</div>
+                <div class="color-swatches">
+                    <div class="swatch" style="background: #00C2A8; cursor: not-allowed; opacity: 0.7;">
+                        <div class="swatch-label">Primary (Locked)</div>
                     </div>
-                    <div class="calendar" id="calendarGrid"></div>
+                    <div class="swatch" style="background: #34D399;">
+                        <div class="swatch-label">Accent</div>
+                    </div>
+                    <div class="swatch" style="background: #F59E0B;">
+                        <div class="swatch-label">Warning</div>
+                    </div>
+                    <div class="swatch" style="background: #EF4444;">
+                        <div class="swatch-label">Alert</div>
+                    </div>
                 </div>
-                <div style="margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(0, 194, 168, 0.1); font-size: 12px;">
-                    <div style="color: var(--color-text-secondary); margin-bottom: 8px;">Upcoming Events</div>
-                    <div style="color: var(--color-teal);">2 inspections scheduled</div>
+                <p style="margin-top: 12px; color: var(--gray); font-size: 11px;">Primary teal brand color is locked. Other colors can be customized in your brand settings.</p>
+            </div>
+
+            <!-- Account Connections -->
+            <div class="settings-section">
+                <div class="settings-title">Connected Accounts</div>
+                <div class="connection-grid">
+                    <div class="connection-card">
+                        <div class="connection-name">Instagram</div>
+                        <div class="connection-status status-connected">Connected</div>
+                        <button style="background: var(--red); color: var(--bg-main); border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 8px; cursor: pointer;">Disconnect</button>
+                    </div>
+                    <div class="connection-card">
+                        <div class="connection-name">Facebook</div>
+                        <div class="connection-status status-connected">Connected</div>
+                        <button style="background: var(--red); color: var(--bg-main); border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 8px; cursor: pointer;">Disconnect</button>
+                    </div>
+                    <div class="connection-card">
+                        <div class="connection-name">YouTube</div>
+                        <div class="connection-status status-connected">Connected</div>
+                        <button style="background: var(--red); color: var(--bg-main); border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 8px; cursor: pointer;">Disconnect</button>
+                    </div>
+                    <div class="connection-card">
+                        <div class="connection-name">Google Business</div>
+                        <div class="connection-status status-connected">Connected</div>
+                        <button style="background: var(--red); color: var(--bg-main); border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 8px; cursor: pointer;">Disconnect</button>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- View Full Analytics Button -->
-        <div style="margin-top: var(--spacing-xl); text-align: center;">
-            <a href="propcast-scorecard.html" class="btn btn-primary">View Full Analytics</a>
-        </div>
-    </div>
-
-    <!-- Property Details Popup -->
-    <div class="popup-overlay" id="propertyPopup">
-        <div class="popup">
-            <div class="popup-header">
-                <span id="popupPropertyName">Property Details</span>
-                <button class="popup-close" onclick="closePropertyDetails()">&times;</button>
-            </div>
-            <div class="popup-content" id="popupContent">
-                <p>Loading property details...</p>
-            </div>
-            <div class="popup-footer">
-                <button class="btn btn-secondary" onclick="closePropertyDetails()">Close</button>
-                <button class="btn btn-primary">View Full Details</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Calendar functionality
-        let currentDate = new Date(2024, 3, 1); // April 2024
+        // TAB SWITCHING
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
 
-        const propertyDetails = {
-            'sunset-plaza': {
-                name: 'Sunset Plaza',
-                price: '$1,200,000',
-                location: 'Beverly Hills, CA',
-                beds: 8,
-                baths: 6,
-                sqft: '12,500',
-                roi: '8.2%',
-                occupancy: '98%'
-            },
-            'marina-heights': {
-                name: 'Marina Heights',
-                price: '$980,000',
-                location: 'Marina Del Rey, CA',
-                beds: 6,
-                baths: 4,
-                sqft: '9,200',
-                roi: '7.9%',
-                occupancy: '96%'
-            },
-            'downtown-lofts': {
-                name: 'Downtown Lofts',
-                price: '$750,000',
-                location: 'Downtown LA, CA',
-                beds: 4,
-                baths: 3,
-                sqft: '6,800',
-                roi: '9.1%',
-                occupancy: '94%'
-            },
-            'park-avenue': {
-                name: 'Park Avenue',
-                price: '$1,450,000',
-                location: 'New York, NY',
-                beds: 10,
-                baths: 7,
-                sqft: '14,100',
-                roi: '7.5%',
-                occupancy: '92%'
-            },
-            'riverside-villas': {
-                name: 'Riverside Villas',
-                price: '$2,100,000',
-                location: 'San Diego, CA',
-                beds: 12,
-                baths: 8,
-                sqft: '18,500',
-                roi: '8.7%',
-                occupancy: '95%'
-            },
-            'oak-ridge': {
-                name: 'Oak Ridge Estates',
-                price: '$1,800,000',
-                location: 'Austin, TX',
-                beds: 10,
-                baths: 7,
-                sqft: '16,200',
-                roi: '9.3%',
-                occupancy: '97%'
-            }
-        };
+                // Hide all tabs
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
 
-        function renderCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            const monthYear = document.getElementById('currentMonth');
-            calendarGrid.innerHTML = '';
+                // Show selected tab
+                document.getElementById(tabName).classList.add('active');
 
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            const startingDayOfWeek = firstDay.getDay();
-
-            // Month and year header
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                               'July', 'August', 'September', 'October', 'November', 'December'];
-            monthYear.textContent = monthNames[month] + ' ' + year;
-
-            // Day headers
-            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            dayHeaders.forEach(day => {
-                const header = document.createElement('div');
-                header.className = 'calendar-day-header';
-                header.textContent = day;
-                calendarGrid.appendChild(header);
+                // Update active button
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
             });
-
-            // Empty cells before month starts
-            for (let i = 0; i < startingDayOfWeek; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'calendar-day other-month';
-                calendarGrid.appendChild(emptyCell);
-            }
-
-            // Days of the month
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayCell = document.createElement('div');
-                dayCell.className = 'calendar-day';
-                dayCell.textContent = day;
-
-                // Today highlight
-                const today = new Date();
-                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                    dayCell.classList.add('today');
-                }
-
-                // Event highlight
-                if ([5, 12, 19, 26].includes(day)) {
-                    dayCell.classList.add('event');
-                }
-
-                dayCell.onclick = () => selectDate(day, month, year);
-                calendarGrid.appendChild(dayCell);
-            }
-
-            // Empty cells after month ends
-            const totalCells = calendarGrid.children.length;
-            const remainingCells = (7 - (totalCells % 7)) % 7;
-            for (let i = 0; i < remainingCells; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'calendar-day other-month';
-                calendarGrid.appendChild(emptyCell);
-            }
-        }
-
-        function previousMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        }
-
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        }
-
-        function selectDate(day, month, year) {
-            console.log('Selected:', day + '/' + (month + 1) + '/' + year);
-        }
-
-        function openPropertyDetails(propertyId) {
-            const details = propertyDetails[propertyId];
-            if (!details) return;
-
-            const popup = document.getElementById('propertyPopup');
-            const popupName = document.getElementById('popupPropertyName');
-            const popupContent = document.getElementById('popupContent');
-
-            popupName.textContent = details.name;
-            popupContent.innerHTML = `
-                <div style="display: grid; gap: var(--spacing-md);">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
-                        <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md);">
-                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Price</div>
-                            <div style="color: var(--color-text-primary); font-weight: 700;">${details.price}</div>
-                        </div>
-                        <div style="padding: var(--spacing-md); background: rgba(91, 33, 182, 0.1); border-radius: var(--border-radius-md);">
-                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Location</div>
-                            <div style="color: var(--color-text-primary); font-size: 13px; font-weight: 600;">${details.location}</div>
-                        </div>
-                    </div>
-                    <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.05); border-radius: var(--border-radius-md);">
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
-                            <div>
-                                <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Bedrooms</div>
-                                <div style="color: var(--color-text-primary); font-weight: 700;">${details.beds}</div>
-                            </div>
-                            <div>
-                                <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Bathrooms</div>
-                                <div style="color: var(--color-text-primary); font-weight: 700;">${details.baths}</div>
-                            </div>
-                            <div>
-                                <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Sq Ft</div>
-                                <div style="color: var(--color-text-primary); font-weight: 700;">${details.sqft}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
-                        <div style="padding: var(--spacing-md); background: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius-md);">
-                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">ROI</div>
-                            <div style="color: var(--color-success); font-weight: 700; font-size: 18px;">${details.roi}</div>
-                        </div>
-                        <div style="padding: var(--spacing-md); background: rgba(0, 194, 168, 0.1); border-radius: var(--border-radius-md);">
-                            <div style="color: var(--color-text-secondary); font-size: 12px; margin-bottom: 4px;">Occupancy</div>
-                            <div style="color: var(--color-teal); font-weight: 700; font-size: 18px;">${details.occupancy}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            popup.classList.add('active');
-        }
-
-        function closePropertyDetails() {
-            const popup = document.getElementById('propertyPopup');
-            popup.classList.remove('active');
-        }
-
-        // Close popup when clicking outside
-        document.getElementById('propertyPopup').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePropertyDetails();
-            }
         });
 
-        // Initialize calendar on page load
+        // SECTION TOGGLE
+        function toggleSection(header) {
+            const body = header.nextElementSibling;
+            header.classList.toggle('expanded');
+            header.classList.toggle('collapsed');
+            body.classList.toggle('expanded');
+        }
+
+        // TREND CARD TOGGLE
+        function toggleTrendCard(header) {
+            const body = header.nextElementSibling;
+            header.classList.toggle('expanded');
+            body.classList.toggle('expanded');
+        }
+
+        // PLATFORM CARD TOGGLE
+        function togglePlatformCard(header) {
+            const body = header.nextElementSibling;
+            header.classList.toggle('expanded');
+            body.classList.toggle('expanded');
+        }
+
+        // HEATMAP GENERATION
+        function generateHeatmap() {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const hours = Array.from({length: 17}, (_, i) => i + 6); // 6 AM to 10 PM
+            const heatmapGrid = document.getElementById('heatmapGrid');
+
+            // Header
+            const headerCell = document.createElement('div');
+            headerCell.className = 'heatmap-label';
+            headerCell.textContent = '';
+            heatmapGrid.appendChild(headerCell);
+
+            for (let hour of hours) {
+                const label = document.createElement('div');
+                label.className = 'heatmap-label';
+                label.style.fontSize = '10px';
+                label.textContent = hour < 12 ? hour + 'A' : (hour === 12 ? '12P' : (hour - 12) + 'P');
+                heatmapGrid.appendChild(label);
+            }
+
+            // Data rows
+            for (let day of days) {
+                const dayLabel = document.createElement('div');
+                dayLabel.className = 'heatmap-label';
+                dayLabel.textContent = day;
+                heatmapGrid.appendChild(dayLabel);
+
+                for (let hour of hours) {
+                    const cell = document.createElement('div');
+                    cell.className = 'heatmap-cell';
+
+                    // Dummy engagement data
+                    let value = Math.random();
+                    if ((day === 'Tue' || day === 'Thu') && (hour >= 9 && hour <= 11)) value = 0.9;
+                    if ((hour >= 14 && hour <= 16) && (day !== 'Sat' && day !== 'Sun')) value = 0.2;
+
+                    if (value > 0.7) cell.classList.add('high');
+                    else if (value > 0.4) cell.classList.add('medium');
+                    else if (value > 0.1) cell.classList.add('low');
+                    else cell.classList.add('none');
+
+                    heatmapGrid.appendChild(cell);
+                }
+            }
+        }
+
+        // CONTENT DATA
+        const contentData = [
+            {
+                id: 1,
+                title: 'East Palo Alto Median Prices Drop 4%',
+                platform: 'instagram',
+                date: 'Apr 3',
+                reach: '8,400',
+                engagement: '340 (4.0%)',
+                performance: 'strong',
+                caption: 'The median home price in East Palo Alto dropped 4.2% this quarter to $2.85M. This is a major shift. Here\'s what it means for buyers and sellers.',
+                reason: 'PropCast detected a Google Trends spike in "East Palo Alto median price" searches (520 monthly volume). This format (short reel + data) consistently outperforms.',
+                stats: 'Reach: 8,400 | Impressions: 24,800 | Engagement: 340 | Comments: 23 | Shares: 67 | Saves: 89 | CTR: 4.0%',
+                sentiment: '89% positive | 8% neutral | 3% negative',
+                learned: 'Market data videos drive 3.2x more engagement than lifestyle content. Specific numbers (percentages, prices) get more saves.',
+                decision: 'Creating 4 more variations this month. Testing on Facebook and YouTube also.'
+            },
+            {
+                id: 2,
+                title: 'ADU New Rules: What Homeowners Need to Know',
+                platform: 'youtube',
+                date: 'Apr 2',
+                reach: '6,400',
+                engagement: '280 (4.4%)',
+                performance: 'strong',
+                caption: 'California\'s ADU rules just changed. This is huge for homeowners. Here\'s what you need to know and how it impacts your property value.',
+                reason: 'ADU search volume spiked 156% nationally. PropCast ran test for 14 days - strong results. Scaling to production.',
+                stats: 'Views: 6,400 | Watch time: 23% | Comments: 89 | Shares: 34 | Guide downloads: 142 | CTR: 4.4%',
+                sentiment: '92% positive | 6% neutral | 2% negative',
+                learned: 'Educational explainer format (8-12 min on YouTube) gets high engagement. Guide downloads show high intent leads.',
+                decision: 'Running 3x per week for next 30 days. Testing carousel version on Instagram as well.'
+            },
+            {
+                id: 3,
+                title: 'Median Home Value 2025: The Numbers',
+                platform: 'facebook',
+                date: 'Mar 31',
+                reach: '5,100',
+                engagement: '198 (3.9%)',
+                performance: 'medium',
+                caption: 'Home values in the Bay Area stabilized last month. Check how your neighborhood compares.',
+                reason: 'Monthly market update scheduled. Solid performer but needs stronger hook for better reach.',
+                stats: 'Reach: 5,100 | Impressions: 15,200 | Engagement: 198 | Comments: 12 | Shares: 45 | Saves: 23 | CTR: 3.9%',
+                sentiment: '78% positive | 18% neutral | 4% negative',
+                learned: 'Facebook carousel posts get decent reach but need strong thumbnail. No video version underperformed.',
+                decision: 'Next month testing video version instead of static carousel. Keeping schedule (monthly).'
+            },
+            {
+                id: 4,
+                title: 'Neighborhood Spotlight: Old Palo Alto',
+                platform: 'instagram',
+                date: 'Mar 28',
+                reach: '4,800',
+                engagement: '172 (3.6%)',
+                performance: 'medium',
+                caption: 'Old Palo Alto is the most searched neighborhood in the Bay. Here\'s why locals love it.',
+                reason: 'Trending neighborhood based on search data. Community interest high. Follow-up content planned.',
+                stats: 'Reach: 4,800 | Impressions: 14,400 | Engagement: 172 | Saves: 156 (high save rate) | CTR: 3.6%',
+                sentiment: '85% positive | 12% neutral | 3% negative',
+                learned: 'Neighborhood content gets high save rate. People bookmark these for future reference. Good lead gen.',
+                decision: 'Expanding series. Creating guides for Top 5 neighborhoods. Video tours filming next week.'
+            },
+            {
+                id: 5,
+                title: 'First-Time Buyer Guide: Everything You Need',
+                platform: 'youtube',
+                date: 'Mar 25',
+                reach: '3,900',
+                engagement: '156 (4.0%)',
+                performance: 'medium',
+                caption: 'Ready to buy your first home? Here\'s the complete step-by-step guide. No jargon, just answers.',
+                reason: 'Google Trends spike detected for "first-time buyer programs." PropCast started test.',
+                stats: 'Views: 3,900 | Watch time: 18% | Guide downloads: 42 | Comments: 34 | CTR: 4.0%',
+                sentiment: '88% positive | 9% neutral | 3% negative',
+                learned: 'Downloadable guides drive direct lead capture. High intent audience. Comment questions show genuine interest.',
+                decision: 'Expanding test to full 30 days. Creating follow-up FAQ series this week. High ROI content.'
+            },
+            {
+                id: 6,
+                title: '5 Things About Living on the Peninsula',
+                platform: 'facebook',
+                date: 'Mar 22',
+                reach: '3,200',
+                engagement: '98 (3.1%)',
+                performance: 'weak',
+                caption: 'Thinking about moving to the Peninsula? Here are 5 things you should know before you make the leap.',
+                reason: 'Lifestyle content scheduled regularly. Underperforming compared to data-driven content.',
+                stats: 'Reach: 3,200 | Impressions: 9,800 | Engagement: 98 | Comments: 4 | Shares: 8 | CTR: 3.1%',
+                sentiment: '72% positive | 22% neutral | 6% negative',
+                learned: 'Lifestyle content underperforms vs market data. Needs stronger angle or data hook to resonate.',
+                decision: 'Testing with neighborhood focus instead of generic "living on peninsula." Adding stats about walkability, schools, etc.'
+            },
+            {
+                id: 7,
+                title: 'Mortgage Rate Lock: Why Now?',
+                platform: 'instagram',
+                date: 'Mar 15',
+                reach: '2,100',
+                engagement: '62 (3.0%)',
+                performance: 'weak',
+                caption: 'Interest rates are uncertain. Should you lock in now? Here\'s what the data says.',
+                reason: 'Financial/rate content. Initial interest strong but dropped off significantly in week 2.',
+                stats: 'Reach: 2,100 | Impressions: 6,300 | Engagement: 62 | Comments: 3 | Shares: 2 | CTR: 3.0%',
+                sentiment: '61% positive | 28% neutral | 11% negative',
+                learned: 'Rate lock content peaked early then declined. Market timing and uncertainty affected engagement. Topic fatigued quickly.',
+                decision: 'STOPPED. PropCast is monitoring for re-emergence if Fed makes announcement or market volatility spikes.'
+            },
+            {
+                id: 8,
+                title: 'Virtual Home Tours: The Future Is Here',
+                platform: 'gbp',
+                date: 'Mar 10',
+                reach: '2,800',
+                engagement: '112 (4.0%)',
+                performance: 'medium',
+                caption: 'Explore homes from your couch. Our 3D virtual tours let you see every detail before visiting.',
+                reason: 'Testing new 3D tour technology. High click-through to actual tours.',
+                stats: 'Profile clicks: 2,800 | Tour clicks: 112 | Direct contact: 23 | CTR: 4.0%',
+                sentiment: '91% positive | 7% neutral | 2% negative',
+                learned: 'Virtual tours drive high-intent visits. Users who take 3D tour are 3.2x more likely to contact.',
+                decision: 'Moving to production. Using for all listings $2M+. Testing on Instagram Reels with before/after format.'
+            }
+        ];
+
+        function loadContentLibrary() {
+            const container = document.getElementById('contentLibrary');
+            container.innerHTML = '';
+
+            contentData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'content-row';
+                row.innerHTML = `
+                    <div class="content-row-header" onclick="toggleContentRow(this)">
+                        <div class="thumbnail"></div>
+                        <div>
+                            <div class="content-title">${item.title}</div>
+                            <div class="content-meta">${item.platform.toUpperCase()} - ${item.date}</div>
+                        </div>
+                        <div class="reach-metric">${item.reach}</div>
+                        <div class="engagement-metric">${item.engagement}</div>
+                        <div>
+                            <span class="performance-badge ${item.performance === 'strong' ? 'badge-strong' : item.performance === 'medium' ? 'badge-medium' : 'badge-weak'}">
+                                ${item.performance.charAt(0).toUpperCase() + item.performance.slice(1)}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="content-row-body">
+                        <div class="detail-section">
+                            <div class="detail-label">Post Caption</div>
+                            <div class="detail-value">"${item.caption}"</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Why PropCast Chose This Topic</div>
+                            <div class="detail-value">${item.reason}</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Full Stats</div>
+                            <div class="detail-value">${item.stats}</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Sentiment Analysis</div>
+                            <div class="detail-value">${item.sentiment}</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">What PropCast Learned</div>
+                            <div class="detail-value">${item.learned}</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">System Decision</div>
+                            <div class="detail-value">${item.decision}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function toggleContentRow(header) {
+            const body = header.nextElementSibling;
+            body.classList.toggle('expanded');
+        }
+
+        function filterContent(platform, button) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const rows = document.querySelectorAll('.content-row');
+            rows.forEach(row => {
+                if (platform === 'all') {
+                    row.style.display = 'block';
+                } else {
+                    const header = row.querySelector('.content-row-header');
+                    const meta = header.querySelector('.content-meta').textContent;
+                    row.style.display = meta.includes(platform.toUpperCase()) ? 'block' : 'none';
+                }
+            });
+        }
+
+        // TONE SELECTOR
+        function selectTone(element, tone) {
+            document.querySelectorAll('.tone-option').forEach(opt => opt.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // INIT
         document.addEventListener('DOMContentLoaded', function() {
-            renderCalendar();
+            generateHeatmap();
+            loadContentLibrary();
         });
     </script>
 </body>
