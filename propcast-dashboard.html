@@ -1350,8 +1350,17 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--teal);
+            background: var(--green);
             flex-shrink: 0;
+        }
+
+        .avatar-dot.approaching {
+            background: var(--amber);
+        }
+
+        .avatar-dot.empty {
+            background: var(--gray-faint);
+            border: 1px dashed var(--gray-text);
         }
 
         .avatar-metric {
@@ -1432,6 +1441,10 @@
 
             .perf-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .section [style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
             }
 
             .content-row-header {
@@ -1583,7 +1596,7 @@
             <section class="section">
                 <div class="scorecard-section">
                     <div class="scorecard-header">
-                        <div class="scorecard-title">Your Market Position</div>
+                        <div class="section-title" style="margin-bottom: 8px;">Your Market Position</div>
                         <div class="scorecard-rank">
                             <div class="rank-display">#4</div>
                             <div class="rank-label">in East Palo Alto Content Visibility</div>
@@ -1597,7 +1610,7 @@
                                 <th>Rank</th>
                                 <th>Agent</th>
                                 <th>Posts/Week</th>
-                                <th>Avg Reach</th>
+                                <th>Avg Reach/Post</th>
                                 <th>Engagement</th>
                                 <th>Trend</th>
                             </tr>
@@ -1875,6 +1888,53 @@
                 </div>
             </section>
 
+            <!-- PERSONAL NUDGE + AVATAR HEALTH (action items agent needs to see) -->
+            <section class="section" style="margin-bottom: 32px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <!-- Personal Nudge -->
+                    <div class="personal-nudge" style="margin-bottom: 0;">
+                        <div class="personal-nudge-title">💭 Personal Post Reminder</div>
+                        <div class="personal-nudge-text">
+                            <strong>Make sure to share something personal this week!</strong> A client win, a community moment, or a behind-the-scenes look — this is the 10% only YOU can create.
+                        </div>
+                        <div class="personal-suggestions">
+                            <div class="suggestion">Client win or success story from this month</div>
+                            <div class="suggestion">Community event you attended or hosted</div>
+                            <div class="suggestion">Behind-the-scenes view of your office or market knowledge</div>
+                        </div>
+                    </div>
+
+                    <!-- Avatar Health -->
+                    <div class="avatar-health" style="margin-bottom: 0;">
+                        <div class="avatar-title">Avatar Health</div>
+                        <div style="margin-bottom: 20px;">
+                            <div class="avatar-label">Active Variations</div>
+                            <div class="avatar-dots">
+                                <div class="avatar-dot" title="Variation 1 — Fresh"></div>
+                                <div class="avatar-dot" title="Variation 2 — Fresh"></div>
+                                <div class="avatar-dot approaching" title="Variation 3 — Approaching fatigue"></div>
+                                <div class="avatar-dot empty" title="Slot 4 — Record new variation"></div>
+                            </div>
+                        </div>
+                        <div class="avatar-metric">
+                            <div class="avatar-label">Fatigue Status</div>
+                            <div class="avatar-value">Next rotation in 18 days</div>
+                            <div style="margin-top: 8px; height: 4px; background: var(--gray-faint); border-radius: 2px; overflow: hidden;">
+                                <div style="height: 100%; background: var(--amber); width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="avatar-metric">
+                            <div class="avatar-label">Digital Wardrobe</div>
+                            <div class="avatar-value">2 wardrobe changes available</div>
+                        </div>
+                        <div class="avatar-metric">
+                            <div class="avatar-label">Action</div>
+                            <div class="avatar-value" style="color: var(--amber);">⚠️ Plan new variation (due in 12 days)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- SECTION 5: CONTENT PERFORMANCE -->
             <section class="section">
                 <div class="section-title">What PropCast Created — And How It Did</div>
@@ -2127,51 +2187,6 @@
                             <p style="font-weight: 600; color: var(--white-text); margin-bottom: 8px;">Days on Market Increasing</p>
                             <p style="font-size: 12px; line-height: 1.6; color: var(--gray-text);">Average DOM up to 28 days (↑12% from 25 days). Suggests shift to buyer's market. Homes over $3M sitting longer (35-40 days avg).</p>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PERSONAL NUDGE CARD -->
-            <section class="section">
-                <div class="personal-nudge">
-                    <div class="personal-nudge-title">💭 Personal Post Reminder</div>
-                    <div class="personal-nudge-text">
-                        <strong>Make sure to share something personal this week!</strong> A client win, a community moment, or a behind-the-scenes look — this is the 10% only YOU can create. It keeps your audience connected to you, not just PropCast.
-                    </div>
-                    <div class="personal-suggestions">
-                        <div class="suggestion">Client win or success story from this month</div>
-                        <div class="suggestion">Community event you attended or hosted</div>
-                        <div class="suggestion">Behind-the-scenes view of your office or market knowledge</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- AVATAR HEALTH -->
-            <section class="section">
-                <div class="avatar-health">
-                    <div class="avatar-title">Avatar Health & Rotation Status</div>
-                    <div style="margin-bottom: 20px;">
-                        <div class="avatar-label">Active Avatar Variations</div>
-                        <div class="avatar-dots">
-                            <div class="avatar-dot"></div>
-                            <div class="avatar-dot"></div>
-                            <div class="avatar-dot"></div>
-                        </div>
-                    </div>
-                    <div class="avatar-metric">
-                        <div class="avatar-label">Avatar Fatigue Status</div>
-                        <div class="avatar-value">Next rotation in 18 days</div>
-                        <div style="margin-top: 8px; height: 4px; background: var(--gray-faint); border-radius: 2px; overflow: hidden;">
-                            <div style="height: 100%; background: var(--amber); width: 65%;"></div>
-                        </div>
-                    </div>
-                    <div class="avatar-metric">
-                        <div class="avatar-label">Digital Wardrobe</div>
-                        <div class="avatar-value">2 wardrobe changes available</div>
-                    </div>
-                    <div class="avatar-metric">
-                        <div class="avatar-label">Action</div>
-                        <div class="avatar-value" style="color: var(--amber);">⚠️ Plan new variation (due in 12 days)</div>
                     </div>
                 </div>
             </section>
