@@ -585,7 +585,7 @@
 </section>
 
 <!-- SAMPLE CONTENT -->
-<section>
+<section id="samples">
   <div class="container">
     <div class="section-label reveal">See The Quality</div>
     <h2 class="section-title reveal">This Is What PropCast Creates For You</h2>
@@ -643,6 +643,33 @@
   </div>
 </section>
 
+<!-- REAL OR FAKE REVEAL -->
+<section style="padding:60px 0; background:rgba(0,194,168,0.02); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container" style="text-align:center;">
+    <div class="reveal">
+      <div style="font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--ink); margin-bottom:0.5rem;">Can you tell which one is AI?</div>
+      <p style="font-size:1rem; color:var(--gray); max-width:560px; margin:0 auto 2rem; line-height:1.7;">All three videos above were created by PropCast in under 60 seconds each. No videographer. No editor. No copywriter. Just your market data, your voice, and our AI engine.</p>
+      <div style="display:inline-flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; margin-bottom:2rem;">
+        <div style="background:var(--navy); border:1px solid var(--teal-border); border-radius:12px; padding:1rem 1.5rem; text-align:center;">
+          <div style="font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal);">60 sec</div>
+          <div style="font-size:0.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">To create each</div>
+        </div>
+        <div style="background:var(--navy); border:1px solid var(--teal-border); border-radius:12px; padding:1rem 1.5rem; text-align:center;">
+          <div style="font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal);">$0</div>
+          <div style="font-size:0.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Extra production cost</div>
+        </div>
+        <div style="background:var(--navy); border:1px solid var(--teal-border); border-radius:12px; padding:1rem 1.5rem; text-align:center;">
+          <div style="font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal);">100%</div>
+          <div style="font-size:0.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Your brand & voice</div>
+        </div>
+      </div>
+      <div>
+        <a href="propcast-onboarding.html" style="display:inline-block; padding:14px 36px; background:linear-gradient(135deg,var(--teal),var(--teal-d)); color:#0a1628; border-radius:10px; font-size:0.9rem; font-weight:700; text-decoration:none; transition:all 0.3s;">See What PropCast Creates For You →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PROOF METRIC -->
 <section style="padding:60px 0;">
   <div class="container" style="text-align:center;">
@@ -666,14 +693,14 @@
           <span>How long does setup take?</span>
           <span class="faq-arrow">&#9660;</span>
         </div>
-        <div class="faq-a"><div class="faq-a-inner">5 minutes. Answer brand voice questions, upload your logo, enter your zip codes. That's it. PropCast handles everything from there.</div></div>
+        <div class="faq-a"><div class="faq-a-inner"><strong>New agents:</strong> Approximately 5 minutes. Answer brand voice questions, upload your logo and headshot, enter your zip codes, and record a quick video clip for your AI avatar. That's it — PropCast handles everything from there.<br><br><strong>Already have an AI avatar or ElevenLabs voice?</strong> About 2 minutes. Connect your existing avatar, import your voice, and you're live. PropCast detects what you already have and skips the steps you don't need.</div></div>
       </div>
       <div class="faq-item reveal">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>Will it look professional?</span>
           <span class="faq-arrow">&#9660;</span>
         </div>
-        <div class="faq-a"><div class="faq-a-inner">Yes. PropCast uses broadcast-quality AI video generation with your avatar, your brand colors, and professional motion graphics. The content is indistinguishable from what a production team would create.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes — and we don't just say that. Scroll up to see <a href="#samples" style="color:var(--teal);">real examples of PropCast-generated content</a>. Every video uses broadcast-quality AI generation with your personal avatar, your brand colors, professional motion graphics, and data overlays pulled from live market data. Captions are written in your voice, not generic templates.<br><br>Here's a quick comparison: <a href="#" style="color:var(--teal);">Neighborhood Tour Example</a> · <a href="#" style="color:var(--teal);">Market Update Example</a> · <a href="#" style="color:var(--teal);">Listing Highlight Example</a><br><br>Most agents tell us the content looks better than what they were paying a videographer $500/video to produce.</div></div>
       </div>
       <div class="faq-item reveal">
         <div class="faq-q" onclick="toggleFaq(this)">
@@ -728,11 +755,11 @@
     <h2 class="section-title reveal">Choose Your Plan</h2>
     <p class="section-sub reveal">Every plan includes a 14-day free trial. No credit card required to start.</p>
 
-    <div class="pricing-toggle reveal">
-      <div class="pricing-toggle-wrap">
-        <button class="pricing-toggle-btn active" onclick="setPricing('monthly', this)">Monthly</button>
-        <button class="pricing-toggle-btn" onclick="setPricing('annual', this)">Annual</button>
-        <span class="pricing-save">Save 20%</span>
+    <div class="pricing-toggle reveal" style="margin-bottom:2.5rem;">
+      <div class="pricing-toggle-wrap" style="padding:6px; border-radius:32px; background:var(--navy); border:1px solid var(--teal-border);">
+        <button class="pricing-toggle-btn active" onclick="setPricing('monthly', this)" style="padding:10px 32px; font-size:0.9rem;">Monthly</button>
+        <button class="pricing-toggle-btn" onclick="setPricing('annual', this)" style="padding:10px 32px; font-size:0.9rem;">Annual</button>
+        <span class="pricing-save" style="font-size:0.78rem; padding:5px 14px;">Save 20%</span>
       </div>
     </div>
 
