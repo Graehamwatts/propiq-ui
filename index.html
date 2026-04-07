@@ -3,1219 +3,425 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropCast — Real Estate Content Powered by AI</title>
-  <meta name="description" content="PropCast deploys AI agents to analyze your market, find gaps your competitors miss, and produce months of branded content automatically.">
+  <title>PropCast — Autonomous Content Engine for Real Estate Agents</title>
+  <meta name="description" content="PropCast automates your entire content strategy. It creates broadcast-quality videos, writes captions, publishes everywhere, and optimizes automatically. Zero time. Zero guesswork.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #060F1E;
-      --surface-1: #0B1F3A;
-      --surface-2: #13294f;
-      --surface-3: #0E2440;
-      --accent: #00C2A8;
-      --accent-dark: #009e88;
-      --text-muted: #8A9BB0;
-      --text-light: #C4CDD8;
-      --text-faint: #4A5B6E;
-      --text-white: #EAEEF3;
+      --navy: #0B1F3A;
+      --navy-l: #13294f;
+      --navy-card: #0E2440;
+      --teal: #00C2A8;
+      --teal-d: #009e88;
+      --teal-glow: rgba(0,194,168,0.12);
+      --teal-border: rgba(0,194,168,0.2);
+      --gray: #8A9BB0;
+      --gray-l: #C4CDD8;
+      --faint: #4A5B6E;
+      --ink: #EAEEF3;
       --amber: #F59E0B;
       --green: #34D399;
+      --red: #EF4444;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.1);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: "DM Sans", sans-serif;
+      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
-      color: var(--text-white);
+      color: var(--ink);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    /* ORBS & BACKGROUND */
-    .orb-container {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.25;
-      will-change: transform;
-    }
-
-    .orb-1 {
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(0, 194, 168, 0.18) 0%, transparent 70%);
-      top: -5%;
-      right: -10%;
-      animation: float1 25s ease-in-out infinite;
-    }
-
-    .orb-2 {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(0, 194, 168, 0.12) 0%, transparent 70%);
-      bottom: 5%;
-      left: -8%;
-      animation: float2 28s ease-in-out infinite;
-    }
-
-    .orb-3 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(0, 194, 168, 0.1) 0%, transparent 70%);
-      top: 40%;
-      right: 10%;
-      animation: float3 30s ease-in-out infinite;
-    }
-
-    @keyframes float1 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-80px, 60px) scale(0.95); }
-    }
-
-    @keyframes float2 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(60px, -80px) scale(1.05); }
-    }
-
-    @keyframes float3 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(-60px, 40px) scale(1.03); }
-      66% { transform: translate(40px, -50px) scale(0.97); }
-    }
-
-    /* GRID TEXTURE */
-    body::after {
+    /* Grid texture */
+    body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
-        linear-gradient(rgba(0, 194, 168, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 194, 168, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
+        linear-gradient(rgba(0,194,168,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.015) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Orbs */
+    .orb-wrap { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.25; will-change: transform; }
+    .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,194,168,0.2) 0%, transparent 70%); top: -15%; right: -10%; animation: oFloat1 22s ease-in-out infinite; }
+    .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(11,31,58,0.6) 0%, transparent 70%); bottom: -10%; left: -10%; animation: oFloat2 26s ease-in-out infinite; }
+    .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,194,168,0.12) 0%, transparent 70%); top: 45%; left: 35%; animation: oFloat3 20s ease-in-out infinite; }
+    @keyframes oFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-50px,70px) scale(1.05)} 66%{transform:translate(-30px,-50px) scale(0.95)} }
+    @keyframes oFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,-80px) scale(1.08)} }
+    @keyframes oFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-70px,50px) scale(1.06)} }
+
+    /* Utility */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+    section { padding: 100px 0; position: relative; }
+    .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); font-weight: 700; margin-bottom: 1rem; text-align: center; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; text-align: center; margin-bottom: 1rem; line-height: 1.15; letter-spacing: -0.02em; }
+    .section-sub { font-size: 1.05rem; color: var(--gray); text-align: center; max-width: 680px; margin: 0 auto 3rem; line-height: 1.7; }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      height: 64px;
+      background: rgba(6,15,30,0.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border2);
+      display: flex; align-items: center;
+    }
+    .nav .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--teal); }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { color: var(--gray); font-size: 0.88rem; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover { color: var(--ink); }
+    .nav-cta {
+      display: inline-block; padding: 10px 24px;
+      background: var(--teal); color: #0a1628; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 700; text-decoration: none;
+      transition: all 0.3s; letter-spacing: 0.02em;
+    }
+    .nav-cta:hover { background: var(--teal-d); box-shadow: 0 4px 20px rgba(0,194,168,0.3); transform: translateY(-1px); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero { padding: 160px 0 100px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-text h1 {
+      font-family: 'Syne', sans-serif; font-size: 3.2rem; font-weight: 800;
+      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .hero-text h1 .teal { color: var(--teal); }
+    .hero-text p {
+      font-size: 1.1rem; color: var(--gray); line-height: 1.8; margin-bottom: 2rem;
+      max-width: 520px;
+    }
+    .hero-cta {
+      display: inline-block; padding: 16px 40px;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
+      color: #0a1628; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; text-decoration: none;
+      letter-spacing: 0.04em; transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .hero-cta:hover { box-shadow: 0 6px 30px rgba(0,194,168,0.35); transform: translateY(-2px); }
+    .hero-cta::after { content:''; position:absolute; top:0; left:-100%; width:200%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent); animation:shimmer 3s ease-in-out infinite; }
+    @keyframes shimmer { 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
+    .hero-fine { font-size: 0.82rem; color: var(--faint); margin-top: 1rem; }
+
+    /* Hero visual — side by side comparison */
+    .hero-visual { position: relative; }
+    .hero-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .compare-card {
+      background: var(--navy); border: 1px solid var(--border2);
+      border-radius: 16px; padding: 1.5rem; position: relative; overflow: hidden;
+    }
+    .compare-card.chaos { border-color: rgba(239,68,68,0.2); }
+    .compare-card.order { border-color: var(--teal-border); }
+    .compare-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 4px;
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 1rem;
+    }
+    .compare-card.chaos .compare-badge { background: rgba(239,68,68,0.12); color: var(--red); }
+    .compare-card.order .compare-badge { background: var(--teal-glow); color: var(--teal); }
+    .compare-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; color: var(--gray); padding: 6px 0;
+    }
+    .compare-item .icon { font-size: 0.9rem; flex-shrink: 0; }
+    .compare-card.chaos .compare-item .icon { color: var(--red); }
+    .compare-card.order .compare-item .icon { color: var(--teal); }
+    .compare-card.order { animation: floatCard 4s ease-in-out infinite; }
+    @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+    /* Mini dashboard in "order" card */
+    .mini-dash { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .mini-stat-row { display: flex; gap: 10px; margin-bottom: 8px; }
+    .mini-stat {
+      flex: 1; background: rgba(0,194,168,0.04); border: 1px solid var(--teal-border);
+      border-radius: 8px; padding: 8px; text-align: center;
+    }
+    .mini-stat-val { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--teal); }
+    .mini-stat-lbl { font-size: 0.6rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.06em; }
+    .mini-bar { height: 4px; background: var(--navy-l); border-radius: 2px; overflow: hidden; }
+    .mini-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; }
+
+    /* ============================================================
+       PAIN POINTS
+       ============================================================ */
+    .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .pain-card {
+      background: var(--navy); border: 1px solid var(--border2);
+      border-radius: 16px; padding: 2rem; transition: all 0.3s;
+    }
+    .pain-card:hover { border-color: var(--teal-border); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .pain-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .pain-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--ink); }
+    .pain-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.6; }
+
+    /* ============================================================
+       HOW IT WORKS
+       ============================================================ */
+    .steps-section { background: linear-gradient(180deg, rgba(0,194,168,0.02) 0%, transparent 100%); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; position: relative; }
+    .steps-grid::before {
+      content: ''; position: absolute; top: 40px; left: 12.5%; right: 12.5%;
+      height: 2px; background: linear-gradient(90deg, var(--teal-border), var(--teal), var(--teal-border));
       z-index: 0;
     }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .step-card { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--navy); border: 2px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+      color: var(--teal); margin: 0 auto 1.2rem;
+      box-shadow: 0 0 20px rgba(0,194,168,0.15);
+    }
+    .step-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .step-desc {
+      font-size: 0.82rem; color: var(--gray); line-height: 1.6;
+      max-width: 240px; margin: 0 auto;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes shimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(0, 194, 168, 0.2); }
-      50% { box-shadow: 0 0 40px rgba(0, 194, 168, 0.35); }
-    }
-
-    @keyframes floatUp {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    @keyframes countUp {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* SECTIONS */
-    section {
-      position: relative;
-      z-index: 1;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* NAV */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      backdrop-filter: blur(20px);
-      background: rgba(6, 15, 30, 0.75);
-      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+    /* ============================================================
+       RESULTS / METRICS
+       ============================================================ */
+    .metrics-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.2rem; }
+    .metric-card {
+      background: var(--navy); border: 1px solid var(--border2);
+      border-radius: 14px; padding: 1.5rem 1rem; text-align: center;
       transition: all 0.3s;
     }
-
-    .nav-logo {
-      font-family: "Syne", sans-serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--text-white);
-      letter-spacing: -0.5px;
+    .metric-card:hover { border-color: var(--teal-border); }
+    .metric-val {
+      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+      color: var(--teal); margin-bottom: 4px;
     }
+    .metric-label { font-size: 0.75rem; color: var(--gray); line-height: 1.4; }
+    .metric-card.highlight { border-color: var(--teal); background: rgba(0,194,168,0.04); }
+    .metric-card.highlight .metric-val { color: var(--ink); }
 
-    .nav-logo span {
-      color: var(--accent);
+    /* ============================================================
+       SAMPLE CONTENT
+       ============================================================ */
+    .samples-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .sample-card {
+      background: var(--navy); border: 1px solid var(--border2);
+      border-radius: 16px; overflow: hidden; transition: all 0.3s;
     }
-
-    .nav-right {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .nav-signin {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-signin:hover {
-      color: var(--accent);
-    }
-
-    .nav-cta {
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 10px 24px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover {
-      background: var(--accent-dark);
-      box-shadow: 0 8px 24px rgba(0, 194, 168, 0.25);
-      transform: translateY(-2px);
-    }
-
-    /* HERO */
-    .hero {
-      padding: 10rem 2rem 6rem;
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-headline {
-      font-family: "Syne", sans-serif;
-      font-size: 3.8rem;
-      font-weight: 800;
-      color: var(--text-white);
-      letter-spacing: -1px;
-      line-height: 1.15;
-      max-width: 900px;
-      margin: 0 auto;
-      animation: fadeUp 1s ease-out;
-    }
-
-    .hero-sub {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 700px;
-      margin: 2rem auto 0;
-      line-height: 1.8;
-      animation: fadeUp 1s ease-out 0.2s both;
-    }
-
-    .hero-cta {
-      display: inline-block;
-      margin-top: 2.5rem;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 16px 40px;
-      border-radius: 8px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: all 0.3s;
-      animation: fadeUp 1s ease-out 0.4s both;
-    }
-
-    .hero-cta:hover {
-      background: var(--accent-dark);
-      box-shadow: 0 16px 40px rgba(0, 194, 168, 0.3);
-      transform: translateY(-2px);
-    }
-
-    .hero-secondary {
-      font-size: 0.9rem;
-      color: var(--text-light);
-      margin-top: 1rem;
-      animation: fadeIn 1s ease-out 0.6s both;
-    }
-
-    .hero-mockup {
-      margin-top: 4rem;
-      animation: fadeUp 1s ease-out 0.5s both;
-    }
-
-    /* DASHBOARD MOCKUP */
-    .dashboard-card {
-      max-width: 600px;
-      margin: 0 auto;
-      background: rgba(11, 31, 58, 0.6);
-      border: 1px solid rgba(0, 194, 168, 0.2);
-      border-radius: 12px;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-      animation: floatUp 6s ease-in-out infinite;
-      box-shadow: 0 20px 60px rgba(0, 194, 168, 0.1);
-    }
-
-    .dashboard-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
-    }
-
-    .dashboard-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(0, 194, 168, 0.15);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-
-    .dashboard-title {
-      font-family: "Syne", sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-white);
-    }
-
-    .dashboard-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .stat-item {
-      background: rgba(0, 194, 168, 0.05);
-      border: 1px solid rgba(0, 194, 168, 0.15);
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .stat-value {
-      font-family: "Syne", sans-serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* SOCIAL PROOF */
-    .social-proof {
-      padding: 2rem 2rem;
-      text-align: center;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      animation: fadeIn 1s ease-out 0.8s both;
-    }
-
-    /* PROBLEM SECTION */
-    .problem {
-      padding: 100px 2rem;
-    }
-
-    .section-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--accent);
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: "Syne", sans-serif;
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: var(--text-white);
-      text-align: center;
-      letter-spacing: -0.8px;
-      margin-bottom: 4rem;
-      line-height: 1.2;
-    }
-
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .problem-card {
-      background: rgba(11, 31, 58, 0.5);
-      border: 1px solid rgba(0, 194, 168, 0.15);
-      border-radius: 12px;
-      padding: 2.5rem;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .problem-card:hover {
-      border-color: rgba(0, 194, 168, 0.3);
-      background: rgba(11, 31, 58, 0.7);
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(0, 194, 168, 0.15);
-    }
-
-    .problem-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .problem-title {
-      font-family: "Syne", sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-white);
-      margin-bottom: 0.75rem;
-    }
-
-    .problem-text {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    .problem-punchline {
-      text-align: center;
-      font-size: 1.2rem;
-      color: var(--accent);
-      font-weight: 700;
-      letter-spacing: -0.3px;
-    }
-
-    /* HOW IT WORKS */
-    .how {
-      padding: 100px 2rem;
-    }
-
-    .stages {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-      position: relative;
-      margin-bottom: 3rem;
-    }
-
-    .stage {
-      text-align: center;
-    }
-
-    .stage-icon {
-      width: 60px;
-      height: 60px;
-      background: rgba(0, 194, 168, 0.15);
-      border: 2px solid rgba(0, 194, 168, 0.3);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      margin: 0 auto 1.5rem;
-    }
-
-    .stage-num {
-      font-family: "Syne", sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
-    }
-
-    .stage-title {
-      font-family: "Syne", sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text-white);
-      margin-bottom: 1rem;
-    }
-
-    .stage-copy {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    .stage-connector {
-      position: absolute;
-      top: 3rem;
-      right: -1.5rem;
-      width: 3rem;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(0, 194, 168, 0.2), transparent);
-      z-index: 2;
-    }
-
-    .stage-connector::after {
-      content: '→';
-      position: absolute;
-      right: -0.8rem;
-      top: -0.6rem;
-      font-size: 1.2rem;
-      color: var(--accent);
-    }
-
-    .stages-punchline {
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-white);
-    }
-
-    .stages-punchline em {
-      color: var(--accent);
-      font-style: normal;
-    }
-
-    /* REAL OR FAKE SECTION */
-    .showcase {
-      padding: 100px 2rem;
-      background: linear-gradient(180deg, rgba(0, 194, 168, 0.03) 0%, transparent 100%);
-      border-top: 1px solid rgba(0, 194, 168, 0.1);
-      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
-    }
-
-    .showcase-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .showcase-headline {
-      font-family: "Syne", sans-serif;
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: var(--text-white);
-      letter-spacing: -0.8px;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-
-    .showcase-subheadline {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-bottom: 4rem;
-    }
-
-    .content-card {
-      background: rgba(11, 31, 58, 0.7);
-      border: 1px solid rgba(0, 194, 168, 0.15);
-      border-radius: 12px;
+    .sample-card:hover { border-color: var(--teal-border); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .sample-thumb {
+      width: 100%; aspect-ratio: 16/9; position: relative;
       overflow: hidden;
-      transition: all 0.3s;
     }
-
-    .content-card:hover {
-      border-color: rgba(0, 194, 168, 0.3);
-      background: rgba(11, 31, 58, 0.85);
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(0, 194, 168, 0.15);
+    .sample-thumb-bg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
     }
-
-    /* INSTAGRAM CARD */
-    .ig-post {
-      background: #000;
-      padding: 1.5rem;
-      border-radius: 8px 8px 0 0;
+    .sample-thumb-bg.vid1 { background: linear-gradient(135deg, #0B1F3A 0%, #1a3a5c 50%, #0B1F3A 100%); }
+    .sample-thumb-bg.vid2 { background: linear-gradient(135deg, #0E2440 0%, #13294f 50%, #0a1a30 100%); }
+    .sample-thumb-bg.vid3 { background: linear-gradient(135deg, #091a2e 0%, #0B1F3A 50%, #13294f 100%); }
+    .sample-thumb-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
     }
-
-    .ig-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    .sample-thumb-title {
+      font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800;
+      color: var(--ink); text-align: center; padding: 0 1rem; margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
-
-    .ig-avatar {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, #F59E0B, #EC4899);
-      border-radius: 50%;
+    .play-btn {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(0,194,168,0.9); display: flex; align-items: center;
+      justify-content: center; margin-bottom: 8px;
+      box-shadow: 0 4px 20px rgba(0,194,168,0.3);
     }
-
-    .ig-user-info {
-      flex: 1;
+    .play-btn::after {
+      content: ''; width: 0; height: 0;
+      border-left: 14px solid #0a1628; border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent; margin-left: 3px;
     }
-
-    .ig-username {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-white);
-      margin-bottom: 0.2rem;
+    .sample-meta { padding: 1.2rem; }
+    .sample-platform {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; color: var(--faint); text-transform: uppercase;
+      letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
     }
+    .sample-stats { display: flex; gap: 1.2rem; }
+    .sample-stat { font-size: 0.78rem; color: var(--gray); }
+    .sample-stat strong { color: var(--teal); font-weight: 700; }
 
-    .ig-location {
-      font-size: 0.7rem;
-      color: var(--text-muted);
+    /* ============================================================
+       FAQ
+       ============================================================ */
+    .faq-list { max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      border: 1px solid var(--border2); border-radius: 12px;
+      margin-bottom: 10px; overflow: hidden; background: var(--navy);
+      transition: border-color 0.3s;
     }
-
-    .ig-image {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, rgba(0, 194, 168, 0.3), rgba(0, 194, 168, 0.1));
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      text-align: center;
-      padding: 1rem;
-      font-weight: 600;
+    .faq-item.open { border-color: var(--teal-border); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 1.5rem; cursor: pointer; font-size: 0.95rem;
+      font-weight: 600; color: var(--ink); transition: color 0.2s;
     }
-
-    .ig-caption {
-      font-size: 0.9rem;
-      color: var(--text-white);
-      line-height: 1.6;
-      margin-bottom: 1rem;
+    .faq-q:hover { color: var(--teal); }
+    .faq-arrow {
+      font-size: 1.2rem; color: var(--faint); transition: transform 0.3s;
+      flex-shrink: 0; margin-left: 1rem;
     }
-
-    .ig-engagement {
-      display: flex;
-      gap: 1.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    .faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--teal); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
     }
-
-    /* EMAIL CARD */
-    .email-preview {
-      background: #1a1a1a;
-      padding: 1.5rem;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .email-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .email-from {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .email-subject {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-white);
-    }
-
-    .email-body {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    /* VIDEO CARD */
-    .video-frame {
-      background: #000;
-      padding: 1.5rem;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .video-preview {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: linear-gradient(135deg, rgba(0, 194, 168, 0.2), rgba(0, 194, 168, 0.05));
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-      position: relative;
-      font-size: 2rem;
-    }
-
-    .video-preview::before {
-      content: '▶';
-      position: absolute;
-      font-size: 2.5rem;
-      color: var(--accent);
-      opacity: 0.8;
-    }
-
-    .video-script {
-      font-size: 0.85rem;
-      color: var(--text-white);
-      line-height: 1.6;
-      font-family: "DM Sans", monospace;
-    }
-
-    /* CARD LABELS */
-    .content-label {
-      padding: 0.75rem 1.5rem;
-      background: rgba(0, 194, 168, 0.08);
-      border-top: 1px solid rgba(0, 194, 168, 0.1);
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-      text-align: center;
-      letter-spacing: 0.3px;
-    }
-
-    /* REVEAL SECTION */
-    .showcase-reveal {
-      text-align: center;
-      background: rgba(11, 31, 58, 0.4);
-      border: 1px solid rgba(0, 194, 168, 0.15);
-      border-radius: 12px;
-      padding: 3rem 2rem;
-    }
-
-    .reveal-text {
-      font-family: "Syne", sans-serif;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text-white);
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.3px;
-    }
-
-    .reveal-subtext {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a-inner {
+      padding: 0 1.5rem 1.2rem; font-size: 0.88rem; color: var(--gray);
       line-height: 1.7;
     }
 
-    .reveal-cta {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 14px 32px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: all 0.3s;
+    /* ============================================================
+       PRICING
+       ============================================================ */
+    .pricing-section { background: linear-gradient(180deg, transparent 0%, rgba(0,194,168,0.02) 50%, transparent 100%); }
+    .pricing-toggle {
+      display: flex; justify-content: center; margin-bottom: 3rem;
     }
-
-    .reveal-cta:hover {
-      background: var(--accent-dark);
-      box-shadow: 0 12px 30px rgba(0, 194, 168, 0.3);
-      transform: translateY(-2px);
+    .pricing-toggle-wrap {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--navy); border: 1px solid var(--border2);
+      border-radius: 30px; padding: 4px;
     }
-
-    /* PITCH SECTION */
-    .pitch {
-      padding: 80px 2rem;
-    }
-
-    .pitch-card {
-      background: rgba(13, 41, 79, 0.5);
-      border: 1px solid rgba(0, 194, 168, 0.2);
-      border-radius: 14px;
-      padding: 4rem;
-      max-width: 900px;
-      margin: 0 auto;
-      backdrop-filter: blur(10px);
-    }
-
-    .pitch-headline {
-      font-family: "Syne", sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--text-white);
-      margin-bottom: 2rem;
-      line-height: 1.3;
-      letter-spacing: -0.5px;
-    }
-
-    .pitch-body {
-      font-size: 1rem;
-      color: var(--text-muted);
-      line-height: 1.9;
-      margin-bottom: 2.5rem;
-    }
-
-    .pitch-body p {
-      margin-bottom: 1rem;
-    }
-
-    .pitch-cta {
-      display: inline-block;
+    .pricing-toggle-btn {
+      padding: 8px 24px; border-radius: 26px; border: none;
+      font-family: 'DM Sans'; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s; color: var(--gray);
       background: transparent;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 14px 32px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      letter-spacing: 0.3px;
+    }
+    .pricing-toggle-btn.active { background: var(--teal); color: #0a1628; }
+    .pricing-save {
+      font-size: 0.72rem; color: var(--teal); font-weight: 700;
+      background: var(--teal-glow); padding: 3px 10px; border-radius: 12px;
+    }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start; }
+    .price-card {
+      background: var(--navy); border: 1px solid var(--border2);
+      border-radius: 18px; padding: 2.5rem 2rem; position: relative;
       transition: all 0.3s;
     }
-
-    .pitch-cta:hover {
-      background: var(--accent);
-      color: var(--bg);
-      box-shadow: 0 12px 30px rgba(0, 194, 168, 0.3);
-      transform: translateY(-2px);
+    .price-card:hover { border-color: var(--teal-border); }
+    .price-card.featured {
+      border-color: var(--teal); background: rgba(0,194,168,0.03);
+      box-shadow: 0 0 40px rgba(0,194,168,0.08);
+      transform: scale(1.03);
     }
-
-    /* MARKET ANALYSIS MOCKUP */
-    .market-analysis {
-      background: rgba(11, 31, 58, 0.6);
-      border: 1px solid rgba(0, 194, 168, 0.2);
-      border-radius: 12px;
-      padding: 2rem;
-      margin-top: 3rem;
-      margin-bottom: 3rem;
-      backdrop-filter: blur(10px);
+    .price-popular {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--teal); color: #0a1628; padding: 4px 16px;
+      border-radius: 20px; font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
     }
-
-    .analysis-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(0, 194, 168, 0.1);
+    .price-name { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+    .price-tagline { font-size: 0.82rem; color: var(--gray); margin-bottom: 1.5rem; }
+    .price-amount {
+      font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
+      color: var(--ink); line-height: 1;
     }
-
-    .analysis-icon {
-      width: 45px;
-      height: 45px;
-      background: rgba(0, 194, 168, 0.2);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+    .price-amount .currency { font-size: 1.5rem; vertical-align: top; margin-right: 2px; }
+    .price-amount .period { font-size: 0.88rem; color: var(--faint); font-family: 'DM Sans'; font-weight: 500; }
+    .price-annual { font-size: 0.78rem; color: var(--teal); margin-top: 4px; margin-bottom: 1.5rem; display: none; }
+    .price-features { list-style: none; margin-bottom: 2rem; }
+    .price-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.85rem; color: var(--gray-l); padding: 6px 0;
     }
-
-    .analysis-title {
-      font-family: "Syne", sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-white);
+    .price-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+    .price-btn {
+      display: block; width: 100%; padding: 14px; border-radius: 10px;
+      border: 1px solid var(--teal-border); background: transparent;
+      color: var(--teal); font-family: 'DM Sans'; font-size: 0.88rem;
+      font-weight: 700; cursor: pointer; transition: all 0.3s;
+      text-align: center; text-decoration: none;
     }
-
-    .analysis-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+    .price-btn:hover { background: rgba(0,194,168,0.08); }
+    .price-card.featured .price-btn {
+      background: var(--teal); color: #0a1628; border-color: var(--teal);
     }
+    .price-card.featured .price-btn:hover { background: var(--teal-d); box-shadow: 0 4px 20px rgba(0,194,168,0.3); }
 
-    .analysis-item {
-      background: rgba(0, 194, 168, 0.05);
-      border: 1px solid rgba(0, 194, 168, 0.15);
-      border-radius: 8px;
-      padding: 1.5rem;
+    /* ============================================================
+       FINAL CTA
+       ============================================================ */
+    .final-section {
+      text-align: center; padding: 120px 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,194,168,0.04) 50%, transparent 100%);
     }
-
-    .analysis-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.5rem;
-    }
-
-    .analysis-value {
-      font-family: "Syne", sans-serif;
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    .opportunity-meter {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .meter-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-white);
-      min-width: 140px;
-    }
-
-    .meter-bar {
-      flex: 1;
-      height: 8px;
-      background: rgba(0, 194, 168, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .meter-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--green));
-      width: 72%;
-    }
-
-    .meter-value {
-      font-family: "Syne", sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--accent);
-      min-width: 40px;
-      text-align: right;
-    }
-
-    /* STATS SECTION */
-    .numbers {
-      padding: 100px 2rem;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-    }
-
-    .stat-box {
-      background: rgba(11, 31, 58, 0.5);
-      border: 1px solid rgba(0, 194, 168, 0.15);
-      border-radius: 12px;
-      padding: 3rem 2rem;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .stat-box:hover {
-      border-color: rgba(0, 194, 168, 0.3);
-      background: rgba(11, 31, 58, 0.7);
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(0, 194, 168, 0.15);
-    }
-
-    .stat-number {
-      font-family: "Syne", sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -1px;
-      margin-bottom: 0.75rem;
-    }
-
-    .stat-label {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    /* TESTIMONIAL */
-    .testimonial {
-      max-width: 700px;
-      margin: 4rem auto;
-      text-align: center;
-      padding: 2.5rem;
-      background: rgba(11, 31, 58, 0.4);
-      border-left: 3px solid var(--accent);
-      border-radius: 8px;
-    }
-
-    .testimonial-quote {
-      font-size: 1.1rem;
-      color: var(--text-white);
-      font-style: italic;
-      margin-bottom: 1rem;
-      line-height: 1.8;
-    }
-
-    .testimonial-author {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    /* FINAL CTA */
+    .final-title { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .final-sub { font-size: 1.05rem; color: var(--gray); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
     .final-cta {
-      padding: 100px 2rem;
-      text-align: center;
-      position: relative;
-      background: linear-gradient(180deg, rgba(0, 194, 168, 0.05) 0%, transparent 100%);
+      display: inline-block; padding: 18px 48px;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
+      color: #0a1628; border-radius: 12px; font-size: 1.05rem;
+      font-weight: 700; text-decoration: none; transition: all 0.3s;
+      position: relative; overflow: hidden;
     }
+    .final-cta:hover { box-shadow: 0 8px 40px rgba(0,194,168,0.35); transform: translateY(-2px); }
+    .final-cta::after { content:''; position:absolute; top:0; left:-100%; width:200%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent); animation:shimmer 3s ease-in-out infinite; }
+    .final-fine { font-size: 0.82rem; color: var(--faint); margin-top: 1rem; }
 
-    .final-cta::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 194, 168, 0.1) 0%, transparent 70%);
-      pointer-events: none;
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      border-top: 1px solid var(--border2); padding: 2.5rem 0;
+      text-align: center; font-size: 0.82rem; color: var(--faint);
     }
+    footer a { color: var(--gray); text-decoration: none; margin: 0 1rem; transition: color 0.2s; }
+    footer a:hover { color: var(--teal); }
 
-    .final-headline {
-      font-family: "Syne", sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
-      color: var(--text-white);
-      letter-spacing: -1px;
-      margin-bottom: 1rem;
-      line-height: 1.2;
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-visual { max-width: 500px; }
+      .metrics-grid { grid-template-columns: repeat(3, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .steps-grid::before { display: none; }
     }
-
-    .final-sub {
-      font-size: 1.3rem;
-      color: var(--text-muted);
-      margin-bottom: 3rem;
-    }
-
-    .final-btn {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 18px 48px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: all 0.3s;
-      animation: pulseGlow 3s ease-in-out infinite;
-    }
-
-    .final-btn:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 20px 50px rgba(0, 194, 168, 0.35);
-    }
-
-    .final-fine {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 1.5rem;
-    }
-
-    /* FOOTER */
-    .footer {
-      padding: 4rem 2rem;
-      text-align: center;
-      border-top: 1px solid rgba(0, 194, 168, 0.1);
-      font-size: 0.85rem;
-      color: var(--text-faint);
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .problem-grid,
-      .stages,
-      .stats-grid,
-      .dashboard-stats,
-      .analysis-grid,
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-headline {
-        font-size: 2.4rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .stage-connector {
-        display: none;
-      }
-
-      .pitch-card {
-        padding: 2rem;
-      }
-
-      .final-headline {
-        font-size: 2.2rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        padding: 7rem 1.5rem 4rem;
-      }
-
-      .hero-headline {
-        font-size: 2rem;
-      }
-
-      .hero-sub {
-        font-size: 1rem;
-      }
-
-      .section-title {
-        font-size: 1.6rem;
-      }
-
-      .nav {
-        padding: 0.8rem 1.2rem;
-      }
-
-      .nav-logo {
-        font-size: 1.1rem;
-      }
-
-      .pitch-card {
-        padding: 1.5rem;
-      }
-
-      .dashboard-card {
-        padding: 1.5rem;
-      }
-
-      .market-analysis {
-        padding: 1.5rem;
-      }
-
-      .final-headline {
-        font-size: 1.8rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
-
-      .stat-number {
-        font-size: 2.2rem;
-      }
-
-      .stage-title {
-        font-size: 1.1rem;
-      }
-
-      .showcase-headline {
-        font-size: 1.8rem;
-      }
-
-      .content-grid {
-        gap: 1.5rem;
-      }
+    @media (max-width: 768px) {
+      .hero-text h1 { font-size: 2.2rem; }
+      .section-title { font-size: 2rem; }
+      .pain-grid, .samples-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: 1fr; }
+      .hero-compare { grid-template-columns: 1fr; }
+      .price-card.featured { transform: none; }
+      section { padding: 70px 0; }
+      .nav-link { display: none; }
     }
   </style>
 </head>
 <body>
-<div class="orb-container" aria-hidden="true">
+
+<div class="orb-wrap">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
@@ -1223,347 +429,468 @@
 
 <!-- NAV -->
 <nav class="nav">
-  <div class="nav-logo">Prop<span>Cast</span></div>
-  <div class="nav-right">
-    <a href="propcast-onboarding.html" class="nav-signin">Sign In</a>
-    <a href="propcast-onboarding.html" class="nav-cta">Get Started</a>
+  <div class="container">
+    <a href="index.html" class="nav-logo">Prop<span>Cast</span></a>
+    <div class="nav-right">
+      <a href="#how" class="nav-link">How It Works</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="propcast-onboarding.html" class="nav-cta">Start Free Trial</a>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <h1 class="hero-headline">Your Market. Analyzed. Your Content. Automated.</h1>
-  <p class="hero-sub">PropCast deploys AI agents to scan your competition, find the gaps they're missing, and produce months of branded content — posts, videos, emails, market updates — all in your voice, all on autopilot.</p>
-  <a href="propcast-onboarding.html" class="hero-cta">Start Your Free Analysis →</a>
-  <p class="hero-secondary">No credit card required. Setup in under 10 minutes.</p>
-
-  <div class="hero-mockup">
-    <div class="dashboard-card">
-      <div class="dashboard-header">
-        <div class="dashboard-icon">📊</div>
-        <div class="dashboard-title">Market Analysis</div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div style="font-size:0.82rem; color:var(--teal); font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:1rem;">Automate the grind. Own the moments.</div>
+        <h1>Stop Spending 20 Hours A Week On Content <span class="teal">Nobody Sees.</span></h1>
+        <p>PropCast is your content coach, automated. It tells you exactly what to create based on your market, builds it in broadcast quality, and handles distribution everywhere — while you're actually with clients. Zero ongoing effort. Professional results.</p>
+        <a href="propcast-onboarding.html" class="hero-cta">Start Your Free Trial</a>
+        <div class="hero-fine">No credit card required. Set up in 5 minutes.</div>
       </div>
-      <div class="dashboard-stats">
-        <div class="stat-item">
-          <div class="stat-value">9.2</div>
-          <div class="stat-label">Content Score</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">47</div>
-          <div class="stat-label">Posts Queued</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">3</div>
-          <div class="stat-label">Markets Scanned</div>
+      <div class="hero-visual">
+        <div class="hero-compare">
+          <div class="compare-card chaos">
+            <div class="compare-badge">Without PropCast</div>
+            <div class="compare-item"><span class="icon">&#10007;</span> Writing captions at midnight</div>
+            <div class="compare-item"><span class="icon">&#10007;</span> Filming content nobody watches</div>
+            <div class="compare-item"><span class="icon">&#10007;</span> Posting inconsistently</div>
+            <div class="compare-item"><span class="icon">&#10007;</span> No idea what's working</div>
+            <div class="compare-item"><span class="icon">&#10007;</span> 20+ hours a week wasted</div>
+            <div class="compare-item"><span class="icon">&#10007;</span> Competitors outranking you</div>
+          </div>
+          <div class="compare-card order">
+            <div class="compare-badge">With PropCast</div>
+            <div class="compare-item"><span class="icon">&#10003;</span> Content created automatically</div>
+            <div class="compare-item"><span class="icon">&#10003;</span> Broadcast-quality videos</div>
+            <div class="compare-item"><span class="icon">&#10003;</span> Published on schedule</div>
+            <div class="compare-item"><span class="icon">&#10003;</span> Real-time performance data</div>
+            <div class="compare-item"><span class="icon">&#10003;</span> 0 hours of your time</div>
+            <div class="compare-item"><span class="icon">&#10003;</span> Dominating your market</div>
+            <div class="mini-dash">
+              <div class="mini-stat-row">
+                <div class="mini-stat">
+                  <div class="mini-stat-val">52</div>
+                  <div class="mini-stat-lbl">Posts</div>
+                </div>
+                <div class="mini-stat">
+                  <div class="mini-stat-val">14</div>
+                  <div class="mini-stat-lbl">Videos</div>
+                </div>
+                <div class="mini-stat">
+                  <div class="mini-stat-val">187K</div>
+                  <div class="mini-stat-lbl">Reach</div>
+                </div>
+              </div>
+              <div class="mini-bar"><div class="mini-bar-fill" style="width:92%;"></div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SOCIAL PROOF -->
-<div class="social-proof">
-  <strong>Trusted by 200+ agents</strong> across the Bay Area, Nashville, Austin, and beyond
-</div>
-
-<!-- PROBLEM SECTION -->
-<section class="problem">
+<!-- PAIN POINTS -->
+<section>
   <div class="container">
-    <div class="section-label">The Challenge</div>
-    <div class="section-title">The Real Estate Content Problem</div>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="problem-icon">🕐</div>
-        <div class="problem-title">40 Hours a Month on Content</div>
-        <div class="problem-text">That's what it takes to stay visible. Between filming, writing captions, designing graphics, and scheduling — most agents give up by week two.</div>
+    <div class="section-label reveal">Sound Familiar?</div>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-icon">&#128566;</div>
+        <div class="pain-title">"I don't know what to post"</div>
+        <div class="pain-desc">PropCast monitors your local market and national trends 24/7 and decides what content will perform best for your audience. You never have to think about it.</div>
       </div>
-      <div class="problem-card">
-        <div class="problem-icon">📉</div>
-        <div class="problem-title">Your Competitors Don't Sleep</div>
-        <div class="problem-text">The top 3 agents in your ZIP code post 4x more than you. Every day you're dark, they're stealing your next client.</div>
+      <div class="pain-card reveal">
+        <div class="pain-icon">&#9203;</div>
+        <div class="pain-title">"Content takes forever to create"</div>
+        <div class="pain-desc">PropCast generates scripts, builds broadcast-quality videos using your avatar, writes captions, and publishes everywhere. You do nothing.</div>
       </div>
-      <div class="problem-card">
-        <div class="problem-icon">🎯</div>
-        <div class="problem-title">Generic Content Gets Ignored</div>
-        <div class="problem-text">Canva templates and stock photos don't build trust. Your market needs YOUR data, YOUR face, YOUR expertise — not recycled graphics.</div>
+      <div class="pain-card reveal">
+        <div class="pain-icon">&#128200;</div>
+        <div class="pain-title">"I have no idea what's working"</div>
+        <div class="pain-desc">PropCast tracks every post, measures every result, and automatically adjusts your strategy based on real data. It scales what works and stops what doesn't.</div>
       </div>
     </div>
-    <div class="problem-punchline">You're not lazy. You're missing the system.</div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="how">
+<section class="steps-section" id="how">
   <div class="container">
-    <div class="section-label">Process</div>
-    <div class="section-title">How PropCast Works</div>
-    <div class="stages">
-      <div class="stage">
-        <div class="stage-icon">🔍</div>
-        <div class="stage-num">Step 1</div>
-        <div class="stage-title">We Scan Your Market</div>
-        <div class="stage-copy">Our AI agents analyze every competitor in your ZIP codes — their content, gaps, keywords, and weaknesses. You see exactly where you can win.</div>
-        <div class="stage-connector"></div>
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="section-title reveal">Four Steps. Zero Effort.</h2>
+    <p class="section-sub reveal">One-time setup takes 5 minutes. Then PropCast runs your entire content operation on autopilot.</p>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <div class="step-name">Input</div>
+        <div class="step-desc">Answer 5 brand voice questions. Upload your logo and colors. Enter your zip codes. Takes 5 minutes. One time only.</div>
       </div>
-      <div class="stage">
-        <div class="stage-icon">🧠</div>
-        <div class="stage-num">Step 2</div>
-        <div class="stage-title">We Build Your Strategy</div>
-        <div class="stage-copy">Based on real data, we create a personalized content plan targeting the exact gaps your competitors are missing.</div>
-        <div class="stage-connector"></div>
+      <div class="step-card reveal">
+        <div class="step-num">2</div>
+        <div class="step-name">Create</div>
+        <div class="step-desc">PropCast generates scripts, builds professional videos using your AI avatar, writes platform-specific captions, and creates supporting graphics automatically.</div>
       </div>
-      <div class="stage">
-        <div class="stage-icon">🚀</div>
-        <div class="stage-num">Step 3</div>
-        <div class="stage-title">We Produce & Publish</div>
-        <div class="stage-copy">Branded posts, videos, emails, and market updates — created and published on your schedule, in your voice.</div>
+      <div class="step-card reveal">
+        <div class="step-num">3</div>
+        <div class="step-name">Distribute</div>
+        <div class="step-desc">PropCast publishes to Instagram, Facebook, YouTube, and Google Business Profile on an optimized schedule — automatically adjusted based on when your audience is most active.</div>
       </div>
-    </div>
-    <div class="stages-punchline">The whole setup takes <em>10 minutes</em>. After that, the system runs.</div>
-  </div>
-</section>
-
-<!-- REAL OR FAKE SHOWCASE -->
-<section class="showcase">
-  <div class="container">
-    <div class="showcase-header">
-      <h2 class="showcase-headline">Can You Tell Which Is AI?</h2>
-      <p class="showcase-subheadline">Three pieces of content. All created in under 60 seconds. One looks like it took a professional team 3 hours. Spoiler: they're all PropCast.</p>
-    </div>
-
-    <div class="content-grid">
-      <!-- INSTAGRAM POST CARD -->
-      <div class="content-card">
-        <div class="ig-post">
-          <div class="ig-header">
-            <div class="ig-avatar"></div>
-            <div class="ig-user-info">
-              <div class="ig-username">graeham.watts</div>
-              <div class="ig-location">Palo Alto, CA</div>
-            </div>
-          </div>
-          <div class="ig-image">94303 Market Pulse — April 2026</div>
-          <div class="ig-caption">Median home prices in Palo Alto hit $2.4M this month — up 4.1% YoY. But here's what most agents won't tell you: inventory dropped to 0.9 months. That means if you're a buyer, you need to move fast. If you're a seller? This is your window. 📊 Full breakdown in my bio.</div>
-          <div class="ig-engagement">
-            <span>❤️ 247</span>
-            <span>💬 34</span>
-            <span>📤 18</span>
-          </div>
-        </div>
-        <div class="content-label">Instagram Carousel</div>
+      <div class="step-card reveal">
+        <div class="step-num">4</div>
+        <div class="step-name">Optimize</div>
+        <div class="step-desc">PropCast tracks every post, tests trending topics, measures results, and adjusts your content strategy automatically. It scales what works and stops what doesn't.</div>
       </div>
-
-      <!-- EMAIL CARD -->
-      <div class="content-card">
-        <div class="email-preview">
-          <div class="email-header">
-            <div class="email-from">From: Graeham Watts</div>
-            <div class="email-subject">Your April Market Briefing</div>
-          </div>
-          <div class="email-body">Good morning — Here's what happened in 94303 this month: The median closed at $2.4M (+4.1% YoY), but the real story is the 23% drop in new listings. For sellers, this is the strongest position in 18 months. For buyers, strategy matters more than speed right now. Here are 3 moves I'm recommending to my clients this week...</div>
-        </div>
-        <div class="content-label">Monthly Newsletter</div>
-      </div>
-
-      <!-- VIDEO CARD -->
-      <div class="content-card">
-        <div class="video-frame">
-          <div class="video-preview"></div>
-          <div class="video-script">[TALKING HEAD] Hey, I'm Graeham Watts. If you're thinking about buying or selling in Palo Alto right now, there's one number you need to know: 0.9. That's months of inventory. It means there are more buyers than homes — significantly more. [CUT TO DATA OVERLAY] Here's what that looks like...</div>
-        </div>
-        <div class="content-label">YouTube Short / Reel</div>
-      </div>
-    </div>
-
-    <!-- REVEAL SECTION -->
-    <div class="showcase-reveal">
-      <p class="reveal-text">All three were generated by PropCast in under 60 seconds.</p>
-      <p class="reveal-subtext">No copywriter. No video editor. No marketing team. Just your market data, your voice, and our AI.</p>
-      <a href="propcast-onboarding.html" class="reveal-cta">See What PropCast Creates For You →</a>
     </div>
   </div>
 </section>
 
-<!-- PITCH / MARKET ANALYSIS -->
-<section class="pitch">
+<!-- RESULTS / METRICS -->
+<section>
   <div class="container">
-    <div style="text-align: center; margin-bottom: 3rem;">
-      <div class="section-label">Discovery</div>
-      <div class="section-title">See Your Competitive Landscape — Free</div>
-      <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 1.5rem auto 0; line-height: 1.8;">
-        Before you commit to anything, we'll show you exactly who's winning in your market, what they're doing, and where the gaps are. It's the most valuable 10 minutes you'll spend this week. No credit card required.
-      </p>
-    </div>
-
-    <div class="market-analysis">
-      <div class="analysis-header">
-        <div class="analysis-icon">📈</div>
-        <div class="analysis-title">Your Market Analysis</div>
+    <div class="section-label reveal">Results That Speak</div>
+    <h2 class="section-title reveal">What PropCast Delivers Every Month</h2>
+    <p class="section-sub reveal">Real numbers from agents using PropCast. This is what a fully automated content engine looks like.</p>
+    <div class="metrics-grid">
+      <div class="metric-card reveal">
+        <div class="metric-val" data-count="52">0</div>
+        <div class="metric-label">Posts Published</div>
       </div>
-      <div class="analysis-grid">
-        <div class="analysis-item">
-          <div class="analysis-label">Competitors Found</div>
-          <div class="analysis-value">24</div>
-        </div>
-        <div class="analysis-item">
-          <div class="analysis-label">Content Gaps</div>
-          <div class="analysis-value">47</div>
-        </div>
-        <div class="analysis-item">
-          <div class="analysis-label">Opportunity Score</div>
-          <div class="analysis-value">8.7</div>
-        </div>
+      <div class="metric-card reveal">
+        <div class="metric-val" data-count="187400" data-suffix="" data-format="comma">0</div>
+        <div class="metric-label">Total Reach</div>
       </div>
-      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 194, 168, 0.1);">
-        <div class="opportunity-meter">
-          <span class="meter-label">Capture Potential</span>
-          <div class="meter-bar">
-            <div class="meter-fill"></div>
-          </div>
-          <span class="meter-value">72%</span>
-        </div>
+      <div class="metric-card reveal">
+        <div class="metric-val" data-count="14">0</div>
+        <div class="metric-label">Videos Created</div>
       </div>
-    </div>
-
-    <div class="pitch-card" style="margin-top: 3rem;">
-      <a href="propcast-onboarding.html" class="pitch-cta" style="display: flex; justify-content: center;">Run My Free Analysis →</a>
+      <div class="metric-card reveal">
+        <div class="metric-val" data-count="7">0</div>
+        <div class="metric-label">New Leads Generated</div>
+      </div>
+      <div class="metric-card reveal">
+        <div class="metric-val" data-count="22">0</div>
+        <div class="metric-label">Hours Saved</div>
+      </div>
+      <div class="metric-card highlight reveal">
+        <div class="metric-val">Zero</div>
+        <div class="metric-label">Hours Of Your Time</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- NUMBERS / STATS -->
-<section class="numbers">
+<!-- SAMPLE CONTENT -->
+<section>
   <div class="container">
-    <div class="section-label">Results</div>
-    <div class="section-title">What Agents Achieve in 30 Days</div>
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-number">90%</div>
-        <div class="stat-label">of content handled automatically</div>
+    <div class="section-label reveal">See The Quality</div>
+    <h2 class="section-title reveal">This Is What PropCast Creates For You</h2>
+    <p class="section-sub reveal">Every piece is built with your brand, your market data, and your AI avatar. Broadcast quality. Fully automated.</p>
+    <div class="samples-grid">
+      <div class="sample-card reveal">
+        <div class="sample-thumb">
+          <div class="sample-thumb-bg vid1"></div>
+          <div class="sample-thumb-overlay">
+            <div class="play-btn"></div>
+            <div class="sample-thumb-title">5 Things About Living in Palo Alto You Won't Find on Zillow</div>
+          </div>
+        </div>
+        <div class="sample-meta">
+          <div class="sample-platform">&#9654;&#65039; YouTube Short</div>
+          <div class="sample-stats">
+            <div class="sample-stat"><strong>24.3K</strong> views</div>
+            <div class="sample-stat"><strong>6.2%</strong> engagement</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-box">
-        <div class="stat-number">40 hrs</div>
-        <div class="stat-label">saved per month on average</div>
+      <div class="sample-card reveal">
+        <div class="sample-thumb">
+          <div class="sample-thumb-bg vid2"></div>
+          <div class="sample-thumb-overlay">
+            <div class="play-btn"></div>
+            <div class="sample-thumb-title">April 2026 Market Update: 94303 Inventory Hits 18-Month Low</div>
+          </div>
+        </div>
+        <div class="sample-meta">
+          <div class="sample-platform">&#128248; Instagram Reel</div>
+          <div class="sample-stats">
+            <div class="sample-stat"><strong>18.7K</strong> reach</div>
+            <div class="sample-stat"><strong>4.8%</strong> engagement</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-box">
-        <div class="stat-number">3x</div>
-        <div class="stat-label">more engagement than manual posting</div>
+      <div class="sample-card reveal">
+        <div class="sample-thumb">
+          <div class="sample-thumb-bg vid3"></div>
+          <div class="sample-thumb-overlay">
+            <div class="play-btn"></div>
+            <div class="sample-thumb-title">First-Time Buyer? Here's What $1.2M Gets You on the Peninsula</div>
+          </div>
+        </div>
+        <div class="sample-meta">
+          <div class="sample-platform">&#128218; Facebook Video</div>
+          <div class="sample-stats">
+            <div class="sample-stat"><strong>12.1K</strong> views</div>
+            <div class="sample-stat"><strong>5.4%</strong> engagement</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-box">
-        <div class="stat-number">10 min</div>
-        <div class="stat-label">to set up your entire content engine</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF METRIC -->
+<section style="padding:60px 0;">
+  <div class="container" style="text-align:center;">
+    <div class="reveal" style="background:var(--navy); border:1px solid var(--teal-border); border-radius:20px; padding:3rem 2rem; max-width:800px; margin:0 auto;">
+      <div style="font-family:'Syne',sans-serif; font-size:3.5rem; font-weight:800; color:var(--teal); margin-bottom:0.5rem;">8X</div>
+      <div style="font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--ink); margin-bottom:0.5rem;">More Content. One Quarter The Time.</div>
+      <div style="font-size:0.95rem; color:var(--gray); max-width:500px; margin:0 auto;">Agents using PropCast post 8X more content in 1/4 the time. Stop wasting four hours a week on content. Get 90% of your social done while you're actually with clients.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label reveal">Common Questions</div>
+    <h2 class="section-title reveal">Questions Agents Ask Before Starting</h2>
+    <div style="height:2rem;"></div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How long does setup take?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">5 minutes. Answer brand voice questions, upload your logo, enter your zip codes. That's it. PropCast handles everything from there.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Will it look professional?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. PropCast uses broadcast-quality AI video generation with your avatar, your brand colors, and professional motion graphics. The content is indistinguishable from what a production team would create.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What platforms does it post to?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Instagram, Facebook, YouTube, and Google Business Profile. All four, automatically. Each post is optimized for the specific platform's format and algorithm.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What if my market is niche?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">PropCast works for any market, any property type, any brand voice. It pulls local MLS data and Google Trends specific to your zip codes and tailors every piece of content to your exact audience.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How much does it cost?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Plans start at $197/month for Starter, $397/month for Growth (most popular), and $697/month for Dominate. All plans include a 14-day free trial. <a href="#pricing" style="color:var(--teal);">See full pricing details below.</a></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Do I have to create any content myself?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">No. PropCast handles 90% of your content automatically. The only thing we never automate is your personal relationship moments — client wins, open house selfies, real-life stories. That 10% is yours, and it's actually more powerful because everything else is handled.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What happens to my content if I cancel?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">You own everything PropCast creates. Download it all anytime. It's your content, your brand, your data — we just build and distribute it for you.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Can I cancel anytime?</span>
+          <span class="faq-arrow">&#9660;</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. No contracts, no penalties. Cancel from your dashboard with one click. We think you'll stay because the results speak for themselves.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-label reveal">Simple Pricing</div>
+    <h2 class="section-title reveal">Choose Your Plan</h2>
+    <p class="section-sub reveal">Every plan includes a 14-day free trial. No credit card required to start.</p>
+
+    <div class="pricing-toggle reveal">
+      <div class="pricing-toggle-wrap">
+        <button class="pricing-toggle-btn active" onclick="setPricing('monthly', this)">Monthly</button>
+        <button class="pricing-toggle-btn" onclick="setPricing('annual', this)">Annual</button>
+        <span class="pricing-save">Save 20%</span>
       </div>
     </div>
 
-    <div class="testimonial">
-      <p class="testimonial-quote">
-        "PropCast found gaps in my market I didn't even know existed. Within 30 days I went from posting twice a week to having a full content calendar on autopilot."
-      </p>
-      <p class="testimonial-author">— Demo Agent, Bay Area</p>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-name">Starter</div>
+        <div class="price-tagline">Get visible</div>
+        <div class="price-amount">
+          <span class="currency">$</span><span class="price-num" data-monthly="197" data-annual="157">197</span><span class="period">/mo</span>
+        </div>
+        <div class="price-annual">Billed $1,884/year</div>
+        <ul class="price-features">
+          <li>20 social posts/month</li>
+          <li>2 market update videos</li>
+          <li>1 email campaign/month</li>
+          <li>Basic analytics dashboard</li>
+          <li>Single ZIP code coverage</li>
+        </ul>
+        <a href="propcast-onboarding.html" class="price-btn">Start Free Trial</a>
+      </div>
+
+      <div class="price-card featured reveal">
+        <div class="price-popular">Most Popular</div>
+        <div class="price-name">Growth</div>
+        <div class="price-tagline">Own your market</div>
+        <div class="price-amount">
+          <span class="currency">$</span><span class="price-num" data-monthly="397" data-annual="317">397</span><span class="period">/mo</span>
+        </div>
+        <div class="price-annual">Billed $3,804/year</div>
+        <ul class="price-features">
+          <li>60 social posts/month</li>
+          <li>8 market update videos</li>
+          <li>4 email campaigns/month</li>
+          <li>Full analytics + scorecard</li>
+          <li>3 ZIP code coverage</li>
+          <li>Competitor monitoring</li>
+          <li>AI avatar videos</li>
+          <li>Priority content queue</li>
+        </ul>
+        <a href="propcast-onboarding.html" class="price-btn">Start Free Trial</a>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="price-name">Dominate</div>
+        <div class="price-tagline">Be everywhere</div>
+        <div class="price-amount">
+          <span class="currency">$</span><span class="price-num" data-monthly="697" data-annual="557">697</span><span class="period">/mo</span>
+        </div>
+        <div class="price-annual">Billed $6,684/year</div>
+        <ul class="price-features">
+          <li>Unlimited social posts</li>
+          <li>20+ videos/month</li>
+          <li>Unlimited email campaigns</li>
+          <li>Full analytics suite</li>
+          <li>Unlimited ZIP coverage</li>
+          <li>Real-time competitor alerts</li>
+          <li>AI avatar + custom video</li>
+          <li>White-glove onboarding</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <a href="propcast-onboarding.html" class="price-btn">Start Free Trial</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="final-cta">
+<section class="final-section">
   <div class="container">
-    <h2 class="final-headline">Your competitors are creating content right now.</h2>
-    <p class="final-sub">Don't fall behind. See exactly where the opportunities are in your market — free.</p>
-    <a href="propcast-onboarding.html" class="final-btn">Get Your Free Market Analysis →</a>
-    <p class="final-fine">No credit card required. Cancel anytime.</p>
+    <h2 class="final-title reveal">Your Competition Is Already Posting.</h2>
+    <p class="final-sub reveal">Start today and let PropCast handle the rest.</p>
+    <a href="propcast-onboarding.html" class="final-cta reveal">Start Your Free Trial — Free For 14 Days</a>
+    <div class="final-fine reveal">No credit card required. Cancel anytime. Set up in 5 minutes.</div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
+<footer>
   <div class="container">
-    <p style="margin-bottom: 1rem;">© 2026 PropCast — Part of the PropOS Suite</p>
-    <div class="footer-links">
-      <a href="#privacy">Privacy</a>
-      <a href="#terms">Terms</a>
-      <a href="#contact">Contact</a>
+    <div style="margin-bottom:0.8rem;">&copy; 2026 PropCast — Part of the PropOS Suite</div>
+    <div>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
     </div>
   </div>
 </footer>
 
 <script>
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  // IntersectionObserver for fade-in animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.animation = 'fadeUp 0.8s ease-out forwards';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  // Observe all sections
-  document.querySelectorAll('section').forEach(el => {
-    observer.observe(el);
-  });
-
-  // Counter animation for stats
-  const statNumbers = document.querySelectorAll('.stat-number');
-  const numberObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target.dataset.counted) {
-        entry.target.dataset.counted = 'true';
-        const finalValue = entry.target.textContent;
-        animateCounter(entry.target, finalValue);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  statNumbers.forEach(stat => numberObserver.observe(stat));
-
-  function animateCounter(element, finalValue) {
-    // Extract numeric value
-    const matches = finalValue.match(/\d+/);
-    if (!matches) return;
-
-    const num = parseInt(matches[0]);
-    let current = 0;
-    const duration = 2000;
-    const increment = num / (duration / 16);
-
-    const counter = setInterval(() => {
-      current += increment;
-      if (current >= num) {
-        element.textContent = finalValue;
-        clearInterval(counter);
-      } else {
-        element.textContent = Math.floor(current) + (finalValue.includes('%') ? '%' : finalValue.includes('hrs') ? ' hrs' : finalValue.includes('min') ? ' min' : 'x');
-      }
-    }, 16);
-  }
-
-  // Mobile nav (hamburger menu for future implementation)
-  // This is a placeholder for responsive menu functionality
-  function setupMobileMenu() {
-    const nav = document.querySelector('.nav');
-    if (window.innerWidth <= 900) {
-      // Mobile menu could be implemented here
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
     }
-  }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  window.addEventListener('resize', setupMobileMenu);
-  setupMobileMenu();
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Counter animation
+let counted = false;
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !counted) {
+      counted = true;
+      document.querySelectorAll('.metric-val[data-count]').forEach(el => {
+        const target = parseInt(el.dataset.count);
+        const format = el.dataset.format;
+        const duration = 1500;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          let current = Math.round(target * eased);
+
+          if (format === 'comma') {
+            el.textContent = current.toLocaleString();
+          } else {
+            el.textContent = current;
+          }
+
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+const metricsSection = document.querySelector('.metrics-grid');
+if (metricsSection) counterObserver.observe(metricsSection);
+
+// FAQ toggle
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// Pricing toggle
+function setPricing(mode, btn) {
+  document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.price-num').forEach(el => {
+    const val = mode === 'annual' ? el.dataset.annual : el.dataset.monthly;
+    el.textContent = val;
+  });
+
+  document.querySelectorAll('.price-annual').forEach(el => {
+    el.style.display = mode === 'annual' ? 'block' : 'none';
+  });
+}
 </script>
+
 </body>
 </html>
