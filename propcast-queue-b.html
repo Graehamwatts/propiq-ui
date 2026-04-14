@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropCast — Video QC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-main: #060F1E;
+            --bg-card-1: #0D1B2A;
+            --bg-card-2: #1B2838;
+            --green: #22C55E;
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --blue: #3B82F6;
+            --purple: #A78BFA;
+            --teal: #00C2A8;
+            --white-text: #F1F5F9;
+            --gray-text: #94A3B8;
+            --gray-faint: #475569;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--white-text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(6, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-faint);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .navbar-left { display: flex; align-items: center; gap: 40px; }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--teal), #009e88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .nav-tabs { display: flex; gap: 24px; }
+
+        .nav-tab {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-text);
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-tab.active { color: var(--white-text); border-bottom-color: var(--teal); }
+        .nav-tab:hover { color: var(--white-text); }
+
+        .navbar-right {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border-radius: 50%;
+        }
+
+        /* SUB-NAV / QC HEADER */
+        .qc-header {
+            background: var(--bg-card-1);
+            border-bottom: 1px solid var(--gray-faint);
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .qc-header-left { display: flex; align-items: center; gap: 24px; }
+
+        .qc-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--white-text);
+            letter-spacing: -0.5px;
+        }
+
+        .qc-subtabs { display: flex; gap: 4px; background: var(--bg-main); padding: 4px; border-radius: 8px; }
+
+        .qc-subtab {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-text);
+            cursor: pointer;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .qc-subtab.active { background: var(--teal); color: var(--bg-main); }
+        .qc-subtab:hover:not(.active) { color: var(--white-text); }
+
+        .qc-stats { display: flex; align-items: center; gap: 20px; }
+
+        .qc-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        .qc-stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--white-text);
+        }
+
+        .qc-stat-value.green { color: var(--green); }
+        .qc-stat-value.amber { color: var(--amber); }
+        .qc-stat-value.red { color: var(--red); }
+
+        .keyboard-hints {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kbd {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--white-text);
+            margin-right: 4px;
+        }
+
+        /* MAIN LAYOUT */
+        .qc-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: calc(100vh - 130px);
+        }
+
+        /* QUEUE LIST SIDEBAR */
+        .queue-sidebar {
+            background: var(--bg-card-1);
+            border-right: 1px solid var(--gray-faint);
+            overflow-y: auto;
+            max-height: calc(100vh - 130px);
+        }
+
+        .queue-filters {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-faint);
+            display: flex;
+            gap: 8px;
+        }
+
+        .queue-filter {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .queue-filter.active {
+            color: var(--white-text);
+            background: var(--bg-main);
+            border-color: var(--teal);
+        }
+
+        .queue-item {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--gray-faint);
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            gap: 12px;
+        }
+
+        .queue-item:hover { background: var(--bg-card-2); }
+
+        .queue-item.active {
+            background: var(--bg-card-2);
+            border-left: 3px solid var(--teal);
+            padding-left: 17px;
+        }
+
+        .queue-item.flagged { border-left: 3px solid var(--amber); padding-left: 17px; }
+        .queue-item.severe { border-left: 3px solid var(--red); padding-left: 17px; }
+
+        .video-thumb {
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--bg-card-2), var(--bg-main));
+            border-radius: 6px;
+            border: 1px solid var(--gray-faint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumb::after {
+            content: '▶';
+            color: var(--white-text);
+            opacity: 0.7;
+            font-size: 16px;
+        }
+
+        .video-thumb-overlay {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white-text);
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-family: monospace;
+        }
+
+        .queue-item-body { flex: 1; min-width: 0; }
+
+        .queue-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .queue-item-id {
+            font-size: 11px;
+            color: var(--gray-text);
+            font-family: monospace;
+        }
+
+        .queue-item-time { font-size: 10px; color: var(--gray-faint); }
+
+        .queue-item-script {
+            font-size: 12px;
+            color: var(--white-text);
+            line-height: 1.4;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .queue-item-meta {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            font-size: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pillar-pill {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pillar-pill.first-time { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+        .pillar-pill.relocation { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
+        .pillar-pill.seller { background: rgba(0, 194, 168, 0.15); color: var(--teal); }
+        .pillar-pill.legislative { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+        .pillar-pill.investor { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+
+        .qc-mini-pill {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qc-mini-pill.good { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+        .qc-mini-pill.drift { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+        .qc-mini-pill.severe { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+
+        /* MAIN REVIEW PANE */
+        .review-pane {
+            padding: 32px;
+            overflow-y: auto;
+            max-height: calc(100vh - 130px);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-faint);
+        }
+
+        .review-header-left { flex: 1; }
+
+        .review-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--white-text);
+            margin-bottom: 8px;
+        }
+
+        .review-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--gray-text);
+            flex-wrap: wrap;
+        }
+
+        .review-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .review-meta-label {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-faint);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .review-meta-value {
+            color: var(--white-text);
+            font-weight: 600;
+        }
+
+        .item-counter {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 8px;
+            padding: 10px 16px;
+            text-align: center;
+            min-width: 110px;
+        }
+
+        .item-counter-current {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--teal);
+        }
+
+        .item-counter-total { font-size: 12px; color: var(--gray-text); }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        /* TWO-COL: VIDEO + SCRIPT */
+        .video-script-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        /* VIDEO PLAYER */
+        .video-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .video-stage {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            max-height: 480px;
+            background: linear-gradient(180deg, #1a2f4a 0%, #0a1525 100%);
+            border-radius: 12px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Faux avatar silhouette */
+        .avatar-frame {
+            width: 70%;
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .avatar-head {
+            width: 110px;
+            height: 130px;
+            background: linear-gradient(180deg, #2d4a6e, #1a2f4a);
+            border-radius: 55px 55px 50px 50px;
+            margin-bottom: -20px;
+            position: relative;
+        }
+
+        .avatar-head::before, .avatar-head::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            width: 8px;
+            height: 12px;
+            background: var(--teal);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .avatar-head::before { left: 30px; }
+        .avatar-head::after { right: 30px; }
+
+        .avatar-body {
+            width: 200px;
+            height: 130px;
+            background: linear-gradient(180deg, #1a3559, #0d1f3a);
+            border-radius: 100px 100px 0 0;
+        }
+
+        .video-overlay-text {
+            position: absolute;
+            top: 24px;
+            left: 16px;
+            right: 16px;
+            text-align: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--white-text);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            line-height: 1.2;
+        }
+
+        .video-caption {
+            position: absolute;
+            bottom: 80px;
+            left: 16px;
+            right: 16px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.75);
+            color: var(--white-text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .video-brand-bug {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: var(--teal);
+            color: var(--bg-main);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* PLAYER CONTROLS BELOW STAGE */
+        .video-progress {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-main);
+            border-radius: 3px;
+            margin-bottom: 12px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-progress-fill {
+            height: 100%;
+            background: var(--teal);
+            border-radius: 3px;
+            width: 32%;
+            position: relative;
+        }
+
+        .video-progress-fill::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--white-text);
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(0, 194, 168, 0.6);
+        }
+
+        .video-controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .video-controls-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: var(--bg-main);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .play-btn:hover { transform: scale(1.05); }
+
+        .scrub-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-card-2);
+            color: var(--white-text);
+            border: 1px solid var(--gray-faint);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .scrub-btn.frame {
+            font-family: monospace;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .time-display {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--gray-text);
+            margin-left: 4px;
+        }
+
+        .time-display .current-time { color: var(--white-text); font-weight: 600; }
+
+        .speed-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-main);
+            padding: 3px;
+            border-radius: 6px;
+        }
+
+        .speed-btn {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+
+        .speed-btn.active { background: var(--teal); color: var(--bg-main); }
+
+        /* SCRIPT SIDE PANEL */
+        .script-side {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+
+        .script-side-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-faint);
+        }
+
+        .script-side-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .script-side-toggle {
+            display: flex;
+            background: var(--bg-main);
+            border-radius: 4px;
+            padding: 2px;
+        }
+
+        .script-side-toggle button {
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            color: var(--gray-text);
+            cursor: pointer;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .script-side-toggle button.active { background: var(--teal); color: var(--bg-main); }
+
+        .script-side-body {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--white-text);
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .script-word.spoken { color: var(--gray-text); }
+        .script-word.current {
+            background: var(--teal);
+            color: var(--bg-main);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        /* QC SCORES */
+        .qc-scores {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .score-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .score-card.good { border-color: var(--green); }
+        .score-card.drift { border-color: var(--amber); }
+        .score-card.severe { border-color: var(--red); }
+
+        .score-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .score-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--white-text);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-value.good { color: var(--green); }
+        .score-value.drift { color: var(--amber); }
+        .score-value.severe { color: var(--red); }
+
+        .score-value-num { font-size: 14px; color: var(--gray-text); font-weight: 600; }
+
+        .score-bar {
+            height: 4px;
+            background: var(--bg-main);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .score-bar-fill { height: 100%; border-radius: 2px; }
+        .score-bar-fill.good { background: var(--green); }
+        .score-bar-fill.drift { background: var(--amber); }
+        .score-bar-fill.severe { background: var(--red); }
+
+        .score-detail { font-size: 11px; color: var(--gray-text); margin-top: 6px; }
+
+        /* DRIFT TIMELINE */
+        .drift-timeline {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .drift-timeline-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .drift-bar {
+            display: flex;
+            height: 24px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--bg-main);
+            margin-bottom: 8px;
+        }
+
+        .drift-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--bg-main);
+            font-family: monospace;
+        }
+
+        .drift-segment.good { background: var(--green); }
+        .drift-segment.drift { background: var(--amber); }
+        .drift-segment.severe { background: var(--red); }
+
+        .drift-time-axis {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--gray-text);
+            font-family: monospace;
+            margin-top: 4px;
+        }
+
+        /* ACTION BAR */
+        .action-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            font-family: 'Syne', sans-serif;
+            letter-spacing: -0.3px;
+        }
+
+        .action-btn-icon { font-size: 22px; line-height: 1; }
+
+        .action-btn .kbd-hint {
+            font-size: 10px;
+            color: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn.approve { background: var(--green); color: #052e16; }
+        .action-btn.approve:hover { background: #16a34a; transform: translateY(-2px); }
+        .action-btn.reject { background: var(--red); color: #450a0a; }
+        .action-btn.reject:hover { background: #dc2626; transform: translateY(-2px); }
+        .action-btn.flag { background: var(--amber); color: #451a03; }
+        .action-btn.flag:hover { background: #d97706; transform: translateY(-2px); }
+
+        /* REJECT PANEL */
+        .reject-panel {
+            background: var(--bg-card-1);
+            border: 1px solid var(--red);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .reject-panel.open { display: block; }
+
+        .reject-panel-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .form-select, .form-textarea {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--gray-faint);
+            border-radius: 6px;
+            padding: 10px 12px;
+            color: var(--white-text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus, .form-textarea:focus { border-color: var(--teal); }
+
+        .form-textarea { resize: vertical; min-height: 80px; }
+
+        .form-actions { display: flex; gap: 12px; justify-content: flex-end; }
+
+        .form-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-btn.cancel {
+            background: transparent;
+            border-color: var(--gray-faint);
+            color: var(--gray-text);
+        }
+
+        .form-btn.submit { background: var(--red); color: var(--white-text); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .video-script-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 1024px) {
+            .qc-layout { grid-template-columns: 1fr; }
+            .queue-sidebar { max-height: 400px; }
+            .qc-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .qc-scores { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            .action-bar { grid-template-columns: 1fr; }
+            .nav-tabs { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="propcast-dashboard.html" class="logo">PropCast</a>
+            <div class="nav-tabs">
+                <a href="propcast-dashboard.html" class="nav-tab">Dashboard</a>
+                <a href="propcast-dashboard.html#calendar" class="nav-tab">Calendar</a>
+                <a href="propcast-queue-a.html" class="nav-tab active">QC Queue</a>
+                <a href="propcast-dashboard.html#settings" class="nav-tab">Settings</a>
+            </div>
+        </div>
+        <div class="navbar-right"></div>
+    </nav>
+
+    <!-- QC HEADER -->
+    <div class="qc-header">
+        <div class="qc-header-left">
+            <div class="qc-title">QC Queue</div>
+            <div class="qc-subtabs">
+                <a href="propcast-queue-a.html" class="qc-subtab">Audio</a>
+                <a href="propcast-queue-b.html" class="qc-subtab active">Video</a>
+            </div>
+        </div>
+        <div class="qc-stats">
+            <div class="qc-stat">
+                <span class="qc-stat-value">8</span>
+                <span>in queue</span>
+            </div>
+            <div class="qc-stat">
+                <span class="qc-stat-value green">5</span>
+                <span>approved today</span>
+            </div>
+            <div class="qc-stat">
+                <span class="qc-stat-value amber">2</span>
+                <span>drift detected</span>
+            </div>
+            <div class="qc-stat">
+                <span class="qc-stat-value red">1</span>
+                <span>severe</span>
+            </div>
+            <div class="keyboard-hints">
+                <span><span class="kbd">A</span>approve</span>
+                <span><span class="kbd">R</span>reject</span>
+                <span><span class="kbd">F</span>flag</span>
+                <span><span class="kbd">Space</span>play</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="qc-layout">
+        <!-- SIDEBAR: QUEUE LIST -->
+        <aside class="queue-sidebar">
+            <div class="queue-filters">
+                <div class="queue-filter active">All (8)</div>
+                <div class="queue-filter">Drift</div>
+                <div class="queue-filter">Severe</div>
+            </div>
+            <div class="queue-item active" onclick="selectItem(this, 0)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:42</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1108</span>
+                        <span class="queue-item-time">3 min ago</span>
+                    </div>
+                    <div class="queue-item-script">"Three things every first-time buyer in East Palo Alto needs to know..."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill first-time">First-Time</span>
+                        <span class="qc-mini-pill good">Good · 96%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item flagged" onclick="selectItem(this, 1)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:38</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1107</span>
+                        <span class="queue-item-time">12 min ago</span>
+                    </div>
+                    <div class="queue-item-script">"AB 1482 just got an update — here's what every Bay Area landlord needs to know..."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill legislative">Legislative</span>
+                        <span class="qc-mini-pill drift">Drift · 78%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item severe" onclick="selectItem(this, 2)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:51</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1106</span>
+                        <span class="queue-item-time">25 min ago</span>
+                    </div>
+                    <div class="queue-item-script">"Thinking of relocating to the Peninsula? Here are the three neighborhoods..."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill relocation">Relocation</span>
+                        <span class="qc-mini-pill severe">Severe · 54%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 3)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:34</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1105</span>
+                        <span class="queue-item-time">38 min ago</span>
+                    </div>
+                    <div class="queue-item-script">"If you bought in Redwood City in 2019, your equity number is going to surprise you."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill seller">Seller</span>
+                        <span class="qc-mini-pill good">Good · 94%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 4)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:46</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1104</span>
+                        <span class="queue-item-time">52 min ago</span>
+                    </div>
+                    <div class="queue-item-script">"Cap rates in Menlo Park multifamily just hit a number we haven't seen since 2019."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill investor">Investor</span>
+                        <span class="qc-mini-pill good">Good · 91%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 5)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:39</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1103</span>
+                        <span class="queue-item-time">1 hr ago</span>
+                    </div>
+                    <div class="queue-item-script">"Three things buyers are getting wrong about San Mateo County inspections."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill first-time">First-Time</span>
+                        <span class="qc-mini-pill good">Good · 89%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 6)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:48</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1102</span>
+                        <span class="queue-item-time">1 hr ago</span>
+                    </div>
+                    <div class="queue-item-script">"Selling in this market? The single biggest pricing mistake I'm seeing on the Peninsula."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill seller">Seller</span>
+                        <span class="qc-mini-pill drift">Drift · 81%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 7)">
+                <div class="video-thumb"><div class="video-thumb-overlay">0:55</div></div>
+                <div class="queue-item-body">
+                    <div class="queue-item-top">
+                        <span class="queue-item-id">VID-1101</span>
+                        <span class="queue-item-time">2 hr ago</span>
+                    </div>
+                    <div class="queue-item-script">"The new SB 9 ruling means your Bay Area lot might be worth a lot more than you think."</div>
+                    <div class="queue-item-meta">
+                        <span class="pillar-pill legislative">Legislative</span>
+                        <span class="qc-mini-pill good">Good · 92%</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN: REVIEW PANE -->
+        <main class="review-pane">
+            <!-- HEADER -->
+            <div class="review-header">
+                <div class="review-header-left">
+                    <div class="review-title">VID-1108 — First-Time Buyer Hook</div>
+                    <div class="review-meta">
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Agent</span>
+                            <span class="review-meta-value">Graeham Watts</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Avatar</span>
+                            <span class="review-meta-value">HeyGen · Custom v3</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Render</span>
+                            <span class="review-meta-value">Apr 14, 2026 · 10:48 AM</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Audio</span>
+                            <span class="review-meta-value">AUD-2241 (approved)</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Target</span>
+                            <span class="review-meta-value">IG Reel · YT Short · TikTok</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-counter">
+                    <div class="item-counter-current">1</div>
+                    <div class="item-counter-total">of 8 in queue</div>
+                </div>
+            </div>
+
+            <!-- QC SCORES (auto-generated by backend) -->
+            <div class="section-label">Auto QC Scores</div>
+            <div class="qc-scores">
+                <div class="score-card good">
+                    <div class="score-label">Face-Drift Confidence</div>
+                    <div class="score-value good">Good <span class="score-value-num">· 96%</span></div>
+                    <div class="score-bar"><div class="score-bar-fill good" style="width: 96%"></div></div>
+                    <div class="score-detail">No drift detected across 1,260 frames</div>
+                </div>
+                <div class="score-card good">
+                    <div class="score-label">Lip-Sync Match</div>
+                    <div class="score-value good">94<span class="score-value-num">%</span></div>
+                    <div class="score-bar"><div class="score-bar-fill good" style="width: 94%"></div></div>
+                    <div class="score-detail">Phoneme alignment within tolerance</div>
+                </div>
+                <div class="score-card good">
+                    <div class="score-label">Visual Artifacts</div>
+                    <div class="score-value good">Clean</div>
+                    <div class="score-bar"><div class="score-bar-fill good" style="width: 100%"></div></div>
+                    <div class="score-detail">0 artifacts flagged</div>
+                </div>
+            </div>
+
+            <!-- DRIFT TIMELINE -->
+            <div class="drift-timeline">
+                <div class="drift-timeline-title">
+                    <span>Per-Frame Confidence Timeline</span>
+                    <span style="color: var(--gray-faint);">Hover segments to scrub video</span>
+                </div>
+                <div class="drift-bar">
+                    <div class="drift-segment good" style="flex: 30;">0:00–0:13</div>
+                    <div class="drift-segment good" style="flex: 18;">0:13–0:21</div>
+                    <div class="drift-segment drift" style="flex: 8;">0:21–0:24</div>
+                    <div class="drift-segment good" style="flex: 30;">0:24–0:37</div>
+                    <div class="drift-segment good" style="flex: 14;">0:37–0:42</div>
+                </div>
+                <div class="drift-time-axis">
+                    <span>0:00</span>
+                    <span>0:10</span>
+                    <span>0:20</span>
+                    <span>0:30</span>
+                    <span>0:42</span>
+                </div>
+            </div>
+
+            <!-- VIDEO + SCRIPT SIDE-BY-SIDE -->
+            <div class="section-label">Side-by-Side · Video + Source Script</div>
+            <div class="video-script-grid">
+                <!-- VIDEO PLAYER -->
+                <div class="video-card">
+                    <div class="video-stage">
+                        <div class="video-overlay-text">3 things FTB's<br>need to know</div>
+                        <div class="avatar-frame">
+                            <div class="avatar-head"></div>
+                            <div class="avatar-body"></div>
+                        </div>
+                        <div class="video-caption">"...buyer in East Palo Alto needs to know..."</div>
+                        <div class="video-brand-bug">@graehamwatts</div>
+                    </div>
+                    <div class="video-progress" id="videoProgress">
+                        <div class="video-progress-fill"></div>
+                    </div>
+                    <div class="video-controls-row">
+                        <div class="video-controls-left">
+                            <button class="scrub-btn frame" title="Previous frame">◀F</button>
+                            <button class="scrub-btn" title="Skip back 5s">‹‹</button>
+                            <button class="play-btn" id="playBtn" title="Play/Pause (Space)">▶</button>
+                            <button class="scrub-btn" title="Skip forward 5s">››</button>
+                            <button class="scrub-btn frame" title="Next frame">F▶</button>
+                            <div class="time-display">
+                                <span class="current-time">0:13</span> / <span>0:42</span>
+                            </div>
+                        </div>
+                        <div class="speed-toggle">
+                            <button class="speed-btn">0.5x</button>
+                            <button class="speed-btn active">1x</button>
+                            <button class="speed-btn">2x</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCRIPT SIDE -->
+                <div class="script-side">
+                    <div class="script-side-header">
+                        <div class="script-side-title">Source Script</div>
+                        <div class="script-side-toggle">
+                            <button class="active">Synced</button>
+                            <button>Full</button>
+                        </div>
+                    </div>
+                    <div class="script-side-body" id="scriptSideBody">
+                        <span class="script-word spoken">Three</span>
+                        <span class="script-word spoken">things</span>
+                        <span class="script-word spoken">every</span>
+                        <span class="script-word spoken">first-time</span>
+                        <span class="script-word spoken">buyer</span>
+                        <span class="script-word spoken">in</span>
+                        <span class="script-word current">East</span>
+                        <span class="script-word">Palo</span>
+                        <span class="script-word">Alto</span>
+                        <span class="script-word">needs</span>
+                        <span class="script-word">to</span>
+                        <span class="script-word">know</span>
+                        <span class="script-word">about</span>
+                        <span class="script-word">FHA</span>
+                        <span class="script-word">loans</span>
+                        <span class="script-word">this</span>
+                        <span class="script-word">April.</span>
+                        <span class="script-word">First,</span>
+                        <span class="script-word">the</span>
+                        <span class="script-word">conforming</span>
+                        <span class="script-word">loan</span>
+                        <span class="script-word">limit</span>
+                        <span class="script-word">jumped</span>
+                        <span class="script-word">to</span>
+                        <span class="script-word">$1.21</span>
+                        <span class="script-word">million</span>
+                        <span class="script-word">in</span>
+                        <span class="script-word">San</span>
+                        <span class="script-word">Mateo</span>
+                        <span class="script-word">County.</span>
+                        <span class="script-word">Second,</span>
+                        <span class="script-word">down</span>
+                        <span class="script-word">payment</span>
+                        <span class="script-word">assistance</span>
+                        <span class="script-word">programs</span>
+                        <span class="script-word">are</span>
+                        <span class="script-word">stacking</span>
+                        <span class="script-word">in</span>
+                        <span class="script-word">ways</span>
+                        <span class="script-word">most</span>
+                        <span class="script-word">agents</span>
+                        <span class="script-word">aren't</span>
+                        <span class="script-word">telling</span>
+                        <span class="script-word">you</span>
+                        <span class="script-word">about.</span>
+                        <span class="script-word">And</span>
+                        <span class="script-word">third —</span>
+                        <span class="script-word">if</span>
+                        <span class="script-word">you're</span>
+                        <span class="script-word">touring</span>
+                        <span class="script-word">homes</span>
+                        <span class="script-word">without</span>
+                        <span class="script-word">a</span>
+                        <span class="script-word">pre-approval</span>
+                        <span class="script-word">letter,</span>
+                        <span class="script-word">stop.</span>
+                        <span class="script-word">Send</span>
+                        <span class="script-word">me</span>
+                        <span class="script-word">a</span>
+                        <span class="script-word">message.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION BAR -->
+            <div class="section-label">Decision · approve sends to publish workflow</div>
+            <div class="action-bar">
+                <button class="action-btn approve" onclick="approveItem()">
+                    <span class="action-btn-icon">✓</span>
+                    Approve & Publish
+                    <span class="kbd-hint">A</span>
+                </button>
+                <button class="action-btn reject" onclick="openReject()">
+                    <span class="action-btn-icon">✕</span>
+                    Reject
+                    <span class="kbd-hint">R</span>
+                </button>
+                <button class="action-btn flag" onclick="flagItem()">
+                    <span class="action-btn-icon">⚑</span>
+                    Flag for Retake
+                    <span class="kbd-hint">F</span>
+                </button>
+            </div>
+
+            <!-- REJECT PANEL -->
+            <div class="reject-panel" id="rejectPanel">
+                <div class="reject-panel-title">Reject — send back to render with notes</div>
+                <div class="form-group">
+                    <label class="form-label">Reason</label>
+                    <select class="form-select">
+                        <option>Face drift</option>
+                        <option>Lip-sync off</option>
+                        <option>Audio issue</option>
+                        <option>Visual artifact</option>
+                        <option>Brand issue (logo, caption, color)</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Frame range (optional)</label>
+                    <select class="form-select">
+                        <option>Entire clip</option>
+                        <option>0:00–0:13 (intro)</option>
+                        <option>0:13–0:21 (point 1)</option>
+                        <option>0:21–0:24 (drift segment)</option>
+                        <option>0:24–0:37 (point 2)</option>
+                        <option>0:37–0:42 (CTA)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Note for the render pipeline (optional)</label>
+                    <textarea class="form-textarea" placeholder="e.g. Avatar drifts at 0:22 when saying 'San Mateo'. Re-render frames 660–720 with stricter face-lock seed."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button class="form-btn cancel" onclick="closeReject()">Cancel</button>
+                    <button class="form-btn submit" onclick="submitReject()">Send Back</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function selectItem(el, idx) {
+            document.querySelectorAll('.queue-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function approveItem() {
+            const btn = event.target.closest('.action-btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => btn.style.transform = '', 150);
+            console.log('Approved VID-1108 → publish workflow');
+        }
+
+        function flagItem() {
+            const btn = event.target.closest('.action-btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => btn.style.transform = '', 150);
+            console.log('Flagged VID-1108 for retake');
+        }
+
+        function openReject() {
+            document.getElementById('rejectPanel').classList.add('open');
+            document.getElementById('rejectPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function closeReject() {
+            document.getElementById('rejectPanel').classList.remove('open');
+        }
+
+        function submitReject() {
+            console.log('Rejected VID-1108 → render pipeline with notes');
+            closeReject();
+        }
+
+        // Play/pause toggle
+        let isPlaying = false;
+        const playBtn = document.getElementById('playBtn');
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playBtn.textContent = isPlaying ? '⏸' : '▶';
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.target.matches('input, textarea, select')) return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'a') {
+                document.querySelector('.action-btn.approve').click();
+            } else if (key === 'r') {
+                document.querySelector('.action-btn.reject').click();
+            } else if (key === 'f') {
+                document.querySelector('.action-btn.flag').click();
+            } else if (e.code === 'Space') {
+                e.preventDefault();
+                playBtn.click();
+            }
+        });
+
+        // Speed toggle
+        document.querySelectorAll('.speed-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Filter pills
+        document.querySelectorAll('.queue-filter').forEach(f => {
+            f.addEventListener('click', () => {
+                document.querySelectorAll('.queue-filter').forEach(x => x.classList.remove('active'));
+                f.classList.add('active');
+            });
+        });
+
+        // Drift timeline → click to scrub (visual stub)
+        document.querySelectorAll('.drift-segment').forEach(seg => {
+            seg.style.cursor = 'pointer';
+            seg.addEventListener('click', () => {
+                console.log('Scrub to:', seg.textContent);
+            });
+        });
+    </script>
+</body>
+</html>

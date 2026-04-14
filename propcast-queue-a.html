@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropCast — Audio QC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-main: #060F1E;
+            --bg-card-1: #0D1B2A;
+            --bg-card-2: #1B2838;
+            --green: #22C55E;
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --blue: #3B82F6;
+            --purple: #A78BFA;
+            --teal: #00C2A8;
+            --white-text: #F1F5F9;
+            --gray-text: #94A3B8;
+            --gray-faint: #475569;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--white-text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(6, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-faint);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .navbar-left { display: flex; align-items: center; gap: 40px; }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--teal), #009e88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .nav-tabs { display: flex; gap: 24px; }
+
+        .nav-tab {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-text);
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-tab.active { color: var(--white-text); border-bottom-color: var(--teal); }
+        .nav-tab:hover { color: var(--white-text); }
+
+        .navbar-right {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border-radius: 50%;
+        }
+
+        /* SUB-NAV / QC HEADER */
+        .qc-header {
+            background: var(--bg-card-1);
+            border-bottom: 1px solid var(--gray-faint);
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .qc-header-left { display: flex; align-items: center; gap: 24px; }
+
+        .qc-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--white-text);
+            letter-spacing: -0.5px;
+        }
+
+        .qc-subtabs { display: flex; gap: 4px; background: var(--bg-main); padding: 4px; border-radius: 8px; }
+
+        .qc-subtab {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-text);
+            cursor: pointer;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .qc-subtab.active { background: var(--teal); color: var(--bg-main); }
+        .qc-subtab:hover:not(.active) { color: var(--white-text); }
+
+        .qc-stats { display: flex; align-items: center; gap: 20px; }
+
+        .qc-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        .qc-stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--white-text);
+        }
+
+        .qc-stat-value.green { color: var(--green); }
+        .qc-stat-value.amber { color: var(--amber); }
+
+        .keyboard-hints {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kbd {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--white-text);
+            margin-right: 4px;
+        }
+
+        /* MAIN LAYOUT */
+        .qc-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: calc(100vh - 130px);
+        }
+
+        /* QUEUE LIST SIDEBAR */
+        .queue-sidebar {
+            background: var(--bg-card-1);
+            border-right: 1px solid var(--gray-faint);
+            overflow-y: auto;
+            max-height: calc(100vh - 130px);
+        }
+
+        .queue-filters {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-faint);
+            display: flex;
+            gap: 8px;
+        }
+
+        .queue-filter {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            background: var(--bg-card-2);
+            border: 1px solid var(--gray-faint);
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .queue-filter.active {
+            color: var(--white-text);
+            background: var(--bg-main);
+            border-color: var(--teal);
+        }
+
+        .queue-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-faint);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .queue-item:hover { background: var(--bg-card-2); }
+
+        .queue-item.active {
+            background: var(--bg-card-2);
+            border-left: 3px solid var(--teal);
+            padding-left: 17px;
+        }
+
+        .queue-item.flagged { border-left: 3px solid var(--amber); padding-left: 17px; }
+
+        .queue-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .queue-item-id {
+            font-size: 11px;
+            color: var(--gray-text);
+            font-family: monospace;
+        }
+
+        .queue-item-time {
+            font-size: 11px;
+            color: var(--gray-faint);
+        }
+
+        .queue-item-script {
+            font-size: 13px;
+            color: var(--white-text);
+            line-height: 1.4;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .queue-item-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 11px;
+            color: var(--gray-text);
+        }
+
+        .pillar-pill {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pillar-pill.first-time { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+        .pillar-pill.relocation { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
+        .pillar-pill.seller { background: rgba(0, 194, 168, 0.15); color: var(--teal); }
+        .pillar-pill.legislative { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+        .pillar-pill.investor { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+
+        .duration-pill {
+            padding: 2px 6px;
+            background: var(--bg-main);
+            border: 1px solid var(--gray-faint);
+            border-radius: 4px;
+            font-size: 10px;
+            font-family: monospace;
+            color: var(--gray-text);
+        }
+
+        /* MAIN REVIEW PANE */
+        .review-pane {
+            padding: 32px;
+            overflow-y: auto;
+            max-height: calc(100vh - 130px);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-faint);
+        }
+
+        .review-header-left { flex: 1; }
+
+        .review-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--white-text);
+            margin-bottom: 8px;
+        }
+
+        .review-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--gray-text);
+            flex-wrap: wrap;
+        }
+
+        .review-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .review-meta-label {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-faint);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .review-meta-value {
+            color: var(--white-text);
+            font-weight: 600;
+        }
+
+        .item-counter {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 8px;
+            padding: 10px 16px;
+            text-align: center;
+            min-width: 110px;
+        }
+
+        .item-counter-current {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--teal);
+        }
+
+        .item-counter-total { font-size: 12px; color: var(--gray-text); }
+
+        /* SCRIPT BLOCK */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .script-block {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--white-text);
+        }
+
+        .script-word {
+            display: inline;
+            padding: 2px 0;
+            transition: all 0.15s;
+            border-radius: 3px;
+        }
+
+        .script-word.spoken { color: var(--gray-text); }
+
+        .script-word.current {
+            background: var(--teal);
+            color: var(--bg-main);
+            padding: 2px 4px;
+            font-weight: 700;
+        }
+
+        /* WAVEFORM + PLAYER */
+        .player-card {
+            background: var(--bg-card-1);
+            border: 1px solid var(--gray-faint);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .waveform {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2px;
+            height: 100px;
+            margin-bottom: 16px;
+            background: var(--bg-main);
+            border-radius: 8px;
+            padding: 16px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .wave-bar {
+            flex: 1;
+            background: var(--gray-faint);
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+
+        .wave-bar.played { background: var(--teal); }
+        .wave-bar.current { background: var(--white-text); box-shadow: 0 0 8px var(--teal); }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .player-controls-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .play-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: var(--bg-main);
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .play-btn:hover { transform: scale(1.05); }
+
+        .scrub-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card-2);
+            color: var(--white-text);
+            border: 1px solid var(--gray-faint);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .time-display {
+            font-family: monospace;
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        .time-display .current-time { color: var(--white-text); font-weight: 600; }
+
+        .speed-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-main);
+            padding: 3px;
+            border-radius: 6px;
+        }
+
+        .speed-btn {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+
+        .speed-btn.active { background: var(--teal); color: var(--bg-main); }
+
+        /* ACTION BAR */
+        .action-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            font-family: 'Syne', sans-serif;
+            letter-spacing: -0.3px;
+        }
+
+        .action-btn-icon {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .action-btn .kbd-hint {
+            font-size: 10px;
+            color: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn.approve {
+            background: var(--green);
+            color: #052e16;
+        }
+
+        .action-btn.approve:hover { background: #16a34a; transform: translateY(-2px); }
+
+        .action-btn.reject {
+            background: var(--red);
+            color: #450a0a;
+        }
+
+        .action-btn.reject:hover { background: #dc2626; transform: translateY(-2px); }
+
+        .action-btn.flag {
+            background: var(--amber);
+            color: #451a03;
+        }
+
+        .action-btn.flag:hover { background: #d97706; transform: translateY(-2px); }
+
+        /* REJECT PANEL */
+        .reject-panel {
+            background: var(--bg-card-1);
+            border: 1px solid var(--red);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .reject-panel.open { display: block; }
+
+        .reject-panel-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .form-select, .form-textarea {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--gray-faint);
+            border-radius: 6px;
+            padding: 10px 12px;
+            color: var(--white-text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus, .form-textarea:focus { border-color: var(--teal); }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .form-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-btn.cancel {
+            background: transparent;
+            border-color: var(--gray-faint);
+            color: var(--gray-text);
+        }
+
+        .form-btn.submit {
+            background: var(--red);
+            color: var(--white-text);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .qc-layout { grid-template-columns: 1fr; }
+            .queue-sidebar { max-height: 400px; }
+            .qc-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+        }
+
+        @media (max-width: 640px) {
+            .action-bar { grid-template-columns: 1fr; }
+            .nav-tabs { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="propcast-dashboard.html" class="logo">PropCast</a>
+            <div class="nav-tabs">
+                <a href="propcast-dashboard.html" class="nav-tab">Dashboard</a>
+                <a href="propcast-dashboard.html#calendar" class="nav-tab">Calendar</a>
+                <a href="propcast-queue-a.html" class="nav-tab active">QC Queue</a>
+                <a href="propcast-dashboard.html#settings" class="nav-tab">Settings</a>
+            </div>
+        </div>
+        <div class="navbar-right"></div>
+    </nav>
+
+    <!-- QC HEADER -->
+    <div class="qc-header">
+        <div class="qc-header-left">
+            <div class="qc-title">QC Queue</div>
+            <div class="qc-subtabs">
+                <a href="propcast-queue-a.html" class="qc-subtab active">Audio</a>
+                <a href="propcast-queue-b.html" class="qc-subtab">Video</a>
+            </div>
+        </div>
+        <div class="qc-stats">
+            <div class="qc-stat">
+                <span class="qc-stat-value">12</span>
+                <span>in queue</span>
+            </div>
+            <div class="qc-stat">
+                <span class="qc-stat-value green">3</span>
+                <span>approved today</span>
+            </div>
+            <div class="qc-stat">
+                <span class="qc-stat-value amber">1</span>
+                <span>flagged</span>
+            </div>
+            <div class="keyboard-hints">
+                <span><span class="kbd">A</span>approve</span>
+                <span><span class="kbd">R</span>reject</span>
+                <span><span class="kbd">F</span>flag</span>
+                <span><span class="kbd">Space</span>play</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="qc-layout">
+        <!-- SIDEBAR: QUEUE LIST -->
+        <aside class="queue-sidebar">
+            <div class="queue-filters">
+                <div class="queue-filter active">All (12)</div>
+                <div class="queue-filter">Pending</div>
+                <div class="queue-filter">Flagged</div>
+            </div>
+            <div class="queue-item active" onclick="selectItem(this, 0)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2241</span>
+                    <span class="queue-item-time">2 min ago</span>
+                </div>
+                <div class="queue-item-script">"Three things every first-time buyer in East Palo Alto needs to know about FHA loans this April..."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill first-time">First-Time Buyer</span>
+                    <span class="duration-pill">0:42</span>
+                </div>
+            </div>
+            <div class="queue-item flagged" onclick="selectItem(this, 1)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2240</span>
+                    <span class="queue-item-time">8 min ago</span>
+                </div>
+                <div class="queue-item-script">"AB 1482 just got an update — here's what every Bay Area landlord needs to know before May."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill legislative">Legislative</span>
+                    <span class="duration-pill">0:38</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 2)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2239</span>
+                    <span class="queue-item-time">15 min ago</span>
+                </div>
+                <div class="queue-item-script">"Thinking of relocating to the Peninsula? Here are the three neighborhoods quietly outperforming Palo Alto..."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill relocation">Relocation</span>
+                    <span class="duration-pill">0:51</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 3)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2238</span>
+                    <span class="queue-item-time">22 min ago</span>
+                </div>
+                <div class="queue-item-script">"If you bought in Redwood City in 2019, your equity number is going to surprise you. Let me show you the math."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill seller">Seller</span>
+                    <span class="duration-pill">0:34</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 4)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2237</span>
+                    <span class="queue-item-time">31 min ago</span>
+                </div>
+                <div class="queue-item-script">"Cap rates in Menlo Park multifamily just hit a number we haven't seen since 2019. Investors, this is your window."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill investor">Investor</span>
+                    <span class="duration-pill">0:46</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 5)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2236</span>
+                    <span class="queue-item-time">44 min ago</span>
+                </div>
+                <div class="queue-item-script">"Here are the three things buyers are getting wrong about San Mateo County inspections right now."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill first-time">First-Time Buyer</span>
+                    <span class="duration-pill">0:39</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 6)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2235</span>
+                    <span class="queue-item-time">1 hr ago</span>
+                </div>
+                <div class="queue-item-script">"Selling in this market? The single biggest pricing mistake I'm seeing on the Peninsula right now."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill seller">Seller</span>
+                    <span class="duration-pill">0:48</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 7)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2234</span>
+                    <span class="queue-item-time">1 hr ago</span>
+                </div>
+                <div class="queue-item-script">"The new SB 9 ruling means your Bay Area lot might be worth a lot more than you think. Here's what changed."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill legislative">Legislative</span>
+                    <span class="duration-pill">0:55</span>
+                </div>
+            </div>
+            <div class="queue-item" onclick="selectItem(this, 8)">
+                <div class="queue-item-top">
+                    <span class="queue-item-id">AUD-2233</span>
+                    <span class="queue-item-time">2 hr ago</span>
+                </div>
+                <div class="queue-item-script">"Layoffs hitting your household? Here's what your mortgage options look like, and the moves to make this week."</div>
+                <div class="queue-item-meta">
+                    <span class="pillar-pill relocation">Layoff Response</span>
+                    <span class="duration-pill">0:43</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN: REVIEW PANE -->
+        <main class="review-pane">
+            <!-- HEADER -->
+            <div class="review-header">
+                <div class="review-header-left">
+                    <div class="review-title">AUD-2241 — First-Time Buyer Hook</div>
+                    <div class="review-meta">
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Agent</span>
+                            <span class="review-meta-value">Graeham Watts</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Voice</span>
+                            <span class="review-meta-value">ElevenLabs · Custom Clone v3</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Generated</span>
+                            <span class="review-meta-value">Apr 14, 2026 · 10:42 AM</span>
+                        </div>
+                        <div class="review-meta-item">
+                            <span class="review-meta-label">Target</span>
+                            <span class="review-meta-value">IG Reel · YouTube Short · TikTok</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-counter">
+                    <div class="item-counter-current">1</div>
+                    <div class="item-counter-total">of 12 in queue</div>
+                </div>
+            </div>
+
+            <!-- SCRIPT -->
+            <div class="section-label">Script · word-synced to playback</div>
+            <div class="script-block" id="scriptBlock">
+                <span class="script-word spoken">Three</span>
+                <span class="script-word spoken">things</span>
+                <span class="script-word spoken">every</span>
+                <span class="script-word spoken">first-time</span>
+                <span class="script-word spoken">buyer</span>
+                <span class="script-word spoken">in</span>
+                <span class="script-word current">East</span>
+                <span class="script-word">Palo</span>
+                <span class="script-word">Alto</span>
+                <span class="script-word">needs</span>
+                <span class="script-word">to</span>
+                <span class="script-word">know</span>
+                <span class="script-word">about</span>
+                <span class="script-word">FHA</span>
+                <span class="script-word">loans</span>
+                <span class="script-word">this</span>
+                <span class="script-word">April.</span>
+                <span class="script-word">First,</span>
+                <span class="script-word">the</span>
+                <span class="script-word">conforming</span>
+                <span class="script-word">loan</span>
+                <span class="script-word">limit</span>
+                <span class="script-word">jumped</span>
+                <span class="script-word">to</span>
+                <span class="script-word">$1.21</span>
+                <span class="script-word">million</span>
+                <span class="script-word">in</span>
+                <span class="script-word">San</span>
+                <span class="script-word">Mateo</span>
+                <span class="script-word">County.</span>
+                <span class="script-word">Second,</span>
+                <span class="script-word">down</span>
+                <span class="script-word">payment</span>
+                <span class="script-word">assistance</span>
+                <span class="script-word">programs</span>
+                <span class="script-word">are</span>
+                <span class="script-word">stacking</span>
+                <span class="script-word">in</span>
+                <span class="script-word">ways</span>
+                <span class="script-word">most</span>
+                <span class="script-word">agents</span>
+                <span class="script-word">aren't</span>
+                <span class="script-word">telling</span>
+                <span class="script-word">you</span>
+                <span class="script-word">about.</span>
+                <span class="script-word">And</span>
+                <span class="script-word">third —</span>
+                <span class="script-word">if</span>
+                <span class="script-word">you're</span>
+                <span class="script-word">touring</span>
+                <span class="script-word">homes</span>
+                <span class="script-word">without</span>
+                <span class="script-word">a</span>
+                <span class="script-word">pre-approval</span>
+                <span class="script-word">letter,</span>
+                <span class="script-word">stop.</span>
+                <span class="script-word">Send</span>
+                <span class="script-word">me</span>
+                <span class="script-word">a</span>
+                <span class="script-word">message</span>
+                <span class="script-word">and</span>
+                <span class="script-word">I'll</span>
+                <span class="script-word">walk</span>
+                <span class="script-word">you</span>
+                <span class="script-word">through</span>
+                <span class="script-word">the</span>
+                <span class="script-word">stack</span>
+                <span class="script-word">myself.</span>
+            </div>
+
+            <!-- WAVEFORM + PLAYER -->
+            <div class="section-label">Audio · 0:42 total</div>
+            <div class="player-card">
+                <div class="waveform" id="waveform"></div>
+                <div class="player-controls">
+                    <div class="player-controls-left">
+                        <button class="scrub-btn" title="Skip back 5s">‹‹</button>
+                        <button class="play-btn" id="playBtn" title="Play/Pause (Space)">▶</button>
+                        <button class="scrub-btn" title="Skip forward 5s">››</button>
+                        <div class="time-display">
+                            <span class="current-time" id="currentTime">0:08</span> / <span>0:42</span>
+                        </div>
+                    </div>
+                    <div class="speed-toggle">
+                        <button class="speed-btn">0.75x</button>
+                        <button class="speed-btn active">1x</button>
+                        <button class="speed-btn">1.5x</button>
+                        <button class="speed-btn">2x</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION BAR -->
+            <div class="section-label">Decision</div>
+            <div class="action-bar">
+                <button class="action-btn approve" onclick="approveItem()">
+                    <span class="action-btn-icon">✓</span>
+                    Approve
+                    <span class="kbd-hint">A</span>
+                </button>
+                <button class="action-btn reject" onclick="openReject()">
+                    <span class="action-btn-icon">✕</span>
+                    Reject
+                    <span class="kbd-hint">R</span>
+                </button>
+                <button class="action-btn flag" onclick="flagItem()">
+                    <span class="action-btn-icon">⚑</span>
+                    Flag for Retake
+                    <span class="kbd-hint">F</span>
+                </button>
+            </div>
+
+            <!-- REJECT PANEL (toggles) -->
+            <div class="reject-panel" id="rejectPanel">
+                <div class="reject-panel-title">Reject — send back to SSML engine</div>
+                <div class="form-group">
+                    <label class="form-label">Reason</label>
+                    <select class="form-select">
+                        <option>Pronunciation error</option>
+                        <option>Wrong emotion / tone</option>
+                        <option>Audio quality (clicks, breath, distortion)</option>
+                        <option>Pacing too fast / too slow</option>
+                        <option>Mismatch with script</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Note for the engine (optional)</label>
+                    <textarea class="form-textarea" placeholder="e.g. 'East Palo Alto' is mispronounced — emphasize the second syllable of 'Palo'. Reduce pace by ~15%."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button class="form-btn cancel" onclick="closeReject()">Cancel</button>
+                    <button class="form-btn submit" onclick="submitReject()">Send Back</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Build a faux waveform (52 bars with varying heights — looks organic)
+        const waveformEl = document.getElementById('waveform');
+        const totalBars = 52;
+        const playedThrough = 12; // simulate ~22% playback progress
+        const heights = [22, 38, 55, 72, 60, 45, 30, 50, 68, 80, 65, 48, 35, 52, 70, 85, 75, 55, 40, 28, 42, 60, 78, 90, 72, 50, 36, 48, 65, 82, 70, 55, 38, 28, 45, 62, 78, 68, 52, 40, 30, 48, 65, 75, 60, 45, 35, 25, 42, 58, 48, 30];
+        for (let i = 0; i < totalBars; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'wave-bar';
+            if (i < playedThrough) bar.classList.add('played');
+            if (i === playedThrough) bar.classList.add('current');
+            bar.style.height = (heights[i] || 40) + '%';
+            waveformEl.appendChild(bar);
+        }
+
+        // Queue item selection
+        function selectItem(el, idx) {
+            document.querySelectorAll('.queue-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Action handlers (UI-only stubs)
+        function approveItem() {
+            const btn = event.target.closest('.action-btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => btn.style.transform = '', 150);
+            console.log('Approved AUD-2241 → publish queue');
+        }
+
+        function flagItem() {
+            const btn = event.target.closest('.action-btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => btn.style.transform = '', 150);
+            console.log('Flagged AUD-2241 for retake');
+        }
+
+        function openReject() {
+            document.getElementById('rejectPanel').classList.add('open');
+            document.getElementById('rejectPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function closeReject() {
+            document.getElementById('rejectPanel').classList.remove('open');
+        }
+
+        function submitReject() {
+            console.log('Rejected AUD-2241 → SSML engine with notes');
+            closeReject();
+        }
+
+        // Play/pause toggle
+        let isPlaying = false;
+        const playBtn = document.getElementById('playBtn');
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playBtn.textContent = isPlaying ? '⏸' : '▶';
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Don't fire shortcuts when typing in form fields
+            if (e.target.matches('input, textarea, select')) return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'a') {
+                document.querySelector('.action-btn.approve').click();
+            } else if (key === 'r') {
+                document.querySelector('.action-btn.reject').click();
+            } else if (key === 'f') {
+                document.querySelector('.action-btn.flag').click();
+            } else if (e.code === 'Space') {
+                e.preventDefault();
+                playBtn.click();
+            }
+        });
+
+        // Speed toggle
+        document.querySelectorAll('.speed-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Filter pills
+        document.querySelectorAll('.queue-filter').forEach(f => {
+            f.addEventListener('click', () => {
+                document.querySelectorAll('.queue-filter').forEach(x => x.classList.remove('active'));
+                f.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
