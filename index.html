@@ -2486,24 +2486,107 @@
       nums.forEach(n => io.observe(n));
     })();
 
-    // === INTERACTIVE HERO ZIP INPUT ===
+    // === INTERACTIVE HERO ZIP INPUT (with per-ZIP hook mapping) ===
     (function(){
       const input = document.getElementById('heroZipInput');
       const preview = document.getElementById('heroHookPreview');
       const btn = document.getElementById('heroTryBtn');
       const zipLabel = document.getElementById('hphZip');
-      if (\!input || \!preview || \!btn) return;
+      const scoreEl = document.querySelector('#heroHookPreview .hph-score');
+      const titleEl = document.querySelector('#heroHookPreview .hero-hook-pre-title');
+      const metaEl = document.querySelector('#heroHookPreview .hero-hook-pre-meta');
+      const ctaEl = document.querySelector('#heroHookPreview .hero-hook-pre-cta');
+      if (!input || !preview || !btn) return;
+
+      // --- ZIP -> hook dictionary (Bay Area / Peninsula founding cohort) ---
+      const HOOKS = {
+        '94303': {
+          label: '94303 \u00b7 EAST PALO ALTO',
+          score: 'Top pick \u00b7 96/100',
+          title: '"Your landlord just got a law they don\u2019t know about \u2014 and <em>it puts rent back in your favor.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'Zero local agents covering AB 1482', 'Pulls tenants thinking about buying'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94301': {
+          label: '94301 \u00b7 PALO ALTO',
+          score: 'Top pick \u00b7 93/100',
+          title: '"Palo Alto\u2019s median did something weird in spring 2026 \u2014 and <em>it\u2019s not what Zillow is telling you.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'Only 1 agent publishing this quarter\u2019s data', 'Pulls move-up buyers under $4M'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94306': {
+          label: '94306 \u00b7 PALO ALTO',
+          score: 'Top pick \u00b7 92/100',
+          title: '"South Palo Alto is quietly the best trade-up play on the Peninsula. <em>Three streets prove it.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'Block-level price trend no comp set shows', 'Pulls equity-rich move-up sellers'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94025': {
+          label: '94025 \u00b7 MENLO PARK',
+          score: 'Top pick \u00b7 94/100',
+          title: '"Menlo Park buyers are overpaying $180K on the wrong streets. <em>Here\u2019s exactly where.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'Street-level micro-data your comps miss', 'Pulls corporate relocators'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94027': {
+          label: '94027 \u00b7 ATHERTON',
+          score: 'Top pick \u00b7 91/100',
+          title: '"Atherton tells two different stories above and below one acre. <em>Most agents miss it.</em>"',
+          meta: ['Short vertical \u00b7 60\u201390s', 'Lot-size split in price-to-list ratios', 'Pulls $10M+ trade-up buyers'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94061': {
+          label: '94061 \u00b7 REDWOOD CITY',
+          score: 'Top pick \u00b7 92/100',
+          title: '"Redwood City\u2019s $1.4\u20131.6M band moves in 11 days. $1.9M+ takes 58. <em>Here\u2019s the pivot.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'Price-band DOM split no one\u2019s published', 'Pulls upsize-ready sellers'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94062': {
+          label: '94062 \u00b7 REDWOOD CITY',
+          score: 'Top pick \u00b7 90/100',
+          title: '"Emerald Hills is the last sub-$2M lot-size deal on the Peninsula. <em>Window closes in 2026.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'Inventory + lot-size arbitrage data', 'Pulls second-home buyers'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        },
+        '94404': {
+          label: '94404 \u00b7 FOSTER CITY',
+          score: 'Top pick \u00b7 90/100',
+          title: '"Foster City inventory just flipped buyer-friendly for the first time since 2021. <em>The data is ugly \u2014 in your favor.</em>"',
+          meta: ['Short vertical \u00b7 45\u201360s', 'First inventory pivot in 5 years', 'Pulls first-time buyers priced out elsewhere'],
+          cta: 'See the other two hooks + the full 12-week plan \u2192'
+        }
+      };
+
+      const DEFAULT_HOOK = {
+        label: 'WAITLIST \u00b7 THIS MARKET',
+        score: 'Not live yet',
+        title: '"We don\u2019t have hooks queued for this ZIP yet. <em>Join the waitlist \u2014 we build markets one at a time.</em>"',
+        meta: ['Founding cohort \u00b7 Bay Area / Peninsula only', 'We scale market-by-market, not all at once', 'Get notified when your ZIP opens'],
+        cta: 'Join the waitlist \u2192'
+      };
+
+      function renderHook(zip) {
+        const h = HOOKS[zip] || DEFAULT_HOOK;
+        if (zipLabel) zipLabel.textContent = h.label;
+        if (scoreEl) scoreEl.textContent = h.score;
+        if (titleEl) titleEl.innerHTML = h.title;
+        if (metaEl) {
+          metaEl.innerHTML = h.meta.map(function(m){
+            return '<span><span class="dot"></span>' + m + '</span>';
+          }).join('');
+        }
+        if (ctaEl) ctaEl.textContent = h.cta;
+      }
 
       input.addEventListener('input', () => {
-        // strip non-digits
         const raw = input.value.replace(/[^0-9]/g, '').slice(0, 5);
-        if (raw \!== input.value) input.value = raw;
+        if (raw !== input.value) input.value = raw;
 
         if (raw.length === 5) {
           input.classList.add('valid');
-          zipLabel.textContent = 'ZIP ' + raw;
+          renderHook(raw);
           preview.classList.add('show');
-          // carry the zip into the signup flow
           btn.href = 'propcast-signup.html?zip=' + raw;
         } else {
           input.classList.remove('valid');
@@ -2520,7 +2603,7 @@
     (function(){
       const tabs = document.querySelectorAll('.faq-tab');
       const panels = document.querySelectorAll('.faq-panel');
-      if (\!tabs.length) return;
+      if (!tabs.length) return;
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           const which = tab.dataset.tab;
@@ -2541,7 +2624,7 @@
       const slider = document.getElementById('baSlider');
       const after = document.getElementById('baAfter');
       const handle = document.getElementById('baHandle');
-      if (\!slider || \!after || \!handle) return;
+      if (!slider || !after || !handle) return;
       let dragging = false;
 
       function setPos(pct) {
@@ -2577,7 +2660,7 @@
     (function(){
       const markers = document.querySelectorAll('#stagesRow .stage-marker');
       const conveyor = document.querySelector('.conveyor-wrap');
-      if (\!markers.length || \!conveyor) return;
+      if (!markers.length || !conveyor) return;
 
       function onScroll() {
         const rect = conveyor.getBoundingClientRect();
@@ -2599,7 +2682,7 @@
     // === ACTIVITY TICKER — rotating placeholders ===
     (function(){
       const text = document.getElementById('tickText');
-      if (\!text) return;
+      if (!text) return;
       const items = [
         '<strong>Ana M.</strong> — Redwood City · reserved 2 hrs ago',
         '<strong>Dev P.</strong> — Palo Alto · reserved 6 hrs ago',
