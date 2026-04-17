@@ -1121,7 +1121,7 @@
     </div>
 
     <!-- THE CONVEYOR BELT -->
-    <div class="conveyor-wrap reveal-on-scroll">
+    <div class="conveyor-wrap">
       <div class="conveyor-head">
         <span>The PropCast production line</span>
         <span class="conveyor-head-right"><span class="live-dot"></span> Always running</span>
@@ -1556,13 +1556,16 @@
       });
     });
 
-    // Scroll reveal
+    // Scroll reveal (with 2.5s safety fallback so nothing ever gets stuck at opacity: 0)
     const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('in');
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll('.reveal-on-scroll:not(.in)').forEach(el => el.classList.add('in'));
+    }, 2500);
 
     // Conveyor belt — light up stage markers in sync with the token position.
     (function(){
@@ -1641,13 +1644,4 @@
             const ease = 1 - Math.pow(1 - t, 3);
             e.target.innerHTML = Math.round(target * ease) + suffixHtml;
             if (t < 1) requestAnimationFrame(tick);
-            else e.target.innerHTML = target + suffixHtml;
-          }
-          requestAnimationFrame(tick);
-        });
-      }, { threshold: 0.6 });
-      nums.forEach(n => io.observe(n));
-    })();
-  </script>
-</body>
-</html>
+            else e.target.innerHTML = ta
