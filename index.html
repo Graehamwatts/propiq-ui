@@ -799,6 +799,184 @@
     }
     .proof-empty-txt { color: var(--faint); font-size: 13px; }
 
+    /* FOUNDER VIDEO */
+    .founder-block {
+      margin-top: 40px;
+      display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px;
+      align-items: stretch;
+    }
+    @media (max-width: 900px) { .founder-block { grid-template-columns: 1fr; gap: 36px; } }
+    .founder-video {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(14,36,64,0.9), rgba(11,31,58,0.6));
+      border: 1px solid var(--teal-border);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 64px -16px rgba(0,0,0,0.5);
+    }
+    .founder-video-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(32,163,158,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 90%, rgba(108,92,231,0.12) 0%, transparent 50%),
+        linear-gradient(180deg, #0d2440 0%, #081a30 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .founder-video-frame::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    .founder-video-play {
+      position: relative;
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal-a));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 16px 40px -8px rgba(32,163,158,0.55), inset 0 1px 0 rgba(255,255,255,0.25);
+      cursor: pointer;
+      z-index: 2;
+    }
+    .founder-video-play::before,
+    .founder-video-play::after {
+      content: '';
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      border: 1px solid rgba(32,163,158,0.4);
+      animation: play-ring 2.4s ease-out infinite;
+    }
+    .founder-video-play::after { animation-delay: 1.2s; }
+    @keyframes play-ring {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    .founder-video-play svg {
+      width: 32px; height: 32px; fill: #fff;
+      margin-left: 4px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    .founder-video-badge {
+      position: absolute; top: 20px; left: 20px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px;
+      background: rgba(8,26,48,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink);
+      z-index: 2;
+    }
+    .founder-video-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal-b);
+      box-shadow: 0 0 0 3px rgba(32,163,158,0.25);
+    }
+    .founder-video-duration {
+      position: absolute; bottom: 20px; right: 20px;
+      padding: 6px 12px;
+      background: rgba(8,26,48,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px; font-weight: 600;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      z-index: 2;
+    }
+    .founder-video-caption {
+      padding: 18px 22px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      background: rgba(8,26,48,0.6);
+    }
+    .founder-video-caption .title {
+      font-size: 14px; font-weight: 600; color: var(--ink);
+    }
+    .founder-video-caption .sub {
+      font-size: 12px; color: var(--gray);
+    }
+    .founder-video-note {
+      font-size: 11px; color: var(--faint);
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      background: rgba(138,155,176,0.06);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* FOUNDER STORY */
+    .founder-story {
+      padding: 32px;
+      border-radius: 24px;
+      background: rgba(8,26,48,0.5);
+      border: 1px solid var(--border);
+      display: grid; grid-template-columns: 120px 1fr; gap: 24px;
+      align-content: start;
+    }
+    @media (max-width: 560px) { .founder-story { grid-template-columns: 1fr; text-align: left; } }
+    .founder-photo {
+      width: 120px; height: 120px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(32,163,158,0.25), rgba(108,92,231,0.2));
+      border: 1px solid var(--teal-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 40px; font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      overflow: hidden;
+      position: relative;
+    }
+    .founder-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+    }
+    .founder-name {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .founder-title {
+      font-size: 13px; color: var(--gray);
+      margin-bottom: 16px;
+    }
+    .founder-chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 18px;
+    }
+    .founder-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 11px;
+      background: rgba(32,163,158,0.08);
+      border: 1px solid var(--teal-border);
+      border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+      color: var(--teal-b);
+      letter-spacing: 0.02em;
+    }
+    .founder-para {
+      font-size: 14px; line-height: 1.65; color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .founder-para:last-of-type { margin-bottom: 16px; }
+    .founder-sign {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--gray);
+      letter-spacing: -0.01em;
+    }
+
     /* PRICING */
     .pricing-wrap {
       margin-top: 56px;
@@ -1320,23 +1498,49 @@
     </div>
   </section>
 
-  <!-- SOCIAL PROOF placeholder -->
+  <!-- FOUNDER VIDEO + STORY -->
   <section class="section-pad-sm container">
-    <span class="eyebrow">Agents on PropCast</span>
-    <h2>Real agents. Real results.<br/><span style="color: var(--gray);">Populated as the beta rolls out.</span></h2>
-    <div class="proof-wrap">
-      <div class="proof-card filled">
-        <div class="proof-quote">"I shot 6 minutes on a Tuesday. Three weeks later I had 19 videos out and two seller calls I didn't have to source."</div>
-        <div class="proof-attrib">
-          <div class="proof-avatar">GW</div>
-          <div>
-            <div class="proof-name">Graeham Watts</div>
-            <div class="proof-role">Intero · East Palo Alto · Founder case study</div>
+    <span class="eyebrow">Meet the founder</span>
+    <h2>Built by an agent<br/><em class="gradient-text">who actually sells houses.</em></h2>
+    <p class="lede" style="margin-top: 16px; max-width: 640px;">No venture-backed founder pretending to understand your day. Just a working REALTOR who got tired of losing hours to content — and built the thing he needed.</p>
+
+    <div class="founder-block">
+
+      <!-- SWAP: replace the contents of .founder-video-frame with <iframe src="YOUR_VIDEO_URL" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe> when the video is uploaded -->
+      <div class="founder-video">
+        <div class="founder-video-frame">
+          <div class="founder-video-badge"><span class="dot"></span>Founder intro</div>
+          <div class="founder-video-play" role="button" aria-label="Play founder video">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          <div class="founder-video-duration">2:14</div>
+        </div>
+        <div class="founder-video-caption">
+          <div>
+            <div class="title">Why I built PropCast</div>
+            <div class="sub">Graeham Watts · filmed in East Palo Alto</div>
+          </div>
+          <span class="founder-video-note">Video uploading soon</span>
         </div>
       </div>
-      <div class="proof-card"><div><div class="proof-empty-mark">+</div><div class="proof-empty-txt">Testimonial slot — reserved for beta cohort agent #2.</div></div></div>
-      <div class="proof-card"><div><div class="proof-empty-mark">+</div><div class="proof-empty-txt">Testimonial slot — reserved for beta cohort agent #3.</div></div></div>
+
+      <!-- SWAP: drop <img src="graeham.jpg" alt="Graeham Watts" /> inside .founder-photo when the headshot is ready -->
+      <div class="founder-story">
+        <div class="founder-photo">GW</div>
+        <div>
+          <div class="founder-name">Graeham Watts</div>
+          <div class="founder-title">REALTOR · Intero Real Estate · DRE# 02015066</div>
+          <div class="founder-chips">
+            <span class="founder-chip">East Palo Alto</span>
+            <span class="founder-chip">Peninsula</span>
+            <span class="founder-chip">AI + content</span>
+          </div>
+          <p class="founder-para">I spent two years trying every version of "just post more content" — the VA, the editor, the batch-shoot Sundays. None of it stuck. The work was real, but the output never matched the hours I put in.</p>
+          <p class="founder-para">PropCast is the system I wish had existed: shoot once, clone the voice + face, and let an AI twin handle the grind. I eat my own dog food — every video on this page goes through the same pipeline I'm giving you.</p>
+          <div class="founder-sign">— Graeham</div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1469,6 +1673,7 @@
   </section>
 
   <!-- FAQ -->
+  <!-- FAQ -->
   <section id="faq" class="section-pad container">
     <span class="eyebrow">FAQ</span>
     <h2>The questions every agent asks first.</h2>
@@ -1556,16 +1761,13 @@
       });
     });
 
-    // Scroll reveal (with 2.5s safety fallback so nothing ever gets stuck at opacity: 0)
+    // Scroll reveal
     const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('in');
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
-    setTimeout(() => {
-      document.querySelectorAll('.reveal-on-scroll:not(.in)').forEach(el => el.classList.add('in'));
-    }, 2500);
 
     // Conveyor belt — light up stage markers in sync with the token position.
     (function(){
@@ -1644,4 +1846,13 @@
             const ease = 1 - Math.pow(1 - t, 3);
             e.target.innerHTML = Math.round(target * ease) + suffixHtml;
             if (t < 1) requestAnimationFrame(tick);
-            else e.target.innerHTML = ta
+            else e.target.innerHTML = target + suffixHtml;
+          }
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: 0.6 });
+      nums.forEach(n => io.observe(n));
+    })();
+  </script>
+</body>
+</html>
