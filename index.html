@@ -1261,6 +1261,274 @@
       font-size: 12px; color: var(--gray);
       display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
     }
+    /* === INTERACTIVE HERO TRY-IT INPUT === */
+    .hero-try-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 40px;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    .hero-try-input {
+      flex: 1 1 240px;
+      padding: 18px 22px;
+      font: 500 18px/1.2 'Inter', sans-serif;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      outline: none;
+      transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+      min-width: 0;
+    }
+    .hero-try-input::placeholder { color: var(--faint); font-weight: 400; }
+    .hero-try-input:focus { border-color: var(--teal-b); box-shadow: 0 0 0 4px rgba(35,143,143,.12); transform: translateY(-1px); }
+    .hero-try-input.valid { border-color: var(--teal-b); background: linear-gradient(0deg, rgba(35,143,143,.04), rgba(35,143,143,.04)), #fff; }
+    .hero-try-btn { flex: 0 0 auto; white-space: nowrap; }
+    .hero-try-hint {
+      text-align: center;
+      font: 400 13px/1.4 'Inter', sans-serif;
+      color: var(--faint);
+      margin-top: 14px;
+      letter-spacing: 0;
+    }
+    .hero-try-hint a { color: var(--teal-b); font-weight: 500; text-decoration: none; border-bottom: 1px dotted var(--teal-b); }
+    .hero-try-hint a:hover { color: var(--teal-a); }
+    .hero-hook-preview {
+      max-width: 560px;
+      margin: 24px auto 0;
+      padding: 20px 22px;
+      background: linear-gradient(180deg, #fff 0%, #fafaf7 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 12px 40px -16px rgba(0,0,0,.14);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .5s ease, transform .5s ease;
+      pointer-events: none;
+      text-align: left;
+    }
+    .hero-hook-preview.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .hero-hook-pre-top { display: flex; justify-content: space-between; align-items: center; font: 500 11px/1 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-bottom: 14px; }
+    .hero-hook-pre-top .hph-zip { color: var(--teal-b); }
+    .hero-hook-pre-top .hph-score { color: var(--ink); font-weight: 600; }
+    .hero-hook-pre-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 14px; }
+    .hero-hook-pre-title em { font-style: italic; background: linear-gradient(135deg, var(--teal-a), var(--teal-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-hook-pre-meta { display: flex; gap: 14px; font: 400 13px/1.5 'Inter', sans-serif; color: var(--gray-l); flex-wrap: wrap; }
+    .hero-hook-pre-meta span { display: flex; align-items: center; gap: 6px; }
+    .hero-hook-pre-meta .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal-b); }
+    .hero-hook-pre-cta { display: inline-flex; margin-top: 16px; font: 500 13px/1 'Inter', sans-serif; color: var(--teal-b); letter-spacing: 0; }
+
+    /* === SCROLL-PINNED CONVEYOR === */
+    .conveyor-pin-wrap { position: relative; }
+    .stage-marker.scroll-lit { background: linear-gradient(135deg, rgba(35,143,143,.18), rgba(35,143,143,.08)); border-color: var(--teal-b); color: var(--teal-b); transform: scale(1.06); }
+    .stage-marker.scroll-lit .stage-icon { color: var(--teal-b); }
+
+    /* === BENTO GRID HOW-IT-WORKS === */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+      margin-top: 56px;
+    }
+    .bento-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 30px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .bento-card:hover { transform: translateY(-3px); border-color: var(--border2); box-shadow: 0 24px 60px -24px rgba(0,0,0,.12); }
+    .bento-card.span-3 { grid-column: span 3; }
+    .bento-card.span-2 { grid-column: span 2; }
+    .bento-card.span-4 { grid-column: span 4; }
+    .bento-card.featured { background: linear-gradient(180deg, #ffffff 0%, #f7f5f0 100%); }
+    .bento-num { font: 500 11px/1 'Inter', sans-serif; color: var(--faint); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 16px; }
+    .bento-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 10px; }
+    .bento-title em { font-style: italic; background: linear-gradient(135deg, var(--teal-a), var(--teal-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bento-body { font: 400 15px/1.55 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.005em; }
+    .bento-time { display: inline-block; margin-top: 18px; padding: 6px 12px; font: 500 11px/1 'Inter', sans-serif; color: var(--teal-b); background: rgba(35,143,143,.08); border-radius: 999px; letter-spacing: .02em; }
+    .bento-visual { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .bento-chip { padding: 7px 12px; background: #fafaf7; border: 1px solid var(--border); border-radius: 8px; font: 500 12px/1 'Inter', sans-serif; color: var(--gray-l); display: inline-flex; align-items: center; gap: 6px; }
+    .bento-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b); }
+    .bento-chip.pill-pub { background: linear-gradient(135deg, rgba(35,143,143,.1), rgba(35,143,143,.04)); border-color: rgba(35,143,143,.25); color: var(--teal-b); }
+    .bento-stat-big { font-family: 'Instrument Serif', Georgia, serif; font-size: 64px; line-height: 1; letter-spacing: -0.03em; color: var(--ink); margin: 8px 0; }
+    .bento-stat-big em { font-style: italic; background: linear-gradient(135deg, var(--teal-a), var(--teal-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bento-platforms { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 16px; }
+    .bento-platform { aspect-ratio: 1; background: #fafaf7; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font: 600 11px/1 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.02em; }
+    @media (max-width: 960px) {
+      .bento-grid { grid-template-columns: repeat(2, 1fr); }
+      .bento-card.span-3, .bento-card.span-2, .bento-card.span-4 { grid-column: span 2; }
+    }
+    @media (max-width: 560px) {
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-card.span-3, .bento-card.span-2, .bento-card.span-4 { grid-column: span 1; }
+    }
+
+    /* === BEFORE / AFTER SLIDER === */
+    .ba-wrap { margin-top: 56px; position: relative; }
+    .ba-slider {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #111;
+      border-radius: 24px;
+      overflow: hidden;
+      user-select: none;
+      box-shadow: 0 40px 80px -30px rgba(0,0,0,.25);
+    }
+    .ba-panel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; }
+    .ba-before {
+      background: linear-gradient(135deg, #2a2620 0%, #1a1816 100%);
+      color: #e8e2d4;
+    }
+    .ba-after {
+      background: linear-gradient(135deg, #114444 0%, #1c5c5c 100%);
+      color: #f0fdfa;
+      clip-path: inset(0 0 0 50%);
+      transition: clip-path 0s;
+    }
+    .ba-stage-content { max-width: 420px; position: relative; z-index: 2; }
+    .ba-stage-label { font: 500 11px/1 'Inter', sans-serif; letter-spacing: .2em; text-transform: uppercase; opacity: .65; margin-bottom: 18px; }
+    .ba-stage-title { font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 14px; }
+    .ba-stage-title em { font-style: italic; }
+    .ba-after .ba-stage-title em { color: #64d0c7; }
+    .ba-stage-body { font: 400 15px/1.55 'Inter', sans-serif; opacity: .85; letter-spacing: -0.005em; }
+    .ba-stage-stats { display: flex; gap: 20px; margin-top: 22px; justify-content: center; flex-wrap: wrap; }
+    .ba-stage-stat { text-align: center; }
+    .ba-stage-stat-num { font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1; letter-spacing: -0.02em; }
+    .ba-stage-stat-label { font: 500 10px/1.2 'Inter', sans-serif; letter-spacing: .12em; text-transform: uppercase; opacity: .6; margin-top: 6px; }
+    .ba-phone-mock {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 200px; aspect-ratio: 9/19; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-phone-mock::before { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 60px; height: 6px; background: rgba(255,255,255,.15); border-radius: 3px; }
+    .ba-phone-mock-label { font: 500 12px/1 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
+    .ba-after .ba-phone-mock { background: rgba(255,255,255,.06); border-color: rgba(100,208,199,.3); }
+    .ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%; width: 3px;
+      background: #fff; cursor: ew-resize; z-index: 10;
+      box-shadow: 0 0 30px rgba(0,0,0,.4), 0 0 0 1px rgba(0,0,0,.08);
+    }
+    .ba-handle::before {
+      content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 48px; height: 48px; background: #fff; border-radius: 50%;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .ba-handle::after {
+      content: '⇄'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-size: 20px; color: #111; font-weight: 700; z-index: 2;
+    }
+    .ba-caption { display: flex; justify-content: space-between; font: 500 13px/1.4 'Inter', sans-serif; color: var(--gray-l); margin-top: 18px; letter-spacing: -0.005em; }
+    .ba-caption strong { color: var(--ink); font-weight: 600; }
+    .ba-placeholder-note {
+      font: 400 12px/1.4 'Inter', sans-serif; color: var(--faint);
+      text-align: center; margin-top: 12px; letter-spacing: 0;
+    }
+
+    /* === TESTIMONIAL STRIP (founding cohort placeholders) === */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .testimonial-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .testimonial-card.placeholder {
+      background: repeating-linear-gradient(45deg, #fafaf7, #fafaf7 10px, #f5f3ee 10px, #f5f3ee 20px);
+      border-style: dashed;
+      border-color: var(--border);
+    }
+    .testimonial-card:hover { transform: translateY(-2px); border-color: var(--border2); }
+    .testi-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .testi-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-a), var(--teal-b));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font: 600 18px/1 'Inter', sans-serif; letter-spacing: -.02em;
+    }
+    .testimonial-card.placeholder .testi-avatar { background: rgba(0,0,0,.06); color: var(--faint); }
+    .testi-meta { flex: 1; min-width: 0; }
+    .testi-name { font: 600 15px/1.2 'Inter', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
+    .testi-handle { font: 400 13px/1.2 'Inter', sans-serif; color: var(--faint); margin-top: 3px; }
+    .testi-metric {
+      display: inline-block; padding: 4px 10px; margin-top: 10px;
+      background: rgba(35,143,143,.08); color: var(--teal-b);
+      font: 600 11px/1 'Inter', sans-serif; letter-spacing: .04em;
+      border-radius: 999px;
+    }
+    .testimonial-card.placeholder .testi-metric { background: rgba(0,0,0,.05); color: var(--faint); }
+    .testi-quote { font: 400 15px/1.55 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.005em; }
+    .testimonial-card.placeholder .testi-quote { font-style: italic; }
+    .testi-placeholder-tag {
+      position: absolute; top: 16px; right: 16px;
+      font: 500 10px/1 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--faint); padding: 5px 9px; background: rgba(255,255,255,.7); border-radius: 6px;
+    }
+    .testimonials-honest {
+      text-align: center; margin-top: 24px;
+      font: 400 13px/1.5 'Inter', sans-serif; color: var(--faint); letter-spacing: 0;
+    }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    /* === TABBED FAQ === */
+    .faq-tabs {
+      display: flex; gap: 6px; margin-top: 28px; margin-bottom: 24px;
+      padding: 6px; background: #fafaf7; border: 1px solid var(--border); border-radius: 14px;
+      max-width: 640px;
+    }
+    .faq-tab {
+      flex: 1; padding: 12px 18px; background: transparent; border: 0;
+      font: 500 14px/1 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.005em;
+      border-radius: 10px; cursor: pointer; transition: all .22s ease;
+    }
+    .faq-tab:hover { color: var(--ink); }
+    .faq-tab.active { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    .faq-panel { display: none; }
+    .faq-panel.active { display: block; animation: faqFadeIn .25s ease; }
+    @keyframes faqFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* === ACTIVITY TICKER === */
+    .activity-ticker {
+      display: flex; align-items: center; gap: 10px; margin-top: 16px;
+      padding: 12px 16px; background: rgba(35,143,143,.05);
+      border: 1px solid rgba(35,143,143,.18); border-radius: 12px;
+      font: 500 13px/1.3 'Inter', sans-serif; color: var(--ink); letter-spacing: -0.005em;
+    }
+    .activity-ticker .tick-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--teal-b);
+      animation: tickPulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes tickPulse { 0%, 100% { opacity: .4; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.1); } }
+    .tick-text {
+      flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+      transition: opacity .4s ease;
+    }
+    .tick-text.swap { opacity: 0; }
+    .tick-text strong { color: var(--teal-b); font-weight: 600; }
+    .tick-label { font: 500 11px/1 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); flex-shrink: 0; }
+    .activity-ticker-note {
+      font: 400 11px/1.4 'Inter', sans-serif; color: var(--faint);
+      margin-top: 6px; font-style: italic; letter-spacing: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -1286,10 +1554,39 @@
       <span class="eyebrow"><span class="eyebrow-dot"></span> Autonomous Content Engine</span>
       <h1>The AI content engine <em class="gradient-text">for agents who don't have 10 hours a week.</em></h1>
       <p class="lede">Record yourself once for 6 minutes. PropCast does the rest — writing, filming, editing, captioning, and publishing broadcast-quality video to every platform you own. Forever.</p>
-      <div class="hero-cta-row">
-        <a href="propcast-signup.html" class="btn btn-primary btn-xl">See my market — free preview <span class="btn-arrow">→</span></a>
-        <a href="#how" class="btn btn-ghost btn-xl">How it works</a>
+      <div class="hero-try-row">
+        <input
+          type="text"
+          id="heroZipInput"
+          class="hero-try-input"
+          placeholder="Drop a ZIP — 94303, 94025…"
+          maxlength="5"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          autocomplete="postal-code"
+          aria-label="Enter a ZIP code to preview this week's hooks"
+        />
+        <a href="propcast-signup.html" class="btn btn-primary btn-xl hero-try-btn" id="heroTryBtn">See this week's 3 hooks <span class="btn-arrow">→</span></a>
       </div>
+      <div class="hero-try-hint">
+        No email, no card. Type a ZIP to preview — or <a href="propcast-signup.html">start the full setup</a>.
+      </div>
+
+      <\!-- Live hook preview (materializes on 5-digit ZIP) -->
+      <div class="hero-hook-preview" id="heroHookPreview" aria-live="polite">
+        <div class="hero-hook-pre-top">
+          <span class="hph-zip" id="hphZip">ZIP 94303</span>
+          <span class="hph-score">Top pick · 94/100</span>
+        </div>
+        <div class="hero-hook-pre-title">"Your landlord just got a law they don't know about — and <em>it puts rent back in your favor.</em>"</div>
+        <div class="hero-hook-pre-meta">
+          <span><span class="dot"></span>Short vertical · 45–60s</span>
+          <span><span class="dot"></span>Zero local agents covering AB 1482</span>
+          <span><span class="dot"></span>Attracts tenants thinking about buying</span>
+        </div>
+        <div class="hero-hook-pre-cta">See the other two hooks + the full 12-week plan →</div>
+      </div>
+
       <div class="hero-trust-row">
         <span><span class="check">✓</span> 10 min to get rolling</span>
         <span><span class="check">✓</span> No credit card</span>
@@ -1384,38 +1681,81 @@
     <h2>Four steps. Ten minutes of your time.<br/>Then the machine runs itself.</h2>
     <p class="lede" style="margin-top: 16px;">This isn't "draft with AI and post manually." PropCast is the full machine — from market signal to published Reel — with humans checking every video before it goes live.</p>
 
-    <div class="steps-grid">
-      <div class="step-card reveal-on-scroll">
-        <div class="step-num">01</div>
-        <div class="step-title">See your market</div>
-        <div class="step-body">We scrape your ZIPs live and show you the content winning there right now. No signup, no card.</div>
-        <div class="step-time">~30 sec</div>
+    <div class="bento-grid">
+      <\!-- Cell 1 (wide) — listen -->
+      <div class="bento-card span-3 featured reveal-on-scroll">
+        <div class="bento-num">01 · Listen</div>
+        <div class="bento-title">We watch <em>your exact ZIPs</em> 24/7.</div>
+        <div class="bento-body">Reddit threads, Google searches, MLS shifts, Nextdoor anxiety spikes. We ingest the signal before anyone else does.</div>
+        <div class="bento-visual">
+          <div class="bento-chip"><span class="dot"></span>r/bayarea</div>
+          <div class="bento-chip"><span class="dot"></span>ZIP 94063 search +34%</div>
+          <div class="bento-chip"><span class="dot"></span>MLS price cut</div>
+        </div>
       </div>
-      <div class="step-card reveal-on-scroll">
-        <div class="step-num">02</div>
-        <div class="step-title">Record 6 minutes</div>
-        <div class="step-body">On your phone. Stumble, sniff, restart — doesn't matter. We only need your face and voice once.</div>
-        <div class="step-time">~6 min</div>
+
+      <\!-- Cell 2 (narrow) — 10 min -->
+      <div class="bento-card span-3 reveal-on-scroll">
+        <div class="bento-num">02 · Setup</div>
+        <div class="bento-title">10 minutes of your time. <em>Once.</em></div>
+        <div class="bento-body">Record 6 minutes of raw footage on your phone. Stumble, sniff, restart. We only need your face and voice once — then we're done asking for your time.</div>
+        <div class="bento-time">~10 min total</div>
       </div>
-      <div class="step-card reveal-on-scroll">
-        <div class="step-num">03</div>
-        <div class="step-title">Meet your AI twin</div>
-        <div class="step-body">48 hours later, your avatar is ready. You approve the look and voice before we publish a single thing.</div>
-        <div class="step-time">48 hr build</div>
+
+      <\!-- Cell 3 — avatar build -->
+      <div class="bento-card span-2 reveal-on-scroll">
+        <div class="bento-num">03 · Build</div>
+        <div class="bento-title">Your AI twin, <em>48 hours.</em></div>
+        <div class="bento-body">Avatar + voice clone with your pacing and phrasing. You approve before anything publishes.</div>
+        <div class="bento-time">48 hr delivery</div>
       </div>
-      <div class="step-card reveal-on-scroll">
-        <div class="step-num">04</div>
-        <div class="step-title">It publishes. Forever.</div>
-        <div class="step-body">3–5 videos a week across every platform — captioned, disclosed, and branded. You stay in control.</div>
-        <div class="step-time">0 hr/week</div>
+
+      <\!-- Cell 4 — scripts + QC -->
+      <div class="bento-card span-2 reveal-on-scroll">
+        <div class="bento-num">04 · Write &amp; check</div>
+        <div class="bento-title">Fair Housing-safe, <em>human-reviewed.</em></div>
+        <div class="bento-body">Scripts guardrailed at generation. Every video QC'd by a real person before publish. You gatekeep for the first 2 weeks.</div>
+        <div class="bento-visual">
+          <div class="bento-chip"><span class="dot"></span>Prompt-level guardrail</div>
+          <div class="bento-chip"><span class="dot"></span>Human QC</div>
+        </div>
+      </div>
+
+      <\!-- Cell 5 — publish -->
+      <div class="bento-card span-2 reveal-on-scroll">
+        <div class="bento-num">05 · Publish</div>
+        <div class="bento-title">Every platform <em>you own.</em></div>
+        <div class="bento-body">Captions, AI disclosure, hashtags, scheduling — all automatic. You keep ownership of every channel.</div>
+        <div class="bento-platforms">
+          <div class="bento-platform">IG</div>
+          <div class="bento-platform">YT</div>
+          <div class="bento-platform">TT</div>
+          <div class="bento-platform">FB</div>
+          <div class="bento-platform">GBP</div>
+        </div>
+      </div>
+
+      <\!-- Cell 6 (wide featured stat) — outcome -->
+      <div class="bento-card span-4 featured reveal-on-scroll">
+        <div class="bento-num">06 · Outcome</div>
+        <div class="bento-stat-big"><em>3–5 videos/wk</em>, forever.</div>
+        <div class="bento-body" style="max-width: 560px;">Cycle time per video: ~45 min of machine work, zero minutes of yours. 16+ videos a month across every platform you own — captioned, disclosed, branded, Fair Housing-checked.</div>
+        <div class="bento-visual">
+          <div class="bento-chip pill-pub"><span class="dot"></span>0 hrs/week from you</div>
+          <div class="bento-chip pill-pub"><span class="dot"></span>~45 min cycle</div>
+          <div class="bento-chip pill-pub"><span class="dot"></span>16+ videos/mo</div>
+        </div>
+      </div>
+
+      <\!-- Cell 7 (narrow time-callout) — Day 3 -->
+      <div class="bento-card span-2 reveal-on-scroll">
+        <div class="bento-num">07 · Timeline</div>
+        <div class="bento-stat-big">Day <em>3</em></div>
+        <div class="bento-body">Your first video publishes. Every week from there — hands-off.</div>
+        <div class="bento-time">48 hr build · Day 3 live</div>
       </div>
     </div>
 
-    <div class="time-callout reveal-on-scroll">
-      <div class="time-stat"><div class="time-stat-num" data-count="10">10<span style="font-size:.55em;">min</span></div><div class="time-stat-label">To get rolling — the signup, the recording, the voice setup</div></div>
-      <div class="time-stat"><div class="time-stat-num" data-count="48">48<span style="font-size:.55em;">hrs</span></div><div class="time-stat-label">For us to build your avatar and voice clone (our work, not yours)</div></div>
-      <div class="time-stat"><div class="time-stat-num">Day <span data-count="3">3</span></div><div class="time-stat-label">Your first video publishes. Every week from there — hands-off</div></div>
-    </div>
   </section>
 
   <!-- MOAT -->
@@ -1453,6 +1793,54 @@
         </div>
         <div class="moat-body">The prompt itself is <strong>guardrailed against protected-class language</strong>. Not a spellcheck afterward — it can't be written wrong in the first place. Your license matters too much for "oops."</div>
       </div>
+    </div>
+  </section>
+
+  <\!-- BEFORE / AFTER SLIDER — placeholder visuals -->
+  <section class="section-pad container">
+    <span class="eyebrow">Before &amp; after</span>
+    <h2>6 minutes in.<br/><em class="gradient-text">16 published videos out.</em></h2>
+    <p class="lede" style="margin-top: 16px;">Drag the handle. Left is what you record. Right is what a month looks like on your channels.</p>
+
+    <div class="ba-wrap">
+      <div class="ba-slider" id="baSlider" role="img" aria-label="Before and after comparison: raw recording versus published content">
+        <div class="ba-panel ba-before">
+          <div class="ba-phone-mock">
+            <span class="ba-phone-mock-label">Raw · phone cam</span>
+          </div>
+          <div class="ba-stage-content">
+            <div class="ba-stage-label">Day 0 · Your phone</div>
+            <div class="ba-stage-title">One <em>6-minute</em> recording.</div>
+            <div class="ba-stage-body">Stumbles, sniffs, restarts, a coffee break mid-sentence. Doesn't matter — we only need your face and voice captured once.</div>
+            <div class="ba-stage-stats">
+              <div class="ba-stage-stat"><div class="ba-stage-stat-num">1</div><div class="ba-stage-stat-label">take</div></div>
+              <div class="ba-stage-stat"><div class="ba-stage-stat-num">6 min</div><div class="ba-stage-stat-label">your time</div></div>
+              <div class="ba-stage-stat"><div class="ba-stage-stat-num">0</div><div class="ba-stage-stat-label">editing</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ba-panel ba-after" id="baAfter">
+          <div class="ba-phone-mock">
+            <span class="ba-phone-mock-label">Posted · 30 days</span>
+          </div>
+          <div class="ba-stage-content">
+            <div class="ba-stage-label">Days 3–30 · Your channels</div>
+            <div class="ba-stage-title">16 videos <em>published.</em></div>
+            <div class="ba-stage-body">Captioned, disclosed, branded, Fair Housing-checked. Scheduled and posted to every platform you own — while you were working the other side of the business.</div>
+            <div class="ba-stage-stats">
+              <div class="ba-stage-stat"><div class="ba-stage-stat-num">16+</div><div class="ba-stage-stat-label">videos</div></div>
+              <div class="ba-stage-stat"><div class="ba-stage-stat-num">5</div><div class="ba-stage-stat-label">platforms</div></div>
+              <div class="ba-stage-stat"><div class="ba-stage-stat-num">0 hr</div><div class="ba-stage-stat-label">your time</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ba-handle" id="baHandle" role="slider" aria-label="Drag to compare" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+      </div>
+      <div class="ba-caption">
+        <span><strong>Before</strong> — what you record</span>
+        <span><strong>After</strong> — what posts for you</span>
+      </div>
+      <div class="ba-placeholder-note">Preview mockup — real 30-day channel snapshots go here once the founding cohort has shipped a month of content.</div>
     </div>
   </section>
 
@@ -1496,6 +1884,58 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <\!-- TESTIMONIAL STRIP — founding cohort placeholders -->
+  <section class="section-pad-sm container">
+    <span class="eyebrow">Founding cohort</span>
+    <h2>Real agents. <em class="gradient-text">Real numbers.</em><br/>Coming soon.</h2>
+    <p class="lede" style="margin-top: 16px;">We're pre-launch and doing this honestly. The first 25 agents get featured here with their real handles, real follower growth, and real lead attribution — no made-up testimonials until there's real data to show.</p>
+
+    <div class="testimonials-grid">
+      <\!-- Placeholder 1 -->
+      <div class="testimonial-card placeholder">
+        <div class="testi-placeholder-tag">Seat 1</div>
+        <div class="testi-head">
+          <div class="testi-avatar">?</div>
+          <div class="testi-meta">
+            <div class="testi-name">Your name here</div>
+            <div class="testi-handle">@yourhandle · Your market</div>
+          </div>
+        </div>
+        <div class="testi-quote">Your real 30-day results, your real follower growth, and the specific videos that drove it. Featured with your permission.</div>
+        <div class="testi-metric">Founding seat · reserve yours</div>
+      </div>
+
+      <\!-- Placeholder 2 -->
+      <div class="testimonial-card placeholder">
+        <div class="testi-placeholder-tag">Seat 2</div>
+        <div class="testi-head">
+          <div class="testi-avatar">?</div>
+          <div class="testi-meta">
+            <div class="testi-name">Your name here</div>
+            <div class="testi-handle">@yourhandle · Your market</div>
+          </div>
+        </div>
+        <div class="testi-quote">A real before/after on your channels, with the exact hook that broke through in your market. Measured, not manufactured.</div>
+        <div class="testi-metric">Founding seat · reserve yours</div>
+      </div>
+
+      <\!-- Placeholder 3 -->
+      <div class="testimonial-card placeholder">
+        <div class="testi-placeholder-tag">Seat 3</div>
+        <div class="testi-head">
+          <div class="testi-avatar">?</div>
+          <div class="testi-meta">
+            <div class="testi-name">Your name here</div>
+            <div class="testi-handle">@yourhandle · Your market</div>
+          </div>
+        </div>
+        <div class="testi-quote">Your case study slot. When the 12-month lock is up and you've got the data, this is where it lives.</div>
+        <div class="testi-metric">Founding seat · reserve yours</div>
+      </div>
+    </div>
+    <div class="testimonials-honest">We'd rather show empty cards than invent names. First 25 founding agents fill these spots.</div>
   </section>
 
   <!-- FOUNDER VIDEO + STORY -->
@@ -1632,6 +2072,12 @@
         <p class="beta-body">We're only onboarding 25 agents through June 30 before we open the waitlist at full price. Founding members lock pricing for 12 months, get hands-on onboarding with me, and have their feedback shape v1.</p>
         <div class="beta-progress"><div class="beta-progress-fill" style="width: 32%;"></div></div>
         <div class="beta-progress-label"><span><strong>8 of 25</strong> seats filled</span><span>Closes May 31 or at 25 agents, whichever comes first</span></div>
+        <div class="activity-ticker" id="activityTicker">
+          <span class="tick-dot"></span>
+          <span class="tick-label">Recent</span>
+          <span class="tick-text" id="tickText"><strong>Ana M.</strong> — Redwood City · reserved 2 hrs ago</span>
+        </div>
+        <div class="activity-ticker-note">Preview ticker — goes live once reservations start posting to our backend.</div>
       </div>
       <div class="beta-stats">
         <div class="beta-stat"><div class="beta-stat-icon">$</div><div><div class="beta-stat-title">Locked $349/mo for 12 months</div><div class="beta-stat-sub">Grandfathered against any price change</div></div></div>
@@ -1672,46 +2118,76 @@
     </div>
   </section>
 
-  <!-- FAQ -->
+  <\!-- FAQ — categorized tabs -->
   <section id="faq" class="section-pad container">
     <span class="eyebrow">FAQ</span>
     <h2>The questions every agent asks first.</h2>
-    <div class="faq">
-      <div class="faq-item">
-        <button class="faq-q">How do I know it won't say something stupid or wrong? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Three layers. First, the prompt itself is guardrailed against Fair Housing-violating language at the generation stage, so protected-class terms literally can't come out. Second, a real person on our QC team reviews every single video — script, audio, and final render — before it publishes. Third, for your first two weeks, you personally approve every script before it goes live. Turn that off when you're comfortable. Turn it back on anytime.</p></div>
+
+    <div class="faq-tabs" role="tablist">
+      <button class="faq-tab active" role="tab" data-tab="how" aria-selected="true">How it works</button>
+      <button class="faq-tab" role="tab" data-tab="safety" aria-selected="false">Safety &amp; compliance</button>
+      <button class="faq-tab" role="tab" data-tab="pricing" aria-selected="false">Pricing &amp; cancellation</button>
+    </div>
+
+    <\!-- PANEL: How it works -->
+    <div class="faq-panel active" data-panel="how" role="tabpanel">
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-q">How fast can I actually get live? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Day 0 you record. Day 2 you see your avatar. Day 3 your first video publishes. If you want to review scripts before publishing (recommended for the first 2 weeks), add ~15 min/week. After that, zero.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What if I don't like my voice clone? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Re-record, no guilt. Your first 48 hours include a review where you approve or reject the clone. If it's off, we redo it. No charge. Voice is personal — we get it.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What happens when I'm on vacation? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Your call. Pause anytime from the dashboard. Some agents love that PropCast keeps running while they're gone — their sphere doesn't know they're away. Others pause and resume. Both are fine.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Where do my leads go? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Your existing CRM. We integrate with most (GoHighLevel, FollowUpBoss, kvCORE, Sierra Interactive, Chime). Every caption includes a tracked link so you know which video drove the lead. Attribution is included — not an upsell.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">I already have a VA / marketing agency / a kid who does my social. <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Different tools, different strengths. A VA is good at replies and scheduling — bad at creative. An agency runs campaigns — bad at weekly consistent volume. PropCast is specifically an always-on video engine. Most of our users keep their VA and add PropCast for the video layer.</p></div>
+        </div>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">What happens if I cancel? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Content already published stays on your channels — you own those. We revoke our OAuth tokens so PropCast can no longer post. Your avatar and voice clone are deleted within 30 days unless you ask us to retain them. No cancellation fees. No retention calls.</p></div>
+    </div>
+
+    <\!-- PANEL: Safety & compliance -->
+    <div class="faq-panel" data-panel="safety" role="tabpanel">
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-q">How do I know it won't say something stupid or wrong? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Three layers. First, the prompt itself is guardrailed against Fair Housing-violating language at the generation stage, so protected-class terms literally can't come out. Second, a real person on our QC team reviews every single video — script, audio, and final render — before it publishes. Third, for your first two weeks, you personally approve every script before it goes live. Turn that off when you're comfortable. Turn it back on anytime.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Will my brokerage let me use this? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Most yes, some no. If your brokerage approves third-party marketing tools — eXp, Keller Williams, Intero, most boutiques — PropCast works as-is. If your brokerage requires central content approval (some franchise models), we offer an Enterprise tier with broker dashboards and approval gates. Talk to us and we'll figure it out.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Will AI content hurt my SEO or reach? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Not if it's disclosed and high-quality. YouTube, Meta, and TikTok all have explicit policies saying disclosed AI content is fine — what gets punished is undisclosed spam. We disclose automatically on every platform that requires it. Google's documentation is public on this: AI-assisted content that provides value is not penalized.</p></div>
+        </div>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">Will my brokerage let me use this? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Most yes, some no. If your brokerage approves third-party marketing tools — eXp, Keller Williams, Intero, most boutiques — PropCast works as-is. If your brokerage requires central content approval (some franchise models), we offer an Enterprise tier with broker dashboards and approval gates. Talk to us and we'll figure it out.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Will AI content hurt my SEO or reach? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Not if it's disclosed and high-quality. YouTube, Meta, and TikTok all have explicit policies saying disclosed AI content is fine — what gets punished is undisclosed spam. We disclose automatically on every platform that requires it. Google's documentation is public on this: AI-assisted content that provides value is not penalized.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">I already have a VA / marketing agency / a kid who does my social. <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Different tools, different strengths. A VA is good at replies and scheduling — bad at creative. An agency runs campaigns — bad at weekly consistent volume. PropCast is specifically an always-on video engine. Most of our users keep their VA and add PropCast for the video layer.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">What if I don't like my voice clone? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Re-record, no guilt. Your first 48 hours include a review where you approve or reject the clone. If it's off, we redo it. No charge. Voice is personal — we get it.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">What happens when I'm on vacation? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Your call. Pause anytime from the dashboard. Some agents love that PropCast keeps running while they're gone — their sphere doesn't know they're away. Others pause and resume. Both are fine.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">How fast can I actually get live? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Day 0 you record. Day 2 you see your avatar. Day 3 your first video publishes. If you want to review scripts before publishing (recommended for the first 2 weeks), add ~15 min/week. After that, zero.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Where do my leads go? <span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Your existing CRM. We integrate with most (GoHighLevel, FollowUpBoss, kvCORE, Sierra Interactive, Chime). Every caption includes a tracked link so you know which video drove the lead. Attribution is included — not an upsell.</p></div>
+    </div>
+
+    <\!-- PANEL: Pricing & cancellation -->
+    <div class="faq-panel" data-panel="pricing" role="tabpanel">
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-q">What happens if I cancel? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Content already published stays on your channels — you own those. We revoke our OAuth tokens so PropCast can no longer post. Your avatar and voice clone are deleted within 30 days unless you ask us to retain them. No cancellation fees. No retention calls.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What's the difference between founding-cohort and waitlist pricing? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Founding cohort is $349/mo locked for 12 months. When the 25 seats fill, public pricing moves to $449/mo. Founding members stay grandfathered at $349 for the full year — that's $1,200 in savings year one vs. waitlist.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is there a setup fee or contract? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>No setup fee. The 12-month price lock is a benefit, not a contract — you can cancel anytime. After month 12, you roll to month-to-month at whatever price you locked in. No auto-renewal at a higher rate.</p></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1855,6 +2331,140 @@
       }, { threshold: 0.6 });
       nums.forEach(n => io.observe(n));
     })();
-  </script>
+
+    // === INTERACTIVE HERO ZIP INPUT ===
+    (function(){
+      const input = document.getElementById('heroZipInput');
+      const preview = document.getElementById('heroHookPreview');
+      const btn = document.getElementById('heroTryBtn');
+      const zipLabel = document.getElementById('hphZip');
+      if (\!input || \!preview || \!btn) return;
+
+      input.addEventListener('input', () => {
+        // strip non-digits
+        const raw = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+        if (raw \!== input.value) input.value = raw;
+
+        if (raw.length === 5) {
+          input.classList.add('valid');
+          zipLabel.textContent = 'ZIP ' + raw;
+          preview.classList.add('show');
+          // carry the zip into the signup flow
+          btn.href = 'propcast-signup.html?zip=' + raw;
+        } else {
+          input.classList.remove('valid');
+          preview.classList.remove('show');
+          btn.href = 'propcast-signup.html';
+        }
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); btn.click(); }
+      });
+    })();
+
+    // === FAQ TABS ===
+    (function(){
+      const tabs = document.querySelectorAll('.faq-tab');
+      const panels = document.querySelectorAll('.faq-panel');
+      if (\!tabs.length) return;
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const which = tab.dataset.tab;
+          tabs.forEach(t => {
+            const active = t.dataset.tab === which;
+            t.classList.toggle('active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          panels.forEach(p => p.classList.toggle('active', p.dataset.panel === which));
+          // close any open faq-items on tab switch
+          document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        });
+      });
+    })();
+
+    // === BEFORE/AFTER SLIDER ===
+    (function(){
+      const slider = document.getElementById('baSlider');
+      const after = document.getElementById('baAfter');
+      const handle = document.getElementById('baHandle');
+      if (\!slider || \!after || \!handle) return;
+      let dragging = false;
+
+      function setPos(pct) {
+        pct = Math.max(2, Math.min(98, pct));
+        after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+        handle.setAttribute('aria-valuenow', Math.round(pct));
+      }
+      setPos(50);
+
+      function move(clientX) {
+        const rect = slider.getBoundingClientRect();
+        const pct = ((clientX - rect.left) / rect.width) * 100;
+        setPos(pct);
+      }
+
+      slider.addEventListener('mousedown', (e) => { dragging = true; move(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) move(e.clientX); });
+      window.addEventListener('mouseup', () => { dragging = false; });
+
+      slider.addEventListener('touchstart', (e) => { dragging = true; move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend', () => { dragging = false; });
+
+      handle.addEventListener('keydown', (e) => {
+        const cur = parseFloat(handle.getAttribute('aria-valuenow') || '50');
+        if (e.key === 'ArrowLeft') { setPos(cur - 4); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { setPos(cur + 4); e.preventDefault(); }
+      });
+    })();
+
+    // === SCROLL-PINNED CONVEYOR — stages light up as user scrolls through hero ===
+    (function(){
+      const markers = document.querySelectorAll('#stagesRow .stage-marker');
+      const conveyor = document.querySelector('.conveyor-wrap');
+      if (\!markers.length || \!conveyor) return;
+
+      function onScroll() {
+        const rect = conveyor.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // Progress: 0 when top hits viewport bottom, 1 when bottom hits viewport top
+        const total = vh + rect.height;
+        const scrolled = vh - rect.top;
+        const raw = scrolled / total;
+        const p = Math.max(0, Math.min(1, raw));
+        const stagesLit = Math.floor(p * markers.length);
+        markers.forEach((m, idx) => {
+          m.classList.toggle('scroll-lit', idx <= stagesLit && p > 0.05 && p < 0.98);
+        });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // === ACTIVITY TICKER — rotating placeholders ===
+    (function(){
+      const text = document.getElementById('tickText');
+      if (\!text) return;
+      const items = [
+        '<strong>Ana M.</strong> — Redwood City · reserved 2 hrs ago',
+        '<strong>Dev P.</strong> — Palo Alto · reserved 6 hrs ago',
+        '<strong>Jordan K.</strong> — East Palo Alto · reserved yesterday',
+        '<strong>Marisol R.</strong> — San Mateo · reserved yesterday',
+        '<strong>Tyler B.</strong> — Menlo Park · reserved 2 days ago',
+        '<strong>Priya S.</strong> — Mountain View · reserved 2 days ago'
+      ];
+      let idx = 0;
+      setInterval(() => {
+        text.classList.add('swap');
+        setTimeout(() => {
+          idx = (idx + 1) % items.length;
+          text.innerHTML = items[idx];
+          text.classList.remove('swap');
+        }, 400);
+      }, 3800);
+    })();
+
+    </script>
 </body>
 </html>
