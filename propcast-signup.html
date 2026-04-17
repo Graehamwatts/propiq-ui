@@ -668,8 +668,39 @@
       }, 900);
     });
 
-    // Focus first field on load
-    window.addEventListener('DOMContentLoaded', () => { fname.focus(); });
+    // Focus first field on load + pre-fill from landing-hero handoff
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+
+        // ?zip=94303  (single ZIP from landing hero)
+        // ?zips=94303,94025 (multiple, future-proof)
+        const zipList = [];
+        const single = params.get('zip');
+        if (single) zipList.push(single);
+        const multi = params.get('zips');
+        if (multi) multi.split(',').forEach(z => zipList.push(z.trim()));
+
+        zipList
+          .map(z => z.replace(/[^0-9]/g, '').slice(0, 5))
+          .filter(z => /^\d{5}$/.test(z))
+          .filter((z, i, a) => a.indexOf(z) === i) // dedupe
+          .slice(0, MAX_ZIPS)
+          .forEach(z => {
+            const match = ZIPS.find(x => x.zip === z);
+            addZip(z, match ? match.city : 'Unknown city');
+          });
+
+        // ?name=Graeham (future-proof — pre-fill first name)
+        const nameParam = params.get('name');
+        if (nameParam) {
+          fname.value = nameParam.slice(0, 40);
+          validate();
+        }
+      } catch (_) { /* best-effort prefill — never block the form */ }
+
+      fname.focus();
+    });
   </script>
 </body>
 </html>
