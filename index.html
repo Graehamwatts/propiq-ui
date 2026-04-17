@@ -1388,12 +1388,18 @@
     .ba-before {
       background: linear-gradient(135deg, #2a2620 0%, #1a1816 100%);
       color: #e8e2d4;
+      justify-content: flex-start;
+      padding-left: 5%;
+      padding-right: 55%;
     }
     .ba-after {
       background: linear-gradient(135deg, #114444 0%, #1c5c5c 100%);
       color: #f0fdfa;
       clip-path: inset(0 0 0 50%);
       transition: clip-path 0s;
+      justify-content: flex-end;
+      padding-left: 55%;
+      padding-right: 5%;
     }
     .ba-stage-content { max-width: 420px; position: relative; z-index: 2; }
     .ba-stage-label { font: 500 11px/1 'Inter', sans-serif; letter-spacing: .2em; text-transform: uppercase; opacity: .65; margin-bottom: 18px; }
@@ -1433,6 +1439,17 @@
     .ba-placeholder-note {
       font: 400 12px/1.4 'Inter', sans-serif; color: var(--faint);
       text-align: center; margin-top: 12px; letter-spacing: 0;
+    }
+    @media (max-width: 720px) {
+      .ba-slider { aspect-ratio: 4/5; }
+      .ba-before { padding-left: 16px; padding-right: 50%; }
+      .ba-after  { padding-left: 50%; padding-right: 16px; }
+      .ba-phone-mock { width: 130px; }
+      .ba-stage-title { font-size: 22px !important; }
+      .ba-stage-body { font-size: 13px; }
+      .ba-stage-stats { gap: 10px; }
+      .ba-stage-stat-num { font-size: 24px; }
+      .ba-stage-label { margin-bottom: 10px; font-size: 9px; }
     }
 
     /* === TESTIMONIAL STRIP (founding cohort placeholders) === */
