@@ -1673,7 +1673,6 @@
   </section>
 
   <!-- FAQ -->
-  <!-- FAQ -->
   <section id="faq" class="section-pad container">
     <span class="eyebrow">FAQ</span>
     <h2>The questions every agent asks first.</h2>
@@ -1757,22 +1756,25 @@
         const item = btn.parentElement;
         const open = item.classList.contains('open');
         document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-        if (\!open) item.classList.add('open');
+        if (!open) item.classList.add('open');
       });
     });
 
-    // Scroll reveal
+    // Scroll reveal (with 2.5s safety fallback so nothing ever gets stuck at opacity: 0)
     const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('in');
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll('.reveal-on-scroll:not(.in)').forEach(el => el.classList.add('in'));
+    }, 2500);
 
     // Conveyor belt — light up stage markers in sync with the token position.
     (function(){
       const markers = document.querySelectorAll('#stagesRow .stage-marker');
-      if (\!markers.length) return;
+      if (!markers.length) return;
       const STAGES = 7;
       const CYCLE_MS = 12000;
       const STAGE_MS = CYCLE_MS / STAGES;
@@ -1795,8 +1797,8 @@
       const conveyor = document.querySelector('.conveyor-wrap');
       const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-          if (e.isIntersecting && \!rafId) tick();
-          else if (\!e.isIntersecting && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          if (e.isIntersecting && !rafId) tick();
+          else if (!e.isIntersecting && rafId) { cancelAnimationFrame(rafId); rafId = null; }
         });
       }, { threshold: 0.1 });
       if (conveyor) io.observe(conveyor);
@@ -1805,7 +1807,7 @@
     // Avatar typing effect
     (function(){
       const el = document.getElementById('reveal-typed');
-      if (\!el) return;
+      if (!el) return;
       const full = "Hey Graeham — I'm your avatar. Nice to finally meet you. Let's go make some videos.";
       let timer = null;
       function run() {
@@ -1834,7 +1836,7 @@
       const nums = document.querySelectorAll('[data-count]');
       const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-          if (\!e.isIntersecting || e.target.dataset.done) return;
+          if (!e.isIntersecting || e.target.dataset.done) return;
           e.target.dataset.done = '1';
           const target = parseInt(e.target.dataset.count, 10);
           const suffix = e.target.querySelector('span');
