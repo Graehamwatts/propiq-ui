@@ -1547,6 +1547,76 @@
       margin-top: 6px; font-style: italic; letter-spacing: 0;
     }
 
+    /* === What PropCast is NOT — honest limitations === */
+    .not-section { padding-top: 72px; padding-bottom: 96px; }
+    .not-eyebrow {
+      font: 600 12px/1 'Inter', sans-serif; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--teal); margin: 0 0 18px;
+    }
+    .not-title {
+      font: 400 clamp(36px, 5.2vw, 60px)/1.05 'Fraunces', serif;
+      letter-spacing: -0.02em; color: var(--ink); margin: 0 0 20px;
+    }
+    .not-title .not-word {
+      color: var(--teal); font-style: italic; font-weight: 500;
+    }
+    .not-lede {
+      max-width: 640px;
+      font: 400 17px/1.55 'Inter', sans-serif; color: var(--gray-l);
+      margin: 0 0 48px;
+    }
+    .not-list {
+      display: flex; flex-direction: column; gap: 16px;
+      max-width: 920px;
+    }
+    .not-card {
+      display: grid; grid-template-columns: 90px 1fr; gap: 28px; align-items: start;
+      background: var(--navy-card);
+      border: 1px solid var(--border2);
+      border-radius: 18px;
+      padding: 28px 32px;
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .not-card:hover {
+      border-color: var(--teal-border);
+      transform: translateY(-2px);
+    }
+    .not-num-wrap {
+      display: flex; flex-direction: column; gap: 6px;
+      padding-top: 4px;
+    }
+    .not-num-label {
+      font: 600 11px/1 'Inter', sans-serif; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--faint);
+    }
+    .not-num-big {
+      font: 500 32px/1 'Fraunces', serif; font-style: italic;
+      letter-spacing: -0.02em; color: var(--teal);
+    }
+    .not-card h3 {
+      font: 500 22px/1.25 'Fraunces', serif; letter-spacing: -0.015em;
+      color: var(--ink); margin: 0 0 10px;
+    }
+    .not-card h3 .not-word {
+      color: var(--teal); font-weight: 700; font-style: normal;
+      letter-spacing: .04em;
+    }
+    .not-card p {
+      font: 400 15px/1.6 'Inter', sans-serif; color: var(--gray-l);
+      margin: 0;
+    }
+    .not-closer {
+      margin: 40px 0 0; max-width: 640px;
+      font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+      font-size: 18px; line-height: 1.5; letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    @media (max-width: 640px) {
+      .not-card { grid-template-columns: 1fr; gap: 10px; padding: 22px 22px; }
+      .not-num-wrap { flex-direction: row; align-items: baseline; gap: 12px; padding-top: 0; }
+      .not-num-big { font-size: 24px; }
+    }
+
   </style>
 </head>
 <body>
@@ -2210,7 +2280,73 @@
     </div>
   </section>
 
-  <!-- CLOSING CTA -->
+  <!-- WHAT PROPCAST IS NOT -->
+  <section class="container not-section">
+    <div class="not-eyebrow">Honest limitations</div>
+    <h2 class="not-title">What PropCast is <em class="not-word">not</em>.</h2>
+    <p class="not-lede">Read this before you pay us. If any of these are dealbreakers &mdash; walk away. We'd rather lose the sale than miss on expectations.</p>
+    <div class="not-list">
+
+      <div class="not-card">
+        <div class="not-num-wrap">
+          <span class="not-num-label">No. 01</span>
+          <span class="not-num-big">&times;</span>
+        </div>
+        <div>
+          <h3><span class="not-word">NOT</span> a magic money button.</h3>
+          <p>If you don&rsquo;t have listings to talk about or a real point of view, PropCast just makes thin content scale faster. We fix distribution &mdash; not positioning. If you&rsquo;re not already doing the fundamentals, more reach won&rsquo;t save you.</p>
+        </div>
+      </div>
+
+      <div class="not-card">
+        <div class="not-num-wrap">
+          <span class="not-num-label">No. 02</span>
+          <span class="not-num-big">&times;</span>
+        </div>
+        <div>
+          <h3><span class="not-word">NOT</span> an AI clone pretending to be you.</h3>
+          <p>Your face, your voice, your words. PropCast re-times and re-cuts what you actually said in your 6-minute recording. It does not fabricate quotes, invent opinions, or pretend you&rsquo;ve toured a property you haven&rsquo;t. Every hook is something you actually said.</p>
+        </div>
+      </div>
+
+      <div class="not-card">
+        <div class="not-num-wrap">
+          <span class="not-num-label">No. 03</span>
+          <span class="not-num-big">&times;</span>
+        </div>
+        <div>
+          <h3><span class="not-word">NOT</span> instant.</h3>
+          <p>Day 0 you record. Days 1&ndash;2 we process, compliance-check, and queue. Day 3 your first post goes live. A full 30-day channel ships across the month. Anyone promising same-day AI content is either lying or skipping compliance &mdash; and one of those ends in a DRE complaint.</p>
+        </div>
+      </div>
+
+      <div class="not-card">
+        <div class="not-num-wrap">
+          <span class="not-num-label">No. 04</span>
+          <span class="not-num-big">&times;</span>
+        </div>
+        <div>
+          <h3><span class="not-word">NOT</span> fully hands-off.</h3>
+          <p>Once a week you&rsquo;ll get a 5-minute Loom: here are the 3 hooks going out this week, thumbs up or kill. That&rsquo;s the only touchpoint we require. If you want absolute zero involvement in what goes out under your name &mdash; PropCast isn&rsquo;t for you.</p>
+        </div>
+      </div>
+
+      <div class="not-card">
+        <div class="not-num-wrap">
+          <span class="not-num-label">No. 05</span>
+          <span class="not-num-big">&times;</span>
+        </div>
+        <div>
+          <h3><span class="not-word">NOT</span> a replacement for your CRM, door-knocking, or open houses.</h3>
+          <p>Content compounds attention. It doesn&rsquo;t close deals on its own. Your business still runs on relationships &mdash; PropCast just keeps the top of funnel from going dark while you work the bottom. Agents who expect leads without lifting the phone will be disappointed.</p>
+        </div>
+      </div>
+
+    </div>
+    <p class="not-closer">If you read all five and nodded along &mdash; we should probably talk.</p>
+  </section>
+
+    <!-- CLOSING CTA -->
   <section class="container">
     <div class="cta-wrap">
       <h2>See what's happening in your market<br/><em class="gradient-text">in 30 seconds.</em></h2>
