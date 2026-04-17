@@ -412,26 +412,32 @@
   <div class="wrap">
     <!-- Progress -->
     <div class="progress">
-      <div class="progress-pill active"><span class="num">1</span><span>Your market</span></div>
+      <div class="progress-pill active"><span class="num">1</span><span>Your info</span></div>
       <div class="progress-bar"></div>
-      <div class="progress-pill"><span class="num">2</span><span>Your hook</span></div>
+      <div class="progress-pill"><span class="num">2</span><span>See a real analysis</span></div>
       <div class="progress-bar"></div>
-      <div class="progress-pill"><span class="num">3</span><span>Beta access</span></div>
+      <div class="progress-pill"><span class="num">3</span><span>Founding seat</span></div>
     </div>
 
     <!-- Head -->
     <div class="head">
-      <span class="eyebrow"><span class="eyebrow-dot"></span>Step 1 of 3 · Free preview</span>
-      <h1>Tell us <em>your market.</em></h1>
-      <p class="lede">In 30 seconds we'll pull what's actually winning in your ZIPs — topics, formats, and the top three hooks we'd run for you this week. No email yet. Just data.</p>
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Step 1 of 3 · 30 seconds</span>
+      <h1>Let's show you <em>what PropCast actually does.</em></h1>
+      <p class="lede">Next screen: a real PropCast analysis built on a real agent's YouTube data. No made-up scores, no live demo theatre. Just tell us who you are and we'll send you through.</p>
     </div>
 
     <!-- Form -->
     <form class="form-card" id="signupForm" autocomplete="off">
       <!-- Name -->
       <div class="field">
-        <label for="fname">Your first name <span class="req">*</span><span class="hint">so we can personalize your preview</span></label>
+        <label for="fname">Your first name <span class="req">*</span></label>
         <input class="input" type="text" id="fname" name="fname" placeholder="Graeham" maxlength="40" required>
+      </div>
+
+      <!-- Email -->
+      <div class="field">
+        <label for="email">Email <span class="req">*</span><span class="hint">where we'll send the full plan if you want it</span></label>
+        <input class="input" type="email" id="email" name="email" placeholder="you@brokerage.com" maxlength="120" required>
       </div>
 
       <!-- Role -->
@@ -447,28 +453,20 @@
         </select>
       </div>
 
-      <!-- ZIP entry -->
+      <!-- Market context — now optional free text, no ZIP typing -->
       <div class="field">
-        <label for="zipInput">Your target ZIPs <span class="req">*</span><span class="hint">up to 5 — where you actually work</span></label>
-        <input class="input" type="text" id="zipInput" name="zipInput" placeholder="Start typing a ZIP or city…" autocomplete="off" maxlength="50">
-        <div class="suggest" id="suggest"></div>
-        <div class="zip-row" id="zipRow" style="margin-top: 14px;"></div>
-        <div class="zip-hint">We'll analyze the last 30 days of search intent, social posts, and MLS activity in these areas.</div>
-      </div>
-
-      <!-- Market context (optional, light) -->
-      <div class="field">
-        <label for="market">What's the market like there right now? <span class="hint">(optional — 1 line)</span></label>
-        <input class="input" type="text" id="market" name="market" placeholder="Buyers' market, inventory finally building, sellers nervous…" maxlength="120">
+        <label for="market">Where do you work? <span class="hint">(optional — any format: "Menlo Park &amp; Atherton", "Peninsula $2M+", "Emerald Hills + Woodside")</span></label>
+        <input class="input" type="text" id="market" name="market" placeholder="Menlo Park, Atherton, West Menlo…" maxlength="160">
+        <div class="zip-hint" style="margin-top: 10px;">We'll geocode this properly in onboarding — for now, just tell us in your own words so we can route you to the right cohort.</div>
       </div>
 
       <!-- Submit -->
       <div class="submit-row">
         <button type="submit" class="btn btn-primary btn-xl btn-full" id="submitBtn" disabled>
-          <span>Show me what's winning</span>
+          <span>See a real PropCast analysis</span>
           <span class="btn-arrow">&rarr;</span>
         </button>
-        <div class="submit-micro">No credit card · No email needed yet · Takes ~30 seconds</div>
+        <div class="submit-micro">No credit card · Takes ~15 seconds · You can leave anytime</div>
       </div>
     </form>
 
@@ -484,172 +482,63 @@
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-panel">
       <div class="loading-spinner"></div>
-      <div class="loading-title">Reading your market…</div>
-      <p class="lede" style="font-size: 14px; margin-top: 6px;">We're pulling real-time signals so the hooks we suggest are actually useful.</p>
+      <div class="loading-title">Loading your walkthrough…</div>
+      <p class="lede" style="font-size: 14px; margin-top: 6px;">Pulling up a real PropCast analysis so you can see exactly what we do — before you decide anything.</p>
       <ul class="loading-steps" id="loadingSteps">
-        <li data-step="1"><span class="dot"></span>Scanning MLS activity in your ZIPs</li>
-        <li data-step="2"><span class="dot"></span>Reading search-intent trends</li>
-        <li data-step="3"><span class="dot"></span>Pulling winning social formats</li>
-        <li data-step="4"><span class="dot"></span>Scoring hook candidates for you</li>
+        <li data-step="1"><span class="dot"></span>Reading your info</li>
+        <li data-step="2"><span class="dot"></span>Loading the case study</li>
+        <li data-step="3"><span class="dot"></span>Personalizing the walkthrough</li>
       </ul>
     </div>
   </div>
 
   <script>
-    // Bay Area / common SF Peninsula ZIPs for autocomplete — prefill fast for Graeham's market
-    const ZIPS = [
-      { zip: '94303', city: 'East Palo Alto, CA' },
-      { zip: '94301', city: 'Palo Alto, CA' },
-      { zip: '94306', city: 'Palo Alto, CA' },
-      { zip: '94025', city: 'Menlo Park, CA' },
-      { zip: '94028', city: 'Portola Valley, CA' },
-      { zip: '94027', city: 'Atherton, CA' },
-      { zip: '94062', city: 'Woodside / Redwood City, CA' },
-      { zip: '94063', city: 'Redwood City, CA' },
-      { zip: '94061', city: 'Redwood City, CA' },
-      { zip: '94065', city: 'Redwood Shores, CA' },
-      { zip: '94404', city: 'Foster City / San Mateo, CA' },
-      { zip: '94403', city: 'San Mateo, CA' },
-      { zip: '94402', city: 'San Mateo, CA' },
-      { zip: '94010', city: 'Burlingame, CA' },
-      { zip: '94040', city: 'Mountain View, CA' },
-      { zip: '94041', city: 'Mountain View, CA' },
-      { zip: '94043', city: 'Mountain View, CA' },
-      { zip: '94085', city: 'Sunnyvale, CA' },
-      { zip: '94086', city: 'Sunnyvale, CA' },
-      { zip: '94087', city: 'Sunnyvale, CA' },
-      { zip: '95014', city: 'Cupertino, CA' },
-      { zip: '95129', city: 'West San Jose, CA' },
-      { zip: '95125', city: 'Willow Glen, CA' },
-      { zip: '95110', city: 'Downtown San Jose, CA' },
-      { zip: '95127', city: 'East San Jose, CA' },
-      { zip: '95130', city: 'Campbell, CA' },
-      { zip: '95050', city: 'Santa Clara, CA' },
-      { zip: '95051', city: 'Santa Clara, CA' }
-    ];
+    // Simple form — no ZIP dictionary, no chips.
+    // Collect name, email, role, and optional free-text market description.
+    // On submit: stash to sessionStorage, show loading animation, redirect to case-study page.
 
-    const MAX_ZIPS = 5;
-    const chosen = [];
-    const zipInput = document.getElementById('zipInput');
-    const suggest = document.getElementById('suggest');
-    const zipRow = document.getElementById('zipRow');
-    const submitBtn = document.getElementById('submitBtn');
     const fname = document.getElementById('fname');
+    const email = document.getElementById('email');
     const role = document.getElementById('role');
+    const market = document.getElementById('market');
+    const submitBtn = document.getElementById('submitBtn');
 
-    function renderChips() {
-      zipRow.innerHTML = chosen.map((z, idx) => `
-        <span class="zip-chip">
-          <span>${z.zip} · ${z.city}</span>
-          <button type="button" class="x" data-idx="${idx}" aria-label="Remove">&times;</button>
-        </span>
-      `).join('');
-      zipRow.querySelectorAll('.x').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const i = parseInt(e.currentTarget.dataset.idx, 10);
-          chosen.splice(i, 1);
-          renderChips();
-          validate();
-        });
-      });
+    function isValidEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
     }
-
-    function filterSuggest(q) {
-      const qx = q.trim().toLowerCase();
-      if (!qx) return [];
-      return ZIPS
-        .filter(z => !chosen.find(c => c.zip === z.zip))
-        .filter(z => z.zip.startsWith(qx) || z.city.toLowerCase().includes(qx))
-        .slice(0, 7);
-    }
-
-    function renderSuggest(list) {
-      if (!list.length || chosen.length >= MAX_ZIPS) {
-        suggest.classList.remove('open');
-        suggest.innerHTML = '';
-        return;
-      }
-      suggest.innerHTML = list.map(z => `
-        <div class="suggest-item" data-zip="${z.zip}" data-city="${z.city}">
-          <span>${z.city}</span>
-          <span class="zip-badge">${z.zip}</span>
-        </div>
-      `).join('');
-      suggest.classList.add('open');
-      suggest.querySelectorAll('.suggest-item').forEach(item => {
-        item.addEventListener('click', () => {
-          addZip(item.dataset.zip, item.dataset.city);
-        });
-      });
-    }
-
-    function addZip(zip, city) {
-      if (chosen.find(c => c.zip === zip)) return;
-      if (chosen.length >= MAX_ZIPS) return;
-      chosen.push({ zip, city });
-      zipInput.value = '';
-      suggest.classList.remove('open');
-      renderChips();
-      validate();
-      zipInput.focus();
-    }
-
-    zipInput.addEventListener('input', (e) => {
-      const list = filterSuggest(e.target.value);
-      renderSuggest(list);
-    });
-
-    zipInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const q = zipInput.value.trim();
-        // If pure 5-digit ZIP, allow manual add
-        if (/^\d{5}$/.test(q) && !chosen.find(c => c.zip === q)) {
-          const match = ZIPS.find(z => z.zip === q);
-          addZip(q, match ? match.city : 'Unknown city');
-        } else {
-          // Pick first suggestion
-          const list = filterSuggest(q);
-          if (list[0]) addZip(list[0].zip, list[0].city);
-        }
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!suggest.contains(e.target) && e.target !== zipInput) {
-        suggest.classList.remove('open');
-      }
-    });
 
     function validate() {
-      const ok = fname.value.trim().length >= 1 && role.value && chosen.length >= 1;
+      const ok = fname.value.trim().length >= 1
+        && isValidEmail(email.value)
+        && role.value;
       submitBtn.disabled = !ok;
     }
     fname.addEventListener('input', validate);
+    email.addEventListener('input', validate);
     role.addEventListener('change', validate);
 
-    // Submit → fake analysis delay → redirect to hook analysis page with params
+    // Submit → staged loading overlay → redirect to case-study page
     document.getElementById('signupForm').addEventListener('submit', (e) => {
       e.preventDefault();
       if (submitBtn.disabled) return;
 
-      // Stash to sessionStorage so step 2 can pick up context (survives navigation on same domain)
+      // Stash to sessionStorage so downstream pages have context
       try {
         sessionStorage.setItem('propcast_signup', JSON.stringify({
           fname: fname.value.trim(),
+          email: email.value.trim(),
           role: role.value,
-          zips: chosen,
-          market: document.getElementById('market').value.trim(),
+          market: market.value.trim(),
           ts: Date.now()
         }));
-      } catch(_) { /* private browsing */ }
+      } catch(_) { /* private browsing — best-effort only */ }
 
-      // Show loading overlay with staged "progress"
+      // Show loading overlay with staged progress
       const overlay = document.getElementById('loadingOverlay');
       overlay.classList.add('on');
       const steps = document.querySelectorAll('#loadingSteps li');
       let i = 0;
-      steps[0].classList.add('on');
+      if (steps[0]) steps[0].classList.add('on');
       const iv = setInterval(() => {
         if (i < steps.length) {
           steps[i].classList.remove('on');
@@ -661,46 +550,26 @@
           clearInterval(iv);
           const params = new URLSearchParams({
             name: fname.value.trim(),
-            zips: chosen.map(c => c.zip).join(',')
+            email: email.value.trim()
           });
           window.location.href = 'propcast-hook-analysis.html?' + params.toString();
         }
-      }, 900);
+      }, 700);
     });
 
-    // Focus first field on load + pre-fill from landing-hero handoff
+    // On load: focus name, pre-fill from ?name= / ?email= if present
     window.addEventListener('DOMContentLoaded', () => {
       try {
         const params = new URLSearchParams(window.location.search);
-
-        // ?zip=94303  (single ZIP from landing hero)
-        // ?zips=94303,94025 (multiple, future-proof)
-        const zipList = [];
-        const single = params.get('zip');
-        if (single) zipList.push(single);
-        const multi = params.get('zips');
-        if (multi) multi.split(',').forEach(z => zipList.push(z.trim()));
-
-        zipList
-          .map(z => z.replace(/[^0-9]/g, '').slice(0, 5))
-          .filter(z => /^\d{5}$/.test(z))
-          .filter((z, i, a) => a.indexOf(z) === i) // dedupe
-          .slice(0, MAX_ZIPS)
-          .forEach(z => {
-            const match = ZIPS.find(x => x.zip === z);
-            addZip(z, match ? match.city : 'Unknown city');
-          });
-
-        // ?name=Graeham (future-proof — pre-fill first name)
         const nameParam = params.get('name');
-        if (nameParam) {
-          fname.value = nameParam.slice(0, 40);
-          validate();
-        }
-      } catch (_) { /* best-effort prefill — never block the form */ }
-
+        if (nameParam) { fname.value = nameParam.slice(0, 40); }
+        const emailParam = params.get('email');
+        if (emailParam) { email.value = emailParam.slice(0, 120); }
+        validate();
+      } catch (_) { /* best-effort prefill */ }
       fname.focus();
     });
+  </script>
   </script>
 </body>
 </html>
