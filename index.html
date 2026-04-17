@@ -16,6 +16,7 @@
       --navy-card: #0E2440;
       --navy-card-h: #122B4F;
       --teal: #00C2A8;
+      --teal-a: #00C2A8;
       --teal-b: #00E8C7;
       --teal-d: #009e88;
       --teal-glow: rgba(0,194,168,0.12);
@@ -1278,8 +1279,8 @@
       font: 500 18px/1.2 'Inter', sans-serif;
       letter-spacing: -0.01em;
       color: var(--ink);
-      background: #fff;
-      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border2);
       border-radius: 14px;
       outline: none;
       transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease;
@@ -1302,10 +1303,10 @@
       max-width: 560px;
       margin: 24px auto 0;
       padding: 20px 22px;
-      background: linear-gradient(180deg, #fff 0%, #fafaf7 100%);
-      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--navy-card) 0%, var(--bg-2) 100%);
+      border: 1px solid var(--teal-border);
       border-radius: 18px;
-      box-shadow: 0 12px 40px -16px rgba(0,0,0,.14);
+      box-shadow: 0 20px 50px -20px rgba(0,0,0,.6), 0 0 0 1px var(--teal-border), 0 0 40px rgba(0,194,168,0.08);
       opacity: 0;
       transform: translateY(10px);
       transition: opacity .5s ease, transform .5s ease;
@@ -1336,32 +1337,32 @@
       margin-top: 56px;
     }
     .bento-card {
-      background: #fff;
-      border: 1px solid var(--border);
+      background: var(--navy-card);
+      border: 1px solid var(--border2);
       border-radius: 22px;
       padding: 30px 28px;
       position: relative;
       overflow: hidden;
       transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
     }
-    .bento-card:hover { transform: translateY(-3px); border-color: var(--border2); box-shadow: 0 24px 60px -24px rgba(0,0,0,.12); }
+    .bento-card:hover { transform: translateY(-3px); border-color: var(--teal-border); background: var(--navy-card-h); box-shadow: 0 24px 60px -24px rgba(0,0,0,.5), 0 0 0 1px var(--teal-border); }
     .bento-card.span-3 { grid-column: span 3; }
     .bento-card.span-2 { grid-column: span 2; }
     .bento-card.span-4 { grid-column: span 4; }
-    .bento-card.featured { background: linear-gradient(180deg, #ffffff 0%, #f7f5f0 100%); }
+    .bento-card.featured { background: linear-gradient(180deg, var(--navy-card) 0%, #13305A 100%); border-color: var(--teal-border); }
     .bento-num { font: 500 11px/1 'Inter', sans-serif; color: var(--faint); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 16px; }
     .bento-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 10px; }
     .bento-title em { font-style: italic; background: linear-gradient(135deg, var(--teal-a), var(--teal-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .bento-body { font: 400 15px/1.55 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.005em; }
     .bento-time { display: inline-block; margin-top: 18px; padding: 6px 12px; font: 500 11px/1 'Inter', sans-serif; color: var(--teal-b); background: rgba(35,143,143,.08); border-radius: 999px; letter-spacing: .02em; }
     .bento-visual { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .bento-chip { padding: 7px 12px; background: #fafaf7; border: 1px solid var(--border); border-radius: 8px; font: 500 12px/1 'Inter', sans-serif; color: var(--gray-l); display: inline-flex; align-items: center; gap: 6px; }
+    .bento-chip { padding: 7px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; font: 500 12px/1 'Inter', sans-serif; color: var(--gray-l); display: inline-flex; align-items: center; gap: 6px; }
     .bento-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b); }
     .bento-chip.pill-pub { background: linear-gradient(135deg, rgba(35,143,143,.1), rgba(35,143,143,.04)); border-color: rgba(35,143,143,.25); color: var(--teal-b); }
     .bento-stat-big { font-family: 'Instrument Serif', Georgia, serif; font-size: 64px; line-height: 1; letter-spacing: -0.03em; color: var(--ink); margin: 8px 0; }
     .bento-stat-big em { font-style: italic; background: linear-gradient(135deg, var(--teal-a), var(--teal-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .bento-platforms { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 16px; }
-    .bento-platform { aspect-ratio: 1; background: #fafaf7; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font: 600 11px/1 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.02em; }
+    .bento-platform { aspect-ratio: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font: 600 11px/1 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.02em; }
     @media (max-width: 960px) {
       .bento-grid { grid-template-columns: repeat(2, 1fr); }
       .bento-card.span-3, .bento-card.span-2, .bento-card.span-4 { grid-column: span 2; }
@@ -1442,8 +1443,8 @@
       margin-top: 48px;
     }
     .testimonial-card {
-      background: #fff;
-      border: 1px solid var(--border);
+      background: var(--navy-card);
+      border: 1px solid var(--border2);
       border-radius: 20px;
       padding: 28px;
       position: relative;
@@ -1451,11 +1452,11 @@
       transition: transform .3s ease, border-color .3s ease;
     }
     .testimonial-card.placeholder {
-      background: repeating-linear-gradient(45deg, #fafaf7, #fafaf7 10px, #f5f3ee 10px, #f5f3ee 20px);
+      background: repeating-linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.04) 10px, rgba(255,255,255,0.04) 20px), var(--bg-2);
       border-style: dashed;
-      border-color: var(--border);
+      border-color: var(--border2);
     }
-    .testimonial-card:hover { transform: translateY(-2px); border-color: var(--border2); }
+    .testimonial-card:hover { transform: translateY(-2px); border-color: var(--teal-border); }
     .testi-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
     .testi-avatar {
       width: 48px; height: 48px; border-radius: 50%;
@@ -1463,7 +1464,7 @@
       display: flex; align-items: center; justify-content: center;
       color: #fff; font: 600 18px/1 'Inter', sans-serif; letter-spacing: -.02em;
     }
-    .testimonial-card.placeholder .testi-avatar { background: rgba(0,0,0,.06); color: var(--faint); }
+    .testimonial-card.placeholder .testi-avatar { background: rgba(255,255,255,0.06); color: var(--faint); border: 1px dashed var(--border2); }
     .testi-meta { flex: 1; min-width: 0; }
     .testi-name { font: 600 15px/1.2 'Inter', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
     .testi-handle { font: 400 13px/1.2 'Inter', sans-serif; color: var(--faint); margin-top: 3px; }
@@ -1473,13 +1474,13 @@
       font: 600 11px/1 'Inter', sans-serif; letter-spacing: .04em;
       border-radius: 999px;
     }
-    .testimonial-card.placeholder .testi-metric { background: rgba(0,0,0,.05); color: var(--faint); }
+    .testimonial-card.placeholder .testi-metric { background: rgba(255,255,255,0.04); color: var(--gray-l); border: 1px solid var(--border); }
     .testi-quote { font: 400 15px/1.55 'Inter', sans-serif; color: var(--gray-l); letter-spacing: -0.005em; }
     .testimonial-card.placeholder .testi-quote { font-style: italic; }
     .testi-placeholder-tag {
       position: absolute; top: 16px; right: 16px;
       font: 500 10px/1 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--faint); padding: 5px 9px; background: rgba(255,255,255,.7); border-radius: 6px;
+      color: var(--teal-b); padding: 5px 9px; background: rgba(0,194,168,0.08); border: 1px solid var(--teal-border); border-radius: 6px;
     }
     .testimonials-honest {
       text-align: center; margin-top: 24px;
@@ -1490,7 +1491,7 @@
     /* === TABBED FAQ === */
     .faq-tabs {
       display: flex; gap: 6px; margin-top: 28px; margin-bottom: 24px;
-      padding: 6px; background: #fafaf7; border: 1px solid var(--border); border-radius: 14px;
+      padding: 6px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px;
       max-width: 640px;
     }
     .faq-tab {
@@ -1499,7 +1500,7 @@
       border-radius: 10px; cursor: pointer; transition: all .22s ease;
     }
     .faq-tab:hover { color: var(--ink); }
-    .faq-tab.active { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    .faq-tab.active { background: var(--navy-card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.35), inset 0 0 0 1px var(--teal-border); }
     .faq-panel { display: none; }
     .faq-panel.active { display: block; animation: faqFadeIn .25s ease; }
     @keyframes faqFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
