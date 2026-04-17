@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropCast — See what's winning in your market</title>
+  <meta name="description" content="Tell us your market. In 30 seconds we'll show you what's winning in your ZIPs — no email required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060F1E; --bg-2: #0B1628;
+      --navy: #0B1F3A; --navy-card: #0E2440; --navy-card-h: #122B4F;
+      --teal: #00C2A8; --teal-b: #00E8C7; --teal-d: #009e88;
+      --teal-glow: rgba(0,194,168,0.12); --teal-border: rgba(0,194,168,0.22);
+      --purple: #A78BFA; --purple-d: #7c5cd8;
+      --blue: #3B82F6; --gray: #8A9BB0; --gray-l: #C4CDD8;
+      --faint: #4A5B6E; --ink: #EAEEF3;
+      --amber: #F59E0B; --green: #34D399; --red: #EF4444;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,168,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none; z-index: 0;
+    }
+    .orb-wrap { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(130px); opacity: 0.28; }
+    .orb-1 { width: 560px; height: 560px; background: radial-gradient(circle, rgba(0,194,168,0.4) 0%, transparent 70%); top: -14%; right: -8%; animation: oFloat1 22s ease-in-out infinite; }
+    .orb-2 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(167,139,250,0.3) 0%, transparent 70%); bottom: -12%; left: -6%; animation: oFloat2 26s ease-in-out infinite; }
+    @keyframes oFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,50px)} }
+    @keyframes oFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(50px,-60px)} }
+
+    /* NAV */
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(6,15,30,0.78); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1240px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .logo {
+      font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal) 40%, var(--purple));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 0.18em;
+      filter: drop-shadow(0 0 20px rgba(0,194,168,0.3));
+      text-decoration: none;
+    }
+    .nav-back {
+      color: var(--gray-l); text-decoration: none; font-size: 13px; font-weight: 500;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--teal-b); }
+
+    /* MAIN LAYOUT */
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+      position: relative; z-index: 1;
+    }
+
+    /* Progress indicator */
+    .progress {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 40px; justify-content: center;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gray);
+    }
+    .progress-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 11px; border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: var(--gray);
+    }
+    .progress-pill.active {
+      color: var(--teal-b);
+      border-color: var(--teal-border);
+      background: var(--teal-glow);
+    }
+    .progress-pill.done { color: var(--teal-b); border-color: var(--teal-border); }
+    .progress-pill .num {
+      width: 18px; height: 18px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      background: rgba(255,255,255,0.06); color: var(--gray-l);
+    }
+    .progress-pill.active .num { background: linear-gradient(135deg, var(--teal-b), var(--teal)); color: #001512; }
+    .progress-pill.done .num { background: var(--teal); color: #001512; }
+    .progress-bar {
+      flex: 0 0 40px; height: 1px; background: var(--border);
+      position: relative;
+    }
+    .progress-bar.fill { background: linear-gradient(90deg, var(--teal-b), var(--teal-border)); }
+
+    /* Header */
+    .head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase;
+      color: var(--teal-b);
+      padding: 6px 12px;
+      border: 1px solid var(--teal-border);
+      background: linear-gradient(135deg, rgba(0,194,168,0.08), rgba(167,139,250,0.04));
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal-b);
+      box-shadow: 0 0 10px var(--teal-b);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%,100% { opacity: 1 } 50% { opacity: 0.4 } }
+    h1 {
+      font-family: 'Instrument Serif', 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(40px, 6vw, 60px);
+      letter-spacing: -0.025em;
+      line-height: 1.02;
+      margin-bottom: 18px;
+    }
+    h1 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--teal-b) 0%, var(--teal) 40%, var(--purple) 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lede {
+      font-size: 16.5px;
+      color: var(--gray-l);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: linear-gradient(180deg, rgba(14,36,64,0.75), rgba(11,22,40,0.55));
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 40px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 32px 80px -16px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .form-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b) 40%, var(--purple) 60%, transparent);
+      opacity: 0.6;
+    }
+
+    .field { margin-bottom: 24px; position: relative; }
+    .field:last-of-type { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 13px; font-weight: 600;
+      color: var(--gray-l);
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+    }
+    .field label .req { color: var(--teal-b); }
+    .field label .hint { font-weight: 400; color: var(--gray); font-size: 12px; margin-left: 6px; }
+
+    .input, .select {
+      width: 100%;
+      padding: 16px 18px;
+      background: rgba(6,15,30,0.6);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 500;
+      letter-spacing: -0.1px;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .input::placeholder { color: var(--faint); font-weight: 400; }
+    .input:focus, .select:focus {
+      outline: none;
+      border-color: var(--teal-border);
+      background: rgba(6,15,30,0.85);
+      box-shadow: 0 0 0 4px rgba(0,194,168,0.1);
+    }
+    .select {
+      background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300E8C7' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      padding-right: 44px;
+      cursor: pointer;
+    }
+    .select option { background: var(--navy-card); color: var(--ink); }
+
+    .zip-row {
+      display: flex; gap: 10px;
+      flex-wrap: wrap;
+    }
+    .zip-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 12px;
+      background: linear-gradient(135deg, rgba(0,194,168,0.15), rgba(167,139,250,0.08));
+      border: 1px solid var(--teal-border);
+      border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--ink);
+      animation: chipIn .3s cubic-bezier(.2,0,0,1) both;
+    }
+    @keyframes chipIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+    .zip-chip .x {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: var(--ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: background .2s;
+    }
+    .zip-chip .x:hover { background: rgba(239,68,68,0.6); }
+    .zip-hint {
+      font-size: 12px; color: var(--gray);
+      margin-top: 10px;
+    }
+
+    /* SUGGEST DROPDOWN */
+    .suggest {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0; right: 0;
+      background: var(--navy-card-h);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      max-height: 220px; overflow-y: auto;
+      box-shadow: 0 16px 40px -8px rgba(0,0,0,0.6);
+      z-index: 10;
+      display: none;
+    }
+    .suggest.open { display: block; }
+    .suggest-item {
+      padding: 12px 18px;
+      font-size: 14px; color: var(--gray-l);
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s, color .15s;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .suggest-item:last-child { border-bottom: none; }
+    .suggest-item:hover, .suggest-item.active {
+      background: rgba(0,194,168,0.08);
+      color: var(--ink);
+    }
+    .suggest-item .zip-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+      color: var(--teal-b); font-family: 'Inter', sans-serif;
+    }
+
+    /* BUTTONS (matching landing) */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 18px 32px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform .2s cubic-bezier(.2,0,0,1), box-shadow .3s, background .25s;
+      position: relative; overflow: hidden;
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--teal-b) 0%, var(--teal) 100%);
+      color: #001512;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,60,50,0.18), 0 1px 2px rgba(0,0,0,0.25), 0 8px 28px -6px rgba(0,194,168,0.45);
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; top: 0; left: -120%;
+      width: 70%; height: 100%;
+      background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,0.5) 50%, transparent 80%);
+      transform: skewX(-18deg);
+      transition: left 0.7s cubic-bezier(.4,0,.2,1);
+      pointer-events: none;
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 2px rgba(0,0,0,0.25), 0 14px 40px -8px rgba(0,194,168,0.6);
+    }
+    .btn-primary:hover:not(:disabled)::before { left: 140%; }
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: saturate(0.6);
+    }
+    .btn-full { width: 100%; }
+    .btn-xl { padding: 20px 32px; font-size: 16px; }
+    .btn-arrow { display: inline-block; transition: transform .25s cubic-bezier(.4,0,.2,1); font-size: 16px; }
+    .btn:hover:not(:disabled) .btn-arrow { transform: translateX(4px); }
+
+    .submit-row { margin-top: 32px; }
+    .submit-micro {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--gray);
+      letter-spacing: 0.2px;
+    }
+
+    /* TRUST STRIP */
+    .trust {
+      margin-top: 36px;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 22px;
+      font-size: 12px; color: var(--gray); align-items: center;
+    }
+    .trust span { display: inline-flex; align-items: center; gap: 6px; }
+    .trust .check {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0,194,168,0.3), rgba(0,194,168,0.1));
+      color: var(--teal-b);
+      font-size: 10px; font-weight: 700;
+      border: 1px solid var(--teal-border);
+    }
+
+    /* Loading state (after submit, before redirect to step 2) */
+    .loading-overlay {
+      position: fixed; inset: 0;
+      background: rgba(6,15,30,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 200;
+    }
+    .loading-overlay.on { display: flex; }
+    .loading-panel {
+      text-align: center;
+      max-width: 420px;
+      padding: 40px;
+    }
+    .loading-spinner {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 3px solid rgba(0,194,168,0.15);
+      border-top-color: var(--teal-b);
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 28px;
+      box-shadow: 0 0 40px rgba(0,194,168,0.3);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 28px; font-weight: 400; letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .loading-steps {
+      list-style: none;
+      margin-top: 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      font-size: 14px; color: var(--gray-l);
+    }
+    .loading-steps li {
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0.3;
+      transition: opacity .4s;
+    }
+    .loading-steps li.on { opacity: 1; color: var(--ink); }
+    .loading-steps li.done { opacity: 1; color: var(--teal-b); }
+    .loading-steps .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gray);
+      flex-shrink: 0;
+    }
+    .loading-steps li.on .dot { background: var(--teal-b); box-shadow: 0 0 10px var(--teal-b); animation: dotPulse 1.2s infinite; }
+    .loading-steps li.done .dot { background: var(--teal-b); }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 48px 18px 72px; }
+      .form-card { padding: 28px 22px; border-radius: 20px; }
+      h1 { font-size: clamp(34px, 9vw, 48px); }
+      .progress { gap: 6px; }
+      .progress-bar { flex: 0 0 20px; }
+      .progress-pill { padding: 4px 9px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">PROPCAST</a>
+      <a href="index.html" class="nav-back">&larr; Back to home</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <!-- Progress -->
+    <div class="progress">
+      <div class="progress-pill active"><span class="num">1</span><span>Your market</span></div>
+      <div class="progress-bar"></div>
+      <div class="progress-pill"><span class="num">2</span><span>Your hook</span></div>
+      <div class="progress-bar"></div>
+      <div class="progress-pill"><span class="num">3</span><span>Beta access</span></div>
+    </div>
+
+    <!-- Head -->
+    <div class="head">
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Step 1 of 3 · Free preview</span>
+      <h1>Tell us <em>your market.</em></h1>
+      <p class="lede">In 30 seconds we'll pull what's actually winning in your ZIPs — topics, formats, and the top three hooks we'd run for you this week. No email yet. Just data.</p>
+    </div>
+
+    <!-- Form -->
+    <form class="form-card" id="signupForm" autocomplete="off">
+      <!-- Name -->
+      <div class="field">
+        <label for="fname">Your first name <span class="req">*</span><span class="hint">so we can personalize your preview</span></label>
+        <input class="input" type="text" id="fname" name="fname" placeholder="Graeham" maxlength="40" required>
+      </div>
+
+      <!-- Role -->
+      <div class="field">
+        <label for="role">You're a… <span class="req">*</span></label>
+        <select class="select" id="role" name="role" required>
+          <option value="" disabled selected>Pick one</option>
+          <option value="solo">Solo agent</option>
+          <option value="team">Team lead (2–10 agents)</option>
+          <option value="broker">Broker / team owner (10+)</option>
+          <option value="associate">Associate on a team</option>
+          <option value="considering">Considering joining real estate</option>
+        </select>
+      </div>
+
+      <!-- ZIP entry -->
+      <div class="field">
+        <label for="zipInput">Your target ZIPs <span class="req">*</span><span class="hint">up to 5 — where you actually work</span></label>
+        <input class="input" type="text" id="zipInput" name="zipInput" placeholder="Start typing a ZIP or city…" autocomplete="off" maxlength="50">
+        <div class="suggest" id="suggest"></div>
+        <div class="zip-row" id="zipRow" style="margin-top: 14px;"></div>
+        <div class="zip-hint">We'll analyze the last 30 days of search intent, social posts, and MLS activity in these areas.</div>
+      </div>
+
+      <!-- Market context (optional, light) -->
+      <div class="field">
+        <label for="market">What's the market like there right now? <span class="hint">(optional — 1 line)</span></label>
+        <input class="input" type="text" id="market" name="market" placeholder="Buyers' market, inventory finally building, sellers nervous…" maxlength="120">
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-row">
+        <button type="submit" class="btn btn-primary btn-xl btn-full" id="submitBtn" disabled>
+          <span>Show me what's winning</span>
+          <span class="btn-arrow">&rarr;</span>
+        </button>
+        <div class="submit-micro">No credit card · No email needed yet · Takes ~30 seconds</div>
+      </div>
+    </form>
+
+    <!-- Trust strip -->
+    <div class="trust">
+      <span><span class="check">&#10003;</span> No email required</span>
+      <span><span class="check">&#10003;</span> No spam ever</span>
+      <span><span class="check">&#10003;</span> Real data, not demo</span>
+    </div>
+  </div>
+
+  <!-- Loading overlay — plays while we "analyze" before sending them to step 2 -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-panel">
+      <div class="loading-spinner"></div>
+      <div class="loading-title">Reading your market…</div>
+      <p class="lede" style="font-size: 14px; margin-top: 6px;">We're pulling real-time signals so the hooks we suggest are actually useful.</p>
+      <ul class="loading-steps" id="loadingSteps">
+        <li data-step="1"><span class="dot"></span>Scanning MLS activity in your ZIPs</li>
+        <li data-step="2"><span class="dot"></span>Reading search-intent trends</li>
+        <li data-step="3"><span class="dot"></span>Pulling winning social formats</li>
+        <li data-step="4"><span class="dot"></span>Scoring hook candidates for you</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Bay Area / common SF Peninsula ZIPs for autocomplete — prefill fast for Graeham's market
+    const ZIPS = [
+      { zip: '94303', city: 'East Palo Alto, CA' },
+      { zip: '94301', city: 'Palo Alto, CA' },
+      { zip: '94306', city: 'Palo Alto, CA' },
+      { zip: '94025', city: 'Menlo Park, CA' },
+      { zip: '94028', city: 'Portola Valley, CA' },
+      { zip: '94027', city: 'Atherton, CA' },
+      { zip: '94062', city: 'Woodside / Redwood City, CA' },
+      { zip: '94063', city: 'Redwood City, CA' },
+      { zip: '94061', city: 'Redwood City, CA' },
+      { zip: '94065', city: 'Redwood Shores, CA' },
+      { zip: '94404', city: 'Foster City / San Mateo, CA' },
+      { zip: '94403', city: 'San Mateo, CA' },
+      { zip: '94402', city: 'San Mateo, CA' },
+      { zip: '94010', city: 'Burlingame, CA' },
+      { zip: '94040', city: 'Mountain View, CA' },
+      { zip: '94041', city: 'Mountain View, CA' },
+      { zip: '94043', city: 'Mountain View, CA' },
+      { zip: '94085', city: 'Sunnyvale, CA' },
+      { zip: '94086', city: 'Sunnyvale, CA' },
+      { zip: '94087', city: 'Sunnyvale, CA' },
+      { zip: '95014', city: 'Cupertino, CA' },
+      { zip: '95129', city: 'West San Jose, CA' },
+      { zip: '95125', city: 'Willow Glen, CA' },
+      { zip: '95110', city: 'Downtown San Jose, CA' },
+      { zip: '95127', city: 'East San Jose, CA' },
+      { zip: '95130', city: 'Campbell, CA' },
+      { zip: '95050', city: 'Santa Clara, CA' },
+      { zip: '95051', city: 'Santa Clara, CA' }
+    ];
+
+    const MAX_ZIPS = 5;
+    const chosen = [];
+    const zipInput = document.getElementById('zipInput');
+    const suggest = document.getElementById('suggest');
+    const zipRow = document.getElementById('zipRow');
+    const submitBtn = document.getElementById('submitBtn');
+    const fname = document.getElementById('fname');
+    const role = document.getElementById('role');
+
+    function renderChips() {
+      zipRow.innerHTML = chosen.map((z, idx) => `
+        <span class="zip-chip">
+          <span>${z.zip} · ${z.city}</span>
+          <button type="button" class="x" data-idx="${idx}" aria-label="Remove">&times;</button>
+        </span>
+      `).join('');
+      zipRow.querySelectorAll('.x').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const i = parseInt(e.currentTarget.dataset.idx, 10);
+          chosen.splice(i, 1);
+          renderChips();
+          validate();
+        });
+      });
+    }
+
+    function filterSuggest(q) {
+      const qx = q.trim().toLowerCase();
+      if (!qx) return [];
+      return ZIPS
+        .filter(z => !chosen.find(c => c.zip === z.zip))
+        .filter(z => z.zip.startsWith(qx) || z.city.toLowerCase().includes(qx))
+        .slice(0, 7);
+    }
+
+    function renderSuggest(list) {
+      if (!list.length || chosen.length >= MAX_ZIPS) {
+        suggest.classList.remove('open');
+        suggest.innerHTML = '';
+        return;
+      }
+      suggest.innerHTML = list.map(z => `
+        <div class="suggest-item" data-zip="${z.zip}" data-city="${z.city}">
+          <span>${z.city}</span>
+          <span class="zip-badge">${z.zip}</span>
+        </div>
+      `).join('');
+      suggest.classList.add('open');
+      suggest.querySelectorAll('.suggest-item').forEach(item => {
+        item.addEventListener('click', () => {
+          addZip(item.dataset.zip, item.dataset.city);
+        });
+      });
+    }
+
+    function addZip(zip, city) {
+      if (chosen.find(c => c.zip === zip)) return;
+      if (chosen.length >= MAX_ZIPS) return;
+      chosen.push({ zip, city });
+      zipInput.value = '';
+      suggest.classList.remove('open');
+      renderChips();
+      validate();
+      zipInput.focus();
+    }
+
+    zipInput.addEventListener('input', (e) => {
+      const list = filterSuggest(e.target.value);
+      renderSuggest(list);
+    });
+
+    zipInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const q = zipInput.value.trim();
+        // If pure 5-digit ZIP, allow manual add
+        if (/^\d{5}$/.test(q) && !chosen.find(c => c.zip === q)) {
+          const match = ZIPS.find(z => z.zip === q);
+          addZip(q, match ? match.city : 'Unknown city');
+        } else {
+          // Pick first suggestion
+          const list = filterSuggest(q);
+          if (list[0]) addZip(list[0].zip, list[0].city);
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!suggest.contains(e.target) && e.target !== zipInput) {
+        suggest.classList.remove('open');
+      }
+    });
+
+    function validate() {
+      const ok = fname.value.trim().length >= 1 && role.value && chosen.length >= 1;
+      submitBtn.disabled = !ok;
+    }
+    fname.addEventListener('input', validate);
+    role.addEventListener('change', validate);
+
+    // Submit → fake analysis delay → redirect to hook analysis page with params
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (submitBtn.disabled) return;
+
+      // Stash to sessionStorage so step 2 can pick up context (survives navigation on same domain)
+      try {
+        sessionStorage.setItem('propcast_signup', JSON.stringify({
+          fname: fname.value.trim(),
+          role: role.value,
+          zips: chosen,
+          market: document.getElementById('market').value.trim(),
+          ts: Date.now()
+        }));
+      } catch(_) { /* private browsing */ }
+
+      // Show loading overlay with staged "progress"
+      const overlay = document.getElementById('loadingOverlay');
+      overlay.classList.add('on');
+      const steps = document.querySelectorAll('#loadingSteps li');
+      let i = 0;
+      steps[0].classList.add('on');
+      const iv = setInterval(() => {
+        if (i < steps.length) {
+          steps[i].classList.remove('on');
+          steps[i].classList.add('done');
+          i++;
+          if (i < steps.length) steps[i].classList.add('on');
+        }
+        if (i >= steps.length) {
+          clearInterval(iv);
+          const params = new URLSearchParams({
+            name: fname.value.trim(),
+            zips: chosen.map(c => c.zip).join(',')
+          });
+          window.location.href = 'propcast-hook-analysis.html?' + params.toString();
+        }
+      }, 900);
+    });
+
+    // Focus first field on load
+    window.addEventListener('DOMContentLoaded', () => { fname.focus(); });
+  </script>
+</body>
+</html>
