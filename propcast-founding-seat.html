@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropCast — Claim your founding seat</title>
+  <meta name="description" content="Reserve one of 25 founding-cohort seats. $349/mo locked for 12 months. No credit card, no pressure — just a seat with your name on it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060F1E; --bg-2: #0B1628;
+      --navy: #0B1F3A; --navy-card: #0E2440; --navy-card-h: #122B4F;
+      --teal: #00C2A8; --teal-b: #00E8C7; --teal-d: #009e88;
+      --teal-glow: rgba(0,194,168,0.12); --teal-border: rgba(0,194,168,0.22);
+      --purple: #A78BFA; --purple-d: #7c5cd8;
+      --blue: #3B82F6; --gray: #8A9BB0; --gray-l: #C4CDD8;
+      --faint: #4A5B6E; --ink: #EAEEF3;
+      --amber: #F59E0B; --green: #34D399; --red: #EF4444;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,168,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none; z-index: 0;
+    }
+    .orb-wrap { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(130px); opacity: 0.25; }
+    .orb-1 { width: 620px; height: 620px; background: radial-gradient(circle, rgba(0,194,168,0.4) 0%, transparent 70%); top: -16%; right: -10%; animation: oFloat1 22s ease-in-out infinite; }
+    .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(167,139,250,0.3) 0%, transparent 70%); bottom: -12%; left: -6%; animation: oFloat2 26s ease-in-out infinite; }
+    @keyframes oFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,50px)} }
+    @keyframes oFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(50px,-60px)} }
+
+    /* NAV */
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(6,15,30,0.78); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1240px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px; background: linear-gradient(135deg, var(--teal-b), var(--teal) 40%, var(--purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 0.18em; filter: drop-shadow(0 0 20px rgba(0,194,168,0.3)); text-decoration: none; }
+    .nav-back { font-size: 13px; color: var(--gray); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); transition: color .2s, border-color .2s; }
+    .nav-back:hover { color: var(--ink); border-color: var(--border2); }
+
+    .container { max-width: 1040px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    .wrap { padding: 40px 0 96px; }
+
+    /* Progress */
+    .progress {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 32px; justify-content: center;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gray); flex-wrap: wrap;
+    }
+    .progress-pill { display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); color: var(--gray); }
+    .progress-pill.active { color: var(--teal-b); border-color: var(--teal-border); background: var(--teal-glow); }
+    .progress-pill.done { color: var(--teal-b); border-color: var(--teal-border); }
+    .progress-pill .num { width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.06); color: var(--gray-l); }
+    .progress-pill.active .num { background: linear-gradient(135deg, var(--teal-b), var(--teal)); color: #001512; }
+    .progress-pill.done .num { background: var(--teal); color: #001512; }
+    .progress-bar { flex: 0 0 40px; height: 1px; background: var(--border); }
+    .progress-bar.fill { background: linear-gradient(90deg, var(--teal-b), var(--teal-border)); }
+
+    /* HEAD */
+    .head { text-align: center; margin-bottom: 44px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--teal-b); padding: 6px 12px; border: 1px solid var(--teal-border); background: linear-gradient(135deg, rgba(0,194,168,0.08), rgba(167,139,250,0.04)); border-radius: 999px; margin-bottom: 22px; }
+    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b); box-shadow: 0 0 10px var(--teal-b); animation: dotPulse 2s ease-in-out infinite; }
+    @keyframes dotPulse { 0%,100% { opacity: 1 } 50% { opacity: 0.4 } }
+    h1 {
+      font-family: 'Instrument Serif', 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(38px, 5.5vw, 62px);
+      letter-spacing: -0.025em;
+      line-height: 1.02;
+      margin-bottom: 18px;
+    }
+    h1 em { font-style: italic; background: linear-gradient(135deg, var(--teal-b) 0%, var(--teal) 40%, var(--purple) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .lede { font-size: 16.5px; color: var(--gray-l); max-width: 620px; margin: 0 auto; line-height: 1.55; }
+
+    /* SCARCITY BAR */
+    .scarcity {
+      margin: 0 auto 36px;
+      max-width: 780px;
+      background: linear-gradient(135deg, rgba(14,36,64,0.9), rgba(11,31,58,0.6));
+      border: 1px solid var(--teal-border);
+      border-radius: 18px;
+      padding: 24px 28px;
+      box-shadow: 0 16px 48px -12px rgba(0,0,0,0.4);
+    }
+    .scarcity-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+    }
+    .scarcity-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--gray);
+    }
+    .scarcity-count {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: 22px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .scarcity-count strong {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      background: linear-gradient(135deg, var(--teal-b), var(--purple));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-right: 4px;
+    }
+    .scarcity-track {
+      height: 8px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .scarcity-fill {
+      height: 100%;
+      width: 32%; /* 8 of 25 */
+      background: linear-gradient(90deg, var(--teal-b), var(--teal), var(--purple));
+      border-radius: 999px;
+      position: relative;
+      box-shadow: 0 0 12px rgba(0,194,168,0.4);
+    }
+    .scarcity-fill::after {
+      content: '';
+      position: absolute; top: 0; right: -2px; bottom: 0; width: 4px;
+      background: #fff; border-radius: 2px; opacity: 0.6;
+      animation: scarPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes scarPulse { 0%,100% { opacity: 0.4 } 50% { opacity: 0.9 } }
+    .scarcity-sub {
+      margin-top: 12px;
+      display: flex; gap: 18px; flex-wrap: wrap;
+      font-size: 12.5px; color: var(--gray-l);
+    }
+    .scarcity-sub span { display: inline-flex; align-items: center; gap: 6px; }
+    .scarcity-sub .dot-amber { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+
+    /* MAIN GRID */
+    .main-grid {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px;
+      margin-bottom: 48px;
+      align-items: start;
+    }
+    @media (max-width: 880px) { .main-grid { grid-template-columns: 1fr; } }
+
+    /* WHAT YOU GET */
+    .get-card {
+      background: linear-gradient(135deg, rgba(14,36,64,0.9), rgba(11,31,58,0.5));
+      border: 1px solid var(--teal-border);
+      border-radius: 22px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 64px -16px rgba(0,0,0,0.5);
+    }
+    .get-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b) 30%, var(--purple) 70%, transparent);
+      opacity: 0.8;
+    }
+    .get-price-row {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 4px;
+    }
+    .get-price {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: 56px;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .get-price em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--teal-b), var(--purple));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .get-price-suffix { font-size: 15px; color: var(--gray); font-weight: 500; }
+    .get-price-strike {
+      font-size: 14px; color: var(--faint);
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+    .get-price-save {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--green); padding: 4px 9px;
+      background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2);
+      border-radius: 999px;
+      margin-top: 10px;
+    }
+    .get-sub {
+      font-size: 13.5px; color: var(--gray-l);
+      margin-top: 14px; line-height: 1.55;
+    }
+    .get-list {
+      list-style: none; padding: 0;
+      margin: 22px 0 0;
+      display: flex; flex-direction: column; gap: 11px;
+    }
+    .get-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: var(--ink); line-height: 1.5;
+    }
+    .get-list li::before {
+      content: '✓';
+      color: var(--teal-b);
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(0,194,168,0.1);
+      border: 1px solid var(--teal-border);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* FORM */
+    .reserve-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px;
+      position: sticky;
+      top: 100px;
+    }
+    .reserve-title {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: 26px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .reserve-sub {
+      font-size: 13px; color: var(--gray-l);
+      margin-bottom: 22px; line-height: 1.55;
+    }
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      background: rgba(6,15,30,0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color .2s, background .2s;
+    }
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: var(--teal-border);
+      background: rgba(6,15,30,0.9);
+    }
+    .field input::placeholder { color: var(--faint); }
+    .reserve-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      color: #001512;
+      border: 0;
+      border-radius: 999px;
+      padding: 15px 24px;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 12px 32px -8px rgba(0,194,168,0.5);
+      transition: transform .15s, box-shadow .2s;
+      margin-top: 6px;
+    }
+    .reserve-btn:hover { transform: translateY(-1px); box-shadow: 0 16px 40px -8px rgba(0,194,168,0.6); }
+    .reserve-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .reserve-micro {
+      margin-top: 14px;
+      font-size: 12px; color: var(--faint);
+      text-align: center; line-height: 1.5;
+    }
+    .reserve-micro strong { color: var(--gray-l); }
+
+    /* PERKS */
+    .perks-head {
+      text-align: center;
+      margin: 48px 0 28px;
+    }
+    .perks-head h2 {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(28px, 3.6vw, 42px);
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin-bottom: 12px;
+    }
+    .perks-head h2 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--teal-b), var(--purple));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .perks-head p { color: var(--gray-l); font-size: 14.5px; max-width: 560px; margin: 0 auto; line-height: 1.55; }
+    .perks-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 680px) { .perks-grid { grid-template-columns: 1fr; } }
+    .perk {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      transition: border-color .2s, transform .2s;
+    }
+    .perk:hover { border-color: var(--teal-border); transform: translateY(-2px); }
+    .perk-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,194,168,0.15), rgba(167,139,250,0.1));
+      border: 1px solid var(--teal-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .perk-title {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .perk-body {
+      font-size: 13.5px; color: var(--gray-l); line-height: 1.55;
+    }
+    .perk-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal-b);
+    }
+    .perk-tag::before { content: '→'; }
+
+    /* TRUST STRIP */
+    .trust-strip {
+      margin: 32px 0 12px;
+      padding: 24px 28px;
+      background: rgba(14,36,64,0.4);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      display: grid; grid-template-columns: 88px 1fr; gap: 20px;
+      align-items: center;
+    }
+    @media (max-width: 600px) { .trust-strip { grid-template-columns: 1fr; text-align: left; } }
+    .trust-avatar {
+      width: 88px; height: 88px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(32,163,158,0.25), rgba(108,92,231,0.2));
+      border: 1px solid var(--teal-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Instrument Serif', serif;
+      font-size: 30px; color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .trust-text { line-height: 1.55; }
+    .trust-text strong { color: var(--ink); }
+    .trust-text .sub {
+      font-size: 12px; color: var(--gray); margin-top: 4px;
+    }
+
+    /* HONEST FOOTNOTE */
+    .honest {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: rgba(245,158,11,0.04);
+      border: 1px solid rgba(245,158,11,0.15);
+      border-radius: 14px;
+      font-size: 13px; color: var(--gray-l); line-height: 1.6;
+    }
+    .honest strong { color: var(--amber); }
+
+    /* SUCCESS STATE */
+    .success-state {
+      display: none;
+      max-width: 680px;
+      margin: 20px auto;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(14,36,64,0.9), rgba(11,31,58,0.5));
+      border: 1px solid var(--teal-border);
+      border-radius: 24px;
+      padding: 56px 36px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 64px -16px rgba(0,0,0,0.5);
+    }
+    .success-state::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b) 30%, var(--purple) 70%, transparent);
+    }
+    .success-state.on { display: block; }
+    .success-check {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 32px; color: #001512; font-weight: 900;
+      margin-bottom: 20px;
+      animation: successPop .5s cubic-bezier(.2,0,0,1);
+      box-shadow: 0 12px 32px -8px rgba(0,194,168,0.5);
+    }
+    @keyframes successPop { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+    .success-state h2 {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(30px, 4.2vw, 44px);
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin-bottom: 12px;
+    }
+    .success-state h2 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--teal-b), var(--purple));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .success-seat {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--teal-b);
+      padding: 7px 14px;
+      background: rgba(0,194,168,0.08);
+      border: 1px solid var(--teal-border);
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .success-lede {
+      color: var(--gray-l);
+      max-width: 480px; margin: 0 auto 26px;
+      font-size: 15px; line-height: 1.6;
+    }
+
+    /* Calendly placeholder — swap the iframe block when the real URL is ready */
+    .calendly-wrap {
+      margin: 0 auto;
+      max-width: 520px;
+      border-radius: 16px;
+      border: 1px solid var(--border2);
+      background: rgba(6,15,30,0.5);
+      padding: 24px;
+    }
+    .calendly-placeholder {
+      aspect-ratio: 4 / 3;
+      border-radius: 12px;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(0,194,168,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 90%, rgba(167,139,250,0.1) 0%, transparent 50%),
+        linear-gradient(180deg, #0d2440 0%, #081a30 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .calendly-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+    .calendly-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 12px 32px -8px rgba(0,194,168,0.5);
+      position: relative; z-index: 1;
+    }
+    .calendly-icon svg { width: 24px; height: 24px; fill: #001512; }
+    .calendly-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      position: relative; z-index: 1;
+    }
+    .calendly-body {
+      font-size: 13px; color: var(--gray-l);
+      max-width: 320px; line-height: 1.55;
+      position: relative; z-index: 1;
+    }
+    .calendly-cta {
+      margin-top: 16px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      color: var(--ink); text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      position: relative; z-index: 1;
+      transition: background .2s, border-color .2s;
+    }
+    .calendly-cta:hover { background: rgba(255,255,255,0.08); border-color: var(--teal-border); }
+    .calendly-note {
+      font-size: 11px; color: var(--faint);
+      margin-top: 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+
+    .reveal-on-scroll { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.25,.46,.45,.94), transform .7s cubic-bezier(.25,.46,.45,.94); }
+    .reveal-on-scroll.in { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">PROPCAST</a>
+      <a href="propcast-hook-analysis.html" class="nav-back">← Back to hooks</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="container">
+
+      <!-- PROGRESS -->
+      <div class="progress">
+        <div class="progress-pill done"><div class="num">✓</div>Signup</div>
+        <div class="progress-bar fill"></div>
+        <div class="progress-pill done"><div class="num">✓</div>Hook analysis</div>
+        <div class="progress-bar fill"></div>
+        <div class="progress-pill active"><div class="num">3</div>Founding seat</div>
+      </div>
+
+      <!-- FORM VIEW -->
+      <div id="formView">
+
+        <div class="head">
+          <div class="eyebrow"><div class="eyebrow-dot"></div>Founding cohort · 25 seats total</div>
+          <h1 id="headline">Lock your seat, <em id="nameEm">Graeham</em>.<br/>Before the price moves.</h1>
+          <p class="lede">Founding-cohort agents pay <strong style="color: var(--ink);">$349/mo for 12 months</strong> — locked. Waitlist agents pay $449 when the cohort opens publicly in May. This is the one time the number is small.</p>
+        </div>
+
+        <!-- SCARCITY BAR -->
+        <div class="scarcity">
+          <div class="scarcity-head">
+            <div class="scarcity-label">Founding cohort fill rate</div>
+            <div class="scarcity-count"><strong id="seatsTaken">8</strong>of 25 seats taken</div>
+          </div>
+          <div class="scarcity-track">
+            <div class="scarcity-fill" id="scarcityFill"></div>
+          </div>
+          <div class="scarcity-sub">
+            <span><span class="dot-amber"></span> 3 seats reserved in the last 48 hrs</span>
+            <span>· Cohort closes when full or May 1 — whichever comes first</span>
+          </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="main-grid">
+
+          <!-- WHAT YOU GET -->
+          <div class="get-card reveal-on-scroll">
+            <div class="get-price-row">
+              <span class="get-price">$349<em>/mo</em></span>
+              <span class="get-price-suffix">locked 12 months</span>
+              <span class="get-price-strike">$449</span>
+            </div>
+            <div class="get-price-save">You save $1,200 over the first year</div>
+            <p class="get-sub">Month-to-month after the 12-month lock. No setup fee. Cancel anytime — your avatar and voice clone are deleted within 30 days.</p>
+
+            <ul class="get-list">
+              <li>3–5 videos per week, every week, across YouTube + Reels + Shorts + TikTok + GBP</li>
+              <li>Your AI avatar + professional voice clone, built in 48 hours</li>
+              <li>Personalized 12-week posting plan (you already saw the first 3 hooks)</li>
+              <li>Fair Housing-guardrailed scripts with human QC review on every video</li>
+              <li>AI disclosure + captions auto-applied on every platform</li>
+              <li>Founding-cohort Slack: direct access to Graeham + the build team</li>
+              <li>You keep every piece of content, forever — even if you cancel</li>
+            </ul>
+          </div>
+
+          <!-- RESERVATION FORM -->
+          <form class="reserve-card" id="reserveForm" novalidate>
+            <div class="reserve-title">Reserve your seat</div>
+            <div class="reserve-sub">No card, no charge today. We'll reach out within 24 hours to schedule your avatar film session.</div>
+
+            <div class="field">
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" name="firstName" placeholder="Alex" required autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@brokerage.com" required autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="brokerage">Brokerage</label>
+              <input type="text" id="brokerage" name="brokerage" placeholder="Intero, Compass, eXp, etc." autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span style="color: var(--faint); font-weight: 500; text-transform: none; letter-spacing: 0;">(optional — speeds up scheduling)</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="(650) 555-0134" autocomplete="tel">
+            </div>
+
+            <button type="submit" class="reserve-btn" id="reserveBtn">
+              Reserve my founding seat →
+            </button>
+
+            <div class="reserve-micro">
+              <strong>$0 due today.</strong> We confirm your seat, then schedule your 15-min avatar film session. If it's not a fit after the call, you walk.
+            </div>
+          </form>
+
+        </div>
+
+        <!-- PERKS -->
+        <div class="perks-head reveal-on-scroll">
+          <h2>Why be a founding seat <em>vs. waitlist</em>?</h2>
+          <p>Four things you only get in the first 25. No hype — just the actual trade-offs.</p>
+        </div>
+        <div class="perks-grid">
+          <div class="perk reveal-on-scroll">
+            <div class="perk-icon">💰</div>
+            <div class="perk-title">Price locked for 12 months</div>
+            <div class="perk-body">$349/mo, guaranteed — even when the public price goes to $449 in May. Over a year that's $1,200 in your pocket.</div>
+            <div class="perk-tag">$1,200 saved year 1</div>
+          </div>
+          <div class="perk reveal-on-scroll">
+            <div class="perk-icon">⚡</div>
+            <div class="perk-title">48-hour avatar delivery</div>
+            <div class="perk-body">Founding seats are the first to get their avatar + voice clone built. Waitlist agents wait 2 weeks behind the queue.</div>
+            <div class="perk-tag">2-week head start</div>
+          </div>
+          <div class="perk reveal-on-scroll">
+            <div class="perk-icon">📣</div>
+            <div class="perk-title">Direct founder access</div>
+            <div class="perk-body">Slack channel with Graeham + the build team. Reply to any email and a human answers. No AI chatbot, no CS ticket queue.</div>
+            <div class="perk-tag">Slack + direct email</div>
+          </div>
+          <div class="perk reveal-on-scroll">
+            <div class="perk-icon">🗺️</div>
+            <div class="perk-title">Roadmap input</div>
+            <div class="perk-body">You help decide what PropCast builds next. Monthly founder call to vote on features + watch them ship.</div>
+            <div class="perk-tag">Monthly founder call</div>
+          </div>
+        </div>
+
+        <!-- TRUST STRIP -->
+        <div class="trust-strip reveal-on-scroll">
+          <div class="trust-avatar">GW</div>
+          <div class="trust-text">
+            <strong>Graeham Watts</strong> · REALTOR · Intero Real Estate · DRE# 02015066<br/>
+            <span class="sub">I built this because I needed it. I eat my own dog food — every video I post is made with PropCast. If something doesn't work, I'm the one you talk to.</span>
+          </div>
+        </div>
+
+        <!-- HONEST FOOTNOTE -->
+        <div class="honest reveal-on-scroll">
+          <strong>Quick honesty check:</strong> PropCast is pre-launch. The founding cohort is how we build in the open — you get a steep discount and fast access, we get your real feedback to harden the product. If you need a fully polished enterprise tool with a SOC 2 report today, wait for the public launch. If you're ok being early in exchange for being heard, you're our kind of agent.
+        </div>
+
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="success-state" id="successState">
+        <div class="success-check">✓</div>
+        <div class="success-seat" id="seatBadge">Seat #09 reserved</div>
+        <h2>You're in, <em id="successName">Graeham</em>.</h2>
+        <p class="success-lede">We just emailed you a confirmation + the 12-week posting plan we built on your last step. Now grab a 15-minute slot so we can film your avatar on your schedule.</p>
+
+        <!-- SWAP: replace the entire .calendly-wrap block with <div class="calendly-inline-widget" data-url="https://calendly.com/YOURHANDLE/propcast-founding-seat" style="min-width:320px;height:700px;"></div> + the Calendly widget script when you have the real URL -->
+        <div class="calendly-wrap">
+          <div class="calendly-placeholder">
+            <div class="calendly-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H5V8h14v13zM7 10h5v5H7z"/></svg>
+            </div>
+            <div class="calendly-title">Pick your film session</div>
+            <div class="calendly-body">15 minutes, via Zoom or in-person (Bay Area). You'll read 3 short scripts — that's all we need to build your avatar + voice clone.</div>
+            <a href="#" class="calendly-cta" id="calendlyLink">Open scheduling →</a>
+            <div class="calendly-note">Calendly link goes live on launch — check your confirmation email</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ───── Carry-over from Step 1 / Step 2 ─────
+    function getParam(key) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(key) || sessionStorage.getItem('propcast_' + key) || '';
+    }
+    function setSession(key, val) {
+      if (val) sessionStorage.setItem('propcast_' + key, val);
+    }
+
+    const carriedName = getParam('name');
+    const carriedEmail = getParam('email');
+    const carriedZips = getParam('zips');
+
+    if (carriedName) {
+      document.getElementById('nameEm').textContent = carriedName;
+      document.getElementById('firstName').value = carriedName;
+      document.getElementById('successName').textContent = carriedName;
+    } else {
+      // Use a friendly default and strip the "," so the sentence still reads
+      document.getElementById('headline').innerHTML = 'Lock your seat<br/><em>before the price moves.</em>';
+    }
+    if (carriedEmail) document.getElementById('email').value = carriedEmail;
+
+    // ───── Scarcity bar — slight animation so it feels live without lying ─────
+    (function(){
+      const fill = document.getElementById('scarcityFill');
+      const count = document.getElementById('seatsTaken');
+      // Seed from sessionStorage if a prior visit bumped it; otherwise 8
+      const stored = parseInt(sessionStorage.getItem('propcast_seats') || '8', 10);
+      const seats = Math.min(24, Math.max(8, stored));
+      count.textContent = seats;
+      const pct = Math.round((seats / 25) * 100);
+      setTimeout(() => { fill.style.width = pct + '%'; }, 250);
+    })();
+
+    // ───── Reservation submit ─────
+    const form = document.getElementById('reserveForm');
+    const btn = document.getElementById('reserveBtn');
+    const formView = document.getElementById('formView');
+    const success = document.getElementById('successState');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const first = document.getElementById('firstName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const brokerage = document.getElementById('brokerage').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!first || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        btn.style.animation = 'none';
+        requestAnimationFrame(() => {
+          btn.style.animation = 'shake .4s';
+        });
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = 'Reserving your seat…';
+
+      // Persist for downstream pages
+      setSession('name', first);
+      setSession('email', email);
+      setSession('brokerage', brokerage);
+      setSession('phone', phone);
+
+      // Simulate network — swap this with a real POST to your backend / GHL webhook later
+      setTimeout(() => {
+        // Bump the seat count slightly so the next visit feels organic
+        const current = parseInt(sessionStorage.getItem('propcast_seats') || '8', 10);
+        sessionStorage.setItem('propcast_seats', Math.min(25, current + 1));
+
+        const seatNum = current + 1;
+        document.getElementById('seatBadge').textContent = 'Seat #' + String(seatNum).padStart(2, '0') + ' reserved';
+        document.getElementById('successName').textContent = first;
+
+        formView.style.display = 'none';
+        success.classList.add('on');
+        success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 1200);
+    });
+
+    // ───── Calendly link placeholder — swap href for real URL on launch ─────
+    // SWAP: replace '#' below with your Calendly event URL, e.g.
+    //   https://calendly.com/graehamwatts/propcast-founding-seat
+    document.getElementById('calendlyLink').addEventListener('click', (e) => {
+      const href = e.currentTarget.getAttribute('href');
+      if (!href || href === '#') {
+        e.preventDefault();
+        alert("Scheduling link goes live on launch — we'll email you the link within 24 hrs.");
+      }
+    });
+
+    // ───── Reveal on scroll (+ 2.5s safety fallback) ─────
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll('.reveal-on-scroll:not(.in)').forEach(el => el.classList.add('in'));
+    }, 2500);
+  </script>
+
+  <style>
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+  </style>
+</body>
+</html>

@@ -380,6 +380,25 @@
     }
     .success-step-title { font-weight: 700; font-size: 14px; margin-bottom: 5px; }
     .success-step-body { font-size: 12.5px; color: var(--gray-l); line-height: 1.55; }
+    .success-step-cta {
+      display: block;
+      text-decoration: none; color: inherit;
+      background: linear-gradient(135deg, rgba(0,194,168,0.1), rgba(167,139,250,0.06));
+      border: 1px solid var(--teal-border);
+      position: relative;
+      transition: transform .15s, border-color .2s, box-shadow .2s;
+    }
+    .success-step-cta:hover { transform: translateY(-2px); border-color: var(--teal-b); box-shadow: 0 12px 32px -8px rgba(0,194,168,0.3); }
+    .success-step-cta .success-step-title { color: var(--teal-b); }
+    .success-step-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase;
+      color: #001512;
+      padding: 5px 10px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      border-radius: 999px;
+    }
 
     .muted-skip {
       margin-top: 18px; font-size: 12.5px; color: var(--gray);
@@ -542,11 +561,12 @@
           <div class="success-step-title">Reply if you want to talk</div>
           <div class="success-step-body">I read every reply. No autoresponder funnel. Just me.</div>
         </div>
-        <div class="success-step">
+        <a class="success-step success-step-cta" id="claimSeatLink" href="propcast-founding-seat.html">
           <div class="success-step-num">03</div>
-          <div class="success-step-title">Claim your founding seat</div>
+          <div class="success-step-title">Claim your founding seat →</div>
           <div class="success-step-body">8 of 25 spots taken. Locked $349/mo for 12 months if you're in the cohort.</div>
-        </div>
+          <div class="success-step-pill">Open reservation</div>
+        </a>
       </div>
     </div>
   </div>
@@ -604,6 +624,17 @@
       const success = document.getElementById('successState');
       success.classList.add('on');
       if (name) document.getElementById('successName').textContent = name;
+
+      // Carry name + email into the founding-seat page link
+      const claim = document.getElementById('claimSeatLink');
+      if (claim) {
+        const qs = new URLSearchParams();
+        if (name) qs.set('name', name);
+        if (email) qs.set('email', email);
+        if (zips && zips.length) qs.set('zips', zips.join(','));
+        claim.href = 'propcast-founding-seat.html' + (qs.toString() ? '?' + qs.toString() : '');
+      }
+
       success.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   </script>
