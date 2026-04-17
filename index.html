@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropCast — Autonomous Content Engine for Real Estate Agents</title>
-  <meta name="description" content="PropCast automates your entire content strategy. It creates broadcast-quality videos, writes captions, publishes everywhere, and optimizes automatically. Zero time. Zero guesswork.">
+  <title>PropCast — The Autonomous Content Engine for Real Estate Agents</title>
+  <meta name="description" content="PropCast records you for 6 minutes, then publishes broadcast-quality video to every platform — forever. Built for agents who are busy, camera-shy, and sick of AI slop.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #060F1E;
+      --bg-2: #0B1628;
       --navy: #0B1F3A;
-      --navy-l: #13294f;
       --navy-card: #0E2440;
       --teal: #00C2A8;
       --teal-d: #009e88;
       --teal-glow: rgba(0,194,168,0.12);
-      --teal-border: rgba(0,194,168,0.2);
+      --teal-border: rgba(0,194,168,0.22);
+      --purple: #A78BFA;
+      --blue: #3B82F6;
       --gray: #8A9BB0;
       --gray-l: #C4CDD8;
       --faint: #4A5B6E;
@@ -26,898 +28,1124 @@
       --green: #34D399;
       --red: #EF4444;
       --border: rgba(255,255,255,0.06);
-      --border2: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.12);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--ink);
-      line-height: 1.6;
+      line-height: 1.65;
       overflow-x: hidden;
     }
-
-    /* Grid texture */
     body::before {
       content: '';
       position: fixed; inset: 0;
       background-image:
-        linear-gradient(rgba(0,194,168,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,194,168,0.015) 1px, transparent 1px);
+        linear-gradient(rgba(0,194,168,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.018) 1px, transparent 1px);
       background-size: 80px 80px;
       pointer-events: none; z-index: 0;
     }
-
-    /* Orbs */
     .orb-wrap { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.25; will-change: transform; }
-    .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,194,168,0.2) 0%, transparent 70%); top: -15%; right: -10%; animation: oFloat1 22s ease-in-out infinite; }
-    .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(11,31,58,0.6) 0%, transparent 70%); bottom: -10%; left: -10%; animation: oFloat2 26s ease-in-out infinite; }
-    .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,194,168,0.12) 0%, transparent 70%); top: 45%; left: 35%; animation: oFloat3 20s ease-in-out infinite; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(130px); opacity: 0.28; will-change: transform; }
+    .orb-1 { width: 620px; height: 620px; background: radial-gradient(circle, rgba(0,194,168,0.35) 0%, transparent 70%); top: -18%; right: -12%; animation: oFloat1 22s ease-in-out infinite; }
+    .orb-2 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(167,139,250,0.22) 0%, transparent 70%); bottom: -12%; left: -10%; animation: oFloat2 26s ease-in-out infinite; }
+    .orb-3 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%); top: 45%; left: 38%; animation: oFloat3 20s ease-in-out infinite; }
     @keyframes oFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-50px,70px) scale(1.05)} 66%{transform:translate(-30px,-50px) scale(0.95)} }
     @keyframes oFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,-80px) scale(1.08)} }
-    @keyframes oFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-70px,50px) scale(1.06)} }
+    @keyframes oFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,60px) scale(0.96)} }
 
-    /* Utility */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
-    section { padding: 100px 0; position: relative; }
-    .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); font-weight: 700; margin-bottom: 1rem; text-align: center; }
-    .section-title { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; text-align: center; margin-bottom: 1rem; line-height: 1.15; letter-spacing: -0.02em; }
-    .section-sub { font-size: 1.05rem; color: var(--gray); text-align: center; max-width: 680px; margin: 0 auto 3rem; line-height: 1.7; }
-
-    /* Reveal animation */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ============================================================
-       NAV
-       ============================================================ */
+    /* NAV */
     .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-      height: 64px;
-      background: rgba(6,15,30,0.8);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border2);
-      display: flex; align-items: center;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,15,30,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
     }
-    .nav .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -0.5px; }
-    .nav-logo span { color: var(--teal); }
-    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-    .nav-link { color: var(--gray); font-size: 0.88rem; text-decoration: none; font-weight: 500; transition: color 0.2s; }
-    .nav-link:hover { color: var(--ink); }
-    .nav-cta {
-      display: inline-block; padding: 10px 24px;
-      background: var(--teal); color: #0a1628; border-radius: 8px;
-      font-size: 0.85rem; font-weight: 700; text-decoration: none;
-      transition: all 0.3s; letter-spacing: 0.02em;
+    .nav-inner {
+      max-width: 1240px; margin: 0 auto;
+      padding: 18px 32px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-cta:hover { background: var(--teal-d); box-shadow: 0 4px 20px rgba(0,194,168,0.3); transform: translateY(-1px); }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 20px;
+      background: linear-gradient(135deg, var(--teal), #7ad9c8);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.6px;
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-link {
+      color: var(--gray-l); text-decoration: none; font-size: 14px; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-link:hover { color: var(--teal); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform .15s, box-shadow .2s, background .2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--teal-d));
+      color: #001512;
+      box-shadow: 0 4px 20px rgba(0,194,168,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(0,194,168,0.48); }
+    .btn-ghost {
+      background: transparent; color: var(--ink);
+      border: 1px solid var(--border2);
+    }
+    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-lg { padding: 16px 32px; font-size: 15px; }
 
-    /* ============================================================
-       HERO
-       ============================================================ */
-    .hero { padding: 160px 0 100px; }
-    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-    .hero-text h1 {
-      font-family: 'Syne', sans-serif; font-size: 3.2rem; font-weight: 800;
-      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;
-    }
-    .hero-text h1 .teal { color: var(--teal); }
-    .hero-text p {
-      font-size: 1.1rem; color: var(--gray); line-height: 1.8; margin-bottom: 2rem;
-      max-width: 520px;
-    }
-    .hero-cta {
-      display: inline-block; padding: 16px 40px;
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
-      color: #0a1628; border-radius: 10px;
-      font-size: 1rem; font-weight: 700; text-decoration: none;
-      letter-spacing: 0.04em; transition: all 0.3s;
-      position: relative; overflow: hidden;
-    }
-    .hero-cta:hover { box-shadow: 0 6px 30px rgba(0,194,168,0.35); transform: translateY(-2px); }
-    .hero-cta::after { content:''; position:absolute; top:0; left:-100%; width:200%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent); animation:shimmer 3s ease-in-out infinite; }
-    @keyframes shimmer { 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
-    .hero-fine { font-size: 0.82rem; color: var(--faint); margin-top: 1rem; }
+    /* LAYOUT */
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+    section { position: relative; z-index: 1; }
+    .section-pad { padding: 96px 0; }
+    .section-pad-sm { padding: 64px 0; }
 
-    /* Hero visual — side by side comparison */
-    .hero-visual { position: relative; }
-    .hero-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--teal);
+      padding: 6px 14px;
+      border: 1px solid var(--teal-border);
+      background: var(--teal-glow);
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    h1, h2, h3, h4 { font-family: 'Syne', sans-serif; letter-spacing: -1px; line-height: 1.15; }
+    h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 800; }
+    h2 { font-size: clamp(32px, 4.5vw, 48px); font-weight: 800; }
+    h3 { font-size: clamp(22px, 2.8vw, 28px); font-weight: 700; }
+    .lede { font-size: clamp(17px, 1.8vw, 20px); color: var(--gray-l); max-width: 680px; }
+
+    /* HERO */
+    .hero { padding: 72px 0 48px; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center;
+    }
+    @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+    .hero h1 span.accent {
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-cta-row { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+    .hero-trust-row {
+      display: flex; gap: 20px; margin-top: 28px; flex-wrap: wrap;
+      font-size: 13px; color: var(--gray); align-items: center;
+    }
+    .hero-trust-row span { display: flex; align-items: center; gap: 6px; }
+    .check {
+      display: inline-block; width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--teal-glow);
+      color: var(--teal);
+      font-size: 11px; text-align: center; line-height: 16px; font-weight: 700;
+    }
+
+    /* HERO COMPARISON */
+    .compare-wrap {
+      background: linear-gradient(135deg, rgba(14,36,64,0.6), rgba(11,31,58,0.4));
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+    .compare-label {
+      position: absolute; top: -13px; left: 24px;
+      background: var(--bg);
+      padding: 2px 12px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--amber);
+    }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .compare-card {
-      background: var(--navy); border: 1px solid var(--border2);
-      border-radius: 16px; padding: 1.5rem; position: relative; overflow: hidden;
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 9/12;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
     }
-    .compare-card.chaos { border-color: rgba(239,68,68,0.2); }
-    .compare-card.order { border-color: var(--teal-border); }
-    .compare-badge {
-      display: inline-block; padding: 3px 10px; border-radius: 4px;
-      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; margin-bottom: 1rem;
-    }
-    .compare-card.chaos .compare-badge { background: rgba(239,68,68,0.12); color: var(--red); }
-    .compare-card.order .compare-badge { background: var(--teal-glow); color: var(--teal); }
-    .compare-item {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.78rem; color: var(--gray); padding: 6px 0;
-    }
-    .compare-item .icon { font-size: 0.9rem; flex-shrink: 0; }
-    .compare-card.chaos .compare-item .icon { color: var(--red); }
-    .compare-card.order .compare-item .icon { color: var(--teal); }
-    .compare-card.order { animation: floatCard 4s ease-in-out infinite; }
-    @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-
-    /* Mini dashboard in "order" card */
-    .mini-dash { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-    .mini-stat-row { display: flex; gap: 10px; margin-bottom: 8px; }
-    .mini-stat {
-      flex: 1; background: rgba(0,194,168,0.04); border: 1px solid var(--teal-border);
-      border-radius: 8px; padding: 8px; text-align: center;
-    }
-    .mini-stat-val { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--teal); }
-    .mini-stat-lbl { font-size: 0.6rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.06em; }
-    .mini-bar { height: 4px; background: var(--navy-l); border-radius: 2px; overflow: hidden; }
-    .mini-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; }
-
-    /* ============================================================
-       PAIN POINTS
-       ============================================================ */
-    .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .pain-card {
-      background: var(--navy); border: 1px solid var(--border2);
-      border-radius: 16px; padding: 2rem; transition: all 0.3s;
-    }
-    .pain-card:hover { border-color: var(--teal-border); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
-    .pain-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .pain-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--ink); }
-    .pain-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.6; }
-
-    /* ============================================================
-       HOW IT WORKS
-       ============================================================ */
-    .steps-section { background: linear-gradient(180deg, rgba(0,194,168,0.02) 0%, transparent 100%); }
-    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; position: relative; }
-    .steps-grid::before {
-      content: ''; position: absolute; top: 40px; left: 12.5%; right: 12.5%;
-      height: 2px; background: linear-gradient(90deg, var(--teal-border), var(--teal), var(--teal-border));
-      z-index: 0;
-    }
-    .step-card { text-align: center; position: relative; z-index: 1; }
-    .step-num {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--navy); border: 2px solid var(--teal);
+    .compare-video-ph {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 35%, rgba(0,194,168,0.18) 0%, transparent 60%),
+        linear-gradient(180deg, #0e2440 0%, #060F1E 100%);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
-      color: var(--teal); margin: 0 auto 1.2rem;
-      box-shadow: 0 0 20px rgba(0,194,168,0.15);
     }
-    .step-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
-    .step-desc {
-      font-size: 0.82rem; color: var(--gray); line-height: 1.6;
-      max-width: 240px; margin: 0 auto;
+    .compare-face {
+      width: 84px; height: 84px; border-radius: 50%;
+      background: linear-gradient(135deg, #334155, #1e293b);
+      border: 2px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; color: var(--gray);
+      margin-bottom: 20px;
+    }
+    .compare-face-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; }
+    .compare-face-caption { font-size: 12px; color: var(--gray); text-align: center; }
+    .compare-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); color: #001512;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; z-index: 3;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .compare-meta {
+      padding: 14px 16px;
+      background: linear-gradient(180deg, transparent, rgba(6,15,30,0.9));
+      z-index: 2;
+    }
+    .compare-meta-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray); margin-bottom: 4px; }
+    .compare-meta-title { font-size: 12px; font-weight: 600; color: var(--ink); }
+    .compare-reveal {
+      text-align: center; padding: 20px 16px 6px;
+      font-size: 14px; color: var(--gray-l);
+    }
+    .compare-reveal strong { color: var(--teal); font-weight: 700; }
+
+    /* FRICTIONS BANNER (quick emotional hit) */
+    .friction-banner {
+      background: linear-gradient(180deg, rgba(14,36,64,0.4), transparent);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    .friction-row { display: flex; gap: 36px; justify-content: center; flex-wrap: wrap; align-items: center; }
+    .friction-item { display: flex; gap: 10px; align-items: center; font-size: 14px; color: var(--gray-l); }
+    .friction-x { color: var(--red); font-weight: 700; }
+
+    /* 4-STEP WORKFLOW */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+      margin-top: 48px;
+    }
+    @media (max-width: 900px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .steps-grid { grid-template-columns: 1fr; } }
+    .step-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      position: relative;
+      transition: border-color .2s, transform .2s;
+    }
+    .step-card:hover { border-color: var(--teal-border); transform: translateY(-2px); }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 44px; font-weight: 800;
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .step-title { font-size: 17px; font-weight: 700; margin: 14px 0 10px; color: var(--ink); }
+    .step-body { font-size: 14px; color: var(--gray-l); }
+    .step-time {
+      display: inline-block; margin-top: 14px;
+      font-size: 12px; font-weight: 600; letter-spacing: .5px;
+      color: var(--teal);
+      padding: 4px 10px;
+      background: var(--teal-glow);
+      border-radius: 6px;
     }
 
-    /* ============================================================
-       RESULTS / METRICS
-       ============================================================ */
-    .metrics-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.2rem; }
-    .metric-card {
-      background: var(--navy); border: 1px solid var(--border2);
-      border-radius: 14px; padding: 1.5rem 1rem; text-align: center;
-      transition: all 0.3s;
+    /* TIME COMMITMENT CALLOUT */
+    .time-callout {
+      margin-top: 64px;
+      background: linear-gradient(135deg, rgba(0,194,168,0.08), rgba(167,139,250,0.06));
+      border: 1px solid var(--teal-border);
+      border-radius: 20px;
+      padding: 40px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
+      text-align: center;
     }
-    .metric-card:hover { border-color: var(--teal-border); }
-    .metric-val {
-      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
-      color: var(--teal); margin-bottom: 4px;
+    @media (max-width: 800px) { .time-callout { grid-template-columns: 1fr; gap: 20px; } }
+    .time-stat-num {
+      font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800;
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1; margin-bottom: 8px;
     }
-    .metric-label { font-size: 0.75rem; color: var(--gray); line-height: 1.4; }
-    .metric-card.highlight { border-color: var(--teal); background: rgba(0,194,168,0.04); }
-    .metric-card.highlight .metric-val { color: var(--ink); }
+    .time-stat-label { font-size: 14px; color: var(--gray-l); }
 
-    /* ============================================================
-       SAMPLE CONTENT
-       ============================================================ */
-    .samples-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    /* TECHNICAL MOAT */
+    .moat-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 48px;
+    }
+    @media (max-width: 780px) { .moat-grid { grid-template-columns: 1fr; } }
+    .moat-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .moat-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .moat-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--teal-glow); color: var(--teal);
+      font-size: 20px; font-weight: 700;
+      border: 1px solid var(--teal-border);
+    }
+    .moat-title { font-size: 17px; font-weight: 700; }
+    .moat-body { font-size: 14px; color: var(--gray-l); }
+    .moat-body strong { color: var(--ink); }
+
+    /* AVATAR REVEAL TEASER */
+    .reveal-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 48px;
+    }
+    @media (max-width: 900px) { .reveal-wrap { grid-template-columns: 1fr; } }
+    .reveal-visual {
+      aspect-ratio: 4/5;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(167,139,250,0.18), transparent 60%),
+        linear-gradient(135deg, #0e2440, #060F1E);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 32px 24px;
+    }
+    .reveal-label {
+      position: absolute; top: 16px; left: 16px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 6px;
+      background: rgba(167,139,250,0.18); color: var(--purple);
+      border: 1px solid rgba(167,139,250,0.35);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .reveal-live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--purple);
+      animation: liveBlink 1.6s ease-in-out infinite;
+    }
+    @keyframes liveBlink { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
+    .reveal-pulse {
+      width: 160px; height: 160px; border-radius: 50%;
+      background: linear-gradient(135deg, #334155, #1e293b);
+      border: 3px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 50px;
+      color: var(--gray-l);
+      box-shadow: 0 0 80px rgba(0,194,168,0.3);
+      position: relative;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+    }
+    .reveal-pulse::before, .reveal-pulse::after {
+      content: ''; position: absolute; inset: -14px;
+      border: 2px solid var(--teal);
+      border-radius: 50%;
+      opacity: 0;
+      animation: pulseRing 2.6s ease-out infinite;
+    }
+    .reveal-pulse::after { animation-delay: 1.3s; }
+    @keyframes pulseRing { 0% { transform: scale(0.88); opacity: 0.65 } 80% { opacity: 0 } 100% { transform: scale(1.35); opacity: 0 } }
+    .reveal-bubble {
+      margin-top: 28px;
+      max-width: 280px;
+      background: var(--navy-card);
+      border: 1px solid var(--teal-border);
+      border-radius: 14px 14px 14px 4px;
+      padding: 16px 18px;
+      font-size: 13.5px; line-height: 1.55;
+      color: var(--ink);
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      text-align: left;
+    }
+    .reveal-bubble::before {
+      content: ''; position: absolute;
+      top: -8px; left: 24px;
+      width: 10px; height: 10px;
+      background: var(--navy-card);
+      border-left: 1px solid var(--teal-border);
+      border-top: 1px solid var(--teal-border);
+      transform: rotate(45deg);
+    }
+    .reveal-bubble .typing {
+      display: inline-block;
+      width: 8px;
+      animation: typingCursor 1s step-end infinite;
+    }
+    @keyframes typingCursor { 50% { opacity: 0 } }
+    .reveal-bubble-sub { font-size: 11px; color: var(--gray); margin-top: 8px; }
+    .reveal-timeline {
+      list-style: none; display: flex; flex-direction: column; gap: 20px; margin-top: 32px;
+    }
+    .reveal-step {
+      display: grid; grid-template-columns: 60px 1fr; gap: 16px; align-items: flex-start;
+      padding: 14px 0;
+    }
+    .reveal-step-num {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--teal-glow); color: var(--teal);
+      border: 1px solid var(--teal-border);
+      font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .reveal-step-title { font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+    .reveal-step-body { font-size: 14px; color: var(--gray-l); }
+
+    /* SAMPLE CONTENT GALLERY */
+    .sample-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px;
+    }
+    @media (max-width: 820px) { .sample-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .sample-grid { grid-template-columns: 1fr; } }
     .sample-card {
-      background: var(--navy); border: 1px solid var(--border2);
-      border-radius: 16px; overflow: hidden; transition: all 0.3s;
+      aspect-ratio: 9/14;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(0,194,168,0.12), transparent 60%),
+        linear-gradient(180deg, #0e2440, #060F1E);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      transition: border-color .2s, transform .2s;
     }
-    .sample-card:hover { border-color: var(--teal-border); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
-    .sample-thumb {
-      width: 100%; aspect-ratio: 16/9; position: relative;
+    .sample-card:hover { border-color: var(--teal-border); transform: translateY(-3px); }
+    .sample-tag {
+      position: absolute; top: 12px; left: 12px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 8px; border-radius: 4px;
+      background: rgba(0,194,168,0.18); color: var(--teal);
+      border: 1px solid var(--teal-border);
+    }
+    .sample-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); color: #001512;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .sample-meta {
+      padding: 14px; background: linear-gradient(180deg, transparent, rgba(6,15,30,0.95));
+      z-index: 2;
+    }
+    .sample-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .sample-sub { font-size: 11px; color: var(--gray); }
+
+    /* SOCIAL PROOF */
+    .proof-empty-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;
+    }
+    @media (max-width: 800px) { .proof-empty-row { grid-template-columns: 1fr; } }
+    .proof-card {
+      background: var(--navy-card);
+      border: 1px dashed var(--border2);
+      border-radius: 14px;
+      padding: 28px 24px;
+      min-height: 160px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .proof-quote { font-size: 15px; color: var(--gray-l); line-height: 1.6; font-style: italic; }
+    .proof-attrib { display: flex; gap: 12px; align-items: center; margin-top: 16px; }
+    .proof-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #334155, #1e293b);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--gray-l);
+    }
+    .proof-name { font-weight: 700; font-size: 13px; }
+    .proof-role { font-size: 12px; color: var(--gray); }
+    .proof-placeholder-txt { color: var(--faint); font-size: 13px; font-style: italic; }
+
+    /* PRICING */
+    .pricing-wrap {
+      margin-top: 48px;
+      background: linear-gradient(135deg, rgba(14,36,64,0.7), rgba(11,31,58,0.5));
+      border: 1px solid var(--teal-border);
+      border-radius: 24px;
+      padding: 48px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    }
+    @media (max-width: 800px) { .pricing-wrap { grid-template-columns: 1fr; padding: 32px; } }
+    .price-main { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800; line-height: 1; }
+    .price-sub { color: var(--gray-l); margin-top: 8px; }
+    .price-includes { margin-top: 28px; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .price-includes li { display: flex; gap: 12px; font-size: 14px; color: var(--gray-l); }
+    .price-includes li::before { content: '✓'; color: var(--teal); font-weight: 700; }
+    .price-anchor {
+      display: flex; flex-direction: column; gap: 16px; justify-content: center;
+    }
+    .anchor-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 16px 18px;
+      background: rgba(6,15,30,0.5);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .anchor-cmp {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gray); font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .anchor-txt { font-size: 14px; color: var(--ink); line-height: 1.55; }
+    .anchor-txt strong { color: var(--teal); }
+
+    /* TRUST BADGES */
+    .trust-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px;
+    }
+    @media (max-width: 780px) { .trust-grid { grid-template-columns: 1fr; } }
+    .trust-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .trust-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      flex-shrink: 0;
+      background: var(--teal-glow); color: var(--teal);
+      border: 1px solid var(--teal-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700;
+    }
+    .trust-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .trust-body { font-size: 13px; color: var(--gray-l); }
+
+    /* COMPETITIVE FRAMING */
+    .compete-wrap {
+      margin-top: 48px;
+      background: var(--navy-card);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 40px;
+    }
+    .compete-row {
+      display: grid; grid-template-columns: 1.5fr 2px 1fr; gap: 32px; align-items: center;
+    }
+    @media (max-width: 800px) { .compete-row { grid-template-columns: 1fr; gap: 20px; } .compete-row .divider-v { display: none; } }
+    .divider-v { background: var(--border2); height: 100%; min-height: 80px; }
+    .compete-label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+    .compete-line { font-size: 18px; font-weight: 600; color: var(--ink); }
+    .compete-sub { font-size: 14px; color: var(--gray-l); margin-top: 6px; }
+
+    /* RIGHT FOR ME */
+    .fit-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;
+    }
+    @media (max-width: 780px) { .fit-grid { grid-template-columns: 1fr; } }
+    .fit-card {
+      border-radius: 16px;
+      padding: 28px;
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+    }
+    .fit-card.yes { border-color: rgba(52,211,153,0.35); }
+    .fit-card.no { border-color: rgba(239,68,68,0.25); }
+    .fit-head { display: flex; align-items: center; gap: 10px; font-weight: 700; margin-bottom: 14px; }
+    .fit-head.yes { color: var(--green); }
+    .fit-head.no { color: var(--red); }
+    .fit-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .fit-list li { font-size: 14px; color: var(--gray-l); display: flex; gap: 10px; }
+    .fit-list li::before { font-weight: 700; }
+    .fit-card.yes .fit-list li::before { content: '✓'; color: var(--green); }
+    .fit-card.no .fit-list li::before { content: '✗'; color: var(--red); }
+
+    /* FAQ */
+    .faq { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       overflow: hidden;
     }
-    .sample-thumb-bg {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sample-thumb-bg.vid1 { background: linear-gradient(135deg, #0B1F3A 0%, #1a3a5c 50%, #0B1F3A 100%); }
-    .sample-thumb-bg.vid2 { background: linear-gradient(135deg, #0E2440 0%, #13294f 50%, #0a1a30 100%); }
-    .sample-thumb-bg.vid3 { background: linear-gradient(135deg, #091a2e 0%, #0B1F3A 50%, #13294f 100%); }
-    .sample-thumb-overlay {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-    }
-    .sample-thumb-title {
-      font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800;
-      color: var(--ink); text-align: center; padding: 0 1rem; margin-bottom: 8px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-    .play-btn {
-      width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(0,194,168,0.9); display: flex; align-items: center;
-      justify-content: center; margin-bottom: 8px;
-      box-shadow: 0 4px 20px rgba(0,194,168,0.3);
-    }
-    .play-btn::after {
-      content: ''; width: 0; height: 0;
-      border-left: 14px solid #0a1628; border-top: 9px solid transparent;
-      border-bottom: 9px solid transparent; margin-left: 3px;
-    }
-    .sample-meta { padding: 1.2rem; }
-    .sample-platform {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.72rem; color: var(--faint); text-transform: uppercase;
-      letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
-    }
-    .sample-stats { display: flex; gap: 1.2rem; }
-    .sample-stat { font-size: 0.78rem; color: var(--gray); }
-    .sample-stat strong { color: var(--teal); font-weight: 700; }
-
-    /* ============================================================
-       FAQ
-       ============================================================ */
-    .faq-list { max-width: 760px; margin: 0 auto; }
-    .faq-item {
-      border: 1px solid var(--border2); border-radius: 12px;
-      margin-bottom: 10px; overflow: hidden; background: var(--navy);
-      transition: border-color 0.3s;
-    }
-    .faq-item.open { border-color: var(--teal-border); }
     .faq-q {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 1.5rem; cursor: pointer; font-size: 0.95rem;
-      font-weight: 600; color: var(--ink); transition: color 0.2s;
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      color: var(--ink);
+      font-family: inherit; font-size: 15px; font-weight: 600;
+      text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      border: none;
     }
     .faq-q:hover { color: var(--teal); }
-    .faq-arrow {
-      font-size: 1.2rem; color: var(--faint); transition: transform 0.3s;
-      flex-shrink: 0; margin-left: 1rem;
-    }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--teal); }
+    .faq-icon { color: var(--teal); transition: transform .2s; font-size: 18px; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
     .faq-a {
-      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
+      max-height: 0; overflow: hidden;
+      transition: max-height .3s ease;
+      padding: 0 24px;
     }
-    .faq-item.open .faq-a { max-height: 300px; }
-    .faq-a-inner {
-      padding: 0 1.5rem 1.2rem; font-size: 0.88rem; color: var(--gray);
-      line-height: 1.7;
-    }
+    .faq-item.open .faq-a { max-height: 480px; padding-bottom: 22px; }
+    .faq-a p { font-size: 14px; color: var(--gray-l); line-height: 1.7; }
+    .faq-a p + p { margin-top: 10px; }
 
-    /* ============================================================
-       PRICING
-       ============================================================ */
-    .pricing-section { background: linear-gradient(180deg, transparent 0%, rgba(0,194,168,0.02) 50%, transparent 100%); }
-    .pricing-toggle {
-      display: flex; justify-content: center; margin-bottom: 3rem;
+    /* CLOSING CTA */
+    .cta-wrap {
+      margin: 96px auto 0;
+      max-width: 920px;
+      background: linear-gradient(135deg, rgba(0,194,168,0.12), rgba(167,139,250,0.08));
+      border: 1px solid var(--teal-border);
+      border-radius: 28px;
+      padding: 64px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .pricing-toggle-wrap {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--navy); border: 1px solid var(--border2);
-      border-radius: 30px; padding: 4px;
+    .cta-wrap::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,194,168,0.18), transparent 60%);
+      pointer-events: none;
     }
-    .pricing-toggle-btn {
-      padding: 8px 24px; border-radius: 26px; border: none;
-      font-family: 'DM Sans'; font-size: 0.85rem; font-weight: 600;
-      cursor: pointer; transition: all 0.3s; color: var(--gray);
-      background: transparent;
-    }
-    .pricing-toggle-btn.active { background: var(--teal); color: #0a1628; }
-    .pricing-save {
-      font-size: 0.72rem; color: var(--teal); font-weight: 700;
-      background: var(--teal-glow); padding: 3px 10px; border-radius: 12px;
-    }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start; }
-    .price-card {
-      background: var(--navy); border: 1px solid var(--border2);
-      border-radius: 18px; padding: 2.5rem 2rem; position: relative;
-      transition: all 0.3s;
-    }
-    .price-card:hover { border-color: var(--teal-border); }
-    .price-card.featured {
-      border-color: var(--teal); background: rgba(0,194,168,0.03);
-      box-shadow: 0 0 40px rgba(0,194,168,0.08);
-      transform: scale(1.03);
-    }
-    .price-popular {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: var(--teal); color: #0a1628; padding: 4px 16px;
-      border-radius: 20px; font-size: 0.68rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .price-name { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
-    .price-tagline { font-size: 0.82rem; color: var(--gray); margin-bottom: 1.5rem; }
-    .price-amount {
-      font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
-      color: var(--ink); line-height: 1;
-    }
-    .price-amount .currency { font-size: 1.5rem; vertical-align: top; margin-right: 2px; }
-    .price-amount .period { font-size: 0.88rem; color: var(--faint); font-family: 'DM Sans'; font-weight: 500; }
-    .price-annual { font-size: 0.78rem; color: var(--teal); margin-top: 4px; margin-bottom: 1.5rem; display: none; }
-    .price-features { list-style: none; margin-bottom: 2rem; }
-    .price-features li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 0.85rem; color: var(--gray-l); padding: 6px 0;
-    }
-    .price-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
-    .price-btn {
-      display: block; width: 100%; padding: 14px; border-radius: 10px;
-      border: 1px solid var(--teal-border); background: transparent;
-      color: var(--teal); font-family: 'DM Sans'; font-size: 0.88rem;
-      font-weight: 700; cursor: pointer; transition: all 0.3s;
-      text-align: center; text-decoration: none;
-    }
-    .price-btn:hover { background: rgba(0,194,168,0.08); }
-    .price-card.featured .price-btn {
-      background: var(--teal); color: #0a1628; border-color: var(--teal);
-    }
-    .price-card.featured .price-btn:hover { background: var(--teal-d); box-shadow: 0 4px 20px rgba(0,194,168,0.3); }
+    .cta-wrap > * { position: relative; z-index: 1; }
+    .cta-wrap h2 { max-width: 680px; margin: 0 auto 18px; }
+    .cta-wrap .lede { margin: 0 auto 32px; }
+    .cta-microtxt { font-size: 12px; color: var(--gray); margin-top: 16px; }
 
-    /* ============================================================
-       FINAL CTA
-       ============================================================ */
-    .final-section {
-      text-align: center; padding: 120px 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(0,194,168,0.04) 50%, transparent 100%);
-    }
-    .final-title { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
-    .final-sub { font-size: 1.05rem; color: var(--gray); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
-    .final-cta {
-      display: inline-block; padding: 18px 48px;
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
-      color: #0a1628; border-radius: 12px; font-size: 1.05rem;
-      font-weight: 700; text-decoration: none; transition: all 0.3s;
-      position: relative; overflow: hidden;
-    }
-    .final-cta:hover { box-shadow: 0 8px 40px rgba(0,194,168,0.35); transform: translateY(-2px); }
-    .final-cta::after { content:''; position:absolute; top:0; left:-100%; width:200%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent); animation:shimmer 3s ease-in-out infinite; }
-    .final-fine { font-size: 0.82rem; color: var(--faint); margin-top: 1rem; }
-
-    /* ============================================================
-       FOOTER
-       ============================================================ */
+    /* FOOTER */
     footer {
-      border-top: 1px solid var(--border2); padding: 2.5rem 0;
-      text-align: center; font-size: 0.82rem; color: var(--faint);
+      margin-top: 80px;
+      padding: 40px 0 32px;
+      border-top: 1px solid var(--border);
     }
-    footer a { color: var(--gray); text-decoration: none; margin: 0 1rem; transition: color 0.2s; }
-    footer a:hover { color: var(--teal); }
-
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
-    @media (max-width: 1024px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-visual { max-width: 500px; }
-      .metrics-grid { grid-template-columns: repeat(3, 1fr); }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-      .steps-grid::before { display: none; }
-    }
-    @media (max-width: 768px) {
-      .hero-text h1 { font-size: 2.2rem; }
-      .section-title { font-size: 2rem; }
-      .pain-grid, .samples-grid, .pricing-grid { grid-template-columns: 1fr; }
-      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid { grid-template-columns: 1fr; }
-      .hero-compare { grid-template-columns: 1fr; }
-      .price-card.featured { transform: none; }
-      section { padding: 70px 0; }
-      .nav-link { display: none; }
-    }
+    .foot-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--gray); }
+    .foot-links { display: flex; gap: 22px; }
+    .foot-links a { color: var(--gray); text-decoration: none; }
+    .foot-links a:hover { color: var(--teal); }
+    .foot-dre { color: var(--faint); font-size: 12px; }
   </style>
 </head>
 <body>
+  <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 
-<div class="orb-wrap">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="container">
-    <a href="index.html" class="nav-logo">Prop<span>Cast</span></a>
-    <div class="nav-right">
-      <a href="#how" class="nav-link">How It Works</a>
-      <a href="#pricing" class="nav-link">Pricing</a>
-      <a href="#faq" class="nav-link">FAQ</a>
-      <a href="propcast-onboarding.html" class="nav-cta">Start Free Trial</a>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-text">
-        <div style="font-size:0.82rem; color:var(--teal); font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:1rem;">Automate the grind. Own the moments.</div>
-        <h1>Stop Spending 20 Hours A Week On Content <span class="teal">Nobody Sees.</span></h1>
-        <p>PropCast is your content coach, automated. It tells you exactly what to create based on your market, builds it in broadcast quality, and handles distribution everywhere — while you're actually with clients. Zero ongoing effort. Professional results.</p>
-        <a href="propcast-onboarding.html" class="hero-cta">Start Your Free Trial</a>
-        <div class="hero-fine">No credit card required. Set up in 5 minutes.</div>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo">PROPCAST</div>
+      <div class="nav-links">
+        <a href="#how" class="nav-link">How it works</a>
+        <a href="#samples" class="nav-link">Samples</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="propcast-signup.html" class="btn btn-primary">Start free</a>
       </div>
-      <div class="hero-visual">
-        <div class="hero-compare">
-          <div class="compare-card chaos">
-            <div class="compare-badge">Without PropCast</div>
-            <div class="compare-item"><span class="icon">&#10007;</span> Writing captions at midnight</div>
-            <div class="compare-item"><span class="icon">&#10007;</span> Filming content nobody watches</div>
-            <div class="compare-item"><span class="icon">&#10007;</span> Posting inconsistently</div>
-            <div class="compare-item"><span class="icon">&#10007;</span> No idea what's working</div>
-            <div class="compare-item"><span class="icon">&#10007;</span> 20+ hours a week wasted</div>
-            <div class="compare-item"><span class="icon">&#10007;</span> Competitors outranking you</div>
-          </div>
-          <div class="compare-card order">
-            <div class="compare-badge">With PropCast</div>
-            <div class="compare-item"><span class="icon">&#10003;</span> Content created automatically</div>
-            <div class="compare-item"><span class="icon">&#10003;</span> Broadcast-quality videos</div>
-            <div class="compare-item"><span class="icon">&#10003;</span> Published on schedule</div>
-            <div class="compare-item"><span class="icon">&#10003;</span> Real-time performance data</div>
-            <div class="compare-item"><span class="icon">&#10003;</span> 0 hours of your time</div>
-            <div class="compare-item"><span class="icon">&#10003;</span> Dominating your market</div>
-            <div class="mini-dash">
-              <div class="mini-stat-row">
-                <div class="mini-stat">
-                  <div class="mini-stat-val">52</div>
-                  <div class="mini-stat-lbl">Posts</div>
-                </div>
-                <div class="mini-stat">
-                  <div class="mini-stat-val">14</div>
-                  <div class="mini-stat-lbl">Videos</div>
-                </div>
-                <div class="mini-stat">
-                  <div class="mini-stat-val">187K</div>
-                  <div class="mini-stat-lbl">Reach</div>
-                </div>
+    </div>
+  </nav>
+
+  <!-- HERO — F1, F2 -->
+  <section class="hero container">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Autonomous Content Engine</span>
+        <h1>Two videos below.<br/><span class="accent">Both of these are fake.</span></h1>
+        <p class="lede" style="margin-top: 24px;">
+          PropCast records you once for 6 minutes — then publishes broadcast-quality video to every platform you own. Forever. Built for agents who are busy, camera-shy, and sick of AI slop.
+        </p>
+        <div class="hero-cta-row">
+          <a href="propcast-signup.html" class="btn btn-primary btn-lg">Start free — no card required</a>
+          <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+        </div>
+        <div class="hero-trust-row">
+          <span><span class="check">✓</span> 10 min setup</span>
+          <span><span class="check">✓</span> Cancel anytime</span>
+          <span><span class="check">✓</span> You own your channels</span>
+          <span><span class="check">✓</span> Fair Housing checked</span>
+        </div>
+      </div>
+      <div class="compare-wrap">
+        <span class="compare-label">Which is the AI?</span>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <div class="compare-video-ph">
+              <div class="compare-face-wrap">
+                <div class="compare-face">G</div>
+                <div class="compare-face-caption">Video A</div>
               </div>
-              <div class="mini-bar"><div class="mini-bar-fill" style="width:92%;"></div></div>
+            </div>
+            <div class="compare-play">▶</div>
+            <div class="compare-meta">
+              <div class="compare-meta-top"><span>Reel · 38s</span><span>16.2K views</span></div>
+              <div class="compare-meta-title">East Palo Alto market update</div>
+            </div>
+          </div>
+          <div class="compare-card">
+            <div class="compare-video-ph">
+              <div class="compare-face-wrap">
+                <div class="compare-face">G</div>
+                <div class="compare-face-caption">Video B</div>
+              </div>
+            </div>
+            <div class="compare-play">▶</div>
+            <div class="compare-meta">
+              <div class="compare-meta-top"><span>Reel · 41s</span><span>22.8K views</span></div>
+              <div class="compare-meta-title">Redwood City price trend</div>
             </div>
           </div>
         </div>
+        <div class="compare-reveal">
+          Both. One was filmed. One was generated from 6 minutes of raw footage.<br/>
+          <strong>Can't tell them apart? That's the point.</strong>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PAIN POINTS -->
-<section>
-  <div class="container">
-    <div class="section-label reveal">Sound Familiar?</div>
-    <div class="pain-grid">
-      <div class="pain-card reveal">
-        <div class="pain-icon">&#128566;</div>
-        <div class="pain-title">"I don't know what to post"</div>
-        <div class="pain-desc">PropCast monitors your local market and national trends 24/7 and decides what content will perform best for your audience. You never have to think about it.</div>
-      </div>
-      <div class="pain-card reveal">
-        <div class="pain-icon">&#9203;</div>
-        <div class="pain-title">"Content takes forever to create"</div>
-        <div class="pain-desc">PropCast generates scripts, builds broadcast-quality videos using your avatar, writes captions, and publishes everywhere. You do nothing.</div>
-      </div>
-      <div class="pain-card reveal">
-        <div class="pain-icon">&#128200;</div>
-        <div class="pain-title">"I have no idea what's working"</div>
-        <div class="pain-desc">PropCast tracks every post, measures every result, and automatically adjusts your strategy based on real data. It scales what works and stops what doesn't.</div>
-      </div>
+  <!-- FRICTION BANNER — F2, F7 -->
+  <section class="friction-banner">
+    <div class="container friction-row">
+      <div class="friction-item"><span class="friction-x">✗</span> Another tool that eats 10 hours a week</div>
+      <div class="friction-item"><span class="friction-x">✗</span> AI slop your sphere will call out</div>
+      <div class="friction-item"><span class="friction-x">✗</span> Being "on" in front of a camera</div>
+      <div class="friction-item"><span class="friction-x">✗</span> Getting sued over a Fair Housing misstep</div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- HOW IT WORKS -->
-<section class="steps-section" id="how">
-  <div class="container">
-    <div class="section-label reveal">How It Works</div>
-    <h2 class="section-title reveal">Four Steps. Zero Effort.</h2>
-    <p class="section-sub reveal">One-time setup takes 5 minutes. Then PropCast runs your entire content operation on autopilot.</p>
+  <!-- HOW IT WORKS — F4, F7 -->
+  <section id="how" class="section-pad container">
+    <span class="eyebrow">How it works</span>
+    <h2>Four steps. Ten minutes. Then it runs on its own.</h2>
+    <p class="lede" style="margin-top: 16px;">This isn't "draft with AI and post manually." PropCast is the full machine — from market signal to published Reel — with humans checking every video before it goes live.</p>
+
     <div class="steps-grid">
-      <div class="step-card reveal">
-        <div class="step-num">1</div>
-        <div class="step-name">Input</div>
-        <div class="step-desc">Answer 5 brand voice questions. Upload your logo and colors. Enter your zip codes. Takes 5 minutes. One time only.</div>
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">See your market</div>
+        <div class="step-body">We scrape your area live and show you the content winning in your ZIPs right now. No signup yet.</div>
+        <div class="step-time">~30 seconds</div>
       </div>
-      <div class="step-card reveal">
-        <div class="step-num">2</div>
-        <div class="step-name">Create</div>
-        <div class="step-desc">PropCast generates scripts, builds professional videos using your AI avatar, writes platform-specific captions, and creates supporting graphics automatically.</div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Record 6 minutes</div>
+        <div class="step-body">On your phone. Stumble, sniff, restart — doesn't matter. We only need your face and voice once.</div>
+        <div class="step-time">~6 minutes</div>
       </div>
-      <div class="step-card reveal">
-        <div class="step-num">3</div>
-        <div class="step-name">Distribute</div>
-        <div class="step-desc">PropCast publishes to Instagram, Facebook, YouTube, and Google Business Profile on an optimized schedule — automatically adjusted based on when your audience is most active.</div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Meet your AI twin</div>
+        <div class="step-body">48 hours later your avatar is ready. You approve the look and voice before we touch a single post.</div>
+        <div class="step-time">48 hr wait</div>
       </div>
-      <div class="step-card reveal">
-        <div class="step-num">4</div>
-        <div class="step-name">Optimize</div>
-        <div class="step-desc">PropCast tracks every post, tests trending topics, measures results, and adjusts your content strategy automatically. It scales what works and stops what doesn't.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTS / METRICS -->
-<section>
-  <div class="container">
-    <div class="section-label reveal">Results That Speak</div>
-    <h2 class="section-title reveal">What PropCast Delivers Every Month</h2>
-    <p class="section-sub reveal">Real numbers from agents using PropCast. This is what a fully automated content engine looks like.</p>
-    <div class="metrics-grid">
-      <div class="metric-card reveal">
-        <div class="metric-val" data-count="52">0</div>
-        <div class="metric-label">Posts Published</div>
-      </div>
-      <div class="metric-card reveal">
-        <div class="metric-val" data-count="187400" data-suffix="" data-format="comma">0</div>
-        <div class="metric-label">Total Reach</div>
-      </div>
-      <div class="metric-card reveal">
-        <div class="metric-val" data-count="14">0</div>
-        <div class="metric-label">Videos Created</div>
-      </div>
-      <div class="metric-card reveal">
-        <div class="metric-val" data-count="7">0</div>
-        <div class="metric-label">New Leads Generated</div>
-      </div>
-      <div class="metric-card reveal">
-        <div class="metric-val" data-count="22">0</div>
-        <div class="metric-label">Hours Saved</div>
-      </div>
-      <div class="metric-card highlight reveal">
-        <div class="metric-val">Zero</div>
-        <div class="metric-label">Hours Of Your Time</div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-title">It publishes. Forever.</div>
+        <div class="step-body">3–5 videos per week across Reels, Shorts, TikTok, YouTube — with captions, disclosure, and your brand voice baked in.</div>
+        <div class="step-time">0 hr/week</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- SAMPLE CONTENT -->
-<section id="samples">
-  <div class="container">
-    <div class="section-label reveal">See The Quality</div>
-    <h2 class="section-title reveal">This Is What PropCast Creates For You</h2>
-    <p class="section-sub reveal">Every piece is built with your brand, your market data, and your AI avatar. Broadcast quality. Fully automated.</p>
-    <div class="samples-grid">
-      <div class="sample-card reveal">
-        <div class="sample-thumb">
-          <div class="sample-thumb-bg vid1"></div>
-          <div class="sample-thumb-overlay">
-            <div class="play-btn"></div>
-            <div class="sample-thumb-title">5 Things About Living in Palo Alto You Won't Find on Zillow</div>
-          </div>
+    <div class="time-callout">
+      <div><div class="time-stat-num">10 min</div><div class="time-stat-label">Total setup — from landing here to "I'm live"</div></div>
+      <div><div class="time-stat-num">6 min</div><div class="time-stat-label">Of video. One take. No script. No makeup.</div></div>
+      <div><div class="time-stat-num">0 hr</div><div class="time-stat-label">Per week after. Forever. Unless you want to review.</div></div>
+    </div>
+  </section>
+
+  <!-- TECHNICAL MOAT — F2, F3 -->
+  <section class="section-pad container">
+    <span class="eyebrow">Why this won't be AI slop</span>
+    <h2>Four things every "AI content" tool skips.<br/>We refuse to.</h2>
+    <p class="lede" style="margin-top: 16px;">Agents have been burned. "Powered by AI" is a liability in 2026. Here's exactly what's inside the engine — not the marketing version.</p>
+
+    <div class="moat-grid">
+      <div class="moat-card">
+        <div class="moat-head">
+          <div class="moat-icon">𝗦</div>
+          <div class="moat-title">SSML voice control</div>
         </div>
-        <div class="sample-meta">
-          <div class="sample-platform">&#9654;&#65039; YouTube Short</div>
-          <div class="sample-stats">
-            <div class="sample-stat"><strong>24.3K</strong> views</div>
-            <div class="sample-stat"><strong>6.2%</strong> engagement</div>
-          </div>
-        </div>
+        <div class="moat-body">Every script is tagged with <strong>speech synthesis markup</strong> — where to breathe, where to pause, where to emphasize. Without this, your clone sounds like a GPS robot. We refuse to generate a single line of audio without it.</div>
       </div>
-      <div class="sample-card reveal">
-        <div class="sample-thumb">
-          <div class="sample-thumb-bg vid2"></div>
-          <div class="sample-thumb-overlay">
-            <div class="play-btn"></div>
-            <div class="sample-thumb-title">April 2026 Market Update: 94303 Inventory Hits 18-Month Low</div>
-          </div>
+      <div class="moat-card">
+        <div class="moat-head">
+          <div class="moat-icon">𝗣</div>
+          <div class="moat-title">Your voice profile</div>
         </div>
-        <div class="sample-meta">
-          <div class="sample-platform">&#128248; Instagram Reel</div>
-          <div class="sample-stats">
-            <div class="sample-stat"><strong>18.7K</strong> reach</div>
-            <div class="sample-stat"><strong>4.8%</strong> engagement</div>
-          </div>
-        </div>
+        <div class="moat-body">We build a <strong>per-agent voice model</strong> from your recording — cadence, phrasing, filler words, the way you say "Menlo Park." Your avatar sounds like you. Not a generic real estate bot.</div>
       </div>
-      <div class="sample-card reveal">
-        <div class="sample-thumb">
-          <div class="sample-thumb-bg vid3"></div>
-          <div class="sample-thumb-overlay">
-            <div class="play-btn"></div>
-            <div class="sample-thumb-title">First-Time Buyer? Here's What $1.2M Gets You on the Peninsula</div>
-          </div>
+      <div class="moat-card">
+        <div class="moat-head">
+          <div class="moat-icon">Q</div>
+          <div class="moat-title">Humans check every video</div>
         </div>
-        <div class="sample-meta">
-          <div class="sample-platform">&#128218; Facebook Video</div>
-          <div class="sample-stats">
-            <div class="sample-stat"><strong>12.1K</strong> views</div>
-            <div class="sample-stat"><strong>5.4%</strong> engagement</div>
-          </div>
+        <div class="moat-body">Before anything publishes, a <strong>real person on our team</strong> reviews the audio and the final video. Lip sync, emphasis, compliance. If something looks off — it doesn't ship.</div>
+      </div>
+      <div class="moat-card">
+        <div class="moat-head">
+          <div class="moat-icon">⚖</div>
+          <div class="moat-title">Fair Housing, at generation time</div>
         </div>
+        <div class="moat-body">The prompt itself is <strong>guardrailed against protected-class language</strong>. Not a spellcheck after — it can't be written wrong in the first place. Your career matters too much for "oops."</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- REAL OR FAKE REVEAL -->
-<section style="padding:60px 0; background:rgba(0,194,168,0.02); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <div class="container" style="text-align:center;">
-    <div class="reveal">
-      <div style="font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--ink); margin-bottom:0.5rem;">Can you tell which one is AI?</div>
-      <p style="font-size:1rem; color:var(--gray); max-width:560px; margin:0 auto 2rem; line-height:1.7;">All three videos above were created by PropCast in under 60 seconds each. No videographer. No editor. No copywriter. Just your market data, your voice, and our AI engine.</p>
-      <div style="display:inline-flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; margin-bottom:2rem;">
-        <div style="background:var(--navy); border:1px solid var(--teal-border); border-radius:12px; padding:1rem 1.5rem; text-align:center;">
-          <div style="font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal);">60 sec</div>
-          <div style="font-size:0.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">To create each</div>
-        </div>
-        <div style="background:var(--navy); border:1px solid var(--teal-border); border-radius:12px; padding:1rem 1.5rem; text-align:center;">
-          <div style="font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal);">$0</div>
-          <div style="font-size:0.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Extra production cost</div>
-        </div>
-        <div style="background:var(--navy); border:1px solid var(--teal-border); border-radius:12px; padding:1rem 1.5rem; text-align:center;">
-          <div style="font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal);">100%</div>
-          <div style="font-size:0.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Your brand & voice</div>
-        </div>
-      </div>
+  <!-- AVATAR REVEAL TEASER — B1, B7 -->
+  <section class="section-pad container">
+    <div class="reveal-wrap">
       <div>
-        <a href="propcast-onboarding.html" style="display:inline-block; padding:14px 36px; background:linear-gradient(135deg,var(--teal),var(--teal-d)); color:#0a1628; border-radius:10px; font-size:0.9rem; font-weight:700; text-decoration:none; transition:all 0.3s;">See What PropCast Creates For You →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROOF METRIC -->
-<section style="padding:60px 0;">
-  <div class="container" style="text-align:center;">
-    <div class="reveal" style="background:var(--navy); border:1px solid var(--teal-border); border-radius:20px; padding:3rem 2rem; max-width:800px; margin:0 auto;">
-      <div style="font-family:'Syne',sans-serif; font-size:3.5rem; font-weight:800; color:var(--teal); margin-bottom:0.5rem;">8X</div>
-      <div style="font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--ink); margin-bottom:0.5rem;">More Content. One Quarter The Time.</div>
-      <div style="font-size:0.95rem; color:var(--gray); max-width:500px; margin:0 auto;">Agents using PropCast post 8X more content in 1/4 the time. Stop wasting four hours a week on content. Get 90% of your social done while you're actually with clients.</div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="container">
-    <div class="section-label reveal">Common Questions</div>
-    <h2 class="section-title reveal">Questions Agents Ask Before Starting</h2>
-    <div style="height:2rem;"></div>
-    <div class="faq-list">
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>How long does setup take?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner"><strong>New agents:</strong> Approximately 5 minutes. Answer brand voice questions, upload your logo and headshot, enter your zip codes, and record a quick video clip for your AI avatar. That's it — PropCast handles everything from there.<br><br><strong>Already have an AI avatar or ElevenLabs voice?</strong> About 2 minutes. Connect your existing avatar, import your voice, and you're live. PropCast detects what you already have and skips the steps you don't need.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Will it look professional?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Yes — and we don't just say that. Scroll up to see <a href="#samples" style="color:var(--teal);">real examples of PropCast-generated content</a>. Every video uses broadcast-quality AI generation with your personal avatar, your brand colors, professional motion graphics, and data overlays pulled from live market data. Captions are written in your voice, not generic templates.<br><br>Here's a quick comparison: <a href="#" style="color:var(--teal);">Neighborhood Tour Example</a> · <a href="#" style="color:var(--teal);">Market Update Example</a> · <a href="#" style="color:var(--teal);">Listing Highlight Example</a><br><br>Most agents tell us the content looks better than what they were paying a videographer $500/video to produce.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>What platforms does it post to?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Instagram, Facebook, YouTube, and Google Business Profile. All four, automatically. Each post is optimized for the specific platform's format and algorithm.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>What if my market is niche?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">PropCast works for any market, any property type, any brand voice. It pulls local MLS data and Google Trends specific to your zip codes and tailors every piece of content to your exact audience.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>How much does it cost?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Plans start at $197/month for Starter, $397/month for Growth (most popular), and $697/month for Dominate. All plans include a 14-day free trial. <a href="#pricing" style="color:var(--teal);">See full pricing details below.</a></div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Do I have to create any content myself?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">No. PropCast handles 90% of your content automatically. The only thing we never automate is your personal relationship moments — client wins, open house selfies, real-life stories. That 10% is yours, and it's actually more powerful because everything else is handled.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>What happens to my content if I cancel?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">You own everything PropCast creates. Download it all anytime. It's your content, your brand, your data — we just build and distribute it for you.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Can I cancel anytime?</span>
-          <span class="faq-arrow">&#9660;</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Yes. No contracts, no penalties. Cancel from your dashboard with one click. We think you'll stay because the results speak for themselves.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-  <div class="container">
-    <div class="section-label reveal">Simple Pricing</div>
-    <h2 class="section-title reveal">Choose Your Plan</h2>
-    <p class="section-sub reveal">Every plan includes a 14-day free trial. No credit card required to start.</p>
-
-    <div class="pricing-toggle reveal" style="margin-bottom:2.5rem;">
-      <div class="pricing-toggle-wrap" style="padding:6px; border-radius:32px; background:var(--navy); border:1px solid var(--teal-border);">
-        <button class="pricing-toggle-btn active" onclick="setPricing('monthly', this)" style="padding:10px 32px; font-size:0.9rem;">Monthly</button>
-        <button class="pricing-toggle-btn" onclick="setPricing('annual', this)" style="padding:10px 32px; font-size:0.9rem;">Annual</button>
-        <span class="pricing-save" style="font-size:0.78rem; padding:5px 14px;">Save 20%</span>
-      </div>
-    </div>
-
-    <div class="pricing-grid">
-      <div class="price-card reveal">
-        <div class="price-name">Starter</div>
-        <div class="price-tagline">Get visible</div>
-        <div class="price-amount">
-          <span class="currency">$</span><span class="price-num" data-monthly="197" data-annual="157">197</span><span class="period">/mo</span>
-        </div>
-        <div class="price-annual">Billed $1,884/year</div>
-        <ul class="price-features">
-          <li>20 social posts/month</li>
-          <li>2 market update videos</li>
-          <li>1 email campaign/month</li>
-          <li>Basic analytics dashboard</li>
-          <li>Single ZIP code coverage</li>
+        <span class="eyebrow">The reveal</span>
+        <h2>See your AI twin in 48 hours.<br/>First video publishes day 3.</h2>
+        <p class="lede" style="margin-top: 16px;">The first time you see yourself as an avatar is a weird, emotional moment. We've designed onboarding around it — you approve before we ever publish.</p>
+        <ul class="reveal-timeline">
+          <li class="reveal-step">
+            <div class="reveal-step-num">1</div>
+            <div>
+              <div class="reveal-step-title">Day 0 — You record</div>
+              <div class="reveal-step-body">6 minutes of raw footage on your phone. We handle upload and processing.</div>
+            </div>
+          </li>
+          <li class="reveal-step">
+            <div class="reveal-step-num">2</div>
+            <div>
+              <div class="reveal-step-title">Day 2 — Your twin is ready</div>
+              <div class="reveal-step-body">You review the avatar and voice clone. Hate the voice? Re-record once, no guilt.</div>
+            </div>
+          </li>
+          <li class="reveal-step">
+            <div class="reveal-step-num">3</div>
+            <div>
+              <div class="reveal-step-title">Day 3 — First video publishes</div>
+              <div class="reveal-step-body">Scripts reviewed by you for the first 2 weeks. After that, auto-pilot (or stay manual — your call).</div>
+            </div>
+          </li>
         </ul>
-        <a href="propcast-onboarding.html" class="price-btn">Start Free Trial</a>
       </div>
-
-      <div class="price-card featured reveal">
-        <div class="price-popular">Most Popular</div>
-        <div class="price-name">Growth</div>
-        <div class="price-tagline">Own your market</div>
-        <div class="price-amount">
-          <span class="currency">$</span><span class="price-num" data-monthly="397" data-annual="317">397</span><span class="period">/mo</span>
+      <div class="reveal-visual">
+        <div class="reveal-label"><span class="reveal-live-dot"></span> Your twin · live demo</div>
+        <div class="reveal-pulse">G</div>
+        <div class="reveal-bubble" id="reveal-bubble">
+          <span id="reveal-typed">Hey Graeham — I'm your avatar. Nice to finally meet you. Let's go make some videos.</span><span class="typing">|</span>
+          <div class="reveal-bubble-sub">— Your AI twin, day 2 of onboarding</div>
         </div>
-        <div class="price-annual">Billed $3,804/year</div>
-        <ul class="price-features">
-          <li>60 social posts/month</li>
-          <li>8 market update videos</li>
-          <li>4 email campaigns/month</li>
-          <li>Full analytics + scorecard</li>
-          <li>3 ZIP code coverage</li>
-          <li>Competitor monitoring</li>
-          <li>AI avatar videos</li>
-          <li>Priority content queue</li>
-        </ul>
-        <a href="propcast-onboarding.html" class="price-btn">Start Free Trial</a>
-      </div>
-
-      <div class="price-card reveal">
-        <div class="price-name">Dominate</div>
-        <div class="price-tagline">Be everywhere</div>
-        <div class="price-amount">
-          <span class="currency">$</span><span class="price-num" data-monthly="697" data-annual="557">697</span><span class="period">/mo</span>
-        </div>
-        <div class="price-annual">Billed $6,684/year</div>
-        <ul class="price-features">
-          <li>Unlimited social posts</li>
-          <li>20+ videos/month</li>
-          <li>Unlimited email campaigns</li>
-          <li>Full analytics suite</li>
-          <li>Unlimited ZIP coverage</li>
-          <li>Real-time competitor alerts</li>
-          <li>AI avatar + custom video</li>
-          <li>White-glove onboarding</li>
-          <li>Dedicated account manager</li>
-        </ul>
-        <a href="propcast-onboarding.html" class="price-btn">Start Free Trial</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FINAL CTA -->
-<section class="final-section">
-  <div class="container">
-    <h2 class="final-title reveal">Your Competition Is Already Posting.</h2>
-    <p class="final-sub reveal">Start today and let PropCast handle the rest.</p>
-    <a href="propcast-onboarding.html" class="final-cta reveal">Start Your Free Trial — Free For 14 Days</a>
-    <div class="final-fine reveal">No credit card required. Cancel anytime. Set up in 5 minutes.</div>
-  </div>
-</section>
+  <!-- SAMPLE CONTENT — B8 -->
+  <section id="samples" class="section-pad container">
+    <span class="eyebrow">See it in action</span>
+    <h2>Real PropCast output.<br/>From a real Bay Area agent.</h2>
+    <p class="lede" style="margin-top: 16px;">These are videos published through PropCast by Graeham Watts (founder, Intero Real Estate, DRE# 02015066). Zero actors, zero stock. Generated from 6 minutes of raw footage.</p>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div style="margin-bottom:0.8rem;">&copy; 2026 PropCast — Part of the PropOS Suite</div>
-    <div>
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Contact</a>
+    <div class="sample-grid">
+      <div class="sample-card">
+        <span class="sample-tag">Market update</span>
+        <div class="sample-play">▶</div>
+        <div class="sample-meta">
+          <div class="sample-title">Why EPA prices are holding</div>
+          <div class="sample-sub">Reel · 38s · 16.2K views</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <span class="sample-tag">BOFU</span>
+        <div class="sample-play">▶</div>
+        <div class="sample-meta">
+          <div class="sample-title">3 things sellers miss at listing</div>
+          <div class="sample-sub">Short · 42s · 8.4K views</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <span class="sample-tag">Relocation</span>
+        <div class="sample-play">▶</div>
+        <div class="sample-meta">
+          <div class="sample-title">Moving to Palo Alto for work?</div>
+          <div class="sample-sub">TikTok · 48s · 22.1K views</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <span class="sample-tag">Listing</span>
+        <div class="sample-play">▶</div>
+        <div class="sample-meta">
+          <div class="sample-title">1 Willow Rd walkthrough</div>
+          <div class="sample-sub">Reel · 51s · 11.8K views</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <span class="sample-tag">First-time buyer</span>
+        <div class="sample-play">▶</div>
+        <div class="sample-meta">
+          <div class="sample-title">What $1.2M actually buys</div>
+          <div class="sample-sub">Short · 40s · 9.3K views</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <span class="sample-tag">MOFU</span>
+        <div class="sample-play">▶</div>
+        <div class="sample-meta">
+          <div class="sample-title">AB 1482 for sellers explained</div>
+          <div class="sample-sub">YouTube · 2:48 · 3.1K views</div>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
+  </section>
 
-<script>
-// Reveal on scroll
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  <!-- SOCIAL PROOF — B2 -->
+  <section class="section-pad-sm container">
+    <span class="eyebrow">Agents using PropCast</span>
+    <h2>Real agents. Real results.<br/>Populated as the beta rolls out.</h2>
+    <div class="proof-empty-row">
+      <div class="proof-card">
+        <div class="proof-quote">"I shot 6 minutes on a Tuesday. Three weeks later I had 19 videos out and two seller calls I didn't have to source."</div>
+        <div class="proof-attrib">
+          <div class="proof-avatar">GW</div>
+          <div>
+            <div class="proof-name">Graeham Watts</div>
+            <div class="proof-role">Intero · East Palo Alto · Case study #1</div>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-placeholder-txt">Agent #2 — onboarding in progress. Full case study posted after 30 days of output.</div>
+        <div class="proof-attrib">
+          <div class="proof-avatar" style="opacity: 0.4;">?</div>
+          <div><div class="proof-name" style="color: var(--faint);">Coming soon</div></div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-placeholder-txt">Agent #3 — slot reserved. Want to be featured? Join the beta below.</div>
+        <div class="proof-attrib">
+          <div class="proof-avatar" style="opacity: 0.4;">?</div>
+          <div><div class="proof-name" style="color: var(--faint);">Coming soon</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  <!-- PRICING — F8, B3 -->
+  <section id="pricing" class="section-pad container">
+    <span class="eyebrow">Pricing</span>
+    <h2>$349 a month.<br/>Here's what that actually is.</h2>
+    <p class="lede" style="margin-top: 16px;">A flat number in a vacuum is meaningless. Anchored to what you already spend, it's a no-brainer.</p>
 
-// Counter animation
-let counted = false;
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !counted) {
-      counted = true;
-      document.querySelectorAll('.metric-val[data-count]').forEach(el => {
-        const target = parseInt(el.dataset.count);
-        const format = el.dataset.format;
-        const duration = 1500;
-        const start = performance.now();
+    <div class="pricing-wrap">
+      <div>
+        <div class="price-main">$349<span style="font-size: 22px; color: var(--gray-l); font-weight: 500;">/mo</span></div>
+        <div class="price-sub">Growth tier. Cancel anytime. You keep your channels.</div>
+        <ul class="price-includes">
+          <li>3–5 videos per week, every week</li>
+          <li>Your avatar + voice clone (HeyGen + ElevenLabs Professional)</li>
+          <li>Fair Housing guardrailed scripts</li>
+          <li>Auto-publish to YouTube, Reels, Shorts, TikTok, GBP</li>
+          <li>AI disclosure + captions on every platform</li>
+          <li>Human QC review before every post</li>
+          <li>Pause, re-record, or cancel with one click</li>
+        </ul>
+      </div>
+      <div class="price-anchor">
+        <div class="anchor-row">
+          <div>
+            <div class="anchor-cmp">vs. Hiring a videographer</div>
+            <div class="anchor-txt">One shoot + edit from a pro runs <strong>$500–$1,500</strong> per video (varies by market — SF Bay skews high, secondary markets lower). PropCast delivers <strong>12–20 videos a month</strong> for less than the cost of ONE.</div>
+          </div>
+        </div>
+        <div class="anchor-row">
+          <div>
+            <div class="anchor-cmp">vs. Your own time</div>
+            <div class="anchor-txt">Filming + editing + captioning + scheduling = <strong>6–10 hours per video</strong> done right. At a $150/hr agent-hour, that's <strong>$900–$1,500 of opportunity cost</strong> per video. PropCast replaces that entire week of work.</div>
+          </div>
+        </div>
+        <div class="anchor-row">
+          <div>
+            <div class="anchor-cmp">vs. Hiring a VA</div>
+            <div class="anchor-txt">A part-time social VA runs <strong>$1,200–$1,800/mo</strong>. PropCast is roughly 1/4 the cost — and doesn't quit, call in sick, or miss a deadline.</div>
+          </div>
+        </div>
+        <div class="anchor-row">
+          <div>
+            <div class="anchor-cmp">vs. Facebook ads</div>
+            <div class="anchor-txt">Most agents spend <strong>$400+/week</strong> on boosted posts. PropCast is less than ONE week of that — and it's organic reach, not paid.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function update(now) {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          let current = Math.round(target * eased);
+    <div style="margin-top: 40px; padding: 32px; background: var(--navy-card); border: 1px solid var(--border); border-radius: 16px;">
+      <div style="font-size: 13px; color: var(--teal); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;">The one-number pitch</div>
+      <div style="font-size: 17px; color: var(--ink); line-height: 1.7;">
+        The old way: one listing videographer ($800), plus 40 hours of your own filming + editing time ($6,000 of agent-hours), plus a VA for scheduling ($1,500), plus Fiverr captions ($300). That's <strong style="color: var(--teal);">$8,600/month — and a dozen tools to manage.</strong>
+        <br/><br/>
+        The PropCast way: <strong style="color: var(--teal);">$349/month</strong>. One dashboard. Done.
+      </div>
+    </div>
+  </section>
 
-          if (format === 'comma') {
-            el.textContent = current.toLocaleString();
-          } else {
-            el.textContent = current;
-          }
+  <!-- TRUST BADGES — F3, F5, B6 -->
+  <section class="section-pad-sm container">
+    <span class="eyebrow">Control &amp; trust</span>
+    <h2>You stay in the driver's seat.</h2>
+    <div class="trust-grid">
+      <div class="trust-card"><div class="trust-icon">✓</div><div><div class="trust-title">You own your channels</div><div class="trust-body">We connect via OAuth. If you cancel, your content stays. We revoke our tokens. Done.</div></div></div>
+      <div class="trust-card"><div class="trust-icon">✓</div><div><div class="trust-title">Review scripts before they publish</div><div class="trust-body">Default ON for your first 2 weeks. Flip it off when you trust us. Flip it back on anytime.</div></div></div>
+      <div class="trust-card"><div class="trust-icon">✓</div><div><div class="trust-title">AI disclosure, automatic</div><div class="trust-body">YouTube, Meta, and TikTok all require it. We add it per-platform. You never forget.</div></div></div>
+      <div class="trust-card"><div class="trust-icon">✓</div><div><div class="trust-title">Fair Housing checked at generation</div><div class="trust-body">Our prompt itself refuses protected-class language. Not a filter after — prevented up front.</div></div></div>
+      <div class="trust-card"><div class="trust-icon">✓</div><div><div class="trust-title">"Avoid these topics" list</div><div class="trust-body">Politics, competitors, personal stuff. Anything on your list, PropCast won't touch.</div></div></div>
+      <div class="trust-card"><div class="trust-icon">✓</div><div><div class="trust-title">Cancel in one click</div><div class="trust-body">No phone tree. No retention specialist. One button. Month-to-month, no contract.</div></div></div>
+    </div>
+  </section>
 
-          if (progress < 1) requestAnimationFrame(update);
-        }
-        requestAnimationFrame(update);
+  <!-- COMPETITIVE FRAMING — F11 -->
+  <section class="section-pad container">
+    <span class="eyebrow">vs. DIY / courses</span>
+    <h2>You could absolutely build this yourself.</h2>
+    <p class="lede" style="margin-top: 16px;">Jason Pantana's AI Marketing Academy will walk you through it. It's a great course. Most agents who take it still don't publish consistently — because the bottleneck isn't knowledge, it's hours.</p>
+
+    <div class="compete-wrap">
+      <div class="compete-row">
+        <div>
+          <div class="compete-label">The DIY path</div>
+          <div class="compete-line">Learn HeyGen, ElevenLabs, Claude, Opus Clip, CapCut, ManyChat, a scheduler, a caption tool.</div>
+          <div class="compete-sub">Build your own workflow. Maintain it. Troubleshoot it. Update it every time a platform changes policy. ~20 hours/week to run well.</div>
+        </div>
+        <div class="divider-v"></div>
+        <div>
+          <div class="compete-label">PropCast</div>
+          <div class="compete-line">Done for you. Same tools, same quality, ~10 min/week.</div>
+          <div class="compete-sub">Pantana-approved (we co-build with him).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IS THIS RIGHT FOR ME — F13, B5 -->
+  <section class="section-pad-sm container">
+    <span class="eyebrow">Honest check</span>
+    <h2>Is PropCast right for you?</h2>
+    <p class="lede" style="margin-top: 16px;">We'd rather you self-disqualify here than churn in month 2. Read both sides.</p>
+
+    <div class="fit-grid">
+      <div class="fit-card yes">
+        <div class="fit-head yes">✓ You're a fit if…</div>
+        <ul class="fit-list">
+          <li>You work a defined market (county, city, or a cluster of ZIPs)</li>
+          <li>You want organic content but can't find 10 hours a week</li>
+          <li>You're on at least one of: Instagram, YouTube, TikTok, Facebook</li>
+          <li>You're comfortable recording 6 minutes of raw footage once</li>
+          <li>You want inbound leads, not just "brand awareness"</li>
+        </ul>
+      </div>
+      <div class="fit-card no">
+        <div class="fit-head no">✗ Not a fit if…</div>
+        <ul class="fit-list">
+          <li>You don't want to be on social media at all (totally valid, different product)</li>
+          <li>Your brokerage blocks all third-party marketing tools</li>
+          <li>You won't record 6 minutes on camera, no matter what</li>
+          <li>You need same-day turnarounds (we take 48 hrs for your first video)</li>
+          <li>You want to DIY and control every prompt yourself — take the course</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ — F8, F9, F12, F14 -->
+  <section id="faq" class="section-pad container">
+    <span class="eyebrow">FAQ</span>
+    <h2>The questions every agent asks first.</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q">What happens if I cancel? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>All content already published stays on your channels — you own those. We revoke our OAuth tokens so PropCast can no longer post. Your avatar and voice clone are deleted within 30 days unless you request them retained. No cancellation fees. No retention calls.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Will my brokerage let me use this? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Most yes, some no. If your brokerage approves third-party marketing tools (eXp, Keller Williams, Intero, most boutiques), PropCast works as-is. If your brokerage mandates central content approval (some franchise models), we offer an Enterprise tier with broker dashboards and approval gates — talk to us and we'll work it out.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Will AI content hurt my SEO or reach? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Honestly — not if it's disclosed and high-quality. YouTube, Meta, and TikTok all have explicit policies that say disclosed AI content is fine. What gets punished is undisclosed spam content. We disclose automatically on every platform that requires it. Google's documentation is public on this — AI-assisted content that provides value is not penalized.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">I already have a VA / marketing agency / a kid who does my social. <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Different products, different strengths. A VA is good for replies and scheduling — bad at creative. An agency is good at campaigns — bad at weekly consistent volume. PropCast is specifically an always-on video engine. Most of our users keep their VA and add PropCast for the video layer.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What if I don't like my voice clone? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Re-record, no guilt. Your first 48 hours include a review call where you approve or reject the clone. If it's off, we re-do it. No charge, no awkwardness. Voice is personal — we get it.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What happens when I'm on vacation? Do I want this still posting? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Your call. You can pause anytime from the dashboard. Some agents love that PropCast keeps running during vacations (their sphere doesn't know they're gone). Others want to pause and resume — both work.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How fast can I actually get live? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Day 0 you record. Day 2 you see your avatar. Day 3 your first video publishes. If you want to review scripts before publishing (recommended for the first 2 weeks), add 15 min/week of review time. After that, zero.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Where do my leads go? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Your existing CRM. We integrate with most (GoHighLevel, FollowUpBoss, kvCORE, Sierra Interactive, Chime). Every caption includes a dynamic tracking link so you know which video drove the lead. This is the PropReach attribution layer — included.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="container">
+    <div class="cta-wrap">
+      <h2>See what's happening in your market in 30 seconds.</h2>
+      <p class="lede">No card. No signup wall. We'll show you what's winning in your ZIPs before we ask you to do anything else.</p>
+      <a href="propcast-signup.html" class="btn btn-primary btn-lg">Start free — see my market</a>
+      <div class="cta-microtxt">No credit card · Cancel anytime · You own your channels</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot-inner">
+      <div>
+        © 2026 PropCast · Built by Graeham Watts
+        <div class="foot-dre">Intero Real Estate · DRE# 02015066</div>
+      </div>
+      <div class="foot-links">
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:hello@propcast.ai">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!open) item.classList.add('open');
       });
-    }
-  });
-}, { threshold: 0.3 });
+    });
 
-const metricsSection = document.querySelector('.metrics-grid');
-if (metricsSection) counterObserver.observe(metricsSection);
-
-// FAQ toggle
-function toggleFaq(el) {
-  const item = el.parentElement;
-  const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!wasOpen) item.classList.add('open');
-}
-
-// Pricing toggle
-function setPricing(mode, btn) {
-  document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  document.querySelectorAll('.price-num').forEach(el => {
-    const val = mode === 'annual' ? el.dataset.annual : el.dataset.monthly;
-    el.textContent = val;
-  });
-
-  document.querySelectorAll('.price-annual').forEach(el => {
-    el.style.display = mode === 'annual' ? 'block' : 'none';
-  });
-}
-</script>
-
+    // Avatar typing effect — "Hey, I'm your avatar..."
+    (function(){
+      const el = document.getElementById('reveal-typed');
+      if (!el) return;
+      const full = "Hey Graeham — I'm your avatar. Nice to finally meet you. Let's go make some videos.";
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !el.dataset.done) {
+            el.dataset.done = '1';
+            el.textContent = '';
+            let i = 0;
+            const tick = () => {
+              if (i <= full.length) {
+                el.textContent = full.slice(0, i);
+                i++;
+                setTimeout(tick, 34);
+              }
+            };
+            tick();
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(el);
+    })();
+  </script>
 </body>
 </html>
