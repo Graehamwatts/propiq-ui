@@ -548,6 +548,30 @@
        ==================================================================== -->
   <script defer data-domain="propcast.ai" src="https://plausible.io/js/script.tagged-events.js"></script>
   <script>window.plausible = window.plausible || function(){(window.plausible.q = window.plausible.q || []).push(arguments)}</script>
+  <style>
+    /* UNIFIED COMPLIANCE FOOTER */
+    .pc-footer {
+      margin-top: 72px; padding: 28px 0 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12.5px; color: rgba(255, 255, 255, 0.45);
+    }
+    .pc-footer .pc-foot-inner {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center;
+    }
+    .pc-footer strong { color: rgba(255, 255, 255, 0.75); font-weight: 600; }
+    .pc-footer .pc-foot-right { display: flex; gap: 20px; flex-wrap: wrap; }
+    .pc-footer a { color: var(--teal-b); text-decoration: none; }
+    .pc-footer a:hover { color: var(--teal-a); border-bottom: 1px dotted var(--teal-b); }
+    .pc-footer .pc-foot-legal {
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 11.5px; color: rgba(255, 255, 255, 0.35);
+      line-height: 1.6;
+    }
+    @media (max-width: 600px) {
+      .pc-footer .pc-foot-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+  </style>
 </head>
 <body>
   <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
@@ -835,5 +859,22 @@
       75% { transform: translateX(6px); }
     }
   </style>
+  <!-- COMPLIANCE FOOTER -->
+  <footer class="pc-footer">
+    <div class="container">
+      <div class="pc-foot-inner">
+        <div>
+          <strong>Graeham Watts</strong> · REALTOR<sup>®</sup> · Intero Real Estate Services · DRE# 02015066
+        </div>
+        <div class="pc-foot-right">
+          <a href="index.html">PropCast home</a>
+          <a href="mailto:hello@propcast.ai">Contact</a>
+        </div>
+      </div>
+      <div class="pc-foot-legal">
+        &copy; 2026 PropCast. AI-generated content disclosed on every platform. Fair Housing compliant. Equal Housing Opportunity. All video content produced by PropCast is reviewed by a human before publication.
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
