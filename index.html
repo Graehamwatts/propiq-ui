@@ -240,6 +240,65 @@
     }
 
 
+
+    /* CINEMATIC AD SLOT — self-proving ad placeholder */
+    .cine-section { padding: 72px 0 88px; position: relative; z-index: 1; }
+    .cine-wrap { max-width: 1080px; margin: 0 auto; }
+    .cine-head { text-align: center; max-width: 760px; margin: 0 auto 40px; }
+    .cine-head h2 { margin-top: 14px; }
+    .cine-head .lede { margin-top: 14px; }
+
+    .cine-frame {
+      position: relative; aspect-ratio: 16/9; width: 100%;
+      border-radius: 18px; overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(0, 194, 168, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, #0a0d11 0%, #060809 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cine-frame::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg, transparent 0 48px, rgba(255, 255, 255, 0.013) 48px 49px);
+      pointer-events: none;
+    }
+    .cine-placeholder {
+      text-align: center; padding: 40px; max-width: 540px; position: relative; z-index: 1;
+    }
+    .cine-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 100px;
+      background: rgba(0, 194, 168, 0.10);
+      border: 1px solid rgba(0, 194, 168, 0.25);
+      font-size: 11px; font-weight: 600; color: var(--teal-b);
+      letter-spacing: 0.8px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .cine-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);
+      animation: livePulse 1.8s ease-in-out infinite;
+    }
+    .cine-placeholder h3 {
+      font-size: 22px; color: white; margin: 0 0 12px; font-weight: 600; line-height: 1.3;
+    }
+    .cine-placeholder p {
+      font-size: 14px; color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6; margin: 0;
+    }
+    .cine-play-stub {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      color: rgba(255, 255, 255, 0.2);
+    }
+    .cine-caption {
+      text-align: center; margin-top: 22px;
+      font-size: 12.5px; color: rgba(255, 255, 255, 0.4); font-style: italic;
+    }
+
     /* REEL CAROUSEL — proof layer showing real PropCast output */
     .reels-section { padding: 88px 0 72px; position: relative; z-index: 1; }
     .reels-head { text-align: center; max-width: 760px; margin: 0 auto 48px; }
@@ -1960,6 +2019,32 @@
 
     <div class="reels-footer">
       Placeholder tiles shown. <a href="propcast-hook-analysis.html" class="plausible-event-name=Reels+CaseStudy+Click">See the full analysis of Graeham's channel →</a>
+    </div>
+  </section>
+
+  <!-- CINEMATIC AD SLOT — coming soon placeholder -->
+  <section class="cine-section container">
+    <div class="cine-wrap">
+      <div class="cine-head">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Coming soon</span>
+        <h2>The ad for PropCast. <em class="gradient-text">Made with PropCast.</em></h2>
+        <p class="lede">We're producing the ad you'll watch right here — using the same engine we're selling. When it ships, it plays in this frame. Until then, the frame is intentionally empty.</p>
+      </div>
+
+      <div class="cine-frame">
+        <div class="cine-placeholder">
+          <div class="cine-play-stub">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="cine-badge"><span class="cine-badge-dot"></span> Film in production</div>
+          <h3>The ad drops once we've made it.</h3>
+          <p>No stock footage, no AI slop, no placeholder we tried to sneak past you. When this frame lights up, you're watching a cinematic ad written, filmed, edited, and voiced by PropCast on Graeham's avatar.</p>
+        </div>
+      </div>
+
+      <div class="cine-caption">
+        You'll see exactly the same pipeline your content runs on. If the ad's weak, the product's weak. We're betting both ways.
+      </div>
     </div>
   </section>
 
