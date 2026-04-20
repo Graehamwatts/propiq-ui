@@ -416,6 +416,15 @@
       .hook-card { padding: 22px 20px; }
     }
   </style>
+
+  <!-- ====================================================================
+       Plausible Analytics (placeholder — swap data-domain when live)
+       To activate: create account at plausible.io, add domain, then
+       change data-domain below. The tagged-events variant auto-tracks
+       any element with class 'plausible-event-name=...'
+       ==================================================================== -->
+  <script defer data-domain="propcast.ai" src="https://plausible.io/js/script.tagged-events.js"></script>
+  <script>window.plausible = window.plausible || function(){(window.plausible.q = window.plausible.q || []).push(arguments)}</script>
 </head>
 <body>
   <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
@@ -536,7 +545,7 @@
       <h2>Seen enough? <em>Claim your founding seat.</em></h2>
       <p>This is exactly what we'd build for you in your first 48 hours. If you want the same analysis on your market + the 12-week production plan, grab a spot in the founding cohort &mdash; limited to 25 agents, locked at the founding price.</p>
       <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 20px;">
-        <a href="propcast-founding-seat.html" id="claimSeatLink" class="btn btn-primary">
+        <a href="propcast-founding-seat.html" id="claimSeatLink" class="btn btn-primary plausible-event-name=Claim+Seat+Click">
           <span>Claim my founding seat</span>
           <span class="btn-arrow">&rarr;</span>
         </a>
