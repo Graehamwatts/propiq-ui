@@ -61,11 +61,6 @@
       background-size: 80px 80px;
       pointer-events: none; z-index: 0;
     }
-    .orb-wrap { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(130px); opacity: 0.3; will-change: transform; }
-    .orb-1 { width: 640px; height: 640px; background: radial-gradient(circle, rgba(0,194,168,0.4) 0%, transparent 70%); top: -18%; right: -12%; animation: oFloat1 22s ease-in-out infinite; }
-    .orb-2 { width: 540px; height: 540px; background: radial-gradient(circle, rgba(167,139,250,0.28) 0%, transparent 70%); bottom: -14%; left: -10%; animation: oFloat2 26s ease-in-out infinite; }
-    .orb-3 { width: 440px; height: 440px; background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%); top: 45%; left: 38%; animation: oFloat3 20s ease-in-out infinite; }
     @keyframes oFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-50px,70px) scale(1.05)} 66%{transform:translate(-30px,-50px) scale(0.95)} }
     @keyframes oFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,-80px) scale(1.08)} }
     @keyframes oFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,60px) scale(0.96)} }
@@ -207,7 +202,7 @@
     h3 { font-size: clamp(22px, 2.6vw, 28px); font-weight: 600; letter-spacing: -0.02em; }
     .lede { font-size: clamp(17px, 1.6vw, 20px); color: var(--gray-l); max-width: 680px; line-height: 1.55; font-weight: 400; }
     .gradient-text {
-      background: linear-gradient(135deg, var(--teal-b) 0%, var(--teal) 40%, var(--purple) 100%);
+      background: linear-gradient(135deg, var(--teal-b) 0%, var(--teal) 100%);
       -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -1873,7 +1868,6 @@
   <script>window.plausible = window.plausible || function(){(window.plausible.q = window.plausible.q || []).push(arguments)}</script>
 </head>
 <body>
-  <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 
   <!-- NAV -->
   <nav class="nav">
