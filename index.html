@@ -236,159 +236,166 @@
 
 
 
-    /* CINEMATIC AD SLOT — self-proving ad placeholder */
-    .cine-section { padding: 72px 0 88px; position: relative; z-index: 1; }
-    .cine-wrap { max-width: 1080px; margin: 0 auto; }
-    .cine-head { text-align: center; max-width: 760px; margin: 0 auto 40px; }
-    .cine-head h2 { margin-top: 14px; }
-    .cine-head .lede { margin-top: 14px; }
-
-    .cine-frame {
-      position: relative; aspect-ratio: 16/9; width: 100%;
-      border-radius: 18px; overflow: hidden;
-      background:
-        radial-gradient(circle at 50% 45%, rgba(0, 194, 168, 0.06) 0%, transparent 60%),
-        linear-gradient(180deg, #0a0d11 0%, #060809 100%);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .cine-frame::before {
-      content: ''; position: absolute; inset: 0;
-      background: repeating-linear-gradient(45deg, transparent 0 48px, rgba(255, 255, 255, 0.013) 48px 49px);
-      pointer-events: none;
-    }
-    .cine-placeholder {
-      text-align: center; padding: 40px; max-width: 540px; position: relative; z-index: 1;
-    }
-    .cine-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 14px; border-radius: 100px;
-      background: rgba(0, 194, 168, 0.10);
-      border: 1px solid rgba(0, 194, 168, 0.25);
-      font-size: 11px; font-weight: 600; color: var(--teal-b);
-      letter-spacing: 0.8px; text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .cine-badge-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);
-      animation: livePulse 1.8s ease-in-out infinite;
-    }
-    .cine-placeholder h3 {
-      font-size: 22px; color: white; margin: 0 0 12px; font-weight: 600; line-height: 1.3;
-    }
-    .cine-placeholder p {
-      font-size: 14px; color: rgba(255, 255, 255, 0.55);
-      line-height: 1.6; margin: 0;
-    }
-    .cine-play-stub {
-      width: 72px; height: 72px; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed rgba(255, 255, 255, 0.15);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      color: rgba(255, 255, 255, 0.2);
-    }
-    .cine-caption {
-      text-align: center; margin-top: 22px;
-      font-size: 12.5px; color: rgba(255, 255, 255, 0.4); font-style: italic;
-    }
-
-    /* REEL CAROUSEL — proof layer showing real PropCast output */
-    .reels-section { padding: 88px 0 72px; position: relative; z-index: 1; }
-    .reels-head { text-align: center; max-width: 760px; margin: 0 auto 48px; }
+    /* REEL CAROUSEL — horizontal snap-scroll with inline playback */
+    .reels-section { padding: 88px 0 56px; position: relative; z-index: 1; }
+    .reels-head { text-align: center; max-width: 760px; margin: 0 auto 40px; padding: 0 24px; }
     .reels-head h2 { margin-top: 14px; }
     .reels-head .lede { margin-top: 14px; }
 
-    .reels-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 22px; max-width: 1160px; margin: 0 auto;
+    .reels-scroll-wrap { position: relative; }
+    .reels-scroll {
+      display: flex; gap: 20px;
+      overflow-x: auto; overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px max(24px, calc((100vw - 420px) / 2)) 30px;
+      scrollbar-width: none; -ms-overflow-style: none;
     }
-    @media (max-width: 900px) { .reels-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 520px) { .reels-grid { grid-template-columns: 1fr; } }
+    .reels-scroll::-webkit-scrollbar { display: none; }
 
     .reel-card {
-      position: relative; aspect-ratio: 9/16;
-      border-radius: 14px; overflow: hidden;
-      background: #0a0d11;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      flex: 0 0 360px; aspect-ratio: 9/16;
+      position: relative; border-radius: 18px; overflow: hidden;
+      background: #0a0d11; border: 1px solid rgba(255, 255, 255, 0.06);
+      scroll-snap-align: center;
       cursor: pointer;
-      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      transition: transform 260ms cubic-bezier(.2,.7,.2,1), border-color 260ms ease, box-shadow 260ms ease;
     }
-    .reel-card:hover {
+    @media (max-width: 520px) {
+      .reel-card { flex: 0 0 85vw; }
+      .reels-scroll { padding: 20px 7.5vw 30px; }
+    }
+    .reel-card:hover, .reel-card:focus-visible {
       transform: translateY(-4px);
-      border-color: rgba(0, 194, 168, 0.3);
-      box-shadow: 0 22px 40px -18px rgba(0, 0, 0, 0.6), 0 0 30px -10px rgba(0, 194, 168, 0.25);
+      border-color: rgba(0, 194, 168, 0.35);
+      box-shadow: 0 26px 52px -22px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0, 194, 168, 0.15);
+      outline: none;
     }
 
-    /* Placeholder gradient thumbnail — swap for real video thumbs later */
-    .reel-thumb {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, #10171f 0%, #0a0d11 100%);
-      display: flex; align-items: center; justify-content: center;
+    /* Video element itself — swap poster + src when real reels land */
+    .reel-video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; background: linear-gradient(135deg, #10171f 0%, #0a0d11 100%);
     }
-    .reel-thumb-inner {
-      width: 70%; height: 40%;
-      border-radius: 10px;
+    .reel-video-stub {
+      position: absolute; inset: 0;
       background:
-        linear-gradient(135deg, rgba(0, 194, 168, 0.08), rgba(255, 255, 255, 0.02)),
-        repeating-linear-gradient(45deg, transparent 0 12px, rgba(255, 255, 255, 0.02) 12px 13px);
+        linear-gradient(135deg, rgba(0, 194, 168, 0.06), rgba(255, 255, 255, 0.01)),
+        linear-gradient(135deg, #10171f 0%, #0a0d11 100%);
+    }
+    .reel-video-stub::after {
+      content: ''; position: absolute; inset: 15% 18%;
+      border-radius: 10px;
+      background: repeating-linear-gradient(45deg, transparent 0 12px, rgba(255, 255, 255, 0.018) 12px 13px);
       opacity: 0.7;
     }
 
     .reel-play {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 56px; height: 56px; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.96);
+      width: 68px; height: 68px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.97);
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      transition: transform 180ms ease;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+      transition: transform 180ms ease, opacity 220ms ease;
+      pointer-events: none;
     }
+    .reel-card.is-playing .reel-play { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
     .reel-card:hover .reel-play { transform: translate(-50%, -50%) scale(1.08); }
-    .reel-play svg { color: #0a0d11; margin-left: 2px; }
+    .reel-play svg { color: #0a0d11; margin-left: 3px; }
 
     .reel-platform {
-      position: absolute; top: 12px; right: 12px;
-      padding: 4px 10px; border-radius: 100px;
-      background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      position: absolute; top: 14px; right: 14px;
+      padding: 5px 11px; border-radius: 100px;
+      background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       font-size: 10.5px; font-weight: 600; color: white;
       letter-spacing: 0.4px;
     }
     .reel-views {
-      position: absolute; top: 12px; left: 12px;
-      padding: 4px 10px; border-radius: 100px;
-      background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      font-size: 10.5px; color: rgba(255, 255, 255, 0.9); font-weight: 500;
-      display: flex; align-items: center; gap: 5px;
+      position: absolute; top: 14px; left: 14px;
+      padding: 5px 11px; border-radius: 100px;
+      background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-size: 10.5px; color: rgba(255, 255, 255, 0.92); font-weight: 500;
     }
-
     .reel-meta {
       position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 18px 14px 14px;
-      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 65%);
+      padding: 24px 16px 16px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.88) 55%);
+      transition: opacity 220ms ease;
     }
+    .reel-card.is-playing .reel-meta { opacity: 0; pointer-events: none; }
     .reel-title {
-      font-size: 13.5px; font-weight: 500; color: white;
-      line-height: 1.38; margin-bottom: 6px;
+      font-size: 14px; font-weight: 500; color: white;
+      line-height: 1.4; margin-bottom: 8px;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     .reel-madewith {
       display: inline-flex; align-items: center; gap: 5px;
       font-size: 10px; color: var(--teal-b);
-      padding: 2px 8px; border-radius: 100px;
-      background: rgba(0, 194, 168, 0.15);
-      border: 1px solid rgba(0, 194, 168, 0.28);
+      padding: 3px 9px; border-radius: 100px;
+      background: rgba(0, 194, 168, 0.16);
+      border: 1px solid rgba(0, 194, 168, 0.3);
       font-weight: 600; letter-spacing: 0.3px;
     }
-    .reel-madewith::before {
-      content: '▸'; font-size: 9px; color: var(--teal-b);
+    .reel-madewith::before { content: '▸'; font-size: 9px; color: var(--teal-b); }
+
+    /* Scroll arrows */
+    .reels-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(15, 18, 22, 0.9); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white; cursor: pointer; z-index: 5;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 180ms ease, transform 180ms ease;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
+    .reels-arrow:hover { background: rgba(0, 194, 168, 0.2); transform: translateY(-50%) scale(1.06); }
+    .reels-arrow.left { left: 16px; }
+    .reels-arrow.right { right: 16px; }
+    @media (max-width: 720px) { .reels-arrow { display: none; } }
 
     .reels-footer {
-      text-align: center; margin-top: 36px;
-      font-size: 12.5px; color: rgba(255, 255, 255, 0.4); font-style: italic;
+      text-align: center; margin-top: 8px; padding: 0 24px;
+      font-size: 12.5px; color: rgba(255, 255, 255, 0.42); font-style: italic;
     }
     .reels-footer a { color: var(--teal-b); text-decoration: none; border-bottom: 1px dotted var(--teal-b); }
+
+    /* MONTH 1 PROOF BLOCK — commitment, not claim */
+    .m1-section { padding: 56px 0 88px; position: relative; z-index: 1; }
+    .m1-wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    .m1-head { text-align: center; max-width: 720px; margin: 0 auto 40px; }
+    .m1-head h2 { margin-top: 14px; }
+    .m1-head .lede { margin-top: 14px; }
+    .m1-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 18px; padding: 6px 14px; border-radius: 100px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 11.5px; color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 0.3px;
+    }
+    .m1-timeline {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      position: relative;
+    }
+    @media (max-width: 820px) { .m1-timeline { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .m1-timeline { grid-template-columns: 1fr; } }
+    .m1-cell {
+      position: relative; padding: 28px 24px 26px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .m1-week { font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--teal-b); margin-bottom: 8px; }
+    .m1-big { font-size: 34px; line-height: 1.05; color: white;
+      font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .m1-big em { color: var(--teal-b); font-style: normal; font-weight: 700; }
+    .m1-what { font-size: 13.5px; color: rgba(255, 255, 255, 0.6); line-height: 1.55; }
+    .m1-total {
+      text-align: center; margin-top: 28px;
+      font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 500;
+    }
+    .m1-total strong { color: white; font-weight: 700; }
 
     /* HERO — agent-first split layout (copy left, photo right) */
     .hero { padding: 96px 0 64px; }
@@ -1888,8 +1895,8 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Built by an agent, for agents</span>
-        <h1>Tired of burning <em class="gradient-text">10 hours a week</em> on content nobody watches?</h1>
-        <p class="lede">Get your weekends back. PropCast films, edits, captions, and publishes broadcast-quality video to every platform you own — while you're out showing houses.</p>
+        <h1>You're a great agent. <em class="gradient-text">Your feed makes you look inactive.</em></h1>
+        <p class="lede">PropCast ships 3–5 broadcast-quality Reels a week from your face, voice, and market — while you're out showing houses. 10 minutes to get set up. Zero minutes per video after that.</p>
         <div class="hero-cta-row">
           <a href="propcast-signup.html" class="btn btn-primary btn-xl plausible-event-name=Hero+CTA+Click">See how it works <span class="btn-arrow">→</span></a>
         </div>
@@ -1928,87 +1935,140 @@
   </section>
 
 
-  <!-- REEL CAROUSEL — proof layer -->
-  <section class="reels-section container">
+  <!-- REEL CAROUSEL — horizontal snap-scroll with inline playback -->
+  <section class="reels-section">
     <div class="reels-head">
       <span class="eyebrow"><span class="eyebrow-dot"></span> Proof, not promises</span>
-      <h2>Every reel below was made by PropCast.</h2>
-      <p class="lede">Same engine that'll make yours. Real scripts, real voiceovers, real thumbnails. The only human touch is Graeham approving each one before it ships.</p>
+      <h2>Every reel below was made by <em class="gradient-text">PropCast</em>.</h2>
+      <p class="lede">Scroll sideways. Tap any to play. Same engine that'll make yours — real scripts, real voiceovers, real thumbnails, human-QC'd before every post.</p>
     </div>
 
-    <div class="reels-grid">
-        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] Redwood City market snapshot — what $1.8M actually buys">
-          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+    <div class="reels-scroll-wrap">
+      <button class="reels-arrow left" aria-label="Scroll reels left" data-reels-dir="-1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="reels-scroll" id="reelsScroll">
+        <article class="reel-card" data-reel-idx="0" role="button" tabindex="0" aria-label="Play reel: [Placeholder] What $1.8M actually buys in Redwood City right now">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 12.4K views</div>
+          <div class="reel-platform">INSTAGRAM</div>
+          <div class="reel-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] What $1.8M actually buys in Redwood City right now</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </article>
+        <article class="reel-card" data-reel-idx="1" role="button" tabindex="0" aria-label="Play reel: [Placeholder] AB 1482 explained for Peninsula tenants (60s)">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 8.7K views</div>
+          <div class="reel-platform">YOUTUBE</div>
+          <div class="reel-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] AB 1482 explained for Peninsula tenants (60s)</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </article>
+        <article class="reel-card" data-reel-idx="2" role="button" tabindex="0" aria-label="Play reel: [Placeholder] East Palo Alto vs Menlo Park — where value lives">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 15.2K views</div>
+          <div class="reel-platform">TIKTOK</div>
+          <div class="reel-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] East Palo Alto vs Menlo Park — where value lives</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </article>
+        <article class="reel-card" data-reel-idx="3" role="button" tabindex="0" aria-label="Play reel: [Placeholder] First-time buyer playbook for the Peninsula">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
           <div class="reel-views">▶ 4.2K views</div>
           <div class="reel-platform">INSTAGRAM</div>
           <div class="reel-play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="reel-meta">
-            <div class="reel-title">[Placeholder] Redwood City market snapshot — what $1.8M actually buys</div>
-            <div class="reel-madewith">Made with PropCast</div>
-          </div>
-        </div>
-        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] AB 1482 explained for Bay Area tenants in 60 seconds">
-          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
-          <div class="reel-views">▶ 12.1K views</div>
-          <div class="reel-platform">YOUTUBE</div>
-          <div class="reel-play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="reel-meta">
-            <div class="reel-title">[Placeholder] AB 1482 explained for Bay Area tenants in 60 seconds</div>
-            <div class="reel-madewith">Made with PropCast</div>
-          </div>
-        </div>
-        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] East Palo Alto vs Menlo Park — where value actually lives">
-          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
-          <div class="reel-views">▶ 8.4K views</div>
-          <div class="reel-platform">TIKTOK</div>
-          <div class="reel-play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="reel-meta">
-            <div class="reel-title">[Placeholder] East Palo Alto vs Menlo Park — where value actually lives</div>
-            <div class="reel-madewith">Made with PropCast</div>
-          </div>
-        </div>
-        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] First-time buyer playbook for the Peninsula">
-          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
-          <div class="reel-views">▶ 3.7K views</div>
-          <div class="reel-platform">INSTAGRAM</div>
-          <div class="reel-play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
           <div class="reel-meta">
             <div class="reel-title">[Placeholder] First-time buyer playbook for the Peninsula</div>
             <div class="reel-madewith">Made with PropCast</div>
           </div>
-        </div>
-        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] 5 Emerald Hills homes that sold above ask last week">
-          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
-          <div class="reel-views">▶ 6.8K views</div>
+        </article>
+        <article class="reel-card" data-reel-idx="4" role="button" tabindex="0" aria-label="Play reel: [Placeholder] 5 Emerald Hills homes that sold above ask last week">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 22.1K views</div>
           <div class="reel-platform">YOUTUBE</div>
           <div class="reel-play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
           <div class="reel-meta">
             <div class="reel-title">[Placeholder] 5 Emerald Hills homes that sold above ask last week</div>
             <div class="reel-madewith">Made with PropCast</div>
           </div>
-        </div>
-        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] What $2M actually buys in Palo Alto right now">
-          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
-          <div class="reel-views">▶ 15.2K views</div>
+        </article>
+        <article class="reel-card" data-reel-idx="5" role="button" tabindex="0" aria-label="Play reel: [Placeholder] What $2M actually buys in Palo Alto">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 9.6K views</div>
           <div class="reel-platform">INSTAGRAM</div>
           <div class="reel-play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
           <div class="reel-meta">
-            <div class="reel-title">[Placeholder] What $2M actually buys in Palo Alto right now</div>
+            <div class="reel-title">[Placeholder] What $2M actually buys in Palo Alto</div>
             <div class="reel-madewith">Made with PropCast</div>
           </div>
-        </div>
+        </article>
+        <article class="reel-card" data-reel-idx="6" role="button" tabindex="0" aria-label="Play reel: [Placeholder] Bay Area relocation: where tech workers are moving">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 6.8K views</div>
+          <div class="reel-platform">TIKTOK</div>
+          <div class="reel-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] Bay Area relocation: where tech workers are moving</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </article>
+        <article class="reel-card" data-reel-idx="7" role="button" tabindex="0" aria-label="Play reel: [Placeholder] Selling in EPA? Here's what to fix before listing">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 3.9K views</div>
+          <div class="reel-platform">INSTAGRAM</div>
+          <div class="reel-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] Selling in EPA? Here's what to fix before listing</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </article>
+        <article class="reel-card" data-reel-idx="8" role="button" tabindex="0" aria-label="Play reel: [Placeholder] Why interest rates matter less than you think">
+          <!-- SWAP ME: replace .reel-video-stub with <video class="reel-video" src="REEL_URL.mp4" poster="POSTER.jpg" playsinline muted loop></video> -->
+          <div class="reel-video-stub"></div>
+          <div class="reel-views">▶ 11.4K views</div>
+          <div class="reel-platform">YOUTUBE</div>
+          <div class="reel-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] Why interest rates matter less than you think</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </article>
+      </div>
+      <button class="reels-arrow right" aria-label="Scroll reels right" data-reels-dir="1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
 
     <div class="reels-footer">
@@ -2016,28 +2076,41 @@
     </div>
   </section>
 
-  <!-- CINEMATIC AD SLOT — coming soon placeholder -->
-  <section class="cine-section container">
-    <div class="cine-wrap">
-      <div class="cine-head">
-        <span class="eyebrow"><span class="eyebrow-dot"></span> Coming soon</span>
-        <h2>The ad for PropCast. <em class="gradient-text">Made with PropCast.</em></h2>
-        <p class="lede">We're producing the ad you'll watch right here — using the same engine we're selling. When it ships, it plays in this frame. Until then, the frame is intentionally empty.</p>
+  <!-- MONTH 1 PROOF BLOCK — what month one actually looks like -->
+  <section class="m1-section">
+    <div class="m1-wrap">
+      <div class="m1-head">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> What month one actually looks like</span>
+        <h2>You lose <em class="gradient-text">10 minutes</em>. You gain a full content engine.</h2>
+        <p class="lede">Here's the week-by-week for your first 30 days on PropCast — every beat committed up front so you know what you're buying.</p>
+        <div class="m1-note">· Week-by-week breakdown of your founding-cohort month 1</div>
       </div>
 
-      <div class="cine-frame">
-        <div class="cine-placeholder">
-          <div class="cine-play-stub">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="cine-badge"><span class="cine-badge-dot"></span> Film in production</div>
-          <h3>The ad drops once we've made it.</h3>
-          <p>No stock footage, no AI slop, no placeholder we tried to sneak past you. When this frame lights up, you're watching a cinematic ad written, filmed, edited, and voiced by PropCast on Graeham's avatar.</p>
+      <div class="m1-timeline">
+        <div class="m1-cell">
+          <div class="m1-week">Week 1</div>
+          <div class="m1-big"><em>Day 3</em> live</div>
+          <div class="m1-what">Avatar + voice clone built. First Reel ships on Day 3 — you approve it.</div>
+        </div>
+        <div class="m1-cell">
+          <div class="m1-week">Week 2</div>
+          <div class="m1-big"><em>4</em> Reels</div>
+          <div class="m1-what">Every platform you own. Captions, AI disclosure, and Fair Housing checks on every post.</div>
+        </div>
+        <div class="m1-cell">
+          <div class="m1-week">Week 3</div>
+          <div class="m1-big"><em>8</em> total</div>
+          <div class="m1-what">First market-signal Reels kick in — MLS shifts, ZIP-level searches, Reddit threads from your area.</div>
+        </div>
+        <div class="m1-cell">
+          <div class="m1-week">Week 4</div>
+          <div class="m1-big"><em>16+</em> total</div>
+          <div class="m1-what">Human-QC'd library across IG / YT / TikTok / Facebook / GBP. Ready to keep running without you.</div>
         </div>
       </div>
 
-      <div class="cine-caption">
-        You'll see exactly the same pipeline your content runs on. If the ad's weak, the product's weak. We're betting both ways.
+      <div class="m1-total">
+        <strong>Your time:</strong> 10 minutes, once. <strong>Our time:</strong> 24/7, forever.
       </div>
     </div>
   </section>
@@ -2045,8 +2118,8 @@
   <!-- HOW IT WORKS -->
   <section id="how" class="section-pad container">
     <span class="eyebrow">How it works</span>
-    <h2>Four steps. Ten minutes of your time.<br/>Then the machine runs itself.</h2>
-    <p class="lede" style="margin-top: 16px;">This isn't "draft with AI and post manually." PropCast is the full machine — from market signal to published Reel — with humans checking every video before it goes live.</p>
+    <h2>10 minutes of your time, once.<br/>Then the <em class="gradient-text">pipeline runs itself.</em></h2>
+    <p class="lede" style="margin-top: 16px;">This isn't "draft with AI and post manually." PropCast is the full machine — from market signal to published Reel — with humans checking every video before it goes live. Here's every step, start to finish:</p>
 
     <div class="bento-grid">
       <!-- Cell 1 (wide) — listen -->
@@ -2896,5 +2969,44 @@
     <span class="sticky-cta-arrow">→</span>
   </a>
 
+  <!-- REEL CAROUSEL INTERACTIONS -->
+  <script>
+    (function() {
+      var scroller = document.getElementById('reelsScroll');
+      if (!scroller) return;
+
+      // Arrow nav
+      document.querySelectorAll('.reels-arrow').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var dir = parseInt(btn.getAttribute('data-reels-dir'), 10) || 1;
+          var card = scroller.querySelector('.reel-card');
+          var step = card ? card.offsetWidth + 20 : 380;
+          scroller.scrollBy({ left: dir * step, behavior: 'smooth' });
+        });
+      });
+
+      // Inline play on card click (placeholder-safe — toggles .is-playing)
+      scroller.addEventListener('click', function(e) {
+        var card = e.target.closest('.reel-card');
+        if (!card) return;
+        var vid = card.querySelector('video.reel-video');
+        if (vid) {
+          if (vid.paused) { vid.play(); card.classList.add('is-playing'); }
+          else { vid.pause(); card.classList.remove('is-playing'); }
+        } else {
+          // Placeholder: toggle the playing state visually so reviewers see the UX
+          card.classList.toggle('is-playing');
+        }
+      });
+
+      // Keyboard activation
+      scroller.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          var card = e.target.closest('.reel-card');
+          if (card) { e.preventDefault(); card.click(); }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
