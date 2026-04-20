@@ -239,6 +239,103 @@
       .sticky-cta { right: 16px; bottom: 16px; padding: 10px 16px; font-size: 13px; }
     }
 
+
+    /* REEL CAROUSEL — proof layer showing real PropCast output */
+    .reels-section { padding: 88px 0 72px; position: relative; z-index: 1; }
+    .reels-head { text-align: center; max-width: 760px; margin: 0 auto 48px; }
+    .reels-head h2 { margin-top: 14px; }
+    .reels-head .lede { margin-top: 14px; }
+
+    .reels-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 22px; max-width: 1160px; margin: 0 auto;
+    }
+    @media (max-width: 900px) { .reels-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .reels-grid { grid-template-columns: 1fr; } }
+
+    .reel-card {
+      position: relative; aspect-ratio: 9/16;
+      border-radius: 14px; overflow: hidden;
+      background: #0a0d11;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+    .reel-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 194, 168, 0.3);
+      box-shadow: 0 22px 40px -18px rgba(0, 0, 0, 0.6), 0 0 30px -10px rgba(0, 194, 168, 0.25);
+    }
+
+    /* Placeholder gradient thumbnail — swap for real video thumbs later */
+    .reel-thumb {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #10171f 0%, #0a0d11 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .reel-thumb-inner {
+      width: 70%; height: 40%;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(0, 194, 168, 0.08), rgba(255, 255, 255, 0.02)),
+        repeating-linear-gradient(45deg, transparent 0 12px, rgba(255, 255, 255, 0.02) 12px 13px);
+      opacity: 0.7;
+    }
+
+    .reel-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.96);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: transform 180ms ease;
+    }
+    .reel-card:hover .reel-play { transform: translate(-50%, -50%) scale(1.08); }
+    .reel-play svg { color: #0a0d11; margin-left: 2px; }
+
+    .reel-platform {
+      position: absolute; top: 12px; right: 12px;
+      padding: 4px 10px; border-radius: 100px;
+      background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-size: 10.5px; font-weight: 600; color: white;
+      letter-spacing: 0.4px;
+    }
+    .reel-views {
+      position: absolute; top: 12px; left: 12px;
+      padding: 4px 10px; border-radius: 100px;
+      background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-size: 10.5px; color: rgba(255, 255, 255, 0.9); font-weight: 500;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .reel-meta {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 18px 14px 14px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 65%);
+    }
+    .reel-title {
+      font-size: 13.5px; font-weight: 500; color: white;
+      line-height: 1.38; margin-bottom: 6px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .reel-madewith {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; color: var(--teal-b);
+      padding: 2px 8px; border-radius: 100px;
+      background: rgba(0, 194, 168, 0.15);
+      border: 1px solid rgba(0, 194, 168, 0.28);
+      font-weight: 600; letter-spacing: 0.3px;
+    }
+    .reel-madewith::before {
+      content: '▸'; font-size: 9px; color: var(--teal-b);
+    }
+
+    .reels-footer {
+      text-align: center; margin-top: 36px;
+      font-size: 12.5px; color: rgba(255, 255, 255, 0.4); font-style: italic;
+    }
+    .reels-footer a { color: var(--teal-b); text-decoration: none; border-bottom: 1px dotted var(--teal-b); }
+
     /* HERO — agent-first split layout (copy left, photo right) */
     .hero { padding: 96px 0 64px; }
     .hero-grid {
@@ -1777,6 +1874,94 @@
     </div>
   </section>
 
+
+  <!-- REEL CAROUSEL — proof layer -->
+  <section class="reels-section container">
+    <div class="reels-head">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Proof, not promises</span>
+      <h2>Every reel below was made by PropCast.</h2>
+      <p class="lede">Same engine that'll make yours. Real scripts, real voiceovers, real thumbnails. The only human touch is Graeham approving each one before it ships.</p>
+    </div>
+
+    <div class="reels-grid">
+        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] Redwood City market snapshot — what $1.8M actually buys">
+          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+          <div class="reel-views">▶ 4.2K views</div>
+          <div class="reel-platform">INSTAGRAM</div>
+          <div class="reel-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] Redwood City market snapshot — what $1.8M actually buys</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </div>
+        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] AB 1482 explained for Bay Area tenants in 60 seconds">
+          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+          <div class="reel-views">▶ 12.1K views</div>
+          <div class="reel-platform">YOUTUBE</div>
+          <div class="reel-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] AB 1482 explained for Bay Area tenants in 60 seconds</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </div>
+        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] East Palo Alto vs Menlo Park — where value actually lives">
+          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+          <div class="reel-views">▶ 8.4K views</div>
+          <div class="reel-platform">TIKTOK</div>
+          <div class="reel-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] East Palo Alto vs Menlo Park — where value actually lives</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </div>
+        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] First-time buyer playbook for the Peninsula">
+          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+          <div class="reel-views">▶ 3.7K views</div>
+          <div class="reel-platform">INSTAGRAM</div>
+          <div class="reel-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] First-time buyer playbook for the Peninsula</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </div>
+        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] 5 Emerald Hills homes that sold above ask last week">
+          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+          <div class="reel-views">▶ 6.8K views</div>
+          <div class="reel-platform">YOUTUBE</div>
+          <div class="reel-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] 5 Emerald Hills homes that sold above ask last week</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </div>
+        <div class="reel-card" role="button" tabindex="0" aria-label="Play reel: [Placeholder] What $2M actually buys in Palo Alto right now">
+          <div class="reel-thumb"><div class="reel-thumb-inner"></div></div>
+          <div class="reel-views">▶ 15.2K views</div>
+          <div class="reel-platform">INSTAGRAM</div>
+          <div class="reel-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="reel-meta">
+            <div class="reel-title">[Placeholder] What $2M actually buys in Palo Alto right now</div>
+            <div class="reel-madewith">Made with PropCast</div>
+          </div>
+        </div>
+    </div>
+
+    <div class="reels-footer">
+      Placeholder tiles shown. <a href="propcast-hook-analysis.html" class="plausible-event-name=Reels+CaseStudy+Click">See the full analysis of Graeham's channel →</a>
+    </div>
+  </section>
 
   <!-- HOW IT WORKS -->
   <section id="how" class="section-pad container">
