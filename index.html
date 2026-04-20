@@ -213,6 +213,32 @@
     }
 
 
+
+    /* STICKY MINI-CTA — shows after scrolling past hero */
+    .sticky-cta {
+      position: fixed; right: 24px; bottom: 24px; z-index: 90;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 18px; border-radius: 100px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      color: #001512; font-weight: 600; font-size: 14px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px -8px rgba(0, 194, 168, 0.55), 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+      opacity: 0; transform: translateY(16px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 280ms ease, transform 280ms ease;
+    }
+    .sticky-cta.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .sticky-cta:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    .sticky-cta-arrow {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(0, 21, 18, 0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    @media (max-width: 560px) {
+      .sticky-cta { right: 16px; bottom: 16px; padding: 10px 16px; font-size: 13px; }
+    }
+
     /* ============================================================
        PRODUCT MOCKUP — "This week's content queue" dashboard
        ============================================================ */
@@ -2660,6 +2686,27 @@
       });
     });
 
+    // Sticky mini-CTA visibility: show after scroll past hero, hide near footer
+    (function(){
+      const cta = document.getElementById('stickyCta');
+      if (!cta) return;
+      const hero = document.querySelector('.hero');
+      const footer = document.querySelector('footer');
+      const heroH = hero ? hero.offsetHeight : 800;
+      function update(){
+        const y = window.scrollY;
+        const vh = window.innerHeight;
+        const docH = document.documentElement.scrollHeight;
+        const nearFooter = (y + vh) > (docH - 240);
+        const pastHero = y > (heroH * 0.7);
+        if (pastHero && !nearFooter) cta.classList.add('show');
+        else cta.classList.remove('show');
+      }
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+    })();
+
     // Scroll reveal (with 2.5s safety fallback so nothing ever gets stuck at opacity: 0)
     const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -2860,5 +2907,11 @@
     })();
 
     </script>
+  <!-- STICKY MINI-CTA -->
+  <a href="propcast-signup.html" id="stickyCta" class="sticky-cta plausible-event-name=Sticky+CTA+Click">
+    See a real analysis
+    <span class="sticky-cta-arrow">→</span>
+  </a>
+
 </body>
 </html>
