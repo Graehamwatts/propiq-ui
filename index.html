@@ -1869,11 +1869,14 @@
     .hero-h1 .h-line { display: block; }
     .hero-h1 .h-line-2 {
       font-style: italic;
-      color: var(--teal-b);
+      margin-top: 6px;
+    }
+    /* gradient must live on each WORD — background-clip:text doesn't paint through inline-block children of the wrapper */
+    .hero-h1 .h-line-2 .h-word {
       background: linear-gradient(135deg, var(--teal-b) 0%, var(--teal) 100%);
       -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-top: 6px;
+      color: var(--teal-b); /* fallback for browsers without background-clip: text */
     }
     .hero-h1 .h-word {
       display: inline-block;
@@ -1997,6 +2000,59 @@
       animation: heroFadeIn 600ms ease 1100ms forwards;
     }
 
+    /* BENEFITS SCROLL STORY — 5 giant beats */
+    .benefits-scroll {
+      background: #fff;
+      padding: 40px 0 80px;
+    }
+    .benefits-scroll-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 140px;
+    }
+    .benefit-beat {
+      position: relative;
+      padding-left: 0;
+    }
+    .benefit-num {
+      display: inline-block;
+      font-family: 'Inter Tight', system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--teal-b);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .benefit-big {
+      font-family: 'Instrument Serif', 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 20px;
+    }
+    .benefit-big em {
+      font-style: italic;
+    }
+    .benefit-body {
+      font-family: 'Inter Tight', system-ui, sans-serif;
+      font-size: clamp(17px, 1.5vw, 19px);
+      line-height: 1.55;
+      color: var(--gray-l);
+      max-width: 640px;
+      margin: 0;
+    }
+    @media (max-width: 720px) {
+      .benefits-scroll { padding: 24px 0 56px; }
+      .benefits-scroll-inner { gap: 96px; padding: 0 22px; }
+      .benefit-big { font-size: clamp(34px, 8vw, 48px); }
+    }
+
     /* BRIDGE SECTION — FedEx-structured line below hero */
     .bridge-section {
       padding: 48px 24px 56px;
@@ -2088,6 +2144,43 @@
   <section class="bridge-section reveal-on-scroll">
     <p class="bridge-line">When your feed has to keep posting while you're out closing deals — <em>that's the job PropCast was built for.</em></p>
     <div class="bridge-divider"></div>
+  </section>
+
+  <!-- BENEFITS SCROLL STORY — five giant beats that reveal one at a time -->
+  <section class="benefits-scroll">
+    <div class="benefits-scroll-inner">
+
+      <div class="benefit-beat reveal-on-scroll">
+        <span class="benefit-num">01</span>
+        <h2 class="benefit-big">We watch your market <em class="gradient-text">24/7.</em></h2>
+        <p class="benefit-body">Every new listing, every price change, every rate move — pulled in daily and turned into content you could never sit down and write yourself.</p>
+      </div>
+
+      <div class="benefit-beat reveal-on-scroll">
+        <span class="benefit-num">02</span>
+        <h2 class="benefit-big">We study your <em class="gradient-text">competition.</em></h2>
+        <p class="benefit-body">Top performing hooks in your zip code, scraped weekly, scored, and routed into your pipeline. You don't guess what to post — we already know.</p>
+      </div>
+
+      <div class="benefit-beat reveal-on-scroll">
+        <span class="benefit-num">03</span>
+        <h2 class="benefit-big">Broadcast quality. <em class="gradient-text">Every platform. Every week.</em></h2>
+        <p class="benefit-body">Reels, Shorts, TikTok, Facebook, LinkedIn, YouTube long-form. Same message, platform-native cut for each. One input, many outputs.</p>
+      </div>
+
+      <div class="benefit-beat reveal-on-scroll">
+        <span class="benefit-num">04</span>
+        <h2 class="benefit-big">You stay on camera — <em class="gradient-text">without being on camera.</em></h2>
+        <p class="benefit-body">Your trained avatar. Your voice. Your tone. You record once — the engine keeps shipping while you're at showings, dinner, or nowhere near a camera.</p>
+      </div>
+
+      <div class="benefit-beat reveal-on-scroll">
+        <span class="benefit-num">05</span>
+        <h2 class="benefit-big">Every video <em class="gradient-text">human-QC'd.</em></h2>
+        <p class="benefit-body">Nothing ships without a human eye on it. No fair-housing trip-wires. No AI slop. Your name stays on something you'd be proud to put your name on.</p>
+      </div>
+
+    </div>
   </section>
 
   <!-- FRICTION BANNER — solution-framed -->
@@ -2247,7 +2340,7 @@
     <div class="m1-wrap">
       <div class="m1-head reveal-on-scroll">
         <span class="eyebrow"><span class="eyebrow-dot"></span> What month one actually looks like</span>
-        <h2>You lose <em class="gradient-text">10 minutes</em>. You gain a full content engine.</h2>
+        <h2>Only <em class="gradient-text">10 minutes</em> to get started. Then the pipeline runs itself.</h2>
         <p class="lede">Here's the week-by-week for your first 30 days on PropCast — every beat committed up front so you know what you're buying.</p>
         <div class="m1-note">· Week-by-week breakdown of your founding-cohort month 1</div>
       </div>
