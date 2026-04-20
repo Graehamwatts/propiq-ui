@@ -1618,6 +1618,15 @@
     }
 
   </style>
+
+  <!-- ====================================================================
+       Plausible Analytics (placeholder — swap data-domain when live)
+       To activate: create account at plausible.io, add domain, then
+       change data-domain below. The tagged-events variant auto-tracks
+       any element with class 'plausible-event-name=...'
+       ==================================================================== -->
+  <script defer data-domain="propcast.ai" src="https://plausible.io/js/script.tagged-events.js"></script>
+  <script>window.plausible = window.plausible || function(){(window.plausible.q = window.plausible.q || []).push(arguments)}</script>
 </head>
 <body>
   <div class="orb-wrap"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
@@ -1631,7 +1640,7 @@
         <a href="#pricing" class="nav-link">Pricing</a>
         <a href="#beta" class="nav-link">Beta cohort</a>
         <a href="#faq" class="nav-link">FAQ</a>
-        <a href="propcast-signup.html" class="btn btn-primary">See my market <span class="btn-arrow">→</span></a>
+        <a href="propcast-signup.html" class="btn btn-primary plausible-event-name=Nav+CTA+Click">See my market <span class="btn-arrow">→</span></a>
       </div>
     </div>
   </nav>
@@ -1643,7 +1652,7 @@
       <h1>The AI content engine <em class="gradient-text">for agents who don't have 10 hours a week.</em></h1>
       <p class="lede">Record yourself once for 6 minutes. PropCast does the rest — writing, filming, editing, captioning, and publishing broadcast-quality video to every platform you own. Forever.</p>
       <div class="hero-cta-row">
-        <a href="propcast-signup.html" class="btn btn-primary btn-xl">See a real PropCast analysis <span class="btn-arrow">→</span></a>
+        <a href="propcast-signup.html" class="btn btn-primary btn-xl plausible-event-name=Hero+CTA+Click">See a real PropCast analysis <span class="btn-arrow">→</span></a>
       </div>
       <div class="hero-try-hint">
         2-minute walkthrough of a real agent's hook analysis. No card, no commitment.
