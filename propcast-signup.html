@@ -447,16 +447,14 @@
     <div class="progress">
       <div class="progress-pill active"><span class="num">1</span><span>Your info</span></div>
       <div class="progress-bar"></div>
-      <div class="progress-pill"><span class="num">2</span><span>See a real analysis</span></div>
-      <div class="progress-bar"></div>
-      <div class="progress-pill"><span class="num">3</span><span>Founding seat</span></div>
+      <div class="progress-pill"><span class="num">2</span><span>Founding seat</span></div>
     </div>
 
     <!-- Head -->
     <div class="head">
-      <span class="eyebrow"><span class="eyebrow-dot"></span>Step 1 of 3 · 30 seconds</span>
-      <h1>Let's show you <em>what PropCast actually does.</em></h1>
-      <p class="lede">Next screen: a real PropCast analysis built on a real agent's YouTube data. No made-up scores, no live demo theatre. Just tell us who you are and we'll send you through.</p>
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Step 1 of 2 · 30 seconds</span>
+      <h1>Tell us who you are. <em>Then lock your founding seat.</em></h1>
+      <p class="lede">Twenty-five founding seats at <strong>$349/mo for 12 months</strong> — locked. In May the number becomes $449 for everyone else. Next screen: a quick note from Graeham and the seat form.</p>
     </div>
 
     <!-- Form -->
@@ -496,7 +494,7 @@
       <!-- Submit -->
       <div class="submit-row">
         <button type="submit" class="btn btn-primary btn-xl btn-full plausible-event-name=Signup+Submit" id="submitBtn" disabled>
-          <span>See a real PropCast analysis</span>
+          <span>Continue to founding seat</span>
           <span class="btn-arrow">&rarr;</span>
         </button>
         <div class="submit-micro">No credit card · Takes ~15 seconds · You can leave anytime</div>
@@ -515,12 +513,12 @@
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-panel">
       <div class="loading-spinner"></div>
-      <div class="loading-title">Loading your walkthrough…</div>
-      <p class="lede" style="font-size: 14px; margin-top: 6px;">Pulling up a real PropCast analysis so you can see exactly what we do — before you decide anything.</p>
+      <div class="loading-title">Reserving your spot…</div>
+      <p class="lede" style="font-size: 14px; margin-top: 6px;">Checking seat availability and routing you to the founding-cohort form.</p>
       <ul class="loading-steps" id="loadingSteps">
         <li data-step="1"><span class="dot"></span>Reading your info</li>
-        <li data-step="2"><span class="dot"></span>Loading the case study</li>
-        <li data-step="3"><span class="dot"></span>Personalizing the walkthrough</li>
+        <li data-step="2"><span class="dot"></span>Checking founding-cohort availability</li>
+        <li data-step="3"><span class="dot"></span>Opening your seat form</li>
       </ul>
     </div>
   </div>
@@ -585,7 +583,7 @@
             name: fname.value.trim(),
             email: email.value.trim()
           });
-          window.location.href = 'propcast-hook-analysis.html?' + params.toString();
+          window.location.href = 'propcast-founding-seat.html?' + params.toString();
         }
       }, 700);
     });
