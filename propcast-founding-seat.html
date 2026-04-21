@@ -538,6 +538,76 @@
 
     .reveal-on-scroll { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.25,.46,.45,.94), transform .7s cubic-bezier(.25,.46,.45,.94); }
     .reveal-on-scroll.in { opacity: 1; transform: translateY(0); }
+
+    /* FOUNDER LETTER - personal note above the seat form */
+    .founder-letter {
+      max-width: 720px;
+      margin: 0 auto 56px;
+      padding: 40px 44px;
+      background: linear-gradient(180deg, rgba(0,194,168,0.04) 0%, rgba(167,139,250,0.03) 100%);
+      border: 1px solid rgba(0,194,168,0.18);
+      border-radius: 18px;
+      position: relative;
+    }
+    .founder-letter::before {
+      content: "";
+      position: absolute;
+      top: -1px; left: 36px; right: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b), transparent);
+      opacity: 0.6;
+    }
+    .founder-letter .fl-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Inter Tight', system-ui, sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--teal-b);
+      margin-bottom: 18px;
+    }
+    .founder-letter .fl-eyebrow::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal-b); box-shadow: 0 0 10px var(--teal-b);
+    }
+    .founder-letter h2 {
+      font-family: 'Instrument Serif', 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(26px, 3.2vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 20px;
+    }
+    .founder-letter h2 em { font-style: italic; color: var(--teal-b); }
+    .founder-letter p {
+      font-family: 'Inter Tight', system-ui, sans-serif;
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: #C8D0DC;
+      margin: 0 0 14px;
+    }
+    .founder-letter p:last-of-type { margin-bottom: 0; }
+    .founder-letter strong { color: var(--ink); font-weight: 600; }
+    .founder-letter .fl-sig {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      color: var(--ink);
+    }
+    .founder-letter .fl-sig .fl-sig-meta {
+      display: block;
+      font-family: 'Inter Tight', system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6B7280;
+      margin-top: 6px;
+    }
+    @media (max-width: 640px) {
+      .founder-letter { padding: 28px 22px; margin-bottom: 40px; }
+      .founder-letter p { font-size: 15px; }
+    }
   </style>
 
   <!-- ====================================================================
@@ -580,7 +650,7 @@
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="logo">PROPCAST</a>
-      <a href="propcast-hook-analysis.html" class="nav-back">← Back to hooks</a>
+      <a href="index.html" class="nav-back">← Back to home</a>
     </div>
   </nav>
 
@@ -591,9 +661,22 @@
       <div class="progress">
         <div class="progress-pill done"><div class="num">✓</div>Your info</div>
         <div class="progress-bar fill"></div>
-        <div class="progress-pill done"><div class="num">✓</div>See a real analysis</div>
-        <div class="progress-bar fill"></div>
-        <div class="progress-pill active"><div class="num">3</div>Founding seat</div>
+        <div class="progress-pill active"><div class="num">2</div>Founding seat</div>
+      </div>
+
+      <!-- FOUNDER LETTER - personal note before the ask -->
+      <div class="founder-letter">
+        <span class="fl-eyebrow">A note from Graeham</span>
+        <h2>Before you lock it in — <em>here's why I built this.</em></h2>
+        <p>I sell homes on the Peninsula. Intero Real Estate. DRE# 02015066. I built PropCast because I got tired of two things at once: AI content tools that produce obvious slop, and content itself — the hour a day it takes to stay visible when I should be on showings.</p>
+        <p>The pitch is simple. You sit down once. We train an avatar on your face, voice, and the way you actually talk. Then the engine watches your market every day — every new listing, every price drop, every rate move — and ships platform-native videos while you're out working.</p>
+        <p>Every clip gets a human eye on it before it leaves our building. <strong>No fair-housing trip-wires. No AI hallucinations about neighborhoods I've never stood in.</strong> Nothing ships that you wouldn't be proud to put your name on.</p>
+        <p>Twenty-five founding seats. <strong>$349/mo for 12 months, locked.</strong> In May the number becomes $449. This is the one time you'll see the smaller one.</p>
+        <p>If the pitch fits, lock your seat below. If something's off, tell me on the way out — I read every reply.</p>
+        <div class="fl-sig">
+          — Graeham Watts
+          <span class="fl-sig-meta">REALTOR® · Intero Real Estate · DRE# 02015066</span>
+        </div>
       </div>
 
       <!-- FORM VIEW -->
