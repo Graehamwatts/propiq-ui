@@ -2346,32 +2346,90 @@
     <div class="m1-wrap">
       <div class="m1-head reveal-on-scroll">
         <span class="eyebrow"><span class="eyebrow-dot"></span> What month one actually looks like</span>
-        <h2>Your time: <em class="gradient-text">10 minutes, once.</em><br/>Our time: <em class="gradient-text">24/7, forever.</em></h2>
+        <h2>Your time: <em class="gradient-text">20 minutes, once.</em><br/>Our time: <em class="gradient-text">24/7, forever.</em></h2>
         <p class="lede">Here's the week-by-week. Every number below is production volume we commit to — not engagement or lead counts we can't guarantee.</p>
       </div>
 
-      <div class="reveal-on-scroll" style="margin: 40px auto 48px; max-width: 920px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          <!-- YOUR side -->
-          <div style="padding: 32px; border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; background: rgba(255,255,255,0.025); align-self: start;">
-            <div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); font-weight: 700; margin-bottom: 20px;">Your 10 minutes</div>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.55);"></span>One 20-min onboarding record</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.55);"></span>Optional weekly script approval (first 2 weeks)</li>
-            </ul>
+      <div class="reveal-on-scroll" style="margin: 48px auto 64px; max-width: 960px;">
+        <style>
+          .m1-flow { display: flex; align-items: flex-start; justify-content: space-between; gap: 4px; }
+          .m1-flow-node { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 4px; min-width: 0; }
+          .m1-flow-icon { width: 72px; height: 72px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+          .m1-flow-node-you .m1-flow-icon { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); color: #ffffff; }
+          .m1-flow-node-we .m1-flow-icon { border-color: var(--teal-b); background: rgba(0,232,199,0.08); color: var(--teal-b); }
+          .m1-flow-role { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; }
+          .m1-flow-node-you .m1-flow-role { color: rgba(255,255,255,0.55); }
+          .m1-flow-node-we .m1-flow-role { color: var(--teal-b); }
+          .m1-flow-label { font-size: 17px; color: #ffffff; font-weight: 600; margin-bottom: 6px; }
+          .m1-flow-sub { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.45; max-width: 150px; }
+          .m1-flow-arrow { color: var(--teal-b); font-size: 22px; opacity: 0.45; padding-top: 24px; flex-shrink: 0; font-weight: 300; user-select: none; }
+          @media (max-width: 760px) {
+            .m1-flow { flex-direction: column; gap: 14px; align-items: center; }
+            .m1-flow-arrow { padding-top: 0; transform: rotate(90deg); margin: 0; }
+            .m1-flow-node { width: 100%; max-width: 280px; }
+            .m1-flow-sub { max-width: none; }
+          }
+        </style>
+        <div class="m1-flow">
+          <div class="m1-flow-node m1-flow-node-you">
+            <div class="m1-flow-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="2" width="6" height="11" rx="3"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+              </svg>
+            </div>
+            <div class="m1-flow-role">You</div>
+            <div class="m1-flow-label">Record</div>
+            <div class="m1-flow-sub">20 min, once</div>
           </div>
-          <!-- OUR side -->
-          <div style="padding: 32px; border: 1px solid var(--teal-b); border-radius: 16px; background: linear-gradient(135deg, rgba(0,232,199,0.07), rgba(0,232,199,0.015));">
-            <div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-b); font-weight: 700; margin-bottom: 20px;">Our 24/7</div>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Voice clone + avatar build</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Daily market scan — MLS shifts, Reddit, Google searches</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Script generation in your voice patterns</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Fair Housing guardrails at generation</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Human QC review on every video</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Auto-publish to IG / YT / TikTok / Facebook / GBP</li>
-              <li style="position: relative; padding: 8px 0 8px 22px; color: #ffffff; font-size: 15px; line-height: 1.55;"><span style="position: absolute; left: 0; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal-b);"></span>Captions + AI disclosure on every platform</li>
-            </ul>
+          <div class="m1-flow-arrow" aria-hidden="true">→</div>
+          <div class="m1-flow-node m1-flow-node-we">
+            <div class="m1-flow-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="21" y1="21" x2="16" y2="16"/>
+              </svg>
+            </div>
+            <div class="m1-flow-role">We</div>
+            <div class="m1-flow-label">Scan</div>
+            <div class="m1-flow-sub">MLS + Reddit + Google, daily</div>
+          </div>
+          <div class="m1-flow-arrow" aria-hidden="true">→</div>
+          <div class="m1-flow-node m1-flow-node-we">
+            <div class="m1-flow-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 4l6 6-10 10H4v-6z"/>
+                <line x1="14" y1="4" x2="20" y2="10"/>
+              </svg>
+            </div>
+            <div class="m1-flow-role">We</div>
+            <div class="m1-flow-label">Write</div>
+            <div class="m1-flow-sub">Scripts in your voice patterns</div>
+          </div>
+          <div class="m1-flow-arrow" aria-hidden="true">→</div>
+          <div class="m1-flow-node m1-flow-node-we">
+            <div class="m1-flow-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2l8 4v6a10 10 0 0 1-8 10 10 10 0 0 1-8-10V6z"/>
+                <polyline points="9 12 11 14 15 10"/>
+              </svg>
+            </div>
+            <div class="m1-flow-role">We</div>
+            <div class="m1-flow-label">Check</div>
+            <div class="m1-flow-sub">Human QC + Fair Housing</div>
+          </div>
+          <div class="m1-flow-arrow" aria-hidden="true">→</div>
+          <div class="m1-flow-node m1-flow-node-we">
+            <div class="m1-flow-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </div>
+            <div class="m1-flow-role">We</div>
+            <div class="m1-flow-label">Post</div>
+            <div class="m1-flow-sub">IG / YT / TikTok / FB / GBP</div>
           </div>
         </div>
       </div>
