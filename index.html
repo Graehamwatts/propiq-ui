@@ -2205,14 +2205,40 @@
     <div class="reveal-on-scroll">
       <span class="eyebrow"><span class="eyebrow-dot"></span> The transformation</span>
       <h2>From the <em class="gradient-text">hamster wheel</em><br/>to the passenger seat.</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 48px auto 0; max-width: 920px;">
-        <div style="text-align: left; padding: 32px; border: 1px solid var(--border); border-radius: 16px; background: #fafafa;">
-          <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-l); margin-bottom: 12px; font-weight: 600;">Before</div>
-          <div style="font-size: 17px; line-height: 1.55; color: var(--ink); font-weight: 500;">10 PM. Cold dinner. You still haven't posted this week. Your competitor just dropped their third reel. The feed won't feed itself.</div>
+      <div style="margin: 48px auto 8px; display: flex; justify-content: center;">
+        <svg viewBox="0 0 240 240" style="width: 200px; height: 200px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .hw-wheel { animation: hwSpin 1.8s linear infinite; transform-origin: 120px 120px; }
+            @keyframes hwSpin { to { transform: rotate(360deg); } }
+            .hw-fig { animation: hwBob 0.28s ease-in-out infinite alternate; transform-origin: 120px 155px; }
+            @keyframes hwBob { to { transform: translateY(-2.5px); } }
+          </style>
+          <g class="hw-wheel">
+            <circle cx="120" cy="120" r="100" fill="none" stroke="#00E8C7" stroke-width="3" opacity="0.9"/>
+            <circle cx="120" cy="120" r="94" fill="none" stroke="#00E8C7" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>
+            <line x1="120" y1="20" x2="120" y2="220" stroke="#00E8C7" stroke-width="1.5" opacity="0.35"/>
+            <line x1="20" y1="120" x2="220" y2="120" stroke="#00E8C7" stroke-width="1.5" opacity="0.35"/>
+            <line x1="49" y1="49" x2="191" y2="191" stroke="#00E8C7" stroke-width="1.5" opacity="0.35"/>
+            <line x1="49" y1="191" x2="191" y2="49" stroke="#00E8C7" stroke-width="1.5" opacity="0.35"/>
+          </g>
+          <g class="hw-fig">
+            <circle cx="120" cy="130" r="10" fill="#ffffff"/>
+            <line x1="120" y1="140" x2="120" y2="165" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+            <line x1="120" y1="148" x2="108" y2="158" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="120" y1="148" x2="133" y2="140" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="120" y1="165" x2="108" y2="180" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+            <line x1="120" y1="165" x2="132" y2="178" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 24px auto 0; max-width: 920px;">
+        <div style="text-align: left; padding: 32px; border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; background: rgba(255,255,255,0.025);">
+          <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 12px; font-weight: 600;">Before</div>
+          <div style="font-size: 17px; line-height: 1.55; color: #ffffff; font-weight: 500;">10 PM. Cold dinner. You still haven't posted this week. Your competitor just dropped their third reel. The feed won't feed itself.</div>
         </div>
         <div style="text-align: left; padding: 32px; border: 1px solid var(--teal-b); border-radius: 16px; background: linear-gradient(135deg, rgba(20,210,180,0.05), rgba(20,210,180,0.01));">
           <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal-b); margin-bottom: 12px; font-weight: 600;">After</div>
-          <div style="font-size: 17px; line-height: 1.55; color: var(--ink); font-weight: 500;">10 PM. You're at dinner. Three reels went out this week — your face, your voice, your market. You didn't lift a finger after your 10-minute Monday record.</div>
+          <div style="font-size: 17px; line-height: 1.55; color: #ffffff; font-weight: 500;">10 PM. You're at dinner. Three reels went out this week — your face, your voice, your market. You didn't lift a finger after your 10-minute Monday record.</div>
         </div>
       </div>
     </div>
@@ -2364,36 +2390,35 @@
     <div class="m1-wrap">
       <div class="m1-head reveal-on-scroll">
         <span class="eyebrow"><span class="eyebrow-dot"></span> What month one actually looks like</span>
-        <h2>Day 3 you're live.<br/>Week 4 you're <em class="gradient-text">rolling.</em></h2>
-        <p class="lede">Here's the week-by-week for your first 30 days on PropCast — every beat committed up front so you know what you're buying.</p>
-        <div class="m1-note">· Week-by-week breakdown of your founding-cohort month 1</div>
+        <h2>Your time: <em class="gradient-text">10 minutes, once.</em><br/>Our time: <em class="gradient-text">24/7, forever.</em></h2>
+        <p class="lede">Here's the week-by-week. Every number below is production volume we commit to — not engagement or lead counts we can't guarantee.</p>
       </div>
 
       <div class="m1-timeline">
         <div class="m1-cell">
           <div class="m1-week">Week 1</div>
-          <div class="m1-big"><em>Day 3</em> live</div>
-          <div class="m1-what">Avatar + voice clone built. First Reel ships on Day 3 — you approve it.</div>
+          <div class="m1-big"><em>3</em> reels</div>
+          <div class="m1-what">Avatar + voice clone built. First reel ships Day 3 — you approve each one.</div>
         </div>
         <div class="m1-cell">
           <div class="m1-week">Week 2</div>
-          <div class="m1-big"><em>4</em> Reels</div>
-          <div class="m1-what">Every platform you own. Captions, AI disclosure, and Fair Housing checks on every post.</div>
+          <div class="m1-big"><em>9</em> total</div>
+          <div class="m1-what">5 shorts + 1 long-form. Cross-posted to IG / YT / TikTok / Facebook / GBP with captions + AI disclosure on every platform.</div>
         </div>
         <div class="m1-cell">
           <div class="m1-week">Week 3</div>
-          <div class="m1-big"><em>8</em> total</div>
-          <div class="m1-what">First market-signal Reels kick in — MLS shifts, ZIP-level searches, Reddit threads from your area.</div>
+          <div class="m1-big"><em>17</em> total</div>
+          <div class="m1-what">Market-signal reels kick in — MLS shifts, ZIP-level Google searches, Reddit threads from your area.</div>
         </div>
         <div class="m1-cell">
           <div class="m1-week">Week 4</div>
-          <div class="m1-big"><em>16+</em> total</div>
-          <div class="m1-what">Human-QC'd library across IG / YT / TikTok / Facebook / GBP. Ready to keep running without you.</div>
+          <div class="m1-big"><em>25+</em> total</div>
+          <div class="m1-what">Your first month library: 18 shorts, 3 long-forms, 2 market-signal pieces. ~90 total posts with cross-platform distribution.</div>
         </div>
       </div>
 
       <div class="m1-total">
-        <strong>Your time:</strong> 10 minutes, once. <strong>Our time:</strong> 24/7, forever.
+        Meanwhile, you're out showing houses. Or at the gym. Or watching Netflix. <strong>The work happens without you.</strong>
       </div>
     </div>
   </section>
@@ -2532,10 +2557,10 @@
     <!-- CLOSING CTA -->
   <section class="container">
     <div class="cta-wrap">
-      <h2>See what's happening in your market<br/><em class="gradient-text">in 30 seconds.</em></h2>
-      <p class="lede">No card. No signup wall. We'll show you what's winning in your ZIPs before we ask you to do anything else.</p>
-      <a href="propcast-signup.html" class="btn btn-primary btn-lg">See my market — free preview <span class="btn-arrow">→</span></a>
-      <div class="cta-microtxt">No credit card · Cancel anytime · You own your channels</div>
+      <h2>Ready when you are.<br/>So are <em class="gradient-text">25 seats.</em></h2>
+      <p class="lede">Lock your $349/mo founding seat. Day 3 your first reel publishes. Seats close June 30 or when all 25 fill — whichever comes first.</p>
+      <a href="propcast-signup.html" class="btn btn-primary btn-lg">Claim my founding seat <span class="btn-arrow">→</span></a>
+      <div class="cta-microtxt">Cancel anytime · No retention calls · You own your channels</div>
     </div>
   </section>
 
