@@ -608,6 +608,31 @@
       .founder-letter { padding: 28px 22px; margin-bottom: 40px; }
       .founder-letter p { font-size: 15px; }
     }
+  
+    /* PAYMENT SECTION ADDITIONS */
+    .pay-divider {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--teal-b); margin: 24px 0 14px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .pay-notice {
+      font-size: 12px; line-height: 1.5; color: var(--gray-l);
+      background: rgba(0,194,168,0.06);
+      border: 1px solid var(--teal-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+    }
+    .pay-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 12px;
+    }
+    .pay-row .field { margin-bottom: 18px; }
+    @media (max-width: 520px) {
+      .pay-row { grid-template-columns: 1fr 1fr; }
+      .pay-row .field:last-child { grid-column: span 2; }
+    }
   </style>
 
   <!-- ====================================================================
@@ -736,8 +761,8 @@
 
           <!-- RESERVATION FORM -->
           <form class="reserve-card" id="reserveForm" novalidate>
-            <div class="reserve-title">Reserve your seat</div>
-            <div class="reserve-sub">No card, no charge today. We'll reach out within 24 hours to schedule your avatar film session.</div>
+            <div class="reserve-title">Lock in your founding seat</div>
+            <div class="reserve-sub">$349/mo starts Day 3 — when your first reel publishes. Your price is locked for 12 months. Cancel anytime.</div>
 
             <div class="field">
               <label for="firstName">First name</label>
@@ -756,12 +781,36 @@
               <input type="tel" id="phone" name="phone" placeholder="(650) 555-0134" autocomplete="tel">
             </div>
 
+            <div class="pay-divider">Payment details</div>
+
+            <div class="pay-notice">Pre-launch placeholder — Stripe wiring in progress. No charges process yet. Your reservation is captured.</div>
+
+            <div class="field">
+              <label for="cardNumber">Card number</label>
+              <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" autocomplete="cc-number" inputmode="numeric" maxlength="19">
+            </div>
+
+            <div class="pay-row">
+              <div class="field">
+                <label for="cardExp">Expiry</label>
+                <input type="text" id="cardExp" name="cardExp" placeholder="MM/YY" autocomplete="cc-exp" inputmode="numeric" maxlength="5">
+              </div>
+              <div class="field">
+                <label for="cardCvv">CVV</label>
+                <input type="text" id="cardCvv" name="cardCvv" placeholder="123" autocomplete="cc-csc" inputmode="numeric" maxlength="4">
+              </div>
+              <div class="field">
+                <label for="cardZip">Billing ZIP</label>
+                <input type="text" id="cardZip" name="cardZip" placeholder="94403" autocomplete="postal-code" inputmode="numeric" maxlength="10">
+              </div>
+            </div>
+
             <button type="submit" class="reserve-btn" id="reserveBtn">
-              Reserve my founding seat →
+              Lock in my founding seat →
             </button>
 
             <div class="reserve-micro">
-              <strong>$0 due today.</strong> We confirm your seat, then schedule your 15-min avatar film session. If it's not a fit after the call, you walk.
+              <strong>$0 due today.</strong> First charge on Day 3 when your first reel publishes. 12-month price lock. Cancel anytime — one button, no retention calls.
             </div>
           </form>
 
