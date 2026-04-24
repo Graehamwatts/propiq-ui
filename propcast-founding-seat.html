@@ -989,6 +989,25 @@
     setTimeout(() => {
       document.querySelectorAll('.reveal-on-scroll:not(.in)').forEach(el => el.classList.add('in'));
     }, 2500);
+  
+    // Added: funnel redirect → Session 1 onboarding
+    (function() {
+      var f = document.getElementById('reserveForm');
+      if (!f) return;
+      f.addEventListener('submit', function(e) {
+        // Only redirect if the first handler didn't already prevent default
+        // (it should, but be safe). Give the first handler time to persist state.
+        setTimeout(function() {
+          var fn = (document.getElementById('firstName') || {}).value || '';
+          var em = (document.getElementById('email') || {}).value || '';
+          var qs = new URLSearchParams();
+          if (fn) qs.set('name', fn);
+          if (em) qs.set('email', em);
+          window.location.href = 'propcast-onboarding-s1.html' + (qs.toString() ? '?' + qs.toString() : '');
+        }, 600);
+      });
+    })();
+
   </script>
 
   <style>
