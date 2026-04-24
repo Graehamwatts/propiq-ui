@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to PropCast — Getting started</title>
+  <meta name="description" content="Your founding-seat setup. Ten minutes, six steps, then you're ready for your recording session.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060F1E; --bg-2: #0B1628;
+      --navy: #0B1F3A; --navy-card: #0E2440; --navy-card-h: #122B4F;
+      --teal: #00C2A8; --teal-b: #00E8C7; --teal-d: #009e88;
+      --teal-glow: rgba(0,194,168,0.12); --teal-border: rgba(0,194,168,0.22);
+      --gray: #8A9BB0; --gray-l: #C4CDD8; --faint: #4A5B6E; --ink: #EAEEF3;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
+      --red: #EF4444; --amber: #F59E0B; --green: #34D399;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,168,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,15,30,0.8);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 16px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Inter', sans-serif; font-weight: 900; font-size: 17px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal) 50%, #7c5cd8);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.18em;
+      text-decoration: none;
+    }
+    .nav-progress-label {
+      font-size: 12px; font-weight: 600; color: var(--gray);
+      letter-spacing: 0.5px;
+    }
+    .nav-progress-label strong { color: var(--teal-b); }
+
+    /* LAYOUT */
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+      position: relative; z-index: 1;
+    }
+
+    /* STEPPER */
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 48px;
+    }
+    .step-dot {
+      height: 4px; border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    .step-dot.done { background: var(--teal-b); }
+    .step-dot.active { background: linear-gradient(90deg, var(--teal-b), rgba(0,232,199,0.3)); }
+
+    /* STEP CARD */
+    .step-card {
+      display: none;
+      background: linear-gradient(180deg, rgba(14,36,64,0.55), rgba(11,22,40,0.4));
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 32px 80px -20px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card.active { display: block; animation: stepIn 0.4s cubic-bezier(0.2, 0, 0, 1); }
+    @keyframes stepIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .step-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b) 50%, transparent);
+      opacity: 0.5;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--teal-b);
+      padding: 5px 12px;
+      border: 1px solid var(--teal-border);
+      background: var(--teal-glow);
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal-b); box-shadow: 0 0 8px var(--teal-b);
+    }
+
+    .step-title {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+    }
+    .step-title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-weight: 400;
+      color: var(--teal-b);
+    }
+    .step-lede {
+      font-size: 16px; color: var(--gray-l);
+      line-height: 1.55; margin-bottom: 36px;
+      max-width: 560px;
+    }
+
+    /* FIELDS */
+    .field { margin-bottom: 24px; }
+    .field label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--gray-l); margin-bottom: 8px;
+    }
+    .field label .opt {
+      font-weight: 400; color: var(--faint); font-size: 12px; margin-left: 6px;
+    }
+    .input, .textarea, .select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(6,15,30,0.6);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 500;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+    .input::placeholder, .textarea::placeholder { color: var(--faint); }
+    .input:focus, .textarea:focus, .select:focus {
+      outline: none;
+      border-color: var(--teal-border);
+      background: rgba(6,15,30,0.85);
+      box-shadow: 0 0 0 4px rgba(0,194,168,0.08);
+    }
+    .textarea { min-height: 96px; resize: vertical; font-family: inherit; line-height: 1.5; }
+    .select {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300E8C7' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .select option { background: var(--navy-card); color: var(--ink); }
+
+    /* UPLOAD TILE */
+    .upload {
+      border: 2px dashed var(--border2);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.25s, background 0.25s;
+      background: rgba(255,255,255,0.02);
+    }
+    .upload:hover { border-color: var(--teal-border); background: rgba(0,194,168,0.04); }
+    .upload.filled { border-color: var(--teal-border); background: rgba(0,194,168,0.05); border-style: solid; }
+    .upload-icon { font-size: 26px; color: var(--teal-b); margin-bottom: 8px; }
+    .upload-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .upload-hint { font-size: 12px; color: var(--gray); margin-top: 4px; }
+    .upload input[type="file"] { display: none; }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 520px) {
+      .upload-grid { grid-template-columns: 1fr; }
+    }
+
+    /* COLOR SWATCH */
+    .color-row { display: flex; gap: 10px; align-items: center; }
+    .color-swatch {
+      width: 44px; height: 44px; border-radius: 10px;
+      border: 1px solid var(--border2);
+      cursor: pointer; flex-shrink: 0;
+      position: relative; overflow: hidden;
+    }
+    .color-swatch input[type="color"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      border: none; background: none;
+    }
+    .color-hex {
+      flex: 1;
+      padding: 14px 16px;
+      background: rgba(6,15,30,0.6);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* RADIO CARDS */
+    .radio-cards { display: grid; gap: 10px; }
+    .radio-cards.inline { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .radio-card {
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: border-color 0.2s, background 0.2s;
+      background: rgba(255,255,255,0.015);
+    }
+    .radio-card:hover { border-color: var(--teal-border); background: rgba(0,194,168,0.03); }
+    .radio-card input[type="radio"] {
+      margin-top: 2px;
+      accent-color: var(--teal-b);
+      width: 18px; height: 18px;
+      cursor: pointer;
+    }
+    .radio-card.checked { border-color: var(--teal-b); background: rgba(0,194,168,0.06); }
+    .radio-card-body { flex: 1; }
+    .radio-card-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+    .radio-card-sub { font-size: 12.5px; color: var(--gray); line-height: 1.45; }
+
+    /* CHECKBOX TAGS */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-check {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      font-size: 13px; font-weight: 500; color: var(--gray-l);
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .tag-check:hover { border-color: var(--teal-border); color: var(--ink); }
+    .tag-check.checked {
+      border-color: var(--teal-b);
+      background: rgba(0,194,168,0.1);
+      color: var(--teal-b);
+    }
+    .tag-check input[type="checkbox"] { display: none; }
+
+    /* CHIP INPUT (ZIP codes, neighborhoods) */
+    .chip-input-wrap {
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      background: rgba(6,15,30,0.6);
+      padding: 8px;
+      min-height: 48px;
+      display: flex; flex-wrap: wrap; gap: 6px;
+      align-items: center;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .chip-input-wrap:focus-within {
+      border-color: var(--teal-border);
+      background: rgba(6,15,30,0.85);
+      box-shadow: 0 0 0 4px rgba(0,194,168,0.08);
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      background: rgba(0,194,168,0.12);
+      border: 1px solid var(--teal-border);
+      border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--teal-b);
+    }
+    .chip-x {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); color: var(--ink);
+      font-size: 10px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none;
+    }
+    .chip-x:hover { background: rgba(239,68,68,0.5); }
+    .chip-input {
+      flex: 1; min-width: 120px;
+      border: none; background: none;
+      padding: 8px;
+      color: var(--ink); font-size: 14px;
+      font-family: inherit;
+    }
+    .chip-input:focus { outline: none; }
+    .chip-hint { font-size: 12px; color: var(--gray); margin-top: 8px; }
+
+    /* RANGE WITH LABEL */
+    .range-row {
+      display: grid; grid-template-columns: 1fr auto; align-items: center;
+      gap: 16px; margin-bottom: 18px;
+    }
+    .range-label { font-size: 13px; font-weight: 500; color: var(--gray-l); }
+    .range-val { font-size: 14px; font-weight: 700; color: var(--teal-b); min-width: 52px; text-align: right; }
+    input[type="range"] {
+      width: 100%; appearance: none; -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px; border-radius: 4px; background: rgba(255,255,255,0.1);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--teal-b);
+      margin-top: -7px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,232,199,0.4);
+    }
+    input[type="range"]::-moz-range-track {
+      height: 4px; border-radius: 4px; background: rgba(255,255,255,0.1);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--teal-b); border: none; cursor: pointer;
+    }
+
+    /* SOCIAL CONNECT BUTTONS */
+    .social-grid { display: grid; gap: 10px; }
+    .social-row {
+      display: flex; align-items: center;
+      padding: 14px 16px;
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.015);
+      gap: 14px;
+    }
+    .social-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .social-icon.ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); }
+    .social-icon.yt { background: #FF0000; }
+    .social-icon.tt { background: #000; border: 1px solid var(--border2); }
+    .social-icon.fb { background: #1877F2; }
+    .social-icon.gbp { background: linear-gradient(135deg, #4285F4, #34A853); }
+    .social-body { flex: 1; }
+    .social-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .social-sub { font-size: 12px; color: var(--gray); margin-top: 1px; }
+    .social-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px; font-weight: 600;
+      border: 1px solid var(--teal-border);
+      background: var(--teal-glow);
+      color: var(--teal-b);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { background: rgba(0,194,168,0.2); border-color: var(--teal-b); }
+    .social-btn.connected {
+      background: rgba(52,211,153,0.12);
+      border-color: rgba(52,211,153,0.4);
+      color: var(--green);
+      cursor: default;
+    }
+    .social-note {
+      font-size: 12px; color: var(--gray);
+      margin-top: 14px; padding: 10px 14px;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      line-height: 1.5;
+    }
+
+    /* REVIEW LIST */
+    .review-list { display: grid; gap: 14px; margin-bottom: 28px; }
+    .review-group {
+      padding: 18px 20px;
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+    }
+    .review-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .review-title {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal-b);
+    }
+    .review-edit {
+      font-size: 12px; color: var(--gray-l);
+      background: none; border: none;
+      cursor: pointer; font-family: inherit;
+      text-decoration: underline;
+    }
+    .review-edit:hover { color: var(--teal-b); }
+    .review-row { font-size: 14px; color: var(--ink); line-height: 1.55; }
+    .review-row + .review-row { margin-top: 4px; }
+    .review-key { color: var(--gray); }
+
+    .compliance {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 16px 18px;
+      border: 1px solid var(--teal-border);
+      border-radius: 12px;
+      background: rgba(0,194,168,0.04);
+      margin-bottom: 24px;
+    }
+    .compliance input[type="checkbox"] {
+      margin-top: 2px;
+      width: 18px; height: 18px;
+      accent-color: var(--teal-b);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .compliance-text { font-size: 13px; color: var(--gray-l); line-height: 1.55; }
+
+    /* BUTTONS */
+    .actions {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 26px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform 0.2s, box-shadow 0.25s, background 0.25s, border-color 0.25s;
+      letter-spacing: -0.005em;
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--teal-b) 0%, var(--teal) 100%);
+      color: #001512;
+      box-shadow: 0 8px 24px -8px rgba(0,194,168,0.5);
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px -8px rgba(0,194,168,0.6);
+    }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--gray-l);
+    }
+    .btn-ghost:hover { border-color: var(--teal-border); color: var(--teal-b); }
+    .btn-lg { padding: 18px 34px; font-size: 15.5px; }
+
+    /* WELCOME CARDS */
+    .welcome-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 32px;
+    }
+    @media (max-width: 560px) { .welcome-grid { grid-template-columns: 1fr; } }
+    .welcome-card {
+      padding: 22px;
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+    }
+    .welcome-card-num {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-size: 32px; color: var(--teal-b);
+      line-height: 1; margin-bottom: 6px;
+    }
+    .welcome-card-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .welcome-card-body { font-size: 13px; color: var(--gray-l); line-height: 1.5; }
+
+    .welcome-tip {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 16px;
+      border-left: 3px solid var(--teal-b);
+      background: rgba(0,194,168,0.04);
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 28px;
+    }
+    .welcome-tip-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal-b); margin-bottom: 4px;
+    }
+    .welcome-tip-body { font-size: 13.5px; color: var(--gray-l); line-height: 1.55; }
+
+    /* SUCCESS STATE */
+    #successState { display: none; }
+    #successState.on { display: block; }
+    .success-card {
+      background: linear-gradient(180deg, rgba(14,36,64,0.6), rgba(11,22,40,0.4));
+      border: 1px solid var(--teal-border);
+      border-radius: 24px;
+      padding: 56px 48px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .success-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(0,232,199,0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .success-badge {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 36px; color: #001512; font-weight: 900;
+      margin-bottom: 24px;
+      box-shadow: 0 0 40px rgba(0,232,199,0.4);
+    }
+    .success-title {
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 700; line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+    }
+    .success-title em {
+      font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+      color: var(--teal-b);
+    }
+    .success-lede {
+      font-size: 16px; color: var(--gray-l);
+      line-height: 1.55; margin: 0 auto 32px;
+      max-width: 520px;
+    }
+    .success-next {
+      display: grid; gap: 12px;
+      margin: 0 auto 32px; max-width: 520px;
+      text-align: left;
+    }
+    .success-next-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 16px;
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .success-next-num {
+      font-family: 'Instrument Serif', serif; font-style: italic;
+      color: var(--teal-b); font-size: 22px; line-height: 1;
+      flex-shrink: 0; min-width: 24px;
+    }
+    .success-next-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .success-next-sub { font-size: 12.5px; color: var(--gray); line-height: 1.5; }
+
+    /* MOBILE */
+    @media (max-width: 640px) {
+      .wrap { padding: 32px 16px 64px; }
+      .step-card, .success-card { padding: 28px 22px; border-radius: 18px; }
+      .stepper { margin-bottom: 32px; }
+      .actions { justify-content: stretch; }
+      .actions .btn { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">PROPCAST</a>
+      <div class="nav-progress-label">Step <strong id="stepNumLabel">1</strong> of 6 · Day 0 setup</div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- PROGRESS STEPPER -->
+    <div class="stepper" id="stepper">
+      <div class="step-dot active" data-dot="1"></div>
+      <div class="step-dot" data-dot="2"></div>
+      <div class="step-dot" data-dot="3"></div>
+      <div class="step-dot" data-dot="4"></div>
+      <div class="step-dot" data-dot="5"></div>
+      <div class="step-dot" data-dot="6"></div>
+    </div>
+
+    <!-- STEP 1: WELCOME -->
+    <div class="step-card active" data-step="1">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> You're in</span>
+      <h1 class="step-title">Welcome, <em id="welcomeName">Graeham</em>. Here's what we'll do.</h1>
+      <p class="step-lede">Your founding seat is locked. Two short sessions stand between you and a feed that runs itself.</p>
+
+      <div class="welcome-grid">
+        <div class="welcome-card">
+          <div class="welcome-card-num">1</div>
+          <div class="welcome-card-title">Today · 10 minutes</div>
+          <div class="welcome-card-body">Brand, markets, social connections, content preferences. No recording yet — just context so we build the right thing.</div>
+        </div>
+        <div class="welcome-card">
+          <div class="welcome-card-num">2</div>
+          <div class="welcome-card-title">Scheduled · 30 minutes</div>
+          <div class="welcome-card-body">Your recording session. 2-3 min on camera for the avatar, 20 min of voice samples for the clone. Then we build.</div>
+        </div>
+      </div>
+
+      <div class="welcome-tip">
+        <div>
+          <div class="welcome-tip-label">Heads-up</div>
+          <div class="welcome-tip-body">You can leave and come back anytime. Your progress saves on every step. Nothing here publishes until you approve it during your recording session.</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <span></span>
+        <button class="btn btn-primary btn-lg" data-next>Let's go <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 2: BRAND ASSETS -->
+    <div class="step-card" data-step="2">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 2 of 6 · Brand</span>
+      <h1 class="step-title">Your <em>brand</em>, not ours.</h1>
+      <p class="step-lede">Drop in your logo and headshot. Pick your brand colors. Choose how AI gets disclosed on your videos. This keeps every reel unmistakably yours.</p>
+
+      <div class="field">
+        <label>Logo &amp; headshot</label>
+        <div class="upload-grid">
+          <label class="upload" id="uploadLogo">
+            <div class="upload-icon">⬆</div>
+            <div class="upload-label" id="logoLabel">Upload your logo</div>
+            <div class="upload-hint" id="logoHint">PNG or SVG · square or wide · transparent bg ideal</div>
+            <input type="file" id="logoFile" accept="image/*">
+          </label>
+          <label class="upload" id="uploadHeadshot">
+            <div class="upload-icon">⬆</div>
+            <div class="upload-label" id="headshotLabel">Upload your headshot</div>
+            <div class="upload-hint" id="headshotHint">JPG or PNG · square crop · 500px or larger</div>
+            <input type="file" id="headshotFile" accept="image/*">
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Brand color <span class="opt">(we'll use this on captions and overlays)</span></label>
+        <div class="color-row">
+          <label class="color-swatch" style="background: #00C2A8;" id="colorSwatch">
+            <input type="color" id="brandColor" value="#00C2A8">
+          </label>
+          <input class="color-hex" id="brandColorHex" value="#00C2A8" maxlength="7">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>AI disclosure preference</label>
+        <div class="radio-cards">
+          <label class="radio-card" data-radio>
+            <input type="radio" name="disclosure" value="minimal">
+            <div class="radio-card-body">
+              <div class="radio-card-title">Minimal — platform default only</div>
+              <div class="radio-card-sub">We use each platform's built-in AI label (Meta, YouTube, TikTok). No extra on-screen text.</div>
+            </div>
+          </label>
+          <label class="radio-card" data-radio>
+            <input type="radio" name="disclosure" value="standard" checked>
+            <div class="radio-card-body">
+              <div class="radio-card-title">Standard — small caption line <span style="color: var(--teal-b);">(recommended)</span></div>
+              <div class="radio-card-sub">Platform label + a short "Created with AI" line in the caption. Clean, professional, compliant.</div>
+            </div>
+          </label>
+          <label class="radio-card" data-radio>
+            <input type="radio" name="disclosure" value="prominent">
+            <div class="radio-card-body">
+              <div class="radio-card-title">Prominent — on-screen watermark</div>
+              <div class="radio-card-sub">Visible "AI-generated" tag baked into every video. Safest for highly regulated brokerages.</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="signOff">Sign-off line <span class="opt">(how you close most videos)</span></label>
+        <input class="input" id="signOff" type="text" placeholder="Your local expert in [market]. Call me when you're ready." maxlength="140">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary" data-next>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: MARKET SETUP -->
+    <div class="step-card" data-step="3">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 3 of 6 · Your market</span>
+      <h1 class="step-title">Where you <em>actually</em> work.</h1>
+      <p class="step-lede">This trains every script, every market-signal reel, every Reddit scrape. Be specific — PropCast gets sharper the tighter the target.</p>
+
+      <div class="field">
+        <label for="zipInput">ZIP codes you focus on</label>
+        <div class="chip-input-wrap" id="zipWrap">
+          <input type="text" class="chip-input" id="zipInput" placeholder="94403, 94401… then press Enter or comma" inputmode="numeric">
+        </div>
+        <div class="chip-hint">Press Enter or comma to add each ZIP. Add as many as you want.</div>
+      </div>
+
+      <div class="field">
+        <label for="hoodInput">Neighborhoods or submarkets <span class="opt">(optional)</span></label>
+        <div class="chip-input-wrap" id="hoodWrap">
+          <input type="text" class="chip-input" id="hoodInput" placeholder="West Menlo, Professorville… then press Enter">
+        </div>
+        <div class="chip-hint">Neighborhoods your ZIPs don't capture — downtown cores, specific subdivisions, local names.</div>
+      </div>
+
+      <div class="field">
+        <label>Price band you primarily work in</label>
+        <select class="select" id="priceBand">
+          <option value="" disabled selected>Pick a band</option>
+          <option value="under-500k">Under $500K</option>
+          <option value="500-800k">$500K – $800K</option>
+          <option value="800k-1.5m">$800K – $1.5M</option>
+          <option value="1.5-3m">$1.5M – $3M</option>
+          <option value="3m-plus">$3M+</option>
+          <option value="mixed">Mixed — wide range</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Who do you serve most? <span class="opt">(pick all that apply)</span></label>
+        <div class="tag-row" id="clientTagRow">
+          <label class="tag-check"><input type="checkbox" value="first-time">First-time buyers</label>
+          <label class="tag-check"><input type="checkbox" value="move-up">Move-up buyers</label>
+          <label class="tag-check"><input type="checkbox" value="luxury">Luxury</label>
+          <label class="tag-check"><input type="checkbox" value="relocation">Relocation</label>
+          <label class="tag-check"><input type="checkbox" value="investors">Investors</label>
+          <label class="tag-check"><input type="checkbox" value="downsizers">Downsizers / empty-nesters</label>
+          <label class="tag-check"><input type="checkbox" value="sellers">Sellers (listings-focused)</label>
+          <label class="tag-check"><input type="checkbox" value="sphere">Past-client sphere</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary" data-next>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: SOCIAL OAUTH -->
+    <div class="step-card" data-step="4">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 4 of 6 · Connect channels</span>
+      <h1 class="step-title">Connect where you <em>already post</em>.</h1>
+      <p class="step-lede">We'll publish every reel to the channels you already own. No new logins needed from here — each connection opens a standard OAuth popup.</p>
+
+      <div class="social-grid">
+        <div class="social-row">
+          <div class="social-icon ig">IG</div>
+          <div class="social-body">
+            <div class="social-name">Instagram</div>
+            <div class="social-sub">Reels + Stories · connected via Meta Business</div>
+          </div>
+          <button class="social-btn" data-social="ig">Connect</button>
+        </div>
+        <div class="social-row">
+          <div class="social-icon yt">▶</div>
+          <div class="social-body">
+            <div class="social-name">YouTube</div>
+            <div class="social-sub">Shorts + long-form</div>
+          </div>
+          <button class="social-btn" data-social="yt">Connect</button>
+        </div>
+        <div class="social-row">
+          <div class="social-icon tt">t</div>
+          <div class="social-body">
+            <div class="social-name">TikTok</div>
+            <div class="social-sub">Short-form vertical</div>
+          </div>
+          <button class="social-btn" data-social="tt">Connect</button>
+        </div>
+        <div class="social-row">
+          <div class="social-icon fb">f</div>
+          <div class="social-body">
+            <div class="social-name">Facebook</div>
+            <div class="social-sub">Page + Reels (connected via Meta Business)</div>
+          </div>
+          <button class="social-btn" data-social="fb">Connect</button>
+        </div>
+        <div class="social-row">
+          <div class="social-icon gbp">G</div>
+          <div class="social-body">
+            <div class="social-name">Google Business Profile</div>
+            <div class="social-sub">Posts + updates to your local profile</div>
+          </div>
+          <button class="social-btn" data-social="gbp">Connect</button>
+        </div>
+      </div>
+
+      <div class="social-note">
+        <strong style="color: var(--gray-l);">Pre-launch:</strong> OAuth wiring lands at public launch. For now, "Connect" just flags you want this platform — your founding-cohort welcome call covers the real connection step.
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary" data-next>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: CONTENT PREFERENCES -->
+    <div class="step-card" data-step="5">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 5 of 6 · Content mix</span>
+      <h1 class="step-title">Your <em>content DNA</em>.</h1>
+      <p class="step-lede">Rough mix of what your feed looks like. These aren't locked — PropCast auto-adjusts as we learn what engages in your market.</p>
+
+      <div class="field">
+        <label>Topic mix <span class="opt">(adjust sliders — we'll balance automatically)</span></label>
+        <div class="range-row">
+          <div>
+            <div class="range-label">Market updates &amp; data</div>
+            <input type="range" id="mixMarket" min="0" max="100" value="35" step="5">
+          </div>
+          <div class="range-val" id="mixMarketVal">35%</div>
+        </div>
+        <div class="range-row">
+          <div>
+            <div class="range-label">Educational / how-to</div>
+            <input type="range" id="mixEdu" min="0" max="100" value="25" step="5">
+          </div>
+          <div class="range-val" id="mixEduVal">25%</div>
+        </div>
+        <div class="range-row">
+          <div>
+            <div class="range-label">Listing features &amp; tours</div>
+            <input type="range" id="mixListing" min="0" max="100" value="25" step="5">
+          </div>
+          <div class="range-val" id="mixListingVal">25%</div>
+        </div>
+        <div class="range-row">
+          <div>
+            <div class="range-label">Local / lifestyle / personality</div>
+            <input type="range" id="mixLifestyle" min="0" max="100" value="15" step="5">
+          </div>
+          <div class="range-val" id="mixLifestyleVal">15%</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Target cadence <span class="opt">(videos per week — we'll aim for this)</span></label>
+        <div class="range-row">
+          <div>
+            <input type="range" id="cadence" min="2" max="7" value="4" step="1">
+          </div>
+          <div class="range-val" id="cadenceVal">4/wk</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Voice tone that sounds most like you</label>
+        <div class="radio-cards inline">
+          <label class="radio-card" data-radio>
+            <input type="radio" name="tone" value="professional">
+            <div class="radio-card-body">
+              <div class="radio-card-title">Professional</div>
+              <div class="radio-card-sub">Measured, authoritative.</div>
+            </div>
+          </label>
+          <label class="radio-card" data-radio>
+            <input type="radio" name="tone" value="conversational" checked>
+            <div class="radio-card-body">
+              <div class="radio-card-title">Conversational</div>
+              <div class="radio-card-sub">Warm, friendly, like a coffee chat.</div>
+            </div>
+          </label>
+          <label class="radio-card" data-radio>
+            <input type="radio" name="tone" value="bold">
+            <div class="radio-card-body">
+              <div class="radio-card-title">Bold</div>
+              <div class="radio-card-sub">Direct, punchy, occasionally funny.</div>
+            </div>
+          </label>
+          <label class="radio-card" data-radio>
+            <input type="radio" name="tone" value="warm">
+            <div class="radio-card-body">
+              <div class="radio-card-title">Warm</div>
+              <div class="radio-card-sub">Patient, family-friendly, reassuring.</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary" data-next>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: REVIEW -->
+    <div class="step-card" data-step="6">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 6 of 6 · Review</span>
+      <h1 class="step-title">One last <em>look</em>.</h1>
+      <p class="step-lede">Everything we'll use to build your voice clone, avatar, and first month of content. Edit anything that's off.</p>
+
+      <div class="review-list" id="reviewList">
+        <!-- populated by JS -->
+      </div>
+
+      <label class="compliance">
+        <input type="checkbox" id="complianceChk">
+        <div class="compliance-text">
+          I acknowledge that PropCast generates content on my behalf with AI, that every post is reviewed by a human before publishing, that I can pause or cancel anytime in one click, and that I'm responsible for Fair Housing compliance of any content I approve.
+        </div>
+      </label>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary btn-lg" id="activateBtn" disabled>Activate my account →</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="successState">
+      <div class="success-card">
+        <div class="success-badge">✓</div>
+        <h1 class="success-title">You're <em>activated</em>, <span id="successName">Graeham</span>.</h1>
+        <p class="success-lede">Your founding seat is live. The next move is your recording session — after that, PropCast starts building.</p>
+
+        <div class="success-next">
+          <div class="success-next-row">
+            <div class="success-next-num">1</div>
+            <div>
+              <div class="success-next-title">We email you within 24 hours to schedule your recording</div>
+              <div class="success-next-sub">20–30 minutes. You on camera, at a real microphone, quiet room. Calendar link lands in your inbox.</div>
+            </div>
+          </div>
+          <div class="success-next-row">
+            <div class="success-next-num">2</div>
+            <div>
+              <div class="success-next-title">Avatar + voice clone build in 48 hours</div>
+              <div class="success-next-sub">You get a preview to approve before anything ships.</div>
+            </div>
+          </div>
+          <div class="success-next-row">
+            <div class="success-next-num">3</div>
+            <div>
+              <div class="success-next-title">Day 3: first reel publishes</div>
+              <div class="success-next-sub">Across every channel you connected. You keep script veto for the first two weeks.</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="index.html" class="btn btn-primary btn-lg">Back to home</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================================
+    // Onboarding wizard — Session 1
+    // All data saved to sessionStorage. Real integrations wired at launch.
+    // ============================================================
+
+    const state = {
+      step: 1,
+      fname: '',
+      email: '',
+      logoName: '',
+      headshotName: '',
+      brandColor: '#00C2A8',
+      disclosure: 'standard',
+      signOff: '',
+      zips: [],
+      hoods: [],
+      priceBand: '',
+      clients: [],
+      social: { ig: false, yt: false, tt: false, fb: false, gbp: false },
+      mix: { market: 35, edu: 25, listing: 25, lifestyle: 15 },
+      cadence: 4,
+      tone: 'conversational',
+      compliance: false,
+    };
+
+    // Prefill from ?name=&email= coming from the founding-seat page
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const n = params.get('name'); if (n) state.fname = n.slice(0, 40);
+      const e = params.get('email'); if (e) state.email = e.slice(0, 120);
+    } catch(_) {}
+
+    // Or pull from a prior session
+    try {
+      const saved = sessionStorage.getItem('propcast_onboarding_s1');
+      if (saved) {
+        const data = JSON.parse(saved);
+        Object.assign(state, data);
+      }
+    } catch(_) {}
+
+    function persist() {
+      try { sessionStorage.setItem('propcast_onboarding_s1', JSON.stringify(state)); } catch(_) {}
+    }
+
+    // --- STEP NAVIGATION ---------------------------------------
+    function showStep(n) {
+      state.step = Math.max(1, Math.min(6, n));
+      document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+      const target = document.querySelector(`.step-card[data-step="${state.step}"]`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.step-dot').forEach(dot => {
+        const n = parseInt(dot.dataset.dot, 10);
+        dot.classList.remove('active', 'done');
+        if (n < state.step) dot.classList.add('done');
+        else if (n === state.step) dot.classList.add('active');
+      });
+
+      document.getElementById('stepNumLabel').textContent = state.step;
+
+      if (state.step === 6) renderReview();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('[data-next]').forEach(btn => {
+      btn.addEventListener('click', () => { persist(); showStep(state.step + 1); });
+    });
+    document.querySelectorAll('[data-prev]').forEach(btn => {
+      btn.addEventListener('click', () => { persist(); showStep(state.step - 1); });
+    });
+
+    // --- STEP 1: WELCOME NAME ----------------------------------
+    document.getElementById('welcomeName').textContent = state.fname || 'friend';
+
+    // --- STEP 2: BRAND -----------------------------------------
+    const logoInput = document.getElementById('logoFile');
+    const logoLabel = document.getElementById('logoLabel');
+    const logoHint = document.getElementById('logoHint');
+    const uploadLogo = document.getElementById('uploadLogo');
+    logoInput.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) {
+        state.logoName = f.name;
+        logoLabel.textContent = '✓ ' + f.name;
+        logoHint.textContent = (f.size / 1024).toFixed(1) + ' KB · tap to replace';
+        uploadLogo.classList.add('filled');
+        persist();
+      }
+    });
+    if (state.logoName) {
+      logoLabel.textContent = '✓ ' + state.logoName;
+      logoHint.textContent = 'tap to replace';
+      uploadLogo.classList.add('filled');
+    }
+
+    const headshotInput = document.getElementById('headshotFile');
+    const headshotLabel = document.getElementById('headshotLabel');
+    const headshotHint = document.getElementById('headshotHint');
+    const uploadHeadshot = document.getElementById('uploadHeadshot');
+    headshotInput.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) {
+        state.headshotName = f.name;
+        headshotLabel.textContent = '✓ ' + f.name;
+        headshotHint.textContent = (f.size / 1024).toFixed(1) + ' KB · tap to replace';
+        uploadHeadshot.classList.add('filled');
+        persist();
+      }
+    });
+    if (state.headshotName) {
+      headshotLabel.textContent = '✓ ' + state.headshotName;
+      headshotHint.textContent = 'tap to replace';
+      uploadHeadshot.classList.add('filled');
+    }
+
+    const brandColor = document.getElementById('brandColor');
+    const brandColorHex = document.getElementById('brandColorHex');
+    const colorSwatch = document.getElementById('colorSwatch');
+    function syncColor(val) {
+      if (!/^#[0-9A-Fa-f]{6}$/.test(val)) return;
+      state.brandColor = val.toUpperCase();
+      brandColor.value = val;
+      brandColorHex.value = val.toUpperCase();
+      colorSwatch.style.background = val;
+      persist();
+    }
+    brandColor.addEventListener('input', (e) => syncColor(e.target.value));
+    brandColorHex.addEventListener('input', (e) => {
+      let v = e.target.value.trim();
+      if (!v.startsWith('#')) v = '#' + v;
+      if (/^#[0-9A-Fa-f]{6}$/.test(v)) syncColor(v);
+    });
+    syncColor(state.brandColor);
+
+    document.querySelectorAll('input[name="disclosure"]').forEach(r => {
+      if (r.value === state.disclosure) r.checked = true;
+      r.addEventListener('change', () => {
+        state.disclosure = r.value;
+        document.querySelectorAll('[data-radio]').forEach(c => c.classList.remove('checked'));
+        r.closest('.radio-card').classList.add('checked');
+        persist();
+      });
+      if (r.checked) r.closest('.radio-card').classList.add('checked');
+    });
+
+    const signOff = document.getElementById('signOff');
+    signOff.value = state.signOff;
+    signOff.addEventListener('input', () => { state.signOff = signOff.value; persist(); });
+
+    // --- STEP 3: MARKET ----------------------------------------
+    function setupChipInput(inputId, wrapId, stateKey, allowOnlyDigits) {
+      const input = document.getElementById(inputId);
+      const wrap = document.getElementById(wrapId);
+      function render() {
+        wrap.querySelectorAll('.chip').forEach(c => c.remove());
+        state[stateKey].forEach((val, i) => {
+          const chip = document.createElement('span');
+          chip.className = 'chip';
+          chip.innerHTML = `${val} <button type="button" class="chip-x" data-idx="${i}">×</button>`;
+          wrap.insertBefore(chip, input);
+        });
+        wrap.querySelectorAll('.chip-x').forEach(x => {
+          x.addEventListener('click', () => {
+            state[stateKey].splice(parseInt(x.dataset.idx, 10), 1);
+            persist(); render();
+          });
+        });
+      }
+      function addVal(v) {
+        v = v.trim();
+        if (!v) return;
+        if (allowOnlyDigits && !/^\d{5}$/.test(v)) return;
+        if (state[stateKey].includes(v)) return;
+        state[stateKey].push(v);
+        persist(); render();
+      }
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ',') {
+          e.preventDefault();
+          addVal(input.value.replace(/,$/, ''));
+          input.value = '';
+        } else if (e.key === 'Backspace' && !input.value && state[stateKey].length) {
+          state[stateKey].pop(); persist(); render();
+        }
+      });
+      input.addEventListener('blur', () => {
+        if (input.value.trim()) { addVal(input.value); input.value = ''; }
+      });
+      wrap.addEventListener('click', () => input.focus());
+      render();
+    }
+    setupChipInput('zipInput', 'zipWrap', 'zips', true);
+    setupChipInput('hoodInput', 'hoodWrap', 'hoods', false);
+
+    const priceBand = document.getElementById('priceBand');
+    if (state.priceBand) priceBand.value = state.priceBand;
+    priceBand.addEventListener('change', () => { state.priceBand = priceBand.value; persist(); });
+
+    document.querySelectorAll('#clientTagRow input[type="checkbox"]').forEach(cb => {
+      if (state.clients.includes(cb.value)) {
+        cb.checked = true;
+        cb.closest('.tag-check').classList.add('checked');
+      }
+      cb.addEventListener('change', () => {
+        const wrap = cb.closest('.tag-check');
+        if (cb.checked) {
+          wrap.classList.add('checked');
+          if (!state.clients.includes(cb.value)) state.clients.push(cb.value);
+        } else {
+          wrap.classList.remove('checked');
+          state.clients = state.clients.filter(v => v !== cb.value);
+        }
+        persist();
+      });
+    });
+
+    // --- STEP 4: SOCIAL ----------------------------------------
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      const key = btn.dataset.social;
+      if (state.social[key]) { btn.classList.add('connected'); btn.textContent = '✓ Connected'; }
+      btn.addEventListener('click', () => {
+        if (state.social[key]) {
+          state.social[key] = false;
+          btn.classList.remove('connected');
+          btn.textContent = 'Connect';
+        } else {
+          state.social[key] = true;
+          btn.classList.add('connected');
+          btn.textContent = '✓ Connected';
+        }
+        persist();
+      });
+    });
+
+    // --- STEP 5: CONTENT MIX -----------------------------------
+    function setupRange(id, valId, stateKey, suffix) {
+      const r = document.getElementById(id);
+      const v = document.getElementById(valId);
+      if (stateKey.includes('.')) {
+        const [g, k] = stateKey.split('.');
+        r.value = state[g][k];
+      } else {
+        r.value = state[stateKey];
+      }
+      function updateDisplay() {
+        v.textContent = r.value + suffix;
+      }
+      updateDisplay();
+      r.addEventListener('input', () => {
+        updateDisplay();
+        if (stateKey.includes('.')) {
+          const [g, k] = stateKey.split('.');
+          state[g][k] = parseInt(r.value, 10);
+        } else {
+          state[stateKey] = parseInt(r.value, 10);
+        }
+        persist();
+      });
+    }
+    setupRange('mixMarket', 'mixMarketVal', 'mix.market', '%');
+    setupRange('mixEdu', 'mixEduVal', 'mix.edu', '%');
+    setupRange('mixListing', 'mixListingVal', 'mix.listing', '%');
+    setupRange('mixLifestyle', 'mixLifestyleVal', 'mix.lifestyle', '%');
+    setupRange('cadence', 'cadenceVal', 'cadence', '/wk');
+
+    document.querySelectorAll('input[name="tone"]').forEach(r => {
+      if (r.value === state.tone) {
+        r.checked = true;
+        r.closest('.radio-card').classList.add('checked');
+      }
+      r.addEventListener('change', () => {
+        state.tone = r.value;
+        document.querySelectorAll('input[name="tone"]').forEach(x => x.closest('.radio-card').classList.remove('checked'));
+        r.closest('.radio-card').classList.add('checked');
+        persist();
+      });
+    });
+
+    // --- STEP 6: REVIEW ----------------------------------------
+    const DISCLOSURE_LABEL = {
+      minimal: 'Minimal — platform default only',
+      standard: 'Standard — small caption line',
+      prominent: 'Prominent — on-screen watermark',
+    };
+    const TONE_LABEL = {
+      professional: 'Professional',
+      conversational: 'Conversational',
+      bold: 'Bold',
+      warm: 'Warm',
+    };
+    const PRICE_LABEL = {
+      'under-500k': 'Under $500K',
+      '500-800k': '$500K – $800K',
+      '800k-1.5m': '$800K – $1.5M',
+      '1.5-3m': '$1.5M – $3M',
+      '3m-plus': '$3M+',
+      'mixed': 'Mixed',
+    };
+    const CLIENT_LABEL = {
+      'first-time': 'First-time buyers',
+      'move-up': 'Move-up buyers',
+      'luxury': 'Luxury',
+      'relocation': 'Relocation',
+      'investors': 'Investors',
+      'downsizers': 'Downsizers',
+      'sellers': 'Sellers',
+      'sphere': 'Past-client sphere',
+    };
+
+    function renderReview() {
+      const list = document.getElementById('reviewList');
+      const brand = `
+        <div class="review-row"><span class="review-key">Logo:</span> ${state.logoName || '<em style="color: var(--amber); font-style: normal;">Not uploaded</em>'}</div>
+        <div class="review-row"><span class="review-key">Headshot:</span> ${state.headshotName || '<em style="color: var(--amber); font-style: normal;">Not uploaded</em>'}</div>
+        <div class="review-row"><span class="review-key">Brand color:</span> <span style="color: ${state.brandColor}; font-weight: 700;">${state.brandColor}</span></div>
+        <div class="review-row"><span class="review-key">AI disclosure:</span> ${DISCLOSURE_LABEL[state.disclosure] || state.disclosure}</div>
+        <div class="review-row"><span class="review-key">Sign-off:</span> ${state.signOff ? '"' + state.signOff + '"' : '<em style="color: var(--gray); font-style: normal;">(none)</em>'}</div>
+      `;
+      const market = `
+        <div class="review-row"><span class="review-key">ZIPs:</span> ${state.zips.length ? state.zips.join(', ') : '<em style="color: var(--amber); font-style: normal;">None added</em>'}</div>
+        <div class="review-row"><span class="review-key">Neighborhoods:</span> ${state.hoods.length ? state.hoods.join(', ') : '<em style="color: var(--gray); font-style: normal;">(none)</em>'}</div>
+        <div class="review-row"><span class="review-key">Price band:</span> ${PRICE_LABEL[state.priceBand] || '<em style="color: var(--amber); font-style: normal;">Not picked</em>'}</div>
+        <div class="review-row"><span class="review-key">Clients:</span> ${state.clients.length ? state.clients.map(c => CLIENT_LABEL[c]).join(', ') : '<em style="color: var(--gray); font-style: normal;">(any)</em>'}</div>
+      `;
+      const connected = Object.keys(state.social).filter(k => state.social[k]);
+      const social = `
+        <div class="review-row">${connected.length ? 'Flagged: ' + connected.map(k => ({ig:'Instagram',yt:'YouTube',tt:'TikTok',fb:'Facebook',gbp:'Google Business Profile'}[k])).join(', ') : '<em style="color: var(--amber); font-style: normal;">No platforms connected yet</em>'}</div>
+        <div class="review-row" style="color: var(--gray); font-size: 12.5px; margin-top: 4px;">Real OAuth connection happens during the founding-cohort welcome call.</div>
+      `;
+      const total = state.mix.market + state.mix.edu + state.mix.listing + state.mix.lifestyle;
+      const content = `
+        <div class="review-row"><span class="review-key">Topic mix:</span> ${state.mix.market}% market / ${state.mix.edu}% educational / ${state.mix.listing}% listings / ${state.mix.lifestyle}% lifestyle ${total !== 100 ? '<span style="color: var(--amber);"> (total ' + total + '%, we\\'ll normalize)</span>' : ''}</div>
+        <div class="review-row"><span class="review-key">Target cadence:</span> ${state.cadence} videos/week</div>
+        <div class="review-row"><span class="review-key">Voice tone:</span> ${TONE_LABEL[state.tone] || state.tone}</div>
+      `;
+      list.innerHTML = `
+        <div class="review-group">
+          <div class="review-head"><div class="review-title">Brand</div><button class="review-edit" data-edit="2">Edit</button></div>
+          ${brand}
+        </div>
+        <div class="review-group">
+          <div class="review-head"><div class="review-title">Market</div><button class="review-edit" data-edit="3">Edit</button></div>
+          ${market}
+        </div>
+        <div class="review-group">
+          <div class="review-head"><div class="review-title">Social channels</div><button class="review-edit" data-edit="4">Edit</button></div>
+          ${social}
+        </div>
+        <div class="review-group">
+          <div class="review-head"><div class="review-title">Content DNA</div><button class="review-edit" data-edit="5">Edit</button></div>
+          ${content}
+        </div>
+      `;
+      list.querySelectorAll('[data-edit]').forEach(btn => {
+        btn.addEventListener('click', () => showStep(parseInt(btn.dataset.edit, 10)));
+      });
+    }
+
+    const complianceChk = document.getElementById('complianceChk');
+    const activateBtn = document.getElementById('activateBtn');
+    complianceChk.addEventListener('change', () => {
+      state.compliance = complianceChk.checked;
+      activateBtn.disabled = !state.compliance;
+      persist();
+    });
+    complianceChk.checked = state.compliance;
+    activateBtn.disabled = !state.compliance;
+
+    activateBtn.addEventListener('click', () => {
+      state.activated = true;
+      state.activatedAt = Date.now();
+      persist();
+      document.getElementById('successName').textContent = state.fname || 'friend';
+      document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+      document.getElementById('stepper').style.display = 'none';
+      document.getElementById('successState').classList.add('on');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initialize display
+    showStep(state.step || 1);
+  </script>
+</body>
+</html>
