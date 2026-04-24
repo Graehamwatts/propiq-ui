@@ -544,7 +544,7 @@
           <div class="primary-meta-item">📹 <strong>Webcam + mic</strong></div>
           <div class="primary-meta-item">🎬 <strong>First reel Day 3</strong></div>
         </div>
-        <a href="#" class="primary-btn" id="scheduleBtn">Book my recording session <span>→</span></a>
+        <a href="propcast-onboarding-s2.html" class="primary-btn" id="scheduleBtn">Book my recording session <span>→</span></a>
       </div>
 
       <!-- STATUS PANEL -->
@@ -717,11 +717,8 @@
     document.getElementById('userName').textContent = name;
     document.getElementById('userInitial').textContent = initial;
 
-    // Schedule button — placeholder behavior
-    document.getElementById('scheduleBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('Scheduling integration lands at launch. For now, watch your email — we\'ll reach out within 24 hours with a Calendly link for your recording session.');
-    });
+    // Schedule button — links directly to Session 2 recording wizard for testing.
+    // Real scheduling tool (Calendly/Cal.com) wires in later with time slot selection.
 
     // User pill — placeholder (settings menu)
     document.getElementById('userPill').addEventListener('click', (e) => {
