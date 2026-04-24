@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your PropCast recording session</title>
+  <meta name="description" content="Record your avatar video and voice clone in one 20-30 minute session. Quiet room, camera, good lighting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060F1E; --bg-2: #0B1628;
+      --navy: #0B1F3A; --navy-card: #0E2440; --navy-card-h: #122B4F;
+      --teal: #00C2A8; --teal-b: #00E8C7; --teal-d: #009e88;
+      --teal-glow: rgba(0,194,168,0.12); --teal-border: rgba(0,194,168,0.22);
+      --gray: #8A9BB0; --gray-l: #C4CDD8; --faint: #4A5B6E; --ink: #EAEEF3;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
+      --red: #EF4444; --amber: #F59E0B; --green: #34D399;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg); color: var(--ink);
+      line-height: 1.55; min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,168,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,15,30,0.8);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Inter', sans-serif; font-weight: 900; font-size: 17px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal) 50%, #7c5cd8);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.18em; text-decoration: none;
+    }
+    .nav-status {
+      font-size: 12px; font-weight: 600; color: var(--gray);
+      letter-spacing: 0.3px;
+    }
+    .nav-status strong { color: var(--teal-b); }
+
+    .wrap {
+      max-width: 920px; margin: 0 auto;
+      padding: 40px 24px 96px;
+      position: relative; z-index: 1;
+    }
+
+    .stepper {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+      margin-bottom: 40px;
+    }
+    .step-dot {
+      height: 4px; border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    .step-dot.done { background: var(--teal-b); }
+    .step-dot.active { background: linear-gradient(90deg, var(--teal-b), rgba(0,232,199,0.3)); }
+
+    .step-card {
+      display: none;
+      background: linear-gradient(180deg, rgba(14,36,64,0.55), rgba(11,22,40,0.4));
+      border: 1px solid var(--border2);
+      border-radius: 22px;
+      padding: 40px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 32px 80px -20px rgba(0,0,0,0.6);
+      position: relative; overflow: hidden;
+    }
+    .step-card.active { display: block; animation: stepIn 0.4s cubic-bezier(0.2, 0, 0, 1); }
+    @keyframes stepIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .step-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b) 50%, transparent);
+      opacity: 0.5;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--teal-b);
+      padding: 5px 12px;
+      border: 1px solid var(--teal-border);
+      background: var(--teal-glow);
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal-b); box-shadow: 0 0 8px var(--teal-b);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%,100% { opacity: 1 } 50% { opacity: 0.4 } }
+    @keyframes recPulse { 0%,100% { opacity: 1 } 50% { opacity: 0.3 } }
+
+    .step-title {
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+    }
+    .step-title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-weight: 400;
+      color: var(--teal-b);
+    }
+    .step-lede {
+      font-size: 16px; color: var(--gray-l);
+      line-height: 1.55; margin-bottom: 32px;
+      max-width: 620px;
+    }
+
+    /* PREP CHECKLIST */
+    .checklist { display: grid; gap: 10px; margin-bottom: 28px; }
+    .check-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.015);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .check-row:hover { border-color: var(--teal-border); }
+    .check-row.checked { border-color: var(--teal-border); background: rgba(0,194,168,0.05); }
+    .check-row input[type="checkbox"] {
+      margin-top: 2px; width: 18px; height: 18px;
+      accent-color: var(--teal-b);
+      flex-shrink: 0; cursor: pointer;
+    }
+    .check-row-body { flex: 1; }
+    .check-row-title { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+    .check-row-sub { font-size: 13px; color: var(--gray); line-height: 1.45; }
+
+    /* RECORDING SURFACE */
+    .recorder {
+      display: grid; grid-template-columns: 1fr; gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 860px) {
+      .recorder.two-col { grid-template-columns: 1.3fr 1fr; }
+    }
+    .video-preview {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border2);
+    }
+    .video-preview video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .video-preview.audio-only {
+      aspect-ratio: auto; height: 220px;
+      background: linear-gradient(180deg, #0B1F3A, #060F1E);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .video-preview.audio-only canvas {
+      width: 100%; height: 100%;
+      display: block;
+    }
+    .video-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px; text-align: center;
+      color: var(--gray-l); font-size: 14px;
+      background: rgba(6,15,30,0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .video-overlay.hidden { display: none; }
+    .rec-indicator {
+      position: absolute; top: 14px; left: 14px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      background: rgba(239,68,68,0.9);
+      border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.4px;
+      z-index: 2;
+    }
+    .rec-indicator::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: #fff;
+      animation: recPulse 1s ease-in-out infinite;
+    }
+    .rec-timer {
+      position: absolute; top: 14px; right: 14px;
+      padding: 6px 12px;
+      background: rgba(6,15,30,0.85);
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      letter-spacing: 0.4px;
+      z-index: 2;
+    }
+
+    /* SCRIPT PANEL */
+    .script-panel {
+      background: rgba(14,36,64,0.4);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 22px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .script-panel::-webkit-scrollbar { width: 6px; }
+    .script-panel::-webkit-scrollbar-track { background: transparent; }
+    .script-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    .script-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal-b);
+      margin-bottom: 12px;
+    }
+    .script-body {
+      font-size: 15px; color: var(--gray-l);
+      line-height: 1.65;
+    }
+    .script-body p { margin-bottom: 12px; }
+    .script-body p:last-child { margin-bottom: 0; }
+    .script-body .highlight {
+      color: var(--ink); background: rgba(0,194,168,0.08);
+      border-radius: 4px; padding: 0 3px;
+    }
+    .script-tip {
+      margin-top: 14px; padding: 10px 14px;
+      background: rgba(0,194,168,0.05);
+      border-left: 3px solid var(--teal-b);
+      border-radius: 0 8px 8px 0;
+      font-size: 12.5px; color: var(--gray-l);
+      line-height: 1.5;
+    }
+
+    /* CONTROLS */
+    .rec-controls {
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .rec-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 28px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px;
+      cursor: pointer; border: none;
+      transition: all 0.2s;
+    }
+    .rec-btn-primary {
+      background: linear-gradient(180deg, var(--teal-b) 0%, var(--teal) 100%);
+      color: #001512;
+      box-shadow: 0 8px 24px -8px rgba(0,194,168,0.5);
+    }
+    .rec-btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px -8px rgba(0,194,168,0.6);
+    }
+    .rec-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .rec-btn-red {
+      background: #EF4444;
+      color: #fff;
+      box-shadow: 0 8px 24px -8px rgba(239,68,68,0.5);
+    }
+    .rec-btn-red:hover { transform: translateY(-1px); box-shadow: 0 12px 32px -8px rgba(239,68,68,0.6); }
+    .rec-btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--gray-l);
+    }
+    .rec-btn-ghost:hover { border-color: var(--teal-border); color: var(--teal-b); }
+    .rec-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #EF4444;
+    }
+
+    .meta-row {
+      display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+      font-size: 12.5px; color: var(--gray);
+      margin-bottom: 8px;
+    }
+    .meta-row strong { color: var(--gray-l); font-weight: 600; }
+
+    .progress-bar {
+      width: 100%; height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px; overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal-b), var(--teal));
+      width: 0%;
+      transition: width 0.3s ease-out;
+    }
+    .progress-label {
+      font-size: 12px; color: var(--gray); text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .progress-label .status { color: var(--teal-b); font-weight: 600; }
+
+    /* PLAYBACK */
+    .playback-panel {
+      border: 1px solid var(--teal-border);
+      background: rgba(0,194,168,0.04);
+      border-radius: 14px;
+      padding: 22px;
+      margin-top: 20px;
+    }
+    .playback-panel h3 {
+      font-size: 14px; font-weight: 700; margin-bottom: 12px;
+      color: var(--teal-b);
+    }
+    .playback-panel video,
+    .playback-panel audio {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      max-height: 360px;
+    }
+
+    /* ACTIONS */
+    .actions {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; margin-top: 32px; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 26px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--teal-b) 0%, var(--teal) 100%);
+      color: #001512;
+      box-shadow: 0 8px 24px -8px rgba(0,194,168,0.5);
+    }
+    .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 32px -8px rgba(0,194,168,0.6); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--gray-l);
+    }
+    .btn-ghost:hover { border-color: var(--teal-border); color: var(--teal-b); }
+    .btn-lg { padding: 18px 32px; font-size: 15.5px; }
+
+    /* ERROR BANNER */
+    .error-banner {
+      display: none;
+      padding: 14px 18px;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 12px;
+      color: #FCA5A5;
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .error-banner.on { display: block; }
+    .error-banner strong { color: #fff; font-weight: 600; }
+
+    /* SUCCESS */
+    .success-panel {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-badge {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 36px; color: #001512; font-weight: 900;
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(0,232,199,0.4);
+    }
+    .success-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .success-title em {
+      font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+      color: var(--teal-b);
+    }
+    .success-lede {
+      font-size: 15.5px; color: var(--gray-l);
+      line-height: 1.55;
+      max-width: 540px;
+      margin: 0 auto 28px;
+    }
+    .success-next {
+      display: grid; gap: 10px;
+      max-width: 520px; margin: 0 auto 28px;
+      text-align: left;
+    }
+    .success-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 16px;
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .success-num {
+      font-family: 'Instrument Serif', serif; font-style: italic;
+      color: var(--teal-b); font-size: 22px; line-height: 1;
+      flex-shrink: 0; min-width: 24px;
+    }
+    .success-row-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .success-row-sub { font-size: 12.5px; color: var(--gray); line-height: 1.5; }
+
+    /* MOBILE */
+    @media (max-width: 620px) {
+      .wrap { padding: 28px 16px 64px; }
+      .step-card { padding: 26px 22px; border-radius: 18px; }
+      .rec-controls { flex-direction: column; gap: 10px; }
+      .rec-controls .rec-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="propcast-dashboard.html" class="logo">PROPCAST</a>
+      <div class="nav-status">Recording session · Step <strong id="stepNum">1</strong> of 4</div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <div class="stepper">
+      <div class="step-dot active" data-dot="1"></div>
+      <div class="step-dot" data-dot="2"></div>
+      <div class="step-dot" data-dot="3"></div>
+      <div class="step-dot" data-dot="4"></div>
+    </div>
+
+    <!-- STEP 1: PREP & PERMISSIONS -->
+    <div class="step-card active" data-step="1">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 1 of 4 · Prep</span>
+      <h1 class="step-title">Let's set you up for a <em>clean take</em>.</h1>
+      <p class="step-lede">Two recordings coming up — a short avatar video, then a longer voice sample. Your twin is only as good as what we capture, so check the list, then we'll ask for camera + mic access.</p>
+
+      <div class="checklist">
+        <label class="check-row">
+          <input type="checkbox" data-prep>
+          <div class="check-row-body">
+            <div class="check-row-title">I'm in a quiet room with the door closed</div>
+            <div class="check-row-sub">No hum, no HVAC, no background talking. Silence matters more than you think for the voice clone.</div>
+          </div>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" data-prep>
+          <div class="check-row-body">
+            <div class="check-row-title">Good, even light on my face</div>
+            <div class="check-row-sub">Natural window light is best. Avoid harsh backlight (window or lamp behind you). Ring light if you have one.</div>
+          </div>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" data-prep>
+          <div class="check-row-body">
+            <div class="check-row-title">Camera at eye level</div>
+            <div class="check-row-sub">Stack some books under the laptop if needed. Eye-level looks way more professional than from below.</div>
+          </div>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" data-prep>
+          <div class="check-row-body">
+            <div class="check-row-title">Phone on silent, notifications off</div>
+            <div class="check-row-sub">Close Slack, email, messages. Any beep or buzz bakes into the voice clone forever.</div>
+          </div>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" data-prep>
+          <div class="check-row-body">
+            <div class="check-row-title">30 minutes, uninterrupted</div>
+            <div class="check-row-sub">You'll want to get this in one shot. If you need to pause, that's fine — but don't start if you only have 10 minutes.</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="error-banner" id="permError"></div>
+
+      <div class="actions">
+        <a href="propcast-dashboard.html" class="btn btn-ghost">← Back to dashboard</a>
+        <button class="btn btn-primary btn-lg" id="prepNext" disabled>Grant camera + mic access →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: AVATAR VIDEO RECORDING -->
+    <div class="step-card" data-step="2">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 2 of 4 · Avatar video</span>
+      <h1 class="step-title">Record your <em>avatar</em>. Two to three minutes.</h1>
+      <p class="step-lede">Look at the camera and read the script naturally — don't over-perform. This is the visual your AI twin is trained on. Vary your facial expressions a little (smile, nod, look thoughtful) so the avatar doesn't come out stiff.</p>
+
+      <div class="recorder two-col">
+        <div>
+          <div class="video-preview" id="videoPrevWrap">
+            <video id="videoPreview" autoplay muted playsinline></video>
+            <div class="rec-indicator" id="videoRecIndicator" style="display: none;">REC</div>
+            <div class="rec-timer" id="videoTimer" style="display: none;">0:00</div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="videoProgress"></div>
+          </div>
+          <div class="progress-label">
+            <span id="videoProgressLabel">Target: 2-3 minutes</span>
+          </div>
+        </div>
+
+        <div class="script-panel">
+          <div class="script-label">Read aloud · natural pace</div>
+          <div class="script-body">
+            <p>Hi, I'm <span class="highlight">[your first name]</span>. I'm a real estate agent serving <span class="highlight">[your market]</span>. I've been helping people buy and sell homes here for several years, and I've learned that the smartest moves happen when you know the data cold.</p>
+            <p>The market right now is shifting — interest rates are moving, inventory is tight in some neighborhoods and loose in others, and buyers are being strategic about timing. If you're watching prices, watching the news, and wondering what it actually means for your situation, that's exactly the kind of question I love answering.</p>
+            <p>Whether you're thinking about making your first move, selling to right-size, or just checking in on what your property is worth — I'd love to be your resource. No pressure, no pitch. Just real numbers and honest answers.</p>
+            <p>Find me at the links below, or send me a message. Let's talk.</p>
+          </div>
+          <div class="script-tip"><strong>Tip:</strong> Look directly at the camera, not at yourself. Take a breath between paragraphs. A small smile at the end reads as warmth.</div>
+        </div>
+      </div>
+
+      <div class="rec-controls">
+        <button class="rec-btn rec-btn-primary" id="videoRecStart">
+          <span class="rec-dot"></span> Start recording
+        </button>
+        <button class="rec-btn rec-btn-red" id="videoRecStop" style="display: none;">
+          ■ Stop recording
+        </button>
+      </div>
+
+      <div class="playback-panel" id="videoPlayback" style="display: none;">
+        <h3>Review your take</h3>
+        <video id="videoReviewPlayer" controls playsinline></video>
+        <div class="rec-controls">
+          <button class="rec-btn rec-btn-ghost" id="videoRedo">↻ Re-record</button>
+          <button class="rec-btn rec-btn-primary" id="videoAccept">✓ Use this take</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary" id="videoNext" disabled>Continue to voice →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: VOICE CLONE RECORDING -->
+    <div class="step-card" data-step="3">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Step 3 of 4 · Voice clone</span>
+      <h1 class="step-title">Record your <em>voice</em>. Twenty minutes of natural reading.</h1>
+      <p class="step-lede">This one's longer. Work through all ten passages at a natural, conversational pace. Vary your tone — some calm, some excited, some empathetic, some matter-of-fact. The clone only sounds like you if you sound like you.</p>
+
+      <div class="recorder">
+        <div class="video-preview audio-only">
+          <canvas id="waveformCanvas"></canvas>
+          <div class="rec-indicator" id="audioRecIndicator" style="display: none;">REC</div>
+          <div class="rec-timer" id="audioTimer" style="display: none;">0:00</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="audioProgress"></div>
+        </div>
+        <div class="progress-label">
+          <span id="audioProgressLabel">Target: 20 minutes · <span class="status">Not started</span></span>
+        </div>
+
+        <div class="script-panel">
+          <div class="script-label">Read through all ten · pause naturally between passages</div>
+          <div class="script-body">
+            <p><strong style="color: var(--teal-b);">1.</strong> Welcome. My name is <span class="highlight">[first name last name]</span>, and I'm a licensed real estate agent helping people in <span class="highlight">[your primary city]</span> and the surrounding areas buy and sell homes. I've been doing this for several years, and I love what I do.</p>
+
+            <p><strong style="color: var(--teal-b);">2.</strong> Here's what I'm seeing in the market this week. Inventory is up about twelve percent compared to this time last year. Median days on market is hovering around twenty-eight. Most of the activity is happening in the eight-hundred-thousand to one-point-two-million range.</p>
+
+            <p><strong style="color: var(--teal-b);">3.</strong> If you're a first-time buyer, this is a window worth paying attention to. Sellers are more willing to negotiate than they were six months ago. You won't have five competing offers on every home. That doesn't mean wait forever — but it does mean you have room to breathe.</p>
+
+            <p><strong style="color: var(--teal-b);">4.</strong> For sellers — here's the honest truth. The listings that sell fastest are priced right from day one, presented well, and marketed everywhere buyers actually look. If your house has been sitting for thirty days with no showings, something is off, and it's almost always one of those three things.</p>
+
+            <p><strong style="color: var(--teal-b);">5.</strong> Let me walk you through a neighborhood I know well. Picture tree-lined streets, restored craftsman homes, a coffee shop on the corner that always has a line. Schools rank in the top ten percent. Average home value just over one-point-four million. That's the kind of block that holds value even when the broader market wobbles.</p>
+
+            <p><strong style="color: var(--teal-b);">6.</strong> Numbers matter, so let's say them out loud. Two hundred thirty thousand. Five hundred forty-seven thousand. One-point-two million. Three-point-eight percent. Seven percent. Twenty-one days. One hundred twelve showings. Four offers. Closed.</p>
+
+            <p><strong style="color: var(--teal-b);">7.</strong> I know buying or selling a home can feel overwhelming. There's a lot of money on the table, a lot of emotions, and a lot of decisions that feel permanent. My job is to take the weight off — to give you honest advice, real data, and the patience to move at your pace.</p>
+
+            <p><strong style="color: var(--teal-b);">8.</strong> One thing I wish more buyers knew — your monthly payment is not just the mortgage. Factor in property taxes, homeowner's insurance, HOA dues if applicable, and a realistic maintenance budget. Usually that's another fifteen to twenty percent on top of the mortgage itself. Knowing that up front saves painful surprises later.</p>
+
+            <p><strong style="color: var(--teal-b);">9.</strong> Alright, so — quick check-in. How are you feeling about your situation? Ready to move? Just looking? Somewhere in the middle? All three are totally valid. The best thing you can do right now is get real numbers on your own market, even if you don't act on them for six months.</p>
+
+            <p><strong style="color: var(--teal-b);">10.</strong> If this was helpful, hit follow so you don't miss the next one. If you want me to run the numbers on your specific situation, my contact info is right there. No pressure, no spam, just real answers. Thanks for listening — I'll see you next time.</p>
+          </div>
+          <div class="script-tip"><strong>Tip:</strong> Don't read like a robot. Imagine you're on a call with a new client — some of this is explanation, some is encouragement, some is gentle challenge. That variety is what makes the clone sound like <em>you</em>.</div>
+        </div>
+      </div>
+
+      <div class="rec-controls">
+        <button class="rec-btn rec-btn-primary" id="audioRecStart">
+          <span class="rec-dot"></span> Start recording
+        </button>
+        <button class="rec-btn rec-btn-red" id="audioRecStop" style="display: none;">
+          ■ Stop recording
+        </button>
+      </div>
+
+      <div class="playback-panel" id="audioPlayback" style="display: none;">
+        <h3>Review your voice recording</h3>
+        <audio id="audioReviewPlayer" controls></audio>
+        <div class="rec-controls">
+          <button class="rec-btn rec-btn-ghost" id="audioRedo">↻ Re-record</button>
+          <button class="rec-btn rec-btn-primary" id="audioAccept">✓ Use this recording</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" data-prev>← Back</button>
+        <button class="btn btn-primary" id="audioNext" disabled>Finish session →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: SUCCESS / BUILDING -->
+    <div class="step-card" data-step="4">
+      <div class="success-panel">
+        <div class="success-badge">✓</div>
+        <h1 class="success-title">Session <em>complete</em>, <span id="successName">Graeham</span>.</h1>
+        <p class="success-lede">Your recordings are saved. Our team builds your voice clone and avatar from here — you'll get a preview to approve before anything ships.</p>
+
+        <div class="success-next">
+          <div class="success-row">
+            <div class="success-num">1</div>
+            <div>
+              <div class="success-row-title">Next 24 hours — we build your twin</div>
+              <div class="success-row-sub">Voice clone trains on ElevenLabs, avatar renders on HeyGen. QC pass before it touches your dashboard.</div>
+            </div>
+          </div>
+          <div class="success-row">
+            <div class="success-num">2</div>
+            <div>
+              <div class="success-row-title">Email preview — approve or retake</div>
+              <div class="success-row-sub">We'll send a sample reel and a voice sample. One click to approve or request another take.</div>
+            </div>
+          </div>
+          <div class="success-row">
+            <div class="success-num">3</div>
+            <div>
+              <div class="success-row-title">Day 3 — first reel publishes</div>
+              <div class="success-row-sub">Across every channel you connected in Session 1.</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="propcast-dashboard.html" class="btn btn-primary btn-lg">Back to dashboard →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================================
+    // Recording wizard — Session 2
+    // Media capture via MediaRecorder. Files saved to sessionStorage
+    // metadata only (blobs kept in-memory and referenced via object URLs).
+    // Real upload to ElevenLabs/HeyGen wires at launch.
+    // ============================================================
+
+    const state = {
+      step: 1,
+      prepConfirmed: [false, false, false, false, false],
+      stream: null,
+      videoBlob: null,
+      videoUrl: null,
+      audioBlob: null,
+      audioUrl: null,
+      fname: '',
+    };
+
+    // Prefill from session 1
+    try {
+      const s1 = sessionStorage.getItem('propcast_onboarding_s1');
+      if (s1) {
+        const data = JSON.parse(s1);
+        if (data.fname) state.fname = data.fname;
+      }
+    } catch(_) {}
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (!state.fname && params.get('name')) state.fname = params.get('name').slice(0, 40);
+    } catch(_) {}
+    document.getElementById('successName').textContent = state.fname || 'friend';
+
+    // ---- STEP NAVIGATION ---------------------------------------
+    function showStep(n) {
+      state.step = Math.max(1, Math.min(4, n));
+      document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+      const target = document.querySelector(`.step-card[data-step="${state.step}"]`);
+      if (target) target.classList.add('active');
+      document.querySelectorAll('.step-dot').forEach(dot => {
+        const d = parseInt(dot.dataset.dot, 10);
+        dot.classList.remove('active', 'done');
+        if (d < state.step) dot.classList.add('done');
+        else if (d === state.step) dot.classList.add('active');
+      });
+      document.getElementById('stepNum').textContent = state.step;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('[data-prev]').forEach(btn => {
+      btn.addEventListener('click', () => showStep(state.step - 1));
+    });
+
+    // ---- STEP 1: PREP CHECKLIST --------------------------------
+    const prepChecks = document.querySelectorAll('[data-prep]');
+    prepChecks.forEach((cb, i) => {
+      cb.addEventListener('change', () => {
+        state.prepConfirmed[i] = cb.checked;
+        cb.closest('.check-row').classList.toggle('checked', cb.checked);
+        const all = state.prepConfirmed.every(Boolean);
+        document.getElementById('prepNext').disabled = !all;
+      });
+    });
+
+    // ---- MEDIA PERMISSION + STREAM INIT ------------------------
+    async function requestMedia() {
+      const err = document.getElementById('permError');
+      err.classList.remove('on');
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: 'user' },
+          audio: { echoCancellation: true, noiseSuppression: true }
+        });
+        state.stream = stream;
+        // Wire the live preview for step 2
+        const preview = document.getElementById('videoPreview');
+        preview.srcObject = stream;
+        // Start waveform for step 3
+        setupWaveform(stream);
+        showStep(2);
+      } catch (e) {
+        console.warn('getUserMedia failed', e);
+        err.classList.add('on');
+        if (e && e.name === 'NotAllowedError') {
+          err.innerHTML = '<strong>Camera + mic access was blocked.</strong> Click the camera icon in your browser\'s address bar and allow access, then try again.';
+        } else if (e && e.name === 'NotFoundError') {
+          err.innerHTML = '<strong>No camera or microphone found.</strong> Make sure a webcam and mic are connected, then reload this page.';
+        } else {
+          err.innerHTML = '<strong>Couldn\'t start the recording session.</strong> Try reloading the page. If this persists, email hello@propcast.ai and we\'ll reschedule.';
+        }
+      }
+    }
+    document.getElementById('prepNext').addEventListener('click', requestMedia);
+
+    // ---- WAVEFORM VISUALIZATION --------------------------------
+    let audioCtx = null, analyser = null, waveformRAF = null;
+    function setupWaveform(stream) {
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        const source = audioCtx.createMediaStreamSource(stream);
+        source.connect(analyser);
+        drawWaveform();
+      } catch (e) { console.warn('waveform setup failed', e); }
+    }
+    function drawWaveform() {
+      const canvas = document.getElementById('waveformCanvas');
+      if (!canvas || !analyser) return;
+      const ctx = canvas.getContext('2d');
+      const resize = () => {
+        canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+        canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      };
+      resize();
+      window.addEventListener('resize', resize);
+      const buffer = new Uint8Array(analyser.frequencyBinCount);
+      function tick() {
+        analyser.getByteFrequencyData(buffer);
+        ctx.fillStyle = 'rgba(6,15,30,0.12)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const barCount = 48;
+        const barWidth = canvas.width / barCount;
+        const step = Math.floor(buffer.length / barCount);
+        for (let i = 0; i < barCount; i++) {
+          const v = buffer[i * step] / 255;
+          const h = v * canvas.height * 0.9;
+          const y = (canvas.height - h) / 2;
+          const grad = ctx.createLinearGradient(0, y, 0, y + h);
+          grad.addColorStop(0, '#00E8C7');
+          grad.addColorStop(1, 'rgba(0,194,168,0.3)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(i * barWidth + 2, y, barWidth - 4, h);
+        }
+        waveformRAF = requestAnimationFrame(tick);
+      }
+      tick();
+    }
+
+    // ---- GENERIC RECORDER HELPER -------------------------------
+    function makeRecorder(stream, mimeType) {
+      const mimeOk = MediaRecorder.isTypeSupported(mimeType) ? mimeType : '';
+      return new MediaRecorder(stream, mimeOk ? { mimeType: mimeOk } : {});
+    }
+    function formatTime(secs) {
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return m + ':' + s.toString().padStart(2, '0');
+    }
+
+    // ---- STEP 2: AVATAR VIDEO RECORDING ------------------------
+    let videoRecorder = null, videoChunks = [], videoStart = 0, videoTimerIv = null;
+    const VIDEO_TARGET = 180; // 3 minutes target
+
+    document.getElementById('videoRecStart').addEventListener('click', () => {
+      if (!state.stream) { alert('Camera stream not ready — go back to step 1.'); return; }
+      // Reset any prior take
+      state.videoBlob = null; if (state.videoUrl) URL.revokeObjectURL(state.videoUrl); state.videoUrl = null;
+      document.getElementById('videoPlayback').style.display = 'none';
+      videoChunks = [];
+      videoRecorder = makeRecorder(state.stream, 'video/webm;codecs=vp9,opus');
+      videoRecorder.ondataavailable = (e) => { if (e.data && e.data.size) videoChunks.push(e.data); };
+      videoRecorder.onstop = () => {
+        const blob = new Blob(videoChunks, { type: videoRecorder.mimeType || 'video/webm' });
+        state.videoBlob = blob;
+        state.videoUrl = URL.createObjectURL(blob);
+        const player = document.getElementById('videoReviewPlayer');
+        player.src = state.videoUrl;
+        document.getElementById('videoPlayback').style.display = 'block';
+      };
+      videoRecorder.start();
+      videoStart = Date.now();
+      document.getElementById('videoRecStart').style.display = 'none';
+      document.getElementById('videoRecStop').style.display = 'inline-flex';
+      document.getElementById('videoRecIndicator').style.display = 'flex';
+      document.getElementById('videoTimer').style.display = 'inline-flex';
+      videoTimerIv = setInterval(() => {
+        const secs = (Date.now() - videoStart) / 1000;
+        document.getElementById('videoTimer').textContent = formatTime(secs);
+        const pct = Math.min(100, (secs / VIDEO_TARGET) * 100);
+        document.getElementById('videoProgress').style.width = pct + '%';
+        document.getElementById('videoProgressLabel').textContent = 'Recording: ' + formatTime(secs) + ' / target 3:00';
+      }, 250);
+    });
+
+    document.getElementById('videoRecStop').addEventListener('click', () => {
+      if (!videoRecorder || videoRecorder.state === 'inactive') return;
+      videoRecorder.stop();
+      clearInterval(videoTimerIv);
+      document.getElementById('videoRecStart').style.display = 'inline-flex';
+      document.getElementById('videoRecStop').style.display = 'none';
+      document.getElementById('videoRecIndicator').style.display = 'none';
+      document.getElementById('videoTimer').style.display = 'none';
+    });
+
+    document.getElementById('videoRedo').addEventListener('click', () => {
+      document.getElementById('videoPlayback').style.display = 'none';
+      state.videoBlob = null;
+      if (state.videoUrl) { URL.revokeObjectURL(state.videoUrl); state.videoUrl = null; }
+      document.getElementById('videoProgress').style.width = '0%';
+      document.getElementById('videoProgressLabel').textContent = 'Target: 2-3 minutes';
+      document.getElementById('videoNext').disabled = true;
+    });
+
+    document.getElementById('videoAccept').addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('propcast_onboarding_s2_video', JSON.stringify({
+          mimeType: state.videoBlob ? state.videoBlob.type : '',
+          size: state.videoBlob ? state.videoBlob.size : 0,
+          durationEstimate: Math.round((Date.now() - videoStart) / 1000),
+          capturedAt: Date.now()
+        }));
+      } catch(_) {}
+      document.getElementById('videoNext').disabled = false;
+      document.getElementById('videoAccept').textContent = '✓ Accepted';
+      document.getElementById('videoAccept').disabled = true;
+    });
+
+    document.getElementById('videoNext').addEventListener('click', () => {
+      // Stop live video preview to save CPU during audio step
+      // (keep stream alive for audio)
+      showStep(3);
+    });
+
+    // ---- STEP 3: VOICE CLONE RECORDING -------------------------
+    let audioRecorder = null, audioChunks = [], audioStart = 0, audioTimerIv = null;
+    const AUDIO_TARGET = 20 * 60; // 20 minutes
+
+    document.getElementById('audioRecStart').addEventListener('click', () => {
+      if (!state.stream) { alert('Microphone stream not ready — go back to step 1.'); return; }
+      state.audioBlob = null; if (state.audioUrl) URL.revokeObjectURL(state.audioUrl); state.audioUrl = null;
+      document.getElementById('audioPlayback').style.display = 'none';
+      // Extract audio-only track stream
+      const audioTracks = state.stream.getAudioTracks();
+      const audioOnly = new MediaStream(audioTracks);
+      audioChunks = [];
+      audioRecorder = makeRecorder(audioOnly, 'audio/webm;codecs=opus');
+      audioRecorder.ondataavailable = (e) => { if (e.data && e.data.size) audioChunks.push(e.data); };
+      audioRecorder.onstop = () => {
+        const blob = new Blob(audioChunks, { type: audioRecorder.mimeType || 'audio/webm' });
+        state.audioBlob = blob;
+        state.audioUrl = URL.createObjectURL(blob);
+        const player = document.getElementById('audioReviewPlayer');
+        player.src = state.audioUrl;
+        document.getElementById('audioPlayback').style.display = 'block';
+      };
+      audioRecorder.start();
+      audioStart = Date.now();
+      document.getElementById('audioRecStart').style.display = 'none';
+      document.getElementById('audioRecStop').style.display = 'inline-flex';
+      document.getElementById('audioRecIndicator').style.display = 'flex';
+      document.getElementById('audioTimer').style.display = 'inline-flex';
+      audioTimerIv = setInterval(() => {
+        const secs = (Date.now() - audioStart) / 1000;
+        document.getElementById('audioTimer').textContent = formatTime(secs);
+        const pct = Math.min(100, (secs / AUDIO_TARGET) * 100);
+        document.getElementById('audioProgress').style.width = pct + '%';
+        const statusEl = pct >= 100 ? '<span class="status">20+ min captured ✓</span>' : pct >= 50 ? '<span class="status">Halfway there</span>' : '<span class="status">Keep going</span>';
+        document.getElementById('audioProgressLabel').innerHTML = 'Recording: ' + formatTime(secs) + ' / target 20:00 · ' + statusEl;
+      }, 500);
+    });
+
+    document.getElementById('audioRecStop').addEventListener('click', () => {
+      if (!audioRecorder || audioRecorder.state === 'inactive') return;
+      audioRecorder.stop();
+      clearInterval(audioTimerIv);
+      document.getElementById('audioRecStart').style.display = 'inline-flex';
+      document.getElementById('audioRecStop').style.display = 'none';
+      document.getElementById('audioRecIndicator').style.display = 'none';
+      document.getElementById('audioTimer').style.display = 'none';
+    });
+
+    document.getElementById('audioRedo').addEventListener('click', () => {
+      document.getElementById('audioPlayback').style.display = 'none';
+      state.audioBlob = null;
+      if (state.audioUrl) { URL.revokeObjectURL(state.audioUrl); state.audioUrl = null; }
+      document.getElementById('audioProgress').style.width = '0%';
+      document.getElementById('audioProgressLabel').innerHTML = 'Target: 20 minutes · <span class="status">Not started</span>';
+      document.getElementById('audioNext').disabled = true;
+    });
+
+    document.getElementById('audioAccept').addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('propcast_onboarding_s2_audio', JSON.stringify({
+          mimeType: state.audioBlob ? state.audioBlob.type : '',
+          size: state.audioBlob ? state.audioBlob.size : 0,
+          durationEstimate: Math.round((Date.now() - audioStart) / 1000),
+          capturedAt: Date.now()
+        }));
+      } catch(_) {}
+      document.getElementById('audioNext').disabled = false;
+      document.getElementById('audioAccept').textContent = '✓ Accepted';
+      document.getElementById('audioAccept').disabled = true;
+    });
+
+    document.getElementById('audioNext').addEventListener('click', () => {
+      // Release the camera + mic — all done
+      if (state.stream) {
+        state.stream.getTracks().forEach(t => t.stop());
+        state.stream = null;
+      }
+      if (waveformRAF) cancelAnimationFrame(waveformRAF);
+      if (audioCtx && audioCtx.close) { try { audioCtx.close(); } catch(_) {} }
+      try {
+        sessionStorage.setItem('propcast_onboarding_s2_complete', JSON.stringify({
+          completedAt: Date.now()
+        }));
+      } catch(_) {}
+      showStep(4);
+    });
+
+    // ---- UNLOAD CLEANUP ----------------------------------------
+    window.addEventListener('beforeunload', () => {
+      if (state.stream) {
+        state.stream.getTracks().forEach(t => t.stop());
+      }
+    });
+
+    // Initialize display
+    showStep(1);
+  </script>
+</body>
+</html>
