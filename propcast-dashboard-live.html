@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your PropCast · Week 4</title>
+  <meta name="description" content="Your PropCast dashboard — week-4 live view. Metrics, content performance, upcoming schedule.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060F1E; --bg-2: #0B1628;
+      --navy: #0B1F3A; --navy-card: #0E2440; --navy-card-h: #122B4F;
+      --teal: #00C2A8; --teal-b: #00E8C7; --teal-d: #009e88;
+      --teal-glow: rgba(0,194,168,0.12); --teal-border: rgba(0,194,168,0.22);
+      --gray: #8A9BB0; --gray-l: #C4CDD8; --faint: #4A5B6E; --ink: #EAEEF3;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
+      --red: #EF4444; --amber: #F59E0B; --green: #34D399;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg); color: var(--ink);
+      line-height: 1.55; min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,168,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,168,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,15,30,0.8);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1240px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Inter', sans-serif; font-weight: 900; font-size: 17px;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal) 50%, #7c5cd8);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.18em; text-decoration: none;
+    }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-tabs { display: flex; gap: 4px; }
+    .nav-tab {
+      padding: 7px 14px;
+      font-size: 13px; font-weight: 500; color: var(--gray-l);
+      text-decoration: none;
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-tab:hover { background: rgba(255,255,255,0.04); color: var(--ink); }
+    .nav-tab.active {
+      background: rgba(0,194,168,0.1);
+      color: var(--teal-b);
+      border: 1px solid var(--teal-border);
+    }
+    .user-pill {
+      display: flex; align-items: center; gap: 10px;
+      padding: 5px 12px 5px 5px;
+      border: 1px solid var(--border2);
+      background: rgba(255,255,255,0.02);
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--gray-l);
+      font-size: 13px; font-weight: 600;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .user-pill:hover { border-color: var(--teal-border); color: var(--ink); }
+    .user-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-b), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      color: #001512; font-weight: 800; font-size: 13px;
+    }
+
+    /* LAYOUT */
+    .wrap {
+      max-width: 1240px; margin: 0 auto;
+      padding: 36px 32px 72px;
+      position: relative; z-index: 1;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 20px;
+    }
+    .header-left h1 {
+      font-size: clamp(26px, 3.5vw, 34px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 6px;
+    }
+    .header-left h1 em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-weight: 400;
+      color: var(--teal-b);
+    }
+    .header-left-sub {
+      font-size: 14px; color: var(--gray);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .header-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 8px var(--green);
+    }
+    .range-select {
+      padding: 10px 16px;
+      background: rgba(14,36,64,0.5);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600;
+      cursor: pointer;
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C4CDD8' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    /* METRICS ROW */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 960px) { .metrics-row { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .metrics-row { grid-template-columns: 1fr; } }
+    .metric-card {
+      padding: 22px;
+      background: linear-gradient(180deg, rgba(14,36,64,0.55), rgba(11,22,40,0.35));
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      position: relative; overflow: hidden;
+    }
+    .metric-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-b) 50%, transparent);
+      opacity: 0.3;
+    }
+    .metric-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    .metric-value {
+      font-size: 32px; font-weight: 700;
+      color: var(--ink); line-height: 1;
+      letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+    .metric-value .suffix { font-size: 18px; color: var(--gray-l); font-weight: 600; margin-left: 2px; }
+    .metric-change {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .metric-change.up { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
+    .metric-change.neutral { background: rgba(255,255,255,0.05); color: var(--gray-l); border: 1px solid var(--border2); }
+    .metric-change.down { background: rgba(239,68,68,0.1); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.25); }
+    .metric-spark {
+      height: 36px;
+      margin-top: 6px;
+    }
+    .metric-spark svg { width: 100%; height: 100%; display: block; }
+
+    /* SECTION */
+    .section {
+      margin-bottom: 32px;
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+    }
+    .section-title {
+      font-size: 17px; font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section-sub { font-size: 13px; color: var(--gray); }
+
+    /* CONTENT PERFORMANCE - TWO COLUMN */
+    .perf-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 880px) { .perf-grid { grid-template-columns: 1fr; } }
+    .perf-card {
+      padding: 22px;
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      background: rgba(14,36,64,0.35);
+    }
+    .perf-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .perf-label.wins { color: var(--green); }
+    .perf-label.work { color: var(--amber); }
+    .perf-desc {
+      font-size: 13px; color: var(--gray);
+      margin-bottom: 16px;
+    }
+    .post {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+    }
+    .post:first-of-type { border-top: none; padding-top: 4px; }
+    .post-thumb {
+      width: 56px; height: 76px; flex-shrink: 0;
+      border-radius: 8px;
+      background: linear-gradient(180deg, var(--teal-d), var(--navy-card));
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border2);
+    }
+    .post-thumb::after {
+      content: '▶'; position: absolute;
+      left: 50%; top: 50%; transform: translate(-50%, -50%);
+      color: rgba(255,255,255,0.4); font-size: 16px;
+    }
+    .post-thumb.ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); }
+    .post-thumb.yt { background: #FF0000; }
+    .post-thumb.tt { background: linear-gradient(180deg, #25F4EE, #FE2C55); }
+    .post-thumb.fb { background: #1877F2; }
+    .post-thumb.gbp { background: linear-gradient(135deg, #4285F4, #34A853); }
+    .post-body { flex: 1; min-width: 0; }
+    .post-title {
+      font-size: 14px; font-weight: 600; color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 4px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .post-meta {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      font-size: 12px; color: var(--gray);
+      margin-bottom: 6px;
+    }
+    .post-meta strong { color: var(--gray-l); font-weight: 600; }
+    .post-note {
+      font-size: 12.5px; color: var(--gray-l);
+      line-height: 1.45;
+    }
+    .post-platform {
+      display: inline-block;
+      padding: 1px 7px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.06);
+      color: var(--gray-l);
+      margin-right: 6px;
+    }
+
+    /* UPCOMING CALENDAR */
+    .calendar-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      overflow-x: auto;
+    }
+    @media (max-width: 960px) {
+      .calendar-row { grid-template-columns: repeat(4, minmax(140px, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .calendar-row { grid-template-columns: repeat(3, minmax(120px, 1fr)); }
+    }
+    .cal-day {
+      padding: 14px;
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      background: rgba(14,36,64,0.35);
+      min-height: 140px;
+      display: flex; flex-direction: column;
+    }
+    .cal-day.today {
+      border-color: var(--teal-b);
+      background: linear-gradient(180deg, rgba(0,194,168,0.1), rgba(14,36,64,0.35));
+      box-shadow: 0 0 0 2px rgba(0,194,168,0.1);
+    }
+    .cal-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .cal-dow {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray);
+    }
+    .cal-day.today .cal-dow { color: var(--teal-b); }
+    .cal-date {
+      font-size: 14px; font-weight: 700;
+      color: var(--ink);
+    }
+    .cal-count {
+      font-size: 11px; font-weight: 600;
+      color: var(--teal-b);
+      margin-bottom: 8px;
+    }
+    .cal-videos { display: flex; flex-direction: column; gap: 4px; }
+    .cal-vid {
+      padding: 5px 8px;
+      font-size: 11px; line-height: 1.3;
+      background: rgba(255,255,255,0.04);
+      border-radius: 6px;
+      color: var(--gray-l);
+      border-left: 2px solid var(--teal-b);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .cal-vid.draft { border-left-color: var(--amber); }
+    .cal-vid.review { border-left-color: var(--teal-b); }
+    .cal-vid.ready { border-left-color: var(--green); }
+
+    /* TWO-COLUMN: SUMMARY NARRATIVE + QUICK ACTIONS */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 880px) { .summary-grid { grid-template-columns: 1fr; } }
+
+    .narrative-card {
+      padding: 26px;
+      border: 1px solid var(--teal-border);
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(0,194,168,0.08) 0%, rgba(14,36,64,0.4) 60%);
+      position: relative; overflow: hidden;
+    }
+    .narrative-card::after {
+      content: ''; position: absolute; top: -30%; right: -20%;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(0,232,199,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .narrative-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal-b); margin-bottom: 12px;
+      position: relative; z-index: 1;
+    }
+    .narrative-body {
+      font-size: 14.5px; line-height: 1.65;
+      color: var(--ink);
+      position: relative; z-index: 1;
+    }
+    .narrative-body strong { color: var(--teal-b); font-weight: 700; }
+    .narrative-body em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-weight: 400;
+      color: var(--teal-b);
+    }
+
+    .actions-card {
+      padding: 22px;
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      background: rgba(14,36,64,0.35);
+    }
+    .actions-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 14px;
+    }
+    .action-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      width: 100%;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 13.5px; font-weight: 500;
+      margin-bottom: 8px;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+    .action-btn:hover { border-color: var(--teal-border); background: rgba(0,194,168,0.04); }
+    .action-btn:last-child { margin-bottom: 0; }
+    .action-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(0,194,168,0.12);
+      color: var(--teal-b);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .action-body { flex: 1; min-width: 0; }
+    .action-title { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .action-sub { font-size: 12px; color: var(--gray); margin-top: 1px; }
+    .action-badge {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(245,158,11,0.15);
+      color: var(--amber);
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 48px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      font-size: 12px; color: var(--gray);
+    }
+    footer a { color: var(--gray-l); text-decoration: none; }
+    footer a:hover { color: var(--teal-b); }
+    .foot-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="propcast-dashboard.html" class="logo">PROPCAST</a>
+      <div class="nav-right">
+        <div class="nav-tabs">
+          <a href="#" class="nav-tab active">Dashboard</a>
+          <a href="#" class="nav-tab">Library</a>
+          <a href="#" class="nav-tab">Calendar</a>
+          <a href="#" class="nav-tab">Settings</a>
+        </div>
+        <a href="#" class="user-pill" id="userPill">
+          <span class="user-avatar" id="userInitial">G</span>
+          <span id="userName">Graeham</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-left">
+        <h1>Your feed is <em>running</em>.</h1>
+        <div class="header-left-sub">
+          <span class="header-dot"></span>
+          <span id="headerSub">Week 4 · Last 28 days · Across 5 platforms</span>
+        </div>
+      </div>
+      <select class="range-select" id="rangeSelect">
+        <option value="7">Last 7 days</option>
+        <option value="28" selected>Last 28 days</option>
+        <option value="mtd">Month to date</option>
+        <option value="90">Last 90 days</option>
+      </select>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Reach</div>
+        <div class="metric-value">24.3<span class="suffix">K</span></div>
+        <div class="metric-change up">↑ 18% vs prior</div>
+        <div class="metric-spark">
+          <svg viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00E8C7" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#00E8C7" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 30 L20 28 L40 32 L60 25 L80 20 L100 22 L120 15 L140 18 L160 12 L180 8 L200 5 L200 40 L0 40 Z" fill="url(#g1)"/>
+            <path d="M0 30 L20 28 L40 32 L60 25 L80 20 L100 22 L120 15 L140 18 L160 12 L180 8 L200 5" fill="none" stroke="#00E8C7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Engagement rate</div>
+        <div class="metric-value">6.8<span class="suffix">%</span></div>
+        <div class="metric-change up">↑ 0.4 pts</div>
+        <div class="metric-spark">
+          <svg viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00E8C7" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#00E8C7" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 26 L20 24 L40 22 L60 26 L80 18 L100 20 L120 14 L140 16 L160 10 L180 14 L200 8 L200 40 L0 40 Z" fill="url(#g2)"/>
+            <path d="M0 26 L20 24 L40 22 L60 26 L80 18 L100 20 L120 14 L140 16 L160 10 L180 14 L200 8" fill="none" stroke="#00E8C7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Videos published</div>
+        <div class="metric-value">23</div>
+        <div class="metric-change neutral">On pace · 25+ target</div>
+        <div class="metric-spark">
+          <svg viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="28" width="12" height="10" rx="2" fill="#00E8C7" opacity="0.4"/>
+            <rect x="20" y="24" width="12" height="14" rx="2" fill="#00E8C7" opacity="0.5"/>
+            <rect x="38" y="20" width="12" height="18" rx="2" fill="#00E8C7" opacity="0.6"/>
+            <rect x="56" y="18" width="12" height="20" rx="2" fill="#00E8C7" opacity="0.65"/>
+            <rect x="74" y="14" width="12" height="24" rx="2" fill="#00E8C7" opacity="0.7"/>
+            <rect x="92" y="12" width="12" height="26" rx="2" fill="#00E8C7" opacity="0.75"/>
+            <rect x="110" y="10" width="12" height="28" rx="2" fill="#00E8C7" opacity="0.8"/>
+            <rect x="128" y="8" width="12" height="30" rx="2" fill="#00E8C7" opacity="0.85"/>
+            <rect x="146" y="6" width="12" height="32" rx="2" fill="#00E8C7" opacity="0.9"/>
+            <rect x="164" y="4" width="12" height="34" rx="2" fill="#00E8C7"/>
+            <rect x="182" y="2" width="12" height="36" rx="2" fill="#00E8C7"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">New followers</div>
+        <div class="metric-value">147</div>
+        <div class="metric-change up">↑ 21%</div>
+        <div class="metric-spark">
+          <svg viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g4" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00E8C7" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#00E8C7" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 32 L20 30 L40 26 L60 28 L80 20 L100 22 L120 18 L140 14 L160 12 L180 10 L200 6 L200 40 L0 40 Z" fill="url(#g4)"/>
+            <path d="M0 32 L20 30 L40 26 L60 28 L80 20 L100 22 L120 18 L140 14 L160 12 L180 10 L200 6" fill="none" stroke="#00E8C7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT PERFORMANCE -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Content performance</div>
+        <div class="section-sub">This week's learnings feed back into next week's generation.</div>
+      </div>
+      <div class="perf-grid">
+        <div class="perf-card">
+          <div class="perf-label wins">What worked</div>
+          <div class="perf-desc">Top performers — these patterns get more weight going forward.</div>
+
+          <div class="post">
+            <div class="post-thumb ig"></div>
+            <div class="post-body">
+              <div class="post-title"><span class="post-platform">Reels</span>What $800K actually buys here right now</div>
+              <div class="post-meta"><strong>8.4K</strong> reach · <strong>412</strong> engagements · <strong>3</strong> DMs</div>
+              <div class="post-note">Listing price-point reels outperform educational content 3.2× in your market. Queueing two more.</div>
+            </div>
+          </div>
+
+          <div class="post">
+            <div class="post-thumb yt"></div>
+            <div class="post-body">
+              <div class="post-title"><span class="post-platform">YouTube</span>Three ZIPs where sellers are dropping price</div>
+              <div class="post-meta"><strong>5.1K</strong> views · <strong>187</strong> engagements · <strong>1</strong> listing lead</div>
+              <div class="post-note">Market-data reels with specific ZIPs drive the best qualified traffic. Continuing weekly.</div>
+            </div>
+          </div>
+
+          <div class="post">
+            <div class="post-thumb tt"></div>
+            <div class="post-body">
+              <div class="post-title"><span class="post-platform">TikTok</span>First-time buyer myth: "wait for rates to drop"</div>
+              <div class="post-meta"><strong>4.7K</strong> views · <strong>236</strong> engagements</div>
+              <div class="post-note">Myth-busting hooks perform well in first 3 seconds. Template saved.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-card">
+          <div class="perf-label work">Worth revisiting</div>
+          <div class="perf-desc">Underperformed this week — next version tightened.</div>
+
+          <div class="post">
+            <div class="post-thumb fb"></div>
+            <div class="post-body">
+              <div class="post-title"><span class="post-platform">Facebook</span>Understanding contingencies in 2026</div>
+              <div class="post-meta"><strong>620</strong> reach · <strong>18</strong> engagements</div>
+              <div class="post-note">Too educational. Regenerating as a specific scenario ("What a financing contingency saved me on Maple St.").</div>
+            </div>
+          </div>
+
+          <div class="post">
+            <div class="post-thumb gbp"></div>
+            <div class="post-body">
+              <div class="post-title"><span class="post-platform">GBP</span>Why working with a local agent matters</div>
+              <div class="post-meta"><strong>340</strong> impressions · <strong>7</strong> engagements</div>
+              <div class="post-note">Generic self-promotion doesn't travel. Swapping for a neighborhood walkthrough.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPCOMING CALENDAR -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">This week's schedule</div>
+        <div class="section-sub">Scripts in flight · human QC before every post.</div>
+      </div>
+      <div class="calendar-row">
+        <div class="cal-day today">
+          <div class="cal-head"><span class="cal-dow">Mon</span><span class="cal-date">28</span></div>
+          <div class="cal-count">Today · 2 posts</div>
+          <div class="cal-videos">
+            <div class="cal-vid ready">Peninsula median price update · Reels</div>
+            <div class="cal-vid ready">Common seller mistakes · GBP</div>
+          </div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-head"><span class="cal-dow">Tue</span><span class="cal-date">29</span></div>
+          <div class="cal-count">1 post</div>
+          <div class="cal-videos">
+            <div class="cal-vid review">Long-form: What $1.2M buys · YouTube</div>
+          </div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-head"><span class="cal-dow">Wed</span><span class="cal-date">30</span></div>
+          <div class="cal-count">1 post</div>
+          <div class="cal-videos">
+            <div class="cal-vid review">School district comparison · TikTok</div>
+          </div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-head"><span class="cal-dow">Thu</span><span class="cal-date">1</span></div>
+          <div class="cal-count">2 posts</div>
+          <div class="cal-videos">
+            <div class="cal-vid review">Interest rate reaction · Reels</div>
+            <div class="cal-vid draft">New listing teaser · Multi</div>
+          </div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-head"><span class="cal-dow">Fri</span><span class="cal-date">2</span></div>
+          <div class="cal-count">1 post</div>
+          <div class="cal-videos">
+            <div class="cal-vid draft">Weekly wrap-up · Reels</div>
+          </div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-head"><span class="cal-dow">Sat</span><span class="cal-date">3</span></div>
+          <div class="cal-count">1 post</div>
+          <div class="cal-videos">
+            <div class="cal-vid draft">Neighborhood walkthrough · Multi</div>
+          </div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-head"><span class="cal-dow">Sun</span><span class="cal-date">4</span></div>
+          <div class="cal-count">Rest day</div>
+          <div class="cal-videos"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY + QUICK ACTIONS -->
+    <div class="section">
+      <div class="summary-grid">
+        <div class="narrative-card">
+          <div class="narrative-label">This month · PropCast's read</div>
+          <div class="narrative-body">
+            <p style="margin-bottom: 12px;">PropCast shipped <strong>23 videos</strong> across 5 platforms in the last 28 days, reaching <strong>24,300 people</strong> and generating <strong>3 qualified inbound conversations</strong>.</p>
+            <p style="margin-bottom: 12px;">Listing-price-point content is <strong>3.2× more engaging</strong> than generic educational posts in your market. Your mix auto-shifted toward <em>70% market data + listings, 30% education</em> based on 28 days of response data.</p>
+            <p>Publishing shifted to <strong>Tue/Thu 9 AM</strong> after heatmap analysis — engagement is up <strong>18%</strong> since the change. Next shift we're testing: weekend morning posts on your TikTok.</p>
+          </div>
+        </div>
+
+        <div class="actions-card">
+          <div class="actions-label">Your actions</div>
+          <button class="action-btn">
+            <div class="action-icon">▶</div>
+            <div class="action-body">
+              <div class="action-title">Review 1 pending reel</div>
+              <div class="action-sub">Tue 11:15 AM post · awaiting your approval</div>
+            </div>
+            <span class="action-badge">Action</span>
+          </button>
+          <button class="action-btn">
+            <div class="action-icon">≡</div>
+            <div class="action-body">
+              <div class="action-title">View content library</div>
+              <div class="action-sub">All 23 videos from this month</div>
+            </div>
+          </button>
+          <button class="action-btn">
+            <div class="action-icon">⚙</div>
+            <div class="action-body">
+              <div class="action-title">Tune markets &amp; topics</div>
+              <div class="action-sub">Update ZIPs, neighborhoods, content mix</div>
+            </div>
+          </button>
+          <button class="action-btn">
+            <div class="action-icon">✉</div>
+            <div class="action-body">
+              <div class="action-title">Message Graeham</div>
+              <div class="action-sub">Founding-cohort direct line</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>&copy; 2026 PropCast · Founding cohort · Week 4 · All content human-reviewed + AI-disclosed</div>
+      <div class="foot-links">
+        <a href="propcast-dashboard.html">Day 0 view</a>
+        <a href="index.html">Home</a>
+        <a href="mailto:hello@propcast.ai">Contact</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Pull personalization
+    const state = {};
+    try {
+      const saved = sessionStorage.getItem('propcast_onboarding_s1');
+      if (saved) Object.assign(state, JSON.parse(saved));
+    } catch(_) {}
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (!state.fname && params.get('name')) state.fname = params.get('name').slice(0, 40);
+    } catch(_) {}
+    const name = state.fname || 'Graeham';
+    const initial = name.trim().charAt(0).toUpperCase();
+    document.getElementById('userName').textContent = name;
+    document.getElementById('userInitial').textContent = initial;
+
+    // Range selector — placeholder for now, would swap dataset in production
+    document.getElementById('rangeSelect').addEventListener('change', (e) => {
+      // Real impl: refetch metrics for new range. Placeholder: log.
+      console.log('range changed to:', e.target.value);
+    });
+
+    // Action buttons — placeholder behavior
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Action handlers wire in at launch. Each button routes to the relevant in-app view.');
+      });
+    });
+
+    document.getElementById('userPill').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Account menu opens here. Launches with settings + logout at MVP.');
+    });
+  </script>
+</body>
+</html>
